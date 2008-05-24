@@ -1,84 +1,44 @@
-From: "Peter Teoh" <htmldeveloper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.26-rc1 ata2 problems????
-Date: Sat, 24 May 2008 23:45:24 +0800
-Message-ID: <804dabb00805240845t4424d515s5de01154a98fa972@mail.gmail.com>
-References: <804dabb00805232324r47745c86v9fa941cb9f3fcb5d@mail.gmail.com>
-	 <20080524094014.71ec6f87@bree.surriel.com>
+From: Mariusz Kozlowski <m.kozlowski@tuxland.pl>
+Subject: Re: spontaneous reboots and hangs on x86_64
+Date: Sat, 24 May 2008 18:11:06 +0200
+Message-ID: <200805241811.06230.m.kozlowski@tuxland.pl>
+References: <200805152201.49154.m.kozlowski@tuxland.pl> <200805162053.36390.m.kozlowski@tuxland.pl> <20080517132317.3265d52c.sfr@canb.auug.org.au>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to:subject:cc:in-reply-to:mime-version:content-type:content-transfer-encoding:content-disposition:references;
-        bh=nFKORcxvplKQGk3lAbdTT7HAJf1wQtJ8MkmaZbxu6TE=;
-        b=UZaVW4LaS821HEy/5vxJH5axkm1TR8r6IhaZUHLGpUXR+0mZieAr5uxN+d5LUZxQhGl1ls/yz0ZTza8k3Tp8mzQBV+WXSScS71Un7MLIU9lXDJ04PkZY7s1LpWuiMsc9IlvLmhzoa7f4mgHGaq4Sbeb6U4EATsdwYzasI1Sdcc0=
-In-Reply-To: <20080524094014.71ec6f87-Fuq27k0DHcCSkoNiqTzCLQ@public.gmane.org>
+Return-path: <linux-next-owner@vger.kernel.org>
+In-Reply-To: <20080517132317.3265d52c.sfr@canb.auug.org.au>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-next-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Rik van Riel <riel-ebMLmSuQjDVBDgjK7y7TUQ@public.gmane.org>
-Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernelnewbies <kernelnewbies-qDhp9YYfzQpg9hUCZPvPmw@public.gmane.org>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Ingo Molnar <mingo@elte.hu>, Adrian Bunk <bunk@kernel.org>, kernel-testers@vger.kernel.org, linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, linux-next@vger.kernel.org, Gregory Haskins <ghaskins@novell.com>
 
-Thank you Rik for the answer......just want to confirm some questions...
+Hi,
 
-On Sat, May 24, 2008 at 9:40 PM, Rik van Riel <riel-ebMLmSuQjDVBDgjK7y7TUQ@public.gmane.org> wrote:
-> On Sat, 24 May 2008 14:24:47 +0800
-> "Peter Teoh" <htmldeveloper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->
->> Just found this error in the dmesg:
->>
->>
->> ata2.00: qc timeout (cmd 0xa0)
->> ata2.00: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x6 frozen
->> ata2.00: cmd a0/00:00:00:08:00/00:00:00:00:00/a0 tag 0 pio 16392 in
->>          cdb 4a 01 00 00 10 00 00 00  08 00 00 00 00 00 00 00
->>          res 51/04:01:01:14:eb/00:00:00:00:00/a0 Emask 0x5 (timeout)
->> ata2.00: status: { DRDY ERR }
->
->> Any clues to these messages?
->
-> Try smartctl -d ata -a /dev/sdc and look for errors on the disk.
->
-> Chances are the disk is going bad in one way or another.  In the
-> most benign way you are getting timeouts because the drive cannot
-> read a sector easily and keeps retrying over and over again.
->
-> In that case, you may be able to force the disk to rewrite the
-> sectors properly (and/or relocate them) with a badblocks -n run
-> over the whole drive - when booted from a rescue disk!
->
-> If your luck is not as good, the drive may have some uncorrectable
-> errors, which means it is going bad and you'll want to buy a new
-> disk to copy all your data onto.
->
-> While you're looking at the smart data anyway, check the drive
-> temperature - is it simply running too hot because of sitting
-> near other equipment in your case?
+> Hi Ingo,
+> 
+> On Fri, 16 May 2008 20:53:36 +0200 Mariusz Kozlowski <m.kozlowski@tuxland.pl> wrote:
+> >
+> > Ok I got bisection working finally, now I'm at d5be23e2 I have something like 80 revisions left and
+> > I'm stuck with this:
+> > 
+> > In file included from kernel/sched.c:1861:
+> > kernel/sched_rt.c: In function 'check_preempt_curr_rt':
+> > kernel/sched_rt.c:653: error: implicit declaration of function 'cpupri_find'
+> > kernel/sched_rt.c:653: error: 'struct root_domain' has no member named 'cpupri'
+> > make[1]: *** [kernel/sched.o] Error 1
+> > make: *** [kernel] Error 2
+> 
+> This error is caused by commit 677ceea32cf1d8ba9a4870bc58079cd7e7f77558
+> ("sched: prioritize non-migratable tasks over migratable ones") in the
+> sched tree (sched/for-akpm).  This commit is either just wrong, is was
+> misrebased, or is just badly out of order.  It introduces a use of
+> cpupri_find, but the function is not defined until commit
+> ea9b3c95b7c666d4658a139b88587269e5baa647 ("sched: use a 2-d bitmap for
+> searching lowest-pri CPU") about 146 commits later ...
 
+Whatever it was its gone in recent linux-next releases, box boots without
+problems.
 
-Just out of curiosity.....when OS build the list of inodes....it scan
-and identify all the corrupted blocks, and so the outcome of mkfs will
-be all the uncorrupted blocks on the harddisk - right?   so possibly
-there are many other corrupted blocks on the harddisk that failed the
-criteria of mkfs on the harddisk - any linux harddisk....is that
-correct?
-
-Is there any tools that can allow me to see / identify all these
-corrupted blocks?
-
-And given that there are many corrupted blocks, when I do a mkfs to
-create a new filesystem, all the corrupted blocks will be marked away,
-and therefore the new filesystem should have less total space, but
-guaranteed NOT TO HAVE any corrupted blocks, right?
-
-Thank you Rik.
-
-
--- 
-Regards,
-Peter Teoh
---
-To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+	Mariusz
