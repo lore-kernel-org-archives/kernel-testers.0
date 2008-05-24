@@ -1,44 +1,52 @@
-From: Mariusz Kozlowski <m.kozlowski@tuxland.pl>
-Subject: Re: spontaneous reboots and hangs on x86_64
-Date: Sat, 24 May 2008 18:11:06 +0200
-Message-ID: <200805241811.06230.m.kozlowski@tuxland.pl>
-References: <200805152201.49154.m.kozlowski@tuxland.pl> <200805162053.36390.m.kozlowski@tuxland.pl> <20080517132317.3265d52c.sfr@canb.auug.org.au>
+From: Rik van Riel <riel-ebMLmSuQjDVBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: 2.6.26-rc1 ata2 problems????
+Date: Sat, 24 May 2008 12:15:15 -0400
+Message-ID: <20080524121515.4f3d8f3a@bree.surriel.com>
+References: <804dabb00805232324r47745c86v9fa941cb9f3fcb5d@mail.gmail.com>
+	<20080524094014.71ec6f87@bree.surriel.com>
+	<804dabb00805240845t4424d515s5de01154a98fa972@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-next-owner@vger.kernel.org>
-In-Reply-To: <20080517132317.3265d52c.sfr@canb.auug.org.au>
-Content-Disposition: inline
-Sender: linux-next-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <804dabb00805240845t4424d515s5de01154a98fa972-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Ingo Molnar <mingo@elte.hu>, Adrian Bunk <bunk@kernel.org>, kernel-testers@vger.kernel.org, linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, linux-next@vger.kernel.org, Gregory Haskins <ghaskins@novell.com>
+To: Peter Teoh <htmldeveloper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernelnewbies <kernelnewbies-qDhp9YYfzQpg9hUCZPvPmw@public.gmane.org>
 
-Hi,
+On Sat, 24 May 2008 23:45:24 +0800
+"Peter Teoh" <htmldeveloper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 
-> Hi Ingo,
-> 
-> On Fri, 16 May 2008 20:53:36 +0200 Mariusz Kozlowski <m.kozlowski@tuxland.pl> wrote:
-> >
-> > Ok I got bisection working finally, now I'm at d5be23e2 I have something like 80 revisions left and
-> > I'm stuck with this:
-> > 
-> > In file included from kernel/sched.c:1861:
-> > kernel/sched_rt.c: In function 'check_preempt_curr_rt':
-> > kernel/sched_rt.c:653: error: implicit declaration of function 'cpupri_find'
-> > kernel/sched_rt.c:653: error: 'struct root_domain' has no member named 'cpupri'
-> > make[1]: *** [kernel/sched.o] Error 1
-> > make: *** [kernel] Error 2
-> 
-> This error is caused by commit 677ceea32cf1d8ba9a4870bc58079cd7e7f77558
-> ("sched: prioritize non-migratable tasks over migratable ones") in the
-> sched tree (sched/for-akpm).  This commit is either just wrong, is was
-> misrebased, or is just badly out of order.  It introduces a use of
-> cpupri_find, but the function is not defined until commit
-> ea9b3c95b7c666d4658a139b88587269e5baa647 ("sched: use a 2-d bitmap for
-> searching lowest-pri CPU") about 146 commits later ...
+> Just out of curiosity.....when OS build the list of inodes....it scan
+> and identify all the corrupted blocks, and so the outcome of mkfs will
+> be all the uncorrupted blocks on the harddisk - right?  
 
-Whatever it was its gone in recent linux-next releases, box boots without
-problems.
+No, mkfs just writes and hopes that the blocks it wrote
+can be read in again later. I do not believe it does any
+testing by default.
 
-	Mariusz
+> so possibly there are many other corrupted blocks on the harddisk
+
+Yes.
+
+> Is there any tools that can allow me to see / identify all these
+> corrupted blocks?
+
+badblocks
+
+Read the man page carefully, you probably want the "-n" option.
+ 
+> And given that there are many corrupted blocks, when I do a mkfs to
+> create a new filesystem, all the corrupted blocks will be marked away,
+> and therefore the new filesystem should have less total space, but
+> guaranteed NOT TO HAVE any corrupted blocks, right?
+
+No, mkfs does not scan the disk for bad blocks by default.
+
+-- 
+All rights reversed.
+--
+To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
