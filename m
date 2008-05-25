@@ -1,51 +1,68 @@
-From: Adrian Bunk <bunk@kernel.org>
-Subject: Re: x86_64 panic on latest linux-2.6
-Date: Sun, 25 May 2008 23:42:29 +0300
-Message-ID: <20080525204229.GL1791@cs181133002.pp.htv.fi>
-References: <200805251051.33781.m.kozlowski@tuxland.pl>
+From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: USB scanner not working with 2.6.26-rc3
+Date: Sun, 25 May 2008 23:47:24 +0300
+Message-ID: <20080525204724.GM1791@cs181133002.pp.htv.fi>
+References: <48399143.2030100@googlemail.com>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753924AbYEYUqL@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <200805251051.33781.m.kozlowski@tuxland.pl>
-Sender: linux-kernel-owner@vger.kernel.org
+In-Reply-To: <48399143.2030100-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mariusz Kozlowski <m.kozlowski@tuxland.pl>
-Cc: kernel-testers@vger.kernel.org, linux-kernel@vger.kernel.org, Kay Sievers <kay.sievers@vrfy.org>, Greg Kroah-Hartman <gregkh@suse.de>, Neil Brown <neilb@suse.de>
+To: brot <schnitzelkuchen-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Sun, May 25, 2008 at 10:51:33AM +0200, Mariusz Kozlowski wrote:
-> Hello,
-
-Hi Mariusz,
-
-> 	My x86_64 box is not willing to boot.
+On Sun, May 25, 2008 at 06:18:11PM +0200, brot wrote:
+> Hello everyone.
 > 
-> http://tuxland.pl/tmp/s7300372.jpg (275kB)
+> I switched to 2.6.25-rc3 today, and couldnt get the scanner working. It works in 2.6.25.3. All i did was to open up kooka (kde scanning program) and
+> tried to do a preview scan. After nothing happend i tried to replug the scanner but it wont get detected now.
 > 
-> (gdb) p blk_lookup_devt
-> $1 = {dev_t (const char *, int)} 0xffffffff8032a430 <blk_lookup_devt>
-> (gdb) l *(0xffffffff8032a430+0x7f)
-> 0xffffffff8032a4af is in blk_lookup_devt (block/genhd.c:664).
-> 659             dev_t devt = MKDEV(0, 0);
-> 660     
-> 661             mutex_lock(&block_class_lock);
-> 662             list_for_each_entry(dev, &block_class.devices, node) {
-> 663                     if (strcmp(dev->bus_id, name) == 0) {
-> 664                             struct gendisk *disk = dev_to_disk(dev);
-> 665     
-> 666                             if (part < disk->minors)
-> 667                                     devt = MKDEV(MAJOR(dev->devt),
-> 668                                                  MINOR(dev->devt) + part);
-> (gdb) 
+> That is what dmesg says:
+> 
+> 
+> usb 1-3: new high speed USB device using ehci_hcd and address 4
+> usb 1-3: configuration #1 chosen from 1 choice
+> scsi7 : SCSI emulation for USB Mass Storage devices
+> usb-storage: device found at 4
+> usb-storage: waiting for device to settle before scanning
+> usblp0: USB Bidirectional printer dev 4 if 1 alt 0 proto 2 vid 0x6B10 pid 0x805F
+> usbcore: registered new interface driver usblp
+> scsi 7:0:0:0: Direct-Access     Canon    MP600Storage     0107 PQ: 0 ANSI: 2
+> sd 7:0:0:0: [sde] Attached SCSI removable disk
+> sd 7:0:0:0: Attached scsi generic sg6 type 0
+> usb-storage: device scan complete
+> usb 1-3: usbfs: interface 1 claimed by usblp while 'kooka' sets config #1
+> usb 1-3: usbfs: interface 1 claimed by usblp while 'kooka' sets config #1
+> usb 1-3: usbfs: interface 1 claimed by usblp while 'kooka' sets config #1
+> ehci_hcd 0000:00:02.1: HC died; cleaning up
+> usb 1-1: USB disconnect, address 2
+> usb 1-3: USB disconnect, address 4
+> usblp0: removed
+> irq 20: nobody cared (try booting with the "irqpoll" option)
+> Pid: 3598, comm: wcg_dddt_autodo Tainted: P          2.6.26-rc3 #1
+> 
+> Call Trace:
+>  <IRQ>  [<ffffffff802544c3>] __report_bad_irq+0x30/0x72
+>  [<ffffffff802546ff>] note_interrupt+0x1fa/0x25b
+>  [<ffffffff80254dcc>] handle_fasteoi_irq+0xb0/0xd8
+>  [<ffffffff8020dfff>] do_IRQ+0x6d/0xd4
+>  [<ffffffff8020b781>] ret_from_intr+0x0/0xa
+>  <EOI>
+> handlers:
+> [<ffffffff803d6734>] (usb_hcd_irq+0x0/0x58)
+> Disabling IRQ #20
+> 
+> Maybe someone will know what causes that. If any more informations are needed, feel free to ask. I am willing to test :)
 
-thanks for your report.
+Does it also happen with a plain ftp.kernel.org kernel without any 
+patches applied or other modules loaded?
 
-Does reverting of commit 30f2f0eb4bd2c43d10a8b0d872c6e5ad8f31c9a0
-(block: do_mounts - accept root=<non-existant partition>) fix it?
-
-> 	Mariusz
->...
+> Have a nice day everyone.
+> 
+> brot
 
 cu
 Adrian
@@ -56,3 +73,8 @@ Adrian
         of the darkness. There had been need of rain for many days.
        "Only a promise," Lao Er said.
                                        Pearl S. Buck - Dragon Seed
+
+--
+To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
