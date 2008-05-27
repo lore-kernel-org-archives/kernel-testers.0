@@ -1,39 +1,31 @@
-From: Enrico Weigelt <weigelt-EU+a56NjgY8@public.gmane.org>
+From: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
 Subject: Re: Could this list be added to GMANE?
-Date: Tue, 27 May 2008 20:15:01 +0200
-Message-ID: <20080527181500.GA4741@nibiru.local>
-References: <e2395caa0805100636yd32b452v482e392c3d687dc0@mail.gmail.com> <20080510204021.GB1645@cs181133002.pp.htv.fi>
-Reply-To: weigelt-EU+a56NjgY8@public.gmane.org
+Date: Tue, 27 May 2008 22:45:22 +0100
+Message-ID: <g1hvr3$int$1@ger.gmane.org>
+References: <e2395caa0805100636yd32b452v482e392c3d687dc0@mail.gmail.com> <20080510204021.GB1645@cs181133002.pp.htv.fi> <20080527181500.GA4741@nibiru.local>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7Bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20080510204021.GB1645-Aar9JVdAhcRoA3hw4S0G5QR5/fbUUdgG@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-* Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
+Enrico Weigelt wrote:
 
-Hi,
+> * Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
+> 
+> Hi,
+> 
+>> But it's a public list, so if you want to get it archived somewhere
+>> go ahead.
 
-> But it's a public list, so if you want to get it archived somewhere
-> go ahead.
+Just for the record, this is now being carried by GMANE over on
+http://dir.gmane.org/gmane.linux.kernel.kernel-testers .
 
-I'd like to mirror this @ freebc.metux.de if that's okay for all.
-
-
-cu
 -- 
----------------------------------------------------------------------
- Enrico Weigelt    ==   metux IT service - http://www.metux.de/
----------------------------------------------------------------------
- Please visit the OpenSource QM Taskforce:
- 	http://wiki.metux.de/public/OpenSource_QM_Taskforce
- Patches / Fixes for a lot dozens of packages in dozens of versions:
-	http://patches.metux.de/
----------------------------------------------------------------------
+Sitsofe | http://sucs.org/~sits/
+
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
