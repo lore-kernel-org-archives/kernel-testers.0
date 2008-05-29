@@ -1,52 +1,40 @@
-From: Sitsofe Wheeler <sitsofe@yahoo.com>
-Subject: [X86] Watchdog lockdep warning with next-20080529
-Date: Thu, 29 May 2008 23:25:53 +0100
-Message-ID: <g1namq$qk5$1@ger.gmane.org>
+From: abhiruchi.g@vaultinfo.com
+Subject: mips problem:-usb 1-1.3: rejected 1 configuration due to insufficient available bus power
+Date: Thu, 29 May 2008 01:33:53 -0400 (EDT)
+Message-ID: <46996.192.168.1.35.1212039233.webmail@192.168.1.35>
+Reply-To: abhiruchi.g@vaultinfo.com
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759496AbYE2W3H@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: linux-kernel@vger.kernel.org
-Cc: kernel-testers@vger.kernel.org
+Content-Type: multipart/alternative;boundary="----=_20080529013353_71167"
+Return-path: <linux-mips-bounce@linux-mips.org>
+Sender: linux-mips-bounce@linux-mips.org
+Errors-to: linux-mips-bounce@linux-mips.org
+List-Id: <kernel-testers.vger.kernel.org>
+To: kernel-testers <kernel-testers@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-mips@linux-mips.org" <linux-mips@linux-mips.org>
 
-<posted & mailed>
+------=_20080529013353_71167
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-While using linux-next-20080529 the following warning was printed:
+hi,=0A  I am getting the problem for Alchemy Board DB1200 (linux-2.6.22)=0A=
+=0Ahow to solve this :=0A=0A=0A=0A=09=0A=09=0A=09=0A=09=0A=09=0A=09=0A=0A=
+=0Ausb 1-1.3: new full speed=0AUSB device using au1xxx-ehci and address 6=
+=0A=0Ausb 1-1.3: rejected 1 configuration due=0Ato insufficient available b=
+us power=0A=0Ausb 1-1.3: no configuration chosen from=0A1 choice=0A=0A
+------=_20080529013353_71167
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[ 1108.103357] ------------[ cut here ]------------
-[ 1108.103370] WARNING: at kernel/lockdep.c:2680 check_flags+0x8a/0x12d()
-[ 1108.103377] Modules linked in:
-[ 1108.103384] Pid: 5, comm: watchdog/0 Not tainted
-2.6.26-rc4-next-20080529skw #134
-[ 1108.103392]  [<c0122f80>] warn_on_slowpath+0x41/0x6a
-[ 1108.103402]  [<c013cc30>] ? trace_hardirqs_off+0xb/0xd
-[ 1108.103411]  [<c013ea60>] ? trace_hardirqs_on+0xb/0xd
-[ 1108.103419]  [<c013ea19>] ? trace_hardirqs_on_caller+0xe8/0x124
-[ 1108.103428]  [<c013ea60>] ? trace_hardirqs_on+0xb/0xd
-[ 1108.103436]  [<c011d428>] ? hrtick_set+0xce/0xd6
-[ 1108.103445]  [<c013c87e>] check_flags+0x8a/0x12d
-[ 1108.103452]  [<c013f9a0>] lock_acquire+0x3b/0x89
-[ 1108.103459]  [<c0361ada>] _read_lock+0x1c/0x49
-[ 1108.103467]  [<c01538b2>] ? watchdog+0x97/0x1a9
-[ 1108.103475]  [<c015381b>] ? watchdog+0x0/0x1a9
-[ 1108.103483]  [<c01538b2>] watchdog+0x97/0x1a9
-[ 1108.103489]  [<c015381b>] ? watchdog+0x0/0x1a9
-[ 1108.103497]  [<c0133044>] kthread+0x3b/0x63
-[ 1108.103504]  [<c0133009>] ? kthread+0x0/0x63
-[ 1108.103512]  [<c01038ab>] kernel_thread_helper+0x7/0x10
-[ 1108.103520]  =======================
-[ 1108.103525] ---[ end trace bf12fd91b8f59e65 ]---
-[ 1108.103529] possible reason: unannotated irqs-on.
-[ 1108.103534] irq event stamp: 18
-[ 1108.103538] hardirqs last  enabled at (17): [<c013ea60>]
-trace_hardirqs_on+0xb/0xd
-[ 1108.103548] hardirqs last disabled at (18): [<c013cc30>]
-trace_hardirqs_off+0xb/0xd
-[ 1108.103558] softirqs last  enabled at (0): [<c01216ab>]
-copy_process+0x2dd/0xf9a
-[ 1108.103568] softirqs last disabled at (0): [<00000000>] 0x0
+<font face=3D"arial" size=3D"2">hi,<br>&nbsp; I am getting the problem for =
+Alchemy Board DB1200 (linux-2.6.22)<br><br>how to solve this :<br>=0A=0A=0A=
+=09<meta http-equiv=3D"CONTENT-TYPE" content=3D"text/html; charset=3Dutf-8"=
+><title></title><meta name=3D"GENERATOR" content=3D"OpenOffice.org 2.3  (Li=
+nux)">=0A=09=0A=09=0A=09<style type=3D"text/css">=0A=09<!--=0A=09=09@page {=
+ size: 8.5in 11in; margin: 0.79in }=0A=09=09P { margin-bottom: 0.08in }=0A=
+=09-->=0A=09</style>=0A=0A<p style=3D"margin-bottom: 0in;">usb 1-1.3: new f=
+ull speed=0AUSB device using au1xxx-ehci and address 6</p>=0A<p style=3D"ma=
+rgin-bottom: 0in;">usb 1-1.3: rejected 1 configuration due=0Ato insufficien=
+t available bus power</p>=0A<p style=3D"margin-bottom: 0in;">usb 1-1.3: no =
+configuration chosen from=0A1 choice</p>=0A<br></font>
+------=_20080529013353_71167--
 
--- 
-Sitsofe | http://sucs.org/~sits/
+
