@@ -1,59 +1,84 @@
-From: Mariusz Kozlowski <m.kozlowski-NWF1p15JEu3VItvQsEIGlw@public.gmane.org>
-Subject: Re: Kernel testing tips
-Date: Sun, 1 Jun 2008 15:42:30 +0200
-Message-ID: <200806011542.30636.m.kozlowski@tuxland.pl>
-References: <g1s89i$dgp$1@ger.gmane.org> <200806011034.06878.m.kozlowski@tuxland.pl> <200806011351.39517.rjw@sisk.pl>
+From: Sitsofe Wheeler <sitsofe@yahoo.com>
+Subject: [BISECTED][NEXT] Wifi downloads capped at 105Kbytes/s
+Date: Sun, 01 Jun 2008 17:22:04 +0100
+Message-ID: <g1uicv$se6$1@ger.gmane.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200806011351.39517.rjw-KKrjLPT3xs0@public.gmane.org>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7Bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754720AbYFAQXU@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-kernel@vger.kernel.org
+Cc: kernel-testers@vger.kernel.org, linux-wireless@vger.kernel.org
 
-Hi,
+Download speeds are never more than 105Kbytes/s even though the bit rate is
+54Mb/s in at least linux-net kernels from next-20080523 onwards. I have
+bisected it down to commit [2e92e6f2c50b4baf85cca968f0e6f1b5c0df7d39]:
 
-> > > While doing very simple testing I have come across a few themes that might
-> > > be useful to other people who want to do light testing of the linux kernel.
-> > > Previously I posted another post talking about checking options (things
-> > > that would hopefully tell you if the kernel is misbehaving sooner) here -
-> > > http://groups.google.com/group/linux.kernel/browse_frm/thread/d73bbfdc7455cba5/d676733d10ccd21a?#d676733d10ccd21a .
-> > > Hopefully these posts are useful even if they don't get responses...
-> > 
-> > I think your tips are generally useful. I also think you could try to improve
-> > the Linux Kernel Testers Guide that Michal started. You'll find more info
-> > here:
-> > 
-> > http://lwn.net/Articles/238838/
-> > 
-> > as you see there is latex source available. You can try to contact Michal
-> > witch your patches to latex souce of lktg. I think this doc is worth
-> > updating and keeping alive - for sure there is area for improvment.
-> > I haven't heard from Michal for some time so just in case he is not
-> > interested in it anymore I can host updated versions if that's needed.
-> 
-> In fact I have an updated version of the guide, but I didn't have the time to
-> finish it and I didn't want to publish the unfinished work.  If anyone is
-> interested in working on it, I can provide her/him with the LaTeX sources
-> and/or set up a git repo.
+commit 2e92e6f2c50b4baf85cca968f0e6f1b5c0df7d39
+Author: Johannes Berg <johannes@sipsolutions.net>
+Date:   Thu May 15 12:55:27 2008 +0200
 
-I'd be interested. git repo is fine - maybe more people will join. Unfortunately my
-TODO list at my job ends somewhere in the middle of july so I don't have much time
-left even on weekends. Althouhg I'm trying :)
+    mac80211: use rate index in TX control
 
-> I'm going to work on it myself a bit during the next few months.
+    This patch modifies struct ieee80211_tx_control to give band
+    info and the rate index (instead of rate pointers) to drivers.
+    This mostly serves to reduce the TX control structure size to
+    make it fit into skb->cb so that the fragmentation code can
+    put it there and we can think about passing it to drivers that
+    way in the future.
 
-BTW. google says Michal email is invalid.
+    The rt2x00 driver update was done by Ivo, thanks.
 
-<michal.k.k.piotrowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>: host
-    gmail-smtp-in.l.google.com[216.239.59.27] said: 550-5.1.1 This Gmail user
-    does not exist.
+    Signed-off-by: Ivo van Doorn <IvDoorn@gmail.com>
+    Signed-off-by: Johannes Berg <johannes@sipsolutions.net>
+    Signed-off-by: John W. Linville <linville@tuxdriver.com>
 
-	Mariusz
---
-To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Reverting this seemed to allow speeds up to 1.3Mbytes/s (which is expected
+on this network). I believe I see this behaviour with both iwl3945 and
+rt2x00 drivers. Here is the bisection log:
+
+# bad: [7b6c98f0853b86c101948f1bf4e0a21d3065944f] Add linux-next specific
+files
+# good: [703d73f83f3329ebf5108553017b4a1b66b8fe19] Add linux-next specific
+files
+git-bisect start 'next-20080523' 'next-20080515'
+# good: [3ebc2a4ec3a093e76e402c40ce8e2e5e5f04d86d] Merge
+commit 'x86/auto-x86-next'
+git-bisect good 3ebc2a4ec3a093e76e402c40ce8e2e5e5f04d86d
+# bad: [e290a752da9c074a1a0cf32f404ccf6c7193abcd] Merge
+commit 'wireless/master'
+git-bisect bad e290a752da9c074a1a0cf32f404ccf6c7193abcd
+# good: [8183b598a8acd441c7d7dca5fdc33fbb292ebdf2] Merge commit 'acpi/test'
+git-bisect good 8183b598a8acd441c7d7dca5fdc33fbb292ebdf2
+# good: [b679aeb304e3070626750c15e043a40da0e942fc] libertas: sysfs interface
+for accessing default mesh channel
+git-bisect good b679aeb304e3070626750c15e043a40da0e942fc
+# good: [4ce50b6156635f2cffbf8961975c2e0b437dbcd9] Merge commit '4xx/next'
+git-bisect good 4ce50b6156635f2cffbf8961975c2e0b437dbcd9
+# good: [189a2b5942d62bd18e1e01772c4c784253f5dd16] iwlwifi: trigger event
+log from debugfs
+git-bisect good 189a2b5942d62bd18e1e01772c4c784253f5dd16
+# good: [6d4a6672c8263f98544d2b91690dc7074b144090] tipc: Update "previous
+node" indicators when node address changes
+git-bisect good 6d4a6672c8263f98544d2b91690dc7074b144090
+# bad: [e48b0eeb0ab508021b654a45f332b30cac2163b9] b43: Add hooks for
+firmware debugging
+git-bisect bad e48b0eeb0ab508021b654a45f332b30cac2163b9
+# bad: [e039fa4a4195ac4ee895e6f3d1334beed63256fe] mac80211: move TX info
+into skb->cb
+git-bisect bad e039fa4a4195ac4ee895e6f3d1334beed63256fe
+# good: [36d6825b91bc492b65b6333c369cd96a2fc8c903] mac80211: let drivers
+wake but not start queues
+git-bisect good 36d6825b91bc492b65b6333c369cd96a2fc8c903
+# bad: [e24549485f859be6518929bb1c9c0257d79f033d] mac80211: reorder some
+transmit handlers
+git-bisect bad e24549485f859be6518929bb1c9c0257d79f033d
+# bad: [2e92e6f2c50b4baf85cca968f0e6f1b5c0df7d39] mac80211: use rate index
+in TX control
+git-bisect bad 2e92e6f2c50b4baf85cca968f0e6f1b5c0df7d39
+
+Perhaps a change was made but drivers have yet to be updated?
+
+-- 
+Sitsofe | http://sucs.org/~sits/
