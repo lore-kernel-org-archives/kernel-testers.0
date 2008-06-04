@@ -1,100 +1,171 @@
-From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Subject: Re: BUG: sleeping function called from invalid context at
-	mm/slab.c:3052
-Date: Tue, 03 Jun 2008 12:02:10 +0200
-Message-ID: <1212487330.17712.4.camel@zwerg>
-References: <1212313623.5186.8.camel@zwerg> <200806011354.03808.rjw@sisk.pl>
+From: "Peter Teoh" <htmldeveloper@gmail.com>
+Subject: sched_setscheduler() API bug in Linux-next
+Date: Thu, 5 Jun 2008 00:00:19 +0800
+Message-ID: <804dabb00806040900o1a8b3116y3df5149009d8368@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200806011354.03808.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-next-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:mime-version:content-type:content-transfer-encoding
+         :content-disposition;
+        bh=0KXGKnPwxcOpauunKKWwe/qxHa1XrQwcM90PhGZKQa8=;
+        b=E86nkdY22XGZ/8oCcRxW9lXoM4UQSzfAkrL0gl8lHiJSFy6y8g9OcBA+OnnOM10N5y
+         g3AIh93QSLEXPayPr97zAQw5Eo2fdmiXrpKI3uCTNOzC5v2q3Ku6PLVsQseVvcvjjEf8
+         /kapHC78GAaC7VeX4fkn4HtFZx9AOcZbrM3BM=
+Content-Disposition: inline
+Sender: linux-next-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: kernel-testers@vger.kernel.org, systemtap@sources.redhat.com, linux-next@vger.kernel.org
 
-Am Sonntag, den 01.06.2008, 13:54 +0200 schrieb Rafael J. Wysocki:
-> On Sunday, 1 of June 2008, Alexey Fisher wrote:
-> > I get this after suspend on my PC (2.6.26-rc4-00103-g1beee8d). I do not
-> > thing there is any reason to bisect it, supend on my PC began to work
-> > only with 2.6.26-rc3:
-> 
-> Well, that's interesting.
-> 
-> I have no idea what !@#$%^& happend here ...
-> 
-> > [  433.110546] BUG: sleeping function called from invalid context at
-> > mm/slab.c:3052
-> > [  433.110550] in_atomic():1, irqs_disabled():0
-> > [  433.110554] 5 locks held by pm-suspend/4783:
-> > [  433.110556]  #0:  (&buffer->mutex){--..}, at: [<c01ac0b0>]
-> > sysfs_write_file+0x24/0xe1
-> > [  433.110572]  #1:  (pm_mutex){--..}, at: [<c0147288>] enter_state
-> > +0x15c/0x170
-> > [  433.110579]  #2:  (cpu_add_remove_lock){--..}, at: [<c0143138>]
-> > disable_nonboot_cpus+0x8/0xc0
-> > [  433.110585]  #3:  (&cpu_hotplug.lock){--..}, at: [<c014308d>]
+I am running on the latest git-updated linux-next (using git fetch -
+right? version is 2.6.26-rc4-next-20080530).
 
-Seems like it depend on CONFIG_PREEMPT, with CONFIG_PREEMPT_VOLUNTARY
-i'll get other Warning:
+After I run my stap script:
 
-I try to bisect it now.
+probe kernel.function("*@mm/swapfile.c").call {
+        printf ("%s -> %s\n", thread_indent(1), probefunc())
+        print_backtrace();
+        printf("\n");
+}
+probe kernel.function("*@mm/swapfile.c").return {
+        printf ("%s <- %s\n", thread_indent(-1), probefunc())
+        printf("\n");
+}
 
-[    0.411583] Kprobe smoke test started
-[    0.412042] ------------[ cut here ]------------
-[    0.412049] WARNING: at kernel/lockdep.c:2658 check_flags
-+0x4d/0x12d()
-[    0.412056] Modules linked in:
-[    0.412063] Pid: 1, comm: swapper Not tainted
-2.6.26-rc4-testing-00168-gc3b25b3 #39
-[    0.412072]  [<c012094a>] warn_on_slowpath+0x41/0x6c
-[    0.412083]  [<c013c62e>] ? mark_held_locks+0x4e/0x66
-[    0.412092]  [<c0349617>] ? kprobe_exceptions_notify+0x2b3/0x33a
-[    0.412103]  [<c013c7bd>] ? trace_hardirqs_on+0xe8/0x124
-[    0.412112]  [<c0349638>] ? kprobe_exceptions_notify+0x2d4/0x33a
-[    0.412122]  [<c034a0bb>] ? __atomic_notifier_call_chain+0x0/0x5a
-[    0.412132]  [<c013a591>] check_flags+0x4d/0x12d
-[    0.412139]  [<c013d924>] lock_release+0x46/0x196
-[    0.412147]  [<c034a10b>] __atomic_notifier_call_chain+0x50/0x5a
-[    0.412156]  [<c034a121>] atomic_notifier_call_chain+0xc/0xe
-[    0.412165]  [<c0134af5>] notify_die+0x2d/0x2f
-[    0.412175]  [<c0348c04>] do_debug+0x55/0xd7
-[    0.412183]  [<c0348657>] debug_stack_correct+0x27/0x2c
-[    0.412191]  [<c014a8b2>] ? init_test_probes+0x2c/0x186
-[    0.412200]  [<c014a824>] ? kprobe_target+0x1/0x34
-[    0.412209]  [<c014a8d6>] ? init_test_probes+0x50/0x186
-[    0.412218]  [<c04aa7be>] init_kprobes+0xf2/0xfc
-[    0.412226]  [<c0112f4d>] ? kernel_map_pages+0x108/0x11f
-[    0.412236]  [<c013c8f5>] ? debug_check_no_locks_freed+0xfc/0x116
-[    0.412245]  [<c013c7bd>] ? trace_hardirqs_on+0xe8/0x124
-[    0.412255]  [<c013ab16>] ? lockdep_init_map+0x7a/0x361
-[    0.412263]  [<c013a0d2>] ? debug_mutex_init+0x24/0x37
-[    0.412272]  [<c013305c>] ? __mutex_init+0x38/0x40
-[    0.412281]  [<c049d470>] kernel_init+0x127/0x257
-[    0.412289]  [<c04aa6cc>] ? init_kprobes+0x0/0xfc
-[    0.412298]  [<c013c7bd>] ? trace_hardirqs_on+0xe8/0x124
-[    0.412307]  [<c0102cf7>] ? restore_nocheck+0x12/0x15
-[    0.412316]  [<c049d349>] ? kernel_init+0x0/0x257
-[    0.412324]  [<c049d349>] ? kernel_init+0x0/0x257
-[    0.412333]  [<c0103903>] kernel_thread_helper+0x7/0x10
-[    0.412341]  =======================
-[    0.412354] ---[ end trace a7919e7f17c0a725 ]---
-[    0.412359] possible reason: unannotated irqs-off.
-[    0.412365] irq event stamp: 372951
-[    0.412369] hardirqs last  enabled at (372951): [<c0349617>]
-kprobe_exceptions_notify+0x2b3/0x33a
-[    0.412381] hardirqs last disabled at (372950): [<c0348eda>] do_int3
-+0x15/0x6c
-[    0.412394] softirqs last  enabled at (372924): [<c0124bef>]
-__do_softirq+0xe9/0xf1
-[    0.412405] softirqs last disabled at (372917): [<c0124c31>]
-do_softirq+0x3a/0x52
-[    0.414705] Kprobe smoke test passed successfully
-[    0.415603] highmem bounce pool size: 64 pages
+I got the next message at the console:
 
+Keeping temporary directory "/tmp/stapweLwM7"
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel: ------------[ cut here ]------------
 
---
-To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel: invalid opcode: 0000 [#1] SMP DEBUG_PAGEALLOC
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel: last sysfs file:
+/sys/devices/system/cpu/cpu1/cache/index2/shared_cpu_map
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel: Process staprun (pid: 4522, ti=f44d1000 task=c83e0000
+task.ti=f44d1000)
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel: Stack: 00000000 f6ba5880 c04466d0 00000000 c08579b0
+c044192a f8f8e300 00000000
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:        00000063 00000020 f8f8e300 c044192a f44d1e64
+c0446885 f8f8e300 00000014
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:        f8f8e300 f44d1fb0 c04430b7 0000002c 00020000
+00000001 00000001 000006e0
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel: Call Trace:
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:  [<c04466d0>] ? chill+0x0/0x7
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:  [<c044192a>] ? __link_module+0x0/0x14
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:  [<c044192a>] ? __link_module+0x0/0x14
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:  [<c0446885>] ? stop_machine_run_notype+0x1c/0x2a
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:  [<c04430b7>] ? sys_init_module+0x13d2/0x18f1
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:  [<c04e82e0>] ? simple_strtoull+0x0/0xe1
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:  [<c04c026e>] ? security_capset_set+0x10/0x16
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:  [<c042c0cc>] ? sys_capset+0x291/0x2bd
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:  [<c04038e5>] ? sysenter_past_esp+0x6a/0x91
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:  [<c0630000>] ? schedule+0x57b/0x74e
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel:  =======================
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel: Code: 00 00 b8 e0 05 77 c0 e8 ff df 09 00 e9 91 00 00
+00 89 da e8 4d ea fe ff 8b 06 8d 4d f0 ba 01 00 00 00 e8 2f 99 fd ff
+85 c0 74 04 <0f> 0b eb fe ba e0 05 77 c0 89 d8 e8 ab df 09 00 83 f8 1f
+89 c3
+
+Message from syslogd@funnyman at Wed Jun  4 23:56:00 2008 ...
+funnyman kernel: EIP: [<c04467d9>] __stop_machine_run+0x102/0x192
+SS:ESP 0068:f44d1e20
+
+and dmesg gives:
+
+ISO 9660 Extensions: RRIP_1991A
+------------[ cut here ]------------
+kernel BUG at kernel/stop_machine.c:147!
+invalid opcode: 0000 [#1] SMP DEBUG_PAGEALLOC
+
+Pid: 4522, comm: staprun Not tainted (2.6.26-rc4-next-20080530 #2)
+EIP: 0060:[<c04467d9>] EFLAGS: 00210286 CPU: 0
+EIP is at __stop_machine_run+0x102/0x192
+EAX: ffffffff EBX: 00000000 ECX: 00200282 EDX: 00200282
+ESI: f6ba5880 EDI: d09f3180 EBP: f44d1e50 ESP: f44d1e20
+ DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+Process staprun (pid: 4522, ti=f44d1000 task=c83e0000 task.ti=f44d1000)
+Stack: 00000000 f6ba5880 c04466d0 00000000 c08579b0 c044192a f8f8e300 00000000
+       00000063 00000020 f8f8e300 c044192a f44d1e64 c0446885 f8f8e300 00000014
+       f8f8e300 f44d1fb0 c04430b7 0000002c 00020000 00000001 00000001 000006e0
+Call Trace:
+ [<c04466d0>] ? chill+0x0/0x7
+ [<c044192a>] ? __link_module+0x0/0x14
+ [<c044192a>] ? __link_module+0x0/0x14
+ [<c0446885>] ? stop_machine_run_notype+0x1c/0x2a
+ [<c04430b7>] ? sys_init_module+0x13d2/0x18f1
+ [<c04e82e0>] ? simple_strtoull+0x0/0xe1
+ [<c04c026e>] ? security_capset_set+0x10/0x16
+ [<c042c0cc>] ? sys_capset+0x291/0x2bd
+ [<c04038e5>] ? sysenter_past_esp+0x6a/0x91
+ [<c0630000>] ? schedule+0x57b/0x74e
+ =======================
+Code: 00 00 b8 e0 05 77 c0 e8 ff df 09 00 e9 91 00 00 00 89 da e8 4d
+ea fe ff 8b 06 8d 4d f0 ba 01 00 00 00 e8 2f 99 fd ff 85 c0 74 04 <0f>
+0b eb fe ba e0 05 77 c0 89 d8 e8 ab df 09 00 83 f8 1f 89 c3
+EIP: [<c04467d9>] __stop_machine_run+0x102/0x192 SS:ESP 0068:f44d1e20
+---[ end trace 8a795f9857cd6733 ]---
+
+The error message for kernel/stop_machine:147 is here:
+
+   141
+    142                 /* Place it onto correct cpu. */
+    143                 kthread_bind(threads[i], i);
+    144
+    145                 /* Make it highest prio. */
+    146                 if (sched_setscheduler(threads[i], SCHED_FIFO,
+&param) !        = 0)
+    147                         BUG();================>dump here.
+    148         }
+    149
+@
+
+My .config is here:
+
+http://pastebin.com/pastebin.php?dl=m635153d3
+
+Anyone want to make a diagnosis of the problem?
+
+Thanks.
+-- 
+Regards,
+Peter Teoh
