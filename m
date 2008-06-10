@@ -1,37 +1,42 @@
-From: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Subject: Re: 2.6.26-rc5-mm2
-Date: Tue, 10 Jun 2008 16:12:14 +1000
-Message-ID: <200806101612.15041.nickpiggin@yahoo.com.au>
-References: <20080609223145.5c9a2878.akpm@linux-foundation.org>
+From: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Subject: Re: hostap kernel lockup?
+Date: Tue, 10 Jun 2008 08:24:44 +0100
+Message-ID: <g2la7s$g8r$1@ger.gmane.org>
+References: <g2760n$7f0$1@ger.gmane.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080609223145.5c9a2878.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7Bit
+Return-path: <linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
+To: linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Tuesday 10 June 2008 15:31, Andrew Morton wrote:
-> ftp://ftp.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/2.6.26-rc5/2.
->6.26-rc5-mm2/
->
-> - This is a bugfixed version of 2.6.26-rc5-mm1 - mainly to repair a
->   vmscan.c bug which would have prevented testing of the other vmscan.c
->   bugs^Wchanges.
+Sitsofe Wheeler wrote:
 
-BTW. this is known to be broken with x86 1GB pages and direct-IO, due
-to interaction between huge pages patchset and lockless get_user_pages.
+> hostap_pci on a 32bit x86 machine seems to be unstable under load in
+> next-20080604. Using iperf between a wired machine on the other side of
+> the AP and the hostap box makes hostap output the message
+> wifi0: SW TICK stuck? bits=0x0 EvStat=8000 IntEn=e09f
+> before things slowly grind to a halt in a lockup that seemingly needs a
+> sysrq reboot. This problem seems to be reproducible every time but does
+> not happen with Ubuntu's 2.6.22 kernel.
 
-My fault. I was away from the screen over the long weekend here, and
-didn't give Andrew the heads-up in time.
+This issue seems to be happening at least as far back as 2.6.22 vanilla with
+the config on http://sucs.org/~sits/test/config-2.6.22.txt although things
+always seem to be recoverable. Sometimes the system will recover after the
+lockup with a message like:
+Clocksource tsc unstable (delta = 9377016871 ns)
+Time acpi_pm clocksource has been installed.
+Unfortunately even after if this does happen supsequent runs can still
+freeze things to the extent that caps lock will stop responding. It can get
+to the stage where screen updates in X only seem to happen when a key is
+pressed on the keyboard. 
 
-This isn't going to be a problem unless you explicitly enable GB pages
-and run direct IO (or splice) into or out of them. I can give a fixup
-patch to anyone interested in doing so.
+-- 
+Sitsofe | http://sucs.org/~sits/
+
 --
-To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
+To unsubscribe from this list: send the line "unsubscribe linux-wireless" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
