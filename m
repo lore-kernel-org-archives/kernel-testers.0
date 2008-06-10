@@ -1,58 +1,182 @@
-From: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
-Subject: Re: 2.6.26-rc5-mm2
-Date: Tue, 10 Jun 2008 17:50:14 +0100 (BST)
-Message-ID: <Pine.LNX.4.64.0806101723070.23096@blonde.site>
-References: <20080609223145.5c9a2878.akpm@linux-foundation.org> 
- <200806101728.27486.nickpiggin@yahoo.com.au> <1213112065.6872.12.camel@lts-notebook>
+From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: 2.6.26-rc5-mm2 lockup up on Intel G33+ICH9R+Core2Duo, -mm1 okay
+Date: Tue, 10 Jun 2008 11:18:32 -0700
+Message-ID: <20080610111832.736519d2.akpm@linux-foundation.org>
+References: <20080609223145.5c9a2878.akpm@linux-foundation.org>
+	<73ls44tntnv8ro57chp1on2crsqkoilmkj@4ax.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1213112065.6872.12.camel@lts-notebook>
+In-Reply-To: <73ls44tntnv8ro57chp1on2crsqkoilmkj-e09XROE/p8c@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Lee Schermerhorn <Lee.Schermerhorn-VXdhtT5mjnY@public.gmane.org>
-Cc: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Grant Coady <gcoady.lk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Grant Coady <grant_lkml-rGYn+TmxqGy6c6uEtOJ/EA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
 
-On Tue, 10 Jun 2008, Lee Schermerhorn wrote:
-> On Tue, 2008-06-10 at 17:28 +1000, Nick Piggin wrote:
-> > mm/memory.c:do_wp_page
-> > //TODO:  is this safe?  do_anonymous_page() does it this way.
-> > 
-> > That's a bit disheartening. Surely a question like that has to
-> > be answered definitively? (hopefully whatever is doing the
-> > asking won't get merged until answered)
+On Tue, 10 Jun 2008 20:20:09 +1000 Grant Coady <grant_lkml-rGYn+TmxqGy6c6uEtOJ/EA@public.gmane.org> wrote:
+
+> On Mon, 9 Jun 2008 22:31:45 -0700, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
 > 
-> I put those C++ TODO comments in there specifically to raise their
-> visibility in hopes that someone [like you :)] would notice and maybe
-> have an answer to the question.  I noted the issue in the change log as
-> well--i.e., that I had moved set_pte_at() to after the lru_cache_add and
-> 'new_rmap.   The existing order may be that way for a reason, but it's
-> not clear [to me] what that reason is.  As I noted, do_anonymous_page()
-> sets the pte after the lru_add and new_rmap.
+> >
+> >ftp://ftp.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/2.6.26-rc5/2.6.26-rc5-mm2/
+> >
+> >- This is a bugfixed version of 2.6.26-rc5-mm1 - mainly to repair a
+> >  vmscan.c bug which would have prevented testing of the other vmscan.c
+> >  bugs^Wchanges.
 > 
-> I agree, these questions need to be answered and the TODO's resolved
-> before merging.   Any thoughts as to the ordering?
+> No it's not :)
+> 
+> -mm1 worked fine here but -mm2 locks up just after saying:
+> agpgart: Detected 7164K stolen memory.
+> 
+> Nothing in logs (session not recorded - hit reset to restart).
+> 
+> config and dmseg for -mm1 at (same .config for mm2):
+> 
+>   http://bugsplatter.mine.nu/test/boxen/pooh/config-2.6.26-rc5-mm1a.gz
+>   http://bugsplatter.mine.nu/test/boxen/pooh/dmesg-2.6.26-rc5-mm1a.gz
+> 
+> Grant.
 
-The ordering of lru_cache_add*, page_add_*_rmap and set_pte_at does
-not matter (but update_mmu_cache must come after set_pte_at not before).
+hm, intel-agp gtt stuff.
 
-Even if the page table lock were not held across them (it is), I think
-their ordering would not matter much (just benign races); though it's
-always worth keeping in mind that once you've done the lru_cache_add,
-that page is now visible to vmscan.c.
+Can you please see whether reverting Keith's stuff fixes it?
 
-But I'm all in favour of you imposing consistency there (as part of
-a wider patch? perhaps not; and do_swap_page does now look out of step).
-It can sometimes help when inserting debug checks e.g. on page_mapcount.
+ drivers/char/agp/agp.h       |    3 ---
+ drivers/char/agp/backend.c   |    2 --
+ drivers/char/agp/generic.c   |   28 ----------------------------
+ drivers/char/agp/intel-agp.c |    5 -----
+ include/linux/agp_backend.h  |    5 -----
+ 5 files changed, 43 deletions(-)
 
-I think you'll find the lru_cache_add_active_or_noreclaim could
-actually be moved into page_add_new_rmap - I found that helpful when
-working on eliminating the PageSwapCache flag (work now grown out of
-date, I'm afraid), to know that the page was not publicly visible
-until I did lru_cache_add_active at the end of page_add_new_rmap.
+diff -puN drivers/char/agp/agp.h~revert-intel-agp-rewrite-gtt-on-resume drivers/char/agp/agp.h
+--- a/drivers/char/agp/agp.h~revert-intel-agp-rewrite-gtt-on-resume
++++ a/drivers/char/agp/agp.h
+@@ -148,9 +148,6 @@ struct agp_bridge_data {
+ 	char minor_version;
+ 	struct list_head list;
+ 	u32 apbase_config;
+-	/* list of agp_memory mapped to the aperture */
+-	struct list_head mapped_list;
+-	spinlock_t mapped_lock;
+ };
+ 
+ #define KB(x)	((x) * 1024)
+diff -puN drivers/char/agp/backend.c~revert-intel-agp-rewrite-gtt-on-resume drivers/char/agp/backend.c
+--- a/drivers/char/agp/backend.c~revert-intel-agp-rewrite-gtt-on-resume
++++ a/drivers/char/agp/backend.c
+@@ -183,8 +183,6 @@ static int agp_backend_initialize(struct
+ 		rc = -EINVAL;
+ 		goto err_out;
+ 	}
+-	INIT_LIST_HEAD(&bridge->mapped_list);
+-	spin_lock_init(&bridge->mapped_lock);
+ 
+ 	return 0;
+ 
+diff -puN drivers/char/agp/generic.c~revert-intel-agp-rewrite-gtt-on-resume drivers/char/agp/generic.c
+--- a/drivers/char/agp/generic.c~revert-intel-agp-rewrite-gtt-on-resume
++++ a/drivers/char/agp/generic.c
+@@ -426,10 +426,6 @@ int agp_bind_memory(struct agp_memory *c
+ 
+ 	curr->is_bound = TRUE;
+ 	curr->pg_start = pg_start;
+-	spin_lock(&agp_bridge->mapped_lock);
+-	list_add(&curr->mapped_list, &agp_bridge->mapped_list);
+-	spin_unlock(&agp_bridge->mapped_lock);
+-
+ 	return 0;
+ }
+ EXPORT_SYMBOL(agp_bind_memory);
+@@ -462,34 +458,10 @@ int agp_unbind_memory(struct agp_memory 
+ 
+ 	curr->is_bound = FALSE;
+ 	curr->pg_start = 0;
+-	spin_lock(&curr->bridge->mapped_lock);
+-	list_del(&curr->mapped_list);
+-	spin_unlock(&curr->bridge->mapped_lock);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(agp_unbind_memory);
+ 
+-/**
+- *	agp_rebind_emmory  -  Rewrite the entire GATT, useful on resume
+- */
+-int agp_rebind_memory(void)
+-{
+-	struct agp_memory *curr;
+-	int ret_val = 0;
+-
+-	spin_lock(&agp_bridge->mapped_lock);
+-	list_for_each_entry(curr, &agp_bridge->mapped_list, mapped_list) {
+-		ret_val = curr->bridge->driver->insert_memory(curr,
+-							      curr->pg_start,
+-							      curr->type);
+-		if (ret_val != 0)
+-			break;
+-	}
+-	spin_unlock(&agp_bridge->mapped_lock);
+-	return ret_val;
+-}
+-EXPORT_SYMBOL(agp_rebind_memory);
+-
+ /* End - Routines for handling swapping of agp_memory into the GATT */
+ 
+ 
+diff -puN drivers/char/agp/intel-agp.c~revert-intel-agp-rewrite-gtt-on-resume drivers/char/agp/intel-agp.c
+--- a/drivers/char/agp/intel-agp.c~revert-intel-agp-rewrite-gtt-on-resume
++++ a/drivers/char/agp/intel-agp.c
+@@ -2176,7 +2176,6 @@ static void __devexit agp_intel_remove(s
+ static int agp_intel_resume(struct pci_dev *pdev)
+ {
+ 	struct agp_bridge_data *bridge = pci_get_drvdata(pdev);
+-	int ret_val;
+ 
+ 	pci_restore_state(pdev);
+ 
+@@ -2204,10 +2203,6 @@ static int agp_intel_resume(struct pci_d
+ 	else if (bridge->driver == &intel_i965_driver)
+ 		intel_i915_configure();
+ 
+-	ret_val = agp_rebind_memory();
+-	if (ret_val != 0)
+-		return ret_val;
+-
+ 	return 0;
+ }
+ #endif
+diff -puN include/linux/agp_backend.h~revert-intel-agp-rewrite-gtt-on-resume include/linux/agp_backend.h
+--- a/include/linux/agp_backend.h~revert-intel-agp-rewrite-gtt-on-resume
++++ a/include/linux/agp_backend.h
+@@ -30,8 +30,6 @@
+ #ifndef _AGP_BACKEND_H
+ #define _AGP_BACKEND_H 1
+ 
+-#include <linux/list.h>
+-
+ #ifndef TRUE
+ #define TRUE 1
+ #endif
+@@ -88,8 +86,6 @@ struct agp_memory {
+ 	u8 is_bound;
+ 	u8 is_flushed;
+         u8 vmalloc_flag;
+-	/* list of agp_memory mapped to the aperture */
+-	struct list_head mapped_list;
+ };
+ 
+ #define AGP_NORMAL_MEMORY 0
+@@ -108,7 +104,6 @@ extern struct agp_memory *agp_allocate_m
+ extern int agp_copy_info(struct agp_bridge_data *, struct agp_kern_info *);
+ extern int agp_bind_memory(struct agp_memory *, off_t);
+ extern int agp_unbind_memory(struct agp_memory *);
+-extern int agp_rebind_memory(void);
+ extern void agp_enable(struct agp_bridge_data *, u32);
+ extern struct agp_bridge_data *agp_backend_acquire(struct pci_dev *);
+ extern void agp_backend_release(struct agp_bridge_data *);
+_
 
-Hugh
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
