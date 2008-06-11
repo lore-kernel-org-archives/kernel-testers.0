@@ -1,41 +1,54 @@
-From: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-Subject: DEBUG_LOCK_ALLOC causes hostap kernel lockup
-Date: Tue, 10 Jun 2008 23:16:13 +0100
-Message-ID: <g2mufc$c16$1@ger.gmane.org>
-References: <g2760n$7f0$1@ger.gmane.org> <g2la7s$g8r$1@ger.gmane.org>
+From: Yasunori Goto <y-goto-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Subject: Re: 2.6.26-rc5-mm2 (compile error in mm/memory_hotplug.c)
+Date: Wed, 11 Jun 2008 11:26:47 +0900
+Message-ID: <20080611112111.C7BE.E1E9C6FF@jp.fujitsu.com>
+References: <20080609223145.5c9a2878.akpm@linux-foundation.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7Bit
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20080609223145.5c9a2878.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>
 
-Sitsofe Wheeler wrote:
 
-> Sitsofe Wheeler wrote:
-> 
->> hostap_pci on a 32bit x86 machine seems to be unstable under load in
->> next-20080604. Using iperf between a wired machine on the other side of
->> the AP and the hostap box makes hostap output the message
->> wifi0: SW TICK stuck? bits=0x0 EvStat=8000 IntEn=e09f
->> before things slowly grind to a halt in a lockup that seemingly needs a
-> 
-> things always seem to be recoverable. Sometimes the system will recover
-> after the lockup with a message like:
-> Clocksource tsc unstable (delta = 9377016871 ns)
-> Time acpi_pm clocksource has been installed.
+> lockess pagecache
+>
+> +vmscan-move-isolate_lru_page-to-vmscanc.patch
+>   :
 
-The lockups seem to be down to DEBUG_LOCK_ALLOC (Lock debugging: detect
-incorrect freeing of live locks). If that is enabled then after enough
-iperf runs the kernel will lock solid. This problems seems to happen in
-kernels from at least 2.6.22 onwards.
+This patch is cause of compile error in mm/memory_hotplug.c.
+Obviously, just here is old against changing interface of
+isolate_lru_page(). :-(
 
-I had no idea that enabling lock checking could itself result in a lockup...
+Signed-off-by: Yasunori Goto <y-goto-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+
+
+---
+ mm/memory_hotplug.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Index: current/mm/memory_hotplug.c
+===================================================================
+--- current.orig/mm/memory_hotplug.c
++++ current/mm/memory_hotplug.c
+@@ -595,8 +595,9 @@ do_migrate_range(unsigned long start_pfn
+ 		 * We can skip free pages. And we can only deal with pages on
+ 		 * LRU.
+ 		 */
+-		ret = isolate_lru_page(page, &source);
++		ret = isolate_lru_page(page);
+ 		if (!ret) { /* Success */
++			list_add_tail(&page->lru, &source);
+ 			move_pages--;
+ 		} else {
+ 			/* Becasue we don't have big zone->lock. we should
 
 -- 
-Sitsofe | http://sucs.org/~sits/
+Yasunori Goto 
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
