@@ -1,55 +1,42 @@
-From: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: 2.6.26-rc5-mm2
-Date: Wed, 11 Jun 2008 14:09:02 -0400
-Message-ID: <20080611140902.544e59ec@bree.surriel.com>
+From: Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: pnp changes -> suspend oops [Was: 2.6.26-rc5-mm2]
+Date: Wed, 11 Jun 2008 20:08:53 +0200
+Message-ID: <485014B5.7080305@gmail.com>
 References: <20080609223145.5c9a2878.akpm@linux-foundation.org>
-	<200806101728.27486.nickpiggin@yahoo.com.au>
-	<20080610013427.aa20a29b.akpm@linux-foundation.org>
-	<200806101848.22237.nickpiggin@yahoo.com.au>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200806101848.22237.nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :x-enigmail-version:content-type:content-transfer-encoding;
+        bh=AJy0lM0QcSpQ5280o7W61tEgyrDCVbFqq3oxUW5ioNw=;
+        b=dMiOIj6FR5qyt7bSLBwLTsoWVnLx2J7vRxD2K5HEFR4aQItO9c/R66xXbB9iGxzmkD
+         0U7GcaN2rOGiqxt8I0GMDIhcje1gout4ywE/ebyg7ImjatzY4+QZ13XsNPvqd7O4H802
+         U6Otd4Gc9c8o92KY0Fs2K4fgrHAwO8wIC8V8U=
+In-Reply-To: <20080609223145.5c9a2878.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
 
-On Tue, 10 Jun 2008 18:48:21 +1000
-Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org> wrote:
+On 06/10/2008 07:31 AM, Andrew Morton wrote:
+> ftp://ftp.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/2.6.26-rc5/2.6.26-rc5-mm2/
 
-> > > The tmpfs PageSwapBacked stuff seems rather broken. For
-> > > them write_begin/write_end path, it is filemap.c, not shmem.c,
-> > > which allocates the page, so its no wonder it goes bug. Will
-> > > try to do more testing without shmem.
+Hi,
 
-Fun, so what does shmem_alloc_page do?
+I face problems after some of the pnp changes. If this is not known, I may 
+bisect it, it's 100% reproducible. I have no real logs, It panics prior to 
+network is woken up to see something on netconsole, I just captured a function 
+name and an offset of place where it oopses.
 
-> > rikstuff.  Could be that the merge caused a problem?
-> 
-> Doesn't look like it, but I hadn't followed the changes too closely:
-> rather they just need to test loopback over tmpfs.
+pnpacpi_encode_resources, ACPI_RESOURCE_TYPE_DMA case, pnp_get_resource(dev, 
+IORESOURCE_DMA, dma) returns NULL, which is dereferenced at pnpacpi_encode_dma 
+at p->flags.
 
-Does loopback over tmpfs use a different allocation path?
-
-> Is the plan to merge all reclaim changes in a big hit, rather than
-> slowly trickle in the different independent changes?
-
-My original plan was to merge them incrementally, but Andrew is
-right that we should give the whole set as much testing as
-possible.
-
-I have done all the cleanups Andrew asked and fixed the bugs
-that I found after that merge/cleanup.  Your bug is the one
-I still need to fix before giving Andrew a whole new set of
-split LRU patches to merge.
-
-(afterwards, I will go incremental fixes only - the cleanups
-he asked for were just too big to do as incrementals)
-
--- 
-All rights reversed.
+It happens on resume after mem > /sys/power/state.
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
