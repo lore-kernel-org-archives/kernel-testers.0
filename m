@@ -1,32 +1,42 @@
-From: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+From: Frederik Deweerdt <deweerdt@free.fr>
 Subject: Re: 2.6.26-rc5-mm2: OOM with 1G free swap
-Date: Wed, 11 Jun 2008 15:36:40 +0900
-Message-ID: <20080611153457.7882.KOSAKI.MOTOHIRO@jp.fujitsu.com>
-References: <20080611060029.GA5011@martell.zuzino.mipt.ru> <20080610232705.3aaf5c06.akpm@linux-foundation.org>
+Date: Wed, 11 Jun 2008 09:31:01 +0200
+Message-ID: <20080611073101.GA3591@slug>
+References: <20080611060029.GA5011@martell.zuzino.mipt.ru> <20080610232705.3aaf5c06.akpm@linux-foundation.org> <20080611153457.7882.KOSAKI.MOTOHIRO@jp.fujitsu.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080610232705.3aaf5c06.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755160AbYFKHb0@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:cc
+         :subject:message-id:references:mime-version:content-type
+         :content-disposition:in-reply-to:user-agent:sender;
+        bh=0aIXg77JK6bn/DlKuWHp0g+Ef/NKT8DO5P5WZoaLWEA=;
+        b=vADaIZsCzqcKALo9a/30fjGMvU5p3Z+2qNhWEj+olvaAWmyA3sPR7ESGF/XgaJ8gmm
+         z3txmoVPWDl9UC/Uzl8i1wGjIox8fLCgFSWxjN6EaDuErA05wtw9wwFg/8LUP+4cgalN
+         lBCB9C77miHKOJdqCuw337ojb2S90RbAT5ui0=
+Content-Disposition: inline
+In-Reply-To: <20080611153457.7882.KOSAKI.MOTOHIRO@jp.fujitsu.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org, Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alexey Dobriyan <adobriyan@gmail.com>, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, linux-mm@kvack.org, nickpiggin@yahoo.com.au, Rik van Riel <riel@redhat.com>
 
-> > vm.overcommit_memory = 0
-> > vm.overcommit_ratio = 50
+Hi,
+
+On Wed, Jun 11, 2008 at 03:36:40PM +0900, KOSAKI Motohiro wrote:
+> > > vm.overcommit_memory = 0
+> > > vm.overcommit_ratio = 50
+> > 
+> > Well I assume that Rik ran LTP.  Perhaps a merge problem.
 > 
-> Well I assume that Rik ran LTP.  Perhaps a merge problem.
+> at least, I ran LTP last week and its error didn't happend.
+> I'll investigate more.
+FWIW, I can reproduce it reliably:
+$ cd <ltp-dir>/testcases/bin
+$ ./growfiles -W gf15 -b -e 1 -u -r 1-49600 -I r -u -i 0 -L 120 Lgfile1
+And then wait for a few secs before the OOM triggers.
 
-at least, I ran LTP last week and its error didn't happend.
-I'll investigate more.
-
-Thanks.
-
-
-
-
---
-To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Regards,
+Frederik
