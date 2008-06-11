@@ -1,7 +1,7 @@
 From: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
 Subject: Re: 2.6.26-rc5-mm2: OOM with 1G free swap
-Date: Wed, 11 Jun 2008 16:11:47 +1000
-Message-ID: <200806111611.47402.nickpiggin@yahoo.com.au>
+Date: Wed, 11 Jun 2008 16:15:25 +1000
+Message-ID: <200806111615.25508.nickpiggin@yahoo.com.au>
 References: <20080609223145.5c9a2878.akpm@linux-foundation.org> <20080611060029.GA5011@martell.zuzino.mipt.ru>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -22,22 +22,12 @@ On Wednesday 11 June 2008 16:00, Alexey Dobriyan wrote:
 >
 > OOM condition happened with 1G free swap.
 
-Seems like you've got little or no anon pages left, so 1GB free swap
-is no problem (nothing left to page out).
+Hey, I'm liking this kernel-testers list, btw. Makes it much easier
+to help people with problems.
 
-
-> 4G RAM, 1G swap partition, normally LTP survives during much, much higher
-> load.
-
-I would hope it is not a memory leak (which might point to lockless
-pagecache). It doesn't look like it because there is still lots of
-inactive file pages, so that points to the page reclaim changes
-(which is not to say page reclaim changes couldn't cause a memory
-leak themselves).
-
-Curious: if you kill off all the LTP tests after the OOM condition,
-what does your /proc/meminfo look like before and after running
-sync ; echo 3 > /proc/sys/vm/drop_caches
+Luckily I suggested it at last KS. Oh wait, I recall everybody
+laughed or ignored :) I guess I lack the managerial qualities to
+make those kinds of suggestions!
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
