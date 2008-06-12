@@ -1,265 +1,92 @@
-From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: 2.6.26-rc5-mm3
-Date: Wed, 11 Jun 2008 22:59:45 -0700
-Message-ID: <20080611225945.4da7bb7f.akpm@linux-foundation.org>
+From: Kamalesh Babulal <kamalesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Subject: Re: [BUG] 2.6.26-rc5-mm2 - kernel BUG at arch/x86/kernel/setup.c:388!
+Date: Thu, 12 Jun 2008 12:25:29 +0530
+Message-ID: <4850C861.108@linux.vnet.ibm.com>
+References: <20080609223145.5c9a2878.akpm@linux-foundation.org> <485011DF.9050606@linux.vnet.ibm.com>  <1213208897.20475.19.camel@nimitz> <19f34abd0806111137t4291b9fkb66951aa8f4d456f@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <19f34abd0806111137t4291b9fkb66951aa8f4d456f-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
-
-
-ftp://ftp.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/2.6.26-rc5/2.6.26-rc5-mm3/
-
-- This is a bugfixed version of 2.6.26-rc5-mm2, which was a bugfixed
-  version of 2.6.26-rc5-mm1.  None of the git trees were repulled for -mm3
-  (and nor were they repulled for -mm2).
-
-  The aim here is to get all the stupid bugs out of the way so that some
-  serious MM testing can be performed.
-
-- Please perform some serious MM testing.
-
-
-
-Boilerplate:
-
-- See the `hot-fixes' directory for any important updates to this patchset.
-
-- To fetch an -mm tree using git, use (for example)
-
-  git-fetch git://git.kernel.org/pub/scm/linux/kernel/git/smurf/linux-trees.git tag v2.6.16-rc2-mm1
-  git-checkout -b local-v2.6.16-rc2-mm1 v2.6.16-rc2-mm1
-
-- -mm kernel commit activity can be reviewed by subscribing to the
-  mm-commits mailing list.
-
-        echo "subscribe mm-commits" | mail majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-
-- If you hit a bug in -mm and it is not obvious which patch caused it, it is
-  most valuable if you can perform a bisection search to identify which patch
-  introduced the bug.  Instructions for this process are at
-
-        http://www.zip.com.au/~akpm/linux/patches/stuff/bisecting-mm-trees.txt
-
-  But beware that this process takes some time (around ten rebuilds and
-  reboots), so consider reporting the bug first and if we cannot immediately
-  identify the faulty patch, then perform the bisection search.
-
-- When reporting bugs, please try to Cc: the relevant maintainer and mailing
-  list on any email.
-
-- When reporting bugs in this kernel via email, please also rewrite the
-  email Subject: in some manner to reflect the nature of the bug.  Some
-  developers filter by Subject: when looking for messages to read.
-
-- Occasional snapshots of the -mm lineup are uploaded to
-  ftp://ftp.kernel.org/pub/linux/kernel/people/akpm/mm/ and are announced on
-  the mm-commits list.  These probably are at least compilable.
-
-- More-than-daily -mm snapshots may be found at
-  http://userweb.kernel.org/~akpm/mmotm/.  These are almost certainly not
-  compileable.
-
-
-
-
-Changes since 2.6.26-rc5-mm2:
-
- origin.patch
- linux-next.patch
- git-jg-misc.patch
- git-leds.patch
- git-libata-all.patch
- git-battery.patch
- git-parisc.patch
- git-regulator.patch
- git-unionfs.patch
- git-logfs.patch
- git-unprivileged-mounts.patch
- git-xtensa.patch
- git-orion.patch
- git-pekka.patch
-
- git trees
-
--fsldma-the-mpc8377mds-board-device-tree-node-for-fsldma-driver.patch
-
- Merged into mainline or a subsystem tree
-
-+capabilities-add-back-dummy-support-for-keepcaps.patch
-+cciss-add-new-hardware-support.patch
-+cciss-add-new-hardware-support-fix.patch
-+cciss-bump-version-to-20-to-reflect-new-hw-support.patch
-+kprobes-fix-error-checking-of-batch-registration.patch
-+m68knommu-init-coldfire-timer-trr-with-n-1-not-n.patch
-+rtc-at32ap700x-fix-bug-in-at32_rtc_readalarm.patch
-
- 2.6.26 queue
-
--acpi-video-balcklist-fujitsu-lifebook-s6410.patch
-
- Dropped
-
--bay-exit-if-notify-handler-cannot-be-installed.patch
-
- Dropped
-
--intel-agp-rewrite-gtt-on-resume-fix.patch
--intel-agp-rewrite-gtt-on-resume-fix-fix.patch
-
- Folded into intel-agp-rewrite-gtt-on-resume.patch
-
--kbuild-move-non-__kernel__-checking-headers-to-header-y.patch
-
- Dropped
-
-+8390-split-8390-support-into-a-pausing-and-a-non-pausing-driver-core-fix.patch
-
- Unfix
- 8390-split-8390-support-into-a-pausing-and-a-non-pausing-driver-core.patch
-
-+mpc8xxx_wdt-various-renames-mostly-s-mpc83xx-mpc8xxx-g-fix.patch
-
- Fix mpc8xxx_wdt-various-renames-mostly-s-mpc83xx-mpc8xxx-g.patch
-
-+intel_rng-make-device-not-found-a-warning.patch
-+driver-video-cirrusfb-fix-ram-address-printk.patch
-+driver-video-cirrusfb-fix-ram-address-printk-fix.patch
-+driver-video-cirrusfb-fix-ram-address-printk-fix-fix.patch
-+driver-char-generic_nvram-fix-banner.patch
-+pagemap-pass-mm-into-pagewalkers.patch
-+pagemap-fix-large-pages-in-pagemap.patch
-+proc-sysvipc-shm-fix-32-bit-truncation-of-segment-sizes.patch
-+console-keyboard-mapping-broken-by-04c71976.patch
-
- More 2.6.26 queue
-
-+bay-exit-if-notify-handler-cannot-be-installed.patch
-
- ACPI Bay driver fix
-
-+smc91x-fix-build-error-from-the-smc_get_mac_addr-api-change.patch
-
- netdev fix
-
-+add-a-helper-function-to-test-if-an-object-is-on-the-stack.patch
-
- Infrastructure
-
-+hugetlb-introduce-pud_huge-s390-fix.patch
-
- Fix hugetlb-introduce-pud_huge.patch some more
-
-+kprobes-remove-redundant-config-check.patch
-+kprobes-indirectly-call-kprobe_target.patch
-+kprobes-add-tests-for-register_kprobes.patch
-
- kprobers updates
-
-+not-for-merging-pnp-changes-suspend-oops.patch
-
- Try to debug some pnp problems
-
-+quota-move-function-macros-from-quotah-to-quotaopsh-fix.patch
-
- Fix quota-move-function-macros-from-quotah-to-quotaopsh.patch some more
-
-+memcg-remove-refcnt-from-page_cgroup-fix-2.patch
-
- Fix memcg-remove-refcnt-from-page_cgroup-fix.patch
-
-+sgi-xp-eliminate-in-comments.patch
-+sgi-xp-use-standard-bitops-macros-and-functions.patch
-+sgi-xp-add-jiffies-to-reserved-pages-timestamp-name.patch
-
- Update SGI XP driver
-
-+dma-mapping-add-the-device-argument-to-dma_mapping_error-b34-fix.patch
-
- Fix dma-mapping-add-the-device-argument-to-dma_mapping_error.patch som more
-
-+include-linux-aioh-removed-duplicated-include.patch
-
- AIO cleanup
-
-+kernel-call-constructors-uml-fix-1.patch
-+kernel-call-constructors-uml-fix-2.patch
-
- Fix kernel-call-constructors.patch
-
-+x86-support-1gb-hugepages-with-get_user_pages_lockless.patch
-
- Wire up x86 large large pages
-
-+mm-speculative-page-references-hugh-fix3.patch
-
- Fix mm-speculative-page-references.patch som more
-
- vmscan-move-isolate_lru_page-to-vmscanc.patch
-+vmscan-move-isolate_lru_page-to-vmscanc-fix.patch
- vmscan-use-an-indexed-array-for-lru-variables.patch
--vmscan-use-an-array-for-the-lru-pagevecs.patch
-+swap-use-an-array-for-the-lru-pagevecs.patch
- vmscan-free-swap-space-on-swap-in-activation.patch
--vmscan-define-page_file_cache-function.patch
-+define-page_file_cache-function.patch
- vmscan-split-lru-lists-into-anon-file-sets.patch
- vmscan-second-chance-replacement-for-anonymous-pages.patch
--vmscan-add-some-sanity-checks-to-get_scan_ratio.patch
- vmscan-fix-pagecache-reclaim-referenced-bit-check.patch
- vmscan-add-newly-swapped-in-pages-to-the-inactive-list.patch
--vmscan-more-aggressively-use-lumpy-reclaim.patch
--vmscan-pageflag-helpers-for-configed-out-flags.patch
--vmscan-noreclaim-lru-infrastructure.patch
--vmscan-noreclaim-lru-page-statistics.patch
--vmscan-ramfs-and-ram-disk-pages-are-non-reclaimable.patch
--vmscan-shm_locked-pages-are-non-reclaimable.patch
--vmscan-mlocked-pages-are-non-reclaimable.patch
--vmscan-downgrade-mmap-sem-while-populating-mlocked-regions.patch
--vmscan-handle-mlocked-pages-during-map-remap-unmap.patch
--vmscan-mlocked-pages-statistics.patch
--vmscan-cull-non-reclaimable-pages-in-fault-path.patch
--vmscan-noreclaim-and-mlocked-pages-vm-events.patch
--mm-only-vmscan-noreclaim-lru-scan-sysctl.patch
--vmscan-mlocked-pages-count-attempts-to-free-mlocked-page.patch
--vmscan-noreclaim-lru-and-mlocked-pages-documentation.patch
-+more-aggressively-use-lumpy-reclaim.patch
-+pageflag-helpers-for-configed-out-flags.patch
-+unevictable-lru-infrastructure.patch
-+unevictable-lru-page-statistics.patch
-+ramfs-and-ram-disk-pages-are-unevictable.patch
-+shm_locked-pages-are-unevictable.patch
-+mlock-mlocked-pages-are-unevictable.patch
-+mlock-mlocked-pages-are-unevictable-fix.patch
-+mlock-mlocked-pages-are-unevictable-fix-fix.patch
-+mlock-mlocked-pages-are-unevictable-fix-2.patch
-+mlock-downgrade-mmap-sem-while-populating-mlocked-regions.patch
-+mmap-handle-mlocked-pages-during-map-remap-unmap.patch
-+mmap-handle-mlocked-pages-during-map-remap-unmap-cleanup.patch
-+vmstat-mlocked-pages-statistics.patch
-+swap-cull-unevictable-pages-in-fault-path.patch
-+vmstat-unevictable-and-mlocked-pages-vm-events.patch
-+vmscan-unevictable-lru-scan-sysctl.patch
-+vmscan-unevictable-lru-scan-sysctl-nommu-fix.patch
-+mlock-count-attempts-to-free-mlocked-page.patch
-+doc-unevictable-lru-and-mlocked-pages-documentation.patch
-
- New iteration of Rik's page reclaim work
-
-1390 commits in 967 patch files
-
-
-
-All patches:
-
-ftp://ftp.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/2.6.26-rc5/2.6.26-rc5-mm3/patch-list
-
-
+Content-Type: text/plain; charset="iso-8859-1"
+To: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Dave Hansen <dave-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>, Balbir Singh <balbir-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+
+Vegard Nossum wrote:
+> On 6/11/08, Dave Hansen <dave-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
+>> On Wed, 2008-06-11 at 23:26 +0530, Kamalesh Babulal wrote:
+>>  > Hi Andrew,
+>>  >
+>>  > The 2.6.26-rc5-mm2 kernel panic's, while booting up on the x86_64
+>>  > box with the attached .config file.
+>>
+>>
+>> Just to save everyone the trouble, it looks like this is a new BUG_O=
+N().
+>>  =EF=BB=BF
+>>  http://www.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/2.6.=
+26-rc5/2.6.26-rc5-mm2/broken-out/fix-x86_64-splat.patch
+>>
+>>  The machine in question is a single-node machine, but with
+>>  CONFIG_NUMA=3Dy.
+>>
+>=20
+> Yes. Sorry, I already responded in a separate e-mail (see below), but
+> that obviously missed all the Ccs. So here it goes again...:
+>=20
+> I'm betting
+>=20
+> commit a953e4597abd51b74c99e0e3b7074532a60fd031
+> Author: Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>
+> Date:   Mon May 12 21:21:12 2008 +0200
+>=20
+>     sched: replace MAX_NUMNODES with nr_node_ids in kernel/sched.c
+>=20
+> will fix this if it's not in -mm2 already.
+>=20
+> The BUG() is simply there to prevent silent corruption. Mike already
+> has a patch that changes it to a WARN(), but it obviously didn't get
+> through (either)...
+>=20
+>=20
+> Vegard
+Hi,
+
+Thanks, the patch fixes the kernel oops.
+
+>=20
+>=20
+> On 6/11/08, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> On 6/9/08, Kamalesh Babulal <kamalesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
+>>  > Hi Andrew,
+>>  >
+>>  > The 2.6.26-rc5-mm2 kernel panic's, while booting up on the x86_64
+>>  > box with the attached .config file.
+>>
+>>  (Please apologize for the strange way of replying to this message. =
+It
+>>  seems that LKML gave up delivering to my address, so I'm currently
+>>  reading off lkml.org.)
+>>
+>>  This should already be fixed, but Andrew refused to apply the patch
+>>  before releasing the -mm1 (and -mm2 apparently). I'm attaching the
+>>  patch, can you see if it helps?
+>>
+>>  Thanks.
+>>
+>>
+>>  Vegard
+>=20
+
+
+--=20
+Thanks & Regards,
+Kamalesh Babulal,
+Linux Technology Center,
+IBM, ISTL.
 --
-To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
+To unsubscribe from this list: send the line "unsubscribe kernel-tester=
+s" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
