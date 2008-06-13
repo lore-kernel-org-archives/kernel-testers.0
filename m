@@ -1,79 +1,93 @@
-From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Subject: SLAB break supsned and cpu-hotplug on SMP, using SLUB instead.
-Date: Fri, 13 Jun 2008 22:39:47 +0200
-Message-ID: <1213389587.10307.12.camel@zwerg>
+From: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: 2.6.26-rc5-mm2 (swap_state.c:77)
+Date: Fri, 13 Jun 2008 22:15:01 +0100 (BST)
+Message-ID: <Pine.LNX.4.64.0806132135460.10183@blonde.site>
+References: <20080609223145.5c9a2878.akpm@linux-foundation.org>
+ <200806101848.22237.nickpiggin@yahoo.com.au> <20080611140902.544e59ec@bree.surriel.com>
+ <200806120958.38545.nickpiggin@yahoo.com.au> <20080612152905.6cb294ae@cuia.bos.redhat.com>
+ <Pine.LNX.4.64.0806122131330.10415@blonde.site> <20080613134507.3f08820e@cuia.bos.redhat.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20080613134507.3f08820e-jofViKCuYcf1wF9wiOj0lkEOCMrvLtNR@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
 
-I found that SLAB breaking supsned and cpu-hotplug on my PC. I didn't
-get to bisect it, so i think it is just the part of SLAB. At the moment
-i converted my kernel to SLUB and it working just fine, about 10
-suspends and no reboot or crush ... it ist a record for my PC.
+On Fri, 13 Jun 2008, Rik van Riel wrote:
+> On Thu, 12 Jun 2008 22:15:54 +0100 (BST)
+> Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org> wrote:
+> > 
+> > I don't know how to fix this problem in a nice way.  For the moment,
+> > to proceed with testing, I'm using the hack below.  But perhaps that
+> > screws things up for the other !mapping_cap_account_dirty filesystems
+> > e.g. ramfs, I just haven't tried them yet - nor shall in the next
+> > couple of days.
+> 
+> Yeah, it will break ramfs.  Also, we need to take care of
+> splice going in the opposite direction (moving a page from
+> SwapBacked to filesystem backed).
 
-Easy way to reproduce is to compile SLAB kernel and 
-echo 0 > /sys/devices/system/cpu/cpu1/online
-echo 1 > /sys/devices/system/cpu/cpu1/online
+No, that's a different, and blessedly non-existent, problem.
 
-other work around to make my PC working stable are kernel options: nosmp
-or mem=1024M
-kernel 2.6.26-rc6-00028-gc6d8f40 #68 SMP PREEMPT 
+The swap_state.c:77s we're seeing with loop-on-tmpfs-file just comes
+from __generic_file_splice_read doing add_to_page_cache_lru without
+knowing that the filesystem it's dealing with is tmpfs, which unlike
+every other filesystem sets and expects PageSwapBacked on its pages.
+(I expect you started out without that, then hit problems when tmpfs
+moved its file pages to swap cache, so you therefore elected to make
+them SwapBacked from the start.)
 
-dmesg will return:
-[  119.362281] CPU0 attaching NULL sched-domain.
-[  119.362281] CPU1 attaching NULL sched-domain.
-[  119.365524] kvm: disabling virtualization on CPU1
-[  119.365524] Breaking affinity for irq 1
-[  119.365524] Breaking affinity for irq 18
-[  119.468547] CPU 1 is now offline
-[  119.468553] lockdep: fixing up alternatives.
-[  119.468561] SMP alternatives: switching to UP code
-[  119.468568] BUG: sleeping function called from invalid context at
-mm/slab.c:3052
-[  119.468574] in_atomic():1, irqs_disabled():0
-[  119.468578] 4 locks held by bash/5128:
-[  119.468581]  #0:  (&buffer->mutex){--..}, at: [<c01ac68e>]
-sysfs_write_file+0x25/0xe3
-[  119.468598]  #1:  (cpu_add_remove_lock){--..}, at: [<c014242b>]
-cpu_maps_update_begin+0xf/0x11
-[  119.468611]  #2:  (&cpu_hotplug.lock){--..}, at: [<c014246f>]
-cpu_hotplug_begin+0x1a/0x42
-[  119.468623]  #3:  (smp_alt){--..}, at: [<c0106f7c>]
-alternatives_smp_switch+0x14c/0x165
-[  119.468638] Pid: 5128, comm: bash Not tainted
-2.6.26-rc6-testing-00028-gc6d8f40 #67
-[  119.468645]  [<c011a235>] __might_sleep+0xe7/0xee
-[  119.468655]  [<c017262d>] kmem_cache_alloc+0x27/0xd2
-[  119.468664]  [<c016a498>] ? __get_vm_area_node+0x86/0x186
-[  119.468674]  [<c016a498>] __get_vm_area_node+0x86/0x186
-[  119.468684]  [<c016a618>] get_vm_area_caller+0x3e/0x43
-[  119.468692]  [<c0358b61>] ? text_poke+0x9e/0x11e
-[  119.468702]  [<c016aa53>] vmap+0x21/0x44
-[  119.468710]  [<c0358b61>] text_poke+0x9e/0x11e
-[  119.468717]  [<c0101433>] ? sys_execve+0x37/0x4d
-[  119.468727]  [<c0106d53>] alternatives_smp_unlock+0x41/0x50
-[  119.468736]  [<c0106f48>] alternatives_smp_switch+0x118/0x165
-[  119.468813]  [<c035b9f1>] ? _etext+0x0/0xf
-[  119.468822]  [<c0121ce5>] ? printk+0x15/0x17
-[  119.468833]  [<c010e222>] __cpu_die+0x42/0x69
-[  119.468842]  [<c034809f>] _cpu_down+0x148/0x1f8
-[  119.468854]  [<c0348172>] cpu_down+0x23/0x30
-[  119.468863]  [<c034927b>] store_online+0x27/0x5a
-[  119.468870]  [<c0349254>] ? store_online+0x0/0x5a
-[  119.468880]  [<c0271f10>] sysdev_store+0x20/0x25
-[  119.468889]  [<c01ac721>] sysfs_write_file+0xb8/0xe3
-[  119.468899]  [<c01ac669>] ? sysfs_write_file+0x0/0xe3
-[  119.468907]  [<c01757b2>] vfs_write+0x8c/0x108
-[  119.468916]  [<c0175d0c>] sys_write+0x3b/0x60
-[  119.468924]  [<c0102d4d>] sysenter_past_esp+0x6a/0xb1
-[  119.468934]  =======================
-[  119.625144] CPU0 attaching NULL sched-domain.
+You could certainly argue that tmpfs should therefore have its own
+shmem_file_splice_read instead of using generic_file_splice_read;
+but I'd rather hate to duplicate that splice code within shmem.c just
+for this reason, would prefer that __generic_file_splice_read deduce it's
+dealing with tmpfs and SetPageSwapBacked before add_to_page_cache_lru
+(probably better that way than within add_to_page_cache_lru as I did).
 
+Though I'd even more prefer to find a way of avoiding it altogether:
+I've yet to think through on that.
 
+But this is hardly a splice problem, it's just that splice is the
+only thing which ever goes the problematic shmem_readpage route.
+
+When above you say that we also need to take care of going the
+opposite direction, you're thinking about splice stealing pages
+from one mapping and giving them to another, the essence of splice.
+But see Nick's year-old 485ddb4b9741bafb70b22e5c1f9b4f37dc3e85bd
+"splice: dont steal" patch: that stealing is currently dead code,
+so you shouldn't spend time worrying about how to deal with it.
+Though we've all forgotten to either remove or correct that code.
+
+> I guess we'll need per-mapping flags to help determine where
+> a page goes at add_to_page_cache_lru() time.
+
+The better way would be to add a backing_dev_info flag.  (At one
+point I had been going to criticize your per-mapping AS_UNEVICTABLE,
+to say that one should be a backing_dev_info flag; but no, you're
+right, you've the SHM_LOCK case where it has to be per-mapping.)
+
+> This does not remove our need for the page flags, because
+> those need to survive until the del_page_from_lru() call
+> in __page_cache_release(), by which time the page->mapping
+> will be long gone.
+
+Yes, I see that.
+
+> > Am I right to think that the memcontrol stuff is now all broken,
+> > because memcontrol.c hasn't yet been converted to the more LRUs?
+> > Certainly I'm now hanging when trying to run in a restricted memcg.
+> 
+> I believe memcontrol has been converted.  Of course, maybe
+> they changed some stuff under me that I didn't notice :(
+
+Ah, yes, there are NR_LRU_LISTS arrays in there now, so it has
+the appearance of having been converted.  Fine, then it's worth
+my looking into why it isn't actually working as intended.
+
+Hugh
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
