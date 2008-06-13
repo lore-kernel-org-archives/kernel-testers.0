@@ -1,195 +1,77 @@
-From: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
-Subject: Re: pnp changes -> suspend oops [Was: 2.6.26-rc5-mm2]
-Date: Fri, 13 Jun 2008 11:23:16 -0600
-Message-ID: <200806131123.16890.bjorn.helgaas@hp.com>
-References: <20080609223145.5c9a2878.akpm@linux-foundation.org> <200806121557.28505.bjorn.helgaas@hp.com> <48529AAC.3030008@gmail.com>
+From: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: 2.6.26-rc5-mm2 (swap_state.c:77)
+Date: Fri, 13 Jun 2008 13:45:07 -0400
+Message-ID: <20080613134507.3f08820e@cuia.bos.redhat.com>
+References: <20080609223145.5c9a2878.akpm@linux-foundation.org>
+	<200806101848.22237.nickpiggin@yahoo.com.au>
+	<20080611140902.544e59ec@bree.surriel.com>
+	<200806120958.38545.nickpiggin@yahoo.com.au>
+	<20080612152905.6cb294ae@cuia.bos.redhat.com>
+	<Pine.LNX.4.64.0806122131330.10415@blonde.site>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <48529AAC.3030008-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <Pine.LNX.4.64.0806122131330.10415-popGQ1T0qN76K7/ahGyk6A@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Cc: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
 
-On Friday 13 June 2008 10:05:00 am Jiri Slaby wrote:
-> On 06/12/2008 11:57 PM, Bjorn Helgaas wrote:
-> > On Thursday 12 June 2008 03:39:14 pm Jiri Slaby wrote:
-> >> On 06/12/2008 11:22 PM, Bjorn Helgaas wrote:
-> >>> On Thursday 12 June 2008 03:10:04 pm Jiri Slaby wrote:
-> >>>> On 06/11/2008 09:03 PM, Bjorn Helgaas wrote:
-> >>>>> Before you go to all the trouble of bisecting it, can you turn on
-> >>>>> CONFIG_PNP_DEBUG and try the following debug patch?  I think this
-> >>>>> will prevent the oops, but it's just papering over the real problem,
-> >>>>> so please capture the complete dmesg log.
-> >>>> ACPI: PCI interrupt for device 0000:00:02.0 disabled
-> >>>> serial 00:07: disabled
-> >>>> serial 00:06: disabled
-> >>>> ACPI handle has no context!
-> >>>> ACPI: PCI interrupt for device 0000:00:1d.7 disabled
-> >>>> ...
-> >>>> serial 00:06:   no dma resource to encode!
-> >>>> serial 00:06: activated
-> >>>> serial 00:07:   no dma resource to encode!
-> >>>> serial 00:07: activated
-> >>>> ACPI: PCI Interrupt 0000:00:02.0[A] -> GSI 16 (level, low) -> IRQ 16
-> >>> Interesting.  I wonder why a serial device would have a DMA resource.
-> >>> We encode resources by following a template from _CRS, so evidently
-> >>> that template had a DMA resource.  Or something deeper is wrong.
-> >>>
-> >>> Can you send me the rest of that dmesg log?
-> >> Below.
-> > 
-> > Thanks, but it looks like CONFIG_PNP_DEBUG is not turned on.  Can
-> > you turn that on and capture the log again, please?
+On Thu, 12 Jun 2008 22:15:54 +0100 (BST)
+Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org> wrote:
+
+> > I'm trying to make sense of all the splice code now
+> > and will send fix as soon as I know how to fix this
+> > problem in a nice way.
 > 
-> Here it goes:
+> There's no need to make sense of all the splice code, it's just
+> that it's doing add_to_page_cache_lru (on a page not marked as
+> SwapBacked), then shmem and swap_state consistency relies on it
+> as having been marked as SwapBacked.  Normally, yes, shmem_getpage
+> is the one that allocates the page, but in this case it's already
+> been done outside, awkward (and long predates loop's use of splice).
+> 
+> It's remarkably hard to correct the LRU of a page once it's been
+> launched towards one.  Is it still on this cpu's pagevec?  Have we
+> been preempted and it's on another cpu's pagevec?  If it's reached
+> the LRU, has vmscan whisked it off for a moment, even though it's
+> PageLocked?  Until now it's been that the LRUs are self-correcting,
+> but these patches move away from that.
+> 
+> I don't know how to fix this problem in a nice way.  For the moment,
+> to proceed with testing, I'm using the hack below.  But perhaps that
+> screws things up for the other !mapping_cap_account_dirty filesystems
+> e.g. ramfs, I just haven't tried them yet - nor shall in the next
+> couple of days.
 
-Thanks a lot!  Your BIOS clearly claims that at least one of your
-serial ports can be configured with DMA:
+Yeah, it will break ramfs.  Also, we need to take care of
+splice going in the opposite direction (moving a page from
+SwapBacked to filesystem backed).
 
-  pnp 00:07:   dependent set 5 (acceptable) io  min 0x3f8 max 0x3f8 align 1 size 8 flags 0x1
-  pnp 00:07:   dependent set 5 (acceptable) irq 3 4 5 6 7 10 11 12 flags 0x1
-  pnp 00:07:   dependent set 5 (acceptable) dma 0 1 2 3 (bitmask 0xf) flags 0x0
+I guess we'll need per-mapping flags to help determine where
+a page goes at add_to_page_cache_lru() time.
 
-That's wierd, but whatever, we still have to be careful to give the
-BIOS back what it expects, and I think that means we have to keep
-track of that disabled DMA resource in pnpacpi_allocated_resource().
+This does not remove our need for the page flags, because
+those need to survive until the del_page_from_lru() call
+in __page_cache_release(), by which time the page->mapping
+will be long gone.
 
-Can you please replace the debug patch with the one below and send me
-the results again?
+> Am I right to think that the memcontrol stuff is now all broken,
+> because memcontrol.c hasn't yet been converted to the more LRUs?
+> Certainly I'm now hanging when trying to run in a restricted memcg.
 
-Index: work10/drivers/pnp/pnpacpi/rsparser.c
-===================================================================
---- work10.orig/drivers/pnp/pnpacpi/rsparser.c	2008-06-11 12:46:28.000000000 -0600
-+++ work10/drivers/pnp/pnpacpi/rsparser.c	2008-06-13 11:13:21.000000000 -0600
-@@ -240,6 +240,7 @@ static acpi_status pnpacpi_allocated_res
- 	struct acpi_resource_fixed_memory32 *fixed_memory32;
- 	struct acpi_resource_extended_irq *extended_irq;
- 	int i, flags;
-+	u8 channel;
+I believe memcontrol has been converted.  Of course, maybe
+they changed some stuff under me that I didn't notice :(
  
- 	switch (res->type) {
- 	case ACPI_RESOURCE_TYPE_IRQ:
-@@ -259,13 +260,13 @@ static acpi_status pnpacpi_allocated_res
- 
- 	case ACPI_RESOURCE_TYPE_DMA:
- 		dma = &res->data.dma;
--		if (dma->channel_count > 0) {
--			flags = dma_flags(dma->type, dma->bus_master,
--					  dma->transfer);
--			if (dma->channels[0] == (u8) -1)
--				flags |= IORESOURCE_DISABLED;
--			pnp_add_dma_resource(dev, dma->channels[0], flags);
-+		channel = dma->channels[0];
-+		flags = dma_flags(dma->type, dma->bus_master, dma->transfer);
-+		if (dma->channel_count == 0 || dma->channels[0] == (u8) -1) {
-+			channel = -1;
-+			flags = IORESOURCE_DISABLED;
- 		}
-+		pnp_add_dma_resource(dev, channel, flags);
- 		break;
- 
- 	case ACPI_RESOURCE_TYPE_IO:
-@@ -749,6 +750,11 @@ static void pnpacpi_encode_irq(struct pn
- 	struct acpi_resource_irq *irq = &resource->data.irq;
- 	int triggering, polarity, shareable;
- 
-+	if (!p) {
-+		dev_err(&dev->dev, "  no irq resource to encode!\n");
-+		return;
-+	}
-+
- 	decode_irq_flags(dev, p->flags, &triggering, &polarity, &shareable);
- 	irq->triggering = triggering;
- 	irq->polarity = polarity;
-@@ -771,6 +777,11 @@ static void pnpacpi_encode_ext_irq(struc
- 	struct acpi_resource_extended_irq *extended_irq = &resource->data.extended_irq;
- 	int triggering, polarity, shareable;
- 
-+	if (!p) {
-+		dev_err(&dev->dev, "  no extended irq resource to encode!\n");
-+		return;
-+	}
-+
- 	decode_irq_flags(dev, p->flags, &triggering, &polarity, &shareable);
- 	extended_irq->producer_consumer = ACPI_CONSUMER;
- 	extended_irq->triggering = triggering;
-@@ -791,6 +802,11 @@ static void pnpacpi_encode_dma(struct pn
- {
- 	struct acpi_resource_dma *dma = &resource->data.dma;
- 
-+	if (!p) {
-+		dev_err(&dev->dev, "  no dma resource to encode!\n");
-+		return;
-+	}
-+
- 	/* Note: pnp_assign_dma will copy pnp_dma->flags into p->flags */
- 	switch (p->flags & IORESOURCE_DMA_SPEED_MASK) {
- 	case IORESOURCE_DMA_TYPEA:
-@@ -832,6 +848,11 @@ static void pnpacpi_encode_io(struct pnp
- {
- 	struct acpi_resource_io *io = &resource->data.io;
- 
-+	if (!p) {
-+		dev_err(&dev->dev, "  no io resource to encode!\n");
-+		return;
-+	}
-+
- 	/* Note: pnp_assign_port will copy pnp_port->flags into p->flags */
- 	io->io_decode = (p->flags & IORESOURCE_IO_16BIT_ADDR) ?
- 	    ACPI_DECODE_16 : ACPI_DECODE_10;
-@@ -851,6 +872,11 @@ static void pnpacpi_encode_fixed_io(stru
- {
- 	struct acpi_resource_fixed_io *fixed_io = &resource->data.fixed_io;
- 
-+	if (!p) {
-+		dev_err(&dev->dev, "  no fixed io resource to encode!\n");
-+		return;
-+	}
-+
- 	fixed_io->address = p->start;
- 	fixed_io->address_length = p->end - p->start + 1;
- 
-@@ -864,6 +890,11 @@ static void pnpacpi_encode_mem24(struct 
- {
- 	struct acpi_resource_memory24 *memory24 = &resource->data.memory24;
- 
-+	if (!p) {
-+		dev_err(&dev->dev, "  no mem24 resource to encode!\n");
-+		return;
-+	}
-+
- 	/* Note: pnp_assign_mem will copy pnp_mem->flags into p->flags */
- 	memory24->write_protect =
- 	    (p->flags & IORESOURCE_MEM_WRITEABLE) ?
-@@ -884,6 +915,11 @@ static void pnpacpi_encode_mem32(struct 
- {
- 	struct acpi_resource_memory32 *memory32 = &resource->data.memory32;
- 
-+	if (!p) {
-+		dev_err(&dev->dev, "  no mem32 resource to encode!\n");
-+		return;
-+	}
-+
- 	memory32->write_protect =
- 	    (p->flags & IORESOURCE_MEM_WRITEABLE) ?
- 	    ACPI_READ_WRITE_MEMORY : ACPI_READ_ONLY_MEMORY;
-@@ -903,6 +939,11 @@ static void pnpacpi_encode_fixed_mem32(s
- {
- 	struct acpi_resource_fixed_memory32 *fixed_memory32 = &resource->data.fixed_memory32;
- 
-+	if (!p) {
-+		dev_err(&dev->dev, "  no fixed_mem32 resource to encode!\n");
-+		return;
-+	}
-+
- 	fixed_memory32->write_protect =
- 	    (p->flags & IORESOURCE_MEM_WRITEABLE) ?
- 	    ACPI_READ_WRITE_MEMORY : ACPI_READ_ONLY_MEMORY;
+> Unrelated fix to compiler warning and silly /proc/meminfo numbers
+> below too, that one raises fewer questions!
 
+I sent the fix for that one to Andrew already.  I believe
+it's in his mmotm tree.
+
+-- 
+All Rights Reversed
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
