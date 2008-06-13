@@ -1,42 +1,53 @@
-From: Byron Bradley <byron.bbradley@gmail.com>
-Subject: Re: 2.6.26-rc5-mm3
-Date: Fri, 13 Jun 2008 01:04:25 +0100 (BST)
-Message-ID: <alpine.DEB.1.00.0806130100300.14928@gamma>
-References: <20080611225945.4da7bb7f.akpm@linux-foundation.org> <alpine.DEB.1.00.0806130006490.14928@gamma> <1213314906.16459.90.camel@localhost.localdomain>
+From: KAMEZAWA Hiroyuki <kamezawa.hiroyu@jp.fujitsu.com>
+Subject: Re: [BUG] 2.6.26-rc5-mm3 kernel BUG at mm/filemap.c:575!
+Date: Fri, 13 Jun 2008 09:25:20 +0900
+Message-ID: <20080613092520.fb35cd70.kamezawa.hiroyu@jp.fujitsu.com>
+References: <20080611225945.4da7bb7f.akpm@linux-foundation.org>
+	<4850E1E5.90806@linux.vnet.ibm.com>
+	<20080612015746.172c4b56.akpm@linux-foundation.org>
+	<200806122138.59969.nickpiggin@yahoo.com.au>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1760917AbYFMAEk@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:x-x-sender:to:cc:subject
-         :in-reply-to:message-id:references:user-agent:mime-version
-         :content-type:from;
-        bh=yGYlmKLtX9EldiUP55Cdj120/7akDDPIS3uzE0/Yj20=;
-        b=fOddUwQH696Vj+ECkqypzRDLgYBqu1948Ke05iTYjfCKekB64jj+KFxtxb3M9LhLPo
-         lUK4Sqx6DTvCLjU2Or/vf1e2disoooJqvs9USrhqR52usNwP90IrRER9GB+aPgKE6qfr
-         KoT6Xme51C2NyMOB83ZavP+q+aWhfNEjVh+Ek=
-In-Reply-To: <1213314906.16459.90.camel@localhost.localdomain>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1760690AbYFMAX1@vger.kernel.org>
+In-Reply-To: <200806122138.59969.nickpiggin@yahoo.com.au>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Daniel Walker <dwalker@mvista.com>
-Cc: Byron Bradley <byron.bbradley@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, linux-mm@kvack.org, Hua Zhong <hzhong@gmail.com>, Ingo Molnar <mingo@elte.hu>
+Content-Type: text/plain; charset="us-ascii"
+To: Nick Piggin <nickpiggin@yahoo.com.au>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Rik van Riel <riel@redhat.com>, Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, linux-mm@kvack.org, Nick Piggin <npiggin@suse.de>, Andy Whitcroft <apw@shadowen.org>
 
-On Thu, 12 Jun 2008, Daniel Walker wrote:
+On Thu, 12 Jun 2008 21:38:59 +1000
+Nick Piggin <nickpiggin@yahoo.com.au> wrote:
 
+> +int putback_lru_page(struct page *page)
+> +{
+> +       int lru;
+> +       int ret = 1;
+> +       int was_unevictable;
+> +
+> +       VM_BUG_ON(!PageLocked(page));
+> +       VM_BUG_ON(PageLRU(page));
+> +
+> +       lru = !!TestClearPageActive(page);
+> +       was_unevictable = TestClearPageUnevictable(page); /* for 
+> page_evictable() */
+> +
+> +       if (unlikely(!page->mapping)) {
+> +               /*
+> +                * page truncated.  drop lock as put_page() will
+> +                * free the page.
+> +                */
+> +               VM_BUG_ON(page_count(page) != 1);
+> +               unlock_page(page);
+>                 ^^^^^^^^^^^^^^^^^^
 > 
-> On Fri, 2008-06-13 at 00:32 +0100, Byron Bradley wrote:
-> > Looks like x86 and ARM both fail to boot if PROFILE_LIKELY, FTRACE and 
-> > DYNAMIC_FTRACE are selected. If any one of those three are disabled it 
-> > boots (or fails in some other way which I'm looking at now). The serial 
-> > console output from both machines when they fail to boot is below, let me 
-> > know if there is any other information I can provide.
 > 
-> Did you happen to check PROFILE_LIKELY and FTRACE alone?
+> This is a rather wild thing to be doing. It's a really bad idea
+> to drop a lock that's taken several function calls distant and
+> across different files...
+> 
+I agree and strongly hope this unlock should be removed.
+The caller can do unlock by itself, I think.
 
-Yes, without DYNAMIC_FTRACE the arm box gets all the way to userspace and 
-the x86 box panics while registering a driver so most likely unrelated to 
-this problem.
-
--- 
-Byron Bradley
+Thanks,
+-Kame
