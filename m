@@ -1,173 +1,166 @@
-From: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] fix double unlock_page() in 2.6.26-rc5-mm3 kernel BUG
- at mm/filemap.c:575!
-Date: Tue, 17 Jun 2008 11:32:35 +0900
-Message-ID: <20080617113235.cc493c03.kamezawa.hiroyu@jp.fujitsu.com>
+From: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
+Subject: [PATCH][RFC] fix kernel BUG at mm/migrate.c:719! in 2.6.26-rc5-mm3
+Date: Tue, 17 Jun 2008 16:35:01 +0900
+Message-ID: <20080617163501.7cf411ee.nishimura@mxp.nes.nec.co.jp>
 References: <20080611225945.4da7bb7f.akpm@linux-foundation.org>
-	<4850E1E5.90806@linux.vnet.ibm.com>
-	<20080612015746.172c4b56.akpm@linux-foundation.org>
-	<20080612202003.db871cac.kamezawa.hiroyu@jp.fujitsu.com>
-	<20080613104444.63bd242f.kamezawa.hiroyu@jp.fujitsu.com>
-	<20080612191311.1331f337.akpm@linux-foundation.org>
-	<1213371046.9670.12.camel@lts-notebook>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1213371046.9670.12.camel@lts-notebook>
+In-Reply-To: <20080611225945.4da7bb7f.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Lee Schermerhorn <Lee.Schermerhorn-VXdhtT5mjnY@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kamalesh Babulal <kamalesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>, "riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Lee Schermerhorn <lee.schermerhorn-VXdhtT5mjnY@public.gmane.org>, Kosaki Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Fri, 13 Jun 2008 11:30:46 -0400
-Lee Schermerhorn <Lee.Schermerhorn-VXdhtT5mjnY@public.gmane.org> wrote:
+Hi.
 
-> 1)  modified putback_lru_page() to drop page lock only if both page_mapping()
->     NULL and page_count() == 1 [rather than VM_BUG_ON(page_count(page) != 1].
+I got this bug while migrating pages only a few times
+via memory_migrate of cpuset.
 
-I'm sorry that I cannot catch the whole changes..
+Unfortunately, even if this patch is applied,
+I got bad_page problem after hundreds times of page migration
+(I'll report it in another mail).
+But I believe something like this patch is needed anyway.
 
-I cannot convice that this implicit behavior won't cause lock-up in future, again.
-Even if there are enough comments...
+------------[ cut here ]------------
+kernel BUG at mm/migrate.c:719!
+invalid opcode: 0000 [1] SMP
+last sysfs file: /sys/devices/system/cpu/cpu3/cache/index1/shared_cpu_map
+CPU 0
+Modules linked in: ipv6 autofs4 hidp rfcomm l2cap bluetooth sunrpc dm_mirror dm_log dm_multipath dm_mod sbs sbshc button battery acpi_memhotplug ac parport_pc lp parport floppy serio_raw rtc_cmos rtc_core rtc_lib 8139too pcspkr 8139cp mii ata_piix libata sd_mod scsi_mod ext3 jbd ehci_hcd ohci_hcd uhci_hcd [last unloaded: microcode]
+Pid: 3096, comm: switch.sh Not tainted 2.6.26-rc5-mm3 #1
+RIP: 0010:[<ffffffff8029bb85>]  [<ffffffff8029bb85>] migrate_pages+0x33e/0x49f
+RSP: 0018:ffff81002f463bb8  EFLAGS: 00010202
+RAX: 0000000000000000 RBX: ffffe20000c17500 RCX: 0000000000000034
+RDX: ffffe20000c17500 RSI: ffffe200010003c0 RDI: ffffe20000c17528
+RBP: ffffe200010003c0 R08: 8000000000000000 R09: 304605894800282f
+R10: 282f87058b480028 R11: 0028304005894800 R12: ffff81003f90a5d8
+R13: 0000000000000000 R14: ffffe20000bf4cc0 R15: ffff81002f463c88
+FS:  00007ff9386576f0(0000) GS:ffffffff8061d800(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
+CR2: 00007ff938669000 CR3: 000000002f458000 CR4: 00000000000006e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+Process switch.sh (pid: 3096, threadinfo ffff81002f462000, task ffff81003e99cf10)
+Stack:  0000000000000001 ffffffff80290777 0000000000000000 0000000000000000
+ ffff81002f463c88 ffff81000000ea18 ffff81002f463c88 000000000000000c
+ ffff81002f463ca8 00007ffffffff000 00007fff649f6000 0000000000000004
+Call Trace:
+ [<ffffffff80290777>] ? new_node_page+0x0/0x2f
+ [<ffffffff80291611>] ? do_migrate_pages+0x19b/0x1e7
+ [<ffffffff802315c7>] ? set_cpus_allowed_ptr+0xe6/0xf3
+ [<ffffffff8025c827>] ? cpuset_migrate_mm+0x58/0x8f
+ [<ffffffff8025d0fd>] ? cpuset_attach+0x8b/0x9e
+ [<ffffffff8025a3e1>] ? cgroup_attach_task+0x3a3/0x3f5
+ [<ffffffff80276cb5>] ? __alloc_pages_internal+0xe2/0x3d1
+ [<ffffffff8025af06>] ? cgroup_common_file_write+0x150/0x1dd
+ [<ffffffff8025aaf4>] ? cgroup_file_write+0x54/0x150
+ [<ffffffff8029f839>] ? vfs_write+0xad/0x136
+ [<ffffffff8029fd76>] ? sys_write+0x45/0x6e
+ [<ffffffff8020bef2>] ? tracesys+0xd5/0xda
 
-Why the page should be locked when it is put back to LRU ?
-I think this restriction is added by RvR patch set, right ?
-I'm sorry that I cannot catch the whole changes..
 
-Anyway, IMHO, lock <-> unlock should be visible as a pair as much as possible.
+Code: 4c 48 8d 7b 28 e8 cc 87 09 00 48 83 7b 18 00 75 30 48 8b 03 48 89 da 25 00 40 00 00 48 85 c0 74 04 48 8b 53 10 83 7a 08 01 74 04 <0f> 0b eb fe 48 89 df e8 5e 50 fd ff 48 89 df e8 7d d6 fd ff eb
+RIP  [<ffffffff8029bb85>] migrate_pages+0x33e/0x49f
+ RSP <ffff81002f463bb8>
+Clocksource tsc unstable (delta = 438246251 ns)
+---[ end trace ce4e6053f7b9bba1 ]---
 
-Thanks,
--Kame
 
->     I want to balance the put_page() from isolate_lru_page() here for vmscan
->     and, e.g., page migration rather than requiring explicit checks of the
->     page_mapping() and explicit put_page() in these areas.  However, the page
->     could be truncated while one of these subsystems holds it isolated from
->     the LRU.  So, need to handle this case.  Callers of putback_lru_page()
->     need to be aware of this and only call it with a page with NULL
->     page_mapping() when they will no longer reference the page afterwards.
->     This is the case for vmscan and page migration.
-> 
-> 2)  m[un]lock_vma_page() already will not be called for page with NULL
->     mapping.  Added VM_BUG_ON() to assert this.
-> 
-> 3)  modified clear_page_lock() to skip the isolate/putback shuffle for
->     pages with NULL mapping, as they are being truncated/freed.  Thus,
->     any future callers of clear_page_lock() need not be concerned about
->     the putback_lru_page() semantics for truncated pages.
-> 
-> Signed-off-by: Lee Schermerhorn <lee.schermerhorn-VXdhtT5mjnY@public.gmane.org>
-> 
->  mm/mlock.c  |   29 +++++++++++++++++++----------
->  mm/vmscan.c |   12 +++++++-----
->  2 files changed, 26 insertions(+), 15 deletions(-)
-> 
-> Index: linux-2.6.26-rc5-mm3/mm/mlock.c
-> ===================================================================
-> --- linux-2.6.26-rc5-mm3.orig/mm/mlock.c	2008-06-12 11:42:59.000000000 -0400
-> +++ linux-2.6.26-rc5-mm3/mm/mlock.c	2008-06-13 09:47:14.000000000 -0400
-> @@ -59,27 +59,33 @@ void __clear_page_mlock(struct page *pag
->  
->  	dec_zone_page_state(page, NR_MLOCK);
->  	count_vm_event(NORECL_PGCLEARED);
-> -	if (!isolate_lru_page(page)) {
-> -		putback_lru_page(page);
-> -	} else {
-> -		/*
-> -		 * Page not on the LRU yet.  Flush all pagevecs and retry.
-> -		 */
-> -		lru_add_drain_all();
-> -		if (!isolate_lru_page(page))
-> +	if (page->mapping) {	/* truncated ? */
-> +		if (!isolate_lru_page(page)) {
->  			putback_lru_page(page);
-> -		else if (PageUnevictable(page))
-> -			count_vm_event(NORECL_PGSTRANDED);
-> +		} else {
-> +			/*
-> +			 * Page not on the LRU yet.
-> +			 * Flush all pagevecs and retry.
-> +			 */
-> +			lru_add_drain_all();
-> +			if (!isolate_lru_page(page))
-> +				putback_lru_page(page);
-> +			else if (PageUnevictable(page))
-> +				count_vm_event(NORECL_PGSTRANDED);
-> +		}
->  	}
->  }
->  
->  /*
->   * Mark page as mlocked if not already.
->   * If page on LRU, isolate and putback to move to unevictable list.
-> + *
-> + * Called with page locked and page_mapping() != NULL.
->   */
->  void mlock_vma_page(struct page *page)
->  {
->  	BUG_ON(!PageLocked(page));
-> +	VM_BUG_ON(!page_mapping(page));
->  
->  	if (!TestSetPageMlocked(page)) {
->  		inc_zone_page_state(page, NR_MLOCK);
-> @@ -92,6 +98,8 @@ void mlock_vma_page(struct page *page)
->  /*
->   * called from munlock()/munmap() path with page supposedly on the LRU.
->   *
-> + * Called with page locked and page_mapping() != NULL.
-> + *
->   * Note:  unlike mlock_vma_page(), we can't just clear the PageMlocked
->   * [in try_to_munlock()] and then attempt to isolate the page.  We must
->   * isolate the page to keep others from messing with its unevictable
-> @@ -110,6 +118,7 @@ void mlock_vma_page(struct page *page)
->  static void munlock_vma_page(struct page *page)
->  {
->  	BUG_ON(!PageLocked(page));
-> +	VM_BUG_ON(!page_mapping(page));
->  
->  	if (TestClearPageMlocked(page)) {
->  		dec_zone_page_state(page, NR_MLOCK);
-> Index: linux-2.6.26-rc5-mm3/mm/vmscan.c
-> ===================================================================
-> --- linux-2.6.26-rc5-mm3.orig/mm/vmscan.c	2008-06-12 11:39:09.000000000 -0400
-> +++ linux-2.6.26-rc5-mm3/mm/vmscan.c	2008-06-13 09:44:44.000000000 -0400
-> @@ -1,4 +1,4 @@
-> -/*
-> + /*
->   *  linux/mm/vmscan.c
->   *
->   *  Copyright (C) 1991, 1992, 1993, 1994  Linus Torvalds
-> @@ -488,6 +488,9 @@ int remove_mapping(struct address_space 
->   * lru_lock must not be held, interrupts must be enabled.
->   * Must be called with page locked.
->   *
-> + * If page truncated [page_mapping() == NULL] and we hold the last reference,
-> + * the page will be freed here.  For vmscan and page migration.
-> + *
->   * return 1 if page still locked [not truncated], else 0
->   */
->  int putback_lru_page(struct page *page)
-> @@ -502,12 +505,11 @@ int putback_lru_page(struct page *page)
->  	lru = !!TestClearPageActive(page);
->  	was_unevictable = TestClearPageUnevictable(page); /* for page_evictable() */
->  
-> -	if (unlikely(!page->mapping)) {
-> +	if (unlikely(!page->mapping && page_count(page) == 1)) {
->  		/*
-> -		 * page truncated.  drop lock as put_page() will
-> -		 * free the page.
-> +		 * page truncated and we hold last reference.
-> +		 * drop lock as put_page() will free the page.
->  		 */
-> -		VM_BUG_ON(page_count(page) != 1);
->  		unlock_page(page);
->  		ret = 0;
->  	} else if (page_evictable(page, NULL)) {
-> 
-> 
-> 
+This bug is caused by VM_BUG_ON() in unmap_and_move().
 
+unmap_and_move()
+    710         if (rc != -EAGAIN) {
+    711                 /*
+    712                  * A page that has been migrated has all references
+    713                  * removed and will be freed. A page that has not been
+    714                  * migrated will have kepts its references and be
+    715                  * restored.
+    716                  */
+    717                 list_del(&page->lru);
+    718                 if (!page->mapping) {
+    719                         VM_BUG_ON(page_count(page) != 1);
+    720                         unlock_page(page);
+    721                         put_page(page);         /* just free the old page */
+    722                         goto end_migration;
+    723                 } else
+    724                         unlock = putback_lru_page(page);
+    725         }
+
+I think the page count is not necessarily 1 here, because
+migration_entry_wait increases page count and waits for the
+page to be unlocked.
+So, if the old page is accessed between migrate_page_move_mapping,
+which checks the page count, and remove_migration_ptes, page count
+would not be 1 here.
+
+Actually, just commenting out get/put_page from migration_entry_wait
+works well in my environment(succeeded in hundreds times of page migration),
+but modifying migration_entry_wait this way is not good, I think.
+
+
+This patch depends on Lee Schermerhorn's fix for double unlock_page.
+
+This patch also fixes a race between migrate_entry_wait and
+page_freeze_refs in migrate_page_move_mapping.
+
+
+Signed-off-by: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
+
+---
+diff -uprN linux-2.6.26-rc5-mm3/mm/migrate.c linux-2.6.26-rc5-mm3-test/mm/migrate.c
+--- linux-2.6.26-rc5-mm3/mm/migrate.c	2008-06-17 15:31:23.000000000 +0900
++++ linux-2.6.26-rc5-mm3-test/mm/migrate.c	2008-06-17 13:59:15.000000000 +0900
+@@ -232,6 +232,7 @@ void migration_entry_wait(struct mm_stru
+ 	swp_entry_t entry;
+ 	struct page *page;
+ 
++retry:
+ 	ptep = pte_offset_map_lock(mm, pmd, address, &ptl);
+ 	pte = *ptep;
+ 	if (!is_swap_pte(pte))
+@@ -243,11 +244,20 @@ void migration_entry_wait(struct mm_stru
+ 
+ 	page = migration_entry_to_page(entry);
+ 
+-	get_page(page);
+-	pte_unmap_unlock(ptep, ptl);
+-	wait_on_page_locked(page);
+-	put_page(page);
+-	return;
++	/*
++	 * page count might be set to zero by page_freeze_refs()
++	 * in migrate_page_move_mapping().
++	 */
++	if (get_page_unless_zero(page)) {
++		pte_unmap_unlock(ptep, ptl);
++		wait_on_page_locked(page);
++		put_page(page);
++		return;
++	} else {
++		pte_unmap_unlock(ptep, ptl);
++		goto retry;
++	}
++
+ out:
+ 	pte_unmap_unlock(ptep, ptl);
+ }
+@@ -715,13 +725,7 @@ unlock:
+  		 * restored.
+  		 */
+  		list_del(&page->lru);
+-		if (!page->mapping) {
+-			VM_BUG_ON(page_count(page) != 1);
+-			unlock_page(page);
+-			put_page(page);		/* just free the old page */
+-			goto end_migration;
+-		} else
+-			unlock = putback_lru_page(page);
++		unlock = putback_lru_page(page);
+ 	}
+ 
+ 	if (unlock)
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
