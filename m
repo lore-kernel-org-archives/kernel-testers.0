@@ -1,33 +1,54 @@
-From: Daisuke Nishimura <d-nishimura@mtf.biglobe.ne.jp>
-Subject: Re: [Experimental][PATCH] putback_lru_page rework
-Date: Wed, 18 Jun 2008 23:50:25 +0900
-Message-ID: <20080618235025.6ced35f8.d-nishimura@mtf.biglobe.ne.jp>
+From: Daniel Walker <dwalker-Igf4POYTYCDQT0dZR+AlfA@public.gmane.org>
+Subject: Re: 2.6.26-rc5-mm3
+Date: Wed, 18 Jun 2008 10:55:51 -0700
+Message-ID: <1213811751.11203.73.camel@localhost.localdomain>
 References: <20080611225945.4da7bb7f.akpm@linux-foundation.org>
-	<20080617163501.7cf411ee.nishimura@mxp.nes.nec.co.jp>
-	<20080617164709.de4db070.nishimura@mxp.nes.nec.co.jp>
-	<20080618184000.a855dfe0.kamezawa.hiroyu@jp.fujitsu.com>
-Reply-To: nishimura@mxp.nes.nec.co.jp
+	 <alpine.DEB.1.00.0806130006490.14928@gamma>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753923AbYFROvT@vger.kernel.org>
-In-Reply-To: <20080618184000.a855dfe0.kamezawa.hiroyu@jp.fujitsu.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.1.00.0806130006490.14928@gamma>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: KAMEZAWA Hiroyuki <kamezawa.hiroyu@jp.fujitsu.com>
-Cc: Daisuke Nishimura <nishimura@mxp.nes.nec.co.jp>, Andrew Morton <akpm@linux-foundation.org>, Rik van Riel <riel@redhat.com>, Lee Schermerhorn <lee.schermerhorn@hp.com>, Kosaki Motohiro <kosaki.motohiro@jp.fujitsu.com>, Nick Piggin <npiggin@suse.de>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org
-
-Hi, Kamezawa-san.
-
-Sorry for my late reply, and thank you for your patch.
-
-> This patch tries to make putback_lru_pages() to be lock_page() free.
-> (Of course, some callers must take the lock.)
-> 
-I like this idea.
-
-I'll test it tomorrow.
+To: Byron Bradley <byron.bbradley-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Hua Zhong <hzhong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
 
-Thanks,
-Daisuke Nishimura.
+On Fri, 2008-06-13 at 00:32 +0100, Byron Bradley wrote:
+> Looks like x86 and ARM both fail to boot if PROFILE_LIKELY, FTRACE and 
+> DYNAMIC_FTRACE are selected. If any one of those three are disabled it 
+> boots (or fails in some other way which I'm looking at now). The serial 
+> console output from both machines when they fail to boot is below, let me 
+> know if there is any other information I can provide.
+
+I was able to reproduce a hang on x86 with those options. The patch
+below is a potential fix. I think we don't want to trace
+do_check_likely(), since the ftrace internals might use likely/unlikely
+macro's which will just cause recursion back to do_check_likely()..
+
+Signed-off-by: Daniel Walker <dwalker-Igf4POYTYCDQT0dZR+AlfA@public.gmane.org>
+
+---
+ lib/likely_prof.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Index: linux-2.6.25/lib/likely_prof.c
+===================================================================
+--- linux-2.6.25.orig/lib/likely_prof.c
++++ linux-2.6.25/lib/likely_prof.c
+@@ -22,7 +22,7 @@
+ 
+ static struct likeliness *likeliness_head;
+ 
+-int do_check_likely(struct likeliness *likeliness, unsigned int ret)
++int notrace do_check_likely(struct likeliness *likeliness, unsigned int ret)
+ {
+ 	static unsigned long likely_lock;
+ 
+
+
+--
+To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
