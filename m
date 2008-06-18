@@ -1,81 +1,83 @@
-From: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Subject: Re: [PATCH -mm][BUGFIX] migration_entry_wait fix. v2
-Date: Wed, 18 Jun 2008 17:40:07 +1000
-Message-ID: <200806181740.07749.nickpiggin@yahoo.com.au>
-References: <20080611225945.4da7bb7f.akpm@linux-foundation.org> <20080618155233.7dd79312.kamezawa.hiroyu@jp.fujitsu.com> <20080618162944.2f8fd265.kamezawa.hiroyu@jp.fujitsu.com>
+From: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH][-mm] remove redundant page->mapping check
+Date: Wed, 18 Jun 2008 16:54:01 +0900
+Message-ID: <20080618164349.37B6.KOSAKI.MOTOHIRO@jp.fujitsu.com>
+References: <20080618105400.b9f1b664.nishimura@mxp.nes.nec.co.jp> <20080618134128.828156bc.nishimura@mxp.nes.nec.co.jp>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080618162944.2f8fd265.kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <20080618134128.828156bc.nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Cc: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Lee Schermerhorn <lee.schermerhorn-VXdhtT5mjnY@public.gmane.org>, Kosaki Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org" <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+To: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Lee Schermerhorn <lee.schermerhorn-VXdhtT5mjnY@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Wednesday 18 June 2008 17:29, KAMEZAWA Hiroyuki wrote:
-> In speculative page cache look up protocol, page_count(page) is set to 0
-> while radix-tree modification is going on, truncation, migration, etc...
->
-> While page migration, a page fault to page under migration does
->  - look up page table
->  - find it is migration_entry_pte
->  - decode pfn from migration_entry_pte and get page of pfn_page(pfn)
->  - wait until page is unlocked
->
-> It does get_page() -> wait_on_page_locked() -> put_page() now.
->
-> In page migration's radix-tree replacement, page_freeze_refs() ->
-> page_unfreeze_refs() is called. And page_count(page) turns to be zero
-> and must be kept to be zero while radix-tree replacement.
->
-> If get_page() is called against a page under radix-tree replacement,
-> the kernel panics(). To avoid this, we shouldn't increment page_count()
-> if it is zero. This patch uses get_page_unless_zero().
->
-> Even if get_page_unless_zero() fails, the caller just retries.
-> But will be a bit busier.
->
-> Change log v1->v2:
->  - rewrote the patch description and added comments.
->
+> > > this part is really necessary?
+> > > I tryed to remove it, but any problem doesn't happend.
+> > > 
+> > I made this part first, and added a fix for migration_entry_wait later.
+> > 
+> > So, I haven't test without this part, and I think it will cause
+> > VM_BUG_ON() here without this part.
+> > 
+> > Anyway, I will test it.
+> > 
+> I got this VM_BUG_ON() as expected only by doing:
+> 
+>   # echo $$ >/cgroup/cpuset/02/tasks
+> 
+> So, I beleive that both fixes for migration_entry_wait and
+> unmap_and_move (and, of course, removal VM_BUG_ON from
+> putback_lru_page) are needed.
 
-Thanks
+OK, I confirmed this part.
 
-Acked-by: Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>
+Andrew, please pick.
 
-Andrew, this is a bugfix to mm-speculative-page-references.patch
 
-> From: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
-> Signed-off-by: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
-> Signed-off-by: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-> ---
->  mm/migrate.c |   11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->
-> Index: test-2.6.26-rc5-mm3/mm/migrate.c
-> ===================================================================
-> --- test-2.6.26-rc5-mm3.orig/mm/migrate.c
-> +++ test-2.6.26-rc5-mm3/mm/migrate.c
-> @@ -242,8 +242,15 @@ void migration_entry_wait(struct mm_stru
->  		goto out;
->
->  	page = migration_entry_to_page(entry);
-> -
-> -	get_page(page);
-> +	/*
-> +	 * Once radix-tree replacement of page migration started, page_count
-> +	 * *must* be zero. And, we don't want to call wait_on_page_locked()
-> +	 * against a page without get_page().
-> +	 * So, we use get_page_unless_zero(), here. Even failed, page fault
-> +	 * will occur again.
-> +	 */
-> +	if (!get_page_unless_zero(page))
-> +		goto out;
->  	pte_unmap_unlock(ptep, ptl);
->  	wait_on_page_locked(page);
->  	put_page(page);
+==================================================
+
+Against: 2.6.26-rc5-mm3
+
+remove redundant mapping check.
+
+we'd be doing exactly what putback_lru_page() is doing.  So, this code
+as always unnecessary, duplicate code.
+So, just let putback_lru_page() handle this condition and conditionally
+unlock_page().
+
+
+Signed-off-by: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
+Signed-off-by: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Acked-by:      Lee Schermerhorn <Lee.Schermerhorn-VXdhtT5mjnY@public.gmane.org>
+
+---
+ mm/migrate.c |    8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+Index: b/mm/migrate.c
+===================================================================
+--- a/mm/migrate.c
++++ b/mm/migrate.c
+@@ -716,13 +716,7 @@ unlock:
+  		 * restored.
+  		 */
+  		list_del(&page->lru);
+-		if (!page->mapping) {
+-			VM_BUG_ON(page_count(page) != 1);
+-			unlock_page(page);
+-			put_page(page);		/* just free the old page */
+-			goto end_migration;
+-		} else
+-			unlock = putback_lru_page(page);
++		unlock = putback_lru_page(page);
+ 	}
+ 
+ 	if (unlock)
+
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
