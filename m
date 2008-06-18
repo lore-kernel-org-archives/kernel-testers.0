@@ -1,64 +1,51 @@
-From: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] migration_entry_wait fix.
-Date: Wed, 18 Jun 2008 10:54:35 +0900
-Message-ID: <20080618105435.de10d6bc.kamezawa.hiroyu@jp.fujitsu.com>
+From: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
+Subject: Re: [PATCH][RFC] fix kernel BUG at mm/migrate.c:719! in
+ 2.6.26-rc5-mm3
+Date: Wed, 18 Jun 2008 10:54:00 +0900
+Message-ID: <20080618105400.b9f1b664.nishimura@mxp.nes.nec.co.jp>
 References: <20080611225945.4da7bb7f.akpm@linux-foundation.org>
 	<20080617163501.7cf411ee.nishimura@mxp.nes.nec.co.jp>
-	<20080618101349.db4d5205.kamezawa.hiroyu@jp.fujitsu.com>
+	<20080618003129.DE27.KOSAKI.MOTOHIRO@jp.fujitsu.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080618101349.db4d5205.kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <20080618003129.DE27.KOSAKI.MOTOHIRO-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Cc: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Lee Schermerhorn <lee.schermerhorn-VXdhtT5mjnY@public.gmane.org>, Kosaki Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org" <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+To: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Lee Schermerhorn <lee.schermerhorn-VXdhtT5mjnY@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Wed, 18 Jun 2008 10:13:49 +0900
-KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org> wrote:
+On Wed, 18 Jun 2008 00:33:18 +0900, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org> wrote:
+> > @@ -715,13 +725,7 @@ unlock:
+> >   		 * restored.
+> >   		 */
+> >   		list_del(&page->lru);
+> > -		if (!page->mapping) {
+> > -			VM_BUG_ON(page_count(page) != 1);
+> > -			unlock_page(page);
+> > -			put_page(page);		/* just free the old page */
+> > -			goto end_migration;
+> > -		} else
+> > -			unlock = putback_lru_page(page);
+> > +		unlock = putback_lru_page(page);
+> >  	}
+> >  
+> >  	if (unlock)
+> 
+> this part is really necessary?
+> I tryed to remove it, but any problem doesn't happend.
+> 
+I made this part first, and added a fix for migration_entry_wait later.
 
-> +	if (!page_cache_get_speculative())
-> +		goto out;
-This is obviously buggy....sorry..quilt refresh miss..
+So, I haven't test without this part, and I think it will cause
+VM_BUG_ON() here without this part.
 
-==
-In speculative page cache lookup protocol, page_count(page) is set to 0
-while radix-tree modification is going on, truncation, migration, etc...
+Anyway, I will test it.
 
-While page migration, a page fault to page under migration should wait
-unlock_page() and migration_entry_wait() waits for the page from its
-pte entry. It does get_page() -> wait_on_page_locked() -> put_page() now.
 
-In page migration, page_freeze_refs() -> page_unfreeze_refs() is called.
-
-Here, page_unfreeze_refs() expects page_count(page) == 0 and panics
-if page_count(page) != 0. To avoid this, we shouldn't touch page_count()
-if it is zero. This patch uses page_cache_get_speculative() to avoid
-the panic.
-
-From: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
-Signed-off-by: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
-Signed-off-by: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
----
- mm/migrate.c |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-Index: test-2.6.26-rc5-mm3/mm/migrate.c
-===================================================================
---- test-2.6.26-rc5-mm3.orig/mm/migrate.c
-+++ test-2.6.26-rc5-mm3/mm/migrate.c
-@@ -243,7 +243,8 @@ void migration_entry_wait(struct mm_stru
- 
- 	page = migration_entry_to_page(entry);
- 
--	get_page(page);
-+	if (!page_cache_get_speculative(page))
-+		goto out;
- 	pte_unmap_unlock(ptep, ptl);
- 	wait_on_page_locked(page);
- 	put_page(page);
-
+> Of cource, another part is definitly necessary for specurative pagecache :)
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
