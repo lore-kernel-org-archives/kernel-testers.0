@@ -1,46 +1,70 @@
-From: Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>
-Subject: [BUG][PATCH -mm] avoid BUG() in __stop_machine_run()
-Date: Thu, 19 Jun 2008 15:59:50 +0900
-Message-ID: <485A03E6.2090509@hitachi.com>
-References: <20080611225945.4da7bb7f.akpm@linux-foundation.org>
+From: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
+Subject: Re: [Experimental][PATCH] putback_lru_page rework
+Date: Thu, 19 Jun 2008 17:00:59 +0900
+Message-ID: <20080619170059.60b42e73.nishimura@mxp.nes.nec.co.jp>
+References: <20080617164709.de4db070.nishimura@mxp.nes.nec.co.jp>
+	<20080618184000.a855dfe0.kamezawa.hiroyu@jp.fujitsu.com>
+	<20080618195009.37BF.KOSAKI.MOTOHIRO@jp.fujitsu.com>
+	<20080618205540.11a1644b.kamezawa.hiroyu@jp.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757447AbYFSHA0@vger.kernel.org>
-In-Reply-To: <20080611225945.4da7bb7f.akpm@linux-foundation.org>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20080618205540.11a1644b.kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, linux-mm@kvack.org, sugita <yumiko.sugita.yf@hitachi.com>, Satoshi OSHIMA <satoshi.oshima.fk@hitachi.com>, rusty@rustcorp.com.au
+Content-Type: text/plain; charset="us-ascii"
+To: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Cc: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Lee Schermerhorn <lee.schermerhorn-VXdhtT5mjnY@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-When a process loads a kernel module, __stop_machine_run() is called, and
-it calls sched_setscheduler() to give newly created kernel threads highest
-priority.  However, the process can have no CAP_SYS_NICE which required
-for sched_setscheduler() to increase the priority.  For example, SystemTap
-loads its module with only CAP_SYS_MODULE.  In this case,
-sched_setscheduler() returns -EPERM, then BUG() is called.
+> > > -		unlock = putback_lru_page(newpage);
+> > > +		putback_lru_page(newpage);
+> > >  	} else
+> > >  		newpage->mapping = NULL;
+> > 
+> > originally move_to_lru() called in unmap_and_move().
+> > unevictable infrastructure patch move to this point for 
+> > calling putback_lru_page() under page locked.
+> > 
+> > So, your patch remove page locked dependency.
+> > move to unmap_and_move() again is better.
+> > 
+> > it become page lock holding time reducing.
+> > 
+> ok, will look into again.
+> 
 
-Failure of sched_setscheduler() wouldn't be a real problem, so this
-patch just ignores it.
-Or, should we give the CAP_SYS_NICE capability temporarily?
+I agree with Kosaki-san.
 
-Signed-off-by: Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>
----
- kernel/stop_machine.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+And VM_BUG_ON(page_count(newpage) != 1) in unmap_and_move()
+is not correct again, IMHO.
+I got this BUG actually when testing this patch(with
+migratin_entry_wait fix).
 
-Index: linux-2.6.26-rc5-mm3/kernel/stop_machine.c
-===================================================================
---- linux-2.6.26-rc5-mm3.orig/kernel/stop_machine.c
-+++ linux-2.6.26-rc5-mm3/kernel/stop_machine.c
-@@ -143,8 +143,7 @@ int __stop_machine_run(int (*fn)(void *)
- 		kthread_bind(threads[i], i);
- 
- 		/* Make it highest prio. */
--		if (sched_setscheduler(threads[i], SCHED_FIFO, &param) != 0)
--			BUG();
-+		sched_setscheduler(threads[i], SCHED_FIFO, &param);
- 	}
- 
- 	/* We've created all the threads.  Wake them all: hold this CPU so one
+unmap_and_move()
+	move_to_new_page()
+		migrate_page()
+		remove_migration_ptes()
+		putback_lru_page()			(*1)
+	  :
+        if (!newpage->mapping)				(*2)
+		VM_BUG_ON(page_count(newpage) != 1)
 
+If a anonymous page(without mapping) is migrated successfully,
+this page is moved back to lru by putback_lru_page()(*1),
+and the page count becomes 1(pte only).
+
+At the same time(between *1 and *2), if the process
+that owns this page are freeing this page, the page count
+becomes 0 and ->mapping becomes NULL by free_hot_cold_page(),
+so this BUG is caused.
+
+I've not seen this BUG on real HW yet(seen twice on fake-numa
+hvm guest of Xen), but I think it can happen theoretically.
+
+
+Thanks,
+Daisuke Nishimura.
+--
+To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
