@@ -1,83 +1,67 @@
-From: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [Experimental][PATCH] putback_lru_page rework
-Date: Thu, 19 Jun 2008 17:24:09 +0900
-Message-ID: <20080619172409.9fd80838.kamezawa.hiroyu@jp.fujitsu.com>
-References: <20080617164709.de4db070.nishimura@mxp.nes.nec.co.jp>
-	<20080618184000.a855dfe0.kamezawa.hiroyu@jp.fujitsu.com>
-	<20080618195009.37BF.KOSAKI.MOTOHIRO@jp.fujitsu.com>
-	<20080618205540.11a1644b.kamezawa.hiroyu@jp.fujitsu.com>
-	<20080619170059.60b42e73.nishimura@mxp.nes.nec.co.jp>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: 2.6.26-rc5-mm3
+Date: Thu, 19 Jun 2008 11:13:37 +0200
+Message-ID: <20080619091337.GA15228@elte.hu>
+References: <20080611225945.4da7bb7f.akpm@linux-foundation.org> <alpine.DEB.1.00.0806130006490.14928@gamma> <1213811751.11203.73.camel@localhost.localdomain>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080619170059.60b42e73.nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1213811751.11203.73.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>
-Cc: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Lee Schermerhorn <lee.schermerhorn-VXdhtT5mjnY@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: Daniel Walker <dwalker-Igf4POYTYCDQT0dZR+AlfA@public.gmane.org>
+Cc: Byron Bradley <byron.bbradley-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Hua Zhong <hzhong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Thu, 19 Jun 2008 17:00:59 +0900
-Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org> wrote:
 
-> > > > -		unlock = putback_lru_page(newpage);
-> > > > +		putback_lru_page(newpage);
-> > > >  	} else
-> > > >  		newpage->mapping = NULL;
-> > > 
-> > > originally move_to_lru() called in unmap_and_move().
-> > > unevictable infrastructure patch move to this point for 
-> > > calling putback_lru_page() under page locked.
-> > > 
-> > > So, your patch remove page locked dependency.
-> > > move to unmap_and_move() again is better.
-> > > 
-> > > it become page lock holding time reducing.
-> > > 
-> > ok, will look into again.
-> > 
-> 
-> I agree with Kosaki-san.
-> 
-> And VM_BUG_ON(page_count(newpage) != 1) in unmap_and_move()
-> is not correct again, IMHO.
-> I got this BUG actually when testing this patch(with
-> migratin_entry_wait fix).
-> 
-> unmap_and_move()
-> 	move_to_new_page()
-> 		migrate_page()
-> 		remove_migration_ptes()
-> 		putback_lru_page()			(*1)
-> 	  :
->         if (!newpage->mapping)				(*2)
-> 		VM_BUG_ON(page_count(newpage) != 1)
-> 
-> If a anonymous page(without mapping) is migrated successfully,
-> this page is moved back to lru by putback_lru_page()(*1),
-> and the page count becomes 1(pte only).
-> 
-yes.
+* Daniel Walker <dwalker-Igf4POYTYCDQT0dZR+AlfA@public.gmane.org> wrote:
 
-> At the same time(between *1 and *2), if the process
-> that owns this page are freeing this page, the page count
-> becomes 0 and ->mapping becomes NULL by free_hot_cold_page(),
-> so this BUG is caused.
 > 
-Agree, I see.
-
-> I've not seen this BUG on real HW yet(seen twice on fake-numa
-> hvm guest of Xen), but I think it can happen theoretically.
+> On Fri, 2008-06-13 at 00:32 +0100, Byron Bradley wrote:
+> > Looks like x86 and ARM both fail to boot if PROFILE_LIKELY, FTRACE and 
+> > DYNAMIC_FTRACE are selected. If any one of those three are disabled it 
+> > boots (or fails in some other way which I'm looking at now). The serial 
+> > console output from both machines when they fail to boot is below, let me 
+> > know if there is any other information I can provide.
 > 
-That's (maybe) because page->mapping is not cleared when it's removed
-from rmap. (and there is pagevec to dealy freeing....)
+> I was able to reproduce a hang on x86 with those options. The patch
+> below is a potential fix. I think we don't want to trace
+> do_check_likely(), since the ftrace internals might use likely/unlikely
+> macro's which will just cause recursion back to do_check_likely()..
+> 
+> Signed-off-by: Daniel Walker <dwalker-Igf4POYTYCDQT0dZR+AlfA@public.gmane.org>
+> 
+> ---
+>  lib/likely_prof.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> Index: linux-2.6.25/lib/likely_prof.c
+> ===================================================================
+> --- linux-2.6.25.orig/lib/likely_prof.c
+> +++ linux-2.6.25/lib/likely_prof.c
+> @@ -22,7 +22,7 @@
+>  
+>  static struct likeliness *likeliness_head;
+>  
+> -int do_check_likely(struct likeliness *likeliness, unsigned int ret)
+> +int notrace do_check_likely(struct likeliness *likeliness, unsigned int ret)
 
-But ok, I see your point. KOSAKI-san is now writing patch set to
-fix the whole. please see it.
+the better fix would be to add likely_prof.o to this list of exceptions 
+in lib/Makefile:
 
-Thanks,
--Kame
+ ifdef CONFIG_FTRACE
+ # Do not profile string.o, since it may be used in early boot or vdso
+ CFLAGS_REMOVE_string.o = -pg
+ # Also do not profile any debug utilities
+ CFLAGS_REMOVE_spinlock_debug.o = -pg
+ CFLAGS_REMOVE_list_debug.o = -pg
+ CFLAGS_REMOVE_debugobjects.o = -pg
+ endif
 
+instead of adding notrace to the source.
+
+	Ingo
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
