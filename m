@@ -1,229 +1,104 @@
-From: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
-Subject: Re: [BUG][PATCH -mm] avoid BUG() in __stop_machine_run()
-Date: Thu, 19 Jun 2008 20:12:43 +1000
-Message-ID: <200806192012.44459.rusty@rustcorp.com.au>
-References: <20080611225945.4da7bb7f.akpm@linux-foundation.org> <485A03E6.2090509@hitachi.com>
+From: "Alexander Beregalov" <a.beregalov@gmail.com>
+Subject: 2.6.26-rc: SPARC: Sun Ultra 10 can not boot
+Date: Thu, 19 Jun 2008 18:07:46 +0400
+Message-ID: <a4423d670806190707k7ae6da8cud80a826a1603d941@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <485A03E6.2090509-FCd8Q96Dh0JBDgjK7y7TUQ@public.gmane.org>
+Return-path: <sparclinux-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:mime-version:content-type:content-transfer-encoding
+         :content-disposition;
+        bh=GFRmYhQWVbMU7XaEpJkdLEJOpVi5pUWnfyIhfAXxiaM=;
+        b=R0V959bsOgjBATHih1u4TZ19tlATHr3FcnmyRGN70rRYZS9PH3eXMNfOwXEc9rEGlp
+         /hXjQkWVsk0sK5G+jG8n/eYq2nBtKQDXi2z8/n0n2nPQtCfAx1EIuAnMQ2JIp41ENjkO
+         nU1YrDoje8UHEfP5TVsLH4JgU72RKdPy3A10E=
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: sparclinux-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Hidehiro Kawai <hidehiro.kawai.ez-FCd8Q96Dh0JBDgjK7y7TUQ@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, sugita <yumiko.sugita.yf-FCd8Q96Dh0JBDgjK7y7TUQ@public.gmane.org>, Satoshi OSHIMA <satoshi.oshima.fk-FCd8Q96Dh0JBDgjK7y7TUQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+To: David Miller <davem@davemloft.net>, kernel-testers@vger.kernel.org, sparclinux@vger.kernel.org, kernel list <linux-kernel@vger.kernel.org>
 
-On Thursday 19 June 2008 16:59:50 Hidehiro Kawai wrote:
-> When a process loads a kernel module, __stop_machine_run() is called, and
-> it calls sched_setscheduler() to give newly created kernel threads highest
-> priority.  However, the process can have no CAP_SYS_NICE which required
-> for sched_setscheduler() to increase the priority.  For example, SystemTap
-> loads its module with only CAP_SYS_MODULE.  In this case,
-> sched_setscheduler() returns -EPERM, then BUG() is called.
+Hi
 
-Hi Hidehiro,
+Sun Ultra 10 can not boot the last 2.6.26-rc6-git, it hangs right after
 
-	Nice catch.  This can happen in the current code, it just doesn't
-BUG().
+Console: colour dummy device 80x25
+console handover: boot [earlyprom0] -> real [tty0]
 
-> Failure of sched_setscheduler() wouldn't be a real problem, so this
-> patch just ignores it.
+netconsole does not work at this early stage.
+It is a boot log of the closest to bad commit  working kernel:
 
-	Well, it can mean that the stop_machine blocks indefinitely.  Better
-than a BUG(), but we should aim higher.
+PROMLIB: Sun IEEE Boot Prom 'OBP 3.25.3 2000/06/29 14:12'
+PROMLIB: Root node compatible:
+Linux version 2.6.26-rc3-00123-g3651751 (alexb@sparky) (gcc version
+4.1.2 (Gentoo 4.1.2 p1.0.1)) #21 PREEMPT Thu Jun 19 17:42:45 MSD 2008
+console [earlyprom0] enabled
+ARCH: SUN4U
+Ethernet address: 08:00:20:ff:e6:ff
+Kernel: Using 3 locked TLB entries for main kernel image.
+Remapping the kernel... done.
+OF stdout device is: /pci@1f,0/pci@1,1/SUNW,m64B@2
+PROM: Built device tree with 42083 bytes of memory.
+Top of RAM: 0x1ff46000, Total RAM: 0x1ff44000
+Memory hole size: 0MB
+Entering add_active_range(0, 0, 65407) 0 entries of 256 used
+Entering add_active_range(0, 65408, 65443) 1 entries of 256 used
+[0000000200000000-fffff80001000000] page_structs=131072 node=0 entry=0/0
+[0000000200000000-fffff80001400000] page_structs=131072 node=0 entry=1/0
+Allocated 532480 bytes for kernel page tables.
+Zone PFN ranges:
+  Normal          0 ->    65443
+Movable zone start PFN for each node
+early_node_map[2] active PFN ranges
+    0:        0 ->    65407
+    0:    65408 ->    65443
+On node 0 totalpages: 65442
+  Normal zone: 447 pages used for memmap
+  Normal zone: 0 pages reserved
+  Normal zone: 64995 pages, LIFO batch:15
+  Movable zone: 0 pages used for memmap
+Booting Linux...
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 64995
+Kernel command line: root=/dev/sda2
+Preemptible RCU implementation.
+PID hash table entries: 2048 (order: 11, 16384 bytes)
+clocksource: mult[245d1] shift[16]
+clockevent: mult[70a3d70a] shift[32]
+Console: colour dummy device 80x25
+console handover: boot [earlyprom0] -> real [tty0]
+======= It hangs here! =======
+Lock dependency validator: Copyright (c) 2006 Red Hat, Inc., Ingo Molnar
+... MAX_LOCKDEP_SUBCLASSES:    8
+... MAX_LOCK_DEPTH:          48
+... MAX_LOCKDEP_KEYS:        2048
+... CLASSHASH_SIZE:           1024
+... MAX_LOCKDEP_ENTRIES:     8192
+... MAX_LOCKDEP_CHAINS:      16384
+... CHAINHASH_SIZE:          8192
+ memory used by lock dependency info: 1648 kB
+ per task-struct memory footprint: 2688 bytes
 
-> Or, should we give the CAP_SYS_NICE capability temporarily?
 
-        I don't think so.  It can be seen from another thread, and in theory
-that should not see something random.  Worse, they can change it from
-another thread.
+I have done bisect:
 
-How's this?
+a051bc5bb1ac6dc138d529077fa20cbbc6622d95 is first bad commit
+commit a051bc5bb1ac6dc138d529077fa20cbbc6622d95
+Author: David S. Miller <davem@davemloft.net>
+Date:   Wed May 21 18:14:28 2008 -0700
 
-sched_setscheduler: add a flag to control access checks
+    sparc64: Fix kernel thread stack termination.
 
-Hidehiro Kawai noticed that sched_setscheduler() can fail in
-stop_machine: it calls sched_setscheduler() from insmod, which can
-have CAP_SYS_MODULE without CAP_SYS_NICE.
+    Because of the silly way I set up the initial stack for
+    new kernel threads, there is a loop at the top of the
+    stack.
 
-This simply introduces a flag to allow us to disable the capability
-checks for internal callers (this is simpler than splitting the
-sched_setscheduler() function, since it loops checking permissions).
+    To fix this, properly add another stack frame that is copied
+    from the parent and terminate it in the child by setting
+    the frame pointer in that frame to zero.
 
-The flag is only "false" (ie. no check) for the following cases, where
-it shouldn't matter:
-  drivers/input/touchscreen/ucb1400_ts.c:ucb1400_ts_thread()
-	- it's a kthread
-  drivers/mmc/core/sdio_irq.c:sdio_irq_thread()
-	- also a kthread
-  kernel/kthread.c:create_kthread()
-	- making a kthread (from kthreadd)
-  kernel/softlockup.c:watchdog()
-	- also a kthread
+    Signed-off-by: David S. Miller <davem@davemloft.net>
 
-And these cases could have failed before:
-  kernel/softirq.c:cpu_callback()
-	- CPU hotplug callback
-  kernel/stop_machine.c:__stop_machine_run()
-	- Called from various places, including modprobe()
-
-Signed-off-by: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
-
-diff -r 509f0724da6b drivers/input/touchscreen/ucb1400_ts.c
---- a/drivers/input/touchscreen/ucb1400_ts.c	Thu Jun 19 17:06:30 2008 +1000
-+++ b/drivers/input/touchscreen/ucb1400_ts.c	Thu Jun 19 19:36:40 2008 +1000
-@@ -287,7 +287,7 @@ static int ucb1400_ts_thread(void *_ucb)
- 	int valid = 0;
- 	struct sched_param param = { .sched_priority = 1 };
- 
--	sched_setscheduler(tsk, SCHED_FIFO, &param);
-+	sched_setscheduler(tsk, SCHED_FIFO, &param, false);
- 
- 	set_freezable();
- 	while (!kthread_should_stop()) {
-diff -r 509f0724da6b drivers/mmc/core/sdio_irq.c
---- a/drivers/mmc/core/sdio_irq.c	Thu Jun 19 17:06:30 2008 +1000
-+++ b/drivers/mmc/core/sdio_irq.c	Thu Jun 19 19:36:40 2008 +1000
-@@ -70,7 +70,7 @@ static int sdio_irq_thread(void *_host)
- 	unsigned long period, idle_period;
- 	int ret;
- 
--	sched_setscheduler(current, SCHED_FIFO, &param);
-+	sched_setscheduler(current, SCHED_FIFO, &param, false);
- 
- 	/*
- 	 * We want to allow for SDIO cards to work even on non SDIO
-diff -r 509f0724da6b include/linux/sched.h
---- a/include/linux/sched.h	Thu Jun 19 17:06:30 2008 +1000
-+++ b/include/linux/sched.h	Thu Jun 19 19:36:40 2008 +1000
-@@ -1654,7 +1654,8 @@ extern int can_nice(const struct task_st
- extern int can_nice(const struct task_struct *p, const int nice);
- extern int task_curr(const struct task_struct *p);
- extern int idle_cpu(int cpu);
--extern int sched_setscheduler(struct task_struct *, int, struct sched_param *);
-+extern int sched_setscheduler(struct task_struct *, int, struct sched_param *,
-+			      bool);
- extern struct task_struct *idle_task(int cpu);
- extern struct task_struct *curr_task(int cpu);
- extern void set_curr_task(int cpu, struct task_struct *p);
-diff -r 509f0724da6b kernel/kthread.c
---- a/kernel/kthread.c	Thu Jun 19 17:06:30 2008 +1000
-+++ b/kernel/kthread.c	Thu Jun 19 19:36:40 2008 +1000
-@@ -104,7 +104,7 @@ static void create_kthread(struct kthrea
- 		 * root may have changed our (kthreadd's) priority or CPU mask.
- 		 * The kernel thread should not inherit these properties.
- 		 */
--		sched_setscheduler(create->result, SCHED_NORMAL, &param);
-+		sched_setscheduler(create->result, SCHED_NORMAL, &param, false);
- 		set_user_nice(create->result, KTHREAD_NICE_LEVEL);
- 		set_cpus_allowed(create->result, CPU_MASK_ALL);
- 	}
-diff -r 509f0724da6b kernel/rtmutex-tester.c
---- a/kernel/rtmutex-tester.c	Thu Jun 19 17:06:30 2008 +1000
-+++ b/kernel/rtmutex-tester.c	Thu Jun 19 19:36:40 2008 +1000
-@@ -327,7 +327,8 @@ static ssize_t sysfs_test_command(struct
- 	switch (op) {
- 	case RTTEST_SCHEDOT:
- 		schedpar.sched_priority = 0;
--		ret = sched_setscheduler(threads[tid], SCHED_NORMAL, &schedpar);
-+		ret = sched_setscheduler(threads[tid], SCHED_NORMAL, &schedpar,
-+					 true);
- 		if (ret)
- 			return ret;
- 		set_user_nice(current, 0);
-@@ -335,7 +336,8 @@ static ssize_t sysfs_test_command(struct
- 
- 	case RTTEST_SCHEDRT:
- 		schedpar.sched_priority = dat;
--		ret = sched_setscheduler(threads[tid], SCHED_FIFO, &schedpar);
-+		ret = sched_setscheduler(threads[tid], SCHED_FIFO, &schedpar,
-+					 true);
- 		if (ret)
- 			return ret;
- 		break;
-diff -r 509f0724da6b kernel/sched.c
---- a/kernel/sched.c	Thu Jun 19 17:06:30 2008 +1000
-+++ b/kernel/sched.c	Thu Jun 19 19:36:40 2008 +1000
-@@ -4749,11 +4749,12 @@ __setscheduler(struct rq *rq, struct tas
-  * @p: the task in question.
-  * @policy: new policy.
-  * @param: structure containing the new RT priority.
-+ * @user: do checks to ensure this thread has permission
-  *
-  * NOTE that the task may be already dead.
-  */
- int sched_setscheduler(struct task_struct *p, int policy,
--		       struct sched_param *param)
-+		       struct sched_param *param, bool user)
- {
- 	int retval, oldprio, oldpolicy = -1, on_rq, running;
- 	unsigned long flags;
-@@ -4785,7 +4786,7 @@ recheck:
- 	/*
- 	 * Allow unprivileged RT tasks to decrease priority:
- 	 */
--	if (!capable(CAP_SYS_NICE)) {
-+	if (user && !capable(CAP_SYS_NICE)) {
- 		if (rt_policy(policy)) {
- 			unsigned long rlim_rtprio;
- 
-@@ -4821,7 +4822,8 @@ recheck:
- 	 * Do not allow realtime tasks into groups that have no runtime
- 	 * assigned.
- 	 */
--	if (rt_policy(policy) && task_group(p)->rt_bandwidth.rt_runtime == 0)
-+	if (user
-+	    && rt_policy(policy) && task_group(p)->rt_bandwidth.rt_runtime == 0)
- 		return -EPERM;
- #endif
- 
-@@ -4888,7 +4890,7 @@ do_sched_setscheduler(pid_t pid, int pol
- 	retval = -ESRCH;
- 	p = find_process_by_pid(pid);
- 	if (p != NULL)
--		retval = sched_setscheduler(p, policy, &lparam);
-+		retval = sched_setscheduler(p, policy, &lparam, true);
- 	rcu_read_unlock();
- 
- 	return retval;
-diff -r 509f0724da6b kernel/softirq.c
---- a/kernel/softirq.c	Thu Jun 19 17:06:30 2008 +1000
-+++ b/kernel/softirq.c	Thu Jun 19 19:36:40 2008 +1000
-@@ -645,7 +645,7 @@ static int __cpuinit cpu_callback(struct
- 
- 		p = per_cpu(ksoftirqd, hotcpu);
- 		per_cpu(ksoftirqd, hotcpu) = NULL;
--		sched_setscheduler(p, SCHED_FIFO, &param);
-+		sched_setscheduler(p, SCHED_FIFO, &param, false);
- 		kthread_stop(p);
- 		takeover_tasklets(hotcpu);
- 		break;
-diff -r 509f0724da6b kernel/softlockup.c
---- a/kernel/softlockup.c	Thu Jun 19 17:06:30 2008 +1000
-+++ b/kernel/softlockup.c	Thu Jun 19 19:36:40 2008 +1000
-@@ -211,7 +211,7 @@ static int watchdog(void *__bind_cpu)
- 	struct sched_param param = { .sched_priority = MAX_RT_PRIO-1 };
- 	int this_cpu = (long)__bind_cpu;
- 
--	sched_setscheduler(current, SCHED_FIFO, &param);
-+	sched_setscheduler(current, SCHED_FIFO, &param, false);
- 
- 	/* initialize timestamp */
- 	touch_softlockup_watchdog();
-diff -r 509f0724da6b kernel/stop_machine.c
---- a/kernel/stop_machine.c	Thu Jun 19 17:06:30 2008 +1000
-+++ b/kernel/stop_machine.c	Thu Jun 19 19:36:40 2008 +1000
-@@ -187,7 +187,7 @@ struct task_struct *__stop_machine_run(i
- 		struct sched_param param = { .sched_priority = MAX_RT_PRIO-1 };
- 
- 		/* One high-prio thread per cpu.  We'll do this one. */
--		sched_setscheduler(p, SCHED_FIFO, &param);
-+		sched_setscheduler(p, SCHED_FIFO, &param, false);
- 		kthread_bind(p, cpu);
- 		wake_up_process(p);
- 		wait_for_completion(&smdata.done);
---
-To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+:040000 040000 beba7e8c740188a7c19a3569f08b1edd25b8000d
+aed42d5af3ab9a84ccb3dfe07eb444a78f9001fa M      arch
