@@ -1,104 +1,69 @@
-From: "Alexander Beregalov" <a.beregalov@gmail.com>
-Subject: 2.6.26-rc: SPARC: Sun Ultra 10 can not boot
-Date: Thu, 19 Jun 2008 18:07:46 +0400
-Message-ID: <a4423d670806190707k7ae6da8cud80a826a1603d941@mail.gmail.com>
+From: Daniel Walker <dwalker-Igf4POYTYCDQT0dZR+AlfA@public.gmane.org>
+Subject: Re: 2.6.26-rc5-mm3
+Date: Thu, 19 Jun 2008 07:39:30 -0700
+Message-ID: <1213886370.11203.80.camel@localhost.localdomain>
+References: <20080611225945.4da7bb7f.akpm@linux-foundation.org>
+	 <alpine.DEB.1.00.0806130006490.14928@gamma>
+	 <1213811751.11203.73.camel@localhost.localdomain>
+	 <20080619091337.GA15228@elte.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <sparclinux-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:mime-version:content-type:content-transfer-encoding
-         :content-disposition;
-        bh=GFRmYhQWVbMU7XaEpJkdLEJOpVi5pUWnfyIhfAXxiaM=;
-        b=R0V959bsOgjBATHih1u4TZ19tlATHr3FcnmyRGN70rRYZS9PH3eXMNfOwXEc9rEGlp
-         /hXjQkWVsk0sK5G+jG8n/eYq2nBtKQDXi2z8/n0n2nPQtCfAx1EIuAnMQ2JIp41ENjkO
-         nU1YrDoje8UHEfP5TVsLH4JgU72RKdPy3A10E=
-Content-Disposition: inline
-Sender: sparclinux-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20080619091337.GA15228-X9Un+BFzKDI@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: David Miller <davem@davemloft.net>, kernel-testers@vger.kernel.org, sparclinux@vger.kernel.org, kernel list <linux-kernel@vger.kernel.org>
-
-Hi
-
-Sun Ultra 10 can not boot the last 2.6.26-rc6-git, it hangs right after
-
-Console: colour dummy device 80x25
-console handover: boot [earlyprom0] -> real [tty0]
-
-netconsole does not work at this early stage.
-It is a boot log of the closest to bad commit  working kernel:
-
-PROMLIB: Sun IEEE Boot Prom 'OBP 3.25.3 2000/06/29 14:12'
-PROMLIB: Root node compatible:
-Linux version 2.6.26-rc3-00123-g3651751 (alexb@sparky) (gcc version
-4.1.2 (Gentoo 4.1.2 p1.0.1)) #21 PREEMPT Thu Jun 19 17:42:45 MSD 2008
-console [earlyprom0] enabled
-ARCH: SUN4U
-Ethernet address: 08:00:20:ff:e6:ff
-Kernel: Using 3 locked TLB entries for main kernel image.
-Remapping the kernel... done.
-OF stdout device is: /pci@1f,0/pci@1,1/SUNW,m64B@2
-PROM: Built device tree with 42083 bytes of memory.
-Top of RAM: 0x1ff46000, Total RAM: 0x1ff44000
-Memory hole size: 0MB
-Entering add_active_range(0, 0, 65407) 0 entries of 256 used
-Entering add_active_range(0, 65408, 65443) 1 entries of 256 used
-[0000000200000000-fffff80001000000] page_structs=131072 node=0 entry=0/0
-[0000000200000000-fffff80001400000] page_structs=131072 node=0 entry=1/0
-Allocated 532480 bytes for kernel page tables.
-Zone PFN ranges:
-  Normal          0 ->    65443
-Movable zone start PFN for each node
-early_node_map[2] active PFN ranges
-    0:        0 ->    65407
-    0:    65408 ->    65443
-On node 0 totalpages: 65442
-  Normal zone: 447 pages used for memmap
-  Normal zone: 0 pages reserved
-  Normal zone: 64995 pages, LIFO batch:15
-  Movable zone: 0 pages used for memmap
-Booting Linux...
-Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 64995
-Kernel command line: root=/dev/sda2
-Preemptible RCU implementation.
-PID hash table entries: 2048 (order: 11, 16384 bytes)
-clocksource: mult[245d1] shift[16]
-clockevent: mult[70a3d70a] shift[32]
-Console: colour dummy device 80x25
-console handover: boot [earlyprom0] -> real [tty0]
-======= It hangs here! =======
-Lock dependency validator: Copyright (c) 2006 Red Hat, Inc., Ingo Molnar
-... MAX_LOCKDEP_SUBCLASSES:    8
-... MAX_LOCK_DEPTH:          48
-... MAX_LOCKDEP_KEYS:        2048
-... CLASSHASH_SIZE:           1024
-... MAX_LOCKDEP_ENTRIES:     8192
-... MAX_LOCKDEP_CHAINS:      16384
-... CHAINHASH_SIZE:          8192
- memory used by lock dependency info: 1648 kB
- per task-struct memory footprint: 2688 bytes
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: Byron Bradley <byron.bbradley-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Hua Zhong <hzhong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 
-I have done bisect:
+On Thu, 2008-06-19 at 11:13 +0200, Ingo Molnar wrote:
 
-a051bc5bb1ac6dc138d529077fa20cbbc6622d95 is first bad commit
-commit a051bc5bb1ac6dc138d529077fa20cbbc6622d95
-Author: David S. Miller <davem@davemloft.net>
-Date:   Wed May 21 18:14:28 2008 -0700
+> the better fix would be to add likely_prof.o to this list of exceptions 
+> in lib/Makefile:
+> 
+>  ifdef CONFIG_FTRACE
+>  # Do not profile string.o, since it may be used in early boot or vdso
+>  CFLAGS_REMOVE_string.o = -pg
+>  # Also do not profile any debug utilities
+>  CFLAGS_REMOVE_spinlock_debug.o = -pg
+>  CFLAGS_REMOVE_list_debug.o = -pg
+>  CFLAGS_REMOVE_debugobjects.o = -pg
+>  endif
+> 
+> instead of adding notrace to the source.
+> 
+> 	Ingo
 
-    sparc64: Fix kernel thread stack termination.
+Here's the fix mentioned above.
 
-    Because of the silly way I set up the initial stack for
-    new kernel threads, there is a loop at the top of the
-    stack.
+--
 
-    To fix this, properly add another stack frame that is copied
-    from the parent and terminate it in the child by setting
-    the frame pointer in that frame to zero.
+Remove tracing from likely profiling since it could cause recursion if
+ftrace uses likely/unlikely macro's internally.
 
-    Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Daniel Walker <dwalker-Igf4POYTYCDQT0dZR+AlfA@public.gmane.org>
 
-:040000 040000 beba7e8c740188a7c19a3569f08b1edd25b8000d
-aed42d5af3ab9a84ccb3dfe07eb444a78f9001fa M      arch
+---
+ lib/Makefile |    2 ++
+ 1 file changed, 2 insertions(+)
+
+Index: linux-2.6.25/lib/Makefile
+===================================================================
+--- linux-2.6.25.orig/lib/Makefile
++++ linux-2.6.25/lib/Makefile
+@@ -15,6 +15,8 @@ CFLAGS_REMOVE_string.o = -pg
+ CFLAGS_REMOVE_spinlock_debug.o = -pg
+ CFLAGS_REMOVE_list_debug.o = -pg
+ CFLAGS_REMOVE_debugobjects.o = -pg
++# likely profiling can cause recursion in ftrace, so don't trace it.
++CFLAGS_REMOVE_likely_prof.o = -pg
+ endif
+ 
+ lib-$(CONFIG_MMU) += ioremap.o
+
+
+--
+To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
