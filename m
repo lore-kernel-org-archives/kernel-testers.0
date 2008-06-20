@@ -1,46 +1,19 @@
-From: Jon Tollefson <kniht-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-Subject: Re: 2.6.26-rc5-mm3: BUG large value for HugePages_Rsvd
-Date: Thu, 19 Jun 2008 22:18:24 -0500
-Message-ID: <485B2180.10507@us.ibm.com>
-References: <20080611225945.4da7bb7f.akpm@linux-foundation.org> <485A8903.9030808@linux.vnet.ibm.com> <20080619171644.GC13275@shadowen.org>
-Reply-To: kniht-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
+From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+Subject: how to catch an oops on poweroff ?
+Date: Fri, 20 Jun 2008 07:37:52 +0200
+Message-ID: <1213940272.4877.2.camel@zwerg>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080619171644.GC13275-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
-Cc: Jon Tollefson <kniht-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Nishanth Aravamudan <nacc-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Adam Litke <agl-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Andy Whitcroft wrote:
-> On Thu, Jun 19, 2008 at 11:27:47AM -0500, Jon Tollefson wrote:
->   
->> After running some of the libhugetlbfs tests the value for
->> /proc/meminfo/HugePages_Rsvd becomes really large.  It looks like it has
->> wrapped backwards from zero.
->> Below is the sequence I used to run one of the tests that causes this;
->> the tests passes for what it is intended to test but leaves a large
->> value for reserved pages and that seemed strange to me.
->> test run on ppc64 with 16M huge pages
->>     
->
-> Yes Adam reported that here yesterday, he found it in his hugetlfs testing.
-> I have done some investigation on it and it is being triggered by a bug in
-> the private reservation tracking patches.  It is triggered by the hugetlb
-> test which causes some complex vma splits to occur on a private mapping.
->   
-sorry I missed that
+Some last versions i have oops on poweroff  but i can't catch it. Some
+one have any idea how to do this ?
 
-> I believe I have the underlying problem nailed and do have some nearly
-> complete patches for this and they should be in a postable state by
-> tommorrow.
->   
-Cool.
-> -apw
->   
-Jon
+Alexey.
 
 --
 To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
