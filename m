@@ -1,45 +1,48 @@
-From: David Miller <davem@davemloft.net>
-Subject: Re: 2.6.26-rc: SPARC: Sun Ultra 10 can not boot
-Date: Thu, 19 Jun 2008 19:00:48 -0700 (PDT)
-Message-ID: <20080619.190048.193701955.davem@davemloft.net>
-References: <a4423d670806190707k7ae6da8cud80a826a1603d941@mail.gmail.com>
-	<a4423d670806190902l48c542e0i6a7380a2d3e7f520@mail.gmail.com>
+From: Jon Tollefson <kniht-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Subject: Re: 2.6.26-rc5-mm3: BUG large value for HugePages_Rsvd
+Date: Thu, 19 Jun 2008 22:18:24 -0500
+Message-ID: <485B2180.10507@us.ibm.com>
+References: <20080611225945.4da7bb7f.akpm@linux-foundation.org> <485A8903.9030808@linux.vnet.ibm.com> <20080619171644.GC13275@shadowen.org>
+Reply-To: kniht-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753306AbYFTCBA@vger.kernel.org>
-In-Reply-To: <a4423d670806190902l48c542e0i6a7380a2d3e7f520@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20080619171644.GC13275-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: a.beregalov@gmail.com
-Cc: kernel-testers@vger.kernel.org, sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
+Cc: Jon Tollefson <kniht-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Nishanth Aravamudan <nacc-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Adam Litke <agl-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 
-From: "Alexander Beregalov" <a.beregalov@gmail.com>
-Date: Thu, 19 Jun 2008 20:02:44 +0400
+Andy Whitcroft wrote:
+> On Thu, Jun 19, 2008 at 11:27:47AM -0500, Jon Tollefson wrote:
+>   
+>> After running some of the libhugetlbfs tests the value for
+>> /proc/meminfo/HugePages_Rsvd becomes really large.  It looks like it has
+>> wrapped backwards from zero.
+>> Below is the sequence I used to run one of the tests that causes this;
+>> the tests passes for what it is intended to test but leaves a large
+>> value for reserved pages and that seemed strange to me.
+>> test run on ppc64 with 16M huge pages
+>>     
+>
+> Yes Adam reported that here yesterday, he found it in his hugetlfs testing.
+> I have done some investigation on it and it is being triggered by a bug in
+> the private reservation tracking patches.  It is triggered by the hugetlb
+> test which causes some complex vma splits to occur on a private mapping.
+>   
+sorry I missed that
 
-> I have reverted this commit and
-> 2.6.26-rc6-00233-g99d3b2d works fine. It can boot.
+> I believe I have the underlying problem nailed and do have some nearly
+> complete patches for this and they should be in a postable state by
+> tommorrow.
+>   
+Cool.
+> -apw
+>   
+Jon
 
-I know what the problem is.
-
-It's hanging because lockdep is starting to actually be used. :-)
-Beforehand various bugs caused lockdep to disable itself almost
-immediately.  So it was never actually enabled on sparc64.
-
-When you revert that changeset, there is a loop in the backtrace of
-all kernel threads, and therefore lockdep turns itself off when all of
-the stack backtrace slots get consumed by that loop in the backtraces.
-
-After the revert you should see a set of kernel messages like:
-
-BUG: MAX_STACK_TRACE_ENTRIES too low!
-turning off the locking correctness validator.
-
-and that would confirm my theory.
-
-Lockdep really isn't usable on sparc64 at this time and it's one of
-the ongoing things I'm trying to get fully fixed.  The changeset in
-question fixes a real bug in stack backtrace output, so it should
-stay in the tree.
-
-FWIW, I just verified the above on my ultra5 box.
+--
+To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
