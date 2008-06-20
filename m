@@ -1,183 +1,320 @@
-From: Lee Schermerhorn <Lee.Schermerhorn-VXdhtT5mjnY@public.gmane.org>
-Subject: Re: [Experimental][PATCH] putback_lru_page rework
-Date: Fri, 20 Jun 2008 13:10:43 -0400
-Message-ID: <1213981843.6474.68.camel@lts-notebook>
-References: <20080611225945.4da7bb7f.akpm@linux-foundation.org>
-	 <20080617163501.7cf411ee.nishimura@mxp.nes.nec.co.jp>
-	 <20080617164709.de4db070.nishimura@mxp.nes.nec.co.jp>
-	 <20080618184000.a855dfe0.kamezawa.hiroyu@jp.fujitsu.com>
-	 <1213813266.6497.14.camel@lts-notebook>
-	 <20080619092242.79648592.kamezawa.hiroyu@jp.fujitsu.com>
-	 <1213886722.6398.29.camel@lts-notebook>
-	 <20080620101352.e1200b8e.kamezawa.hiroyu@jp.fujitsu.com>
-Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
+Subject: [PATCH 2/2] hugetlb reservations: fix hugetlb MAP_PRIVATE reservations across vma splits
+Date: Fri, 20 Jun 2008 20:17:54 +0100
+Message-ID: <1213989474-5586-3-git-send-email-apw@shadowen.org>
+References: <1213989474-5586-1-git-send-email-apw@shadowen.org>
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080620101352.e1200b8e.kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1213989474-5586-1-git-send-email-apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Cc: Daisuke Nishimura <nishimura-YQH0OdQVrdy45+QrQBaojngSJqDPrsil@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Kosaki Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Jon Tollefson <kniht-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Nishanth Aravamudan <nacc-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Adam Litke <agl-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
 
-On Fri, 2008-06-20 at 10:13 +0900, KAMEZAWA Hiroyuki wrote:
-> Lee-san, this is an additonal one..
-> Not-tested-yet, just by review.
+When a hugetlb mapping with a reservation is split, a new VMA is cloned
+from the original.  This new VMA is a direct copy of the original
+including the reservation count.  When this pair of VMAs are unmapped
+we will incorrect double account the unused reservation and the overall
+reservation count will be incorrect, in extreme cases it will wrap.
 
-OK, I'll test this on my x86_64 platform, which doesn't seem to hit the
-soft lockups.
+The problem occurs when we split an existing VMA say to unmap a page in
+the middle.  split_vma() will create a new VMA copying all fields from
+the original.  As we are storing our reservation count in vm_private_data
+this is also copies, endowing the new VMA with a duplicate of the original
+VMA's reservation.  Neither of the new VMAs can exhaust these reservations
+as they are too small, but when we unmap and close these VMAs we will
+incorrect credit the remainder twice and resv_huge_pages will become
+out of sync.  This can lead to allocation failures on mappings with
+reservations and even to resv_huge_pages wrapping which prevents all
+subsequent hugepage allocations.
 
->=20
-> Fixing page_lock() <-> zone->lock nesting of bad-behavior.
->=20
-> Before:
->       lock_page()(TestSetPageLocked())
->       spin_lock(zone->lock)
->       unlock_page()
->       spin_unlock(zone->lock) =20
+The simple fix would be to correctly apportion the remaining reservation
+count when the split is made.  However the only hook we have vm_ops->open
+only has the new VMA we do not know the identity of the preceeding VMA.
+Also even if we did have that VMA to hand we do not know how much of the
+reservation was consumed each side of the split.
 
-Couple of comments:
-* I believe that the locks are acquired in the right order--at least as
-documented in the comments in mm/rmap.c. =20
-* The unlocking appears out of order because this function attempts to
-hold the zone lock across a few pages in the pagevec, but must switch t=
-o
-a different zone lru lock when it finds a page on a different zone from
-the zone whose lock it is holding--like in the pagevec draining
-functions, altho' they don't need to lock the page.
+This patch therefore takes a different tack.  We know that the whole of any
+private mapping (which has a reservation) has a reservation over its whole
+size.  Any present pages represent consumed reservation.  Therefore if
+we track the instantiated pages we can calculate the remaining reservation.
 
-> After:
->       spin_lock(zone->lock)
->       spin_unlock(zone->lock)
+This patch reuses the existing regions code to track the regions for which
+we have consumed reservation (ie. the instantiated pages), as each page
+is faulted in we record the consumption of reservation for the new page.
+When we need to return unused reservations at unmap time we simply count
+the consumed reservation region subtracting that from the whole of the map.
+During a VMA split the newly opened VMA will point to the same region map,
+as this map is offset oriented it remains valid for both of the split VMAs.
+This map is referenced counted so that it is removed when all VMAs which
+are part of the mmap are gone.
 
-Right.  With your reworked check_move_unevictable_page() [with retry],
-we don't need to lock the page here, any more.  That means we can rever=
-t
-all of the changes to pass the mapping back to sys_shmctl() and move th=
-e
-call to scan_mapping_unevictable_pages() back to shmem_lock() after
-clearing the address_space's unevictable flag.  We only did that to
-avoid sleeping while holding the shmem_inode_info lock and the
-shmid_kernel's ipc_perm spinlock. =20
+Signed-off-by: Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
+---
+ mm/hugetlb.c |  151 ++++++++++++++++++++++++++++++++++++++++++++++++----------
+ 1 files changed, 126 insertions(+), 25 deletions(-)
 
-Shall I handle that, after we've tested this patch?
-
->=20
-> Including nit-pick fix. (I'll ask Kosaki-san to merge this to his 5/5=
-)
->=20
-> Hmm...
->=20
-> ---
->  mm/vmscan.c |   25 +++++--------------------
->  1 file changed, 5 insertions(+), 20 deletions(-)
->=20
-> Index: test-2.6.26-rc5-mm3/mm/vmscan.c
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- test-2.6.26-rc5-mm3.orig/mm/vmscan.c
-> +++ test-2.6.26-rc5-mm3/mm/vmscan.c
-> @@ -1106,7 +1106,7 @@ static unsigned long shrink_inactive_lis
->  		if (nr_taken =3D=3D 0)
->  			goto done;
-> =20
-> -		spin_lock(&zone->lru_lock);
-> +		spin_lock_irq(&zone->lru_lock);
-
-1) It appears that the spin_lock() [no '_irq'] was there because irqs
-are disabled a few lines above so that we could use non-atomic
-__count[_zone]_vm_events(). =20
-=EF=BB=BF2) I think this predates the split lru or unevictable lru patc=
-hes, so
-these changes are unrelated.
->  		/*
->  		 * Put back any unfreeable pages.
->  		 */
-> @@ -1136,9 +1136,8 @@ static unsigned long shrink_inactive_lis
->  			}
->  		}
->    	} while (nr_scanned < max_scan);
-> -	spin_unlock(&zone->lru_lock);
-> +	spin_unlock_irq(&zone->lru_lock);
->  done:
-> -	local_irq_enable();
->  	pagevec_release(&pvec);
->  	return nr_reclaimed;
->  }
-> @@ -2438,7 +2437,7 @@ static void show_page_path(struct page *
->   */
->  static void check_move_unevictable_page(struct page *page, struct zo=
-ne *zone)
->  {
-> -
-> +retry:
->  	ClearPageUnevictable(page); /* for page_evictable() */
-We can remove this comment            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-page_evictable() no longer asserts !PageUnevictable(), right?
-
->  	if (page_evictable(page, NULL)) {
->  		enum lru_list l =3D LRU_INACTIVE_ANON + page_is_file_cache(page);
-> @@ -2455,6 +2454,8 @@ static void check_move_unevictable_page(
->  		 */
->  		SetPageUnevictable(page);
->  		list_move(&page->lru, &zone->lru[LRU_UNEVICTABLE].list);
-> +		if (page_evictable(page, NULL))
-> +			goto retry;
->  	}
->  }
-> =20
-> @@ -2494,16 +2495,6 @@ void scan_mapping_unevictable_pages(stru
->  				next =3D page_index;
->  			next++;
-> =20
-> -			if (TestSetPageLocked(page)) {
-> -				/*
-> -				 * OK, let's do it the hard way...
-> -				 */
-> -				if (zone)
-> -					spin_unlock_irq(&zone->lru_lock);
-> -				zone =3D NULL;
-> -				lock_page(page);
-> -			}
-> -
->  			if (pagezone !=3D zone) {
->  				if (zone)
->  					spin_unlock_irq(&zone->lru_lock);
-> @@ -2514,8 +2505,6 @@ void scan_mapping_unevictable_pages(stru
->  			if (PageLRU(page) && PageUnevictable(page))
->  				check_move_unevictable_page(page, zone);
-> =20
-> -			unlock_page(page);
-> -
->  		}
->  		if (zone)
->  			spin_unlock_irq(&zone->lru_lock);
-> @@ -2551,15 +2540,11 @@ void scan_zone_unevictable_pages(struct=20
->  		for (scan =3D 0;  scan < batch_size; scan++) {
->  			struct page *page =3D lru_to_page(l_unevictable);
-> =20
-> -			if (TestSetPageLocked(page))
-> -				continue;
-> -
->  			prefetchw_prev_lru_page(page, l_unevictable, flags);
-> =20
->  			if (likely(PageLRU(page) && PageUnevictable(page)))
->  				check_move_unevictable_page(page, zone);
-> =20
-> -			unlock_page(page);
->  		}
->  		spin_unlock_irq(&zone->lru_lock);
-> =20
->=20
-
-I'll let you know how it goes.
-
-Later,
-Lee
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index d701e39..ecff986 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -171,6 +171,30 @@ static long region_truncate(struct list_head *head, long end)
+ 	return chg;
+ }
+ 
++static long region_count(struct list_head *head, long f, long t)
++{
++	struct file_region *rg;
++	long chg = 0;
++
++	/* Locate each segment we overlap with, and count that overlap. */
++	list_for_each_entry(rg, head, link) {
++		int seg_from;
++		int seg_to;
++
++		if (rg->to <= f)
++			continue;
++		if (rg->from >= t)
++			break;
++
++		seg_from = max(rg->from, f);
++		seg_to = min(rg->to, t);
++
++		chg += seg_to - seg_from;
++	}
++
++	return chg;
++}
++
+ /*
+  * Convert the address within this vma to the page offset within
+  * the mapping, in base page units.
+@@ -193,9 +217,14 @@ static pgoff_t vma_pagecache_offset(struct hstate *h,
+ 			(vma->vm_pgoff >> huge_page_order(h));
+ }
+ 
+-#define HPAGE_RESV_OWNER    (1UL << (BITS_PER_LONG - 1))
+-#define HPAGE_RESV_UNMAPPED (1UL << (BITS_PER_LONG - 2))
++/*
++ * Flags for MAP_PRIVATE reservations.  These are stored in the bottom
++ * bits of the reservation map pointer.
++ */
++#define HPAGE_RESV_OWNER    (1UL << 0)
++#define HPAGE_RESV_UNMAPPED (1UL << 1)
+ #define HPAGE_RESV_MASK (HPAGE_RESV_OWNER | HPAGE_RESV_UNMAPPED)
++
+ /*
+  * These helpers are used to track how many pages are reserved for
+  * faults in a MAP_PRIVATE mapping. Only the process that called mmap()
+@@ -205,6 +234,15 @@ static pgoff_t vma_pagecache_offset(struct hstate *h,
+  * the reserve counters are updated with the hugetlb_lock held. It is safe
+  * to reset the VMA at fork() time as it is not in use yet and there is no
+  * chance of the global counters getting corrupted as a result of the values.
++ *
++ * The private mapping reservation is represented in a subtly different
++ * manner to a shared mapping.  A shared mapping has a region map associated
++ * with the underlying file, this region map represents the backing file
++ * pages which have had a reservation taken and this persists even after
++ * the page is instantiated.  A private mapping has a region map associated
++ * with the original mmap which is attached to all VMAs which reference it,
++ * this region map represents those offsets which have consumed reservation
++ * ie. where pages have been instantiated.
+  */
+ static unsigned long get_vma_private_data(struct vm_area_struct *vma)
+ {
+@@ -217,22 +255,44 @@ static void set_vma_private_data(struct vm_area_struct *vma,
+ 	vma->vm_private_data = (void *)value;
+ }
+ 
+-static unsigned long vma_resv_huge_pages(struct vm_area_struct *vma)
++struct resv_map {
++	struct kref refs;
++	struct list_head regions;
++};
++
++struct resv_map *resv_map_alloc(void)
++{
++	struct resv_map *resv_map = kmalloc(sizeof(*resv_map), GFP_KERNEL);
++	if (!resv_map)
++		return NULL;
++
++	kref_init(&resv_map->refs);
++	INIT_LIST_HEAD(&resv_map->regions);
++
++	return resv_map;
++}
++
++void resv_map_release(struct kref *ref)
++{
++        struct resv_map *resv_map = container_of(ref, struct resv_map, refs);
++
++	region_truncate(&resv_map->regions, 0);
++	kfree(resv_map);
++}
++
++static struct resv_map *vma_resv_map(struct vm_area_struct *vma)
+ {
+ 	VM_BUG_ON(!is_vm_hugetlb_page(vma));
+ 	if (!(vma->vm_flags & VM_SHARED))
+-		return get_vma_private_data(vma) & ~HPAGE_RESV_MASK;
++		return (struct resv_map *)(get_vma_private_data(vma) &
++							~HPAGE_RESV_MASK);
+ 	return 0;
+ }
+ 
+-static void set_vma_resv_huge_pages(struct vm_area_struct *vma,
+-							unsigned long reserve)
++static void set_vma_resv_map(struct vm_area_struct *vma, struct resv_map *map)
+ {
+-	VM_BUG_ON(!is_vm_hugetlb_page(vma));
+-	VM_BUG_ON(vma->vm_flags & VM_SHARED);
+-
+-	set_vma_private_data(vma,
+-		(get_vma_private_data(vma) & HPAGE_RESV_MASK) | reserve);
++	set_vma_private_data(vma, (get_vma_private_data(vma) &
++				HPAGE_RESV_MASK) | (unsigned long)map);
+ }
+ 
+ static void set_vma_resv_flags(struct vm_area_struct *vma, unsigned long flags)
+@@ -251,11 +311,11 @@ static int is_vma_resv_set(struct vm_area_struct *vma, unsigned long flag)
+ }
+ 
+ /* Decrement the reserved pages in the hugepage pool by one */
+-static void decrement_hugepage_resv_vma(struct hstate *h,
+-			struct vm_area_struct *vma)
++static int decrement_hugepage_resv_vma(struct hstate *h,
++			struct vm_area_struct *vma, unsigned long address)
+ {
+ 	if (vma->vm_flags & VM_NORESERVE)
+-		return;
++		return 0;
+ 
+ 	if (vma->vm_flags & VM_SHARED) {
+ 		/* Shared mappings always use reserves */
+@@ -266,14 +326,19 @@ static void decrement_hugepage_resv_vma(struct hstate *h,
+ 		 * private mappings.
+ 		 */
+ 		if (is_vma_resv_set(vma, HPAGE_RESV_OWNER)) {
+-			unsigned long flags, reserve;
++			unsigned long idx = vma_pagecache_offset(h,
++							vma, address);
++			struct resv_map *reservations = vma_resv_map(vma);
++
+ 			h->resv_huge_pages--;
+-			flags = (unsigned long)vma->vm_private_data &
+-							HPAGE_RESV_MASK;
+-			reserve = (unsigned long)vma->vm_private_data - 1;
+-			vma->vm_private_data = (void *)(reserve | flags);
++
++			/* Mark this page used in the map. */
++			if (region_chg(&reservations->regions, idx, idx + 1) < 0)
++				return -1;
++			region_add(&reservations->regions, idx, idx + 1);
+ 		}
+ 	}
++	return 0;
+ }
+ 
+ /* Reset counters to 0 and clear all HPAGE_RESV_* flags */
+@@ -289,7 +354,7 @@ static int vma_has_private_reserves(struct vm_area_struct *vma)
+ {
+ 	if (vma->vm_flags & VM_SHARED)
+ 		return 0;
+-	if (!vma_resv_huge_pages(vma))
++	if (!is_vma_resv_set(vma, HPAGE_RESV_OWNER))
+ 		return 0;
+ 	return 1;
+ }
+@@ -376,15 +441,16 @@ static struct page *dequeue_huge_page_vma(struct hstate *h,
+ 		nid = zone_to_nid(zone);
+ 		if (cpuset_zone_allowed_softwall(zone, htlb_alloc_mask) &&
+ 		    !list_empty(&h->hugepage_freelists[nid])) {
++			if (!avoid_reserve &&
++			    decrement_hugepage_resv_vma(h, vma, address) < 0)
++				return NULL;
++
+ 			page = list_entry(h->hugepage_freelists[nid].next,
+ 					  struct page, lru);
+ 			list_del(&page->lru);
+ 			h->free_huge_pages--;
+ 			h->free_huge_pages_node[nid]--;
+ 
+-			if (!avoid_reserve)
+-				decrement_hugepage_resv_vma(h, vma);
+-
+ 			break;
+ 		}
+ 	}
+@@ -1456,10 +1522,39 @@ out:
+ 	return ret;
+ }
+ 
++static void hugetlb_vm_op_open(struct vm_area_struct *vma)
++{
++ 	struct resv_map *reservations = vma_resv_map(vma);
++
++	/*
++	 * This new VMA will share its siblings reservation map.  The open
++	 * vm_op is only called for newly created VMAs which have been made
++	 * from another, still existing VMA.  As that VMA has a reference to
++	 * this reservation map the reservation map cannot disappear until
++	 * after this open completes.  It is therefore safe to take a new
++	 * reference here without additional locking.
++	 */
++	if (reservations)
++		kref_get(&reservations->refs);
++}
++
+ static void hugetlb_vm_op_close(struct vm_area_struct *vma)
+ {
+ 	struct hstate *h = hstate_vma(vma);
+-	unsigned long reserve = vma_resv_huge_pages(vma);
++ 	struct resv_map *reservations = vma_resv_map(vma);
++	unsigned long reserve = 0;
++	unsigned long start;
++	unsigned long end;
++
++	if (reservations) {
++		start = vma_pagecache_offset(h, vma, vma->vm_start);
++		end = vma_pagecache_offset(h, vma, vma->vm_end);
++
++		reserve = (end - start) -
++			region_count(&reservations->regions, start, end);
++
++		kref_put(&reservations->refs, resv_map_release);
++	}
+ 
+ 	if (reserve)
+ 		hugetlb_acct_memory(h, -reserve);
+@@ -1479,6 +1574,7 @@ static int hugetlb_vm_op_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
+ 
+ struct vm_operations_struct hugetlb_vm_ops = {
+ 	.fault = hugetlb_vm_op_fault,
++	.open = hugetlb_vm_op_open,
+ 	.close = hugetlb_vm_op_close,
+ };
+ 
+@@ -2037,8 +2133,13 @@ int hugetlb_reserve_pages(struct inode *inode,
+ 	if (!vma || vma->vm_flags & VM_SHARED)
+ 		chg = region_chg(&inode->i_mapping->private_list, from, to);
+ 	else {
++		struct resv_map *resv_map = resv_map_alloc();
++		if (!resv_map)
++			return -ENOMEM;
++
+ 		chg = to - from;
+-		set_vma_resv_huge_pages(vma, chg);
++
++		set_vma_resv_map(vma, resv_map);
+ 		set_vma_resv_flags(vma, HPAGE_RESV_OWNER);
+ 	}
+ 
+-- 
+1.5.6.205.g7ca3a
 
 --
-To unsubscribe from this list: send the line "unsubscribe kernel-tester=
-s" in
+To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
