@@ -1,45 +1,302 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [BUG][PATCH -mm] avoid BUG() in __stop_machine_run()
-Date: Mon, 23 Jun 2008 23:01:29 +0200
-Message-ID: <20080623210129.GB16579@elte.hu>
-References: <20080611225945.4da7bb7f.akpm@linux-foundation.org> <485A806A.2090602@goop.org> <20080620132110.GB19740@elte.hu> <200806231355.39329.rusty@rustcorp.com.au>
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [PATCH 1/2] hugetlb reservations: move region tracking earlier
+Date: Tue, 24 Jun 2008 00:05:18 +0100
+Message-ID: <20080623230517.GA4564@csn.ul.ie>
+References: <1214242533-12104-1-git-send-email-apw@shadowen.org> <1214242533-12104-2-git-send-email-apw@shadowen.org>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <200806231355.39329.rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+In-Reply-To: <1214242533-12104-2-git-send-email-apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
-Cc: Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>, Hidehiro Kawai <hidehiro.kawai.ez-FCd8Q96Dh0JBDgjK7y7TUQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, sugita <yumiko.sugita.yf-FCd8Q96Dh0JBDgjK7y7TUQ@public.gmane.org>, Satoshi OSHIMA <satoshi.oshima.fk-FCd8Q96Dh0JBDgjK7y7TUQ@public.gmane.org>
+To: Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
+Cc: Jon Tollefson <kniht-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Nishanth Aravamudan <nacc-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Adam Litke <agl-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
 
-
-* Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org> wrote:
-
-> On Friday 20 June 2008 23:21:10 Ingo Molnar wrote:
-> > * Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org> wrote:
-[...]
-> > > (With the appropriate transformation of sched_setscheduler -> __)
-> > >
-> > > Better than scattering stray true/falses around the code.
-> >
-> > agreed - it would also be less intrusive on the API change side.
+On (23/06/08 18:35), Andy Whitcroft didst pronounce:
+> Move the region tracking code much earlier so we can use it for page
+> presence tracking later on.  No code is changed, just its location.
 > 
-> Yes, here's the patch.  I've put it in my tree for testing, too.
+> Signed-off-by: Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
+
+Straight-forward code-move.
+
+Acked-by: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+
+> ---
+>  mm/hugetlb.c |  246 +++++++++++++++++++++++++++++----------------------------
+>  1 files changed, 125 insertions(+), 121 deletions(-)
 > 
-> sched_setscheduler_nocheck: add a flag to control access checks
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 0f76ed1..d701e39 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -47,6 +47,131 @@ static unsigned long __initdata default_hstate_size;
+>  static DEFINE_SPINLOCK(hugetlb_lock);
+>  
+>  /*
+> + * Region tracking -- allows tracking of reservations and instantiated pages
+> + *                    across the pages in a mapping.
+> + */
+> +struct file_region {
+> +	struct list_head link;
+> +	long from;
+> +	long to;
+> +};
+> +
+> +static long region_add(struct list_head *head, long f, long t)
+> +{
+> +	struct file_region *rg, *nrg, *trg;
+> +
+> +	/* Locate the region we are either in or before. */
+> +	list_for_each_entry(rg, head, link)
+> +		if (f <= rg->to)
+> +			break;
+> +
+> +	/* Round our left edge to the current segment if it encloses us. */
+> +	if (f > rg->from)
+> +		f = rg->from;
+> +
+> +	/* Check for and consume any regions we now overlap with. */
+> +	nrg = rg;
+> +	list_for_each_entry_safe(rg, trg, rg->link.prev, link) {
+> +		if (&rg->link == head)
+> +			break;
+> +		if (rg->from > t)
+> +			break;
+> +
+> +		/* If this area reaches higher then extend our area to
+> +		 * include it completely.  If this is not the first area
+> +		 * which we intend to reuse, free it. */
+> +		if (rg->to > t)
+> +			t = rg->to;
+> +		if (rg != nrg) {
+> +			list_del(&rg->link);
+> +			kfree(rg);
+> +		}
+> +	}
+> +	nrg->from = f;
+> +	nrg->to = t;
+> +	return 0;
+> +}
+> +
+> +static long region_chg(struct list_head *head, long f, long t)
+> +{
+> +	struct file_region *rg, *nrg;
+> +	long chg = 0;
+> +
+> +	/* Locate the region we are before or in. */
+> +	list_for_each_entry(rg, head, link)
+> +		if (f <= rg->to)
+> +			break;
+> +
+> +	/* If we are below the current region then a new region is required.
+> +	 * Subtle, allocate a new region at the position but make it zero
+> +	 * size such that we can guarantee to record the reservation. */
+> +	if (&rg->link == head || t < rg->from) {
+> +		nrg = kmalloc(sizeof(*nrg), GFP_KERNEL);
+> +		if (!nrg)
+> +			return -ENOMEM;
+> +		nrg->from = f;
+> +		nrg->to   = f;
+> +		INIT_LIST_HEAD(&nrg->link);
+> +		list_add(&nrg->link, rg->link.prev);
+> +
+> +		return t - f;
+> +	}
+> +
+> +	/* Round our left edge to the current segment if it encloses us. */
+> +	if (f > rg->from)
+> +		f = rg->from;
+> +	chg = t - f;
+> +
+> +	/* Check for and consume any regions we now overlap with. */
+> +	list_for_each_entry(rg, rg->link.prev, link) {
+> +		if (&rg->link == head)
+> +			break;
+> +		if (rg->from > t)
+> +			return chg;
+> +
+> +		/* We overlap with this area, if it extends futher than
+> +		 * us then we must extend ourselves.  Account for its
+> +		 * existing reservation. */
+> +		if (rg->to > t) {
+> +			chg += rg->to - t;
+> +			t = rg->to;
+> +		}
+> +		chg -= rg->to - rg->from;
+> +	}
+> +	return chg;
+> +}
+> +
+> +static long region_truncate(struct list_head *head, long end)
+> +{
+> +	struct file_region *rg, *trg;
+> +	long chg = 0;
+> +
+> +	/* Locate the region we are either in or before. */
+> +	list_for_each_entry(rg, head, link)
+> +		if (end <= rg->to)
+> +			break;
+> +	if (&rg->link == head)
+> +		return 0;
+> +
+> +	/* If we are in the middle of a region then adjust it. */
+> +	if (end > rg->from) {
+> +		chg = rg->to - end;
+> +		rg->to = end;
+> +		rg = list_entry(rg->link.next, typeof(*rg), link);
+> +	}
+> +
+> +	/* Drop any remaining regions. */
+> +	list_for_each_entry_safe(rg, trg, rg->link.prev, link) {
+> +		if (&rg->link == head)
+> +			break;
+> +		chg += rg->to - rg->from;
+> +		list_del(&rg->link);
+> +		kfree(rg);
+> +	}
+> +	return chg;
+> +}
+> +
+> +/*
+>   * Convert the address within this vma to the page offset within
+>   * the mapping, in base page units.
+>   */
+> @@ -649,127 +774,6 @@ static void return_unused_surplus_pages(struct hstate *h,
+>  	}
+>  }
+>  
+> -struct file_region {
+> -	struct list_head link;
+> -	long from;
+> -	long to;
+> -};
+> -
+> -static long region_add(struct list_head *head, long f, long t)
+> -{
+> -	struct file_region *rg, *nrg, *trg;
+> -
+> -	/* Locate the region we are either in or before. */
+> -	list_for_each_entry(rg, head, link)
+> -		if (f <= rg->to)
+> -			break;
+> -
+> -	/* Round our left edge to the current segment if it encloses us. */
+> -	if (f > rg->from)
+> -		f = rg->from;
+> -
+> -	/* Check for and consume any regions we now overlap with. */
+> -	nrg = rg;
+> -	list_for_each_entry_safe(rg, trg, rg->link.prev, link) {
+> -		if (&rg->link == head)
+> -			break;
+> -		if (rg->from > t)
+> -			break;
+> -
+> -		/* If this area reaches higher then extend our area to
+> -		 * include it completely.  If this is not the first area
+> -		 * which we intend to reuse, free it. */
+> -		if (rg->to > t)
+> -			t = rg->to;
+> -		if (rg != nrg) {
+> -			list_del(&rg->link);
+> -			kfree(rg);
+> -		}
+> -	}
+> -	nrg->from = f;
+> -	nrg->to = t;
+> -	return 0;
+> -}
+> -
+> -static long region_chg(struct list_head *head, long f, long t)
+> -{
+> -	struct file_region *rg, *nrg;
+> -	long chg = 0;
+> -
+> -	/* Locate the region we are before or in. */
+> -	list_for_each_entry(rg, head, link)
+> -		if (f <= rg->to)
+> -			break;
+> -
+> -	/* If we are below the current region then a new region is required.
+> -	 * Subtle, allocate a new region at the position but make it zero
+> -	 * size such that we can guarantee to record the reservation. */
+> -	if (&rg->link == head || t < rg->from) {
+> -		nrg = kmalloc(sizeof(*nrg), GFP_KERNEL);
+> -		if (!nrg)
+> -			return -ENOMEM;
+> -		nrg->from = f;
+> -		nrg->to   = f;
+> -		INIT_LIST_HEAD(&nrg->link);
+> -		list_add(&nrg->link, rg->link.prev);
+> -
+> -		return t - f;
+> -	}
+> -
+> -	/* Round our left edge to the current segment if it encloses us. */
+> -	if (f > rg->from)
+> -		f = rg->from;
+> -	chg = t - f;
+> -
+> -	/* Check for and consume any regions we now overlap with. */
+> -	list_for_each_entry(rg, rg->link.prev, link) {
+> -		if (&rg->link == head)
+> -			break;
+> -		if (rg->from > t)
+> -			return chg;
+> -
+> -		/* We overlap with this area, if it extends futher than
+> -		 * us then we must extend ourselves.  Account for its
+> -		 * existing reservation. */
+> -		if (rg->to > t) {
+> -			chg += rg->to - t;
+> -			t = rg->to;
+> -		}
+> -		chg -= rg->to - rg->from;
+> -	}
+> -	return chg;
+> -}
+> -
+> -static long region_truncate(struct list_head *head, long end)
+> -{
+> -	struct file_region *rg, *trg;
+> -	long chg = 0;
+> -
+> -	/* Locate the region we are either in or before. */
+> -	list_for_each_entry(rg, head, link)
+> -		if (end <= rg->to)
+> -			break;
+> -	if (&rg->link == head)
+> -		return 0;
+> -
+> -	/* If we are in the middle of a region then adjust it. */
+> -	if (end > rg->from) {
+> -		chg = rg->to - end;
+> -		rg->to = end;
+> -		rg = list_entry(rg->link.next, typeof(*rg), link);
+> -	}
+> -
+> -	/* Drop any remaining regions. */
+> -	list_for_each_entry_safe(rg, trg, rg->link.prev, link) {
+> -		if (&rg->link == head)
+> -			break;
+> -		chg += rg->to - rg->from;
+> -		list_del(&rg->link);
+> -		kfree(rg);
+> -	}
+> -	return chg;
+> -}
+> -
+>  /*
+>   * Determine if the huge page at addr within the vma has an associated
+>   * reservation.  Where it does not we will need to logically increase
+> -- 
+> 1.5.6.205.g7ca3a
+> 
 
-applied to tip/sched/new-API-sched_setscheduler, thanks Rusty. Also 
-added it to auto-sched-next so that it shows up in linux-next.
-
-btw., had to merge this bit manually:
-
-> +/**
-> + * sched_setscheduler_nocheck - change the scheduling policy and/or RT priority of a thread 
-> from kernelspace.
-> + * @p: the task in question.
-
-as it suffered from line-warp damage.
-
-	Ingo
+-- 
+Mel Gorman
+Part-time Phd Student                          Linux Technology Center
+University of Limerick                         IBM Dublin Software Lab
