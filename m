@@ -1,358 +1,179 @@
-From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Subject: Re: [PATCH 2/2] hugetlb reservations: fix hugetlb MAP_PRIVATE reservations across vma splits V2
-Date: Tue, 24 Jun 2008 00:08:09 +0100
-Message-ID: <20080623230809.GB4564@csn.ul.ie>
-References: <1214242533-12104-1-git-send-email-apw@shadowen.org> <1214242533-12104-3-git-send-email-apw@shadowen.org>
+From: Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>
+Subject: [BUG] linux-next: Tree for June 24 - kernel panic at tg3_reset_hw()
+ on x86_64
+Date: Tue, 24 Jun 2008 17:21:04 +0530
+Message-ID: <4860DFA8.9040408@linux.vnet.ibm.com>
+References: <20080624175612.cdf29651.sfr@canb.auug.org.au>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1214242533-12104-3-git-send-email-apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-next-owner@vger.kernel.org>
+In-Reply-To: <20080624175612.cdf29651.sfr@canb.auug.org.au>
+Sender: linux-next-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
-Cc: Jon Tollefson <kniht-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Nishanth Aravamudan <nacc-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Adam Litke <agl-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, netdev@vger.kernel.org, kernel-testers@vger.kernel.org, mchan@broadcom.com, Andy Whitcroft <apw@shadowen.org>, Balbir Singh <balbir@linux.vnet.ibm.com>
 
-On (23/06/08 18:35), Andy Whitcroft didst pronounce:
-> When a hugetlb mapping with a reservation is split, a new VMA is cloned
-> from the original.  This new VMA is a direct copy of the original
-> including the reservation count.  When this pair of VMAs are unmapped
-> we will incorrect double account the unused reservation and the overall
-> reservation count will be incorrect, in extreme cases it will wrap.
-> 
-> The problem occurs when we split an existing VMA say to unmap a page in
-> the middle.  split_vma() will create a new VMA copying all fields from
-> the original.  As we are storing our reservation count in vm_private_data
-> this is also copies, endowing the new VMA with a duplicate of the original
-> VMA's reservation.  Neither of the new VMAs can exhaust these reservations
-> as they are too small, but when we unmap and close these VMAs we will
-> incorrect credit the remainder twice and resv_huge_pages will become
-> out of sync.  This can lead to allocation failures on mappings with
-> reservations and even to resv_huge_pages wrapping which prevents all
-> subsequent hugepage allocations.
-> 
-> The simple fix would be to correctly apportion the remaining reservation
-> count when the split is made.  However the only hook we have vm_ops->open
-> only has the new VMA we do not know the identity of the preceeding VMA.
-> Also even if we did have that VMA to hand we do not know how much of the
-> reservation was consumed each side of the split.
-> 
-> This patch therefore takes a different tack.  We know that the whole of any
-> private mapping (which has a reservation) has a reservation over its whole
-> size.  Any present pages represent consumed reservation.  Therefore if
-> we track the instantiated pages we can calculate the remaining reservation.
-> 
-> This patch reuses the existing regions code to track the regions for which
-> we have consumed reservation (ie. the instantiated pages), as each page
-> is faulted in we record the consumption of reservation for the new page.
-> When we need to return unused reservations at unmap time we simply count
-> the consumed reservation region subtracting that from the whole of the map.
-> During a VMA split the newly opened VMA will point to the same region map,
-> as this map is offset oriented it remains valid for both of the split VMAs.
-> This map is referenced counted so that it is removed when all VMAs which
-> are part of the mmap are gone.
-> 
-> Thanks to Adam Litke and Mel Gorman for their review feedback.
-> 
-> Signed-off-by: Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
+Hi Stephen,
 
-Nice explanation. Testing on i386 with qemu, this patch allows some
-small tests to pass without corruption of the rsvd counters.
-libhugetlbfs tests also passed. I do not see anything new to complain
-about in the code. Thanks.
+While booting up the next-20080624 kernel on the x86_64 box, kernel panics.
+Kernel panics of two different x86_64 machines are pasted below
 
-Acked-by: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+BUG: unable to handle kernel NULL pointer dereference at 0000000000000008
+IP: [<ffffffff803be0d0>] tg3_reset_hw+0xf48/0x154b
+PGD 101e9067 PUD 10098067 PMD 0 
+Oops: 0000 [1] SMP 
+last sysfs file: /sys/class/net/eth1/address
+CPU 0 
+Modules linked in: battery ac lp parport_pc parport nvram amd_rng rng_core pcspkr button i2c_amd756 i2c_core
+Pid: 1922, comm: ip Not tainted 2.6.26-rc7-next-20080624-autotest #1
+RIP: 0010:[<ffffffff803be0d0>]  [<ffffffff803be0d0>] tg3_reset_hw+0xf48/0x154b
+RSP: 0018:ffff8100101d5d38  EFLAGS: 00010246
+RAX: 000000000040a026 RBX: 000000000001f800 RCX: 0000000000000000
+RDX: 0000000000000006 RSI: 0000000000005400 RDI: ffff81003d49a740
+RBP: ffff81003d49a740 R08: 0000000000000002 R09: 0000000000000008
+R10: 0000000000000009 R11: ffffffff8047754d R12: 0000000001000008
+R13: 00000000000003fe R14: ffff81003d49a748 R15: 0000000000000000
+FS:  00007f8b537c36f0(0000) GS:ffffffff806afd40(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
+CR2: 0000000000000008 CR3: 0000000011c79000 CR4: 00000000000006e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+Process ip (pid: 1922, threadinfo ffff8100101d4000, task ffff81003d698be0)
+Stack:  ffff81003d49a740 0000000000000074 0000000000000028 ffff000880340560
+ ffff81003d49a740 ffff81003d49a800 ffff81003d49a740 0000000000001002
+ 0000000000000000 ffff81003d49a748 ffff81003d49a000 ffffffff803c2971
+Call Trace:
+ [<ffffffff803c2971>] tg3_open+0x29b/0x5ee
+ [<ffffffff80317c24>] selinux_capable+0x87/0x90
+ [<ffffffff8048661b>] dev_open+0x6c/0xa0
+ [<ffffffff80485131>] dev_change_flags+0xa6/0x15d
+ [<ffffffff804c4826>] devinet_ioctl+0x243/0x5a1
+ [<ffffffff80278a9b>] handle_mm_fault+0x32b/0x6a5
+ [<ffffffff804795d0>] sock_ioctl+0x1d4/0x1f8
+ [<ffffffff8029eb51>] vfs_ioctl+0x21/0x6b
+ [<ffffffff8029edf7>] do_vfs_ioctl+0x25c/0x275
+ [<ffffffff8029ee61>] sys_ioctl+0x51/0x70
+ [<ffffffff8020bd0b>] system_call_after_swapgs+0x7b/0x80
 
-> ---
->  mm/hugetlb.c |  171 ++++++++++++++++++++++++++++++++++++++++++++++++---------
->  1 files changed, 144 insertions(+), 27 deletions(-)
-> 
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index d701e39..7ba6d4d 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -49,6 +49,16 @@ static DEFINE_SPINLOCK(hugetlb_lock);
->  /*
->   * Region tracking -- allows tracking of reservations and instantiated pages
->   *                    across the pages in a mapping.
-> + *
-> + * The region data structures are protected by a combination of the mmap_sem
-> + * and the hugetlb_instantion_mutex.  To access or modify a region the caller
-> + * must either hold the mmap_sem for write, or the mmap_sem for read and
-> + * the hugetlb_instantiation mutex:
-> + *
-> + * 	down_write(&mm->mmap_sem);
-> + * or
-> + * 	down_read(&mm->mmap_sem);
-> + * 	mutex_lock(&hugetlb_instantiation_mutex);
->   */
->  struct file_region {
->  	struct list_head link;
-> @@ -171,6 +181,30 @@ static long region_truncate(struct list_head *head, long end)
->  	return chg;
->  }
->  
-> +static long region_count(struct list_head *head, long f, long t)
-> +{
-> +	struct file_region *rg;
-> +	long chg = 0;
-> +
-> +	/* Locate each segment we overlap with, and count that overlap. */
-> +	list_for_each_entry(rg, head, link) {
-> +		int seg_from;
-> +		int seg_to;
-> +
-> +		if (rg->to <= f)
-> +			continue;
-> +		if (rg->from >= t)
-> +			break;
-> +
-> +		seg_from = max(rg->from, f);
-> +		seg_to = min(rg->to, t);
-> +
-> +		chg += seg_to - seg_from;
-> +	}
-> +
-> +	return chg;
-> +}
-> +
->  /*
->   * Convert the address within this vma to the page offset within
->   * the mapping, in base page units.
-> @@ -193,9 +227,15 @@ static pgoff_t vma_pagecache_offset(struct hstate *h,
->  			(vma->vm_pgoff >> huge_page_order(h));
->  }
->  
-> -#define HPAGE_RESV_OWNER    (1UL << (BITS_PER_LONG - 1))
-> -#define HPAGE_RESV_UNMAPPED (1UL << (BITS_PER_LONG - 2))
-> +/*
-> + * Flags for MAP_PRIVATE reservations.  These are stored in the bottom
-> + * bits of the reservation map pointer, which are always clear due to
-> + * alignment.
-> + */
-> +#define HPAGE_RESV_OWNER    (1UL << 0)
-> +#define HPAGE_RESV_UNMAPPED (1UL << 1)
->  #define HPAGE_RESV_MASK (HPAGE_RESV_OWNER | HPAGE_RESV_UNMAPPED)
-> +
->  /*
->   * These helpers are used to track how many pages are reserved for
->   * faults in a MAP_PRIVATE mapping. Only the process that called mmap()
-> @@ -205,6 +245,15 @@ static pgoff_t vma_pagecache_offset(struct hstate *h,
->   * the reserve counters are updated with the hugetlb_lock held. It is safe
->   * to reset the VMA at fork() time as it is not in use yet and there is no
->   * chance of the global counters getting corrupted as a result of the values.
-> + *
-> + * The private mapping reservation is represented in a subtly different
-> + * manner to a shared mapping.  A shared mapping has a region map associated
-> + * with the underlying file, this region map represents the backing file
-> + * pages which have ever had a reservation assigned which this persists even
-> + * after the page is instantiated.  A private mapping has a region map
-> + * associated with the original mmap which is attached to all VMAs which
-> + * reference it, this region map represents those offsets which have consumed
-> + * reservation ie. where pages have been instantiated.
->   */
->  static unsigned long get_vma_private_data(struct vm_area_struct *vma)
->  {
-> @@ -217,22 +266,48 @@ static void set_vma_private_data(struct vm_area_struct *vma,
->  	vma->vm_private_data = (void *)value;
->  }
->  
-> -static unsigned long vma_resv_huge_pages(struct vm_area_struct *vma)
-> +struct resv_map {
-> +	struct kref refs;
-> +	struct list_head regions;
-> +};
-> +
-> +struct resv_map *resv_map_alloc(void)
-> +{
-> +	struct resv_map *resv_map = kmalloc(sizeof(*resv_map), GFP_KERNEL);
-> +	if (!resv_map)
-> +		return NULL;
-> +
-> +	kref_init(&resv_map->refs);
-> +	INIT_LIST_HEAD(&resv_map->regions);
-> +
-> +	return resv_map;
-> +}
-> +
-> +void resv_map_release(struct kref *ref)
-> +{
-> +	struct resv_map *resv_map = container_of(ref, struct resv_map, refs);
-> +
-> +	/* Clear out any active regions before we release the map. */
-> +	region_truncate(&resv_map->regions, 0);
-> +	kfree(resv_map);
-> +}
-> +
-> +static struct resv_map *vma_resv_map(struct vm_area_struct *vma)
->  {
->  	VM_BUG_ON(!is_vm_hugetlb_page(vma));
->  	if (!(vma->vm_flags & VM_SHARED))
-> -		return get_vma_private_data(vma) & ~HPAGE_RESV_MASK;
-> +		return (struct resv_map *)(get_vma_private_data(vma) &
-> +							~HPAGE_RESV_MASK);
->  	return 0;
->  }
->  
-> -static void set_vma_resv_huge_pages(struct vm_area_struct *vma,
-> -							unsigned long reserve)
-> +static void set_vma_resv_map(struct vm_area_struct *vma, struct resv_map *map)
->  {
->  	VM_BUG_ON(!is_vm_hugetlb_page(vma));
->  	VM_BUG_ON(vma->vm_flags & VM_SHARED);
->  
-> -	set_vma_private_data(vma,
-> -		(get_vma_private_data(vma) & HPAGE_RESV_MASK) | reserve);
-> +	set_vma_private_data(vma, (get_vma_private_data(vma) &
-> +				HPAGE_RESV_MASK) | (unsigned long)map);
->  }
->  
->  static void set_vma_resv_flags(struct vm_area_struct *vma, unsigned long flags)
-> @@ -260,19 +335,12 @@ static void decrement_hugepage_resv_vma(struct hstate *h,
->  	if (vma->vm_flags & VM_SHARED) {
->  		/* Shared mappings always use reserves */
->  		h->resv_huge_pages--;
-> -	} else {
-> +	} else if (is_vma_resv_set(vma, HPAGE_RESV_OWNER)) {
->  		/*
->  		 * Only the process that called mmap() has reserves for
->  		 * private mappings.
->  		 */
-> -		if (is_vma_resv_set(vma, HPAGE_RESV_OWNER)) {
-> -			unsigned long flags, reserve;
-> -			h->resv_huge_pages--;
-> -			flags = (unsigned long)vma->vm_private_data &
-> -							HPAGE_RESV_MASK;
-> -			reserve = (unsigned long)vma->vm_private_data - 1;
-> -			vma->vm_private_data = (void *)(reserve | flags);
-> -		}
-> +		h->resv_huge_pages--;
->  	}
->  }
->  
-> @@ -289,7 +357,7 @@ static int vma_has_private_reserves(struct vm_area_struct *vma)
->  {
->  	if (vma->vm_flags & VM_SHARED)
->  		return 0;
-> -	if (!vma_resv_huge_pages(vma))
-> +	if (!is_vma_resv_set(vma, HPAGE_RESV_OWNER))
->  		return 0;
->  	return 1;
->  }
-> @@ -794,12 +862,19 @@ static int vma_needs_reservation(struct hstate *h,
->  		return region_chg(&inode->i_mapping->private_list,
->  							idx, idx + 1);
->  
-> -	} else {
-> -		if (!is_vma_resv_set(vma, HPAGE_RESV_OWNER))
-> -			return 1;
-> -	}
-> +	} else if (!is_vma_resv_set(vma, HPAGE_RESV_OWNER)) {
-> +		return 1;
->  
-> -	return 0;
-> +	} else  {
-> +		int err;
-> +		pgoff_t idx = vma_pagecache_offset(h, vma, addr);
-> +		struct resv_map *reservations = vma_resv_map(vma);
-> +
-> +		err = region_chg(&reservations->regions, idx, idx + 1);
-> +		if (err < 0)
-> +			return err;
-> +		return 0;
-> +	}
->  }
->  static void vma_commit_reservation(struct hstate *h,
->  			struct vm_area_struct *vma, unsigned long addr)
-> @@ -810,6 +885,13 @@ static void vma_commit_reservation(struct hstate *h,
->  	if (vma->vm_flags & VM_SHARED) {
->  		pgoff_t idx = vma_pagecache_offset(h, vma, addr);
->  		region_add(&inode->i_mapping->private_list, idx, idx + 1);
-> +
-> +	} else if (is_vma_resv_set(vma, HPAGE_RESV_OWNER)) {
-> +		pgoff_t idx = vma_pagecache_offset(h, vma, addr);
-> +		struct resv_map *reservations = vma_resv_map(vma);
-> +
-> +		/* Mark this page used in the map. */
-> +		region_add(&reservations->regions, idx, idx + 1);
->  	}
->  }
->  
-> @@ -1456,13 +1538,42 @@ out:
->  	return ret;
->  }
->  
-> +static void hugetlb_vm_op_open(struct vm_area_struct *vma)
-> +{
-> +	struct resv_map *reservations = vma_resv_map(vma);
-> +
-> +	/*
-> +	 * This new VMA should share its siblings reservation map if present.
-> +	 * The VMA will only ever have a valid reservation map pointer where
-> +	 * it is being copied for another still existing VMA.  As that VMA
-> +	 * has a reference to the reservation map it cannot dissappear until
-> +	 * after this open call completes.  It is therefore safe to take a
-> +	 * new reference here without additional locking.
-> +	 */
-> +	if (reservations)
-> +		kref_get(&reservations->refs);
-> +}
-> +
->  static void hugetlb_vm_op_close(struct vm_area_struct *vma)
->  {
->  	struct hstate *h = hstate_vma(vma);
-> -	unsigned long reserve = vma_resv_huge_pages(vma);
-> +	struct resv_map *reservations = vma_resv_map(vma);
-> +	unsigned long reserve;
-> +	unsigned long start;
-> +	unsigned long end;
->  
-> -	if (reserve)
-> -		hugetlb_acct_memory(h, -reserve);
-> +	if (reservations) {
-> +		start = vma_pagecache_offset(h, vma, vma->vm_start);
-> +		end = vma_pagecache_offset(h, vma, vma->vm_end);
-> +
-> +		reserve = (end - start) -
-> +			region_count(&reservations->regions, start, end);
-> +
-> +		kref_put(&reservations->refs, resv_map_release);
-> +
-> +		if (reserve)
-> +			hugetlb_acct_memory(h, -reserve);
-> +	}
->  }
->  
->  /*
-> @@ -1479,6 +1590,7 @@ static int hugetlb_vm_op_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
->  
->  struct vm_operations_struct hugetlb_vm_ops = {
->  	.fault = hugetlb_vm_op_fault,
-> +	.open = hugetlb_vm_op_open,
->  	.close = hugetlb_vm_op_close,
->  };
->  
-> @@ -2037,8 +2149,13 @@ int hugetlb_reserve_pages(struct inode *inode,
->  	if (!vma || vma->vm_flags & VM_SHARED)
->  		chg = region_chg(&inode->i_mapping->private_list, from, to);
->  	else {
-> +		struct resv_map *resv_map = resv_map_alloc();
-> +		if (!resv_map)
-> +			return -ENOMEM;
-> +
->  		chg = to - from;
-> -		set_vma_resv_huge_pages(vma, chg);
-> +
-> +		set_vma_resv_map(vma, resv_map);
->  		set_vma_resv_flags(vma, HPAGE_RESV_OWNER);
->  	}
->  
-> -- 
-> 1.5.6.205.g7ca3a
-> 
+
+Code: ef e8 63 a0 ff ff 8b 85 88 07 00 00 a8 20 0f 84 06 01 00 00 a9 00 00 01 08 0f 85 fb 00 00 00 48 8b 8d 48 0b 00 00 be 00 54 00 00 <48> 8b 51 08 8b 42 04 48 83 c2 0c 0f c8 89 04 24 8b 01 b9 00 40 
+RIP  [<ffffffff803be0d0>] tg3_reset_hw+0xf48/0x154b
+ RSP <ffff8100101d5d38>
+CR2: 0000000000000008
+---[ end trace 9f49694bab0b33db ]---
+Kernel panic - not syncing: Aiee, killing interrupt handler!
+Pid: 1922, comm: ip Tainted: G      D   2.6.26-rc7-next-20080624-autotest #1
+
+Call Trace:
+ [<ffffffff8023366f>] panic+0x86/0x144
+ [<ffffffff80252f75>] kallsyms_lookup+0x49/0x80
+ [<ffffffff803be0d0>] tg3_reset_hw+0xf48/0x154b
+ [<ffffffff802341e2>] printk+0x4e/0x56
+ [<ffffffff802341e2>] printk+0x4e/0x56
+ [<ffffffff80236764>] do_exit+0x71/0x67c
+ [<ffffffff804fdc71>] oops_begin+0x0/0x8c
+ [<ffffffff804ffb84>] do_page_fault+0x77b/0x834
+ [<ffffffff804fd8b9>] error_exit+0x0/0x51
+ [<ffffffff8047754d>] pci_conf1_write+0x0/0xdb
+ [<ffffffff803be0d0>] tg3_reset_hw+0xf48/0x154b
+ [<ffffffff803bdf9b>] tg3_reset_hw+0xe13/0x154b
+ [<ffffffff803c2971>] tg3_open+0x29b/0x5ee
+ [<ffffffff80317c24>] selinux_capable+0x87/0x90
+ [<ffffffff8048661b>] dev_open+0x6c/0xa0
+ [<ffffffff80485131>] dev_change_flags+0xa6/0x15d
+ [<ffffffff804c4826>] devinet_ioctl+0x243/0x5a1
+ [<ffffffff80278a9b>] handle_mm_fault+0x32b/0x6a5
+ [<ffffffff804795d0>] sock_ioctl+0x1d4/0x1f8
+ [<ffffffff8029eb51>] vfs_ioctl+0x21/0x6b
+ [<ffffffff8029edf7>] do_vfs_ioctl+0x25c/0x275
+ [<ffffffff8029ee61>] sys_ioctl+0x51/0x70
+ [<ffffffff8020bd0b>] system_call_after_swapgs+0x7b/0x80
+
+BUG: unable to handle kernel NULL pointer dereference at 0000000000000008
+IP: [<ffffffff803db3e1>] tg3_reset_hw+0xfc2/0x1559
+PGD 17ff33067 PUD 17ee89067 PMD 0 
+Oops: 0000 [1] SMP 
+last sysfs file: /sys/devices/pci0000:00/0000:00:0a.0/0000:02:04.0/host0/target0:0:6/0:0:6:0/type
+CPU 2 
+Modules linked in:
+Pid: 2111, comm: ifconfig Not tainted 2.6.26-rc7-next-20080624-autotest #1
+RIP: 0010:[<ffffffff803db3e1>]  [<ffffffff803db3e1>] tg3_reset_hw+0xfc2/0x1559
+RSP: 0000:ffff8101fe6dbbd8  EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 00000000000003fe RCX: 0000000000001002
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffff81007ee146c0 R08: 0000000000000002 R09: 0000000000000008
+R10: 0000000000000010 R11: ffffffff80427969 R12: 0000000000005000
+R13: 0000000000000000 R14: ffff8100e3136800 R15: ffff81007ee14000
+FS:  0000000000000000(0000) GS:ffff81017ff0f000(0063) knlGS:00000000f7ddb460
+CS:  0010 DS: 002b ES: 002b CR0: 000000008005003b
+CR2: 0000000000000008 CR3: 000000017f3bb000 CR4: 00000000000006e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+Process ifconfig (pid: 2111, threadinfo ffff8101fe6da000, task ffff8100e2cb37a0)
+Stack:  0000000000000000 000881007ee146c0 000000000000004c ffffffff80365680
+ ffff81007ee146c0 0000000000000074 0000000000000028 ffff81007ee146c0
+ 0000000000000001 0000000000000000 0000000000000000 ffffffff803db9ab
+Call Trace:
+ [<ffffffff80365680>] __delay+0x1c/0x41
+ [<ffffffff803db9ab>] tg3_init_hw+0x33/0x38
+ [<ffffffff803dbee6>] tg3_open+0x29e/0x600
+ [<ffffffff80438556>] dev_open+0x73/0xac
+ [<ffffffff80438bf9>] dev_change_flags+0xa3/0x15b
+ [<ffffffff8046e17e>] devinet_ioctl+0x288/0x5d8
+ [<ffffffff8046fc7f>] inet_ioctl+0x8f/0xa7
+ [<ffffffff8042ce22>] sock_ioctl+0x0/0x19c
+ [<ffffffff8042cf9a>] sock_ioctl+0x178/0x19c
+ [<ffffffff8028b899>] vfs_ioctl+0x29/0x6f
+ [<ffffffff8028bb2c>] do_vfs_ioctl+0x24d/0x25c
+ [<ffffffff8028bb77>] sys_ioctl+0x3c/0x61
+ [<ffffffff802ad2ae>] dev_ifsioc+0xdb/0x216
+ [<ffffffff802aeea3>] compat_sys_ioctl+0x2df/0x320
+ [<ffffffff8021e4cb>] do_page_fault+0x44c/0x7fe
+ [<ffffffff8042c696>] sock_map_fd+0x44/0x4b
+ [<ffffffff8036305d>] __up_read+0x10/0x96
+ [<ffffffff802226d2>] ia32_sysret+0x0/0xa
+
+
+Code: 4a 01 00 00 31 c0 81 e2 00 00 01 08 0f 85 34 01 00 00 48 8b bd c8 0a 00 00 8b 8d cc 07 00 00 41 bc 00 50 00 00 8b b5 d0 0a 00 00 <48> 8b 57 08 c1 e9 0c 8b 42 04 48 83 c2 0c 0f c8 89 44 24 10 8b 
+RIP  [<ffffffff803db3e1>] tg3_reset_hw+0xfc2/0x1559
+ RSP <ffff8101fe6dbbd8>
+CR2: 0000000000000008
+---[ end trace c1b9eba54c29dd60 ]---
+Kernel panic - not syncing: Aiee, killing interrupt handler!
+Pid: 2111, comm: ifconfig Tainted: G      D   2.6.26-rc7-next-20080624-autotest #1
+
+Call Trace:
+ [<ffffffff8022fa37>] panic+0xc4/0x181
+ [<ffffffff80230ac3>] printk+0x8d/0x95
+ [<ffffffff802325a2>] do_exit+0x1d8/0x65f
+ [<ffffffff8020cd8c>] __die+0x0/0xd7
+ [<ffffffff8021e7d4>] do_page_fault+0x755/0x7fe
+ [<ffffffff804ad9c9>] error_exit+0x0/0x51
+ [<ffffffff80427969>] pci_conf1_write+0x0/0xd2
+ [<ffffffff803db3e1>] tg3_reset_hw+0xfc2/0x1559
+ [<ffffffff803db25f>] tg3_reset_hw+0xe40/0x1559
+ [<ffffffff80365680>] __delay+0x1c/0x41
+ [<ffffffff803db9ab>] tg3_init_hw+0x33/0x38
+ [<ffffffff803dbee6>] tg3_open+0x29e/0x600
+ [<ffffffff80438556>] dev_open+0x73/0xac
+ [<ffffffff80438bf9>] dev_change_flags+0xa3/0x15b
+ [<ffffffff8046e17e>] devinet_ioctl+0x288/0x5d8
+ [<ffffffff8046fc7f>] inet_ioctl+0x8f/0xa7
+ [<ffffffff8042ce22>] sock_ioctl+0x0/0x19c
+ [<ffffffff8042cf9a>] sock_ioctl+0x178/0x19c
+ [<ffffffff8028b899>] vfs_ioctl+0x29/0x6f
+ [<ffffffff8028bb2c>] do_vfs_ioctl+0x24d/0x25c
+ [<ffffffff8028bb77>] sys_ioctl+0x3c/0x61
+ [<ffffffff802ad2ae>] dev_ifsioc+0xdb/0x216
+ [<ffffffff802aeea3>] compat_sys_ioctl+0x2df/0x320
+ [<ffffffff8021e4cb>] do_page_fault+0x44c/0x7fe
+ [<ffffffff8042c696>] sock_map_fd+0x44/0x4b
+ [<ffffffff8036305d>] __up_read+0x10/0x96
+ [<ffffffff802226d2>] ia32_sysret+0x0/0xa
 
 -- 
-Mel Gorman
-Part-time Phd Student                          Linux Technology Center
-University of Limerick                         IBM Dublin Software Lab
+Thanks & Regards,
+Kamalesh Babulal,
+Linux Technology Center,
+IBM, ISTL.
