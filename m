@@ -1,61 +1,51 @@
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [BUILD-FAILURE] linux-next: Tree for June 24 - missing files in
- drivers/media/dvb/
-Date: Wed, 25 Jun 2008 13:48:59 +1000
-Message-ID: <20080625134859.6bc218c4.sfr@canb.auug.org.au>
-References: <20080624175612.cdf29651.sfr@canb.auug.org.au>
-	<486134B4.4050400@linux.vnet.ibm.com>
-	<20080625132810.6f31b571.sfr@canb.auug.org.au>
+From: Jon Tollefson <kniht@linux.vnet.ibm.com>
+Subject: Re: [RFC] hugetlb reservations -- MAP_PRIVATE fixes for split vmas
+ V2
+Date: Wed, 25 Jun 2008 16:22:53 -0500
+Message-ID: <4862B72D.7060103@linux.vnet.ibm.com>
+References: <485A8903.9030808@linux.vnet.ibm.com> <1214242533-12104-1-git-send-email-apw@shadowen.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature";
- micalg="PGP-SHA1";
- boundary="Signature=_Wed__25_Jun_2008_13_48_59_+1000_9kivaz_FuL65iOM0"
-Return-path: <linux-next-owner@vger.kernel.org>
-In-Reply-To: <20080625132810.6f31b571.sfr@canb.auug.org.au>
-Sender: linux-next-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755295AbYFYVWt@vger.kernel.org>
+In-Reply-To: <1214242533-12104-1-git-send-email-apw@shadowen.org>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Mauro Carvalho Chehab <mchehab@infradead.org>
-Cc: Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>, linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, kernel-testers@vger.kernel.org, v4l-dvb-maintainer@linuxtv.org, Andy Whitcroft <apw@shadowen.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Andy Whitcroft <apw@shadowen.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Nick Piggin <npiggin@suse.de>, Nishanth Aravamudan <nacc@us.ibm.com>, Adam Litke <agl@linux.vnet.ibm.com>, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, linux-mm@kvack.org, Mel Gorman <mel@csn.ul.ie>
 
---Signature=_Wed__25_Jun_2008_13_48_59_+1000_9kivaz_FuL65iOM0
-Content-Type: text/plain; charset=US-ASCII
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Mauro,
-
-On Wed, 25 Jun 2008 13:28:10 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
+Andy Whitcroft wrote:
+> As reported by Adam Litke and Jon Tollefson one of the libhugetlbfs
+> regression tests triggers a negative overall reservation count.  When
+> this occurs where there is no dynamic pool enabled tests will fail.
 >
-> On Tue, 24 Jun 2008 23:23:56 +0530 Kamalesh Babulal <kamalesh@linux.vnet.=
-ibm.com> wrote:
-> >
-> > allyesconfig kernel build on next-20080624, fails due to missing files
-> >=20
-> > drivers/media/video/em28xx/em28xx-dvb.c:30:22: error: drx397xD.h: No su=
-ch file or directory
->=20
-> To fix this, I have reverted commit
-> 969ff74e0ab707801150dc83eb254794bc574442 ("V4L/DVB (8006): em28xx: Split
-> HVR900 into two separate entries") from linux-next for today.
+> Following this email are two patches to address this issue:
+>
+> hugetlb reservations: move region tracking earlier -- simply moves the
+>   region tracking code earlier so we do not have to supply prototypes, and
+>
+> hugetlb reservations: fix hugetlb MAP_PRIVATE reservations across vma
+>   splits -- which moves us to tracking the consumed reservation so that
+>   we can correctly calculate the remaining reservations at vma close time.
+>
+> This stack is against the top of v2.6.25-rc6-mm3, should this solution
+> prove acceptable it would need slipping underneath Nick's multiple hugepage
+> size patches and those updated.  I have a modified stack prepared for that.
+>
+> This version incorporates Mel's feedback (both cosmetic, and an allocation
+> under spinlock issue) and has an improved layout.
+>
+> Changes in V2:
+>  - commentry updates
+>  - pull allocations out from under hugetlb_lock
+>  - refactor to match shared code layout
+>  - reinstate BUG_ON's
+>
+> Jon could you have a test on this and see if it works out for you.
+>
+> -apw
+>   
+Version two works for me too.  I am not seeing the reserve value become
+negative when running the libhuge tests.
 
-Although, on reflection, this may have been caused by the mismerge
-yesterday.  I will leave it in tomorrow unless I am told otherwise.
-
---=20
-Cheers,
-Stephen Rothwell                    sfr@canb.auug.org.au
-http://www.canb.auug.org.au/~sfr/
-
---Signature=_Wed__25_Jun_2008_13_48_59_+1000_9kivaz_FuL65iOM0
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEARECAAYFAkhhwCsACgkQTgG2atn1QN+9wACbBEayEZ9L5z7afTkIW5LSJ+na
-XeoAn1sD/5dOfGF26NKiPXNoqww2Yi04
-=sF4D
------END PGP SIGNATURE-----
-
---Signature=_Wed__25_Jun_2008_13_48_59_+1000_9kivaz_FuL65iOM0--
+Jon
