@@ -1,51 +1,57 @@
-From: Jon Tollefson <kniht@linux.vnet.ibm.com>
-Subject: Re: [RFC] hugetlb reservations -- MAP_PRIVATE fixes for split vmas
- V2
-Date: Wed, 25 Jun 2008 16:22:53 -0500
-Message-ID: <4862B72D.7060103@linux.vnet.ibm.com>
-References: <485A8903.9030808@linux.vnet.ibm.com> <1214242533-12104-1-git-send-email-apw@shadowen.org>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: linux-next: Tree for June 25
+Date: Thu, 26 Jun 2008 02:28:38 +0200
+Message-ID: <200806260228.38674.rjw@sisk.pl>
+References: <20080626003554.b2623aba.sfr@canb.auug.org.au>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755295AbYFYVWt@vger.kernel.org>
-In-Reply-To: <1214242533-12104-1-git-send-email-apw@shadowen.org>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20080626003554.b2623aba.sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Andy Whitcroft <apw@shadowen.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Nick Piggin <npiggin@suse.de>, Nishanth Aravamudan <nacc@us.ibm.com>, Adam Litke <agl@linux.vnet.ibm.com>, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, linux-mm@kvack.org, Mel Gorman <mel@csn.ul.ie>
+To: Stephen Rothwell <sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-next-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-Andy Whitcroft wrote:
-> As reported by Adam Litke and Jon Tollefson one of the libhugetlbfs
-> regression tests triggers a negative overall reservation count.  When
-> this occurs where there is no dynamic pool enabled tests will fail.
->
-> Following this email are two patches to address this issue:
->
-> hugetlb reservations: move region tracking earlier -- simply moves the
->   region tracking code earlier so we do not have to supply prototypes, and
->
-> hugetlb reservations: fix hugetlb MAP_PRIVATE reservations across vma
->   splits -- which moves us to tracking the consumed reservation so that
->   we can correctly calculate the remaining reservations at vma close time.
->
-> This stack is against the top of v2.6.25-rc6-mm3, should this solution
-> prove acceptable it would need slipping underneath Nick's multiple hugepage
-> size patches and those updated.  I have a modified stack prepared for that.
->
-> This version incorporates Mel's feedback (both cosmetic, and an allocation
-> under spinlock issue) and has an improved layout.
->
-> Changes in V2:
->  - commentry updates
->  - pull allocations out from under hugetlb_lock
->  - refactor to match shared code layout
->  - reinstate BUG_ON's
->
-> Jon could you have a test on this and see if it works out for you.
->
-> -apw
->   
-Version two works for me too.  I am not seeing the reserve value become
-negative when running the libhuge tests.
+On Wednesday, 25 of June 2008, Stephen Rothwell wrote:
+> Hi all,
 
-Jon
+Hi,
+
+> Changes since next-20080624:
+> 
+> The tip-core tree gained three conflicts against Linus' tree.
+> 
+> The sched tree gained a conflict against the cpus4096 tree.
+> 
+> The x86 tree gained a conflict against the ftrace tree.  It also required
+> three patches that Ingo supplied.
+> 
+> The pci tree gained two conflicts against the x86 tree.
+> 
+> The v4l-dvb tree has had another commit reverted for a build problem,
+> however that may have been due to a mismerge in yesterday's tree.
+> 
+> The acpi tree gained two conflicts against the x86 tree.
+> 
+> The tests tree gained a conflict against the sched tree.
+> 
+> The vfs tree gained a conflict against the sched tree.
+> 
+> The rr tree gained a conflict against each of the sched and powerpc
+> trees.  It also required a patch and a commit reverted for build problems.
+> 
+> The pcmcia tree lost its conflict against Linus' tree.
+
+This tree is completely broken on my test box (x86-64 HP nx6325) and I can't
+even bisect it. :-(
+
+It hits a NULL pointer dereference in find_symbol during boot, but when I tried
+to bisect this issue, I hit another one that made the box hang solid during
+boot (early, no messages available).
+
+If things continue going this way, 2.6.27 will be a disaster ...
+
+Thanks,
+Rafael
