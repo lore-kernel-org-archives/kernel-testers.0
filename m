@@ -1,7 +1,7 @@
 From: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
 Subject: WARNING: at net/mac80211/rx.c:319 __ieee80211_rx_handle_packet+0x325/0x775()
-Date: Sat, 28 Jun 2008 21:47:11 +0100
-Message-ID: <4866A34F.2060708@yahoo.com>
+Date: Sat, 28 Jun 2008 21:48:37 +0100
+Message-ID: <4866A3A5.3060208@yahoo.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -48,6 +48,7 @@ The config I am using can be found on
 http://sucs.org/~sits/test/config-20080628.txt . I don't remember seeing
 this error in old 32 bit kernels but this the first 64 bit kernel I've
 started testing with.
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-wireless" in
