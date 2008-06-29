@@ -1,51 +1,23 @@
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [BUILD-FAILURE] linux-next: Tree for June 24 - missing files in
- drivers/media/dvb/
-Date: Sun, 29 Jun 2008 22:35:20 +1000
-Message-ID: <20080629223520.1ac2297b.sfr@canb.auug.org.au>
-References: <20080624175612.cdf29651.sfr@canb.auug.org.au>
-	<486134B4.4050400@linux.vnet.ibm.com>
-	<20080625132810.6f31b571.sfr@canb.auug.org.au>
-	<20080625134859.6bc218c4.sfr@canb.auug.org.au>
-	<20080629084317.3392dac9@gaivota>
+From: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Subject: Re: WARNING: at net/mac80211/rx.c:319 __ieee80211_rx_handle_packet+0x325/0x775()
+Date: Sun, 29 Jun 2008 18:20:49 +0100
+Message-ID: <4867C471.6010106__45316.6660656736$1214760845$gmane$org@yahoo.com>
+References: <4866A3A5.3060208@yahoo.com> <200806282357.30255.mb@bu3sch.de> <4866B5BF.3000404@yahoo.com> <200806290053.17284.mb@bu3sch.de>
 Mime-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature";
- micalg="PGP-SHA1";
- boundary="Signature=_Sun__29_Jun_2008_22_35_20_+1000__DK_08u9Im=Rjzaj"
-Return-path: <linux-next-owner@vger.kernel.org>
-In-Reply-To: <20080629084317.3392dac9@gaivota>
-Sender: linux-next-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200806290053.17284.mb-fseUSCV1ubazQB+pC5nmwQ@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Mauro Carvalho Chehab <mchehab@infradead.org>
-Cc: Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>, linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, kernel-testers@vger.kernel.org, v4l-dvb-maintainer@linuxtv.org, Andy Whitcroft <apw@shadowen.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Michael Buesch <public-mb-fseUSCV1ubazQB+pC5nmwQ-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org>
+Cc: public-linux-wireless-u79uwXL29TY76Z2rM5mHXA-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org, public-kernel-testers-u79uwXL29TY76Z2rM5mHXA-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org
 
---Signature=_Sun__29_Jun_2008_22_35_20_+1000__DK_08u9Im=Rjzaj
-Content-Type: text/plain; charset=US-ASCII
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, 29 Jun 2008 08:43:17 -0300 Mauro Carvalho Chehab <mchehab@infradead=
-.org> wrote:
->
-> Thanks for the report. I've fixed the two reported issues and now it shou=
-ld compile fine.
 
-Thanks, I look forward to tomorrow's build.
+Michael Buesch wrote:
+> That's known to be broken and is worked on.
+> Please simply disable the warning. It is harmless
+> on your machine.
 
---=20
-Cheers,
-Stephen Rothwell                    sfr@canb.auug.org.au
-http://www.canb.auug.org.au/~sfr/
-
---Signature=_Sun__29_Jun_2008_22_35_20_+1000__DK_08u9Im=Rjzaj
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEARECAAYFAkhngYgACgkQjjKRsyhoI8yiHgCfRNocYwpz7l1uSu3Wdw6jS4Ye
-Z7sAoKrIhoA7rvikJ5vBOsOlXLVuff0h
-=bEg7
------END PGP SIGNATURE-----
-
---Signature=_Sun__29_Jun_2008_22_35_20_+1000__DK_08u9Im=Rjzaj--
+Thanks for the swift heads up and sorry for reporting a known issue.
