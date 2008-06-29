@@ -1,23 +1,30 @@
-From: Mariusz Kozlowski <m.kozlowski-NWF1p15JEu3VItvQsEIGlw@public.gmane.org>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
 Subject: Re: linux-next: Tree for June 27
-Date: Sun, 29 Jun 2008 21:29:57 +0200
-Message-ID: <200806292129.57465.m.kozlowski@tuxland.pl>
-References: <20080627182406.a54b00c1.sfr@canb.auug.org.au>
+Date: Sun, 29 Jun 2008 21:57:22 +0200
+Message-ID: <200806292157.22860.rjw@sisk.pl>
+References: <20080627182406.a54b00c1.sfr@canb.auug.org.au> <200806292129.57465.m.kozlowski@tuxland.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080627182406.a54b00c1.sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>
+Return-path: <linux-next-owner@vger.kernel.org>
+In-Reply-To: <200806292129.57465.m.kozlowski@tuxland.pl>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-next-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Stephen Rothwell <sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: linux-next-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mariusz Kozlowski <m.kozlowski@tuxland.pl>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, kernel-testers@vger.kernel.org, linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 
-Hello,
+On Sunday, 29 of June 2008, Mariusz Kozlowski wrote:
+> Hello,
+> 
+> It's too good. It survived hours of testing on 4 different arches. I stressed
+> them with latest ltp, autotest, my own testing scripts and anything else
+> I could think of. Good job :) The game is on.
 
-It's too good. It survived hours of testing on 4 different arches. I stressed
-them with latest ltp, autotest, my own testing scripts and anything else
-I could think of. Good job :) The game is on.
+Lucky you.
 
-	Mariusz
+There are no less than three different patches in it that break sigle box for
+me. :-(
+
+Thanks,
+Rafael
