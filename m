@@ -1,73 +1,56 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: inux-next: Tree for July 1
-Date: Tue, 1 Jul 2008 22:36:18 +0200
-Message-ID: <200807012236.19400.rjw@sisk.pl>
-References: <20080702011434.6fb403d5.sfr@canb.auug.org.au>
+Subject: Re: [RFT] x86 acpi: normalize segment descriptor register on resume
+Date: Tue, 1 Jul 2008 22:39:43 +0200
+Message-ID: <200807012239.44105.rjw@sisk.pl>
+References: <200807010148.02135.rjw@sisk.pl> <20080701063133.GC16642@elte.hu> <4869D4A3.3020000@zytor.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-next-owner@vger.kernel.org>
-In-Reply-To: <20080702011434.6fb403d5.sfr@canb.auug.org.au>
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <4869D4A3.3020000@zytor.com>
 Content-Disposition: inline
-Sender: linux-next-owner@vger.kernel.org
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, kernel-testers@vger.kernel.org, linux-nfs@vger.kernel.org, Trond Myklebust <Trond.Myklebust@netapp.com>
+To: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ingo Molnar <mingo@elte.hu>, kernel-testers@vger.kernel.org, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, Andi Kleen <andi@firstfloor.org>, LKML <linux-kernel@vger.kernel.org>, pm list <linux-pm@lists.linux-foundation.org>, Pavel Machek <pavel@ucw.cz>
 
-On Tuesday, 1 of July 2008, Stephen Rothwell wrote:
-> Hi all,
+On Tuesday, 1 of July 2008, H. Peter Anvin wrote:
+> Ingo Molnar wrote:
+> > * Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> > 
+> >> Hi,
+> >>
+> >> The appended patch fixes a regression and is considered as 2.6.26 
+> >> material. Everyone having a box with working suspend to RAM is gently 
+> >> requested to test it and verify if it doesn't break things.
+> >>
+> >> The patch applies to the current -git.
+> > 
+> > it's been under testing in tip/out-of-tree for about a week:
+> > 
+> > | commit ee901dc1b9ab94a37ba2efc296fe9ba72bc75adf
+> > | Author:     H. Peter Anvin <hpa@zytor.com>
+> > | AuthorDate: Tue Jun 24 23:03:48 2008 +0200
+> > | Commit:     Ingo Molnar <mingo@elte.hu>
+> > | CommitDate: Wed Jun 25 18:48:13 2008 +0200
+> > |
+> > |     x86 ACPI: normalize segment descriptor register on resume
+> > 
+> > no problems caused by it so far.
+> > 
 > 
-> Changes since next-20080630:
+> Here is the incremental patch which should stick "strictly to the 
+> script" of ljmp immediately after writing CR0.PE.  This should be done 
+> to the boot code as well; I'm waiting for confirmation from the Elan 
+> original reporter before submitting that patch.
 > 
-> New tree: ttydev - unfortunately it had to be reverted because of build
-> failures after lots of conflict resolution (which may have caused the
-> build failures).
+> I decided to make this an incremental patch to make it bisectable versus 
+> the other one, however, it should probably be considered the right thing.
 > 
-> Changed tree: the cris tree changed branch names.
-> 
-> The sched tree gained a couple of conflicts against the ftrace and
-> cpus4096 trees.
-> 
-> The pci tree gained a conflict against the x86 tree.
-> 
-> The usb tree reverted due to a build failure after merging with the pci
-> tree was changed for a fixup patch.
-> 
-> The v4l-dvb tree lost its three conflicts against Linus' tree.
-> 
-> The s390 tree gained a conflict against the diver-core tree.
-> 
-> The ide tree fixed its build problems.
-> 
-> The nfsd tree lost a conflict against the nfs tree.
-> 
-> The powerpc tree gained a conflict against the ide tree.
-> 
-> The net tree gained two conflicts against the powerpc tree.
-> 
-> The galak tree lost its conflict against the net tree.
-> 
-> the blk-removal tree gained a conflict against the s390 tree.
-> 
-> The firmware tree lost several conflicts against the net tree so didn't
-> need a commit reverted any more.
-> 
-> Merging the ttydev tree got several conflicts against the usb and
-> firmware trees.  Unfortunately, it also would not build and so was
-> reverted.
-> 
-> I have also applied the following patches for know problems:
-> 	module: fix NULL pointer dereference in find_symbol()
+> Note: I have not tested this beyond compilation, I'm afraid.
 
-I can't mount NFS shares with this kernel.  I get something of this sort in
-dmesg and it seems to be 100% reproducible:
-
-[  314.058858] RPC: Registered udp transport module.
-[  314.058863] RPC: Registered tcp transport module.
-[  314.490970] RPC: transport (0) not supported
-[  319.246987] __ratelimit: 23 messages suppressed
-
-linux-next from yesterday was fine with the same .config .
+I have tested it on the nx6325 (64-bit) on top of the today's linux-next.  It
+works fine for me.
 
 Thanks,
 Rafael
