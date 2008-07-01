@@ -1,84 +1,30 @@
-From: Chuck Lever <chuck.lever-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Subject: Re: inux-next: Tree for July 1
-Date: Tue, 1 Jul 2008 16:49:32 -0400
-Message-ID: <BC46CA27-0F46-4F1B-950D-562B36B19A0B@oracle.com>
-References: <20080702011434.6fb403d5.sfr@canb.auug.org.au> <200807012236.19400.rjw@sisk.pl>
-Mime-Version: 1.0 (Apple Message framework v926)
+From: Andi Kleen <andi@firstfloor.org>
+Subject: Re: [RFT] x86 acpi: normalize segment descriptor register on resume
+Date: Tue, 01 Jul 2008 22:52:07 +0200
+Message-ID: <486A98F7.1080203@firstfloor.org>
+References: <200807010148.02135.rjw@sisk.pl> <200807012239.44105.rjw@sisk.pl> <486A96C1.2020106@firstfloor.org> <200807012250.39930.rjw@sisk.pl>
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-nfs-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200807012236.19400.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: linux-nfs-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <200807012250.39930.rjw@sisk.pl>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"; delsp="yes"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Stephen Rothwell <sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>, linux-next-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-nfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Trond Myklebust <Trond.Myklebust-HgOvQuBEEgTQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@elte.hu>, kernel-testers@vger.kernel.org, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, pm list <linux-pm@lists.linux-foundation.org>, Pavel Machek <pavel@ucw.cz>
 
-On Jul 1, 2008, at 4:36 PM, Rafael J. Wysocki wrote:
-> On Tuesday, 1 of July 2008, Stephen Rothwell wrote:
->> Hi all,
->>
->> Changes since next-20080630:
->>
->> New tree: ttydev - unfortunately it had to be reverted because of  
->> build
->> failures after lots of conflict resolution (which may have caused the
->> build failures).
->>
->> Changed tree: the cris tree changed branch names.
->>
->> The sched tree gained a couple of conflicts against the ftrace and
->> cpus4096 trees.
->>
->> The pci tree gained a conflict against the x86 tree.
->>
->> The usb tree reverted due to a build failure after merging with the  
->> pci
->> tree was changed for a fixup patch.
->>
->> The v4l-dvb tree lost its three conflicts against Linus' tree.
->>
->> The s390 tree gained a conflict against the diver-core tree.
->>
->> The ide tree fixed its build problems.
->>
->> The nfsd tree lost a conflict against the nfs tree.
->>
->> The powerpc tree gained a conflict against the ide tree.
->>
->> The net tree gained two conflicts against the powerpc tree.
->>
->> The galak tree lost its conflict against the net tree.
->>
->> the blk-removal tree gained a conflict against the s390 tree.
->>
->> The firmware tree lost several conflicts against the net tree so  
->> didn't
->> need a commit reverted any more.
->>
->> Merging the ttydev tree got several conflicts against the usb and
->> firmware trees.  Unfortunately, it also would not build and so was
->> reverted.
->>
->> I have also applied the following patches for know problems:
->> 	module: fix NULL pointer dereference in find_symbol()
->
-> I can't mount NFS shares with this kernel.  I get something of this  
-> sort in
-> dmesg and it seems to be 100% reproducible:
->
-> [  314.058858] RPC: Registered udp transport module.
-> [  314.058863] RPC: Registered tcp transport module.
-> [  314.490970] RPC: transport (0) not supported
-> [  319.246987] __ratelimit: 23 messages suppressed
->
-> linux-next from yesterday was fine with the same .config .
+Rafael J. Wysocki wrote:
+> On Tuesday, 1 of July 2008, Andi Kleen wrote:
+>>> I have tested it on the nx6325 (64-bit) on top of the today's linux-next.  It
+>>> works fine for me.
+>> Could a few more people with different laptops please test too?
+> 
+> Well, I think we can put it into the 2.6.27 queue in the hope it gets more
+> testing in linux-next over time.
 
-What's your mount command line?
+I'm just not sure how many people really put linux-next on their laptops.
+Better would be some directed testing.
 
---
-Chuck Lever
-chuck[dot]lever[at]oracle[dot]com
---
-To unsubscribe from this list: send the line "unsubscribe linux-nfs" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+We'll see if that kernel-testers list actually does something or is just a placebo.
+
+-Andi
