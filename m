@@ -1,36 +1,73 @@
-From: "H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [RFT] x86 acpi: normalize segment descriptor register on resume
-Date: Tue, 01 Jul 2008 10:28:48 -0700
-Message-ID: <486A6950.6050507@zytor.com>
-References: <200807010148.02135.rjw@sisk.pl> <20080701063133.GC16642@elte.hu> <4869D67B.4060902@zytor.com> <486A2AC3.2060107@firstfloor.org> <486A5378.7020601@zytor.com> <486A5977.8020905@firstfloor.org>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: inux-next: Tree for July 1
+Date: Tue, 1 Jul 2008 22:36:18 +0200
+Message-ID: <200807012236.19400.rjw@sisk.pl>
+References: <20080702011434.6fb403d5.sfr@canb.auug.org.au>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <486A5977.8020905@firstfloor.org>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <linux-next-owner@vger.kernel.org>
+In-Reply-To: <20080702011434.6fb403d5.sfr@canb.auug.org.au>
+Content-Disposition: inline
+Sender: linux-next-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Andi Kleen <andi@firstfloor.org>
-Cc: Ingo Molnar <mingo@elte.hu>, "Rafael J. Wysocki" <rjw@sisk.pl>, kernel-testers@vger.kernel.org, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, pm list <linux-pm@lists.linux-foundation.org>, Pavel Machek <pavel@ucw.cz>
+Content-Type: text/plain; charset="us-ascii"
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, kernel-testers@vger.kernel.org, linux-nfs@vger.kernel.org, Trond Myklebust <Trond.Myklebust@netapp.com>
 
-Andi Kleen wrote:
-> H. Peter Anvin wrote:
->> Andi Kleen wrote:
->>>> It still seems incredibly risky to push this for 2.6.26, especially
->>>> given the Elan revelation.
->>> Do Elans even support S3?
->> I don't know if they do, but I don't know offhand the extent of machines
->> that may have that problem, especially since Intel now document it as
->> "failures are readily seen".
+On Tuesday, 1 of July 2008, Stephen Rothwell wrote:
+> Hi all,
 > 
-> What document is that exactly?
+> Changes since next-20080630:
 > 
+> New tree: ttydev - unfortunately it had to be reverted because of build
+> failures after lots of conflict resolution (which may have caused the
+> build failures).
+> 
+> Changed tree: the cris tree changed branch names.
+> 
+> The sched tree gained a couple of conflicts against the ftrace and
+> cpus4096 trees.
+> 
+> The pci tree gained a conflict against the x86 tree.
+> 
+> The usb tree reverted due to a build failure after merging with the pci
+> tree was changed for a fixup patch.
+> 
+> The v4l-dvb tree lost its three conflicts against Linus' tree.
+> 
+> The s390 tree gained a conflict against the diver-core tree.
+> 
+> The ide tree fixed its build problems.
+> 
+> The nfsd tree lost a conflict against the nfs tree.
+> 
+> The powerpc tree gained a conflict against the ide tree.
+> 
+> The net tree gained two conflicts against the powerpc tree.
+> 
+> The galak tree lost its conflict against the net tree.
+> 
+> the blk-removal tree gained a conflict against the s390 tree.
+> 
+> The firmware tree lost several conflicts against the net tree so didn't
+> need a commit reverted any more.
+> 
+> Merging the ttydev tree got several conflicts against the usb and
+> firmware trees.  Unfortunately, it also would not build and so was
+> reverted.
+> 
+> I have also applied the following patches for know problems:
+> 	module: fix NULL pointer dereference in find_symbol()
 
-Per Jeremy's recent email, volume 3a, section 8.9.1:
+I can't mount NFS shares with this kernel.  I get something of this sort in
+dmesg and it seems to be 100% reproducible:
 
->    Random failures can occur if other instructions exist between steps
->    3 and 4 above.  Failures will be readily seen in some situations,
->    such as when instructions that reference memory are inserted between
->    steps 3 and 4 while in system management mode. 
+[  314.058858] RPC: Registered udp transport module.
+[  314.058863] RPC: Registered tcp transport module.
+[  314.490970] RPC: transport (0) not supported
+[  319.246987] __ratelimit: 23 messages suppressed
 
-	-hpa
+linux-next from yesterday was fine with the same .config .
+
+Thanks,
+Rafael
