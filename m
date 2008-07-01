@@ -1,28 +1,77 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [RFT] x86 acpi: normalize segment descriptor register on resume
-Date: Tue, 1 Jul 2008 22:50:39 +0200
-Message-ID: <200807012250.39930.rjw@sisk.pl>
-References: <200807010148.02135.rjw@sisk.pl> <200807012239.44105.rjw@sisk.pl> <486A96C1.2020106@firstfloor.org>
+From: "Randy.Dunlap" <rdunlap-/UHa2rfvQTnk1uMJSBkQmQ@public.gmane.org>
+Subject: Re: inux-next: Tree for July 1
+Date: Tue, 1 Jul 2008 13:41:00 -0700 (PDT)
+Message-ID: <Pine.LNX.4.64.0807011340170.26330@shark.he.net>
+References: <20080702011434.6fb403d5.sfr@canb.auug.org.au> <200807012236.19400.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <486A96C1.2020106@firstfloor.org>
-Content-Disposition: inline
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200807012236.19400.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Andi Kleen <andi@firstfloor.org>
-Cc: "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@elte.hu>, kernel-testers@vger.kernel.org, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, pm list <linux-pm@lists.linux-foundation.org>, Pavel Machek <pavel@ucw.cz>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Stephen Rothwell <sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>, linux-next-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-nfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Trond Myklebust <Trond.Myklebust-HgOvQuBEEgTQT0dZR+AlfA@public.gmane.org>
 
-On Tuesday, 1 of July 2008, Andi Kleen wrote:
+On Tue, 1 Jul 2008, Rafael J. Wysocki wrote:
+
+> On Tuesday, 1 of July 2008, Stephen Rothwell wrote:
+> > Hi all,
+> > 
+> > Changes since next-20080630:
+> > 
+> > New tree: ttydev - unfortunately it had to be reverted because of build
+> > failures after lots of conflict resolution (which may have caused the
+> > build failures).
+> > 
+> > Changed tree: the cris tree changed branch names.
+> > 
+> > The sched tree gained a couple of conflicts against the ftrace and
+> > cpus4096 trees.
+> > 
+> > The pci tree gained a conflict against the x86 tree.
+> > 
+> > The usb tree reverted due to a build failure after merging with the pci
+> > tree was changed for a fixup patch.
+> > 
+> > The v4l-dvb tree lost its three conflicts against Linus' tree.
+> > 
+> > The s390 tree gained a conflict against the diver-core tree.
+> > 
+> > The ide tree fixed its build problems.
+> > 
+> > The nfsd tree lost a conflict against the nfs tree.
+> > 
+> > The powerpc tree gained a conflict against the ide tree.
+> > 
+> > The net tree gained two conflicts against the powerpc tree.
+> > 
+> > The galak tree lost its conflict against the net tree.
+> > 
+> > the blk-removal tree gained a conflict against the s390 tree.
+> > 
+> > The firmware tree lost several conflicts against the net tree so didn't
+> > need a commit reverted any more.
+> > 
+> > Merging the ttydev tree got several conflicts against the usb and
+> > firmware trees.  Unfortunately, it also would not build and so was
+> > reverted.
+> > 
+> > I have also applied the following patches for know problems:
+> > 	module: fix NULL pointer dereference in find_symbol()
 > 
-> > I have tested it on the nx6325 (64-bit) on top of the today's linux-next.  It
-> > works fine for me.
+> I can't mount NFS shares with this kernel.  I get something of this sort in
+> dmesg and it seems to be 100% reproducible:
 > 
-> Could a few more people with different laptops please test too?
+> [  314.058858] RPC: Registered udp transport module.
+> [  314.058863] RPC: Registered tcp transport module.
+> [  314.490970] RPC: transport (0) not supported
+> [  319.246987] __ratelimit: 23 messages suppressed
+> 
+> linux-next from yesterday was fine with the same .config .
 
-Well, I think we can put it into the 2.6.27 queue in the hope it gets more
-testing in linux-next over time.
+Same problem for me.  Thanks for reporting it.
+I wondered if it was something that I did wrong...
 
-Thanks,
-Rafael
+-- 
+~Randy
