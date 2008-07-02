@@ -1,71 +1,69 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: System hangs on 2.6.26-rc8
-Date: Wed, 2 Jul 2008 16:25:05 +0200
-Message-ID: <200807021625.05721.rjw@sisk.pl>
-References: <48637DCC.3070301@r000n.net>
+From: Trond Myklebust <Trond.Myklebust@netapp.com>
+Subject: Re: inux-next: Tree for July 1
+Date: Wed, 02 Jul 2008 13:15:11 -0400
+Message-ID: <1215018911.9783.1.camel@localhost>
+References: <20080702011434.6fb403d5.sfr@canb.auug.org.au>
+	 <200807012236.19400.rjw@sisk.pl> <1214959743.10317.3.camel@localhost>
+	 <76bd70e30807020734g3db408dcqea2a61622c83004d@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <48637DCC.3070301-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-next-owner@vger.kernel.org>
+In-Reply-To: <76bd70e30807020734g3db408dcqea2a61622c83004d@mail.gmail.com>
+Sender: linux-next-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
-Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: chucklever@gmail.com
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, "Randy.Dunlap" <rdunlap@xenotime.net>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, kernel-testers@vger.kernel.org, linux-nfs@vger.kernel.org
 
-On Thursday, 26 of June 2008, Roman Mindalev wrote:
-> I walking in web with Firefox when my system began freezing.
-> 1. After pressing "KMenu" menu not showing
-> 2. Yakuake's terminals not usable: when I try typing "dmesg | tail" or
-> even "ls" system not answering. I can typing anything (including
-> pressing Ctrl+C or Ctrl+Z), but reaction = 0
-> 3. Consoles (Alt + F1 and other) not usable too. I can't even log-in -
-> after typing username and pressing "Enter" password field not available,
-> and I can typing any text like:
-> ----------------------
-> login: r000n
-> grt
-> rthtr
-> y
-> trht
-> ----------------------
-> 4. Switching back to to X from text console not works: I see only black
-> screen
-> 5. Ctrl + Alt + Del not works, I can restart system only with hardware Reset
+On Wed, 2008-07-02 at 10:34 -0400, Chuck Lever wrote:
+> On Tue, Jul 1, 2008 at 8:49 PM, Trond Myklebust
+> <Trond.Myklebust@netapp.com> wrote:
+> > On Tue, 2008-07-01 at 22:36 +0200, Rafael J. Wysocki wrote:
+> >> I can't mount NFS shares with this kernel.  I get something of this sort in
+> >> dmesg and it seems to be 100% reproducible:
+> >>
+> >> [  314.058858] RPC: Registered udp transport module.
+> >> [  314.058863] RPC: Registered tcp transport module.
+> >> [  314.490970] RPC: transport (0) not supported
+> >> [  319.246987] __ratelimit: 23 messages suppressed
+> >
+> > Does this patch fix the problem for you?
+> > -----------------------------------------------------------------------------------
+> > From: Trond Myklebust <Trond.Myklebust@netapp.com>
+> > NFS: Fix the mount protocol defaults for binary mounts
+> >
+> > Signed-off-by: Trond Myklebust <Trond.Myklebust@netapp.com>
+> > ---
+> >
+> >  fs/nfs/super.c |    1 +
+> >  1 files changed, 1 insertions(+), 0 deletions(-)
+> >
+> > diff --git a/fs/nfs/super.c b/fs/nfs/super.c
+> > index e09b1c2..85fbb98 100644
+> > --- a/fs/nfs/super.c
+> > +++ b/fs/nfs/super.c
+> > @@ -1575,6 +1575,7 @@ static int nfs_validate_mount_data(void *options,
+> >
+> >                if (!(data->flags & NFS_MOUNT_TCP))
+> >                        args->nfs_server.protocol = XPRT_TRANSPORT_UDP;
+> > +               nfs_set_transport_defaults(args);
 > 
-> These strange things was 2 times for last day.
-> Logs empty, last strings from syslog:
-> ------- 1-st time --------------------
-> Jun 26 10:37:16 desktop smartd[4967]: Device: /dev/sdb, SMART Usage
-> Attribute: 190 Airflow_Temperature_Cel changed from 59 to 58
-> Jun 26 10:37:16 desktop smartd[4967]: Device: /dev/sdb, SMART Usage
-> Attribute: 194 Temperature_Celsius changed from 115 to 112
-> Jun 26 10:39:01 desktop /USR/SBIN/CRON[14210]: (root) CMD (  [ -x
-> /usr/lib/php5/maxlifetime ] && [ -d /var/lib/php5 ] && find
-> /var/lib/php5/ -type f -cmin +$(/usr/lib/php5/maxlifetime) -print0 |
-> xargs -n 200 -r -0 rm)
-> Jun 26 10:41:43 desktop ntpd[5006]: synchronized to 204.9.136.253, stratum 2
-> Jun 26 10:42:51 desktop ntpd[5006]: synchronized to 89.108.124.4, stratum 2
-> Jun 26 10:49:00 desktop syslogd 1.5.0#5: restart.
-> --------------------------------------
-> ------- 2-st time --------------------
-> Jun 26 14:32:37 desktop ntpd[5002]: synchronized to 212.57.153.17, stratum 2
-> Jun 26 14:39:01 desktop /USR/SBIN/CRON[5624]: (root) CMD (  [ -x
-> /usr/lib/php5/maxlifetime ] && [ -d /var/lib/php5 ] && find
-> /var/lib/php5/ -type f -cmin +$(/usr/lib/php5/maxlifetime) -print0 |
-> xargs -n 200 -r -0 rm)
-> Jun 26 14:44:36 desktop syslogd 1.5.0#5: restart.
-> Jun 26 14:44:36 desktop kernel: klogd 1.5.0#5, log source = /proc/kmsg
-> started.
-> Jun 26 14:44:36 desktop kernel: /tty/ttyr5'
-> --------------------------------------
-> Firefox 3 from svn, updated ~3 days ago.
-> System - Debian sid (updated yesterday).
-> Kernel - 2.6.26-rc8
+> nfs_set_transport_defaults() is overkill for the legacy mount path.
+> The bug is that the logic here assumes that nfs_server.protocol
+> already has the default value of XPRT_TRANSPORT_TCP, but commit
+> 8b59ea3c removed that default.  The correct fix is to add
 > 
-> If need more information, tell me, where I should take it)
+>             args->nfs_server.protocol = XPRT_TRANSPORT_TCP;
+> 
+> just before the 'if' statement.  We should fold that into 8b59ea3c to
+> preserve bisectability.
 
-Did anything like that happen to you with any previous kernel versions?
+NACK. You still need to set the appropriate retrans and timeo defaults.
 
-Rafael
+-- 
+Trond Myklebust
+Linux NFS client maintainer
+
+NetApp
+Trond.Myklebust@netapp.com
+www.netapp.com
