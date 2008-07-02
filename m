@@ -1,119 +1,36 @@
-From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [BUG] 2.6.26-rc8-git2 - kernel BUG at mm/page_alloc.c:585
-Date: Wed, 2 Jul 2008 00:50:36 -0700
-Message-ID: <20080702005036.3b7a97ea.akpm@linux-foundation.org>
-References: <486B1F60.1030608@linux.vnet.ibm.com>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: inux-next: Tree for July 1
+Date: Wed, 2 Jul 2008 12:51:22 +0200
+Message-ID: <200807021251.23696.rjw@sisk.pl>
+References: <20080702011434.6fb403d5.sfr@canb.auug.org.au> <1214959743.10317.3.camel@localhost> <20080701203211.95244ebd.rdunlap@xenotime.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <486B1F60.1030608-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-next-owner@vger.kernel.org>
+In-Reply-To: <20080701203211.95244ebd.rdunlap@xenotime.net>
+Content-Disposition: inline
+Sender: linux-next-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Kamalesh Babulal <kamalesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: kernel list <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linuxppc-dev-mnsaURCQ41sdnm+yROfE0A@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>, Balbir Singh <balbir-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+To: Randy Dunlap <rdunlap@xenotime.net>
+Cc: Trond Myklebust <Trond.Myklebust@netapp.com>, "Mr. Charles Edward Lever" <Chuck.Lever@oracle.com>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, kernel-testers@vger.kernel.org, linux-nfs@vger.kernel.org
 
-On Wed, 02 Jul 2008 11:55:36 +0530 Kamalesh Babulal <kamalesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
-
-> Hi,
+On Wednesday, 2 of July 2008, Randy Dunlap wrote:
+> On Tue, 01 Jul 2008 20:49:03 -0400 Trond Myklebust wrote:
 > 
-> when running kernbench on powerpc box booted with the 2.6.26-rc8-git2
-> kernel the machine drops to xmon with the kernel BUG
+> > On Tue, 2008-07-01 at 22:36 +0200, Rafael J. Wysocki wrote:
+> > > I can't mount NFS shares with this kernel.  I get something of this sort in
+> > > dmesg and it seems to be 100% reproducible:
+> > > 
+> > > [  314.058858] RPC: Registered udp transport module.
+> > > [  314.058863] RPC: Registered tcp transport module.
+> > > [  314.490970] RPC: transport (0) not supported
+> > > [  319.246987] __ratelimit: 23 messages suppressed
+> > 
+> > Does this patch fix the problem for you?
 > 
-> kernel BUG at mm/page_alloc.c:585!
+> Yes.  Thanks.
 
-static int bad_range(struct zone *zone, struct page *page)
-{
-	if (page_outside_zone_boundaries(zone, page))
-		return 1;
-	if (!page_is_consistent(zone, page))
-		return 1;
+It also fixes the issue for me.
 
-	return 0;
-}
-
-Called from
-
-static inline void expand(struct zone *zone, struct page *page,
-	int low, int high, struct free_area *area,
-	int migratetype)
-{
-	unsigned long size = 1 << high;
-
-	while (high > low) {
-		area--;
-		high--;
-		size >>= 1;
-		VM_BUG_ON(bad_range(zone, &page[size]));
-		list_add(&page[size].lru, &area->free_list[migratetype]);
-		area->nr_free++;
-		set_page_order(&page[size], high);
-	}
-}
-
-We goofed - we now don't know whether page_outside_zone_boundaries()
-evaluated true, or if !page_is_consistent() evaluated true.  Bad us.
-
-I'd suspect that something went wrong in powerpc land.
-
-> cpu 0x0: Vector: 700 (Program Check) at [c0000000c389ed50]
->     pc: c0000000000e22ec: .__rmqueue+0x178/0x25c
->     lr: c0000000000e22ec: .__rmqueue+0x178/0x25c
->     sp: c0000000c389efd0
->    msr: 8000000000029032
->   current = 0xc0000000f6e0e790
->   paca    = 0xc000000000873480
->     pid   = 3421, comm = tar
-> kernel BUG at mm/page_alloc.c:585!
-> enter ? for help
-> [c0000000c389efd0] c0000000000e22d0 .__rmqueue+0x15c/0x25c (unreliable)
-> [c0000000c389f0a0] c0000000000e2438 .rmqueue_bulk+0x68/0xf0
-> [c0000000c389f170] c0000000000e43cc .get_page_from_freelist+0x2d0/0x848
-> [c0000000c389f2b0] c0000000000e4abc .__alloc_pages_internal+0x12c/0x494
-> [c0000000c389f3c0] c0000000000e4e6c .__alloc_pages+0x1c/0x30
-> [c0000000c389f440] c0000000001107d8 .kmem_getpages+0x90/0x198
-> [c0000000c389f4e0] c000000000111200 .fallback_alloc+0x190/0x26c
-> [c0000000c389f5b0] c000000000111478 .____cache_alloc_node+0x19c/0x1d0
-> [c0000000c389f660] c000000000111e90 .kmem_cache_alloc+0x150/0x1f8
-> [c0000000c389f710] d00000000019fb50 .ext3_alloc_inode+0x2c/0x74 [ext3]
-> [c0000000c389f790] c00000000013725c .alloc_inode+0x58/0x278
-> [c0000000c389f830] c0000000001374b4 .new_inode+0x38/0xd4
-> [c0000000c389f8d0] d000000000193930 .ext3_new_inode+0x90/0xc64 [ext3]
-> [c0000000c389f9f0] d00000000019dc28 .ext3_create+0xc4/0x16c [ext3]
-> [c0000000c389fab0] c000000000127944 .vfs_create+0x12c/0x1d4
-> [c0000000c389fb60] c00000000012b54c .do_filp_open+0x210/0x8b4
-> [c0000000c389fd00] c0000000001191f8 .do_sys_open+0x80/0x144
-> [c0000000c389fdb0] c00000000015f5d8 .compat_sys_open+0x2c/0x44
-> [c0000000c389fe30] c0000000000086dc syscall_exit+0x0/0x40
-> --- Exception: c00 (System Call) at 000000000ff0e6d4
-> SP (ffd3f5a0) is in userspace
-> 0:mon> r
-> R00 = 00000000f0008d00   R16 = 0000000000000001
-> R01 = c0000000c389efd0   R17 = 0000000000000044
-> R02 = c0000000007e74e0   R18 = 0000000000000001
-> R03 = 0000000000000001   R19 = c00000010ffff828
-> R04 = f000000000069000   R20 = c00000010ffff800
-> R05 = 0000000000000003   R21 = c0000001ffff5700
-> R06 = 0000000000000008   R22 = 0000000000000000
-> R07 = 0000000000000000   R23 = 0000000000000001
-> R08 = 0000000000001180   R24 = 0000000000000007
-> R09 = 00000000f0008cff   R25 = 0000000000000007
-> R10 = c0000001ffff5700   R26 = 0000000000000080
-> R11 = c000000000885df8   R27 = c0000001ffff5e28
-> R12 = c000000010010080   R28 = f000000000066000
-> R13 = c000000000873480   R29 = f000000000069000
-> R14 = 0000000000000001   R30 = c000000000791ce0
-> R15 = 0000000000000001   R31 = c0000000c389efd0
-> pc  = c0000000000e22ec .__rmqueue+0x178/0x25c
-> lr  = c0000000000e22ec .__rmqueue+0x178/0x25c
-> msr = 8000000000029032   cr  = 24000442
-> ctr = 0000000000000003   xer = 0000000020000000   trap =  700
-> 0:mon> u
-> SLB contents of cpu 0
-> 00 c000000008000000 40004f7ca3000510  1T  ESID=   c00000  VSID=       4f7ca3 LLP:110 
-> 01 d000000008000000 4000eb71b0000510  1T  ESID=   d00000  VSID=       eb71b0 LLP:110 
-> 11 0000000008000000 000020b2b24a4d90 256M ESID=        0  VSID=    20b2b24a4 LLP:110 
-> 12 00000000f8000000 00002bea2a039d90 256M ESID=        f  VSID=    2bea2a039 LLP:110 
-> 13 0000000048000000 000023b06bd10d90 256M ESID=        4  VSID=    23b06bd10 LLP:110 
-> 14 0000000018000000 0000217220abfd90 256M ESID=        1  VSID=    217220abf LLP:110 
-> 38 f000000008000000 4000235bcc000500  1T  ESID=   f00000  VSID=       235bcc LLP:100 
+Thanks,
+Rafael
