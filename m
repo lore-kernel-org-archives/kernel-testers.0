@@ -1,120 +1,99 @@
-From: Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
-Subject: Re: System hangs on 2.6.26-rc8
-Date: Thu, 03 Jul 2008 17:24:47 +0400
-Message-ID: <486CD31F.3020303@r000n.net>
-References: <48637DCC.3070301@r000n.net> <200807021625.05721.rjw@sisk.pl>
+From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [BUILD-FAILURE] 2.6.26-rc8-mm1 - x86 -
+ __ptep_modify_prot_start() missing
+Date: Thu, 3 Jul 2008 10:46:43 -0700
+Message-ID: <20080703104643.04ea2acb.akpm@linux-foundation.org>
+References: <20080703020236.adaa51fa.akpm@linux-foundation.org>
+	<20080703122943.GB6451@linux.vnet.ibm.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------040004040806050105060909"
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200807021625.05721.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <20080703122943.GB6451-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Kamalesh Babulal <kamalesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
 
-This is a multi-part message in MIME format.
---------------040004040806050105060909
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 7bit
+On Thu, 3 Jul 2008 17:59:43 +0530 Kamalesh Babulal <kamalesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
 
-Rafael J. Wysocki wrote:
-> On Thursday, 26 of June 2008, Roman Mindalev wrote:
->> I walking in web with Firefox when my system began freezing.
->> 1. After pressing "KMenu" menu not showing
->> 2. Yakuake's terminals not usable: when I try typing "dmesg | tail" or
->> even "ls" system not answering. I can typing anything (including
->> pressing Ctrl+C or Ctrl+Z), but reaction = 0
->> 3. Consoles (Alt + F1 and other) not usable too. I can't even log-in -
->> after typing username and pressing "Enter" password field not available,
->> and I can typing any text like:
->> ----------------------
->> login: r000n
->> grt
->> rthtr
->> y
->> trht
->> ----------------------
->> 4. Switching back to to X from text console not works: I see only black
->> screen
->> 5. Ctrl + Alt + Del not works, I can restart system only with hardware Reset
->>
->> These strange things was 2 times for last day.
->> Logs empty, last strings from syslog:
->> ------- 1-st time --------------------
->> Jun 26 10:37:16 desktop smartd[4967]: Device: /dev/sdb, SMART Usage
->> Attribute: 190 Airflow_Temperature_Cel changed from 59 to 58
->> Jun 26 10:37:16 desktop smartd[4967]: Device: /dev/sdb, SMART Usage
->> Attribute: 194 Temperature_Celsius changed from 115 to 112
->> Jun 26 10:39:01 desktop /USR/SBIN/CRON[14210]: (root) CMD (  [ -x
->> /usr/lib/php5/maxlifetime ] && [ -d /var/lib/php5 ] && find
->> /var/lib/php5/ -type f -cmin +$(/usr/lib/php5/maxlifetime) -print0 |
->> xargs -n 200 -r -0 rm)
->> Jun 26 10:41:43 desktop ntpd[5006]: synchronized to 204.9.136.253, stratum 2
->> Jun 26 10:42:51 desktop ntpd[5006]: synchronized to 89.108.124.4, stratum 2
->> Jun 26 10:49:00 desktop syslogd 1.5.0#5: restart.
->> --------------------------------------
->> ------- 2-st time --------------------
->> Jun 26 14:32:37 desktop ntpd[5002]: synchronized to 212.57.153.17, stratum 2
->> Jun 26 14:39:01 desktop /USR/SBIN/CRON[5624]: (root) CMD (  [ -x
->> /usr/lib/php5/maxlifetime ] && [ -d /var/lib/php5 ] && find
->> /var/lib/php5/ -type f -cmin +$(/usr/lib/php5/maxlifetime) -print0 |
->> xargs -n 200 -r -0 rm)
->> Jun 26 14:44:36 desktop syslogd 1.5.0#5: restart.
->> Jun 26 14:44:36 desktop kernel: klogd 1.5.0#5, log source = /proc/kmsg
->> started.
->> Jun 26 14:44:36 desktop kernel: /tty/ttyr5'
->> --------------------------------------
->> Firefox 3 from svn, updated ~3 days ago.
->> System - Debian sid (updated yesterday).
->> Kernel - 2.6.26-rc8
->>
->> If need more information, tell me, where I should take it)
+> Hi Andrew,
 > 
-> Did anything like that happen to you with any previous kernel versions?
+> 2.6.26-rc8-mm1 kernel build fails on the x86
 > 
-> Rafael
+>   CC      arch/x86/kernel/paravirt.o
+> arch/x86/kernel/paravirt.c:383: error: _____ptep_modify_prot_start___ undeclared here (not in a function)
+> make[1]: *** [arch/x86/kernel/paravirt.o] Error 1
+> make: *** [arch/x86/kernel] Error 2
 > 
-No. 2.6.26-rcX was very clear line for me.
-But 2.6.26-rc8 - first kernel, which I compiled with timer 300 Hz
-(instead 250). I can compile 2.6.26-rc7 with 300 Hz and 2.6.26-rc8 with
-250 Hz if need.
-Frequency of timer almost exclusive thing, which changed in my config
-since 2.6.26-rc7
+> linux-next patches has the changes to the adds the function
+> __ptep_modify_prot_start as inline, the patch s390-build-fixes.patch
+> is coverting it into macro. Reverting the s390-build-fixes.patch
+> fixes the build failure.
 
---------------040004040806050105060909
-Content-Type: text/x-patch;
- name="rc7-rc8.diff"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
- filename="rc7-rc8.diff"
+grump.  Who did all this stuff?
 
-3,4c3,4
-< # Linux kernel version: 2.6.26-rc7
-< # Sat Jun 21 22:06:20 2008
----
-> # Linux kernel version: 2.6.26-rc8
-> # Wed Jun 25 11:31:15 2008
-288,289c288,289
-< CONFIG_HZ_250=y
-< # CONFIG_HZ_300 is not set
----
-> # CONFIG_HZ_250 is not set
-> CONFIG_HZ_300=y
-291c291
-< CONFIG_HZ=250
----
-> CONFIG_HZ=300
-1433c1433,1434
-< # CONFIG_SND_SEQUENCER is not set
----
-> CONFIG_SND_SEQUENCER=m
-> CONFIG_SND_SEQ_DUMMY=m
-1437a1439
-> # CONFIG_SND_SEQUENCER_OSS is not set
-1438a1441
-> CONFIG_SND_SEQ_RTCTIMER_DEFAULT=y
-1449a1453
-> # CONFIG_SND_VIRMIDI is not set
+I dunno.  I'll drop s390-build-fixes.patch, add some ccs and stomp off.
 
---------------040004040806050105060909--
+
+From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+
+In file included from include/asm/pgtable.h:1087,
+                 from include/linux/mm.h:39,
+                 from arch/s390/mm/hugetlbpage.c:8:
+include/asm-generic/pgtable.h: In function '__ptep_modify_prot_start':
+include/asm-generic/pgtable.h:209: error: dereferencing pointer to incomplete type
+
+Cc: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+Cc: Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+Signed-off-by: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+---
+
+ include/asm-generic/pgtable.h |   26 +++++++++-----------------
+ 1 file changed, 9 insertions(+), 17 deletions(-)
+
+diff -puN include/asm-generic/pgtable.h~s390-build-fixes include/asm-generic/pgtable.h
+--- a/include/asm-generic/pgtable.h~s390-build-fixes
++++ a/include/asm-generic/pgtable.h
+@@ -197,17 +197,13 @@ static inline int pmd_none_or_clear_bad(
+ }
+ #endif /* CONFIG_MMU */
+ 
+-static inline pte_t __ptep_modify_prot_start(struct mm_struct *mm,
+-					     unsigned long addr,
+-					     pte_t *ptep)
+-{
+-	/*
+-	 * Get the current pte state, but zero it out to make it
+-	 * non-present, preventing the hardware from asynchronously
+-	 * updating it.
+-	 */
+-	return ptep_get_and_clear(mm, addr, ptep);
+-}
++/*
++ * Get the current pte state, but zero it out to make it
++ * non-present, preventing the hardware from asynchronously
++ * updating it.
++ */
++#define __ptep_modify_prot_start(mm, addr, ptep)	\
++	ptep_get_and_clear(mm, addr, ptep)
+ 
+ static inline void __ptep_modify_prot_commit(struct mm_struct *mm,
+ 					     unsigned long addr,
+@@ -235,12 +231,8 @@ static inline void __ptep_modify_prot_co
+  * queue the update to be done at some later time.  The update must be
+  * actually committed before the pte lock is released, however.
+  */
+-static inline pte_t ptep_modify_prot_start(struct mm_struct *mm,
+-					   unsigned long addr,
+-					   pte_t *ptep)
+-{
+-	return __ptep_modify_prot_start(mm, addr, ptep);
+-}
++#define ptep_modify_prot_start(mm, addr, ptep)		\
++	__ptep_modify_prot_start(mm, addr, ptep)
+ 
+ /*
+  * Commit an update to a pte, leaving any hardware-controlled bits in
+_
+
