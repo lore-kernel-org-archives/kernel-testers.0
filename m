@@ -1,59 +1,143 @@
-From: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [BUILD-FAILURE] 2.6.26-rc8-mm1 - x86 -
-	__ptep_modify_prot_start() missing
-Date: Thu, 3 Jul 2008 21:03:07 +0200
-Message-ID: <20080703190307.GA4972@osiris.boeblingen.de.ibm.com>
-References: <20080703020236.adaa51fa.akpm@linux-foundation.org> <20080703122943.GB6451@linux.vnet.ibm.com> <20080703104643.04ea2acb.akpm@linux-foundation.org> <486D13C3.3000409@goop.org> <20080703111418.19f568ca.akpm@linux-foundation.org>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: linux-next: Tree for July 3
+Date: Fri, 4 Jul 2008 01:54:15 +0200
+Message-ID: <200807040154.16200.rjw@sisk.pl>
+References: <20080703190948.8e7bceca.sfr@canb.auug.org.au>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758135AbYGCXwt@vger.kernel.org>
+In-Reply-To: <20080703190948.8e7bceca.sfr@canb.auug.org.au>
 Content-Disposition: inline
-In-Reply-To: <20080703111418.19f568ca.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>, Kamalesh Babulal <kamalesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@elte.hu>, Jeremy Fitzhardinge <jeremy@goop.org>, kernel-testers@vger.kernel.org
 
-On Thu, Jul 03, 2008 at 11:14:18AM -0700, Andrew Morton wrote:
-> On Thu, 03 Jul 2008 11:00:35 -0700 Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org> wrote:
-> > >> make[1]: *** [arch/x86/kernel/paravirt.o] Error 1
-> > >> make: *** [arch/x86/kernel] Error 2
-> > >>
-> > >> linux-next patches has the changes to the adds the function
-> > >> __ptep_modify_prot_start as inline, the patch s390-build-fixes.patch
-> > >> is coverting it into macro. Reverting the s390-build-fixes.patch
-> > >> fixes the build failure.
-> > >>     
-> > >
-> > > grump.  Who did all this stuff?
-> > >
-> > > I dunno.  I'll drop s390-build-fixes.patch, add some ccs and stomp off.
-> > >
-> > >
-> > > From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-> > >
-> > > In file included from include/asm/pgtable.h:1087,
-> > >                  from include/linux/mm.h:39,
-> > >                  from arch/s390/mm/hugetlbpage.c:8:
-> > > include/asm-generic/pgtable.h: In function '__ptep_modify_prot_start':
-> > > include/asm-generic/pgtable.h:209: error: dereferencing pointer to incomplete type
-> > >   
-> > 
-> > We can't turn them into macros because we're expecting to be able to 
-> > take the address of __ptep_modify_prot_start/commit.  What type is not 
-> > defined on s390 at that point?  Would simply adding an extra include to 
-> > arch/s390/mm/hugetlbpage.c fix the problem?
-
-We need struct task_struct... I added an include <linux/sched.h> to
-asm-s390/pgtable.h and it seems to fix the build problem.
-I expected include dependency hell...
-
-> > In the worst case we could push __ptep_modify_proc_start/commit out of 
-> > line somewhere appropriate, but that's a bit sad given how simple they are.
+On Thursday, 3 of July 2008, Stephen Rothwell wrote:
+> Hi all,
 > 
-> I think the s390 guys just fixed the original build error.
+> Changes since next-20080702:
+> 
+> New trees:  kmemcheck and generic-ipi.
+> 
+> The pci tree gained a conflict against the driver-core tree.
+> 
+> The powerpc tree gained a conflict against the i2c tree.
+> 
+> The net tree gained a couple of conflicts against Linus' tree and the
+> wireless-current tree.
+> 
+> The wireless tree gained a couple of conflicts against the
+> wireless-current tree.
+> 
+> The rr tree lost its two build fixup patches but gained another conflict
+> against the sched tree.
+> 
+> The blk-removal tree lost its conflict with the s390 tree.
+> 
+> The kmemcheck tree gained conflicts against the ftrace, sched, and x86
+> trees.
+> 
+> The generic-ipi tree gained conflicts against the powerpc, kmemcheck and
+> net trees.  And had two build failures requiring a patch and a revert.
+> 
+> I have also applied the following patches for known problems (I assume
+> that these will be merged into their appropriate trees shortly):
+> 
+> 	NFS: Fix the mount protocol defaults for binary mounts
+> 	fix "ftrace: store mcount address in rec->ip"
+> 
+> There are several outstanding build failures due to structural changes in
+> the ttydev tree (see http://kisskb.ellerman.id.au/linux-next).
 
-Not this one, but if it works I'm going to push that to git-s390.
-Currently wading through the s390 build bugs in linux-next and trying to
-fix them all :/
+This tree didn't compile for me on x86-64.
+
+After adding the appended patch it started to compile, but it doesn't boot
+(hangs very early, before any messages can get to the console).
+
+I'll bisect tomorrow if I have the time.
+
+Thanks,
+Rafael
+
+---
+Author: Jeremy Fitzhardinge <jeremy@goop.org>
+Date:   Fri Jun 27 12:04:03 2008 -0700
+
+    x86_64: fix non-paravirt compilation
+    
+    Make sure SWAPGS and PARAVIRT_ADJUST_EXCEPTION_FRAME are properly
+    defined when CONFIG_PARAVIRT is off.
+    
+    Fixes Ingo's build failure:
+    arch/x86/kernel/entry_64.S: Assembler messages:
+    arch/x86/kernel/entry_64.S:1201: Error: invalid character '_' in mnemonic
+    arch/x86/kernel/entry_64.S:1205: Error: invalid character '_' in mnemonic
+    arch/x86/kernel/entry_64.S:1209: Error: invalid character '_' in mnemonic
+    arch/x86/kernel/entry_64.S:1213: Error: invalid character '_' in mnemonic
+    
+    Signed-off-by: Jeremy Fitzhardinge <jeremy.fitzhardinge@citrix.com>
+    Cc: Nick Piggin <npiggin@suse.de>
+    Cc: Mark McLoughlin <markmc@redhat.com>
+    Cc: xen-devel <xen-devel@lists.xensource.com>
+    Cc: Eduardo Habkost <ehabkost@redhat.com>
+    Cc: Vegard Nossum <vegard.nossum@gmail.com>
+    Cc: Stephen Tweedie <sct@redhat.com>
+    Signed-off-by: Ingo Molnar <mingo@elte.hu>
+
+diff --git a/include/asm-x86/irqflags.h b/include/asm-x86/irqflags.h
+index 484c74f..754bb3a 100644
+--- a/include/asm-x86/irqflags.h
++++ b/include/asm-x86/irqflags.h
+@@ -167,7 +167,20 @@ static inline unsigned long __raw_local_irq_save(void)
+ #define INTERRUPT_RETURN_NMI_SAFE	NATIVE_INTERRUPT_RETURN_NMI_SAFE
+ 
+ #ifdef CONFIG_X86_64
++#define SWAPGS	swapgs
++/*
++ * Currently paravirt can't handle swapgs nicely when we
++ * don't have a stack we can rely on (such as a user space
++ * stack).  So we either find a way around these or just fault
++ * and emulate if a guest tries to call swapgs directly.
++ *
++ * Either way, this is a good way to document that we don't
++ * have a reliable stack. x86_64 only.
++ */
+ #define SWAPGS_UNSAFE_STACK	swapgs
++
++#define PARAVIRT_ADJUST_EXCEPTION_FRAME	/*  */
++
+ #define INTERRUPT_RETURN	iretq
+ #define USERGS_SYSRET64				\
+ 	swapgs;					\
+@@ -233,15 +246,6 @@ static inline void trace_hardirqs_fixup(void)
+ #else
+ 
+ #ifdef CONFIG_X86_64
+-/*
+- * Currently paravirt can't handle swapgs nicely when we
+- * don't have a stack we can rely on (such as a user space
+- * stack).  So we either find a way around these or just fault
+- * and emulate if a guest tries to call swapgs directly.
+- *
+- * Either way, this is a good way to document that we don't
+- * have a reliable stack. x86_64 only.
+- */
+ #define ARCH_TRACE_IRQS_ON		call trace_hardirqs_on_thunk
+ #define ARCH_TRACE_IRQS_OFF		call trace_hardirqs_off_thunk
+ #define ARCH_LOCKDEP_SYS_EXIT		call lockdep_sys_exit_thunk
+diff --git a/include/asm-x86/processor.h b/include/asm-x86/processor.h
+index a935c70..6f5e195 100644
+--- a/include/asm-x86/processor.h
++++ b/include/asm-x86/processor.h
+@@ -535,9 +535,6 @@ static inline void load_sp0(struct tss_struct *tss,
+ }
+ 
+ #define set_iopl_mask native_set_iopl_mask
+-#define SWAPGS	swapgs
+-
+-#define PARAVIRT_ADJUST_EXCEPTION_FRAME	/*  */
+ #endif /* CONFIG_PARAVIRT */
+ 
+ /*
