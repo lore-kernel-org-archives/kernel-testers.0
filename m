@@ -1,87 +1,74 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: System hangs on 2.6.26-rc8
-Date: Fri, 4 Jul 2008 17:30:31 +0200
-Message-ID: <200807041730.32192.rjw@sisk.pl>
-References: <48637DCC.3070301@r000n.net> <200807021625.05721.rjw@sisk.pl> <486CD31F.3020303@r000n.net>
+From: "Alexander Beregalov" <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: WARNING: at net/ipv4/tcp_input.c:2213
+Date: Fri, 4 Jul 2008 22:55:18 +0400
+Message-ID: <a4423d670807041155o7629b3d7ie3323d79a9ea7301@mail.gmail.com>
+References: <a4423d670806041450h17a2d3b1w40ea9ff8550a4b11@mail.gmail.com>
+	 <20080604.145244.07802877.davem@davemloft.net>
+	 <a4423d670806041529q6911f68fq68ee9ed8f8f50139@mail.gmail.com>
+	 <Pine.LNX.4.64.0806061509530.16829@wrl-59.cs.helsinki.fi>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <486CD31F.3020303-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=tOl81QcRxqZSf8nmR2+fva+VGzhBaYZ41EmtXNxG8gw=;
+        b=KQFMiQIBdXZ6965Sn13POsNKHX0YTLs8ZQHlxaGMsdE0SPOIGelcVinZD4NfJFUswO
+         BRkX/3IfN2jvwH9PwyPL0KsxyT0VQOW48c1RcjL3beL0Z7WVOYHFhgMAtYNaioIOGnZJ
+         a2jVjJH4XVkPsyjHXe7ygUqBYfkOe4YsKdp4s=
+In-Reply-To: <Pine.LNX.4.64.0806061509530.16829-x/A8LOkYjdVsRR2hCrRKtT03IgOmwywn@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
-Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen-pxSi+dnQzZMxHbG02/KK1g@public.gmane.org>
+Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Thursday, 3 of July 2008, Roman Mindalev wrote:
-> Rafael J. Wysocki wrote:
-> > On Thursday, 26 of June 2008, Roman Mindalev wrote:
-> >> I walking in web with Firefox when my system began freezing.
-> >> 1. After pressing "KMenu" menu not showing
-> >> 2. Yakuake's terminals not usable: when I try typing "dmesg | tail" or
-> >> even "ls" system not answering. I can typing anything (including
-> >> pressing Ctrl+C or Ctrl+Z), but reaction = 0
-> >> 3. Consoles (Alt + F1 and other) not usable too. I can't even log-in -
-> >> after typing username and pressing "Enter" password field not available,
-> >> and I can typing any text like:
-> >> ----------------------
-> >> login: r000n
-> >> grt
-> >> rthtr
-> >> y
-> >> trht
-> >> ----------------------
-> >> 4. Switching back to to X from text console not works: I see only black
-> >> screen
-> >> 5. Ctrl + Alt + Del not works, I can restart system only with hardware Reset
-> >>
-> >> These strange things was 2 times for last day.
-> >> Logs empty, last strings from syslog:
-> >> ------- 1-st time --------------------
-> >> Jun 26 10:37:16 desktop smartd[4967]: Device: /dev/sdb, SMART Usage
-> >> Attribute: 190 Airflow_Temperature_Cel changed from 59 to 58
-> >> Jun 26 10:37:16 desktop smartd[4967]: Device: /dev/sdb, SMART Usage
-> >> Attribute: 194 Temperature_Celsius changed from 115 to 112
-> >> Jun 26 10:39:01 desktop /USR/SBIN/CRON[14210]: (root) CMD (  [ -x
-> >> /usr/lib/php5/maxlifetime ] && [ -d /var/lib/php5 ] && find
-> >> /var/lib/php5/ -type f -cmin +$(/usr/lib/php5/maxlifetime) -print0 |
-> >> xargs -n 200 -r -0 rm)
-> >> Jun 26 10:41:43 desktop ntpd[5006]: synchronized to 204.9.136.253, stratum 2
-> >> Jun 26 10:42:51 desktop ntpd[5006]: synchronized to 89.108.124.4, stratum 2
-> >> Jun 26 10:49:00 desktop syslogd 1.5.0#5: restart.
-> >> --------------------------------------
-> >> ------- 2-st time --------------------
-> >> Jun 26 14:32:37 desktop ntpd[5002]: synchronized to 212.57.153.17, stratum 2
-> >> Jun 26 14:39:01 desktop /USR/SBIN/CRON[5624]: (root) CMD (  [ -x
-> >> /usr/lib/php5/maxlifetime ] && [ -d /var/lib/php5 ] && find
-> >> /var/lib/php5/ -type f -cmin +$(/usr/lib/php5/maxlifetime) -print0 |
-> >> xargs -n 200 -r -0 rm)
-> >> Jun 26 14:44:36 desktop syslogd 1.5.0#5: restart.
-> >> Jun 26 14:44:36 desktop kernel: klogd 1.5.0#5, log source = /proc/kmsg
-> >> started.
-> >> Jun 26 14:44:36 desktop kernel: /tty/ttyr5'
-> >> --------------------------------------
-> >> Firefox 3 from svn, updated ~3 days ago.
-> >> System - Debian sid (updated yesterday).
-> >> Kernel - 2.6.26-rc8
-> >>
-> >> If need more information, tell me, where I should take it)
-> > 
-> > Did anything like that happen to you with any previous kernel versions?
-> > 
-> > Rafael
-> > 
-> No. 2.6.26-rcX was very clear line for me.
-> But 2.6.26-rc8 - first kernel, which I compiled with timer 300 Hz
-> (instead 250). I can compile 2.6.26-rc7 with 300 Hz and 2.6.26-rc8 with
-> 250 Hz if need.
-> Frequency of timer almost exclusive thing, which changed in my config
-> since 2.6.26-rc7
+It looks similar.
 
-Please do that and please do keep the CC list in your replies.
+WARNING: at net/ipv4/tcp_input.c:2213 tcp_mark_head_lost+0x15c/0x164()
+Modules linked in: i2c_nforce2
+Pid: 0, comm: swapper Not tainted 2.6.26-rc8-00089-ge1441b9-dirty #1
+ [<c0119f15>] warn_on_slowpath+0x41/0x7b
+ [<c01348dc>] ? mark_held_locks+0x4e/0x66
+ [<c011e518>] ? local_bh_enable+0xcf/0xe6
+ [<c0134a50>] ? trace_hardirqs_on+0xd0/0x10d
+ [<c031f8c5>] ? dev_queue_xmit+0x2cd/0x300
+ [<c0336968>] ? ip_finish_output+0x20c/0x244
+ [<c0336a06>] ? ip_output+0x66/0x6a
+ [<c0135b9e>] ? __lock_acquire+0xc26/0xc35
+ [<c033e5e1>] tcp_mark_head_lost+0x15c/0x164
+ [<c034064c>] tcp_ack+0x14ff/0x1760
+ [<c0342ffa>] tcp_rcv_established+0xdc/0x96a
+ [<c0348807>] tcp_v4_do_rcv+0x25/0x14e
+ [<c0383159>] ? _spin_lock_nested+0x4f/0x57
+ [<c0348c2a>] tcp_v4_rcv+0x2fa/0x492
+ [<c0332b42>] ip_local_deliver+0x7d/0xcd
+ [<c0332a9e>] ip_rcv+0x352/0x379
+ [<c012c918>] ? ktime_get_real+0x13/0x2f
+ [<c031eecb>] netif_receive_skb+0x1ec/0x21a
+ [<c032a9d4>] ? eth_type_trans+0x28/0xc7
+ [<c02e3a2e>] nv_napi_poll+0x1fa/0x618
+ [<c0134a50>] ? trace_hardirqs_on+0xd0/0x10d
+ [<c031df80>] net_rx_action+0x8b/0x14e
+ [<c011e60b>] __do_softirq+0x54/0xa1
+ [<c013fc13>] ? handle_fasteoi_irq+0x0/0xab
+ [<c010494f>] do_softirq+0x57/0xa6
+ [<c011e201>] irq_exit+0x3b/0x7c
+ [<c0104b18>] do_IRQ+0xca/0xe2
+ [<c0101d2a>] ? default_idle+0x0/0x4e
+ [<c0101d2a>] ? default_idle+0x0/0x4e
+ [<c0103712>] common_interrupt+0x2e/0x34
+ [<c0101d2a>] ? default_idle+0x0/0x4e
+ [<c0101d2a>] ? default_idle+0x0/0x4e
+ [<c0101d57>] ? default_idle+0x2d/0x4e
+ [<c0101cfd>] cpu_idle+0x62/0x8f
+ [<c0375c81>] rest_init+0x61/0x63
+ =======================
+---[ end trace 458274215148af5e ]---
 
-For now, we will assume this is a regression from -rc7.
 
-Thanks,
-Rafael
+You are right, I have no idea how to reproduce it.
+I have two events, once per  month.
