@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #9791] Clock is running too fast^Wslow using acpi_pm clocksource
+Subject: [Bug #11040] 2.6.26-rc: host can not shutdown: ata problem
 Date: Sun,  6 Jul 2008 13:45:53 +0200 (CEST)
-Message-ID: <uBi7uNfg81L.A.a2D.U4LcIB@albercik>
+Message-ID: <uBi7uNfg81L.A.rl.NzLcIB@albercik>
 References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Maciej W. Rozycki" <macro-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, "tosn00j02-O/bDAPVd7B0N+BqQ9rBEUg@public.gmane.org"@ogre.sisk.pl
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -21,10 +21,9 @@ The following bug entry is on the current list of known regressions
 from 2.6.25.  Please verify if it still should be listed.
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=9791
-Subject		: Clock is running too fast^Wslow using acpi_pm clocksource
-Submitter	: tosn00j02-O/bDAPVd7B0N+BqQ9rBEUg@public.gmane.org
-Date		: 2008-05-03 05:09 (65 days old)
-Handled-By	: Maciej W. Rozycki <macro-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org>
-Patch		: http://bugzilla.kernel.org/attachment.cgi?id=16180
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11040
+Subject		: 2.6.26-rc: host can not shutdown: ata problem
+Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-07-03 21:43 (4 days old)
+References	: http://marc.info/?l=linux-kernel&m=121512197225068&w=4
 
