@@ -1,50 +1,60 @@
-From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: 2.6.26-rc9: Reported regressions from 2.6.25
-Date: Sun, 6 Jul 2008 20:40:07 +0300
-Message-ID: <20080706174006.GD21669@cs181140183.pp.htv.fi>
-References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik> <alpine.LFD.1.10.0807060816070.3016@woody.linux-foundation.org> <20080706155825.GB21669@cs181140183.pp.htv.fi> <200807061905.50261.rjw@sisk.pl>
+From: "Justin Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #10724] ACPI: EC: GPE storm detected, disabling EC GPE
+Date: Sun, 6 Jul 2008 17:44:55 +0000
+Message-ID: <dd18b0c30807061044w227ebce0if79cf4ea7b35b942@mail.gmail.com>
+References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik>
+	 <uBi7uNfg81L.A.rWD.Z2LcIB@albercik>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=DjX56rfWdgTu3nEhW2GjUPJ7oJFqssLyX5SfJFA1Iew=;
+        b=gJ1IAMzUH3IV6q+4p9jvL6FXEGlHCmYhivgYdnzcRYfmIOngZwlZbh3YKcoKMY0Itn
+         /+uctzwT1j7QJGab7ohDgats3do2sa+bv1P/ur9K1BPwcJNd0SFx1ozGhfxxlAFDcjmI
+         Wazo5GfOd4owG1JquHC0Ulwthab0iC3mPDlNw=
+In-Reply-To: <uBi7uNfg81L.A.rWD.Z2LcIB@albercik>
 Content-Disposition: inline
-In-Reply-To: <200807061905.50261.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maximilian Engelhardt <maxi-OwNUvPV92VfddJNmlsFzeA@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>
 
-On Sun, Jul 06, 2008 at 07:05:49PM +0200, Rafael J. Wysocki wrote:
-> 
-> Also, in the next couple of days I'll be closing the bugs the reporters of
-> which have been totally unresponsive.
->...
+On Sun, Jul 6, 2008 at 11:45 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.25.  Please verify if it still should be listed.
+>
+>
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=10724
+> Subject         : ACPI: EC: GPE storm detected, disabling EC GPE
+> Submitter       : Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date            : 2008-05-16 6:17 (52 days old)
+> References      : http://marc.info/?l=linux-kernel&m=121091875711824&w=4
+>                  http://lkml.org/lkml/2008/5/18/168
+>                  http://lkml.org/lkml/2008/5/25/195
+> Patch           : http://bugzilla.kernel.org/attachment.cgi?id=16364&action=view
+>                  http://bugzilla.kernel.org/attachment.cgi?id=16365&action=view
+>
+>
+>
 
-If no action by us gets combined with automated weekly emails then
-no responses to the latter is not an unexpected event.
-
-Such a submitter might be perfectly responsive to actual work on a bug 
-while really pissed off by getting the bug closed.
-
-Look e.g. at #10865 that had a 1 month gap in submitter responses,
-but the actual problem is that noone of us ever bothered to look at
-this Oops...
-
-I just did a run through all open 2.6.26-rc regressions, and I did not 
-find a single one where we seem to be waiting for some time for an 
-answer of the submitter. [1]
-
-> Thanks,
-> Rafael
-
-cu
-Adrian
-
-[1] unless there was communication not linked from Bugzilla
+yes;
+From what I can see so far,  the reason for the gpe storm detector going off
+is due to too many interrupts with the battery. As an example there was
+a bug filed for the same issue with the macbook's:
+https://bugzilla.novell.com/show_bug.cgi?id=301365#c10
+using acpi_osi=Darwin does prevent the gpe storm detector from
+going off, but you loose any info on the battery. If anybody has any ideas on
+modifying any of the battery modules, or adjusting the DSDT it sure
+would be appreciated.
+regards;
 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+Justin P. Mattock
