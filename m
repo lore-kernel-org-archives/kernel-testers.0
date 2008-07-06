@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #10989] kernel oopses when wiggling the mouse to make it known to hidd
+Subject: [Bug #9791] Clock is running too fast^Wslow using acpi_pm clocksource
 Date: Sun,  6 Jul 2008 13:45:53 +0200 (CEST)
-Message-ID: <uBi7uNfg81L.A.tYB.pzLcIB@albercik>
+Message-ID: <uBi7uNfg81L.A.a2D.U4LcIB@albercik>
 References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Daniel Vetter <daniel-/w4YWyX8dFk@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Maciej W. Rozycki" <macro-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, "tosn00j02-O/bDAPVd7B0N+BqQ9rBEUg@public.gmane.org"@ogre.sisk.pl
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -21,8 +21,10 @@ The following bug entry is on the current list of known regressions
 from 2.6.25.  Please verify if it still should be listed.
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=10989
-Subject		: kernel oopses when wiggling the mouse to make it known to hidd
-Submitter	: Daniel Vetter <daniel-/w4YWyX8dFk@public.gmane.org>
-Date		: 2008-06-26 10:32 (11 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=9791
+Subject		: Clock is running too fast^Wslow using acpi_pm clocksource
+Submitter	: tosn00j02-O/bDAPVd7B0N+BqQ9rBEUg@public.gmane.org
+Date		: 2008-05-03 05:09 (65 days old)
+Handled-By	: Maciej W. Rozycki <macro-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org>
+Patch		: http://bugzilla.kernel.org/attachment.cgi?id=16180
 
