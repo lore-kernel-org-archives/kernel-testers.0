@@ -1,52 +1,47 @@
-From: "Justin Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #10954] hda_intel: azx_get_response timeout, switching to polling mode: last cmd=0x011f000c
-Date: Sun, 6 Jul 2008 17:47:57 +0000
-Message-ID: <dd18b0c30807061047m60e4e848v40dc1e8f49127bde@mail.gmail.com>
-References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik>
-	 <uBi7uNfg81L.A.D3B.K0LcIB@albercik>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: 2.6.26-rc9: Reported regressions from 2.6.25
+Date: Sun, 6 Jul 2008 20:02:45 +0200
+Message-ID: <200807062002.46863.rjw@sisk.pl>
+References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik> <200807061905.50261.rjw@sisk.pl> <20080706174006.GD21669@cs181140183.pp.htv.fi>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=Lfv5qYFgb3PxcG8Ov1BXC4zwOBZcwnw+jSEN7n4sk5M=;
-        b=surLQWBSe1ih5fuZADzyvbpOXkmZ1ZWmxMT6m43lNBJlEkQaEvY8bIZ5TzSdB5tXMU
-         UhQsu5zJS+nvjEY2EK/1pEkiqpkLqS6YMuRkYY8JeCkHWTIlCtB0WFsGJLBNWTFrLqRu
-         rxmPAfJKPbG3O1IuyGLCuIc2NT5u2QFJyvtmA=
-In-Reply-To: <uBi7uNfg81L.A.D3B.K0LcIB@albercik>
+In-Reply-To: <20080706174006.GD21669-re2QNgSbS3j4D6uPqz5PAwR5/fbUUdgG@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maximilian Engelhardt <maxi-OwNUvPV92VfddJNmlsFzeA@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
 
-On Sun, Jul 6, 2008 at 11:45 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.25.  Please verify if it still should be listed.
->
->
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=10954
-> Subject         : hda_intel: azx_get_response timeout, switching to polling mode: last cmd=0x011f000c
-> Submitter       : Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date            : 2008-06-21 2:05 (16 days old)
-> References      : http://marc.info/?l=linux-kernel&m=121401399622190&w=4
->                  http://marc.info/?t=121416231700010&r=1&w=4
->
->
->
+On Sunday, 6 of July 2008, Adrian Bunk wrote:
+> On Sun, Jul 06, 2008 at 07:05:49PM +0200, Rafael J. Wysocki wrote:
+> > 
+> > Also, in the next couple of days I'll be closing the bugs the reporters of
+> > which have been totally unresponsive.
+> >...
+> 
+> If no action by us gets combined with automated weekly emails then
+> no responses to the latter is not an unexpected event.
+> 
+> Such a submitter might be perfectly responsive to actual work on a bug 
+> while really pissed off by getting the bug closed.
+> 
+> Look e.g. at #10865 that had a 1 month gap in submitter responses,
+> but the actual problem is that noone of us ever bothered to look at
+> this Oops...
+> 
+> I just did a run through all open 2.6.26-rc regressions, and I did not 
+> find a single one where we seem to be waiting for some time for an 
+> answer of the submitter. [1]
 
-yes;
-as an estimate(been busy with another bug), I'm going to say out of
-100 reboots this message will
-appear 2 times in a row, and then disappear.
-regards;
+The following are my candidates:
 
--- 
-Justin P. Mattock
+10629
+10786
+10815
+10906 (the thread has apparently died)
+11009
+
+Thanks,
+Rafael
