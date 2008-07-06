@@ -1,53 +1,49 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
 Subject: Re: 2.6.26-rc9: Reported regressions from 2.6.25
-Date: Sun, 6 Jul 2008 18:58:10 +0200
-Message-ID: <20080706165810.GA16189@elte.hu>
-References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik> <alpine.LFD.1.10.0807060816070.3016@woody.linux-foundation.org>
+Date: Sun, 6 Jul 2008 19:05:49 +0200
+Message-ID: <200807061905.50261.rjw@sisk.pl>
+References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik> <alpine.LFD.1.10.0807060816070.3016@woody.linux-foundation.org> <20080706155825.GB21669@cs181140183.pp.htv.fi>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759135AbYGFREU@vger.kernel.org>
+In-Reply-To: <20080706155825.GB21669@cs181140183.pp.htv.fi>
 Content-Disposition: inline
-In-Reply-To: <alpine.LFD.1.10.0807060816070.3016-5CScLwifNT1QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maximilian Engelhardt <maxi-OwNUvPV92VfddJNmlsFzeA@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+To: Adrian Bunk <bunk@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maximilian Engelhardt <maxi@daemonizer.de>, Randy Dunlap <randy.dunlap@oracle.com>, "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, James Bottomley <James.Bottomley@hansenpartnership.com>
 
-
-* Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
-
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=10815
-> > Subject		: 2.6.26-rc4: RIP find_pid_ns+0x6b/0xa0
-> > Submitter	: Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2008-05-27 09:23 (41 days old)
-> > References	: http://lkml.org/lkml/2008/5/27/9
-> > 		  http://lkml.org/lkml/2008/6/14/87
-> > Handled-By	: Oleg Nesterov <oleg-6lXkIZvqkOAvJsYlp49lxw@public.gmane.org>
-> > 		  Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-> > 		  Paul E. McKenney <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> > Patch		: http://lkml.org/lkml/2008/5/28/16
+On Sunday, 6 of July 2008, Adrian Bunk wrote:
+> On Sun, Jul 06, 2008 at 08:46:09AM -0700, Linus Torvalds wrote:
+> > On Sun, 6 Jul 2008, Rafael J. Wysocki wrote:
+> >...
+> > Fixed by commit 494de90098784b8e2797598cefdd34188884ec2e: "Do not 
+> > overwrite nr_zones on !NUMA when initialising zlcache_ptr" by Mel.
+> >...
+> > This patch got merged: commit 1236edf1c70107a0d31b3fba0b2a8783615d0d24 
+> > ("USB: don't lose disconnections during suspend").
+> >...
+> > Ditto: commit 7cd95f56cb61f5348d062527c9d3653196f6e629 ("ide: fix 
+> > hwif->gendev refcounting")
+> >...
+> > Fixed in commit 70a3143af87c6ca188107cbd49ab5eec2c86c456 ("sata_uli: 
+> > hardreset is broken")
+> >...
+> > Fixed in commit efac41894df57d32b483ac622d03541b5b2692c0 ("x86: fix 
+> > NODES_SHIFT Kconfig range").
+> >...
 > 
-> This one is the same thing that is reported as unresolved, and no, I 
-> don't think that existing patch was ever really tested to fix 
-> anything. Paul?
+> Thanks, all closed.
 > 
-> I suspect SRCU will need to be simply marked BROKEN for now, because 
-> nobody knows what the problem Alexey sees is. Apparently it's been 
-> seen by a few other people too.
+> (I do try to close fixed regression bugs immediately after a fix enters
+>  your tree, but espicially for commits without a reference to a Bugzilla
+>  entry I sometimes miss it.)
 
-I'm not sure it's directly related to SRCU - it can change timings and 
-freeing patterns enough to tickle other bugs. Since Alexey Dobriyan has 
-reported it - are perhaps namespaces in use during this stress-test? 
-Maybe it's some namespaces related bug that is more easily reproduced 
-under SRCU - namespaces is not a commonly tested feature.
+Also, in the next couple of days I'll be closing the bugs the reporters of
+which have been totally unresponsive.
 
-Also, i've been running rcutorture stress-tests on a number of 
-test-systems ever since this got reported (and they are running 
-currently as well) and cannot see it - neither could Paul reproduce it.
+I'll post an updated report after that.
 
-( and Paul is very good in producing RCU related problems - he's
-  triggered and fixed many RCU related problems that no-one else saw
-  before. )
-
-	Ingo
+Thanks,
+Rafael
