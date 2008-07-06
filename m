@@ -1,34 +1,50 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #10861] 2.6.26-rc4-git2 - long pause during boot
-Date: Sun, 6 Jul 2008 19:16:17 +0200
-Message-ID: <200807061916.18401.rjw@sisk.pl>
-References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik> <uBi7uNfg81L.A.teC.90LcIB@albercik> <1215354787.4197.1.camel@localhost.localdomain>
+From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: 2.6.26-rc9: Reported regressions from 2.6.25
+Date: Sun, 6 Jul 2008 20:40:07 +0300
+Message-ID: <20080706174006.GD21669@cs181140183.pp.htv.fi>
+References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik> <alpine.LFD.1.10.0807060816070.3016@woody.linux-foundation.org> <20080706155825.GB21669@cs181140183.pp.htv.fi> <200807061905.50261.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1215354787.4197.1.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <200807061905.50261.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Clayton <chris2553-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Hannes Reinecke <hare-l3A5Bk7waGM@public.gmane.org>, Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maximilian Engelhardt <maxi-OwNUvPV92VfddJNmlsFzeA@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
 
-On Sunday, 6 of July 2008, James Bottomley wrote:
-> On Sun, 2008-07-06 at 13:45 +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.25.  Please verify if it still should be listed.
+On Sun, Jul 06, 2008 at 07:05:49PM +0200, Rafael J. Wysocki wrote:
 > 
-> Erm, this isn't a kernel regression, it's a udev rule problem.
-> 
-> The rule has been identified and fixed; the reporter confirms it fixes
-> the problem and the upstream maintainer of udev is putting out a release
-> with it in ... what more exactly needs to be done?
+> Also, in the next couple of days I'll be closing the bugs the reporters of
+> which have been totally unresponsive.
+>...
 
-Closed as "invalid".
+If no action by us gets combined with automated weekly emails then
+no responses to the latter is not an unexpected event.
 
-Thanks,
-Rafael
+Such a submitter might be perfectly responsive to actual work on a bug 
+while really pissed off by getting the bug closed.
+
+Look e.g. at #10865 that had a 1 month gap in submitter responses,
+but the actual problem is that noone of us ever bothered to look at
+this Oops...
+
+I just did a run through all open 2.6.26-rc regressions, and I did not 
+find a single one where we seem to be waiting for some time for an 
+answer of the submitter. [1]
+
+> Thanks,
+> Rafael
+
+cu
+Adrian
+
+[1] unless there was communication not linked from Bugzilla
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
