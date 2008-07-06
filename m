@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #10865] Oops trying to mount an ntfs partition on thinkpad
+Subject: [Bug #11042] build issue #477 for v2.6.26-rc8-290-gb8a0b6c : input_event" [drivers/media/dvb/ttpci/dvb-ttpci.ko] undefined!
 Date: Sun,  6 Jul 2008 13:45:53 +0200 (CEST)
-Message-ID: <uBi7uNfg81L.A.fPC.z0LcIB@albercik>
+Message-ID: <uBi7uNfg81L.A.rc.JzLcIB@albercik>
 References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="iso-8859-1"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alex Romosan <romosan-z2gvhuI27Wv/eO6KEJJvLQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Oliver Endriss <o.endriss-Mmb7MZpHnFY@public.gmane.org>, =?utf-8?q?Toralf=20F=C3=B6rster?= <toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -21,9 +21,13 @@ The following bug entry is on the current list of known regressions
 from 2.6.25.  Please verify if it still should be listed.
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=10865
-Subject		: Oops trying to mount an ntfs partition on thinkpad
-Submitter	: Alex Romosan <romosan-z2gvhuI27Wv/eO6KEJJvLQ@public.gmane.org>
-Date		: 2008-06-05 14:47 (32 days old)
-References	: http://marc.info/?l=linux-kernel&m=121267834421414&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11042
+Subject		: build issue #477 for v2.6.26-rc8-290-gb8a0b6c : input_event"=
+ [drivers/media/dvb/ttpci/dvb-ttpci.ko] undefined!
+Submitter	: Toralf F=C3=B6rster <toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
+Date		: 2008-07-05 15:25 (2 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D121527158632563&w=3D=
+4
+Handled-By	: Oliver Endriss <o.endriss-Mmb7MZpHnFY@public.gmane.org>
+Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D121529790229531&w=3D4
 
