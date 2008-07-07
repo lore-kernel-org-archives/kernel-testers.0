@@ -1,41 +1,68 @@
-From: Pavel Machek <pavel-AlSwsSmVLrQ@public.gmane.org>
+From: Maximilian Engelhardt <maxi@daemonizer.de>
 Subject: Re: 2.6.26-rc9: Reported regressions from 2.6.25
-Date: Mon, 7 Jul 2008 19:37:08 +0200
-Message-ID: <20080707173708.GA3000@elf.ucw.cz>
-References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik> <alpine.LFD.1.10.0807060816070.3016@woody.linux-foundation.org>
+Date: Mon, 7 Jul 2008 20:26:20 +0200
+Message-ID: <200807072026.24727.maxi@daemonizer.de>
+References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik> <alpine.LFD.1.10.0807060816070.3016@woody.linux-foundation.org> <20080707173708.GA3000@elf.ucw.cz>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.LFD.1.10.0807060816070.3016-5CScLwifNT1QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed;
+  boundary="nextPart2186059.qrZCnum4Zm";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maximilian Engelhardt <maxi-OwNUvPV92VfddJNmlsFzeA@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757261AbYGGS1Q@vger.kernel.org>
+In-Reply-To: <20080707173708.GA3000@elf.ucw.cz>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+To: Pavel Machek <pavel@suse.cz>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Randy Dunlap <randy.dunlap@oracle.com>, "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, James Bottomley <James.Bottomley@hansenpartnership.com>
 
-Hi!
+--nextPart2186059.qrZCnum4Zm
+Content-Type: text/plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=10919
-> > Subject		: [regression] display dimming is slow and laggy - Acer Travelmate 661lci
-> > Submitter	: Maximilian Engelhardt <maxi-OwNUvPV92VfddJNmlsFzeA@public.gmane.org>
-> > Date		: 2008-06-14 22:31 (23 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=121348428828320&w=4
-> 
-> I wonder if this one could be related. The 'nr_zones' overwriting bug 
-> would result in kswapd not reclaiming any memory asynchronously, so the 
-> kernel would basically be constantly under a low-memory situation, and 
-> processes would be forced to do synchronous reclaim. 
-> 
-> That, in turn, could easily explain laggy operation, especially if it is 
-> something bigger that needs to allocate new memory (not that I know if X 
-> dimming needs to, but I could imagine that it does some double buffering 
-> or whatever).
+On Monday 07 July 2008, Pavel Machek wrote:
+> Hi!
+>
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D10919
+> > > Subject		: [regression] display dimming is slow and laggy - Acer
+> > > Travelmate 661lci Submitter	: Maximilian Engelhardt
+> > > <maxi@daemonizer.de>
+> > > Date		: 2008-06-14 22:31 (23 days old)
+> > > References	: http://marc.info/?l=3Dlinux-kernel&m=3D121348428828320&w=
+=3D4
+> >
+> > I wonder if this one could be related. The 'nr_zones' overwriting bug
+> > would result in kswapd not reclaiming any memory asynchronously, so the
+> > kernel would basically be constantly under a low-memory situation, and
+> > processes would be forced to do synchronous reclaim.
+> >
+> > That, in turn, could easily explain laggy operation, especially if it is
+> > something bigger that needs to allocate new memory (not that I know if X
+> > dimming needs to, but I could imagine that it does some double buffering
+> > or whatever).
+>
+> Hmm, but that would mean whole system is slow, right?
+>
+> I'd bet this is ACPI EC problem...
 
-Hmm, but that would mean whole system is slow, right?
+I didn't notice anything that my system is slow. Also I think this patch go=
+t=20
+included in 2.6.26-rc9 but I still have this problem with it.
 
-I'd bet this is ACPI EC problem...
-									Pavel
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+Maxi
+
+--nextPart2186059.qrZCnum4Zm
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEABECAAYFAkhyX80ACgkQOimwv528XGE/AQCg4PFguyy6ZGbfL/kOvJLbCGHb
+gJAAoNaDbrrmbbRVrocOY1HCXIasetwf
+=Ezmi
+-----END PGP SIGNATURE-----
+
+--nextPart2186059.qrZCnum4Zm--
