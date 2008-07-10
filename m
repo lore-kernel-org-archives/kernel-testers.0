@@ -1,109 +1,127 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
+From: "Vegard Nossum" <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: linux-next: Tree for July 9 (kmemcheck: Caught 8-bit read from freed memory (ffff880127c120e8))
-Date: Thu, 10 Jul 2008 00:25:13 +0200
-Message-ID: <200807100025.13973.rjw@sisk.pl>
-References: <20080709183047.0eb1eb72.sfr@canb.auug.org.au> <200807100017.04397.rjw@sisk.pl>
+Date: Thu, 10 Jul 2008 09:19:01 +0200
+Message-ID: <19f34abd0807100019t392621dci306420150343d13d@mail.gmail.com>
+References: <20080709183047.0eb1eb72.sfr@canb.auug.org.au>
+	 <200807100017.04397.rjw@sisk.pl> <200807100025.13973.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-next-owner@vger.kernel.org>
-In-Reply-To: <200807100017.04397.rjw@sisk.pl>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=XAfrKtmk+L1XkutqG+q/suerzNLP4fpma9CmK0DnX+k=;
+        b=s1XkuqTtWObwp0BXBaS2nOBl0lOlHmY0EcvEd071eQiIgcx5RIYKrSW3vIx3zbXS9M
+         jp9LwIQk20oOC+Vw5OElB+Bo+w8l6jWm1HjgZPjvqr5eewpvoIlmGTaZURW2bZrgj7Xk
+         ciI75TqYkWiakfgwYmGKlhw1pHGJyY3xaOa98=
+In-Reply-To: <200807100025.13973.rjw-KKrjLPT3xs0@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-next-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: linux-next@vger.kernel.org
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, LKML <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@elte.hu>, Kernel Testers List <kernel-testers@vger.kernel.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: linux-next-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Stephen Rothwell <sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
 
-On Thursday, 10 of July 2008, Rafael J. Wysocki wrote:
-> On Wednesday, 9 of July 2008, Stephen Rothwell wrote:
-> > Hi all,
-> > 
-> > Changes since next-20080708:
-> > 
-> > Temporarily dropped tree: ttydev (since it would not import on top of any
-> > tree I have)
-> > 
-> > The x86 tree lost a conflict against the ftrace tree.
-> > 
-> > The ide tree gained 2 conflicts against Linus' tree.
-> > 
-> > The nfs tree gained a conflict against Linus' tree.
-> > 
-> > The acpi tree lost 5 conflicts against various trees but gained another
-> > against the x86 tree.
-> > 
-> > The net tree lost 2 conflicts against the x86 wireless-current trees.
-> > 
-> > I have also applied the following patches for known problems (I assume
-> > that these will be merged into their appropriate trees shortly):
-> > 
-> > 	linux-next: zero based percpu build error on s390
-> > 	sparc64: sysdev API change fallout
-> > 
-> > I no longer needed to revert the commits from the mmc tree.
-> > ----------------------------------------------------------------------------
-> 
-> With this tree (and several previous ones, it appears) my quad core test
-> box's CPU is detected as one core.  With 2.6.26-rc9 four cores are
-> detected as appropriate.
-> 
-> dmesg from the failing kernel (today's linux-next) is at:
-> http://www.sisk.pl/kernel/debug/20080709/dmesg-20080709.log
-> 
-> dmesg from a non-failing kernel (2.6.26-rc9) is at:
-> http://www.sisk.pl/kernel/debug/20080709/dmesg-rc9.log
-> 
-> .config is at: http://www.sisk.pl/kernel/debug/20080709/next-config
+On Thu, Jul 10, 2008 at 12:25 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> On Thursday, 10 of July 2008, Rafael J. Wysocki wrote:
+>> With this tree (and several previous ones, it appears) my quad core test
+>> box's CPU is detected as one core.  With 2.6.26-rc9 four cores are
+>> detected as appropriate.
+>>
+>> dmesg from the failing kernel (today's linux-next) is at:
+>> http://www.sisk.pl/kernel/debug/20080709/dmesg-20080709.log
+>>
+>> dmesg from a non-failing kernel (2.6.26-rc9) is at:
+>> http://www.sisk.pl/kernel/debug/20080709/dmesg-rc9.log
+>>
+>> .config is at: http://www.sisk.pl/kernel/debug/20080709/next-config
+>
+> Ah, I see.  kmemcheck has detected a problem and disabled the secondary
+> CPUs:
+>
+> kmemcheck: Caught 8-bit read from freed memory (ffff880127c120e8)
+> iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiffffffffffffffffffffffffffffffff
+>                                        ^
+>
+> Modules linked in:
+> Pid: 0, comm: swapper Not tainted 2.6.26-rc9-next #37
+> RIP: 0010:[<ffffffff802b5ac0>]  [<ffffffff802b5ac0>] check_poison_obj+0x90/0x210
+> RSP: 0018:ffffffff806c1e08  EFLAGS: 00010293
+> RAX: 000000000000006b RBX: 0000000000000000 RCX: ffffffff802b820e
+> RDX: 0000000000000000 RSI: ffff880127c120e0 RDI: ffff880127c01480
+> RBP: ffffffff806c1e48 R08: 0000000000000001 R09: 0000000000000001
+> R10: 0000000000000001 R11: 0000000000000040 R12: ffff880127c120e8
+> R13: 0000000000000040 R14: 0000000000000000 R15: 000000000000003f
+> FS:  0000000000000000(0000) GS:ffffffff806b8f40(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0018 ES: 0018 CR0: 000000008005003b
+> CR2: ffff880127c101b8 CR3: 0000000000201000 CR4: 00000000000006a0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000ffff4ff0 DR7: 0000000000000400
+>  [<ffffffff802b647c>] cache_alloc_debugcheck_after+0x1ac/0x1f0
+>  [<ffffffff802b7fac>] kmem_cache_alloc+0x9c/0x140
+>  [<ffffffff802b820e>] do_tune_cpucache+0x2e/0x2d0
+>  [<ffffffff802b862b>] enable_cpucache+0x3b/0xb0
+>  [<ffffffff806e4caa>] kmem_cache_init+0x3ca/0x4c0
+>  [<ffffffff806c8ece>] start_kernel+0x27e/0x4c0
+>  [<ffffffff806c827c>] x86_64_start_reservations+0x7c/0xc0
+>  [<ffffffff806c83b6>] x86_64_start_kernel+0xf6/0x100
+>  [<ffffffffffffffff>] 0xffffffffffffffff
+> Calibrating delay loop (skipped), value calculated using timer frequency.. <6>5015.24 BogoMIPS (lpj=10030484)
+> Security Framework initialized
+> SELinux:  Initializing.
+> SELinux:  Starting in permissive mode
+> selinux_register_security:  Registering secondary module capability
+> Capability LSM initialized as secondary
+> Mount-cache hash table entries: 256
+> CPU: L1 I Cache: 64K (64 bytes/line), D cache 64K (64 bytes/line)
+> CPU: L2 Cache: 512K (64 bytes/line)
+> CPU: Physical Processor ID: 0
+> CPU: Processor Core ID: 0
+> using C1E aware idle routine
+> ACPI: Core revision 20080609
+> CPU0: AMD Phenom(tm) 9850 Quad-Core Processor stepping 03
+> Using local APIC timer interrupts.
+> APIC timer calibration result 12538092
+> Detected 12.538 MHz APIC timer.
+> kmemcheck: "Bugs, beware!"
+> kmemcheck: Limiting number of CPUs to 1.
 
-Ah, I see.  kmemcheck has detected a problem and disabled the secondary
-CPUs:
+Hm.
 
-kmemcheck: Caught 8-bit read from freed memory (ffff880127c120e8)
-iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiffffffffffffffffffffffffffffffff
-                                        ^
+No, they're not disabled because an error was detected. They're always
+disabled unless you explicitly allow the SMP+kmemcheck combination in
+config. But this combination sucks at the moment because it means
+halting all the CPUs on the system for every kernel-mode memory
+dereference on any CPU!
 
-Modules linked in:
-Pid: 0, comm: swapper Not tainted 2.6.26-rc9-next #37
-RIP: 0010:[<ffffffff802b5ac0>]  [<ffffffff802b5ac0>] check_poison_obj+0x90/0x210
-RSP: 0018:ffffffff806c1e08  EFLAGS: 00010293
-RAX: 000000000000006b RBX: 0000000000000000 RCX: ffffffff802b820e
-RDX: 0000000000000000 RSI: ffff880127c120e0 RDI: ffff880127c01480
-RBP: ffffffff806c1e48 R08: 0000000000000001 R09: 0000000000000001
-R10: 0000000000000001 R11: 0000000000000040 R12: ffff880127c120e8
-R13: 0000000000000040 R14: 0000000000000000 R15: 000000000000003f
-FS:  0000000000000000(0000) GS:ffffffff806b8f40(0000) knlGS:0000000000000000
-CS:  0010 DS: 0018 ES: 0018 CR0: 000000008005003b
-CR2: ffff880127c101b8 CR3: 0000000000201000 CR4: 00000000000006a0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000ffff4ff0 DR7: 0000000000000400
- [<ffffffff802b647c>] cache_alloc_debugcheck_after+0x1ac/0x1f0
- [<ffffffff802b7fac>] kmem_cache_alloc+0x9c/0x140
- [<ffffffff802b820e>] do_tune_cpucache+0x2e/0x2d0
- [<ffffffff802b862b>] enable_cpucache+0x3b/0xb0
- [<ffffffff806e4caa>] kmem_cache_init+0x3ca/0x4c0
- [<ffffffff806c8ece>] start_kernel+0x27e/0x4c0
- [<ffffffff806c827c>] x86_64_start_reservations+0x7c/0xc0
- [<ffffffff806c83b6>] x86_64_start_kernel+0xf6/0x100
- [<ffffffffffffffff>] 0xffffffffffffffff
-Calibrating delay loop (skipped), value calculated using timer frequency.. <6>5015.24 BogoMIPS (lpj=10030484)
-Security Framework initialized
-SELinux:  Initializing.
-SELinux:  Starting in permissive mode
-selinux_register_security:  Registering secondary module capability
-Capability LSM initialized as secondary
-Mount-cache hash table entries: 256
-CPU: L1 I Cache: 64K (64 bytes/line), D cache 64K (64 bytes/line)
-CPU: L2 Cache: 512K (64 bytes/line)
-CPU: Physical Processor ID: 0
-CPU: Processor Core ID: 0
-using C1E aware idle routine
-ACPI: Core revision 20080609
-CPU0: AMD Phenom(tm) 9850 Quad-Core Processor stepping 03
-Using local APIC timer interrupts.
-APIC timer calibration result 12538092
-Detected 12.538 MHz APIC timer.
-kmemcheck: "Bugs, beware!"
-kmemcheck: Limiting number of CPUs to 1.
+Also, the error report is bogus. We should make kmemcheck depend on
+!CONFIG_DEBUG_SLAB && !CONFIG_SLUB_DEBUG_ON for now, because these
+modes interfere with the checking that kmemcheck does.
 
-Thanks,
-Rafael
+(Just think of it -- if SLUB wants to check whether the padding was
+overwritten, it *will* have to make a read from the padding area. And
+kmemcheck will not differentiate between reads from the allocator vs.
+reads from the rest of the kernel. And in every other case, this read
+would be a real error.)
+
+That said, we *might* be able to do a kmemcheck_off()/kmemcheck_on()
+thing around the special code. Maybe a kmemcheck_read()  which
+bypasses the checking for a single read.
+
+But I really do think kmemcheck and slab/slub debugging should be
+mutually exclusive. They do essentially the same thing, except that
+kmemcheck is much more eager and detects problems right where they
+happen (though sometimes too eagerly too; the false positives).
+
+Thanks for trying it out :-D
+
+
+Vegard
+
+-- 
+"The animistic metaphor of the bug that maliciously sneaked in while
+the programmer was not looking is intellectually dishonest as it
+disguises that the error is the programmer's own creation."
+	-- E. W. Dijkstra, EWD1036
