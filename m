@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 Subject: Re: [RFT] x86 acpi: normalize segment descriptor register on resume
-Date: Sat, 12 Jul 2008 22:47:49 +0200
-Message-ID: <200807122247.50851.rjw__3900.98918364874$1215896672$gmane$org@sisk.pl>
-References: <200807010148.02135.rjw@sisk.pl> <200807122051.25634.rjw@sisk.pl> <48791484.4010408@myrealbox.com>
+Date: Sat, 12 Jul 2008 22:53:31 +0200
+Message-ID: <200807122253.32382.rjw__6796.33943732387$1215896761$gmane$org@sisk.pl>
+References: <200807010148.02135.rjw@sisk.pl> <200807122051.25634.rjw@sisk.pl> <48791675.6060805@myrealbox.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <48791484.4010408-YSGFQ8SKJZVDPfheJLI6IQ@public.gmane.org>
+In-Reply-To: <48791675.6060805-YSGFQ8SKJZVDPfheJLI6IQ@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Andy Lutomirski <luto-YSGFQ8SKJZVDPfheJLI6IQ@public.gmane.org>
-Cc: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, public-kernel-testers-u79uwXL29TY76Z2rM5mHXA-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org, ACPI Devel Maling List <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+To: Andy Lutomirski <luto-YSGFQ8SKJZVDPfheJLI6IQ@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
+Cc: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, public-kernel-testers-u79uwXL29TY76Z2rM5mHXA-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org, ACPI Devel Maling List <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
 
 
 
@@ -41,17 +41,25 @@ On Saturday, 12 of July 2008, Andy Lutomirski wrote:
 > > 
 > > Can you please see if the appended patch changes anything?
 > 
-> I suspended and resumed OK.  Then I rebooted and tried again, and it failed.
+> More correctly:
+> 
+> If I suspend by typing pm-suspend or echo mem >/sys/power/state, then it 
+> resumes just fine.  If I log in to Gnome and push the suspend button, 
+> then it does not resume.  This seems to be the case with or without your 
+> patch.
 
-That's very strange.
+Is there an Intel graphics in your box?
 
-Well, is suspend/resume 100% reliable without commit
-4b4f7280d7fd1feeff134c2cf2db32fd583b6c29 ?
+> -rc8 and -rc9 with the original patch 4b4f7280 resume fine no matter how 
+> I suspend.
 
-Also, is the system 64-bit or 32-bit and do you use any user-space quirks to
-bring the graphics to life during resume?
+That's _really_ strange.
 
-And what does happen if you suspend it from the console (no X)?
+In fact I have only one explanation, which is that the Gnome suspend button
+causes some user-space quirks to be applied, which are harmful and break the
+resume.  Also, without commit 4b4f7280 those quirks might have not been really
+executed.  Peter, does it sound reasonable?
 
+Thanks,
 Rafael
 
