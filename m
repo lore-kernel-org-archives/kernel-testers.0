@@ -1,49 +1,33 @@
-From: Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
-Subject: Re: [Bug #11035] System hangs on 2.6.26-rc8
-Date: Sat, 12 Jul 2008 19:07:35 +0400
-Message-ID: <4878C8B7.2030400@r000n.net>
-References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik>	<uBi7uNfg81L.A.xt.SzLcIB@albercik>	<487600B3.2010008@r000n.net> <20080710150841.139c2a71@doriath.conectiva>
+From: Andy Lutomirski <luto-YSGFQ8SKJZVDPfheJLI6IQ@public.gmane.org>
+Subject: Re: [RFT] x86 acpi: normalize segment descriptor register on resume
+Date: Sat, 12 Jul 2008 11:08:05 -0400
+Message-ID: <4878C8D5.9030707@myrealbox.com>
+References: <200807010148.02135.rjw@sisk.pl> <20080701063133.GC16642@elte.hu> <4869D4A3.3020000@zytor.com> <200807012239.44105.rjw@sisk.pl> <486A96C1.2020106@firstfloor.org> <48784F51.1010407@myrealbox.com> <48789EC3.2070701@firstfloor.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080710150841.139c2a71-nIupHZaCssooJnjsDhvDDvd9D2ou9A/h@public.gmane.org>
+In-Reply-To: <48789EC3.2070701-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Luiz Fernando N. Capitulino" <lcapitulino-4qZELD6Fgxg39yzSjRtAkw@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, ACPI Devel Maling List <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
 
-Luiz Fernando N. Capitulino wrote:
-> Em Thu, 10 Jul 2008 16:29:39 +0400
-> Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org> escreveu:
+Andi Kleen wrote:
+> Andy Lutomirski wrote:
+>> My Lenovo X61s fails to resume if I suspend it from within X, on both
+>> 2.6.26-rc9 and recent wireless-testing.  2.6.26-rc8 is fine, as is
+>> wireless-testing with 4b4f7280 reverted.  My in-progress bisect between
+>> -rc8 and -rc9 is also consistent with this being the problem.
 > 
-> | Rafael J. Wysocki wrote:
-> | > This message has been generated automatically as a part of a report
-> | > of recent regressions.
-> | > 
-> | > The following bug entry is on the current list of known regressions
-> | > from 2.6.25.  Please verify if it still should be listed.
-> | > 
-> | > 
-> | > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11035
-> | > Subject		: System hangs on 2.6.26-rc8
-> | > Submitter	: Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
-> | > Date		: 2008-07-02 14:25 (5 days old)
-> | > References	: http://marc.info/?l=linux-kernel&m=121500871414995&w=4
-> | > 
-> | > 
-> | > 
-> | I have this problem with 2.6.25 too.
-> | Unfortunately, I can't check 2.6.24. With config from 2.6.26-rc8 I got
-> | error of compiling:
-> | 
-> |   LD      .tmp_vmlinux1
-> | kernel/built-in.o: In function `timespec_add_ns':
-> | /usr/src/kernels/linux-2.6.24/include/linux/time.h:179: undefined
-> | reference to `__umoddi3'
+> With "this" do you mean the patch being applied or not applied?
 > 
->  [...]
+> As in does it fail with the patch applied?
 > 
->  You're trying to compile with gcc 4.3, right? 
-Yes, GCC 4.3.1. With time.patch kernel compiled successfully. Thanks for
-help!
+> You can confirm that by only applying the patch and testing.
+
+The tree as of 4b4f2780 (the title patch of this thread) fails to 
+resume.  Its parent works fine.  Which makes this patch the culprit.  (I 
+just tried both.)
+
+--Andy
