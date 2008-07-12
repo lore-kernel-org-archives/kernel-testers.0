@@ -1,143 +1,141 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [RFT] x86 acpi: normalize segment descriptor register on resume
-Date: Sat, 12 Jul 2008 20:51:24 +0200
-Message-ID: <200807122051.25634.rjw@sisk.pl>
-References: <200807010148.02135.rjw@sisk.pl> <486A96C1.2020106@firstfloor.org> <48784F51.1010407@myrealbox.com>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: linux-next: Tree for July 11
+Date: Sat, 12 Jul 2008 20:51:50 +0200
+Message-ID: <200807122051.50909.rjw@sisk.pl>
+References: <20080711182557.9b24df1f.sfr@canb.auug.org.au>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <48784F51.1010407-YSGFQ8SKJZVDPfheJLI6IQ@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755384AbYGLSto@vger.kernel.org>
+In-Reply-To: <20080711182557.9b24df1f.sfr@canb.auug.org.au>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Andy Lutomirski <luto-YSGFQ8SKJZVDPfheJLI6IQ@public.gmane.org>
-Cc: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, ACPI Devel Maling List <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, netdev@vger.kernel.org, Vegard Nossum <vegard.nossum@gmail.com>, Pekka Enberg <penberg@cs.helsinki.fi>
 
-On Saturday, 12 of July 2008, Andy Lutomirski wrote:
-> My Lenovo X61s fails to resume if I suspend it from within X, on both 
-> 2.6.26-rc9 and recent wireless-testing.  2.6.26-rc8 is fine, as is 
-> wireless-testing with 4b4f7280 reverted.  My in-progress bisect between 
-> -rc8 and -rc9 is also consistent with this being the problem.
+On Friday, 11 of July 2008, Stephen Rothwell wrote:
+> Hi all,
 > 
-> The symptom is that, when I push the power button to resume, the hard 
-> drive light turns on, the fan turns on, then the hard drive light turns 
-> off, the sleep light stays on, and the fan keeps running.  Sometimes the 
-> battery light will blink off very briefly (1/4 sec, maybe) every few 
-> seconds.  The system is locked hard at this point.
+> Changes since next-20080710:
 > 
-> I'm using Ubuntu Hardy userspace.
+> New tree: voltage
+> 
+> The tip-core tree lost its conflict against Linus' tree.
+> 
+> The sched tree gained a conflict against Linus' tree.
+> 
+> The x86 tree gained conflicts against the ftrace and driver-core trees.
+> 
+> The ide tree lost its 2 conflicts against Linus' tree.
+> 
+> The rr tree gained a runtime bug fix patch (which Rusty tells me will not
+> be needed for long).
+> 
+> The firmware tree gained a conflict against the usb tree that required the
+> reverting of one of its commits) but also lost a conflict against Linus'
+> tree.
+> 
+> The kmemcheck tree gained a conflict against the x86 tree.
+> 
+> The ttydev tree had two patches fail to apply which I removed.
+> 
+> I have also applied the following patches for known problems:
+> 
+> 	sparc64: sysdev API change fallout
+> 	s390: fix compile error due to smp_call_function
+> 
+> This patch is no longer needed:
+> 	linux-next: zero based percpu build error on s390
+> 
+> ----------------------------------------------------------------------------
 
-Well, that's bad.
+With this tree I see two problems.  The first one is this:
 
-There is the bugzilla entry at http://bugzilla.kernel.org/show_bug.cgi?id=11064
-for this bug and you've just confirmed my suspicion that this particular
-commit is to blame.
+=============================================
+[ INFO: possible recursive locking detected ]
+2.6.26-rc9-next #44
+---------------------------------------------
+swapper/1 is trying to acquire lock:
+ (&queue->lock){-...}, at: [<ffffffff80483067>] qdisc_lock_tree+0x27/0x30
 
-Can you please see if the appended patch changes anything?
+but task is already holding lock:
+ (&queue->lock){-...}, at: [<ffffffff8048305f>] qdisc_lock_tree+0x1f/0x30
+
+other info that might help us debug this:
+3 locks held by swapper/1:
+ #0:  (net_mutex){--..}, at: [<ffffffff8046e482>] register_pernet_device+0x22/0x70
+ #1:  (rtnl_mutex){--..}, at: [<ffffffff8047bac2>] rtnl_lock+0x12/0x20
+ #2:  (&queue->lock){-...}, at: [<ffffffff8048305f>] qdisc_lock_tree+0x1f/0x30
+
+stack backtrace:
+Pid: 1, comm: swapper Not tainted 2.6.26-rc9-next #44
+
+Call Trace:
+ [<ffffffff80263a4e>] __lock_acquire+0xb7e/0x1280
+ [<ffffffff802641a7>] lock_acquire+0x57/0x80
+ [<ffffffff80483067>] ? qdisc_lock_tree+0x27/0x30
+ [<ffffffff80500c65>] _spin_lock+0x25/0x40
+ [<ffffffff80483067>] qdisc_lock_tree+0x27/0x30
+ [<ffffffff804830b1>] dev_init_scheduler+0x11/0x70
+ [<ffffffff8047193b>] register_netdevice+0x1fb/0x370
+ [<ffffffff80471af4>] register_netdev+0x44/0x60
+ [<ffffffff806f18f7>] loopback_net_init+0x47/0x90
+ [<ffffffff806f12c0>] ? firmware_class_init+0x0/0x90
+ [<ffffffff806f1890>] ? loopback_init+0x0/0x20
+ [<ffffffff8046e3e8>] register_pernet_operations+0x18/0x20
+ [<ffffffff8046e491>] register_pernet_device+0x31/0x70
+ [<ffffffff806f18a0>] loopback_init+0x10/0x20
+ [<ffffffff806caa48>] kernel_init+0x128/0x310
+ [<ffffffff8026297f>] ? trace_hardirqs_on_caller+0xbf/0x150
+ [<ffffffff80262a1d>] ? trace_hardirqs_on+0xd/0x10
+ [<ffffffff80500f9b>] ? _spin_unlock_irq+0x2b/0x40
+ [<ffffffff80500830>] ? trace_hardirqs_on_thunk+0x3a/0x3f
+ [<ffffffff8026297f>] ? trace_hardirqs_on_caller+0xbf/0x150
+ [<ffffffff8020c6d9>] child_rip+0xa/0x11
+ [<ffffffff8020bd0f>] ? restore_args+0x0/0x30
+ [<ffffffff806ca920>] ? kernel_init+0x0/0x310
+ [<ffffffff8020c6cf>] ? child_rip+0x0/0x11
+
+and the second one is the following:
+
+WARNING: at /home/rafael/src/linux-next/include/linux/blkdev.h:447 blk_plug_device+0x9b/0xb0()
+Modules linked in: snd_hda_intel ohci1394 ieee1394 snd_pcm rtc_cmos sr_mod rtc_core floppy snd_timer wmi button cdrom rtc_lib serio_raw sky2 snd_page_alloc snd_hwdep snd evdev joydev sg soundcore raid456 async_xor async_memcpy async_tx xor raid0 usbhid ff_memless ehci_hcd ohci_hcd sd_mod edd raid1 ext3 jbd fan pata_marvell pata_atiixp thermal processor
+Pid: 2244, comm: kjournald Not tainted 2.6.26-rc9-next #44
+
+Call Trace:
+ [<ffffffff8023d37f>] warn_on_slowpath+0x5f/0x80
+ [<ffffffff80220030>] ? hpet_unregister_irq_handler+0x0/0x30
+ [<ffffffff8022a8ae>] ? kmemcheck_mark_initialized+0xe/0x10
+ [<ffffffff802b97fb>] ? kmemcheck_slab_alloc+0x2b/0x50
+ [<ffffffff802b8610>] ? kmem_cache_alloc+0xc0/0x140
+ [<ffffffff80291921>] ? mempool_alloc_slab+0x11/0x20
+ [<ffffffff80291a8b>] ? mempool_alloc+0x5b/0x140
+ [<ffffffff803575db>] blk_plug_device+0x9b/0xb0
+ [<ffffffff80453d9f>] bitmap_startwrite+0xbf/0x1b0
+ [<ffffffff802e87e4>] ? bio_alloc_bioset+0x54/0xb0
+ [<ffffffffa004eafa>] make_request+0x39a/0x810 [raid1]
+ [<ffffffff80291a8b>] ? mempool_alloc+0x5b/0x140
+ [<ffffffff80291a8b>] ? mempool_alloc+0x5b/0x140
+ [<ffffffff8035682d>] generic_make_request+0x17d/0x2b0
+ [<ffffffff803581dc>] submit_bio+0x6c/0xf0
+ [<ffffffff802e3c60>] submit_bh+0xf0/0x130
+ [<ffffffffa001cce0>] journal_commit_transaction+0xa40/0x1000 [jbd]
+ [<ffffffff80248504>] ? try_to_del_timer_sync+0x44/0x90
+ [<ffffffffa0020967>] kjournald+0xe7/0x250 [jbd]
+ [<ffffffff80254350>] ? autoremove_wake_function+0x0/0x40
+ [<ffffffffa0020880>] ? kjournald+0x0/0x250 [jbd]
+ [<ffffffff80253efd>] kthread+0x4d/0x80
+ [<ffffffff8020c6d9>] child_rip+0xa/0x11
+ [<ffffffff80500f9b>] ? _spin_unlock_irq+0x2b/0x40
+ [<ffffffff8020bd0f>] ? restore_args+0x0/0x30
+ [<ffffffff80254052>] ? kthreadd+0x122/0x1a0
+ [<ffffffff80253eb0>] ? kthread+0x0/0x80
+ [<ffffffff8020c6cf>] ? child_rip+0x0/0x11
+
+---[ end trace d63b767d1ed7d78a ]---
+
+Full dmesg output is at: http://www.sisk.pl/kernel/debug/20080711/dmesg-1.log
 
 Thanks,
 Rafael
-
----
-From: H. Peter Anvin <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
-Date: Mon, 30 Jun 2008 23:48:35 -0700
-Subject: [PATCH] x86 acpi: on wakeup, ljmp directly after writing CR0.PE
-
-Impact: possible resume failures on AMD Elan, others?
-
-Intel documents that writing cr0 should be immediately followed by a
-ljmp, and that "failures are readily seen" if the processor enters SMM
-at this point.  We believe this has been observed on the AMD Elan, so
-stick strictly to the script and do an ljmp immediately after a change
-to CR0.PE in all circumstances.
-
-Signed-off-by: H. Peter Anvin <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
----
- arch/x86/kernel/acpi/realmode/wakeup.S |   11 ++++-------
- arch/x86/kernel/acpi/realmode/wakeup.h |    6 ++----
- arch/x86/kernel/acpi/sleep.c           |    4 +++-
- 3 files changed, 9 insertions(+), 12 deletions(-)
-
-Index: linux-next/arch/x86/kernel/acpi/realmode/wakeup.S
-===================================================================
---- linux-next.orig/arch/x86/kernel/acpi/realmode/wakeup.S
-+++ linux-next/arch/x86/kernel/acpi/realmode/wakeup.S
-@@ -25,10 +25,8 @@ pmode_gdt:	.quad	0
- realmode_flags:	.long	0
- real_magic:	.long	0
- trampoline_segment:	.word 0
--_pad1:		.byte	0
--wakeup_jmp:	.byte	0xea	/* ljmpw */
--wakeup_jmp_off:	.word	3f
--wakeup_jmp_seg:	.word	0
-+wakeup_seg_ptr:	.word	3f-2	/* the segment in the ljmpw */
-+_pad:		.long	0
- wakeup_gdt:	.quad	0, 0, 0
- signature:	.long	0x51ee1111
- 
-@@ -49,8 +47,7 @@ _start:
- 	movl	%cr0, %eax
- 	orb	$X86_CR0_PE, %al
- 	movl	%eax, %cr0
--	jmp	1f
--1:	ljmpw	$8, $2f
-+	ljmpw	$8, $2f
- 2:
- 	movw	%cx, %ds
- 	movw	%cx, %es
-@@ -60,7 +57,7 @@ _start:
- 
- 	andb	$~X86_CR0_PE, %al
- 	movl	%eax, %cr0
--	jmp	wakeup_jmp
-+	ljmpw	$0, $3f
- 3:
- 	/* Set up segments */
- 	movw	%cs, %ax
-Index: linux-next/arch/x86/kernel/acpi/realmode/wakeup.h
-===================================================================
---- linux-next.orig/arch/x86/kernel/acpi/realmode/wakeup.h
-+++ linux-next/arch/x86/kernel/acpi/realmode/wakeup.h
-@@ -24,10 +24,8 @@ struct wakeup_header {
- 	u32 realmode_flags;
- 	u32 real_magic;
- 	u16 trampoline_segment;	/* segment with trampoline code, 64-bit only */
--	u8  _pad1;
--	u8  wakeup_jmp;
--	u16 wakeup_jmp_off;
--	u16 wakeup_jmp_seg;
-+	u16 wakeup_seg_ptr;
-+	u32 _pad;
- 	u64 wakeup_gdt[3];
- 	u32 signature;		/* To check we have correct structure */
- } __attribute__((__packed__));
-Index: linux-next/arch/x86/kernel/acpi/sleep.c
-===================================================================
---- linux-next.orig/arch/x86/kernel/acpi/sleep.c
-+++ linux-next/arch/x86/kernel/acpi/sleep.c
-@@ -34,6 +34,7 @@ static char temp_stack[10240];
- int acpi_save_state_mem(void)
- {
- 	struct wakeup_header *header;
-+	u16 *wakeup_seg;
- 
- 	if (!acpi_realmode) {
- 		printk(KERN_ERR "Could not allocate memory during boot, "
-@@ -43,6 +44,7 @@ int acpi_save_state_mem(void)
- 	memcpy((void *)acpi_realmode, &wakeup_code_start, WAKEUP_SIZE);
- 
- 	header = (struct wakeup_header *)(acpi_realmode + HEADER_OFFSET);
-+	wakeup_seg = (u16 *)(acpi_realmode + header->wakeup_seg_ptr);
- 	if (header->signature != 0x51ee1111) {
- 		printk(KERN_ERR "wakeup header does not match\n");
- 		return -EINVAL;
-@@ -50,7 +52,7 @@ int acpi_save_state_mem(void)
- 
- 	header->video_mode = saved_video_mode;
- 
--	header->wakeup_jmp_seg = acpi_wakeup_address >> 4;
-+	*wakeup_seg = acpi_wakeup_address >> 4;
- 	/* GDT[0]: GDT self-pointer */
- 	header->wakeup_gdt[0] =
- 		(u64)(sizeof(header->wakeup_gdt) - 1) +
