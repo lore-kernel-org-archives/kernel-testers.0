@@ -1,92 +1,56 @@
-From: Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
-Subject: Re: [Bug #11035] System hangs on 2.6.26-rc8
-Date: Sat, 12 Jul 2008 19:48:41 +0400
-Message-ID: <4878D259.7050403@r000n.net>
-References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik> <uBi7uNfg81L.A.xt.SzLcIB@albercik>
+From: "Andrey Batyyev" <generatorglukoff-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Problems with keyboard and touchpad on Dell Vostro laptop
+Date: Sat, 12 Jul 2008 19:39:19 +0300
+Message-ID: <6b3463d20807120939x75cb1c82t1e4ec40ea3634740@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <uBi7uNfg81L.A.xt.SzLcIB@albercik>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:mime-version:content-type:content-transfer-encoding
+         :content-disposition;
+        bh=WDv+ikoNFKt1/wBkVVpH9rMpjXwEt1QESVZREND9How=;
+        b=arcgyUgKsnF9OsDfPO5Z//Xwd7bB8Z8Ptf2mCqzmiT8NQK5fKYIkoPjU6JG9ix+3V8
+         DM7G/R+BrX57eaHcYmrskJuTmF+44/Z6iKv53goqyqz+cxQUX7x4yJ3dkbHZD302E5cM
+         18r2U0r6BGepQPw1IM17ahdw5kB5pTcTiuPzA=
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.25.  Please verify if it still should be listed.
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11035
-> Subject		: System hangs on 2.6.26-rc8
-> Submitter	: Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
-> Date		: 2008-07-02 14:25 (5 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121500871414995&w=4
-> 
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
+Hello everyone
 
-Announce: It is long history, if you don't want to read it, go directly
-to assumption ;)
+I have strange problem - sometimes after reboot keyboard and touchpad
+haven`t detected by kernel.
 
-Short description of problem: SIGSEGV on high I/O load (reading packages
-database, kernel untaring) without any records in logs
+In dmesg with problem:
 
-Prehistory: 2.6.26-rc7 works, 2.6.26-rc8 buggy, configs very simular.
+Jul 12 18:57:35 localhost kernel: [    1.117319] PNP: PS/2 Controller
+[PNP0303:PS2K,PNP0f13:PS2M] at 0x60,0x64 irq 1,12
+Jul 12 18:57:35 localhost kernel: [    1.120832] serio: i8042 KBD port
+at 0x60,0x64 irq 1
+Jul 12 18:57:35 localhost kernel: [    1.121853] mice: PS/2 mouse
+device common for all mice
+Jul 12 18:57:35 localhost kernel: [    1.154825] input: PC Speaker as
+/class/input/input4
 
-History: In last days I compiled some 2.6.25 kernels (took it, because
-it is stable) with different configs (step-by-step disabling options,
-not equals in -rc7 and -rc8) and got next results:
+In dmesg without problem:
 
-2.6.25 (preemtible, preempt rcu, 300 Hz, snd_sequencer, snd_seq_dummy,
-snd_rtctimer, snd_seq_rtctimer_default, debug_preempt, rcu_tortune_test)
-- bug
-2.6.25 (preemtible, preempt rcu, 300 Hz, snd_sequencer, snd_seq_dummy,
-debug_preempt, rcu_tortune_test) - bug
-2.6.25 (preemtible, preempt rcu, 300 Hz, snd_sequencer, debug_preempt,
-rcu_tortune_test) - bug
-2.6.25 (preemtible, preempt rcu, 300 Hz, debug_preempt,
-rcu_tortune_test) - bug
-2.6.25 (preemtible, preempt rcu, 250 Hz, debug_preempt,
-rcu_tortune_test) - bug
-2.6.25 (preemtible, preempt rcu, 250 Hz, snd_rtctimer, debug_preempt,
-rcu_tortune_test) - bug
-2.6.25 (preemtible, preempt rcu, 100 Hz, debug_preempt,
-rcu_tortune_test) - bug
-2.6.25 (preemtible, 250 Hz, debug_preempt, rcu_tortune_test) - bug
-2.6.25 (250 Hz, rcu_tortune_test) - bug
-2.6.25 (250 Hz) - bug
-
-And I understand - problem not (only?) in kernel, problem in GCC too (I
-updated whole system in June).
-
-2.6.24 - one kernel (I'm tested from it to latest rc), which (with
-time.patch) works with GCC 4.3.1
-2.6.25 and above (tested with 2.6.26-rc7, 2.6.26-rc8, 2.6.26-rc9) don't
-works, if compiled with this compiler version.
-
-Then I look on my (working) kernels - 2.6.26-rc6 was compiled with GCC
-4.2.4, and 2.6.26-rc7 too...
-
-In testing purposes I took some listed kernels and recompiled them with
-other GCC version.
-
-Common results in table:
-GCC 4.3.1, kernel 2.6.24 - works
-GCC 4.2.4, kernel 2.6.25 - works
-GCC 4.3.1, kernel 2.6.25 - bug
-GCC 4.2.4, kernel 2.6.26-rc7 - works
-GCC 4.3.1, kernel 2.6.26-rc7 - bug
-GCC 4.2.4, kernel 2.6.26-rc8 - works
-GCC 4.3.1, kernel 2.6.26-rc8 - bug
-
-Assumption: new features (or new bugs:)) in GCC 4.3 conflicts with some
-commit(s), included in kernel between 2.6.24 and 2.6.25
+Jul 12 19:09:00 localhost kernel: [    1.253884] PNP: PS/2 Controller
+[PNP0303:PS2K,PNP0f13:PS2M] at 0x60,0x64 irq 1,12
+Jul 12 19:09:00 localhost kernel: [    1.267810] serio: i8042 KBD port
+at 0x60,0x64 irq 1
+Jul 12 19:09:00 localhost kernel: [    1.268811] serio: i8042 AUX port
+at 0x60,0x64 irq 12
+Jul 12 19:09:00 localhost kernel: [    1.268973] mice: PS/2 mouse
+device common for all mice
+Jul 12 19:09:00 localhost kernel: [    1.294804] input: AT Translated
+Set 2 keyboard as /class/input/input4
+Jul 12 19:09:00 localhost kernel: [    1.314805] input: PC Speaker as
+/class/input/input5
+Jul 12 19:09:00 localhost kernel: [    1.444781] input: PS/2 Mouse as
+/class/input/input6
+Jul 12 19:09:00 localhost kernel: [    1.470777] input: AlpsPS/2 ALPS
+GlidePoint as /class/input/input7
