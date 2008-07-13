@@ -1,104 +1,59 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.26-rc9-git12: Reported regressions from 2.6.25
-Date: Sun, 13 Jul 2008 22:00:58 +0200
-Message-ID: <200807132200.59826.rjw@sisk.pl>
-References: <Y1jK9GMA8kJ.A.qOH.7GleIB@albercik> <alpine.LFD.1.10.0807131230130.2959@woody.linux-foundation.org>
+From: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: [Bug #10724] ACPI: EC: GPE storm detected, disabling EC GPE
+Date: Sun, 13 Jul 2008 21:27:10 +0100 (BST)
+Message-ID: <Pine.LNX.4.64.0807132122001.16625@blonde.site>
+References: <Y1jK9GMA8kJ.A.qOH.7GleIB@albercik>  <c6ZRbn0adb.A.LgB.aKleIB@albercik>
+  <dd18b0c30807131234n5edf3e1dt93022a45d427b1fd@mail.gmail.com>
+ <19f34abd0807131252k5499e6e2sc93f8cd70f488b7e@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.1.10.0807131230130.2959-5CScLwifNT1QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <19f34abd0807131252k5499e6e2sc93f8cd70f488b7e-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>
 
-On Sunday, 13 of July 2008, Linus Torvalds wrote:
->=20
-> On Sun, 13 Jul 2008, Rafael J. Wysocki wrote:
-> >=20
-> > Regressions with patches
-> > ------------------------
-> >=20
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11072
-> > Subject		: scsi-layer crash after usb storage device unplug
-> > Submitter	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-> > Date		: 2008-07-12 01:50 (2 days old)
-> > Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-> > Patch		: http://bugzilla.kernel.org/show_bug.cgi?id=3D11072#c3
->=20
-> Alan, Greg?
->=20
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11057
-> > Subject		: vbetest fails on 2.6.26-rc9
-> > Submitter	: PaX Team <pageexec-Y8qEzhMunLyT9ig0jae3mg@public.gmane.org>
-> > Date		: 2008-07-08 19:46 (6 days old)
-> > Handled-By	: Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> > Patch		: http://bugzilla.kernel.org/attachment.cgi?id=3D16792&actio=
-n=3Dview
->=20
-> Merged as commit a361ee5cb8011763ece7b4add393e206439db8b3.
+On Sun, 13 Jul 2008, Vegard Nossum wrote:
+> On Sun, Jul 13, 2008 at 9:34 PM, Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> > On Sun, Jul 13, 2008 at 6:00 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> >> This message has been generated automatically as a part of a report
+> >> of recent regressions.
+> >>
+> >> The following bug entry is on the current list of known regressions
+> >> from 2.6.25.  Please verify if it still should be listed.
+> >>
+> >>
+> >> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=10724
+> >> Subject         : ACPI: EC: GPE storm detected, disabling EC GPE
+> >> Submitter       : Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> >> Date            : 2008-05-16 6:17 (59 days old)
+> >> References      : http://marc.info/?l=linux-kernel&m=121091875711824&w=4
+> >>                  http://lkml.org/lkml/2008/5/18/168
+> >>                  http://lkml.org/lkml/2008/5/25/195
+> >> Patch           : http://bugzilla.kernel.org/attachment.cgi?id=16364&action=view
+> >>                  http://bugzilla.kernel.org/attachment.cgi?id=16365&action=view
+> 
+> I didn't follow the discussion, but I may contribute the following information:
+> 
+> This message first appears in my logs on May 16. That was with kernel
+> version 2.6.24.5-85.fc8. The kernel I used before that was
+> 2.6.24.4-64.fc8 (May 3). My logs go back to November 8
+> (2.6.23.1-42.fc8). So we can hardly consider this a regression since
+> 2.6.25, but rather one since 2.6.24?
+> 
+> (I'll also note that this message appears quite infrequently here.
+> Only 42 times in 219 boot-ups. So it would be hard to bisect, but I'm
+> guessing the error was introduced somewhere between 2.6.24.4 and
+> 2.6.24.5.)
 
-Closed.
+You're comparing against Fedora kernels, which often contain
+patches which haven't got into mainline yet.  As in this case.
+Unless it used to be assembled from separate pieces, there was
+no "GPE storm detected" message in 2.6.24.N or 2.6.25.N: it was
+added in 2.6.26-rc1.
 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11024
-> > Subject		: 2.6.25 to 2.6.26-rc8 regression (related to ahci and acp=
-i _GTF)
-> > Submitter	: Mathieu B=C3=A9rard <Mathieu.Berard-S9djqSf+cojYtjvyW6yDsg@public.gmane.org>
-> > Date		: 2008-07-01 9:39 (13 days old)
-> > References	: http://marc.info/?t=3D121490593600001&r=3D1&w=3D4
-> > Handled-By	: Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D121514631317343&w=3D=
-4
->=20
-> Merged as commit b344991ace21896a83694c86d132b8494a29f3be.
+I sometimes see it too, on a Fujitsu-Siemens laptop.
 
-Closed.
-=20
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D10957
-> > Subject		: pata_pcmcia with Sandisk Extreme III 8GB
-> > Submitter	: Komuro <komurojun-mbn-dTzOdQ2U+/YAvxtiuMwx3w@public.gmane.org>
-> > Date		: 2008-06-07 13:37 (37 days old)
-> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D121284627119861=
-&w=3D4
-> > Handled-By	: Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > 		  Dominik Brodowski <linux-X3ehHDuj6sIIGcDfoQAp7OTW4wlIGRCZ@public.gmane.org>
-> > 		  Komuro <komurojun-mbn-dTzOdQ2U+/YAvxtiuMwx3w@public.gmane.org>
-> > Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D121530861605673&w=3D=
-4
->=20
-> This patch is disputed. See the rest of the thread. Maybe some subtle=
-=20
-> timing detail?
-
-The patch won't be listed in future.
-
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D10862
-> > Subject		: forcedeth: lockdep warning on ethtool -s
-> > Submitter	: Tobias Diedrich <ranma+kernel-YxUgxmcw2FPQD6PfKP4TzA@public.gmane.org>
-> > Date		: 2008-06-01 8:37 (43 days old)
-> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D121230964032247=
-&w=3D4
-> > Handled-By	: Tobias Diedrich <ranma+kernel-YxUgxmcw2FPQD6PfKP4TzA@public.gmane.org>
-> > Patch		: http://lkml.org/lkml/2008/6/15/120
->=20
-> Commit 97bff0953dd45a633fa69e1a650d612f5610a60b.
-
-Closed.
-
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D10725
-> > Subject		: USB Mass storage mount fails: Write protect on
-> > Submitter	: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2008-05-16 14:55 (59 days old)
-> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D121095168003572=
-&w=3D4
-> > Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-> > Patch		: http://marc.info/?l=3Dlinux-scsi&m=3D121433068314568&w=3D2
->=20
-> Commit bdb2b8cab4392ce41ddfbd6773a3da3334daf836.
-
-Closed.
-
-Thanks,
-Rafael
+Hugh
