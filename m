@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #10714] powerpc: Badness seen on 2.6.26-rc2 with lockdep enabled
+Subject: [Bug #10741] bug in `tty: BKL pushdown'?
 Date: Sun, 13 Jul 2008 20:00:46 +0200 (CEST)
-Message-ID: <c6ZRbn0adb.A.klB.jKleIB@albercik>
+Message-ID: <c6ZRbn0adb.A.jOB.KKleIB@albercik>
 References: <Y1jK9GMA8kJ.A.qOH.7GleIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Balbir Singh <balbir-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Johannes Weiner <hannes-BfM5BwqdGSkPyMaTEpOvjQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -21,10 +21,11 @@ The following bug entry is on the current list of known regressions
 from 2.6.25.  Please verify if it still should be listed.
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=10714
-Subject		: powerpc: Badness seen on 2.6.26-rc2 with lockdep enabled
-Submitter	: Balbir Singh <balbir-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Date		: 2008-05-14 12:57 (61 days old)
-References	: http://marc.info/?l=linux-kernel&m=121076917429133&w=4
-Handled-By	: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=10741
+Subject		: bug in `tty: BKL pushdown'?
+Submitter	: Johannes Weiner <hannes-BfM5BwqdGSkPyMaTEpOvjQ@public.gmane.org>
+Date		: 2008-05-18 2:16 (57 days old)
+References	: http://marc.info/?l=linux-kernel&m=121107706506181&w=4
+		  http://lkml.org/lkml/2008/6/16/104
+Handled-By	: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
 
