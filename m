@@ -1,50 +1,57 @@
-From: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Subject: Re: 2.6.26-rc9-git12: Reported regressions from 2.6.25
-Date: Mon, 14 Jul 2008 11:57:33 -0400 (EDT)
-Message-ID: <Pine.LNX.4.44L0.0807141153110.2566-100000@iolanthe.rowland.org>
-References: <1216044398.23746.10.camel@johannes.berg>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: linux-next: Tree for July 14
+Date: Tue, 15 Jul 2008 01:35:37 +0200
+Message-ID: <200807150135.38701.rjw@sisk.pl>
+References: <20080714201249.947400d0.sfr@canb.auug.org.au>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1216044398.23746.10.camel-YfaajirXv214zXjbi5bjpg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <20080714201249.947400d0.sfr@canb.auug.org.au>
+Content-Disposition: inline
+Sender: linux-acpi-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Ingo Molnar <mingo@elte.hu>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Mon, 14 Jul 2008, Johannes Berg wrote:
+On Monday, 14 of July 2008, Stephen Rothwell wrote:
+> Hi all,
 
-> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11072
-> > > > Subject		: scsi-layer crash after usb storage device unplug
-> > > > Submitter	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-> > > > Date		: 2008-07-12 01:50 (2 days old)
-> > > > Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-> > > > Patch		: http://bugzilla.kernel.org/show_bug.cgi?id=11072#c3
-> > > 
-> > > Alan, Greg?
-> > 
-> > We haven't heard back yet from Johannes to confirm that the fix really
-> > works.  If it does, IMO the patch should go into 2.6.26.1.
-> > 
-> > (In fact it might not be so easy to tell, since the failure is caused 
-> > be a race.  Perhaps it would be best to submit the patch in any case.)
-> 
-> I haven't had a chance to apply the patch, but given that to cause the
-> oops to happen I had to unplug/replug the device at random intervals for
-> probably 10 minutes (yes, it took me that long to figure out I had put
-> an SDHC card into an SD reader) I suppose it really won't be easy to
-> tell.
+Hi,
 
-Add
+> With the opening of the merge window, I am hoping my job becomes easier
+> again ... :-)
 
-	printk(KERN_ALERT "Unplug now!\n");
-	ssleep(10);
+I get something like this on one of my test boxes (full dmesg at
+http://www.sisk.pl/kernel/debug/20080714/dmesg-asus_L5D.log):
 
-to the start of slave_configure() in drivers/usb/storage/scsiglue.c.  
-Then it should be very easy to trigger the failure.  :-)
+------------[ cut here ]------------
+WARNING: at /home/rafael/src/linux-next/arch/x86/mm/pageattr.c:592 __change_page_attr_set_clr+0x8bf/0x9d0()
+Modules linked in: snd_pcm_oss snd_mixer_oss snd_seq snd_seq_device dm_crypt reiserfs dm_mod arc4 ecb crypto_blkcipher b43 rfkill pcmcia mac80211 cfg80211 input_polldev ppdev snd_intel8x0 snd_ac97_codec ac97_bus snd_pcm joydev yenta_socket rtc_cmos sr_mod ohci1394 snd_timer rsrc_nonstatic snd skge pcmcia_core ieee1394 ssb asus_laptop cdrom sg video i2c_nforce2 parport_pc soundcore output backlight parport ac battery button snd_page_alloc led_class i2c_core evdev usbhid ff_memless sd_mod ehci_hcd ohci_hcd amd74xx ext3 jbd fan pata_amd libata scsi_mod dock thermal processor
+Pid: 3873, comm: acpidump Not tainted 2.6.26-next #21
 
-Assuming the failure does occur without the patch, see if it still 
-occurs once the patch is in place.
+Call Trace:
+ [<ffffffff8023ab6f>] warn_on_slowpath+0x5f/0x80
+ [<ffffffff8023bd67>] ? printk+0x67/0x70
+ [<ffffffff802c52dd>] ? __d_lookup+0xcd/0x190
+ [<ffffffff80225c9f>] __change_page_attr_set_clr+0x8bf/0x9d0
+ [<ffffffff802b9b34>] ? do_lookup+0x84/0x210
+ [<ffffffff802b9587>] ? permission+0xc7/0x130
+ [<ffffffff802c5d71>] ? dput+0x81/0x110
+ [<ffffffff802ab621>] ? check_poison_obj+0x31/0x1f0
+ [<ffffffff80226c28>] ? reserve_memtype+0xf8/0x310
+ [<ffffffff80225e4f>] change_page_attr_set_clr+0x9f/0x1d0
+ [<ffffffff8049dbb6>] ? _spin_unlock+0x26/0x30
+ [<ffffffff80226073>] _set_memory_uc+0x13/0x20
+ [<ffffffff80224b45>] ioremap_change_attr+0x25/0x40
+ [<ffffffff80226f49>] phys_mem_access_prot_allowed+0x109/0x170
+ [<ffffffff802abea9>] ? cache_alloc_debugcheck_after+0x99/0x230
+ [<ffffffff803915a5>] mmap_mem+0x35/0xb0
+ [<ffffffff8029c09a>] mmap_region+0x17a/0x4c0
+ [<ffffffff8049d6ba>] ? __down_write_nested+0x1a/0xc0
+ [<ffffffff8029cb6b>] do_mmap_pgoff+0x3ab/0x3d0
+ [<ffffffff80210e1c>] sys_mmap+0xfc/0x130
+ [<ffffffff8020b6ab>] system_call_after_swapgs+0x7b/0x80
 
-Alan Stern
+---[ end trace f1b1c6f21f48e09f ]---
+acpidump:3873 /dev/mem ioremap_change_attr failed uncached-minus for 5ff40000-5ff41000
