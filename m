@@ -1,44 +1,76 @@
-From: "Yinghai Lu" <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [regression][x86_64] 2.6.26-02962-g4515889, kernel panic on boot.
-Date: Thu, 17 Jul 2008 11:19:00 -0700
-Message-ID: <86802c440807171119g6da184c6p4df5a1896d70c815@mail.gmail.com>
-References: <1216291089.6158.13.camel@zwerg> <1216317806.6341.15.camel@zwerg>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: linux-next: Tree for July 17: early crash on x86-64
+Date: Fri, 18 Jul 2008 01:06:07 +0200
+Message-ID: <200807180106.08328.rjw@sisk.pl>
+References: <20080718012842.690b8346.sfr@canb.auug.org.au>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=1Cx6UyT84ZPVCM3OJBxsRVA2vk9Y1R1pyvcdlGTuGw0=;
-        b=qSPxTCkZmncIJclQNZsXF853zOLa4h9rbWGhnx6Kp2GXgCzRme4c6J04giZHEzyNBV
-         jZy9etaPzdhsCBbuWY1XYqZDaEOl6EVy88ksBMRlVQ3xebpRh0LYA1JeIyLR6GviQN/h
-         SCsQilZRyE+ZtbepYfroZWjCnpKDlYwmEw/qw=
-In-Reply-To: <1216317806.6341.15.camel@zwerg>
+Return-path: <linux-next-owner@vger.kernel.org>
+In-Reply-To: <20080718012842.690b8346.sfr@canb.auug.org.au>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-next-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, jeremy-TSDbQ3PG+2Y@public.gmane.org, gcosta <gcosta-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@elte.hu>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Thu, Jul 17, 2008 at 11:03 AM, Alexey Fisher
-<bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org> wrote:
-> last working kernel 1ecd27657b735128a728ebf0c31fce5e1456718a
-> x86: unify crashkernel reservation for 32 and 64 bit
->
-> kernel i can compile but not working
-> 55f262391a2365d657a00ed68edd1a51bca66af5
-> x86: rename setup_32.c to setup.c
->
-> it will freeze with message:
-> Kernel alive
-> Kernel really alive
-> PANIC: early exception 0e rip 10:ffffffff803178b2 error 2 cr2
-> ffffffffff300000
+On Thursday, 17 of July 2008, Stephen Rothwell wrote:
+> Hi all,
+> 
+> Changes since next-20080716:
+> 
+> Temporarily dropped tree: ttydev (it gets too many patch failures).
+> 
+> Changed trees: the security-testing tree was moved later in the merge in
+> anticipation of majo merge problems that have been delayed.
+> 	The vfs tree changed branch names.
+> 
+> Most of the differences were conflicts moving from tree to tree as some
+> of the trees are now merged into Linus' tree.  Most have been inflicted
+> on the driver-core and usb trees.  I have not notified these separately.
+> 
+> Because of the moving of conflicts around it is difficult to tell when
+> they are going away (though I assume some are).
+> 
+> The driver-core tree gained two build fixes from the scsi tree (since
+> that went into Linus' tree).
+> 
+> The usb tree gained a conflict from the firmware tree (ditto).
+> 
+> The x86 tree gained an expected conflict against the stackprotector and a
+> build failure that required a revert of a commit.
+> 
+> The pci tree needed another build fix patch.
+> 
+> The ide tree had more conflicts with its parts that have been merged into
+> Linus' tree.
+> 
+> The acpi had various merge problems - maybe because I am pulling a
+> different tree than what was merged into Linus' tree.
+> 
+> The galak tree gained a conflict against the net tree.
+> 
+> The ubifs tree also had merge problems because a different version was
+> sent to Linus.
+> 
+> I have also applied the following patches for known problems:
+> 
+> 	sparc64: sysdev API change fallout
+> 
+> This tree fails to build for ARCH=sparc (i.e. 32bit) with a 64bit gcc
+> v3.4.5 - it tries to use the 64bit header files.  This may be an artifact
+> of one of my merge fixups, but I don't actually think so.
 
-can you connect serial console and boot with
-debug apic=verbose console=uart8250,io,0x03f8,115200n8?
+This one crashes all of my x86-64 test boxes early during boot.
 
-YH
+The Linus' tree is not affected.
+
+Failing configs:
+http://www.sisk.pl/kernel/debug/next/20080717/HPC_nx6325-config
+http://www.sisk.pl/kernel/debug/next/20080717/M3A32-MVP-config
+
+It's not very likely that I'll be able to bisect this issue before OLS, so most
+probably I won't be testing linux-next in the next several days.
+
+Thanks,
+Rafael
