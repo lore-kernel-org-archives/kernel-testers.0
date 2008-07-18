@@ -1,76 +1,52 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: linux-next: Tree for July 17: early crash on x86-64
-Date: Fri, 18 Jul 2008 01:06:07 +0200
-Message-ID: <200807180106.08328.rjw@sisk.pl>
-References: <20080718012842.690b8346.sfr@canb.auug.org.au>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #11035] System hangs on 2.6.26-rc8
+Date: Fri, 18 Jul 2008 09:11:21 +0200
+Message-ID: <20080718071121.GB6875@elte.hu>
+References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik> <uBi7uNfg81L.A.xt.SzLcIB@albercik> <4878D259.7050403@r000n.net> <487CA8E5.8020208@r000n.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-next-owner@vger.kernel.org>
-In-Reply-To: <20080718012842.690b8346.sfr@canb.auug.org.au>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-next-owner@vger.kernel.org
+In-Reply-To: <487CA8E5.8020208-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@elte.hu>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+To: Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Thursday, 17 of July 2008, Stephen Rothwell wrote:
-> Hi all,
-> 
-> Changes since next-20080716:
-> 
-> Temporarily dropped tree: ttydev (it gets too many patch failures).
-> 
-> Changed trees: the security-testing tree was moved later in the merge in
-> anticipation of majo merge problems that have been delayed.
-> 	The vfs tree changed branch names.
-> 
-> Most of the differences were conflicts moving from tree to tree as some
-> of the trees are now merged into Linus' tree.  Most have been inflicted
-> on the driver-core and usb trees.  I have not notified these separately.
-> 
-> Because of the moving of conflicts around it is difficult to tell when
-> they are going away (though I assume some are).
-> 
-> The driver-core tree gained two build fixes from the scsi tree (since
-> that went into Linus' tree).
-> 
-> The usb tree gained a conflict from the firmware tree (ditto).
-> 
-> The x86 tree gained an expected conflict against the stackprotector and a
-> build failure that required a revert of a commit.
-> 
-> The pci tree needed another build fix patch.
-> 
-> The ide tree had more conflicts with its parts that have been merged into
-> Linus' tree.
-> 
-> The acpi had various merge problems - maybe because I am pulling a
-> different tree than what was merged into Linus' tree.
-> 
-> The galak tree gained a conflict against the net tree.
-> 
-> The ubifs tree also had merge problems because a different version was
-> sent to Linus.
-> 
-> I have also applied the following patches for known problems:
-> 
-> 	sparc64: sysdev API change fallout
-> 
-> This tree fails to build for ARCH=sparc (i.e. 32bit) with a 64bit gcc
-> v3.4.5 - it tries to use the 64bit header files.  This may be an artifact
-> of one of my merge fixups, but I don't actually think so.
 
-This one crashes all of my x86-64 test boxes early during boot.
+* Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org> wrote:
 
-The Linus' tree is not affected.
+> I done bisection.
+> Result below:
+> 
+> 8f46924600e30b140445f5b84abe9b80d2fff5fb is first bad commit
+> commit 8f46924600e30b140445f5b84abe9b80d2fff5fb
+> Author: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+> Date:   Wed Jan 30 13:34:09 2008 +0100
+> 
+>     x86: enable CONFIG_DEBUG_PAGEALLOC more widely
+> 
+>     make CONFIG_DEBUG_PAGEALLOC universally available.
+> 
+>     CONFIG_HIBERNATION and CONFIG_HUGETLBFS was disabling it, for no
+>     particular reason.
 
-Failing configs:
-http://www.sisk.pl/kernel/debug/next/20080717/HPC_nx6325-config
-http://www.sisk.pl/kernel/debug/next/20080717/M3A32-MVP-config
+as far as i can see you see a lockup under certain circumstances, right?
 
-It's not very likely that I'll be able to bisect this issue before OLS, so most
-probably I won't be testing linux-next in the next several days.
+this debug option catches use-after-free and other types of invalid 
+memory accesses. When it catches a bug the kernel most likely crashes 
+and produces a backlog. Because you are in graphical mode that is not 
+visible.
 
-Thanks,
-Rafael
+This would possibly be debuggable if you set up netconsole logging to 
+another system on a local LAN - see 
+Documentation/networking/netconsole.txt.
+
+Vegard - would it be possible to make DEBUG_PAGEALLOC faults single-shot 
+and non-fatal, just like kmemcheck does it? That way people would see a 
+nice kernel message instead of an immediate crash. That means we'd have 
+to find a reliable filter for DEBUG_PAGEALLOC-provoked pagefaults though 
+...
+
+	Ingo
