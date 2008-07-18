@@ -1,10 +1,9 @@
-From: "Vegard Nossum" <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #11035] System hangs on 2.6.26-rc8
-Date: Fri, 18 Jul 2008 09:28:17 +0200
-Message-ID: <19f34abd0807180028y2be61c06ueab5fcc305956f80@mail.gmail.com>
-References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik>
-	 <uBi7uNfg81L.A.xt.SzLcIB@albercik> <4878D259.7050403@r000n.net>
-	 <487CA8E5.8020208@r000n.net> <20080718071121.GB6875@elte.hu>
+From: "Fabio Comolli" <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #10724] ACPI: EC: GPE storm detected, disabling EC GPE
+Date: Fri, 18 Jul 2008 11:17:31 +0200
+Message-ID: <b637ec0b0807180217n3b16bcb9wce81161c2c539d7f@mail.gmail.com>
+References: <Y1jK9GMA8kJ.A.qOH.7GleIB@albercik>
+	 <c6ZRbn0adb.A.LgB.aKleIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -13,55 +12,61 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:received:received:message-id:date:from:to
          :subject:cc:in-reply-to:mime-version:content-type
          :content-transfer-encoding:content-disposition:references;
-        bh=e1p2fTtJ5hCTLarTYRPHJ4OnAJuCyZ+CLwxNB2npkXo=;
-        b=I/ETbmBPOtNgvvinDUaJERxN8bc98+tAAkWlRFe/2Qib6woymYAhVh26RP+udc1A9N
-         ipTccACuQm8J0oREJWGixpBNqKWLJ0DPKIxObgdIzeBVWS+EJ+kKhEAfplUMohTVg0tT
-         bobylFuouWVxBKcE82iPxfXlxHx4xCnjEQQ5Y=
-In-Reply-To: <20080718071121.GB6875-X9Un+BFzKDI@public.gmane.org>
+        bh=t6UtS64hPGv/TVfMjmAL+2XLjhwpl5G6lg+DrfLF188=;
+        b=HIJr/YayTWobGiQo7tqC2CANDdTC/bK/UkO4MrVqRNoMAGMq3OW+mqRGYLFIG6XsAg
+         qJDYRQuZLIifeMdx0p/l6piQTWTBkRS0+ZHZ9GDFF+dQtmlgqg7arq6ze1xo9diDp4Ut
+         FLCfZPF+Mrw25cKY4S97ZihanRVEDlYrDGalw=
+In-Reply-To: <c6ZRbn0adb.A.LgB.aKleIB@albercik>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>, Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Fri, Jul 18, 2008 at 9:11 AM, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
-> Vegard - would it be possible to make DEBUG_PAGEALLOC faults single-shot
-> and non-fatal, just like kmemcheck does it? That way people would see a
-> nice kernel message instead of an immediate crash. That means we'd have
-> to find a reliable filter for DEBUG_PAGEALLOC-provoked pagefaults though
-> ...
+Hi.
+I also have this problem with 2.6.26 and when it happens I can notice
+that sometimes gnome-power-manager is slow to respond when I switch to
+AC from battery and viceversa. Also, sometimes the g-p-m icon
+disappears and I have to restart the process.
 
-Hm.. Yes, we could do it in a similar fashion using single-stepping.
-It should take little effort; we already have most of the code to do
-it; mmiotrace does the same thing too, after all.
+I tried two days ago the patch
 
-These are some considerations:
+   http://bugzilla.kernel.org/attachment.cgi?id=16365&action=view
 
-1. If the page is kernel space but currently unmapped, does it point
-to a valid page of RAM even though it is non-present?
-2. Should we allow reading/writing of the underlying physical page (if
-it exists), or should we prevent writes (i.e. allow the instruction to
-proceed, but don't really write anything) and reads (i.e. allow the
-instruction to read 0 or another magic number).
+and everything seems to work ok since then. Before that, the message
+showed up sometimes at boot time, sometimes minutes later, very
+reliably.
 
-For the filter you mentioned, we could perhaps use one more bit in the
-PTE. This is what we do for kmemcheck, and IIRC DEBUG_PAGEALLOC is
-incompatible with kmemcheck anyway (I don't remember why exactly), so
-we could reuse the same bit.
+This is with a two years old fairly standard HP laptop.
 
-BTW, I didn't consider that argument (of continuing as far as
-possible) before, but it's a good one; if we don't crash completely,
-the user can still copy the log we have a better report of it. I guess
-kerneloops.org is currently missing out a great deal of reports which
-all shut down the machine immediately without a chance to go into the
-log.
+Regards,
+Fabio
 
 
-Vegard
 
--- 
-"The animistic metaphor of the bug that maliciously sneaked in while
-the programmer was not looking is intellectually dishonest as it
-disguises that the error is the programmer's own creation."
-	-- E. W. Dijkstra, EWD1036
+On Sun, Jul 13, 2008 at 8:00 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.25.  Please verify if it still should be listed.
+>
+>
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=10724
+> Subject         : ACPI: EC: GPE storm detected, disabling EC GPE
+> Submitter       : Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date            : 2008-05-16 6:17 (59 days old)
+> References      : http://marc.info/?l=linux-kernel&m=121091875711824&w=4
+>                  http://lkml.org/lkml/2008/5/18/168
+>                  http://lkml.org/lkml/2008/5/25/195
+> Patch           : http://bugzilla.kernel.org/attachment.cgi?id=16364&action=view
+>                  http://bugzilla.kernel.org/attachment.cgi?id=16365&action=view
+>
+>
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
+>
