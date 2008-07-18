@@ -1,44 +1,81 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #11035] System hangs on 2.6.26-rc8
-Date: Sat, 19 Jul 2008 00:25:12 +0200
-Message-ID: <20080718222512.GD31073@elte.hu>
-References: <Vu1KV8Wj_GP.A.qW.DzLcIB@albercik> <uBi7uNfg81L.A.xt.SzLcIB@albercik> <4878D259.7050403@r000n.net> <487CA8E5.8020208@r000n.net> <20080718071121.GB6875@elte.hu> <19f34abd0807180028y2be61c06ueab5fcc305956f80@mail.gmail.com>
+From: Pierre Ossman <drzeus-p3sGCRWkH8CeZLLa646FqQ@public.gmane.org>
+Subject: Re: linux-next: Tree for July 16 (crash on quad core AMD)
+Date: Sat, 19 Jul 2008 00:47:36 +0200
+Message-ID: <20080719004736.626ef169@mjolnir.drzeus.cx>
+References: <20080716235011.ac9643aa.sfr@canb.auug.org.au>
+	<200807170053.36661.rjw@sisk.pl>
+	<1216249292.3358.66.camel@localhost.localdomain>
+	<200807170109.30655.rjw@sisk.pl>
+	<48808EE0.2060603@gmail.com>
 Mime-Version: 1.0
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=PGP-SHA1; boundary="=_freyr.drzeus.cx-23535-1216421260-0001-2"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <19f34abd0807180028y2be61c06ueab5fcc305956f80-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <48808EE0.2060603-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+To: Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>, Stephen Rothwell <sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>, linux-next-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, scsi <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, linux-ide <linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, tino.keitel-Mmb7MZpHnFY@public.gmane.org
+
+This is a MIME-formatted message.  If you see this text it means that your
+E-mail software does not support MIME-formatted messages.
+
+--=_freyr.drzeus.cx-23535-1216421260-0001-2
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 18 Jul 2008 21:38:56 +0900
+Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+
+>=20
+> The offending commit was 83e7d317cef3ee624886f128401a72e414c0a99d
+> which implements sg iterator but it forgot to add offset to the
+> kmapped address and copy goes out of bounds.  Takashi, this could also
+> be the problem you were seeing if you don't have slab debugging turned
+> on.
+>=20
+
+Oops, sorry. This thing wasn't supposed to go out and mess with anyone
+else's tree quite yet. I'll make sure to clean out my -next tree right
+away.
+
+> The implemented iterator didn't look too pretty and the usage was
+> quite awkward involving a callback and end condition check distributed
+> between the callback and the outer user who runs the loop.  For
+> copying, end of buffer condition was tested by testing whether the
+> callback returned 0 copied bytes for the iteration but AFAIK there's
+> no restriction against zero length sg entry in the middle and it will
+> terminate the copying prematurely.
+>=20
+> So, I implemented slightly different version which follows below.
+>=20
+
+I just have one objection to your version, and that is that it cannot
+be used to nibble away at the sg list. The _next() call jumps an entire
+page, whereas you sometimes need to consume that page in two different
+sweeps. This could be handled by some external buffer that keeps the
+remainder of the page, but the point of these functions was to keep
+things simple for the callers.
+
+Rgds
+--=20
+     -- Pierre Ossman
+
+  WARNING: This correspondence is being monitored by the
+  Swedish government. Make sure your server uses encryption
+  for SMTP traffic and consider using PGP for end-to-end
+  encryption.
+
+--=_freyr.drzeus.cx-23535-1216421260-0001-2
+Content-Type: application/pgp-signature; name="signature.asc"
 Content-Transfer-Encoding: 7bit
-To: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Content-Disposition: attachment; filename=signature.asc
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.9 (GNU/Linux)
 
-* Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+iEYEARECAAYFAkiBHYoACgkQ7b8eESbyJLjioACgq9/meiFFoM9mYVbZ+dUmHKbR
+YkQAniXrU9ByoRAnds3bxb4VqRUg1xaQ
+=Hk64
+-----END PGP SIGNATURE-----
 
-> BTW, I didn't consider that argument (of continuing as far as 
-> possible) before, but it's a good one; if we don't crash completely, 
-> the user can still copy the log we have a better report of it. I guess 
-> kerneloops.org is currently missing out a great deal of reports which 
-> all shut down the machine immediately without a chance to go into the 
-> log.
-
-yes. There are two techniques to improve the 'yield' of kerneloops.org: 
-1) make a better job of getting the logs off the box 2) make a better 
-job of not crashing the box when we can do better.
-
-For example lockdep tries very hard to never crash the box. It is a 
-feature that warns about a chance of a lockup, not about a lockup itself 
-- so crashing the box at the point of the bug detection is 
-counter-productive.
-
-The same applies to DEBUG_PAGEALLOC as well: technically nobody (but the 
-buggy code itself) is hurt by accessing already freed data. So we could 
-try and let it run.
-
-(Btw., this might be a way to share a mechanism between kmemcheck and 
-DEBUG_PAGEALLOC, and make kmemcheck more useful to the general kernel as 
-a whole.)
-
-	Ingo
+--=_freyr.drzeus.cx-23535-1216421260-0001-2--
