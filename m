@@ -1,7 +1,7 @@
-From: "Justin Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: "Fabio Comolli" <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [Bug #10724] ACPI: EC: GPE storm detected, disabling EC GPE
-Date: Fri, 18 Jul 2008 16:23:09 +0000
-Message-ID: <dd18b0c30807180923p105697b4r7d95c40b3d66c84e@mail.gmail.com>
+Date: Fri, 18 Jul 2008 21:05:24 +0200
+Message-ID: <b637ec0b0807181205s509c655cp31a1819e389e2a10@mail.gmail.com>
 References: <Y1jK9GMA8kJ.A.qOH.7GleIB@albercik>
 	 <c6ZRbn0adb.A.LgB.aKleIB@albercik>
 	 <b637ec0b0807180217n3b16bcb9wce81161c2c539d7f@mail.gmail.com>
@@ -14,19 +14,39 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:received:received:message-id:date:from:to
          :subject:cc:in-reply-to:mime-version:content-type
          :content-transfer-encoding:content-disposition:references;
-        bh=w4C/oVprJ2kWavylZ1nMnzmISXNW6mYjmzyFon7cq+E=;
-        b=uP3qNY78S1uWCjMaTjGic2VAYPEWInwX40poAU64Wtw6la5iF4gbmzWlGMY4vgLGhk
-         tAmR/2syp7YbxDXYYLVvLvs9fM4KIFUj2WFjqTEdg9HAIL46EA/lSI/tZhE+5i0tWVLw
-         RpAsK+9WPZmda2PLUh2RfGd73pa0H2p8Z7SOo=
+        bh=IRpqI3t9ilySGoa72ZMA4b1eGynefCRpsSGJhG+TN44=;
+        b=dbbJ0wR76mVJ6wG1/ybpN7B01yuDF5CsLe7bVpFq+mHr1r/Fb2wj6dtSMiro1t0uXe
+         J2hZNUKXVst1L80NEp5+r2L7eylh6iyPcrhinZHiQZTVIiTlVVL7x58EG4MDxBZ+1AXj
+         8cYAm0kHX/2GZxSmTN9/gqqtzdh+riaWMifsE=
 In-Reply-To: <4880B959.1030403-l3A5Bk7waGM@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>
-Cc: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Fri, Jul 18, 2008 at 3:40 PM, Alexey Starikovskiy
+Hi Alex. No good news, I'm afraid.
+
+Actually my previous report wasn't correct because with the patch I
+mentioned the message appeared yesterday night during the hibernate
+process, so I couldn't notice it.
+
+ The interesting thing is that it showed up the day after I booted my
+laptop: usually it took a period between 1 and 13 minutes after boot
+to trigger and in this case it took more than 2 hours of uptime with 2
+suspend and 2 hibernate cycles.
+
+With the patch you told me to apply and the previous reverted the
+message triggered in 12 minutes.
+
+Regards,
+Fabio
+
+
+
+
+On Fri, Jul 18, 2008 at 5:40 PM, Alexey Starikovskiy
 <astarikovskiy-l3A5Bk7waGM@public.gmane.org> wrote:
 > Fabio,
 > Please try http://bugzilla.kernel.org/attachment.cgi?id=16862 instead.
@@ -88,13 +108,3 @@ On Fri, Jul 18, 2008 at 3:40 PM, Alexey Starikovskiy
 >>>
 >
 >
-
-I tried this patch; and for some reason
-I'm still seeing this message(that is when using
-acpi_osi=Linux). The problem I see is we've got different brands
-of laptops, and the causes are all different.
-In my case I'm wondering if there is a way to tweak the interrupts
-with the battery. just to see if this works
-
--- 
-Justin P. Mattock
