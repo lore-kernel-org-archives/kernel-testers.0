@@ -1,69 +1,106 @@
-From: Bernhard Walle <bwalle@suse.de>
-Subject: Re: linux-next: Tree for July 18: warning at kernel/lockdep.c:2068
- trace_hardirqs_on_caller
-Date: Sun, 20 Jul 2008 15:03:41 +0200
-Message-ID: <20080720150341.7cd381c2@kopernikus.site>
-References: <20080718195352.e562a00f.sfr@canb.auug.org.au>
-	<200807190928.33978.m.kozlowski@tuxland.pl>
-	<19f34abd0807190255x304173d4wf2bfabb2d5bce511@mail.gmail.com>
-	<19f34abd0807190559y2fe5ebf9h7095793e82de3122@mail.gmail.com>
-	<20080719221723.GB5578@suse.de>
-	<19f34abd0807191527u61c5ed61kffe2279c8d46915d@mail.gmail.com>
-	<19f34abd0807191544nfd73be5nf7dde4b61992a7e8@mail.gmail.com>
-	<20080719225817.GA6264@suse.de>
-	<19f34abd0807191611y7cabf405iad307ba79591e04f@mail.gmail.com>
-	<1216544462.9311.20.camel@nimitz>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: linux-next: Tree for July 18: sky2 WOL broken
+Date: Sun, 20 Jul 2008 17:39:22 +0200
+Message-ID: <200807201739.22919.rjw@sisk.pl>
+References: <20080718195352.e562a00f.sfr@canb.auug.org.au> <200807200220.11701.rjw@sisk.pl> <20080719215815.48482a3a@extreme>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-next-owner@vger.kernel.org>
-In-Reply-To: <1216544462.9311.20.camel@nimitz>
-Sender: linux-next-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20080719215815.48482a3a@extreme>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Dave Hansen <dave@linux.vnet.ibm.com>
-Cc: Vegard Nossum <vegard.nossum@gmail.com>, Greg KH <gregkh@suse.de>, Mariusz Kozlowski <m.kozlowski@tuxland.pl>, Stephen Rothwell <sfr@canb.auug.org.au>, kernel-testers@vger.kernel.org, linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Ingo Molnar <mingo@elte.hu>, Vivek Goyal <vgoyal@redhat.com>, kexec <kexec@lists.infradead.org>
+To: Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+Cc: Stephen Rothwell <sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-* Dave Hansen <dave@linux.vnet.ibm.com> [2008-07-20 02:01]:
->
-> It is possible that it could run later.  But, I do know that there are
-> at least a couple of these tables (on various arches) that we toss out
-> of memory or become unavailable later in boot.  
+On Sunday, 20 of July 2008, Stephen Hemminger wrote:
+> On Sun, 20 Jul 2008 02:20:10 +0200
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 > 
-> I do this this:
+> > On Friday, 18 of July 2008, Stephen Rothwell wrote:
+> > > Hi all,
+> > > 
+> > > Changes since next-20080717:
+> > > 
+> > > Restored tree: ttydev.
+> > > 
+> > > Temporarily dropped tree: acpi (confusion about its source).
+> > > 
+> > > Most of the differences were conflicts moving from tree to tree as some
+> > > of the trees are now merged into Linus' tree.  Most have been inflicted
+> > > on the driver-core and usb trees.  I have not notified these separately.
+> > > 
+> > > Because of the moving of conflicts around it is difficult to tell when
+> > > they are going away (though I assume some are).
+> > > 
+> > > The driver-core tree gained a conflict against Linus' tree.
+> > > 
+> > > The usb tree inherited a build fix patch from the pci tree.
+> > > 
+> > > The x86 tree gained a trivial conflict against Linus' tree but it was in
+> > > a commit that is still being reverted.
+> > > 
+> > > The ocsf2 tree gained several conflicts against Linus' tree because what
+> > > was sent to Linus was not the same as what is in linuxt-next.
+> > > 
+> > > The vfs tree gained conflicts against Linus' tree, the sparc tree and the
+> > > mips tree.
+> > > 
+> > > The semaphore-removal tree gained conflicts against Linus' tree that
+> > > required the reversion of two commits.
+> > > 
+> > > The ttydev tree had two patches that didn't apply and gained conflicts
+> > > against the wireless tree and the usb tree (4).  It also required a build
+> > > fix patch.
+> > > 
+> > > Lots of conflicts have gone from the x86 and ubifs trees.
+> > > 
+> > > I have also applied the following patches for known problems:
+> > > 
+> > > 	sparc64: sysdev API change fallout
+> > > 	sparc32: smp_call_function API change fallout (this has already
+> > > been fixed in the upstream sparc tree and comes from an incomplete merge
+> > > on my part).
+> > > 
+> > > This tree fails to build for ARCH=sparc (i.e. 32bit) with a 64bit gcc
+> > > v3.4.5 - it tries to use the 64bit header files.  This may be an artifact
+> > > of one of my merge fixups, but I don't actually think so.
+> > > 
+> > > ----------------------------------------------------------------------------
+> > 
+> > commit db99b98885e717454feef1c6868b27d3f23c2e7c
+> > Author: Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+> > Date:   Wed May 14 17:04:16 2008 -0700
+> > 
+> >     sky2: put PHY in sleep when down
+> > 
+> > and
+> > 
+> > commit a068c0adf2fe28b324bca87f85d27af7f993cdaf
+> > Author: Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+> > Date:   Wed May 14 17:04:17 2008 -0700
+> > 
+> >     sky2: pci power savings
+> > 
+> > break Wake-on-LAN on my test box using sky2.  More specifically, with these
+> > two commits applied the box hangs solid during hibernation/power off
+> > while executing the sky2 callbacks.
+> > 
+> > The adapter is reported as 88E8056 (Asus M3A32-MVP Deluxe mainboard).
+> > 
+> > Thanks,
+> > Rafael
 > 
->     sysfs: add /sys/firmware/memmap
-> 
-> is really being done at the wrong level.
+> Wake-on-lan from suspend or wake-on-lan from shutdown? which is the problem.
 
-I posted that patches multiple times. They were reviewed by the kdump
-maintainer and by the kexec maintainer. Why didn't you mention it
-*there* that this is the wrong way?
+In both cases (ie. hibernation and shutdown) if I run 'ethtool -s eth0 wol g'
+before the operation, the box will hang solid while executing either
+sky2_suspend() or sky2_shutdown().
 
-> I don't, for instance, see
-> *any* reference to memory hotplug in these patches.
+So far, I have verified that it happens after sky2_wol_init(), during the
+execution of sky2_power_aux().  However, if sky2_power_aux() is commented
+out, the box hangs while executing pci_enable_wake().
 
-Right. The idea was to add memory hotplugging later. I decided to
-create the patch series, get some review, and then fix the rest of the
-systems that use memory hot-plugging. So, do you see a problem (in
-theory) to add memory and remove memory in that sysfs interface? Of
-course the code must be extended to handle modifications in the linked
-list afterwards. Yes, I should have made that extension just after the
-patch went into tip. Unfortunately, I didn't have time so far.
-
-> Secondly, why don't we just modify the existing /sys/devices/system/memory
-
-Because I didn't know that interface. And because I don't see that
-interface on my two systems that I just checked. i386 and x86-64. What
-do I have to do to enable that interface?
-
-Does that interface export the *used* memory or just export the memory
-that is available? Because exactly that was the reason why I made that
-modification -- because kexec needs to know the *available* memory even
-if that memory is disabled via 'memmap' or 'mem' command line
-parameters.
-
-
-
-Bernhard
--- 
-Bernhard Walle, SUSE LINUX Products GmbH, Architecture Development
+Thanks,
+Rafael
