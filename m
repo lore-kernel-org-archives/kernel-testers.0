@@ -1,85 +1,53 @@
-From: Mariusz Kozlowski <m.kozlowski-NWF1p15JEu3VItvQsEIGlw@public.gmane.org>
-Subject: [bug] sparc64: kmalloc-64 padding and redzone overwritten
-Date: Sun, 20 Jul 2008 12:57:30 +0200
-Message-ID: <200807201257.30954.m.kozlowski@tuxland.pl>
+From: Al Viro <viro@ZenIV.linux.org.uk>
+Subject: Re: BUG at security/selinux/avc.c:883 (was: Re: linux-next: Tree
+	for July 17: early crash on x86-64)
+Date: Sun, 20 Jul 2008 13:15:59 +0100
+Message-ID: <20080720121559.GV28946@ZenIV.linux.org.uk>
+References: <20080718012842.690b8346.sfr@canb.auug.org.au> <a4423d670807180652y352e66lfe04d2b33d2ed176@mail.gmail.com> <20080719035231.GU28946@ZenIV.linux.org.uk> <200807192042.06988.rjw@sisk.pl> <Xine.LNX.4.64.0807200553380.22632@us.intercode.com.au> <1216546973.3217.6.camel@dhcppc2>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-next-owner@vger.kernel.org>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <1216546973.3217.6.camel@dhcppc2>
+Sender: linux-next-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org
-Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, sparclinux-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: Thomas Meyer <thomas@m3y3r.de>
+Cc: James Morris <jmorris@namei.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Alexander Beregalov <a.beregalov@gmail.com>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-next@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@elte.hu>, Kernel Testers List <kernel-testers@vger.kernel.org>, Stephen Smalley <sds@tycho.nsa.gov>, Eric Paris <eparis@parisplace.org>
 
-Hello,
+On Sun, Jul 20, 2008 at 11:42:53AM +0200, Thomas Meyer wrote:
+> Am Sonntag, den 20.07.2008, 05:54 +1000 schrieb James Morris:
+> > On Sat, 19 Jul 2008, Rafael J. Wysocki wrote:
+> > 
+> > > > vfs-next/net-next conflict; apply the patch below on top of the
+> > merge.
+> > > 
+> > > That helped, thanks.
+> > > 
+> > > But next it ran into the BUG_ON() in line 883 of
+> > security/selinux/avc.c .
+> > > Disabling selinux made the kernel boot, finally.
+> > 
+> > Ugh, that's not supposed to happen.  Where was this in the boot?  Do
+> > you 
+> > have a console log?
 
-	I'm getting these on sparc64 while running LTP on latest
-Linus 2.6.26-03465-g5b664cb-dirty. It's dirty because of one-line pagemap
-fix but that should't matter. The box is ultra 60 (sparc64).
+Argh...  Fallout from ->permission() patch series.  I've folded that into
+rebase (along with Randy's compile fixes and missing bit in capability.c
+in ->inode_permission() patch; AFAICS takes care of all mismerges as well).
+In the meanwhile, see the patch below on top of next-20080718:
 
-=============================================================================
-BUG kmalloc-64: Padding overwritten. 0xfffff800b601dfe0-0xfffff800b601dfff
------------------------------------------------------------------------------
-
-INFO: Slab 0x0000000201f484d0 objects=60 used=0 fp=0xfffff800b601d3a8 flags=0x00c3
-Call Trace:
- [00000000004bd6ac] slab_err+0x54/0x60
- [00000000004bdc94] slab_pad_check+0x11c/0x160
- [00000000004bdd98] check_slab+0xc0/0xe0
- [00000000004bf080] __slab_alloc+0xc8/0x7a0
- [00000000004bfb38] kmem_cache_alloc+0xc0/0xe0
- [0000000000518210] ext3_init_block_alloc_info+0x18/0x60
- [000000000051c2e8] ext3_get_blocks_handle+0xa30/0xd20
- [000000000051c878] ext3_get_block+0x80/0xe0
- [00000000004ed384] __block_prepare_write+0x26c/0x520
- [00000000004ed6c0] block_write_begin+0x48/0xe0
- [000000000051e22c] ext3_write_begin+0xb4/0x1e0
- [00000000004988a8] generic_file_buffered_write+0xf0/0x6c0
- [0000000000499088] __generic_file_aio_write_nolock+0x210/0x3a0
- [0000000000499258] generic_file_aio_write+0x40/0xe0
- [0000000000518efc] ext3_file_write+0x24/0xe0
- [00000000004c40f0] do_sync_write+0x98/0xe0
- Padding 0xfffff800b601dfe0:  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
- Padding 0xfffff800b601dff0:  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
-FIX kmalloc-64: Restoring 0xfffff800b601c000-0xfffff800b601dfff=0x5a
-
-=============================================================================
-BUG kmalloc-64: Redzone overwritten
------------------------------------------------------------------------------
-
-INFO: 0xfffff800b601d3e8-0xfffff800b601d3ef. First byte 0x5a instead of 0xbb
-INFO: Allocated in 0x5a5a5a5a5a5a5a5a age=11936128522578455317 cpu=1515870810 pid=1515870810
-INFO: Freed in 0x5a5a5a5a5a5a5a5a age=11936128522578455317 cpu=1515870810 pid=1515870810
-INFO: Slab 0x0000000201f484d0 objects=60 used=0 fp=0xfffff800b601d3a8 flags=0x00c3
-INFO: Object 0xfffff800b601d3a8 @offset=5032 fp=0x5a5a5a5a5a5a5a5a
-
-Bytes b4 0xfffff800b601d398:  5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a ZZZZZZZZZZZZZZZZ
-  Object 0xfffff800b601d3a8:  5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a ZZZZZZZZZZZZZZZZ
-  Object 0xfffff800b601d3b8:  5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a ZZZZZZZZZZZZZZZZ
-  Object 0xfffff800b601d3c8:  5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a ZZZZZZZZZZZZZZZZ
-  Object 0xfffff800b601d3d8:  5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a ZZZZZZZZZZZZZZZZ
- Redzone 0xfffff800b601d3e8:  5a 5a 5a 5a 5a 5a 5a 5a                         ZZZZZZZZ        
- Padding 0xfffff800b601d428:  5a 5a 5a 5a 5a 5a 5a 5a                         ZZZZZZZZ        
-Call Trace:
- [00000000004bd7b4] print_trailer+0xfc/0x180
- [00000000004bde68] check_bytes_and_report+0xb0/0xe0
- [00000000004bdee8] check_object+0x50/0x2a0
- [00000000004bf5d0] __slab_alloc+0x618/0x7a0
- [00000000004bfb38] kmem_cache_alloc+0xc0/0xe0
- [0000000000518210] ext3_init_block_alloc_info+0x18/0x60
- [000000000051c2e8] ext3_get_blocks_handle+0xa30/0xd20
- [000000000051c878] ext3_get_block+0x80/0xe0
- [00000000004ed384] __block_prepare_write+0x26c/0x520
- [00000000004ed6c0] block_write_begin+0x48/0xe0
- [000000000051e22c] ext3_write_begin+0xb4/0x1e0
- [00000000004988a8] generic_file_buffered_write+0xf0/0x6c0
- [0000000000499088] __generic_file_aio_write_nolock+0x210/0x3a0
- [0000000000499258] generic_file_aio_write+0x40/0xe0
- [0000000000518efc] ext3_file_write+0x24/0xe0
- [00000000004c40f0] do_sync_write+0x98/0xe0
-FIX kmalloc-64: Restoring 0xfffff800b601d3e8-0xfffff800b601d3ef=0xbb
-
-FIX kmalloc-64: Marking all objects used
-
-	Mariusz
+diff --git a/fs/namei.c b/fs/namei.c
+index a15c155..c0a64e2 100644
+--- a/fs/namei.c
++++ b/fs/namei.c
+@@ -286,7 +286,8 @@ int permission(struct inode *inode, int mask, struct nameidata *nd)
+ 	if (retval)
+ 		return retval;
+ 
+-	return security_inode_permission(inode, mask);
++	return security_inode_permission(inode,
++					mask & (MAY_READ|MAY_WRITE|MAY_EXEC));
+ }
+ 
+ /**
