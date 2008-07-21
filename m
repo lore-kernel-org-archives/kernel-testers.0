@@ -1,34 +1,31 @@
 From: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: 2.6.26 BUG: recent printk recursion!
-Date: Mon, 21 Jul 2008 21:49:52 +0400
-Message-ID: <20080721174952.GA18891@orion>
+Subject: 2.6.26 Oops at tcp_data_queue
+Date: Tue, 22 Jul 2008 00:12:26 +0400
+Message-ID: <20080721201226.GD18891@orion>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="AhhlLboLdkugWU4S"
+Content-Type: multipart/mixed; boundary="2B/JsCI69OhZNC5r"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
         h=domainkey-signature:received:received:date:from:to:subject
          :message-id:mime-version:content-type:content-disposition:user-agent;
-        bh=wditkt14T6ZbYu9yOE2t2bZlLC5aTbiQRrK8nnG1gGo=;
-        b=xcsGDaBhfbGs0w2qbdrKDb2FJquItKMFkJSvJRjONDZLKre5PWZuCgfz6q/pv7Qmiy
-         PKhLE1zJNDQEEB5cRGYyxtTPFVxdJ/qw4EGxUgyNBKFV0+zeyozfzezqAUxrFzZt2q3G
-         gKFMb3GVI/6hveuMKGKfwJm3yUtq0+MDnZNt4=
+        bh=i1mAgNPuhXHM07OhjFwJH4cXIoSgs4GmHChwOPzUMFI=;
+        b=CjJf4KtL7YJ57ygupdwcM/M2cXZ8ZGLKInkI12D+Ung+T35FP5SUqMk/qHHDBEAwFx
+         SxYxx9s3nlrNdd2ZdKPAby5Ov9iIoc5jIeyH63ze8e+cNdRKmKGvq4+mNQHlTJQ9Gqj5
+         VXZUBAx5JButBafiuIDLiTFpYAtYwBNchy6FI=
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
 
---AhhlLboLdkugWU4S
+--2B/JsCI69OhZNC5r
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-
 Hi
 
-It is a clear 2.6.26 kernel.
-I get this few times a day. Strange, it did not happen with all -rcX.
-I do not know how to reproduce it.
+It is clean 2.6.26, eth drivers are e1000 and forcedeth.
 
 
 00:00.0 Host bridge [0600]: nVidia Corporation nForce2 AGP (different version?) [10de:01e0] (rev c1)
@@ -52,608 +49,53 @@ I do not know how to reproduce it.
 02:00.1 Display controller [0380]: ATI Technologies Inc Radeon RV250 [Radeon 9000] (Secondary) [1002:496e] (rev 01)
 
 
-[    0.000000] Linux version 2.6.26 (fireball@tor) (gcc version 4.3.1 (Gentoo 4.3.1-r1 p1.1) ) #12 PREEMPT Sat Jul 19 04:03:50 MSD 2008
-[    0.000000] PAT disabled. Not yet verified on this CPU type.
-[    0.000000] BIOS-provided physical RAM map:
-[    0.000000]  BIOS-e820: 0000000000000000 - 000000000009d000 (usable)
-[    0.000000]  BIOS-e820: 000000000009d000 - 00000000000a0000 (reserved)
-[    0.000000]  BIOS-e820: 00000000000f0000 - 0000000000100000 (reserved)
-[    0.000000]  BIOS-e820: 0000000000100000 - 000000005fff0000 (usable)
-[    0.000000]  BIOS-e820: 000000005fff0000 - 000000005fff3000 (ACPI NVS)
-[    0.000000]  BIOS-e820: 000000005fff3000 - 0000000060000000 (ACPI data)
-[    0.000000]  BIOS-e820: 00000000fec00000 - 00000000fec01000 (reserved)
-[    0.000000]  BIOS-e820: 00000000fee00000 - 00000000fee01000 (reserved)
-[    0.000000]  BIOS-e820: 00000000ffff0000 - 0000000100000000 (reserved)
-[    0.000000] 639MB HIGHMEM available.
-[    0.000000] 896MB LOWMEM available.
-[    0.000000] Zone PFN ranges:
-[    0.000000]   DMA             0 ->     4096
-[    0.000000]   Normal       4096 ->   229376
-[    0.000000]   HighMem    229376 ->   393200
-[    0.000000] Movable zone start PFN for each node
-[    0.000000] early_node_map[1] active PFN ranges
-[    0.000000]     0:        0 ->   393200
-[    0.000000] DMI 2.2 present.
-[    0.000000] ACPI: RSDP 000F6B00, 0014 (r0 Nvidia)
-[    0.000000] ACPI: RSDT 5FFF3000, 002C (r1 Nvidia AWRDACPI 42302E31 AWRD        0)
-[    0.000000] ACPI: FACP 5FFF3040, 0074 (r1 Nvidia AWRDACPI 42302E31 AWRD        0)
-[    0.000000] ACPI: DSDT 5FFF30C0, 48E8 (r1 NVIDIA AWRDACPI     1000 MSFT  100000D)
-[    0.000000] ACPI: FACS 5FFF0000, 0040
-[    0.000000] ACPI: APIC 5FFF79C0, 005A (r1 Nvidia AWRDACPI 42302E31 AWRD        0)
-[    0.000000] Nvidia board detected. Ignoring ACPI timer override.
-[    0.000000] If you got timer trouble try acpi_use_timer_override
-[    0.000000] ACPI: PM-Timer IO Port: 0x4008
-[    0.000000] ACPI: LAPIC (acpi_id[0x00] lapic_id[0x00] enabled)
-[    0.000000] ACPI: LAPIC_NMI (acpi_id[0x00] high edge lint[0x1])
-[    0.000000] ACPI: IOAPIC (id[0x02] address[0xfec00000] gsi_base[0])
-[    0.000000] IOAPIC[0]: apic_id 2, version 17, address 0xfec00000, GSI 0-23
-[    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
-[    0.000000] ACPI: BIOS IRQ0 pin2 override ignored.
-[    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
-[    0.000000] Enabling APIC mode:  Flat.  Using 1 I/O APICs
-[    0.000000] Using ACPI (MADT) for SMP configuration information
-[    0.000000] Allocating PCI resources starting at 70000000 (gap: 60000000:9ec00000)
-[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 390128
-[    0.000000] Kernel command line: root=/dev/sda1 netconsole=@192.168.99.1/eth0,6666-Q0ErXNX1RuZNPuu6YYlezQ@public.gmane.org/00:1d:7d:d1:c3:69 console=tty1 console=ttyS0,9600 ro
-[    0.000000] Enabling fast FPU save and restore... done.
-[    0.000000] Enabling unmasked SIMD FPU exception support... done.
-[    0.000000] Initializing CPU#0
-[    0.000000] Preemptible RCU implementation.
-[    0.000000] CPU 0 irqstacks, hard=c04e3000 soft=c04e2000
-[    0.000000] PID hash table entries: 4096 (order: 12, 16384 bytes)
-[    0.000000] Detected 1829.998 MHz processor.
-[    0.003333] Console: colour VGA+ 80x25
-[    0.003333] console [tty1] enabled
-[    0.003333] console [ttyS0] enabled
-[    0.003333] Lock dependency validator: Copyright (c) 2006 Red Hat, Inc., Ingo Molnar
-[    0.003333] ... MAX_LOCKDEP_SUBCLASSES:    8
-[    0.003333] ... MAX_LOCK_DEPTH:          48
-[    0.003333] ... MAX_LOCKDEP_KEYS:        2048
-[    0.003333] ... CLASSHASH_SIZE:           1024
-[    0.003333] ... MAX_LOCKDEP_ENTRIES:     8192
-[    0.003333] ... MAX_LOCKDEP_CHAINS:      16384
-[    0.003333] ... CHAINHASH_SIZE:          8192
-[    0.003333]  memory used by lock dependency info: 1024 kB
-[    0.003333]  per task-struct memory footprint: 2688 bytes
-[    0.003333] ------------------------
-[    0.003333] | Locking API testsuite:
-[    0.003333] ----------------------------------------------------------------------------
-[    0.003333]                                  | spin |wlock |rlock |mutex | wsem | rsem |
-[    0.003333]   --------------------------------------------------------------------------
-[    0.003333]                      A-A deadlock:  ok  |  ok  |  ok  |  ok  |  ok  |  ok  |
-[    0.003333]                  A-B-B-A deadlock:  ok  |  ok  |  ok  |  ok  |  ok  |  ok  |
-[    0.003333]              A-B-B-C-C-A deadlock:  ok  |  ok  |  ok  |  ok  |  ok  |  ok  |
-[    0.003333]              A-B-C-A-B-C deadlock:  ok  |  ok  |  ok  |  ok  |  ok  |  ok  |
-[    0.003333]          A-B-B-C-C-D-D-A deadlock:  ok  |  ok  |  ok  |  ok  |  ok  |  ok  |
-[    0.003333]          A-B-C-D-B-D-D-A deadlock:  ok  |  ok  |  ok  |  ok  |  ok  |  ok  |
-[    0.003333]          A-B-C-D-B-C-D-A deadlock:  ok  |  ok  |  ok  |  ok  |  ok  |  ok  |
-[    0.003333]                     double unlock:  ok  |  ok  |  ok  |  ok  |  ok  |  ok  |
-[    0.003333]                   initialize held:  ok  |  ok  |  ok  |  ok  |  ok  |  ok  |
-[    0.003333]                  bad unlock order:  ok  |  ok  |  ok  |  ok  |  ok  |  ok  |
-[    0.003333]   --------------------------------------------------------------------------
-[    0.003333]               recursive read-lock:             |  ok  |             |  ok  |
-[    0.003333]            recursive read-lock #2:             |  ok  |             |  ok  |
-[    0.003333]             mixed read-write-lock:             |  ok  |             |  ok  |
-[    0.003333]             mixed write-read-lock:             |  ok  |             |  ok  |
-[    0.003333]   --------------------------------------------------------------------------
-[    0.003333]      hard-irqs-on + irq-safe-A/12:  ok  |  ok  |  ok  |
-[    0.003333]      soft-irqs-on + irq-safe-A/12:  ok  |  ok  |  ok  |
-[    0.003333]      hard-irqs-on + irq-safe-A/21:  ok  |  ok  |  ok  |
-[    0.003333]      soft-irqs-on + irq-safe-A/21:  ok  |  ok  |  ok  |
-[    0.003333]        sirq-safe-A => hirqs-on/12:  ok  |  ok  |  ok  |
-[    0.003333]        sirq-safe-A => hirqs-on/21:  ok  |  ok  |  ok  |
-[    0.003333]          hard-safe-A + irqs-on/12:  ok  |  ok  |  ok  |
-[    0.003333]          soft-safe-A + irqs-on/12:  ok  |  ok  |  ok  |
-[    0.003333]          hard-safe-A + irqs-on/21:  ok  |  ok  |  ok  |
-[    0.003333]          soft-safe-A + irqs-on/21:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #1/123:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #1/123:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #1/132:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #1/132:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #1/213:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #1/213:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #1/231:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #1/231:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #1/312:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #1/312:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #1/321:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #1/321:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #2/123:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #2/123:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #2/132:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #2/132:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #2/213:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #2/213:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #2/231:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #2/231:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #2/312:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #2/312:  ok  |  ok  |  ok  |
-[    0.003333]     hard-safe-A + unsafe-B #2/321:  ok  |  ok  |  ok  |
-[    0.003333]     soft-safe-A + unsafe-B #2/321:  ok  |  ok  |  ok  |
-[    0.003333]       hard-irq lock-inversion/123:  ok  |  ok  |  ok  |
-[    0.003333]       soft-irq lock-inversion/123:  ok  |  ok  |  ok  |
-[    0.003333]       hard-irq lock-inversion/132:  ok  |  ok  |  ok  |
-[    0.003333]       soft-irq lock-inversion/132:  ok  |  ok  |  ok  |
-[    0.003333]       hard-irq lock-inversion/213:  ok  |  ok  |  ok  |
-[    0.003333]       soft-irq lock-inversion/213:  ok  |  ok  |  ok  |
-[    0.003333]       hard-irq lock-inversion/231:  ok  |  ok  |  ok  |
-[    0.003333]       soft-irq lock-inversion/231:  ok  |  ok  |  ok  |
-[    0.003333]       hard-irq lock-inversion/312:  ok  |  ok  |  ok  |
-[    0.003333]       soft-irq lock-inversion/312:  ok  |  ok  |  ok  |
-[    0.003333]       hard-irq lock-inversion/321:  ok  |  ok  |  ok  |
-[    0.003333]       soft-irq lock-inversion/321:  ok  |  ok  |  ok  |
-[    0.003333]       hard-irq read-recursion/123:  ok  |
-[    0.003333]       soft-irq read-recursion/123:  ok  |
-[    0.003333]       hard-irq read-recursion/132:  ok  |
-[    0.003333]       soft-irq read-recursion/132:  ok  |
-[    0.003333]       hard-irq read-recursion/213:  ok  |
-[    0.003333]       soft-irq read-recursion/213:  ok  |
-[    0.003333]       hard-irq read-recursion/231:  ok  |
-[    0.003333]       soft-irq read-recursion/231:  ok  |
-[    0.003333]       hard-irq read-recursion/312:  ok  |
-[    0.003333]       soft-irq read-recursion/312:  ok  |
-[    0.003333]       hard-irq read-recursion/321:  ok  |
-[    0.003333]       soft-irq read-recursion/321:  ok  |
-[    0.003333] -------------------------------------------------------
-[    0.003333] Good, all 218 testcases passed! |
-[    0.003333] ---------------------------------
-[    0.003333] Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
-[    0.003333] Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
-[    0.003333] Memory: 1551584k/1572800k available (2591k kernel code, 20100k reserved, 1199k data, 168k init, 655296k highmem)
-[    0.003333] virtual kernel memory layout:
-[    0.003333]     fixmap  : 0xfff9a000 - 0xfffff000   ( 404 kB)
-[    0.003333]     pkmap   : 0xff800000 - 0xffc00000   (4096 kB)
-[    0.003333]     vmalloc : 0xf8800000 - 0xff7fe000   ( 111 MB)
-[    0.003333]     lowmem  : 0xc0000000 - 0xf8000000   ( 896 MB)
-[    0.003333]       .init : 0xc04b5000 - 0xc04df000   ( 168 kB)
-[    0.003333]       .data : 0xc0387f76 - 0xc04b3f20   (1199 kB)
-[    0.003333]       .text : 0xc0100000 - 0xc0387f76   (2591 kB)
-[    0.003333] Checking if this processor honours the WP bit even in supervisor mode...Ok.
-[    0.003333] SLUB: Genslabs=12, HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
-[    0.089859] Calibrating delay using timer specific routine.. 3665.79 BogoMIPS (lpj=6106877)
-[    0.096660] Mount-cache hash table entries: 512
-[    0.099993] CPU: L1 I Cache: 64K (64 bytes/line), D cache 64K (64 bytes/line)
-[    0.103326] CPU: L2 Cache: 512K (64 bytes/line)
-[    0.106659] Intel machine check architecture supported.
-[    0.109992] Intel machine check reporting enabled on CPU#0.
-[    0.113325] CPU: AMD Athlon(tm) XP 2500+ stepping 00
-[    0.123325] Checking 'hlt' instruction... OK.
-[    0.143323] debug: unmapping init memory c04b5000..c04b5000
-[    0.146657] ACPI: Core revision 20080321
-[    0.183567] ENABLING IO-APIC IRQs
-[    0.189987] ..TIMER: vector=0x31 apic1=0 pin1=0 apic2=-1 pin2=-1
-[    0.226651] khelper used greatest stack depth: 3156 bytes left
-[    0.229985] net_namespace: 268 bytes
-[    0.233318] NET: Registered protocol family 16
-[    0.236651] No dock devices found.
-[    0.239984] ACPI: bus type pci registered
-[    0.243930] PCI: PCI BIOS revision 2.10 entry at 0xfb420, last bus=2
-[    0.249983] PCI: Using configuration type 1 for base access
-[    0.253316] Setting up standard PCI resources
-[    0.267171] khelper used greatest stack depth: 3036 bytes left
-[    0.273315] khelper used greatest stack depth: 2668 bytes left
-[    0.327359] ACPI: Interpreter enabled
-[    0.333311] ACPI: (supports S0 S5)
-[    0.343296] ACPI: Using IOAPIC for interrupt routing
-[    0.393638] ACPI: PCI Root Bridge [PCI0] (0000:00)
-[    0.399973] pci 0000:00:00.0: nForce2 C1 Halt Disconnect fixup
-[    0.613175] ACPI: PCI Interrupt Link [LNK1] (IRQs 3 4 5 6 7 10 11 12 14 15) *0, disabled.
-[    0.656250] ACPI: PCI Interrupt Link [LNK2] (IRQs 3 4 5 6 7 10 11 12 14 15) *0, disabled.
-[    0.696633] ACPI: PCI Interrupt Link [LNK3] (IRQs 3 4 5 6 7 10 *11 12 14 15)
-[    0.730402] ACPI: PCI Interrupt Link [LNK4] (IRQs 3 4 5 6 7 10 11 *12 14 15)
-[    0.766633] ACPI: PCI Interrupt Link [LNK5] (IRQs 3 4 5 6 7 10 11 12 14 15) *0, disabled.
-[    0.809480] ACPI: PCI Interrupt Link [LUBA] (IRQs 3 4 5 6 7 10 *11 12 14 15)
-[    0.843723] ACPI: PCI Interrupt Link [LUBB] (IRQs 3 4 5 6 *7 10 11 12 14 15)
-[    0.881918] ACPI: PCI Interrupt Link [LMAC] (IRQs 3 4 5 6 7 *10 11 12 14 15)
-[    0.916633] ACPI: PCI Interrupt Link [LAPU] (IRQs 3 4 5 6 7 10 11 12 14 15) *0, disabled.
-[    0.956633] ACPI: PCI Interrupt Link [LACI] (IRQs 3 4 5 6 7 10 11 12 14 15) *0, disabled.
-[    0.999468] ACPI: PCI Interrupt Link [LMCI] (IRQs 3 4 5 6 7 10 11 12 14 15) *0, disabled.
-[    1.042813] ACPI: PCI Interrupt Link [LSMB] (IRQs 3 4 5 6 7 *10 11 12 14 15)
-[    1.077054] ACPI: PCI Interrupt Link [LUB2] (IRQs 3 4 *5 6 7 10 11 12 14 15)
-[    1.115236] ACPI: PCI Interrupt Link [LFIR] (IRQs 3 4 5 6 7 10 11 12 14 15) *0, disabled.
-[    1.159466] ACPI: PCI Interrupt Link [L3CM] (IRQs 3 4 5 6 7 10 11 12 14 15) *0, disabled.
-[    1.200371] ACPI: PCI Interrupt Link [LIDE] (IRQs 3 4 5 6 7 10 11 12 14 15<4>Clocksource tsc unstable (delta = 715964607 ns)
-[    1.236633] ) *0, disabled.
-[    1.249433] ACPI: PCI Interrupt Link [APC1] (IRQs *16), disabled.
-[    1.262715] ACPI: PCI Interrupt Link [APC2] (IRQs *17), disabled.
-[    1.273624] ACPI: PCI Interrupt Link [APC3] (IRQs *18)
-[    1.286633] ACPI: PCI Interrupt Link [APC4] (IRQs *19)
-[    1.296633] ACPI: PCI Interrupt Link [APCE] (IRQs *16), disabled.
-[    1.307262] ACPI: PCI Interrupt Link [APCF] (IRQs 20 21 22) *0
-[    1.329699] ACPI: PCI Interrupt Link [APCG] (IRQs 20 21 22) *0
-[    1.350587] ACPI: PCI Interrupt Link [APCH] (IRQs 20 21 22) *0
-[    1.373012] ACPI: PCI Interrupt Link [APCI] (IRQs 20 21 22) *0, disabled.
-[    1.399676] ACPI: PCI Interrupt Link [APCJ] (IRQs 20 21 22) *0, disabled.
-[    1.423010] ACPI: PCI Interrupt Link [APCK] (IRQs 20 21 22) *0, disabled.
-[    1.446071] ACPI: PCI Interrupt Link [APCS] (IRQs *23)
-[    1.456633] ACPI: PCI Interrupt Link [APCL] (IRQs 20 21 22) *0
-[    1.477545] ACPI: PCI Interrupt Link [APCM] (IRQs 20 21 22) *0, disabled.
-[    1.503010] ACPI: PCI Interrupt Link [AP3C] (IRQs 20 21 22) *0, disabled.
-[    1.526344] ACPI: PCI Interrupt Link [APCZ] (IRQs 20 21 22) *0, disabled.
-[    1.549961] Linux Plug and Play Support v0.97 (c) Adam Belay
-[    1.553300] pnp: PnP ACPI init
-[    1.556633] ACPI: bus type pnp registered
-[    1.578029] pnp: PnP ACPI: found 12 devices
-[    1.583300] ACPI: ACPI bus type pnp unregistered
-[    1.586633] SCSI subsystem initialized
-[    1.592735] PCI: Using ACPI for IRQ routing
-[    1.610615] ACPI: RTC can wake from S4
-[    1.634519] system 00:00: ioport range 0x4000-0x407f has been reserved
-[    1.639967] system 00:00: ioport range 0x4080-0x40ff has been reserved
-[    1.643300] system 00:00: ioport range 0x4400-0x447f has been reserved
-[    1.646633] system 00:00: ioport range 0x4480-0x44ff has been reserved
-[    1.649967] system 00:00: ioport range 0x4200-0x427f has been reserved
-[    1.653300] system 00:00: ioport range 0x4280-0x42ff has been reserved
-[    1.656633] system 00:01: ioport range 0x5000-0x503f has been reserved
-[    1.659967] system 00:01: ioport range 0x5100-0x513f has been reserved
-[    1.663300] system 00:02: iomem range 0xdb800-0xdbfff has been reserved
-[    1.666633] system 00:02: iomem range 0xf0000-0xf7fff could not be reserved
-[    1.669967] system 00:02: iomem range 0xf8000-0xfbfff could not be reserved
-[    1.673300] system 00:02: iomem range 0xfc000-0xfffff could not be reserved
-[    1.676633] system 00:02: iomem range 0x5fff0000-0x5fffffff could not be reserved
-[    1.679967] system 00:02: iomem range 0xffff0000-0xffffffff could not be reserved
-[    1.683300] system 00:02: iomem range 0x0-0x9ffff could not be reserved
-[    1.686633] system 00:02: iomem range 0x100000-0x5ffeffff could not be reserved
-[    1.689967] system 00:02: iomem range 0xfec00000-0xfec00fff could not be reserved
-[    1.693300] system 00:02: iomem range 0xfee00000-0xfee00fff could not be reserved
-[    1.696633] system 00:04: ioport range 0xb78-0xb7b has been reserved
-[    1.699967] system 00:04: ioport range 0xf78-0xf7b has been reserved
-[    1.703300] system 00:04: ioport range 0xa78-0xa7b has been reserved
-[    1.706633] system 00:04: ioport range 0xe78-0xe7b has been reserved
-[    1.709967] system 00:04: ioport range 0xbbc-0xbbf has been reserved
-[    1.713300] system 00:04: ioport range 0xfbc-0xfbf has been reserved
-[    1.716633] system 00:04: ioport range 0x4d0-0x4d1 has been reserved
-[    1.719967] system 00:04: ioport range 0x294-0x297 has been reserved
-[    1.753553] PCI: Bridge: 0000:00:08.0
-[    1.760011]   IO window: a000-cfff
-[    1.800022]   MEM window: 0xec000000-0xedffffff
-[    1.854258]   PREFETCH window: 0x0000000070000000-0x00000000700fffff
-[    1.930330] PCI: Bridge: 0000:00:1e.0
-[    1.974159]   IO window: d000-dfff
-[    2.014890]   MEM window: 0xea000000-0xebffffff
-[    2.069487]   PREFETCH window: 0x00000000e0000000-0x00000000e7ffffff
-[    2.143838] NET: Registered protocol family 2
-[    2.255570] IP route cache hash table entries: 32768 (order: 5, 131072 bytes)
-[    2.340864] TCP established hash table entries: 131072 (order: 8, 1048576 bytes)
-[    2.432210] TCP bind hash table entries: 65536 (order: 9, 2359296 bytes)
-[    2.518928] TCP: Hash tables configured (established 131072 bind 65536)
-[    2.598813] TCP reno registered
-[    2.655076] NET: Registered protocol family 1
-[    2.710013] Machine check exception polling timer started.
-[    2.780013] Initializing RT-Tester: OK
-[    2.824888] ====[ backtrace testing ]===========
-[    2.880147] Testing a backtrace from process context.
-[    2.943281] The following trace is a kernel self test and not a bug!
-[    3.017148] Pid: 1, comm: swapper Not tainted 2.6.26 #12
-[    3.083287]  [<c04b5365>] ? kernel_init+0x0/0x1c9
-[    3.140002]  [<c013e36b>] backtrace_regression_test+0x26/0x67
-[    3.209521]  [<c04b53fe>] kernel_init+0x99/0x1c9
-[    3.263773]  [<c013e345>] ? backtrace_regression_test+0x0/0x67
-[    3.334013]  [<c0134dfa>] ? trace_hardirqs_on+0xe6/0x10d
-[    3.398015]  [<c0102d7f>] ? restore_nocheck+0x12/0x15
-[    3.460357]  [<c04b5365>] ? kernel_init+0x0/0x1c9
-[    3.516924]  [<c04b5365>] ? kernel_init+0x0/0x1c9
-[    3.573653]  [<c01038b7>] kernel_thread_helper+0x7/0x10
-[    3.636414]  =======================
-[    3.692372] ====[ end of backtrace testing ]====
-[    3.746682] Testing a backtrace from irq context.
-[    3.802997] The following trace is a kernel self test and not a bug!
-[    3.879059] Pid: 1, comm: swapper Not tainted 2.6.26 #12
-[    3.942645]  [<c013e341>] backtrace_test_timer+0x1c/0x20
-[    4.006437]  [<c012177b>] run_timer_softirq+0x12c/0x185
-[    4.069194]  [<c013e325>] ? backtrace_test_timer+0x0/0x20
-[    4.134126]  [<c013e325>] ? backtrace_test_timer+0x0/0x20
-[    4.200284]  [<c011eb9f>] __do_softirq+0x54/0xa1
-[    4.255767]  [<c010494f>] do_softirq+0x57/0xa6
-[    4.309172]  [<c011e795>] irq_exit+0x3b/0x7c
-[    4.360500]  [<c010d388>] smp_apic_timer_interrupt+0x62/0x6d
-[    4.429111]  [<c010374b>] apic_timer_interrupt+0x33/0x38
-[    4.492906]  [<c011b08e>] ? vprintk+0x339/0x378
-[    4.547558]  [<c0121900>] ? sys_sysinfo+0x2e/0x30
-[    4.604289]  [<c04b5365>] ? kernel_init+0x0/0x1c9
-[    4.661019]  [<c013e3a6>] ? backtrace_regression_test+0x61/0x67
-[    4.732299]  [<c04b53fe>] ? kernel_init+0x99/0x1c9
-[    4.790064]  [<c013e345>] ? backtrace_regression_test+0x0/0x67
-[    4.860306]  [<c0134dfa>] ? trace_hardirqs_on+0xe6/0x10d
-[    4.924309]  [<c0102d7f>] ? restore_nocheck+0x12/0x15
-[    4.985194]  [<c04b5365>] ? kernel_init+0x0/0x1c9
-[    5.041923]  [<c04b5365>] ? kernel_init+0x0/0x1c9
-[    5.098654]  [<c01038b7>] ? kernel_thread_helper+0x7/0x10
-[    5.163700]  =======================
-[    5.209211] Kprobe smoke test started
-[    5.254465] Kprobe smoke test passed successfully
-[    5.311448] highmem bounce pool size: 64 pages
-[    5.403155] Installing knfsd (copyright (C) 1996 okir-pn4DOG8n3UYbFoVRYvo4fw@public.gmane.org).
-[    5.483352] SGI XFS with security attributes, debug enabled
-[    5.557838] msgmni has been set to 1751
-[    5.603956] io scheduler noop registered
-[    5.651855] io scheduler cfq registered (default)
-[    5.712714] ACPI: PCI Interrupt Link [APC4] enabled at IRQ 19
-[    5.781483] ACPI: PCI Interrupt 0000:02:00.0[A] -> Link [APC4] -> GSI 19 (level, high) -> IRQ 19
-[    5.887340] radeonfb: Found Intel x86 BIOS ROM Image
-[    5.946814] radeonfb: Retrieved PLL infos from BIOS
-[    6.006043] radeonfb: Reference=27.00 MHz (RefDiv=12) Memory=275.00 Mhz, System=275.00 MHz
-[    6.105234] radeonfb: PLL min 20000 max 35000
-[    6.499835] i2c-adapter i2c-1: unable to read EDID block.
-[    6.706678] i2c-adapter i2c-1: unable to read EDID block.
-[    6.913346] i2c-adapter i2c-1: unable to read EDID block.
-[    7.288455] i2c-adapter i2c-3: unable to read EDID block.
-[    7.496679] i2c-adapter i2c-3: unable to read EDID block.
-[    7.703346] i2c-adapter i2c-3: unable to read EDID block.
-[    7.910012] i2c-adapter i2c-1: unable to read EDID block.
-[    8.116678] i2c-adapter i2c-1: unable to read EDID block.
-[    8.323345] i2c-adapter i2c-1: unable to read EDID block.
-[    8.530012] i2c-adapter i2c-3: unable to read EDID block.
-[    8.736678] i2c-adapter i2c-3: unable to read EDID block.
-[    8.943345] i2c-adapter i2c-3: unable to read EDID block.
-[    9.227411] radeonfb: Monitor 1 type CRT found
-[    9.280015] radeonfb: EDID probed
-[    9.319956] radeonfb: Monitor 2 type no found
-[    9.413340] Console: switching to colour frame buffer device 160x64
-[    9.516862] radeonfb (0000:02:00.0): ATI Radeon 4966 "If"
-[    9.584532] ACPI: ACPI0007:00 is registered as cooling_device0
-[    9.660012] ACPI: LNXTHERM:01 is registered as thermal_zone0
-[    9.731900] ACPI: Thermal Zone [THRM] (49 C)
-[    9.802687] Linux agpgart interface v0.103
-[    9.851833] Hangcheck: starting hangcheck timer 0.9.0 (tick is 180 seconds, margin is 60 seconds).
-[    9.959188] Hangcheck: Using get_cycles().
-[   10.009188] Serial: 8250/16550 driver $Revision: 1.90 $ 4 ports, IRQ sharing disabled
-[   10.103915] serial8250: ttyS0 at I/O 0x3f8 (irq = 4) is a 16550A
-[   10.176434] serial8250: ttyS1 at I/O 0x2f8 (irq = 3) is a 16550A
-[   10.250472] 00:09: ttyS0 at I/O 0x3f8 (irq = 4) is a 16550A
-[   10.320011] 00:0a: ttyS1 at I/O 0x2f8 (irq = 3) is a 16550A
-[   10.390012] lkdtm : Invalid command
-[   10.430066] kgdb: Registered I/O driver kgdbts.
-[   10.486286] kgdbts:RUN plant and detach test
-[   10.536845] kgdbts:RUN sw breakpoint test
-[   10.584854] kgdbts:RUN bad memory access test
-[   10.637084] kgdbts:RUN singlestep test 1000 iterations
-[   10.699071] kgdbts:RUN singlestep [0/1000]
-[   10.756684] kgdbts:RUN singlestep [100/1000]
-[   10.816687] kgdbts:RUN singlestep [200/1000]
-[   10.876180] kgdbts:RUN singlestep [300/1000]
-[   10.935148] kgdbts:RUN singlestep [400/1000]
-[   10.993351] kgdbts:RUN singlestep [500/1000]
-[   11.053128] kgdbts:RUN singlestep [600/1000]
-[   11.112563] kgdbts:RUN singlestep [700/1000]
-[   11.173360] kgdbts:RUN singlestep [800/1000]
-[   11.233347] kgdbts:RUN singlestep [900/1000]
-[   11.292342] kgdbts:RUN hw breakpoint test
-[   11.340058] kgdbts:RUN hw write breakpoint test
-[   11.394299] kgdbts:RUN access write breakpoint test
-[   11.452755] kgdbts:RUN do_fork for 100 breakpoints
-[   11.510236] Intel(R) PRO/1000 Network Driver - version 7.3.20-k2-NAPI
-[   11.587380] Copyright (c) 1999-2006 Intel Corporation.
-[   11.650023] ACPI: PCI Interrupt Link [APC3] enabled at IRQ 18
-[   11.718842] ACPI: PCI Interrupt 0000:01:06.0[A] -> Link [APC3] -> GSI 18 (level, high) -> IRQ 18
-[   12.075871] e1000: 0000:01:06.0: e1000_probe: (PCI:33MHz:32-bit) 00:07:e9:09:d4:79
-[   12.197330] e1000: eth0: e1000_probe: Intel(R) PRO/1000 Network Connection
-[   12.282893] forcedeth: Reverse Engineered nForce ethernet driver. Version 0.61.
-[   12.373343] ACPI: PCI Interrupt Link [APCH] enabled at IRQ 22
-[   12.443355] ACPI: PCI Interrupt 0000:00:04.0[A] -> Link [APCH] -> GSI 22 (level, high) -> IRQ 22
-[   13.068568] forcedeth 0000:00:04.0: ifname eth1, PHY OUI 0x732 @ 1, addr 00:50:8d:f5:11:16
-[   13.170022] forcedeth 0000:00:04.0: timirq lnktim desc-v1
-[   13.240185] netconsole: local port 6665
-[   13.287129] netconsole: local IP 192.168.99.1
-[   13.342839] netconsole: interface eth0
-[   13.390446] netconsole: remote port 6666
-[   13.440129] netconsole: remote IP 192.168.99.2
-[   13.496067] netconsole: remote ethernet address 00:1d:7d:d1:c3:69
-[   13.571871] netconsole: device eth0 not up yet, forcing it
-[   17.646679] netconsole: timeout waiting for carrier
-[   17.728354] console [netcon0] enabled
-[   22.390008] e1000: eth0: e1000_watchdog: NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX/TX
-[   22.500020] netconsole: network logging started
-[   22.563363] Driver 'sd' needs updating - please use bus_type methods
-[   22.643983] scsi0 : pata_amd
-[   22.683554] scsi1 : pata_amd
-[   22.726676] ata1: PATA max UDMA/133 cmd 0x1f0 ctl 0x3f6 bmdma 0xf000 irq 14
-[   22.813363] ata2: PATA max UDMA/133 cmd 0x170 ctl 0x376 bmdma 0xf008 irq 15
-[   23.063175] ata1.00: ATA-7: ST3250823A, 3.02, max UDMA/100
-[   23.132661] ata1.00: 488397168 sectors, multi 16: LBA48 
-[   23.206262] ata1.00: configured for UDMA/100
-[   23.463230] ata2.01: ATA-7: ST3250824A, 3.AAD, max UDMA/100
-[   23.532503] ata2.01: 488397168 sectors, multi 16: LBA48 
-[   23.646675] ata2.01: configured for UDMA/100
-[   23.714162] scsi 0:0:0:0: Direct-Access     ATA      ST3250823A       3.02 PQ: 0 ANSI: 5
-[   23.816130] sd 0:0:0:0: [sda] 488397168 512-byte hardware sectors (250059 MB)
-[   23.905624] sd 0:0:0:0: [sda] Write Protect is off
-[   23.969025] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-[   24.082811] sd 0:0:0:0: [sda] 488397168 512-byte hardware sectors (250059 MB)
-[   24.170125] sd 0:0:0:0: [sda] Write Protect is off
-[   24.233013] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-[   24.346621]  sda: sda1 sda2 sda3
-[   24.410548] sd 0:0:0:0: [sda] Attached SCSI disk
-[   24.470583] sd 0:0:0:0: Attached scsi generic sg0 type 0
-[   24.538903] scsi 1:0:1:0: Direct-Access     ATA      ST3250824A       3.AA PQ: 0 ANSI: 5
-[   24.640703] sd 1:0:1:0: [sdb] 488397168 512-byte hardware sectors (250059 MB)
-[   24.730228] sd 1:0:1:0: [sdb] Write Protect is off
-[   24.792299] sd 1:0:1:0: [sdb] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-[   24.904015] sd 1:0:1:0: [sdb] 488397168 512-byte hardware sectors (250059 MB)
-[   24.993633] sd 1:0:1:0: [sdb] Write Protect is off
-[   25.056383] sd 1:0:1:0: [sdb] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-[   25.168908]  sdb: sdb1
-[   25.222522] sd 1:0:1:0: [sdb] Attached SCSI disk
-[   25.282797] sd 1:0:1:0: Attached scsi generic sg1 type 0
-[   25.352570] ACPI: PCI Interrupt 0000:01:0a.0[A] -> Link [APC3] -> GSI 18 (level, high) -> IRQ 18
-[   25.562755] pata_pdc2027x 0000:01:0a.0: PLL input clock 16703 kHz
-[   25.670005] scsi2 : pata_pdc2027x
-[   25.714861] scsi3 : pata_pdc2027x
-[   25.759611] ata3: PATA max UDMA/100 mmio m65536@0xed040000 cmd 0xed0417c0 irq 18
-[   25.852887] ata4: PATA max UDMA/100 mmio m65536@0xed040000 cmd 0xed0415c0 irq 18
-[   26.106252] ata3.00: ATA-7: ST3250823A, 3.03, max UDMA/100
-[   26.176719] ata3.00: 488397168 sectors, multi 16: LBA48 
-[   26.256675] ata3.00: configured for UDMA/100
-[   26.506675] ata4.00: HPA detected: current 488395055, native 488397168
-[   26.587237] ata4.00: ATA-7: ST3250824A, 3.AAD, max UDMA/100
-[   26.658915] ata4.00: 488395055 sectors, multi 16: LBA48 
-[   26.772107] ata4.00: configured for UDMA/100
-[   26.843344] scsi 2:0:0:0: Direct-Access     ATA      ST3250823A       3.03 PQ: 0 ANSI: 5
-[   26.944390] sd 2:0:0:0: [sdc] 488397168 512-byte hardware sectors (250059 MB)
-[   27.035508] sd 2:0:0:0: [sdc] Write Protect is off
-[   27.096894] sd 2:0:0:0: [sdc] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-[   27.210371] sd 2:0:0:0: [sdc] 488397168 512-byte hardware sectors (250059 MB)
-[   27.300753] sd 2:0:0:0: [sdc] Write Protect is off
-[   27.363333] sd 2:0:0:0: [sdc] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-[   27.476488]  sdc: sdc1
-[   27.521768] sd 2:0:0:0: [sdc] Attached SCSI disk
-[   27.582698] sd 2:0:0:0: Attached scsi generic sg2 type 0
-[   27.652220] scsi 3:0:0:0: Direct-Access     ATA      ST3250824A       3.AA PQ: 0 ANSI: 5
-[   27.755624] sd 3:0:0:0: [sdd] 488395055 512-byte hardware sectors (250058 MB)
-[   27.846197] sd 3:0:0:0: [sdd] Write Protect is off
-[   27.908817] sd 3:0:0:0: [sdd] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-[   28.022582] sd 3:0:0:0: [sdd] 488395055 512-byte hardware sectors (250058 MB)
-[   28.113224] sd 3:0:0:0: [sdd] Write Protect is off
-[   28.175944] sd 3:0:0:0: [sdd] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-[   28.289449]  sdd: sdd1
-[   28.342483] sd 3:0:0:0: [sdd] Attached SCSI disk
-[   28.403854] sd 3:0:0:0: Attached scsi generic sg3 type 0
-[   28.473679] PNP: PS/2 Controller [PNP0303:PS2K] at 0x60,0x64 irq 1
-[   28.552782] PNP: PS/2 appears to have AUX port disabled, if this is incorrect please boot with i8042.nopnp
-[   28.674669] serio: i8042 KBD port at 0x60,0x64 irq 1
-[   28.740592] mice: PS/2 mouse device common for all mice
-[   28.810008] rtc_cmos 00:06: rtc core: registered rtc_cmos as rtc0
-[   28.886761] rtc0: alarms up to one year, y3k
-[   28.956677] input: AT Translated Set 2 keyboard as /class/input/input0
-[   29.059213] rtc-test rtc-test.0: rtc core: registered test as rtc1
-[   29.139204] rtc-test rtc-test.1: rtc core: registered test as rtc2
-[   29.218857] Software Watchdog Timer: 0.07 initialized. soft_noboot=0 soft_margin=60 sec (nowayout= 0)
-[   29.334632] cpuidle: using governor ladder
-[   29.389019] cpuidle: using governor menu
-[   29.441934] oprofile: using NMI interrupt.
-[   29.498914] TCP cubic registered
-[   29.542715] NET: Registered protocol family 17
-[   29.603343] RPC: Registered udp transport module.
-[   29.663368] RPC: Registered tcp transport module.
-[   29.726465] Using IPI Shortcut mode
-[   29.774599] rtc_cmos 00:06: setting system clock to 2008-07-21 10:17:20 UTC (1216635440)
-[   29.877905] ReiserFS: sda1: found reiserfs format "3.6" with standard journal
-[   29.968639] ReiserFS: sda1: using ordered data mode
-[   30.036678] ReiserFS: sda1: journal params: device sda1, size 8192, journal first block 18, max trans len 1024, max batch 900, max commit age 30, max trans age 30
-[   30.221719] ReiserFS: sda1: checking transaction log (sda1)
-[   32.773360] CPA self-test:
-[   32.811244]  4k 4096 large 220 gb 0 x 4316[c0000000-f7fff000] miss 0
-[   32.902836]  4k 197632 large 31 gb 0 x 197663[c0000000-f7fff000] miss 0
-[   32.990007]  4k 197632 large 31 gb 0 x 197663[c0000000-f7fff000] miss 0
-[   33.074482] ok.
-[   96.133784] ReiserFS: sda1: replayed 376 transactions in 65 seconds
-[   96.230717] ReiserFS: sda1: Using r5 hash to sort names
-[   96.309203] VFS: Mounted root (reiserfs filesystem) readonly.
-[   96.386655] debug: unmapping init memory c04b5000..c04df000
-[   96.705580] khelper used greatest stack depth: 2488 bytes left
-[   97.351270] init-early.sh used greatest stack depth: 1268 bytes left
-[ 4769.633975]  [<c0104aaf>] <2>BUG: recent printk recursion!
-[ 4769.633975]  [<c0103712>] common_interrupt+0x2e/0x34
-[ 4769.633975]  [<c022cb06>] ? xfs_trans_buf_item_match+0x76/0x9b
-[ 4769.633975]  [<c022d5ba>] xfs_trans_read_buf+0x10b/0x4b2
-[ 4769.633975]  [<c01fdd44>] xfs_btree_read_bufl+0x7d/0xbd
-[ 4769.633975]  [<c01fb213>] xfs_bmbt_rshift+0xaa/0x512
-[ 4769.633975]  [<c02599e3>] ? random32+0x24/0x3d
-[ 4769.633975]  [<c020c944>] ? xfs_error_test+0x14/0x7c
-[ 4769.633975]  [<c01fe55a>] ? xfs_btree_check_lblock+0x13f/0x180
-[ 4769.633975]  [<c01fe740>] ? xfs_btree_check_rec+0xa2/0x116
-[ 4769.633975]  [<c01fb99e>] xfs_bmbt_insrec+0x323/0x6ed
-[ 4769.633975]  [<c022d8d7>] ? xfs_trans_read_buf+0x428/0x4b2
-[ 4769.633975]  [<c020c944>] ? xfs_error_test+0x14/0x7c
-[ 4769.633975]  [<c01fbdd4>] xfs_bmbt_insert+0x6c/0x1d2
-[ 4769.633975]  [<c01f4531>] xfs_bmap_add_extent_delay_real+0x6e5/0x1352
-[ 4769.633975]  [<c012ce97>] ? up_read+0x16/0x2b
-[ 4769.633975]  [<c01e4139>] ? xfs_alloc_vextent+0x3d3/0x686
-[ 4769.633975]  [<c01f6504>] xfs_bmap_add_extent+0x25c/0x4cb
-[ 4769.633975]  [<c01f71ab>] xfs_bmapi+0xa38/0x1765
-[ 4769.633975]  [<c0135f32>] ? __lock_acquire+0xc26/0xc35
-[ 4769.633975]  [<c021b74f>] xfs_iomap_write_allocate+0x20c/0x33c
-[ 4769.633975]  [<c021c482>] xfs_iomap+0x29d/0x30b
-[ 4769.633975]  [<c0235f8a>] xfs_map_blocks+0x2b/0x62
-[ 4769.633975]  [<c0237058>] xfs_page_state_convert+0x2d7/0x569
-[ 4769.633975]  [<c0237409>] xfs_vm_writepage+0x89/0xbd
-[ 4769.633975]  [<c01485ba>] __writepage+0xb/0x26
-[ 4769.633975]  [<c0148d5e>] write_cache_pages+0x153/0x25d
-[ 4769.633975]  [<c01485af>] ? __writepage+0x0/0x26
-[ 4769.633975]  [<c0148e85>] generic_writepages+0x1d/0x27
-[ 4769.633975]  [<c0235f59>] xfs_vm_writepages+0x3d/0x43
-[ 4769.633975]  [<c0235f1c>] ? xfs_vm_writepages+0x0/0x43
-[ 4769.633975]  [<c0148eb2>] do_writepages+0x23/0x34
-[ 4769.633975]  [<c0179b6a>] __writeback_single_inode+0x14c/0x26d
-[ 4769.633975]  [<c0133c22>] ? put_lock_stats+0xd/0x21
-[ 4769.633975]  [<c017a00f>] sync_sb_inodes+0x1c5/0x276
-[ 4769.633975]  [<c017a296>] writeback_inodes+0x8d/0xe2
-[ 4769.633975]  [<c0149552>] balance_dirty_pages_ratelimited_nr+0x11d/0x22a
-[ 4769.633975]  [<c01496a3>] set_page_dirty_balance+0x44/0x48
-[ 4769.633975]  [<c014e8a9>] __do_fault+0x2c7/0x2d9
-[ 4769.633975]  [<c014fb7d>] handle_mm_fault+0x262/0x53c
-[ 4769.633975]  [<c0385f13>] ? do_page_fault+0x22e/0x6a1
-[ 4769.633975]  [<c012cd7c>] ? down_read_trylock+0x36/0x40
-[ 4769.633975]  [<c0385fe6>] do_page_fault+0x301/0x6a1
-[ 4769.633975]  [<c012ce97>] ? up_read+0x16/0x2b
-[ 4769.633975]  [<c0386043>] ? do_page_fault+0x35e/0x6a1
-[ 4769.633975]  [<c0135f32>] ? __lock_acquire+0xc26/0xc35
-[ 4769.633975]  [<c0135f32>] ? __lock_acquire+0xc26/0xc35
-[ 4769.633975]  [<c0385ce5>] ? do_page_fault+0x0/0x6a1
-[ 4769.633975]  [<c0385ce5>] ? do_page_fault+0x0/0x6a1
-[ 4769.633975]  [<c03847d2>] error_code+0x6a/0x70
-[ 4769.633975]  [<c0258e90>] ? copy_to_user+0xfe/0x106
-[ 4769.633975]  [<c031cda0>] memcpy_toiovec+0x2c/0x50
-[ 4769.633975]  [<c031d279>] skb_copy_datagram_iovec+0x47/0x194
-[ 4769.633975]  [<c0383fb2>] ? _spin_unlock_bh+0x2f/0x32
-[ 4769.633975]  [<c0318407>] ? release_sock+0xac/0xb4
-[ 4769.633975]  [<c033ca51>] tcp_recvmsg+0x46d/0x70b
-[ 4769.633975]  [<c0317b3a>] sock_common_recvmsg+0x31/0x4a
-[ 4769.633975]  [<c0316917>] sock_recvmsg+0xd0/0xe8
-[ 4769.633975]  [<c0129cbf>] ? autoremove_wake_function+0x0/0x33
-[ 4769.633975]  [<c0135f32>] ? __lock_acquire+0xc26/0xc35
-[ 4769.633975]  [<c0135f32>] ? __lock_acquire+0xc26/0xc35
-[ 4769.633975]  [<c03174b5>] sys_recvfrom+0x7b/0xba
-[ 4769.633975]  [<c0106beb>] ? native_sched_clock+0x7f/0x91
-[ 4769.633975]  [<c0133c22>] ? put_lock_stats+0xd/0x21
-[ 4769.633975]  [<c0382ecf>] ? __mutex_unlock_slowpath+0xca/0xe3
-[ 4769.633975]  [<c0134dfa>] ? trace_hardirqs_on+0xe6/0x10d
-[ 4769.633975]  [<c0382ef0>] ? mutex_unlock+0x8/0xa
-[ 4769.633975]  [<c031750c>] sys_recv+0x18/0x1a
-[ 4769.633975]  [<c031785c>] sys_socketcall+0xed/0x169
-[ 4769.633975]  [<c0102cd0>] ? sysenter_past_esp+0xa5/0xb1
-[ 4769.633975]  [<c0102c95>] sysenter_past_esp+0x6a/0xb1
-[ 4769.633975]  [<c011b098>] ? vprintk+0x343/0x378
-[ 4769.633975]  [<c027410a>] ? fbcon_putcs+0x1cf/0x215
-[ 4769.633975]  [<c0141d9c>] ? __rcu_read_unlock+0x54/0x62
-[ 4769.633975]  [<c03864bf>] ? __atomic_notifier_call_chain+0x2c/0x36
-[ 4769.633975]  [<c013e161>] ? __print_symbol+0x21/0x2a
-[ 4769.633975]  [<c038639d>] ? sub_preempt_count+0x17/0x60
-[ 4769.633975]  [<c038404b>] ? _spin_unlock_irqrestore+0x54/0x58
-[ 4769.633975]  [<c011abb7>] ? release_console_sem+0x197/0x19f
-[ 4769.633975]  [<c038639d>] ? sub_preempt_count+0x17/0x60
-[ 4769.633975]  [<c011b0aa>] ? vprintk+0x355/0x378
-[ 4769.633975]  [<c011abb7>] ? release_console_sem+0x197/0x19f
-[ 4769.633975]  [<c011abb7>] ? release_console_sem+0x197/0x19f
-[ 4769.633975]  [<c011abb7>] ? release_console_sem+0x197/0x19f
-[ 4769.633975]  [<c010d4e1>] ? touch_nmi_watchdog+0x24/0x26
-[ 4769.633975]  [<c01282a5>] ? __kernel_text_address+0x34/0x3e
-[ 4769.633975]  [<c0103cbb>] ? dump_trace+0xae/0xe2
-[ 4769.633975]  [<c0103bce>] ? print_trace_address+0x0/0x3f
-[ 4769.633975]  [<c0104645>] ? show_trace+0x15/0x29
-[ 4769.633975]  [<c0104aaf>] ? do_IRQ+0x61/0xe2
-[ 4769.633975]  [<c0103712>] ? common_interrupt+0x2e/0x34
-[ 4769.633975]  [<c022cb06>] ? xfs_trans_buf_item_match+0x76/0x9b
-[ 4769.633975]  [<c022d5ba>] ? xfs_trans_read_buf+0x10b/0x4b2
-[ 4769.633975]  [<c01fdd44>] ? xfs_btree_read_bufl+0x7d/0xbd
-[ 4769.633975]  [<c01fb213>] ? xfs_bmbt_rshift+0xaa/0x512
-[ 4769.633975]  [<c02599e3>] ? random32+0x24/0x3d
-[ 4769.633975]  [<c020c944>] ? xfs_error_test+0x14/0x7c
-[ 4769.633975]  [<c01fe55a>] ? xfs_btree_check_lblock+0x13f/0x180
-[ 4769.633975]  [<c01fe740>] ? xfs_btree_check_rec+0xa2/0x116
-[ 4769.633975]  [<c01fb99e>] ? xfs_bmbt_insrec+0x323/0x6ed
-[ 4769.633975]  [<c022d8d7>] ? xfs_trans_read_buf+0x428/0x4b2
-[ 4769.633975]  [<c020c944>] ? xfs_error_test+0x14/0x7c
-[ 4769.633975]  [<c01fbdd4>] ? xfs_bmbt_insert+0x6c/0x1d2
-[ 4769.633975]  [<c01f4531>] ? xfs_bmap_add_extent_delay_real+0x6e5/0x1352
-[ 4769.633975]  [<c012ce97>] ? up_read+0x16/0x2b
-[ 4769.633975]  [<c01e4139>] ? xfs_alloc_vextent+0x3d3/0x686
-[ 4769.633975]  [<c01f6504>] ? xfs_bmap_add_extent+0x25c/0x4cb
-[ 4769.633975]  [<c01f71ab>] ? xfs_bmapi+0xa38/0x1765
-[ 4769.633975]  [<c0135f32>] ? __lock_acquire+0xc26/0xc35
-[ 4769.633975]  [<c021b74f>] ? xfs_iomap_write_allocate+0x20c/0x33c
+[ 7788.611448] Oops: 0002 [#1] PREEMPT DEBUG_PAGEALLOC
+[ 7788.612565] Modules linked in: i2c_nforce2
+[ 7788.612565] 
+[ 7788.612565] Pid: 0, comm: swapper Not tainted (2.6.26 #12)
+[ 7788.612565] EIP: 0060:[<c0342731>] EFLAGS: 00010246 CPU: 0
+[ 7788.612565] EIP is at tcp_data_queue+0x35c/0xc96
+[ 7788.612565] EAX: 5a5a5a5a EBX: f4c43e20 ECX: 6b7cb7ee EDX: 5a5a5a5a
+[ 7788.612565] ESI: f293c600 EDI: f4c43e00 EBP: c04e2e90 ESP: c04e2e4c
+[ 7788.612565]  DS: 007b ES: 007b FS: 0000 GS: 0000 SS: 0068
+[ 7788.612565] Process swapper (pid: 0, ti=c04e2000 task=c04833a8 task.ti=c04b4000)
+[ 7788.612565] Stack: f4e80ee0 ffffffff 00000000 00000000 d7956272 00000002 00000000 f4e80ee0 
+[ 7788.612565]        f293cac4 f293c6cc 5a5a5a5a f4c43e20 f4e80ee0 d7956272 00224726 f293c600 
+[ 7788.612565]        f4e80ee0 c04e2ecc c0344677 00000246 00000000 d7956272 f4e80f00 c0133c22 
+[ 7788.612565] Call Trace:
+[ 7788.612565]  [<c0344677>] ? tcp_rcv_established+0x771/0x96a
+[ 7788.612565]  [<c0133c22>] ? put_lock_stats+0xd/0x21
+[ 7788.612565]  [<c03497f9>] ? tcp_v4_do_rcv+0x25/0x14e
+[ 7788.612565]  [<c0384141>] ? _spin_lock_nested+0x4f/0x57
+[ 7788.612565]  [<c0349c1c>] ? tcp_v4_rcv+0x2fa/0x492
+[ 7788.612565]  [<c0333b0a>] ? ip_local_deliver+0x7d/0xcd
+[ 7788.612565]  [<c0333a66>] ? ip_rcv+0x352/0x379
+[ 7788.612565]  [<c012ccab>] ? ktime_get_real+0x13/0x30
+[ 7788.612565]  [<c031fe39>] ? netif_receive_skb+0x1ec/0x21a
+[ 7788.612565]  [<c032b998>] ? eth_type_trans+0x28/0xcc
+[ 7788.612565]  [<c02e4af0>] ? nv_napi_poll+0x1fa/0x61a
+[ 7788.612565]  [<c0134c70>] ? mark_held_locks+0x4e/0x66
+[ 7788.612565]  [<c0134de4>] ? trace_hardirqs_on+0xd0/0x10d
+[ 7788.612565]  [<c031ef4c>] ? net_rx_action+0x8b/0x14e
+[ 7788.612565]  [<c011eb9f>] ? __do_softirq+0x54/0xa1
+[ 7788.612565]  [<c0141293>] ? handle_fasteoi_irq+0x0/0xab
+[ 7788.612565]  [<c010494f>] ? do_softirq+0x57/0xa6
+[ 7788.612565]  [<c011e795>] ? irq_exit+0x3b/0x7c
+[ 7788.612565]  [<c0104b18>] ? do_IRQ+0xca/0xe2
+[ 7788.612565]  [<c0101d2a>] ? default_idle+0x0/0x4e
+[ 7788.612565]  [<c0101d2a>] ? default_idle+0x0/0x4e
+[ 7788.612565]  [<c0103712>] ? common_interrupt+0x2e/0x34
+[ 7788.612565]  [<c0101d2a>] ? default_idle+0x0/0x4e
+[ 7788.612565]  [<c0101d2a>] ? default_idle+0x0/0x4e
+[ 7788.612565]  [<c0101d57>] ? default_idle+0x2d/0x4e
+[ 7788.612565]  [<c0101cfd>] ? cpu_idle+0x62/0x8f
+[ 7788.612565]  [<c0376bf9>] ? rest_init+0x61/0x63
+[ 7788.612565]  =======================
+[ 7788.612565] Code: d1 78 36 f6 c4 04 74 0b 68 2e 6d 46 c0 e8 9e 59 04 00 58 ff 8e cc 04 00 00 8b 47 04 8b 17 c7 47 04 00 00 00 00 c7 07 00 00 00 00 <89> 42 04 89 10 89 f8 e8 d2 91 fd ff eb 65 f6 c4 04 74 15 8b 45 
+[ 7788.612565] EIP: [<c0342731>] tcp_data_queue+0x35c/0xc96 SS:ESP 0068:c04e2e4c
+[ 7791.577851] Kernel panic - not syncing: Fatal exception in interrupt
 
---AhhlLboLdkugWU4S
+--2B/JsCI69OhZNC5r
 Content-Type: application/octet-stream
 Content-Disposition: attachment; filename="config.gz"
 Content-Transfer-Encoding: base64
@@ -820,4 +262,4 @@ YbYbsZds/Hi7VnhuhCYlGTDaKuDAQrOKnLGrXfjpNlmVWPX8X2CzIFW5DjPfZlJqZLG8OsjX
 ej8qPFklkHMoy6SWspkvrqK4oGUtEC9M+izctWop9z77fMQl1jK+gzW7X8cl2wcZuy2b7bRE
 zCdKSez1p8Z2A6Fu3NaEAm2xvHMUIvUcBmSCOOH/pfwjVbSOAAA=
 
---AhhlLboLdkugWU4S--
+--2B/JsCI69OhZNC5r--
