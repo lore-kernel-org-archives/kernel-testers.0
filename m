@@ -1,99 +1,77 @@
-From: Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: ACPI Error under 2.6.26-rc*
-Date: Tue, 22 Jul 2008 10:22:39 +0800
-Message-ID: <1216693359.1617.258.camel@rzhang-fc9>
-References: <20080709083829.GA5748@linux.int.dgn.ag>
-	 <200807102255.23090.rjw@sisk.pl> <1215739210.1617.28.camel@rzhang-dt>
-	 <1215739682.1617.32.camel@rzhang-dt>
-	 <20080714080914.GA4965@linux.int.dgn.ag>
-	 <1216026701.1617.82.camel@rzhang-dt>
-	 <20080715074130.GA4724@linux.int.dgn.ag>
-	 <1216111260.1617.131.camel@rzhang-dt>
-	 <20080717084102.GA4597@linux.int.dgn.ag>
+From: Yasunori Goto <y-goto-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Subject: Re: linux-next: Tree for July 18: warning at kernel/lockdep.c:2068
+	trace_hardirqs_on_caller
+Date: Tue, 22 Jul 2008 15:15:11 +0900
+Message-ID: <20080722142345.8733.E1E9C6FF@jp.fujitsu.com>
+References: <20080721133937.GC4451@redhat.com>
+	<20080721170037.1a0046b1@halley.suse.de>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080717084102.GA4597-VuQAYsv1561O042OENdYwQ@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Andre Prendel <andre_prendel-Mmb7MZpHnFY@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, ACPI Devel Maling List <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Zhao, Yakui" <yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <kexec-bounces+glkk-kexec=m.gmane.org-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>
+In-Reply-To: <20080721170037.1a0046b1-oJhqVyG5NZ9bpigZmTR7Iw@public.gmane.org>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/listinfo/kexec>,
+	<mailto:kexec-request-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/kexec>
+List-Post: <mailto:kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>
+List-Help: <mailto:kexec-request-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/kexec>,
+	<mailto:kexec-request-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org?subject=subscribe>
+Sender: kexec-bounces-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org
+Errors-To: kexec-bounces+glkk-kexec=m.gmane.org-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org
+To: Bernhard Walle <bwalle-l3A5Bk7waGM@public.gmane.org>
+Cc: Stephen Rothwell <sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg KH <gregkh-l3A5Bk7waGM@public.gmane.org>, kexec <kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Hansen <dave-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Mariusz Kozlowski <m.kozlowski-NWF1p15JEu3VItvQsEIGlw@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, linux-next-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Vivek Goyal <vgoyal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-On Thu, 2008-07-17 at 16:41 +0800, Andre Prendel wrote:
-> On Tue, Jul 15, 2008 at 04:41:00PM +0800, Zhang Rui wrote:
-> > > > It seems that OS failed to get the correct RSDT address
-> > > (0x1fff0000),
-> > > > although the RSDP is found correctly. (=EF=BB=BFACPI: RSDP 000F=
-A340,
-> 0014)
-> > > >
-> > > > please run "./acpidump --addr 0xFA340 --length 0x14 > rsdp_xxx"=
-,
-> > > > and attach the rsdp for all of the three cases (good, ACPI
-> Error,
-> > > ACPI
-> > > > Exception).
-> > > Hello Rui,
-> > >
-> > > here is the output of the three cases. The dump files are attache=
-d
-> > > too.
-> > >
-> > > ----
-> > > good
-> > > ----
-> > > andre@ubuntu:~/src/acpi/pmtools-20071116/acpidump$ hexdump
-> rsdp_good
-> > > 0000000 5352 2044 5450 2052 418c 494d 2020 0020
-> > > 0000010 0000 1fff                           =20
-> > > 0000014
-> > >
-> > > -----
-> > > error
-> > > -----
-> > > andre@ubuntu:~/src/acpi/pmtools-20071116/acpidump$ hexdump
-> rsdp_error
-> > > 0000000 5352 2044 5450 2052 418a 494d 2020 0020
-> > > 0000010 0000 21ff                           =20
-> > > 0000014
-> > >
-> > > ---------
-> > > exception
-> > > ---------
-> > > andre@ubuntu:~/src/acpi/pmtools-20071116/acpidump$ hexdump
-> > > rsdp_exception
-> > > 0000000 5352 2044 5450 2052 417c 494d 2020 0020
-> > > 0000010 0000 2fff                           =20
-> > > 0000014
-> >
-> > Weird.
-> > The dmesg shows that the memory map gotten from e820 table is
-> changed.
-> > And the file attached shows that rsdp points to different rsdt
-> address.
-> > >
-> > > Now I see the ACPI Error under the 2.6.25.10 kernel sometimes too=
-,
-> but
-> > > power off works well. So I also attach the two configs. Maybe the
-> > > different config is the reason why power off works under
-> 2.6.25.10.
-> > so you may get different e820 table when running 2.6.25.10 as well?
-> > could you please attach the dmesg output of a 2.6.25.10 kernel whic=
-h
-> has
-> > the ACPI error?
->=20
-> Attached. Yes, the e820 table differs, but power off still works.
+Hello.
 
-Hmm, there seems to be two bugs here.
-1. invalid e820 tables, which seems like a BIOS bug, please try to
-upgrade your BIOS.
-2. poweroff doesn't work.
-   Hmm, please try boot option "acpi=3Doff" in both 2.6.25 and 2.6.26.
-   I guess power off works on 2.6.25 while it fails on 2.6.26, right?
+> > > > Is /proc/iomem updated upon memory hotplug event.
+> > > 
+> > > Yes. I just checked that (yesterday).
+> > > 
+> > > I think it would make sense to extend /sys/firmware/memmap on
+> > > hot-plugging. Just because on reboot, the firmware will see that
+> > > memory, too, and report it. However, we need a way to discriminate the
+> > > originally firmware-provided memory map with later added memory. I'm
+> > > not sure how that can be done, I have to think about it.
+> > 
+> > Probably use another type of RAM identifier (System RAM (hotplug)).
+> > 
+> > But the point is, if /sys/devices/system/memory also represents all
+> > the physical memory present in the system then it might be not be
+> > justified to create another similar interface. (Until and unless there
+> > is something unique about /sys/firmware/memmap).
+> 
+> But I don't see anything like a physical address there:
+> 
+>   /sys/devices/system/memory/memory2:
+>   -r--r--r-- 1 root root 4096 2008-07-21 15:45 phys_device
+>   -r--r--r-- 1 root root 4096 2008-07-21 15:45 phys_index
+>   -rw-r--r-- 1 root root 4096 2008-07-21 15:45 state
+> 
+> (on a PPC64 machine where SUSE kernel has that interface enabled by
+> default).
 
-thanks,
-rui
+I wrote about them Documentation/memory-hotplug.txt. Please see it.
 
+But I think /sys/firmware/memmap is better for kexec than using them.
+They are made for each sections whose size is fixed on each architecture.
+There is no information about areas which are occupied by firmware, and
+its fixed size directories are not suitable to show them.
+
+
+BTW, does kexec needs the information about not only hot-added normal memory
+but also "hot-added occupied (reserved) memory by firmware"?
+Fujitsu has ia64 box which can add memory. The information about memory
+area is notified via _CRS method of ACPI. Our firmware team said that
+there was no interface to notify the area which was occupied by firmware.
+So, _CRS shows only normal (not-reserved) memory area. It means OS can't know
+reserved memory which is hot-added.
+
+If kexec has to know those reserved area, then it is very bad news for me. :-(
+
+
+Thanks.
+
+-- 
+Yasunori Goto 
