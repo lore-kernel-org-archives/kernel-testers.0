@@ -1,62 +1,46 @@
-From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+From: David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 Subject: Re: Error on Make Modules [2.6.27-rc1]
-Date: Sat, 2 Aug 2008 01:41:53 +0300
-Message-ID: <20080801224153.GL19682@cs181140183.pp.htv.fi>
+Date: Fri, 01 Aug 2008 23:51:40 +0100
+Message-ID: <1217631100.3719.44.camel@shinybook.infradead.org>
 References: <264b990a0807312306jc064bbbp144342de555ac4f1@mail.gmail.com>
+	 <20080801224153.GL19682@cs181140183.pp.htv.fi>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <264b990a0807312306jc064bbbp144342de555ac4f1-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20080801224153.GL19682-re2QNgSbS3j4D6uPqz5PAwR5/fbUUdgG@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Yudha Harimantoro T <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Avuton Olrich <avuton-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Yudha Harimantoro T <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Avuton Olrich <avuton-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Fri, Aug 01, 2008 at 01:06:33PM +0700, Yudha Harimantoro T wrote:
-> Hi,
-> I make with 2.6.27-rc1 with my oldconfig.
-> 
-> I build the kernel and there's error on modules.
-> Errors :
-> -----------------------------------------------------------------------
-> root@system:/usr/src/linux# make
-> ...................
-> ...................
-> CC      net/xfrm/xfrm_ipcomp.mod.ko
-> LD [M] net/xfrm/xfrm_ipcomp.ko
-> make[1]: Nothing to be done for `__fw_modbuild'.
-> root@system:/usr/src/linux# make modules
->   CHK     include/linux/version.h
->   CHK     include/linux/utsrelease.h
->   CALL    scripts/checksyscalls.sh
->   Building modules, stage 2.
->   MODPOST 545 modules
-> make[1]: Nothing to be done for `__fw_modbuild'.
-> root@system:/usr/src/linux#
-> -----------------------------------------------------------------------
+On Sat, 2008-08-02 at 01:41 +0300, Adrian Bunk wrote:
+> Can you somehow hide this message?
 
-Thanks for your report, everything is fine here.
+I'll leave the __fw_install one alone, so that if there's nothing to do
+for 'make firmware_install' it says so rather than just doing nothing.
+The other two can shut up, as requested.
 
-@David, Sam:
+Signed-off-by: David Woodhouse <David.Woodhouse-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-This is the second report where a user thought this was an error 
-message.
-
-Kbuild does otherwise not show raw messages from GNU make.
-
-Can you somehow hide this message?
-
-> Best regards,
-> Yudha_HT
-
-cu
-Adrian
+diff --git a/scripts/Makefile.fwinst b/scripts/Makefile.fwinst
+index f63a663..6bf8e87 100644
+--- a/scripts/Makefile.fwinst
++++ b/scripts/Makefile.fwinst
+@@ -50,8 +50,12 @@ PHONY +=  __fw_install __fw_modinst FORCE
+ .PHONY: $(PHONY)
+ 
+ __fw_install: $(installed-fw)
++
+ __fw_modinst: $(installed-mod-fw)
++	@:
++
+ __fw_modbuild: $(addprefix $(obj)/,$(mod-fw))
++	@:
+ 
+ FORCE:
+ 
 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+David Woodhouse                            Open Source Technology Centre
+David.Woodhouse-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org                              Intel Corporation
