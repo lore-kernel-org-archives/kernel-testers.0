@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11232] Console Suspend - Resume Regression
+Subject: [Bug #11219] KVM modules break emergency reboot
 Date: Sat,  2 Aug 2008 20:04:20 +0200 (CEST)
-Message-ID: <5ZeQ4vXWqRC.A.ewC.cMLlIB@albercik>
+Message-ID: <5ZeQ4vXWqRC.A.biD.5MLlIB@albercik>
 References: <cbItfVMShGI.A.olC.UMLlIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dionisus Torimens <djtm-hi6Y0CQ0nG0@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,9 @@ from 2.6.26.  Please verify if it still should be listed
 and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11232
-Subject		: Console Suspend - Resume Regression
-Submitter	: Dionisus Torimens <djtm-hi6Y0CQ0nG0@public.gmane.org>
-Date		: 2008-08-02 10:56 (1 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11219
+Subject		: KVM modules break emergency reboot
+Submitter	: Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-08-01 20:25 (2 days old)
+References	: http://marc.info/?l=linux-kernel&m=121762241105336&w=4
 
