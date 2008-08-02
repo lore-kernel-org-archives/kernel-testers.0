@@ -1,94 +1,304 @@
-From: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.27-rc1-mm1: rmmod ide-cd_mod oops
-Date: Sat, 2 Aug 2008 18:15:57 +0200
-Message-ID: <200808021815.57573.bzolnier@gmail.com>
-References: <20080731000354.24b55d5b.akpm@linux-foundation.org> <200808021123.57952.m.kozlowski@tuxland.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: 2.6.27-rc1-git4: Reported regressions from 2.6.26
+Date: Sat,  2 Aug 2008 19:59:41 +0200 (CEST)
+Message-ID: <cbItfVMShGI.A.olC.UMLlIB@albercik>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:from:to:subject:date
-         :user-agent:cc:references:in-reply-to:mime-version
-         :content-disposition:message-id:content-type
-         :content-transfer-encoding;
-        bh=qNGD7KAFRwbIh4KnZAXB42HScOP7eNtRB0zcL17jI98=;
-        b=KGYlb/wjXewioxsyLJMNkAMJw0HW4Ln3qK2pEJNf57mV8O4A6/W1AfIU2PsceA1ne6
-         hszIJKr6To1L+Jre9jj3zBr5t1+QnaZDu+hVe8U/0XSlBUPUp/tB/08D6rpyHCWxYtG4
-         extLMoyjdPIQT8COzp9nwg890BSLVnTGKSH2s=
-In-Reply-To: <200808021123.57952.m.kozlowski-NWF1p15JEu3VItvQsEIGlw@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Mariusz Kozlowski <m.kozlowski-NWF1p15JEu3VItvQsEIGlw@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+
+[Note that all of the suspend/resume regressions seem to result from the same
+couple of bugs, or even one bug, but since that has not been confirmed yet,
+they are listed separately.
+
+Bug submitters also please note that if you CC your reports to
+kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, they will be _much_ easier to track for me
+and pretty much everybody else.]
+
+This message contains a list of some regressions from 2.6.26, for which there
+are no fixes in the mainline I know of.  If any of them have been fixed already,
+please let me know.
+
+If you know of any other unresolved regressions from 2.6.26, please let me know
+either and I'll add them to the list.  Also, please let me know if any of the
+entries below are invalid.
+
+Each entry from the list will be sent additionally in an automatic reply to
+this message with CCs to the people involved in reporting and handling the
+issue.
 
 
-Hi,
+Listed regressions statistics:
 
-On Saturday 02 August 2008, Mariusz Kozlowski wrote:
-> Hi,
-> 
-> 	rmmod on ide-cd_mod causes this oops:
-> 
-> BUG: unable to handle kernel paging request at 83535683
-> IP: [<c0246ffa>] ide_device_put+0xc/0x33
-> *pde = 00000000 
-> Oops: 0000 [#1] PREEMPT 
-> last sysfs file: /sys/devices/pci0000:00/0000:00:01.0/0000:01:05.0/resource
-> Modules linked in: radeon drm nfsd lockd sunrpc exportfs pcmcia uhci_hcd ehci_hcd usbcore snd_ali5451 yenta_socket pcspkr snd_ac97_codec ac97_bus rsrc_nonstatic snd_pcm snd_timer ati_agp agpgart snd soundcore snd_page_alloc ide_cd_mod(-) cdrom 8139too psmouse sony_laptop backlight floppy rtc
-> 
-> Pid: 3890, comm: rmmod Not tainted (2.6.27-rc1-mm1 #2)
-> EIP: 0060:[<c0246ffa>] EFLAGS: 00010286 CPU: 0
-> EIP is at ide_device_put+0xc/0x33
-> EAX: 83535657 EBX: dc927a00 ECX: 00000003 EDX: 00000001
-> ESI: dec34e34 EDI: dec34e34 EBP: d9f46ee0 ESP: d9f46edc
->  DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 0068
-> Process rmmod (pid: 3890, ti=d9f46000 task=dd88e780 task.ti=d9f46000)
-> Stack: dc927c00 d9f46eec dec2e202 dc927c00 d9f46ef8 dec2e225 dd9138dc d9f46f00 
->        c02469e0 d9f46f10 c024156f dd9138dc dd9139f4 d9f46f24 c024162c 00000880 
->        dec34e34 c0397dc0 d9f46f38 c0240a33 00000880 dec34e34 00000000 d9f46f48 
-> Call Trace:
->  [<dec2e202>] ? ide_cd_put+0x26/0x33 [ide_cd_mod]
->  [<dec2e225>] ? ide_cd_remove+0x16/0x19 [ide_cd_mod]
->  [<c02469e0>] ? generic_ide_remove+0x1a/0x1e
->  [<c024156f>] ? __device_release_driver+0x59/0x7f
->  [<c024162c>] ? driver_detach+0x97/0x99
->  [<c0240a33>] ? bus_remove_driver+0x6f/0x8b
->  [<c02419f1>] ? driver_unregister+0x2f/0x33
->  [<dec31331>] ? ide_cdrom_exit+0xd/0xf [ide_cd_mod]
->  [<c014265a>] ? sys_delete_module+0x10d/0x1e2
->  [<c015fedc>] ? do_munmap+0x1d7/0x234
->  [<c01e8684>] ? trace_hardirqs_on_thunk+0xc/0x10
->  [<c0103015>] ? sysenter_do_call+0x12/0x35
->  =======================
-> Code: ff ff 89 44 24 08 c7 44 24 04 a7 de 35 c0 89 34 24 e8 cb ce f9 ff 31 c0 83 c4 0c 5b 5e 5d c3 55 89 e5 53 89 c3 8b 40 24 8b 40 10 <8b> 40 2c 85 c0 74 12 8b 80 44 01 00 00 8b 40 08 85 c0 74 05 e8 
-> EIP: [<c0246ffa>] ide_device_put+0xc/0x33 SS:ESP 0068:d9f46edc
-> ---[ end trace a2eed48430d87636 ]---
-> 
-> this is easily reporoducible, more investigation points here:
+  Date          Total  Pending  Unresolved
+  ----------------------------------------
+  2008-08-02       47       31          20
 
-Unfortunately, I'm unable to reproduce it here with 2.6.27-rc1-mm1.
 
-Which IDE host driver is it happening with?  Could you send me your .config?
+Unresolved regressions
+----------------------
 
-> (gdb) l *ide_device_put+0xc
-> 0xc0246ffa is in ide_device_put (/home/mako/linux/lkt/sources/linux-2.6.27-rc1-mm1/drivers/ide/ide.c:717).
-> 712      * the underlying LLDD module.
-> 713      */
-> 714     void ide_device_put(ide_drive_t *drive)
-> 715     {
-> 716     #ifdef CONFIG_MODULE_UNLOAD
-> 717             struct device *host_dev = drive->hwif->host->dev[0]; <--------------------------
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11233
+Subject		: serial/bfin_5xx.c build error
+Submitter	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Date		: 2008-08-02 11:18 (1 days old)
+References	: http://lkml.org/lkml/2008/8/2/116
 
-Could you please check whether it is drive->hwif or hwif->host exploding?
 
-[ hmm, both should never be changed after host driver initialization ]
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11232
+Subject		: Console Suspend - Resume Regression
+Submitter	: Dionisus Torimens <djtm-hi6Y0CQ0nG0@public.gmane.org>
+Date		: 2008-08-02 10:56 (1 days old)
 
-> 718             struct module *module = host_dev ? host_dev->driver->owner : NULL;
-> 719     
-> 720             if (module)
-> 721                     module_put(module);
-> 
-> 	Mariusz
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11231
+Subject		: gspca_zc3xx oops - 2.6.27-rc1
+Submitter	: Parag Warudkar <parag.warudkar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-08-02 16:22 (1 days old)
+References	: http://marc.info/?l=linux-kernel&m=121769418920774&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11230
+Subject		: Kconfig no longer outputs a .config with freshly updated defconfigs
+Submitter	: Josh Boyer <jwboyer-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Date		: 2008-08-02 16:03 (1 days old)
+References	: http://marc.info/?l=linux-kernel&m=121769306319391&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11229
+Subject		: nfsd, v4: oops in find_acceptable_alias, ppc32 Linux, post-2.6.27-rc1
+Submitter	: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
+Date		: 2008-08-02 12:03 (1 days old)
+References	: http://marc.info/?l=linux-kernel&m=121767906702209&w=4
+Handled-By	: J. Bruce Fields <bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11228
+Subject		: p54usb broken by commit b19fa1f
+Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Date		: 2008-08-02 3:06 (1 days old)
+References	: http://marc.info/?l=linux-kernel&m=121764647801783&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11224
+Subject		: Only three cores found on quad-core machine.
+Submitter	: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date		: 2008-08-01 18:15 (2 days old)
+References	: http://marc.info/?l=linux-kernel&m=121761475224719&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11221
+Subject		: 2.6.27-rc1 oops when plugging USB disk
+Submitter	: Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
+Date		: 2008-08-01 13:35 (2 days old)
+References	: http://marc.info/?l=linux-kernel&m=121759786223716&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11220
+Subject		: Heavy suspend and io problems in 2.6.27-rc1-00156-g94ad374
+Submitter	: Nico Schottelius <nico-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Date		: 2008-07-31 21:05 (3 days old)
+References	: http://marc.info/?l=linux-kernel&m=121753882422899&w=4
+Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11219
+Subject		: KVM modules break emergency reboot
+Submitter	: Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-08-01 20:25 (2 days old)
+References	: http://marc.info/?l=linux-kernel&m=121762241105336&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11218
+Subject		: drivers/serial/crisv10.c build error
+Submitter	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Date		: 2008-08-01 14:48 (2 days old)
+References	: http://lkml.org/lkml/2008/8/1/431
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11215
+Subject		: INFO: possible recursive locking detected ps2_command
+Submitter	: Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-07-31 9:41 (3 days old)
+References	: http://marc.info/?l=linux-kernel&m=121749737011637&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11214
+Subject		: 2.6.27-rc1: I/O errors after resume
+Submitter	: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
+Date		: 2008-07-31 13:04 (3 days old)
+References	: http://marc.info/?l=linux-kernel&m=121750960431966&w=4
+Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11210
+Subject		: libata badness
+Submitter	: Kumar Gala <galak-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Date		: 2008-07-31 18:53 (3 days old)
+References	: http://marc.info/?l=linux-ide&m=121753059307310&w=4
+Handled-By	: Ben Dooks <ben-linux-elnMNo+KYs3YtjvyW6yDsg@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11209
+Subject		: 2.6.27-rc1 process time accounting
+Submitter	: Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
+Date		: 2008-07-31 10:43 (3 days old)
+References	: http://marc.info/?l=linux-kernel&m=121750102917490&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11207
+Subject		: VolanoMark regression with 2.6.27-rc1
+Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Date		: 2008-07-31 3:20 (3 days old)
+References	: http://marc.info/?l=linux-kernel&m=121747464114335&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11205
+Subject		: x86: 2.6.27-rc1 does not build with gcc-3.2.3 any more
+Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Date		: 2008-07-30 11:02 (4 days old)
+References	: http://marc.info/?l=linux-kernel&m=121741584608240&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11191
+Subject		: 2.6.26-git8: spinlock lockup in c1e_idle()
+Submitter	: Mikhail Kshevetskiy <mikhail.kshevetskiy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-07-24 03:22 (10 days old)
+References	: http://lkml.org/lkml/2008/7/23/317
+Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11181
+Subject		: power-off broken
+Submitter	: Mircea Gherzan <mgherzan-0aWM6n0cdD1zL9IiBdi9GK9KmVUGpFAF@public.gmane.org>
+Date		: 2008-07-30 13:57 (4 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11141
+Subject		: no battery or DC status - Dell i1501
+Submitter	: Gu Rui <chaos.proton-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-07-21 19:43 (13 days old)
+
+
+Regressions with patches
+------------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11235
+Subject		: acer-wmi broken in latest git kernel on TravelMate 6492 (Insufficient arguments - method [WQAA])
+Submitter	: Sven Wegener <sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org>
+Date		: 2008-08-02 15:50:54 (1 days old)
+References	: http://marc.info/?l=linux-kernel&m=121769235318600&w=4
+Handled-By	: Carlos Corbacho <carlos-8YloKY0SPvpS8uBCpOlSjPXRex20P6io@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=121769591723088&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11227
+Subject		: BUG on booting 2.6.27-rc1
+Submitter	: Steve Wise <swise-7bPotxP6k4+P2YhJcF5u+vpXobYPEAuW@public.gmane.org>
+Date		: 2008-08-01 20:56 (2 days old)
+References	: http://marc.info/?l=linux-kernel&m=121762419708424&w=4
+Handled-By	: Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=121762583111470&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11225
+Subject		: mtdsuper.c BLOCK=n compile error
+Submitter	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Date		: 2008-08-01 15:33 (2 days old)
+References	: http://lkml.org/lkml/2008/8/1/454
+Handled-By	: David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Patch		: http://lkml.org/lkml/2008/8/1/499
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11223
+Subject		: sh: fix LIBGCC
+Submitter	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Date		: 2008-08-01 15:16 (2 days old)
+References	: http://lkml.org/lkml/2008/8/1/446
+Handled-By	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Patch		: http://lkml.org/lkml/2008/8/1/446
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11216
+Subject		: sh O= builds broken
+Submitter	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Date		: 2008-08-01 14:31 (2 days old)
+References	: http://lkml.org/lkml/2008/8/1/426
+Handled-By	: Paul Mundt <lethal-M7jkjyW5wf5g9hUCZPvPmw@public.gmane.org>
+Patch		: http://lkml.org/lkml/2008/8/1/437
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11204
+Subject		: Commit 76a2a6ee8a0660a29127f05989ac59ae1ce865fa breaks PXA270 (at least)?
+Submitter	: Russell King - ARM Linux <linux-lFZ/pmaqli7XmaaqVzeoHQ@public.gmane.org>
+Date		: 2008-07-29 22:31 (5 days old)
+References	: http://marc.info/?l=linux-kernel&m=121737075314966&w=4
+Handled-By	: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=121754090926333&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11201
+Subject		: kernel BUG at arch/x86/kernel/io_apic_64.c:357!
+Submitter	: Dhaval Giani <dhaval-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Date		: 2008-07-29 16:21 (5 days old)
+References	: http://marc.info/?l=linux-kernel&m=121734804508255&w=4
+Handled-By	: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+		  Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=121735924628623&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11197
+Subject		: Oops in microcode sysfs registration
+Submitter	: Alistair John Strachan <alistair-T7eSMZptz7IqdlJmJB21zg@public.gmane.org>
+Date		: 2008-07-29 13:57 (5 days old)
+References	: http://marc.info/?t=121734004900002&r=1&w=4
+Handled-By	: Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=121741431005777&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11190
+Subject		: [USB boot crash, -git] ecm_do_notify(), list_add corruption. prev-&gt;next should be next (ffff88003b8f82f8)
+Submitter	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Date		: 2008-07-22 13:40 (12 days old)
+References	: http://marc.info/?l=linux-usb&m=121673409124827&w=4
+Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+		  David Brownell <david-b-yBeKhBN/0LDR7s880joybQ@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=121708481823201&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11189
+Subject		: sky2 WOL broken
+Submitter	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+Date		: 2008-07-20 0:20:10 (14 days old)
+References	: http://marc.info/?l=linux-next&m=121651311115104&w=4
+Handled-By	: Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+Patch		: http://marc.info/?l=linux-netdev&m=121694346401281&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11178
+Subject		: Secondary hard drive fails during both hibernation and resume.
+Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Date		: 2008-07-30 04:53 (4 days old)
+Handled-By	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Patch		: http://bugzilla.kernel.org/attachment.cgi?id=17043&action=view
+
+
+For details, please visit the bug entries and follow the links given in
+references.
+
+As you can see, there is a Bugzilla entry for each of the listed regressions.
+There also is a Bugzilla entry used for tracking the regressions from 2.6.26,
+unresolved as well as resolved, at:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=11167
+
+Please let me know if there are any Bugzilla entries that should be added to
+the list in there.
+
+Thanks,
+Rafael
