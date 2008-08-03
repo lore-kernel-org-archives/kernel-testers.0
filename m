@@ -1,33 +1,68 @@
-From: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-Subject: Re: [Bug #11205] x86: 2.6.27-rc1 does not build with gcc-3.2.3 any more
-Date: Sun, 3 Aug 2008 20:24:53 +0200
-Message-ID: <18581.63477.482538.137844@harpo.it.uu.se>
-References: <cbItfVMShGI.A.olC.UMLlIB@albercik>
-	<5ZeQ4vXWqRC.A.PFE.SNLlIB@albercik>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: [regression?] Memory zone info seems incomplete in boottime dmesg output
+Date: Sun, 3 Aug 2008 21:25:10 +0200
+Message-ID: <200808032125.11442.elendil@planet.nl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5ZeQ4vXWqRC.A.PFE.SNLlIB@albercik>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+To: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Sat,  2 Aug 2008 20:04:20 +0200 (CEST), Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
->This message has been generated automatically as a part of a report
->of recent regressions.
->
->The following bug entry is on the current list of known regressions
->from 2.6.26.  Please verify if it still should be listed
->and let me know (either way).
->
->
->Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11205
->Subject		: x86: 2.6.27-rc1 does not build with gcc-3.2.3 any more
->Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
->Date		: 2008-07-30 11:02 (4 days old)
->References	: http://marc.info/?l=3Dlinux-kernel&m=3D121741584608240&w=3D4
+With 2.6.26 I get:
+<snip>
+Zone PFN ranges:
+  DMA             0 ->     4096
+  DMA32        4096 ->  1048576
+  Normal    1048576 ->  1048576
+Movable zone start PFN for each node
+early_node_map[4] active PFN ranges
+    0:        0 ->      159
+    0:      256 ->   521844
+    0:   521961 ->   521964
+    0:   521983 ->   521984
+On node 0 totalpages: 521751
+  DMA zone: 56 pages used for memmap
+  DMA zone: 1271 pages reserved
+  DMA zone: 2672 pages, LIFO batch:0
+  DMA32 zone: 7081 pages used for memmap
+  DMA32 zone: 510671 pages, LIFO batch:31
+  Normal zone: 0 pages used for memmap
+  Movable zone: 0 pages used for memmap
+</snip>
 
-The bug is still present.
-Patch here <http://marc.info/?l=linux-kernel&m=121742199419686&w=2>.
+With 2.6.27-rc1 I only get pages listed for 2 zones (bottom part):
+<snip>
+Zone PFN ranges:
+  DMA      0x00000000 -> 0x00001000
+  DMA32    0x00001000 -> 0x00100000
+  Normal   0x00100000 -> 0x00100000
+Movable zone start PFN for each node
+early_node_map[4] active PFN ranges
+    0: 0x00000000 -> 0x0000009f
+    0: 0x00000100 -> 0x0007f674
+    0: 0x0007f6e9 -> 0x0007f6ec
+    0: 0x0007f6ff -> 0x0007f700
+On node 0 totalpages: 521751
+  DMA zone: 2072 pages, LIFO batch:0
+  DMA32 zone: 506625 pages, LIFO batch:31
+</snip>
+
+Note that totalpages is the same and that for 2.6.26 the sum of pages for 
+all listed zones is equal to totalpages. Seems we've lost useful info 
+here.
+
+I also seem to have "lost" 600 LIFO batch pages for DMA and 4000 for DMA32 
+between the kernel versions although that could be due to config changes 
+(I enabled some extra debugging options). Harder to tell though without 
+the info where they've gone...
+
+Cheers,
+FJP
+
+P.S. As a user I really don't find the hex values easier to read/use than 
+the decimal values. Except maybe for the "Zone PFN ranges" where things 
+seem to be nicely aligned.
