@@ -1,45 +1,58 @@
-From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Subject: 2.6.27-rc2: suspend regression on EeePC
-Date: Wed, 06 Aug 2008 19:59:27 +0100
-Message-ID: <4899F48F.2090100@tuffmail.co.uk>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [regression?] usb: new errors during device detection
+Date: Wed, 6 Aug 2008 22:29:47 +0200
+Message-ID: <200808062229.48383.elendil@planet.nl>
+References: <200808032211.22483.elendil@planet.nl> <20080803203512.GA11185@frodo>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:content-type
-         :content-transfer-encoding:sender;
-        bh=extFN9p9g4cbFwv1hWA+g5R7GPf/o6bt1pdDIpfXuuU=;
-        b=FH/zb4mdGqs1LZlSH7maYC+e6jImTRsEpL5P2X1PxVrQD5M5Z61Cq5EEN6kPoKijXB
-         UmpgNgPd2vpc2yyTJpeHD+4hkvD6IEi4y+ft2gAWz5mSLGrbMplxCdrjs/BriagDr/cV
-         00cnQcWd0tk0OYC5A9vmY3CUUemyYY9UEpd8M=
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20080803203512.GA11185@frodo>
+Content-Disposition: inline
+Sender: linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: ath5k-devel-xDcbHBWguxEUs3QNXV6qNA@public.gmane.org
-Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: me-uiRdBs8odbtmTBlB0Cgj/Q@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-I'm very pleased to see ath5k support for my EeePC (AR2425) in 
-2.6.27-rc2.  That said, there seems to be a regression with suspend to 
-ram.  This is relative to the version I tested from Nicks 
-compat-wireless-2008-07-03-ath5k snapshot.
+On Sunday 03 August 2008, Felipe Balbi wrote:
+> On Sun, Aug 03, 2008 at 10:11:21PM +0200, Frans Pop wrote:
+> > +usb 3-1: new low speed USB device using uhci_hcd and address 2
+> >  ehci_hcd 0000:00:1d.7: new USB bus registered, assigned bus number 5
+> >  ehci_hcd 0000:00:1d.7: USB 2.0 started, EHCI 1.00, driver 10 Dec
+> > 2004 usb usb5: configuration #1 chosen from 1 choice
+> >  hub 5-0:1.0: USB hub found
+> > -usb 3-1: new low speed USB device using uhci_hcd and address 2
+> > +usb 3-1: device not accepting address 2, error -71
+> > +hub 3-0:1.0: unable to enumerate USB device on port 1
+>
+> what is this device attached to this port ?
 
-The driver doesn't blow up; it just doesn't behave as expected.  This 
-might be a generic issue; it might even be a bad interaction with 
-eeepc-laptop being moved to rfkill support.  But I'm asking you guys 
-about this first :-).
+Eh, that info is already trivially available from my original mail:
+ uhci_hcd 0000:00:1d.2: new USB bus registered, assigned bus number 3
+[...]
+ input: USB Compliant Keyboard as /class/input/input0
+ input: USB HID v1.10 Keyboard [USB Compliant Keyboard] on usb-0000:00:1d.2-1
+ input: USB Compliant Keyboard as /class/input/input1
+ input: USB HID v1.10 Device [USB Compliant Keyboard] on usb-0000:00:1d.2-1
 
-Expected behaviour (as seen previously):
-After resume, a scan is performed automatically.  Unpriviledged users 
-can run "iwlist ath0 scan" to see the results.  NetworkManager (0.6.6) 
-presumably picks up the scan results, and reconnects without user 
-intervention.
+> Do you have the device attached before turning on the machine ?
 
-Actual behaviour:
-After resume, no scan is performed.  Unpriviledged users running "iwlist 
-ath0 scan" are told "no results".  It is necessary to run "iwlist ath0 
-scan" *as root*; only then will NetworkManager reconnect.
+Yes, obviously the keyboard is attached during boot (and has been connected
+to the same USB port basically since I first installed the machine...).
 
-Thanks
-Alan
+> Does it happen if you boot without that device attached and attach
+> it afterwards ?
+
+No idea. I could try this I guess if it will really provide useful info.
+Somehow I doubt that in this case.
+
+> Can you please enable CONFIG_USB_DEBUG and resend dmesg output ?
+
+Will include that in my reply to Alan's mail.
+
+Cheers,
+FJP
+--
+To unsubscribe from this list: send the line "unsubscribe linux-usb" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
