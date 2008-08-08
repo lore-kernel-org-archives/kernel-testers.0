@@ -1,46 +1,62 @@
-From: Jesse Barnes <jbarnes@virtuousgeek.org>
-Subject: Re: [Bug #11178] Secondary hard drive fails during both hibernation and resume.
-Date: Thu, 7 Aug 2008 08:53:41 -0700
-Message-ID: <200808070853.42957.jbarnes@virtuousgeek.org>
-References: <cbItfVMShGI.A.olC.UMLlIB@albercik> <5ZeQ4vXWqRC.A.q2E.4NLlIB@albercik> <48956E15.6070409@tuffmail.co.uk>
+From: David Miller <davem@davemloft.net>
+Subject: Re: 2.6.26-rc: SPARC: Sun Ultra 10 can not boot
+Date: Thu, 07 Aug 2008 23:01:39 -0700 (PDT)
+Message-ID: <20080807.230139.220174417.davem@davemloft.net>
+References: <20080707.040126.178187777.davem@davemloft.net>
+	<18546.5247.797478.66373@harpo.it.uu.se>
+	<a4423d670807070859y74f529b5i60f04e0a37a01cd3@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754546AbYHGPyG@vger.kernel.org>
-In-Reply-To: <48956E15.6070409@tuffmail.co.uk>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <sparclinux-owner@vger.kernel.org>
+In-Reply-To: <a4423d670807070859y74f529b5i60f04e0a37a01cd3@mail.gmail.com>
+Sender: sparclinux-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Matthew Wilcox <matthew@wil.cx>, Matthew Wilcox <willy@linux.intel.com>
+Content-Type: Text/Plain; charset="us-ascii"
+To: a.beregalov@gmail.com
+Cc: mikpe@it.uu.se, kernel-testers@vger.kernel.org, sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org
 
-On Sunday, August 3, 2008 1:36 am Alan Jenkins wrote:
-> Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.26.  Please verify if it still should be listed
-> > and let me know (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11178
-> > Subject		: Secondary hard drive fails during both hibernation and resume.
-> > Submitter	: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
-> > Date		: 2008-07-30 04:53 (4 days old)
-> > Handled-By	: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
-> > Patch		: http://bugzilla.kernel.org/attachment.cgi?id=17043&action=view
->
-> Please keep listed.
->
-> The problem and patch are recently confirmed by Hugh Dickins (on LKML)
-> and Dionisus Torimens (bugzilla duplicate).
+From: "Alexander Beregalov" <a.beregalov@gmail.com>
+Date: Mon, 7 Jul 2008 19:59:04 +0400
 
-I took a look at this yesterday.  I don't think this is the only thing wrong 
-with the MSI code at this point (there are a couple of other improvements and 
-potential problems there), but your fix looks good.  I just applied it to my 
-for-linus tree.  I'll ask Linus to pull after it's had a little time in 
-linux-next.
+> I have turned off LOCKDEP and it boots properly.
+> 2.6.26-rc9-00005-g1b40a89
+> 
+> Mikael's config also does not contain LOCKDEP.
 
-Thanks,
-Jesse
+I have finally reproduced the problem locally and figured out the
+bug.
+
+Please try this patch:
+
+sparc64: Fix end-of-stack checking in save_stack_trace().
+
+Bug reported by Alexander Beregalov.
+
+Before we dereference the stack frame or try to peek at the
+pt_regs magic value, make sure the entire object is within
+the kernel stack bounds.
+
+Signed-off-by: David S. Miller <davem@davemloft.net>
+
+diff --git a/arch/sparc64/kernel/stacktrace.c b/arch/sparc64/kernel/stacktrace.c
+index c73ce3f..c5576e8 100644
+--- a/arch/sparc64/kernel/stacktrace.c
++++ b/arch/sparc64/kernel/stacktrace.c
+@@ -25,13 +25,15 @@ void save_stack_trace(struct stack_trace *trace)
+ 
+ 		/* Bogus frame pointer? */
+ 		if (fp < (thread_base + sizeof(struct thread_info)) ||
+-		    fp >= (thread_base + THREAD_SIZE))
++		    fp > (thread_base + THREAD_SIZE - sizeof(struct sparc_stackf)))
+ 			break;
+ 
+ 		sf = (struct sparc_stackf *) fp;
+ 		regs = (struct pt_regs *) (sf + 1);
+ 
+-		if ((regs->magic & ~0x1ff) == PT_REGS_MAGIC) {
++		if (((unsigned long)regs <=
++		     (thread_base + THREAD_SIZE - sizeof(*regs))) &&
++		    (regs->magic & ~0x1ff) == PT_REGS_MAGIC) {
+ 			if (!(regs->tstate & TSTATE_PRIV))
+ 				break;
+ 			pc = regs->tpc;
