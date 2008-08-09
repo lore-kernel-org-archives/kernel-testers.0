@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11254] KVM: fix userspace ABI breakage
+Subject: [Bug #11263] Re: 2.6.27-rc2: uvcvideo WARNING after suspend to ram
 Date: Sun, 10 Aug 2008 00:43:51 +0200 (CEST)
-Message-ID: <cX_-nNkxKaF.A.QbB.WDjnIB@albercik>
+Message-ID: <cX_-nNkxKaF.A.7RB.QDjnIB@albercik>
 References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,9 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11254
-Subject		: KVM: fix userspace ABI breakage
-Submitter	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Date		: 21 Jul 2008 17:58:26 (0 days old)
-References	: http://lkml.org/lkml/2008/7/21/197
-Handled-By	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Patch		: http://lkml.org/lkml/2008/7/21/197
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11263
+Subject		: Re: 2.6.27-rc2: uvcvideo WARNING after suspend to ram
+Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Date		: 2008-08-07 04:02 (3 days old)
+References	: http://comments.gmane.org/gmane.linux.kernel/717552
 
