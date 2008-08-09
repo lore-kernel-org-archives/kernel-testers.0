@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11271] BUG: fealnx in 2.6.27-rc1
-Date: Sun, 10 Aug 2008 00:43:51 +0200 (CEST)
-Message-ID: <cX_-nNkxKaF.A.T-.DDjnIB@albercik>
+Subject: [Bug #11278] 2.6.27-rc2: Very odd top: '5124095h kthreadd' display
+Date: Sun, 10 Aug 2008 00:43:52 +0200 (CEST)
+Message-ID: <cX_-nNkxKaF.A.WR.xCjnIB@albercik>
 References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Grant Coady <grant_lkml-rGYn+TmxqGy6c6uEtOJ/EA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11271
-Subject		: BUG: fealnx in 2.6.27-rc1
-Submitter	: Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-08-05 14:58 (5 days old)
-References	: http://marc.info/?l=linux-netdev&m=121794762016830&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11278
+Subject		: 2.6.27-rc2: Very odd top: '5124095h kthreadd' display
+Submitter	: Grant Coady <grant_lkml-rGYn+TmxqGy6c6uEtOJ/EA@public.gmane.org>
+Date		: 2008-08-07 7:03 (3 days old)
+References	: http://marc.info/?l=linux-kernel&m=121809267318795&w=4
 
