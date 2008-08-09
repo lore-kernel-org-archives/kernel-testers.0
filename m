@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11220] Heavy suspend and io problems in 2.6.27-rc1-00156-g94ad374
-Date: Sun, 10 Aug 2008 00:43:51 +0200 (CEST)
-Message-ID: <cX_-nNkxKaF.A.iPC.8DjnIB@albercik>
+Subject: [Bug #11191] 2.6.26-git8: spinlock lockup in c1e_idle()
+Date: Sun, 10 Aug 2008 00:43:50 +0200 (CEST)
+Message-ID: <cX_-nNkxKaF.A.SRD.tEjnIB@albercik>
 References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Nico Schottelius <nico-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mikhail Kshevetskiy <mikhail.kshevetskiy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11220
-Subject		: Heavy suspend and io problems in 2.6.27-rc1-00156-g94ad374
-Submitter	: Nico Schottelius <nico-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-Date		: 2008-07-31 21:05 (10 days old)
-References	: http://marc.info/?l=linux-kernel&m=121753882422899&w=4
-Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11191
+Subject		: 2.6.26-git8: spinlock lockup in c1e_idle()
+Submitter	: Mikhail Kshevetskiy <mikhail.kshevetskiy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-07-24 03:22 (17 days old)
+References	: http://lkml.org/lkml/2008/7/23/317
+Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
