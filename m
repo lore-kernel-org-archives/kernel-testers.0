@@ -1,25 +1,32 @@
-From: Felipe Balbi <me-uiRdBs8odbtmTBlB0Cgj/Q@public.gmane.org>
-Subject: Re: [regression?] usb: new errors during device detection
-Date: Sat, 9 Aug 2008 18:26:33 +0300
-Message-ID: <20080809152632.GA7574@frodo>
-References: <Pine.LNX.4.44L0.0808061814250.2145-100000@iolanthe.rowland.org> <489D9B46.60001@otello.alma.unibo.it>
-Reply-To: me-uiRdBs8odbtmTBlB0Cgj/Q@public.gmane.org
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Regression] 2.6.27-rc2-git4: suspend and power off fails on Asus M3A32-MVP
+Date: Sat, 9 Aug 2008 23:21:15 +0200
+Message-ID: <200808092321.16711.rjw@sisk.pl>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <489D9B46.60001-gmoNqwowlqBr8A+qpt3pXFzrSV/HdtiB@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Diego Zuccato <diego-gmoNqwowlqBr8A+qpt3pXFzrSV/HdtiB@public.gmane.org>
-Cc: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mark Langsdorf <mark.langsdorf-5C7GfCeVMHo@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Frank Arnold <frank.arnold-5C7GfCeVMHo@public.gmane.org>
 
-On Sat, Aug 09, 2008 at 03:27:34PM +0200, Diego Zuccato wrote:
-> Urgh... What happens if it contains a mounted filesystem?
-> Seems quite dangerous...
+Hi Mark,
 
-It still enumerating, you'll never have a mounted fs at this point :-)
+Unfortunately, your commit 34ae7f35a21694aa5cb8829dc5142c39d73d6ba0
+("[CPUFREQ][2/2] preregister support for powernow-k8") causes a power off/
+suspend/ hibernation regression on my test box with the Asus M3A32-MVP
+mainboard (AMD 790 chipset) and the Phenom 9850 CPU.
 
--- 
-balbi
+Apparently, the patch causes a crash in a CPU hotplug notifier to happen, but
+I'm not really sure of that, since there are a lot of stack traces resulting
+from it and I'm unable to capture them over a serial console.
+
+It is sufficient to revert commit 34ae7f35a21694aa5cb8829dc5142c39d73d6ba0 to
+make things work again.
+
+Please advise.
+
+Thanks,
+Rafael
