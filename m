@@ -1,31 +1,43 @@
-From: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-Subject: Re: [Bug #11205] x86: 2.6.27-rc1 does not build with gcc-3.2.3 any more
-Date: Sun, 10 Aug 2008 11:01:13 +0200
-Message-ID: <18590.44633.509808.376198@harpo.it.uu.se>
-References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik>
-	<cX_-nNkxKaF.A.13C.ZEjnIB@albercik>
+From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: [Bug #11254] KVM: fix userspace ABI breakage
+Date: Sun, 10 Aug 2008 13:14:48 +0300
+Message-ID: <20080810101448.GA16146@cs181140183.pp.htv.fi>
+References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A.QbB.WDjnIB@albercik>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cX_-nNkxKaF.A.13C.ZEjnIB@albercik>
+Content-Disposition: inline
+In-Reply-To: <cX_-nNkxKaF.A.QbB.WDjnIB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sun, 10 Aug 2008 00:43:51 +0200 (CEST), Rafael J. Wysocki wrote:
->The following bug entry is on the current list of known regressions
->from 2.6.26.  Please verify if it still should be listed and let me know
->(either way).
->
->
->Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11205
->Subject		: x86: 2.6.27-rc1 does not build with gcc-3.2.3 any more
->Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
->Date		: 2008-07-30 11:02 (11 days old)
->References	: http://marc.info/?l=3Dlinux-kernel&m=3D121741584608240&w=3D4
->Handled-By	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
->Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D121742199419686&w=3D2
+On Sun, Aug 10, 2008 at 12:43:51AM +0200, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
 
-No change, the bug is still present, and the patch still applies & works.
+yes
+
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11254
+> Subject		: KVM: fix userspace ABI breakage
+> Submitter	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> Date		: 21 Jul 2008 17:58:26 (0 days old)
+> References	: http://lkml.org/lkml/2008/7/21/197
+> Handled-By	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> Patch		: http://lkml.org/lkml/2008/7/21/197
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
