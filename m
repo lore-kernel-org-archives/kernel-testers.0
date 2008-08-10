@@ -1,32 +1,32 @@
-From: "Jaswinder Singh" <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #11271] BUG: fealnx in 2.6.27-rc1
-Date: Sun, 10 Aug 2008 11:57:42 +0530
-Message-ID: <3f9a31f40808092327h272ba73emcfc1ead6b6d1099@mail.gmail.com>
+From: "Jaswinder Singh" <jaswinderlinux@gmail.com>
+Subject: Re: [Bug #11272] BUG: parport_serial in 2.6.27-rc1 for NetMos Technology PCI 9835
+Date: Sun, 10 Aug 2008 12:24:14 +0530
+Message-ID: <3f9a31f40808092354s3d057effm6ed1d2f506fb4637@mail.gmail.com>
 References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik>
-	 <cX_-nNkxKaF.A.T-.DDjnIB@albercik>
+	 <cX_-nNkxKaF.A.F6.BDjnIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-serial-owner@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
         h=domainkey-signature:received:received:message-id:date:from:to
          :subject:cc:in-reply-to:mime-version:content-type
          :content-transfer-encoding:content-disposition:references;
-        bh=kbSm5qUnK4LBsd8cWo5r2N+Etc1DuSvWIhMQ8yhl+VU=;
-        b=bL1Jny7cc3VVdPlBgppUPxlEKWrBzkFAhYUmtZD9WIE+HRy53S8i1QulW4BkOxQTRG
-         h+ss1AiatEfvg2TiHDJ1/7i8noQrTDyln/sROYDUrV0mXXIXB62qaAxct70xx+R3Swcu
-         EcNcXP7GC1E9jgrPHItnLO785Is+h3YyKdOR8=
-In-Reply-To: <cX_-nNkxKaF.A.T-.DDjnIB@albercik>
+        bh=FugZG47wlIcvoYMtW8/PVBh1zxB9gQvqap3TgliJgHE=;
+        b=UqJ+taa1+gE3BmRf76Q/24TeyRkrqKEESct2sA+k/ufiWWm+pwCqRUlhN15FxGCUjd
+         UVDjr1aSDpc8m/YgMLEsvVj+u3EOUmpFsb15hY3RpqScgtQ0YyzxIsHJdo0gIp0s0kWf
+         nnONxzPay8VM0R6wZPVSr/Zs7ma6Ub8g+KrPE=
+In-Reply-To: <cX_-nNkxKaF.A.F6.BDjnIB@albercik>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-serial-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, David Woodhouse <dwmw2@infradead.org>, linux-serial@vger.kernel.org
 
 Hello all,
 
-On Sun, Aug 10, 2008 at 4:13 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Sun, Aug 10, 2008 at 4:13 AM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
 >
@@ -35,34 +35,27 @@ On Sun, Aug 10, 2008 at 4:13 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane
 > (either way).
 >
 >
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=11271
-> Subject         : BUG: fealnx in 2.6.27-rc1
-> Submitter       : Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date            : 2008-08-05 14:58 (5 days old)
-> References      : http://marc.info/?l=linux-netdev&m=121794762016830&w=4
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=11272
+> Subject         : BUG: parport_serial in 2.6.27-rc1 for NetMos Technology PCI 9835
+> Submitter       : Jaswinder Singh <jaswinderlinux@gmail.com>
+> Date            : 2008-08-05 15:12 (5 days old)
+> References      : http://marc.info/?l=linux-kernel&m=121794900319776&w=4
 >
 >
 
-This still exists on 2.6.27-rc2 when I transfer some data on RealTek 8139C NIC.
+This problem still exists on 2.6.27-rc2
 
-01:00.0 Ethernet controller: MYSON Technology Inc SURECOM EP-320X-S
-100/10M Ethernet PCI Adapter
-	Subsystem: MYSON Technology Inc SURECOM EP-320X-S 100/10M Ethernet PCI Adapter
-	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV+ VGASnoop- ParErr-
-Stepping- SERR- FastB2B- DisINTx-
-	Status: Cap+ 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-	Latency: 32 (8000ns min, 16000ns max), Cache Line Size: 64 bytes
-	Interrupt: pin A routed to IRQ 21
-	Region 0: I/O ports at d800 [size=256]
-	Region 1: Memory at ff8ffc00 (32-bit, non-prefetchable) [size=1K]
-	Expansion ROM at e6a00000 [disabled] [size=64K]
-	Capabilities: [88] Power Management version 2
-		Flags: PMEClk- DSI- D1+ D2- AuxCurrent=375mA PME(D0-,D1+,D2-,D3hot+,D3cold+)
-		Status: D0 PME-Enable- DSel=0 DScale=0 PME-
-	Kernel driver in use: fealnx
+When I connect  development boads to /dev/ttyS1 and /dev/ttyS2:
+bootloader still prints Junk (Garbage Characters) but when Linux
+starts then it becomes readable and normal.
 
-If you need more info or need help in debugging please let me know.
+So I thought problem is in bootloader so I connected different kind of
+develepment boards and all shows junk characters during boot-loading.
+
+But when I connect  development boads to /dev/ttyS0 : bootloader
+messages are readable and normal with same settings.
+
+If you need more info and need help in debugging, please let me know.
 
 Thank you,
 
