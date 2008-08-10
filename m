@@ -1,52 +1,32 @@
-From: Grant Coady <grant_lkml-rGYn+TmxqGy6c6uEtOJ/EA@public.gmane.org>
-Subject: Re: [Bug #11278] 2.6.27-rc2: Very odd top: '5124095h kthreadd' display
-Date: Mon, 11 Aug 2008 00:06:04 +1000
-Message-ID: <p8tt949h41ff647i9ga0fp3jhpvnllnj3t@4ax.com>
-References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A.WR.xCjnIB@albercik> <otds94lkpmrooo1s9c0he3j3pral8fmojl@4ax.com> <200808101457.26524.rjw@sisk.pl>
-Reply-To: Grant Coady <gcoady.lk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Bill Gatliff <bgat@billgatliff.com>
+Subject: Re: [Bug #11204] Commit 76a2a6ee8a0660a29127f05989ac59ae1ce865fa
+ breaks PXA270 (at least)?
+Date: Sun, 10 Aug 2008 09:10:11 -0500
+Message-ID: <489EF6C3.6010107@billgatliff.com>
+References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A.z-C.cEjnIB@albercik> <20080810083052.GB6607@flint.arm.linux.org.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200808101457.26524.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755500AbYHJOK1@vger.kernel.org>
+In-Reply-To: <20080810083052.GB6607@flint.arm.linux.org.uk>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Grant Coady <gcoady.lk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Russell King - ARM Linux <linux@arm.linux.org.uk>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Peter Zijlstra <a.p.zijlstra@chello.nl>
 
-On Sun, 10 Aug 2008 14:57:26 +0200, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+Russell King - ARM Linux wrote:
+> On Sun, Aug 10, 2008 at 12:43:50AM +0200, Rafael J. Wysocki wrote:
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.26.  Please verify if it still should be listed and let me know
+>> (either way).
+> 
+> Well, in theory we're waiting for Bill Gatliff to do some testing
+> last Monday/Tuesday of the proposed fix.
 
->On Sunday, 10 of August 2008, Grant Coady wrote:
->> On Sun, 10 Aug 2008 00:43:52 +0200 (CEST), "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
->> 
->> >This message has been generated automatically as a part of a report
->> >of recent regressions.
->> >
->> >The following bug entry is on the current list of known regressions
->> >from 2.6.26.  Please verify if it still should be listed and let me know
->> >(either way).
->> >
->> >
->> >Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11278
->> >Subject		: 2.6.27-rc2: Very odd top: '5124095h kthreadd' display
->> >Submitter	: Grant Coady <grant_lkml-rGYn+TmxqGy6c6uEtOJ/EA@public.gmane.org>
->> >Date		: 2008-08-07 7:03 (3 days old)
->> >References	: http://marc.info/?l=linux-kernel&m=121809267318795&w=4
->> >
->> 
->> Patch from Peter Z. fixed it for me, so it may be removed now.
->
->Is the patch in the mainline already?
+Will test this tomorrow (Monday) a.m.
 
-No idea.
->
->If not, can you please provide me with a link to the patch?
 
-root@twins:/mnt/build/linux-2.6# git show 4a273f209cc95d148f79b4c96d3d03997b44ffda | patch -p1 -R
-patching file kernel/sched_clock.c
-
-Is what I have from Peter's email.  Added Peter Z. to the Cc:
-
-Grant.
->
->Rafael
+b.g.
+-- 
+Bill Gatliff
+bgat@billgatliff.com
