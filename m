@@ -1,41 +1,34 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11231] gspca_zc3xx oops - 2.6.27-rc1
-Date: Mon, 11 Aug 2008 22:56:49 +0200
-Message-ID: <200808112256.49750.rjw@sisk.pl>
-References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A.g4B.pDjnIB@albercik> <20080811154101.GA1667@debian>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
+Subject: Re: [Bug #11283] MSI patch blamed for T60p not coming out of suspend to ram
+Date: Mon, 11 Aug 2008 15:15:39 -0700
+Message-ID: <200808111515.40782.jbarnes@virtuousgeek.org>
+References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A._1H.lCjnIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080811154101.GA1667@debian>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756200AbYHKWQF@vger.kernel.org>
+In-Reply-To: <cX_-nNkxKaF.A._1H.lCjnIB@albercik>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Rabin Vincent <rabin-66gdRtMMWGc@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Parag Warudkar <parag.warudkar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Matthew Wilcox <matthew@wil.cx>, Matthew Wilcox <willy@linux.intel.com>, "Michael S. Tsirkin" <m.s.tsirkin@gmail.com>
 
-On Monday, 11 of August 2008, Rabin Vincent wrote:
-> On Sun, Aug 10, 2008 at 12:43:51AM +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.26.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11231
-> > Subject		: gspca_zc3xx oops - 2.6.27-rc1
-> > Submitter	: Parag Warudkar <parag.warudkar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2008-08-02 16:22 (8 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=121769418920774&w=4
-> > Handled-By	: Rabin Vincent <rabin-66gdRtMMWGc@public.gmane.org>
-> > Patch		: http://marc.info/?l=linux-kernel&m=121774908213124&w=4
-> 
-> This can be closed.  The patch is now in mainline as
-> fcf5cb2406827fc9d3f3fe260ac883ef72b8bac0 ("V4L/DVB (8605): gspca: Fix of
-> gspca_zc3xx oops - 2.6.27-rc1").
+On Saturday, August 9, 2008 3:43 pm Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11283
+> Subject		: MSI patch blamed for T60p not coming out of suspend to ram
+> Submitter	: Michael S. Tsirkin <m.s.tsirkin@gmail.com>
+> Date		: 2008-08-07 16:07 (3 days old)
 
-Thanks, closed.
+The fix for this should be in Linus' tree now.
 
-Rafael
+-- 
+Jesse Barnes, Intel Open Source Technology Center
