@@ -1,46 +1,50 @@
-From: Rabin Vincent <rabin-66gdRtMMWGc@public.gmane.org>
-Subject: Re: [Bug #11270] BUG when doing a cat
-	/sys/devices/system/cpu/cpuidle/current_driver
-Date: Mon, 11 Aug 2008 21:18:12 +0530
-Message-ID: <20080811154812.GB1667@debian>
-References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A.7EB.GDjnIB@albercik>
+From: Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>
+Subject: Re: [BUG] 2.6.27-rc1 - Filesystem warning on ext4 with e2fsck
+Date: Mon, 11 Aug 2008 21:19:29 +0530
+Message-ID: <48A05F89.4070702@linux.vnet.ibm.com>
+References: <48A0127E.6000505@linux.vnet.ibm.com> <48A04C40.1040206@redhat.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent:sender;
-        bh=lgGPqh5LBnp5WiaMtN1+HzROYaap/7ou+d1bWyKFa/w=;
-        b=iojEsqo3kd+bUCe0RsYH8nhOKHBIlJLzfrRb//pav9NKkq1P/3fqDzAw292lCVUdGa
-         QojuqEk2pDdfOFia6JGjN6W3urYoGnujiOXDk4FKtT4PTIwb365Jchrw5I4Bx4R2yr6W
-         GBTayOhC41hjzUKHzFgNH8ZnCrLyg9j69Gob8=
-Content-Disposition: inline
-In-Reply-To: <cX_-nNkxKaF.A.7EB.GDjnIB@albercik>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-ext4-owner@vger.kernel.org>
+In-Reply-To: <48A04C40.1040206@redhat.com>
+Sender: linux-ext4-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Sesterhenn <snakebyte-Mmb7MZpHnFY@public.gmane.org>
+To: Eric Sandeen <sandeen@redhat.com>
+Cc: linux-ext4@vger.kernel.org, kernel list <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, aneesh.kumar@linux.vnet.ibm.com, Andy Whitcroft <apw@shadowen.org>
 
-On Sun, Aug 10, 2008 at 12:43:51AM +0200, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+Eric Sandeen wrote:
+> Kamalesh Babulal wrote:
+>> Hi,
+>>
+>> After running the fsx linux test on the ext4 partition mounted with 
+>> -o errors=panic,journal_async_commit, filesystem check is reporting
+>> warning
+>>
+>> # /usr/local/e2fsprogs/sbin/e2fsck -fnv /dev/sda6 
+>> e2fsck 1.41.0 (10-Jul-2008)
+>> Pass 1: Checking inodes, blocks, and sizes
+>> Pass 2: Checking directory structure
+>> Pass 3: Checking directory connectivity
+>> /lost+found not found.  Create? no
+>>
+>> Pass 4: Checking reference counts
+>> Pass 5: Checking group summary information
+>>
+>> /dev/sda6: ********** WARNING: Filesystem still has errors **********
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me know
-> (either way).
+> Was lost+found manually removed between mkfs & fsck?  (did you do an rm
+> -rf * or similar ?)  That'd produce exactly the above warning, since you
+> told e2fsck "-n" ...
 > 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11270
-> Subject		: BUG when doing a cat /sys/devices/system/cpu/cpuidle/current_driver
-> Submitter	: Eric Sesterhenn <snakebyte-Mmb7MZpHnFY@public.gmane.org>
-> Date		: 2008-08-05 12:33 (5 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121793969102438&w=4
-> Handled-By	: Rabin Vincent <rabin-66gdRtMMWGc@public.gmane.org>
-> Patch		: http://marc.info/?l=linux-kernel&m=121795955208618&w=4
+> -Eric
+> --
+Hi Eric,
 
-Needs to be open.  The patch is in -mm, but is not yet in mainline.
+Yes, the test program does a rm -rf * of the partition and  
+usr/local/e2fsprogs/sbin/e2fsck -fvp /dev/sda6 helps. Sorry
+for the noise.
 
-Rabin
+-- 
+Thanks & Regards,
+Kamalesh Babulal.
