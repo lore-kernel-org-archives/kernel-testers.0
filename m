@@ -1,50 +1,26 @@
-From: Kamalesh Babulal <kamalesh@linux.vnet.ibm.com>
-Subject: Re: [BUG] 2.6.27-rc1 - Filesystem warning on ext4 with e2fsck
-Date: Mon, 11 Aug 2008 21:19:29 +0530
-Message-ID: <48A05F89.4070702@linux.vnet.ibm.com>
-References: <48A0127E.6000505@linux.vnet.ibm.com> <48A04C40.1040206@redhat.com>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #11273] 2.6.27-rc1: softcursor behaviour changed
+Date: Mon, 11 Aug 2008 10:41:49 -0700 (PDT)
+Message-ID: <alpine.LFD.1.10.0808111041060.3462@nehalem.linux-foundation.org>
+References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A.-1._CjnIB@albercik>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-ext4-owner@vger.kernel.org>
-In-Reply-To: <48A04C40.1040206@redhat.com>
-Sender: linux-ext4-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <cX_-nNkxKaF.A.-1._CjnIB@albercik>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Eric Sandeen <sandeen@redhat.com>
-Cc: linux-ext4@vger.kernel.org, kernel list <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, aneesh.kumar@linux.vnet.ibm.com, Andy Whitcroft <apw@shadowen.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Pavel Machek <pavel-AlSwsSmVLrQ@public.gmane.org>, Stefano Stabellini <stefano.stabellini-mvvWK6WmYclDPfheJLI6IQ@public.gmane.org>
 
-Eric Sandeen wrote:
-> Kamalesh Babulal wrote:
->> Hi,
->>
->> After running the fsx linux test on the ext4 partition mounted with 
->> -o errors=panic,journal_async_commit, filesystem check is reporting
->> warning
->>
->> # /usr/local/e2fsprogs/sbin/e2fsck -fnv /dev/sda6 
->> e2fsck 1.41.0 (10-Jul-2008)
->> Pass 1: Checking inodes, blocks, and sizes
->> Pass 2: Checking directory structure
->> Pass 3: Checking directory connectivity
->> /lost+found not found.  Create? no
->>
->> Pass 4: Checking reference counts
->> Pass 5: Checking group summary information
->>
->> /dev/sda6: ********** WARNING: Filesystem still has errors **********
+
+
+On Sun, 10 Aug 2008, Rafael J. Wysocki wrote:
 > 
-> Was lost+found manually removed between mkfs & fsck?  (did you do an rm
-> -rf * or similar ?)  That'd produce exactly the above warning, since you
-> told e2fsck "-n" ...
-> 
-> -Eric
-> --
-Hi Eric,
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
 
-Yes, the test program does a rm -rf * of the partition and  
-usr/local/e2fsprogs/sbin/e2fsck -fvp /dev/sda6 helps. Sorry
-for the noise.
+The revert is now in my tree as 3838f59fc2ea9821f3ea13adb555bfc6ea43c74c.
 
--- 
-Thanks & Regards,
-Kamalesh Babulal.
+		Linus
