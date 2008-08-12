@@ -1,43 +1,38 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11275] [BUG] hugetlb: sleeping function called from invalid context
-Date: Tue, 12 Aug 2008 16:58:50 +0200
-Message-ID: <200808121658.51411.rjw@sisk.pl>
-References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A.Fm.6CjnIB@albercik> <20080812144841.GA16724@brain>
+From: "Langsdorf, Mark" <mark.langsdorf@amd.com>
+Subject: RE: [Regression] 2.6.27-rc2-git4: suspend and power off fails on Asus M3A32-MVP
+Date: Tue, 12 Aug 2008 11:03:54 -0500
+Message-ID: <6453C3CB8E2B3646B0D020C112613273C5AC60@sausexmb4.amd.com>
+References: <200808092321.16711.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080812144841.GA16724@brain>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gerald Schaefer <gerald.schaefer-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754780AbYHLQEU@vger.kernel.org>
+Content-Class: urn:content-classes:message
+In-Reply-To: <200808092321.16711.rjw@sisk.pl>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Dave Jones <davej@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, LKML <linux-kernel@vger.kernel.org>, kernel-testers@vger.kernel.org, Randy Dunlap <randy.dunlap@oracle.com>, "Arnold, Frank" <Frank.Arnold@amd.com>
 
-On Tuesday, 12 of August 2008, Andy Whitcroft wrote:
-> On Sun, Aug 10, 2008 at 12:43:51AM +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.26.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11275
-> > Subject		: [BUG] hugetlb: sleeping function called from invalid context
-> > Submitter	: Gerald Schaefer <gerald.schaefer-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-> > Date		: 2008-08-06 14:43 (4 days old)
-> > References	: http://marc.info/?l=linux-mm&m=121803401427843&w=4
-> > Handled-By	: Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
-> > Patch		: http://marc.info/?l=linux-kernel&m=121804949526359&w=4
+
+> Unfortunately, your commit 34ae7f35a21694aa5cb8829dc5142c39d73d6ba0
+> ("[CPUFREQ][2/2] preregister support for powernow-k8") causes 
+> a power off/
+> suspend/ hibernation regression on my test box with the Asus M3A32-MVP
+> mainboard (AMD 790 chipset) and the Phenom 9850 CPU.
 > 
-> This patch was superceeded by a newer version:
-> 	http://marc.info/?l=linux-kernel&m=121819389913563&w=2
+> Apparently, the patch causes a crash in a CPU hotplug 
+> notifier to happen, but I'm not really sure of that, since there are a
+lot of stack 
+> traces resulting from it and I'm unable to capture them over a serial
+console.
 > 
-> Currently this is in -mm, awaiting merge.
+> It is sufficient to revert commit 
+> 34ae7f35a21694aa5cb8829dc5142c39d73d6ba0 to
+> make things work again.
 
-I have updated the Bugzilla entry with the current patch link.
+Thanks for the clear report.  I'll look into it and try to fix it.
 
-Thanks,
-Rafael
+-Mark Langsdorf
+Operating System Research Center
+AMD
