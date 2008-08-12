@@ -1,20 +1,39 @@
-From: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [BUG] linux-next: Tree for August 11/12 - powerpc - oops at __kmalloc_node_track_caller
- ()
-Date: Tue, 12 Aug 2008 13:28:42 -0500
-Message-ID: <48A1D65A.8000600@linux-foundation.org>
-References: <20080812185345.d7496513.sfr@canb.auug.org.au> <48A1C924.6020000@linux.vnet.ibm.com>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #11274] Oops when accessing /proc/lockdep_chains
+Date: Tue, 12 Aug 2008 21:58:45 +0200
+Message-ID: <200808122158.45971.rjw@sisk.pl>
+References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A.Ks.8CjnIB@albercik> <20080812171635.GA18689@alice>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <48A1C924.6020000-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754437AbYHLTz5@vger.kernel.org>
+In-Reply-To: <20080812171635.GA18689@alice>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Kamalesh Babulal <kamalesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: Stephen Rothwell <sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>, linux-next-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>, Balbir Singh <balbir-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+To: Eric Sesterhenn <snakebyte@gmx.de>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Rabin Vincent <rabin@rab.in>, Adrian Bunk <bunk@kernel.org>
 
-Reboot and switch on debugging by either specifying slub_debug as a kernel
-command line parameter or setting CONFIG_SLUB_DEBUG_ON. This looks like the
-freelists are corrupted. Could be a use after free or something.
+On Tuesday, 12 of August 2008, Eric Sesterhenn wrote:
+> * Rafael J. Wysocki (rjw@sisk.pl) wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.26.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11274
+> > Subject		: Oops when accessing /proc/lockdep_chains
+> > Submitter	: Eric Sesterhenn <snakebyte@gmx.de>
+> > Date		: 2008-08-06 12:16 (4 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=121802509626294&w=4
+> > Handled-By	: Rabin Vincent <rabin@rab.in>
+> > Patch		: http://marc.info/?l=linux-kernel&m=121814269607276&w=4
+> 
+> the patch went into linus -git today, you can close this.
 
+Thanks, Adrian has already closed the bug.
+
+Rafael
