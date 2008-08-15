@@ -1,22 +1,35 @@
-From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 Subject: Re: [regression?] [resend] Memory zone info seems incomplete in boottime dmesg output
-Date: Thu, 14 Aug 2008 22:46:39 +0200
-Message-ID: <200808142246.40370.elendil@planet.nl>
-References: <200808142042.24606.elendil@planet.nl> <alpine.LNX.1.10.0808142057520.12259@titan.stealer.net>
+Date: Fri, 15 Aug 2008 11:05:53 +0100
+Message-ID: <20080815100552.GA27547@csn.ul.ie>
+References: <200808142042.24606.elendil@planet.nl> <20080814121349.b77e0116.akpm@linux-foundation.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LNX.1.10.0808142057520.12259-6nCn/K6wPWnr7RsiDCgVLl6hYfS7NtTn@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <20080814121349.b77e0116.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Sven Wegener <sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, pj-sJ/iWh9BUns@public.gmane.org
 
-On Thursday 14 August 2008, Sven Wegener wrote:
-> On Thu, 14 Aug 2008, Frans Pop wrote:
+On (14/08/08 12:13), Andrew Morton didst pronounce:
+> On Thu, 14 Aug 2008 20:42:23 +0200
+> Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org> wrote:
+> 
 > > With 2.6.26 I get:
+> > <snip>
+> > Zone PFN ranges:
+> >   DMA             0 ->     4096
+> >   DMA32        4096 ->  1048576
+> >   Normal    1048576 ->  1048576
+> > Movable zone start PFN for each node
+> > early_node_map[4] active PFN ranges
+> >     0:        0 ->      159
+> >     0:      256 ->   521844
+> >     0:   521961 ->   521964
+> >     0:   521983 ->   521984
 > > On node 0 totalpages: 521751
 > >   DMA zone: 56 pages used for memmap
 > >   DMA zone: 1271 pages reserved
@@ -25,74 +38,68 @@ On Thursday 14 August 2008, Sven Wegener wrote:
 > >   DMA32 zone: 510671 pages, LIFO batch:31
 > >   Normal zone: 0 pages used for memmap
 > >   Movable zone: 0 pages used for memmap
-> >
+> > </snip>
+> > 
 > > With 2.6.27-rc1 I only get pages listed for 2 zones (bottom part):
-> > On node 0 totalpages: 521751
-> >   DMA zone: 2072 pages, LIFO batch:0
-> >   DMA32 zone: 506625 pages, LIFO batch:31
-> >
-> > Note that totalpages is the same and that for 2.6.26 the sum of pages
-> > for all listed zones is equal to totalpages. Seems we've lost useful
-> > info here.
->
-> Could you make sure DEBUG_MEMORY_INIT is activated (it should, if
-
-Yes, it is.
-
-> you've not chosen the embedded feature) and boot with mminit_loglevel=3
-> and see if you get the ouput you want.
-
-That gives me:
-On node 0 totalpages: 521751
-mminit::memmap_init DMA zone: 88 pages used for memmap
-mminit::memmap_init DMA zone: 1839 pages reserved
-  DMA zone: 2072 pages, LIFO batch:0
-mminit::memmap_init Initialising map node 0 zone 0 pfns 0 -> 4096
-mminit::memmap_init DMA32 zone: 11127 pages used for memmap
-  DMA32 zone: 506625 pages, LIFO batch:31
-mminit::memmap_init Initialising map node 0 zone 1 pfns 4096 -> 521984
-mminit::memmap_init Normal zone: 0 pages used for memmap
-mminit::memmap_init Movable zone: 0 pages used for memmap
-
-If I now add up the number of pages, I get 521751 again.
-
-What was the rationale behind "hiding" resevered/memmapped pages behind an 
-additional debug option?
-I can see the point of suppressing the last 2 lines which list empty 
-zones, but not the others which list actual usage of pages in active 
-zones.
-Listing a "total number of pages" and then not specifying all categories 
-that make up the total seems like a bad choice to me. It would seem more 
-logical to either hide all related info, or to show something that is 
-numerically consistent.
-
-I can now see where my "missing" pages have gone: DMA reserved up by 
-almost 600 and DMA32 memmap up by 4000. Will need to check if that's 
-indeed the result of the extra "kernel hacking" options I enabled.
-
-
-On Thursday 14 August 2008, Andrew Morton wrote:
+> > <snip>
 > > Zone PFN ranges:
 > >   DMA      0x00000000 -> 0x00001000
 > >   DMA32    0x00001000 -> 0x00100000
 > >   Normal   0x00100000 -> 0x00100000
 > > Movable zone start PFN for each node
->
+> 
 > I'd have expected something to be printed here?
+> 
+> > early_node_map[4] active PFN ranges
+> >     0: 0x00000000 -> 0x0000009f
+> >     0: 0x00000100 -> 0x0007f674
+> >     0: 0x0007f6e9 -> 0x0007f6ec
+> >     0: 0x0007f6ff -> 0x0007f700
+> > On node 0 totalpages: 521751
+> >   DMA zone: 2072 pages, LIFO batch:0
+> >   DMA32 zone: 506625 pages, LIFO batch:31
+> > </snip>
+> 
+> It could be deliberate, I forget.  Maybe we trimmed nr_nodemap_entries
+> to not include empty zones.  Hopefully Mel will recall.
+> 
 
-No idea. That last line does seem out of context and - at least to me - 
-does not mean anything. mminit_loglevel=3 does not add any extra info 
-there.
-Looks to be related to the fact that the debug output (and the old 
-output!) shows the "Movable zone" as empty (0 pages)? Maybe this line 
-should be suppressed in that case?
+Assuming you mean the "used for memmap" message, it is being surpressed
+by the mminit debugging framework which converted a number of printks to
+mminit_dprintk. The expectation was that they were not generally useful
+messages except when debugging memory init problems. They would show up
+again if mminit_loglevel=4 was specified on the kernel command line.
 
+> > Note that totalpages is the same and that for 2.6.26 the sum of pages for 
+> > all listed zones is equal to totalpages. Seems we've lost useful info 
+> > here.
+> > 
+> > I also seem to have "lost" 600 LIFO batch pages for DMA and 4000 for DMA32 
+> > between the kernel versions although that could be due to config changes 
+> > (I enabled some extra debugging options). Harder to tell though without 
+> > the info where they've gone...
+> 
+> I can't see that from the above information?
+> 
 
-There seems to be another (probably minor) issue in free_area_init_nodes 
-in mm/page_alloc.c. It defines 'enum zone_type i', but also uses 'i' as a 
-counter for MAX_NUMNODES and nr_nodemap_entries which look to be 
-different data types.
-My C-foo is very limited, so I may be just missing something.
+The decrease in pages could be accounted for by either a larger memmap
+(unlikely unless the size of struct page has changed) or a larger reserve
+needed for the kernel image which is possible if more debugging options are
+enabled. Setting mminit_loglevel=4 should show up the values.
 
-Cheers,
-FJP
+> > Cheers,
+> > FJP
+> > 
+> > P.S. As a user I really don't find the hex values easier to read/use than 
+> > the decimal values. Except maybe for the "Zone PFN ranges" where things 
+> > seem to be nicely aligned.
+> 
+
+That change was from Paul Jackson (commit
+5dab8ec139be215fbaba216fb4aea914d0f4dac5) who appeared to be trying to
+make boot messages more consistent. He's cc'd for comment.
+
+-- 
+Mel Gorman
+Part-time Phd Student                          Linux Technology Center
+University of Limerick                         IBM Dublin Software Lab
