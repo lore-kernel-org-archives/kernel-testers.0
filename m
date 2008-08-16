@@ -1,30 +1,38 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11356] Linux 2.6.27-rc3 - build failure: undefined reference to `.lockdep_count_forward_deps'
-Date: Sat, 16 Aug 2008 21:02:57 +0200 (CEST)
-Message-ID: <sNRO-BDDjQL.A.byD.2ZzpIB@albercik>
+From: Jean Delvare <khali-PUYAD+kWke1g9hUCZPvPmw@public.gmane.org>
+Subject: Re: [Bug #11346] kernel BUG at arch/x86/mm/pat.c:233!
+Date: Sat, 16 Aug 2008 22:45:26 +0200
+Message-ID: <20080816224526.43145f77@hyperion.delvare>
 References: <DLWXHEp37wB.A.duD.yZzpIB@albercik>
+	<sNRO-BDDjQL.A.99D.9ZzpIB@albercik>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <DLWXHEp37wB.A.duD.yZzpIB@albercik>
-Content-Disposition: inline
+In-Reply-To: <sNRO-BDDjQL.A.99D.9ZzpIB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of recent regressions.
+Hi Rafael,
 
-The following bug entry is on the current list of known regressions
-from 2.6.26.  Please verify if it still should be listed and let me know
-(either way).
+On Sat, 16 Aug 2008 21:02:56 +0200 (CEST), Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11346
+> Subject	: kernel BUG at arch/x86/mm/pat.c:233!
+> Submitter	: Jean Delvare <khali-PUYAD+kWke1g9hUCZPvPmw@public.gmane.org>
+> Date		: 2008-08-15 02:10 (2 days old)
+> Handled-By	: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+> Patch		: http://bugzilla.kernel.org/attachment.cgi?id=17270&action=view
 
+Andi's patch still needs to be pushed to Linus.
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11356
-Subject		: Linux 2.6.27-rc3 - build failure: undefined reference to `.lockdep_count_forward_deps'
-Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Date		: 2008-08-16 19:11 (1 days old)
-References	: http://marc.info/?l=linux-kernel&m=121891396320127&w=4
-
+-- 
+Jean Delvare
