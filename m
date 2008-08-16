@@ -1,20 +1,23 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11276] build error: CONFIG_OPTIMIZE_INLINING=y causes gcc 4.2 to do stupid things
-Date: Sat, 16 Aug 2008 14:00:31 +0200
-Message-ID: <200808161400.32209.rjw@sisk.pl>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #11276] build error: CONFIG_OPTIMIZE_INLINING=y causes
+	gcc 4.2 to do stupid things
+Date: Sat, 16 Aug 2008 15:39:58 +0200
+Message-ID: <20080816133958.GB20652@elte.hu>
 References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A.Fg.4CjnIB@albercik> <200808151721.08175.bjorn.helgaas@hp.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200808151721.08175.bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <200808151721.08175.bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Saturday, 16 of August 2008, Bjorn Helgaas wrote:
+
+* Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org> wrote:
+
 > On Saturday 09 August 2008 04:43:51 pm Rafael J. Wysocki wrote:
 > > The following bug entry is on the current list of known regressions
 > > from 2.6.26.  Please verify if it still should be listed and let me know
@@ -30,12 +33,11 @@ On Saturday, 16 of August 2008, Bjorn Helgaas wrote:
 > > Handled-By	: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
 > > Patch		: http://lkml.org/lkml/2008/7/22/364
 > 
-> Since I supplied a patch, I assume I don't need to do anything more.
+> Since I supplied a patch, I assume I don't need to do anything more. 
 > Let me know if my assumption is incorrect.
 
-You don't need to do anything more, but please let me know when the patch gets
-into to Linus' tree (please ignore the subsequent "should it still be listed"
-messages until that happens).
+correct - assuming drivers/telephony/ is maintained. Maybe Andrew could 
+mark this patch as v2.6.27-must-have - to make sure it hits upstream in 
+this cycle?
 
-Thanks,
-Rafael
+	Ingo
