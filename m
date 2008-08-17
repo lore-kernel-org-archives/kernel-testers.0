@@ -1,43 +1,37 @@
-From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: [Bug #11254] KVM: fix userspace ABI breakage
-Date: Sun, 17 Aug 2008 21:45:31 +0300
-Message-ID: <20080817184531.GC24619@cs181140183.pp.htv.fi>
-References: <DLWXHEp37wB.A.duD.yZzpIB@albercik> <sNRO-BDDjQL.A.ZYG.ubzpIB@albercik>
+From: "=?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?=" <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11313] Plugging HDMI causes "unable to handle kernel paging request"
+Date: Sun, 17 Aug 2008 21:28:41 +0200
+Message-ID: <b170af450808171228i37951c6vd77071da7584669b@mail.gmail.com>
+References: <DLWXHEp37wB.A.duD.yZzpIB@albercik>
+	 <sNRO-BDDjQL.A.DYF.sazpIB@albercik>
 Mime-Version: 1.0
+Content-Transfer-Encoding: base64
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=4lN7ofcmpIODTUPsp4L+rnckFJ1PeksLORUlcvZ430E=;
+        b=YXlLD/t2Njrnc03HptNuX25pUdYIwnk2UJvgYOassxi/f+Ktr5XdPHFxO8wCdZ0CSQ
+         Cx8gz5TaUy45Un1FY4tt7p3qifsSoRrAHwoG21r973OsDD80PJV5Mf4zsbnFojBi6pWh
+         FobqaUadX8sj6R5pavIQvPSgiIHmCqWr1E1Xo=
+In-Reply-To: <sNRO-BDDjQL.A.DYF.sazpIB@albercik>
 Content-Disposition: inline
-In-Reply-To: <sNRO-BDDjQL.A.ZYG.ubzpIB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-On Sat, Aug 16, 2008 at 09:02:49PM +0200, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me know
-> (either way).
-
-yes
-
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11254
-> Subject		: KVM: fix userspace ABI breakage
-> Submitter	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-> Date		: 21 Jul 2008 17:58:26 (0 days old)
-> References	: http://lkml.org/lkml/2008/7/21/197
-> Handled-By	: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-> Patch		: http://lkml.org/lkml/2008/7/21/197
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+MjAwOC84LzE2LCBSYWZhZWwgSi4gV3lzb2NraSA8cmp3QHNpc2sucGw+Ogo+IFRoaXMgbWVzc2Fn
+ZSBoYXMgYmVlbiBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBhcyBhIHBhcnQgb2YgYSByZXBvcnQK
+PiBvZiByZWNlbnQgcmVncmVzc2lvbnMuCj4KPiBUaGUgZm9sbG93aW5nIGJ1ZyBlbnRyeSBpcyBv
+biB0aGUgY3VycmVudCBsaXN0IG9mIGtub3duIHJlZ3Jlc3Npb25zCj4gZnJvbSAyLjYuMjYuICBQ
+bGVhc2UgdmVyaWZ5IGlmIGl0IHN0aWxsIHNob3VsZCBiZSBsaXN0ZWQgYW5kIGxldCBtZSBrbm93
+Cj4gKGVpdGhlciB3YXkpLgo+Cj4KPiBCdWctRW50cnkJOiBodHRwOi8vYnVnemlsbGEua2VybmVs
+Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTEzMTMKPiBTdWJqZWN0CQk6IFBsdWdnaW5nIEhETUkgY2F1
+c2VzICJ1bmFibGUgdG8gaGFuZGxlIGtlcm5lbCBwYWdpbmcgcmVxdWVzdCIKPiBTdWJtaXR0ZXIJ
+OiBSYWZhxYIgTWnFgmVja2kgPHphamVjNUBnbWFpbC5jb20+Cj4gRGF0ZQkJOiAyMDA4LTA4LTEy
+IDE0OjMwICg1IGRheXMgb2xkKQoKQnVnIHN0aWxsIGV4aXN0cyBpbiBjdXJyZW50IGdpdCAodGVz
+dGVkIDE1IG1pbnV0ZXMgYWdvKS4KCi0tIApSYWZhxYIgTWnFgmVja2kK
