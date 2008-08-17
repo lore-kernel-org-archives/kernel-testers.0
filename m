@@ -1,26 +1,39 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11334] myri10ge: use ioremap_wc: compilation failure on ARM
-Date: Sun, 17 Aug 2008 14:35:14 +0200
-Message-ID: <200808171435.15446.rjw@sisk.pl>
-References: <DLWXHEp37wB.A.duD.yZzpIB@albercik> <sNRO-BDDjQL.A.ZxE.XazpIB@albercik> <20080817062724.GA2563@deprecation.cyrius.com>
+Subject: Re: [Bug #11346] kernel BUG at arch/x86/mm/pat.c:233!
+Date: Sun, 17 Aug 2008 14:35:56 +0200
+Message-ID: <200808171435.57225.rjw@sisk.pl>
+References: <DLWXHEp37wB.A.duD.yZzpIB@albercik> <sNRO-BDDjQL.A.99D.9ZzpIB@albercik> <20080816224526.43145f77@hyperion.delvare>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080817062724.GA2563-u+sgIaa8TU6A7rR/f+Zz5kHK5LHFu9C3@public.gmane.org>
+In-Reply-To: <20080816224526.43145f77-ig7AzVSIIG7kN2dkZ6Wm7A@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Martin Michlmayr <tbm-R+vWnYXSFMfQT0dZR+AlfA@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Brice Goglin <brice-vV262kQ/Wyo@public.gmane.org>
+To: Jean Delvare <khali-PUYAD+kWke1g9hUCZPvPmw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 
-On Sunday, 17 of August 2008, Martin Michlmayr wrote:
-> * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> [2008-08-16 21:02]:
+On Saturday, 16 of August 2008, Jean Delvare wrote:
+> Hi Rafael,
+> 
+> On Sat, 16 Aug 2008 21:02:56 +0200 (CEST), Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
 > > The following bug entry is on the current list of known regressions
 > > from 2.6.26.  Please verify if it still should be listed and let me know
 > > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11346
+> > Subject	: kernel BUG at arch/x86/mm/pat.c:233!
+> > Submitter	: Jean Delvare <khali-PUYAD+kWke1g9hUCZPvPmw@public.gmane.org>
+> > Date		: 2008-08-15 02:10 (2 days old)
+> > Handled-By	: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+> > Patch		: http://bugzilla.kernel.org/attachment.cgi?id=17270&action=view
 > 
-> This is still there.
+> Andi's patch still needs to be pushed to Linus.
 
 Thanks for the update.
 
