@@ -1,26 +1,34 @@
-From: Martin Michlmayr <tbm-R+vWnYXSFMfQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #11334] myri10ge: use ioremap_wc: compilation failure on
-	ARM
-Date: Sun, 17 Aug 2008 09:27:24 +0300
-Message-ID: <20080817062724.GA2563@deprecation.cyrius.com>
-References: <DLWXHEp37wB.A.duD.yZzpIB@albercik> <sNRO-BDDjQL.A.ZxE.XazpIB@albercik>
+From: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [Bug #11209] 2.6.27-rc1 process time accounting
+Date: Sun, 17 Aug 2008 10:07:48 +0200
+Message-ID: <1218960468.10800.257.camel@twins>
+References: <DLWXHEp37wB.A.duD.yZzpIB@albercik>
+	 <sNRO-BDDjQL.A.2MH.lczpIB@albercik>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <sNRO-BDDjQL.A.ZxE.XazpIB@albercik>
+In-Reply-To: <sNRO-BDDjQL.A.2MH.lczpIB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Brice Goglin <brice-vV262kQ/Wyo@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
 
-* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> [2008-08-16 21:02]:
+On Sat, 2008-08-16 at 21:02 +0200, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
 > The following bug entry is on the current list of known regressions
 > from 2.6.26.  Please verify if it still should be listed and let me know
 > (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11209
+> Subject		: 2.6.27-rc1 process time accounting
+> Submitter	: Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
+> Date		: 2008-07-31 10:43 (17 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121750102917490&w=4
+> Handled-By	: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-This is still there.
--- 
-Martin Michlmayr
-http://www.cyrius.com/
+
+Should be fixed by: e26b33e9552c29c1d3fe67dc602c6264c29f5dc7
