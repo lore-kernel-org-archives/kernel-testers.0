@@ -1,41 +1,32 @@
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-Subject: Re: [Bug #11260] Regression: USB memory stick triggers several USB
-	resets before settling with bogus capacity
-Date: Sun, 17 Aug 2008 10:03:27 -0500
-Message-ID: <1218985407.3917.1.camel@localhost.localdomain>
-References: <DLWXHEp37wB.A.duD.yZzpIB@albercik>
-	 <sNRO-BDDjQL.A.pSG.rbzpIB@albercik>
-	 <Pine.LNX.4.64.0808170028550.25704@blonde.site>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: 2.6.27-rc3-git3: Reported regressions from 2.6.26
+Date: Sun, 17 Aug 2008 18:33:51 +0200
+Message-ID: <200808171833.52278.rjw@sisk.pl>
+References: <DLWXHEp37wB.A.duD.yZzpIB@albercik> <20080817135134.GA8162@mit.edu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754202AbYHQPDp@vger.kernel.org>
-In-Reply-To: <Pine.LNX.4.64.0808170028550.25704@blonde.site>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20080817135134.GA8162-3s7WtUTddSA@public.gmane.org>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Hugh Dickins <hugh@veritas.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alex Villacis Lasso <avillaci@ceibo.fiec.espol.edu.ec>
+To: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sun, 2008-08-17 at 00:33 +0100, Hugh Dickins wrote:
-> On Sat, 16 Aug 2008, Rafael J. Wysocki wrote:
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11260
-> > Subject		: Regression: USB memory stick triggers several USB resets before settling with bogus capacity
-> > Submitter	: Alex Villacis Lasso <avillaci@ceibo.fiec.espol.edu.ec>
-> > Date		: 2008-08-06 13:33 (11 days old)
-> > Handled-By	: Hugh Dickins <hugh@veritas.com>
-> > Patch		: http://marc.info/?l=linux-kernel&m=121804333614405&w=2
+On Sunday, 17 of August 2008, Theodore Tso wrote:
+> On Sat, Aug 16, 2008 at 09:00:39PM +0200, Rafael J. Wysocki wrote:
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11341
+> > Subject		: 2.6.27-rc1 - ext4 e2fsck false prompting for fixing i_size of Inode
+> > Submitter	: Kamalesh Babulal <kamalesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+> > Date		: 2008-08-13 6:56 (4 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=121861058720051&w=4
 > 
-> James has this fix queued in his scsi-rc-fixes for 2.6.27
-> 
-> http://git.kernel.org/?p=linux/kernel/git/jejb/scsi-rc-fixes-2.6.git;a=commit;h=d211f052fa58a053639bc51501cb64421157d362
-> 
-> but hasn't asked Linus to pull for a while: I'm hoping it'll get into -rc4.
+> This wasn't a regression because it wasn't a kernel bug (and so by
+> definition it existed on prior kernel versions :-).  I've just checked
+> in a fix into the e2fsprogs repository, and I've included the
+> e2fsprogs patch in the bugzilla record for the user's convenience.
 
-Yes ... sure.  linux-next has slowed my push to rcs because it's in
-there as soon as it's in my git tree.  However, give it a couple of days
-to test out the rest of the fixes in the tree and I'll send a push
-request.
+Thanks a lot for handling this.
 
-James
-
+Rafael
