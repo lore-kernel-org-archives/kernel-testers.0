@@ -1,92 +1,41 @@
-From: Johannes Weiner <hannes-BfM5BwqdGSkPyMaTEpOvjQ@public.gmane.org>
-Subject: Re: [PATCH] mm: make unmap_vmas() handle non-page-aligned boundary addresses
-Date: Sun, 17 Aug 2008 16:41:31 +0200
-Message-ID: <87bpzrd7qc.fsf@skyscraper.fehenstaub.lan>
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+Subject: Re: [Bug #11260] Regression: USB memory stick triggers several USB
+	resets before settling with bogus capacity
+Date: Sun, 17 Aug 2008 10:03:27 -0500
+Message-ID: <1218985407.3917.1.camel@localhost.localdomain>
 References: <DLWXHEp37wB.A.duD.yZzpIB@albercik>
-	<sNRO-BDDjQL.A.spE.VazpIB@albercik>
-	<Pine.LNX.4.64.0808170036400.25704@blonde.site>
-	<87fxp4pi0r.fsf_-_@skyscraper.fehenstaub.lan>
-	<Pine.LNX.4.64.0808171151190.13521@blonde.site>
-	<8763pzygod.fsf@skyscraper.fehenstaub.lan>
-	<Pine.LNX.4.64.0808171359010.24614@blonde.site>
+	 <sNRO-BDDjQL.A.pSG.rbzpIB@albercik>
+	 <Pine.LNX.4.64.0808170028550.25704@blonde.site>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Pine.LNX.4.64.0808171359010.24614-popGQ1T0qN76K7/ahGyk6A@public.gmane.org> (Hugh Dickins's
-	message of "Sun, 17 Aug 2008 14:24:00 +0100 (BST)")
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754202AbYHQPDp@vger.kernel.org>
+In-Reply-To: <Pine.LNX.4.64.0808170028550.25704@blonde.site>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+To: Hugh Dickins <hugh@veritas.com>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alex Villacis Lasso <avillaci@ceibo.fiec.espol.edu.ec>
 
-Hi,
+On Sun, 2008-08-17 at 00:33 +0100, Hugh Dickins wrote:
+> On Sat, 16 Aug 2008, Rafael J. Wysocki wrote:
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11260
+> > Subject		: Regression: USB memory stick triggers several USB resets before settling with bogus capacity
+> > Submitter	: Alex Villacis Lasso <avillaci@ceibo.fiec.espol.edu.ec>
+> > Date		: 2008-08-06 13:33 (11 days old)
+> > Handled-By	: Hugh Dickins <hugh@veritas.com>
+> > Patch		: http://marc.info/?l=linux-kernel&m=121804333614405&w=2
+> 
+> James has this fix queued in his scsi-rc-fixes for 2.6.27
+> 
+> http://git.kernel.org/?p=linux/kernel/git/jejb/scsi-rc-fixes-2.6.git;a=commit;h=d211f052fa58a053639bc51501cb64421157d362
+> 
+> but hasn't asked Linus to pull for a while: I'm hoping it'll get into -rc4.
 
-Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org> writes:
+Yes ... sure.  linux-next has slowed my push to rcs because it's in
+there as soon as it's in my git tree.  However, give it a couple of days
+to test out the rest of the fixes in the tree and I'll send a push
+request.
 
-> On Sun, 17 Aug 2008, Johannes Weiner wrote:
->> Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org> writes:
->> 
->> I will try and help debugging this further.
->
-> Thanks!
->
->> > You're right that those pgd_addr_end() etc. loops have an implicit
->> > and fragile dependence on the page alignment of addr and end.  They
->> > were written that way to maximize efficiency and be homogeneous
->> > across the levels, while handling the wrapped end 0 case.  But both
->> > fast gup and pagewalk have stumbled on those assumptions recently.
->> 
->> Yeah, especially since they could cause silent page table corruption :(
->
-> Silent?  I guess those'll be the cases we've not heard about ;)
+James
 
-Or we couldn't associate the problem with the source :)
-
->> In this respect, I still think that my patch has a point.  Because yes,
->> the looping depends on page aligned boundaries, but we don't check for
->> this required dependency and values leading to overruns are able to pass
->> through, as explained above.
->
-> I don't think the patch you sent had a lot of point: if there is a 
-> problem, it extends way beyond just the entry to unmap_vmas(); and
-> really it's not the well-established loops we have to worry about,
-> it's where people add new ones without thinking about alignment.
-
-The loops might have been there for long but the usage and input is
-prone to change.
-
-For example remap_pfn_range is used by drivers and it has the same
-alignment requirements.  Perhaps an explicit comment in the kerneldoc?
-
-Iff there is even a problem with all these things, still looking through
-callsites, rereading your mails and thinking about it..  Hey, this thing
-is big and I try hard to get a clue ;)
-
-> If we put alignment BUG_ONs at the start of every such loop,
-> yes, that would help the new ones to follow the same pattern.
-> Or if we put alignment VM_BUG_ONs inside p?d_addr_next(), that
-> might help too - I say VM_BUG_ONs because we don't really want
-> to slow down the usual config, though that would then miss any
-> cases of vma corruption in the wild.
->
-> But even if we did so, it looks like we go for a long while only
-> testing the page-aligned cases anyway (which, barring corruption,
-> is always the case coming from vm_start and vm_end: the exceptions
-> are things like fault addresses or atypical I/O sizes), which
-> would not BUG anyway.  As soon as someone does try the unaligned,
-> we veer off to an unbounded loop and hit something nasty quite
-> noisily, don't we?
-
-Yeah, I think so.
-
-> I do think there's a message about review and testing here, but
-> not a great case for BUGs.  Well, you didn't BUG, you enforced
-> alignment; but if the input is wrong, you cannot tell whether
-> to round up or round down in there, so better to BUG or WARN.
-
-Agreed.  Well, in the unmap_vmas() case you can not unmap partial pages,
-so you would probably be able to guess correct.  But I agree it should
-be up to the callsite.
-
-	Hannes
