@@ -1,43 +1,41 @@
-From: Dave Jones <davej@redhat.com>
-Subject: Re: [PATCH] Revert "[CPUFREQ][2/2] preregister support for
-	powernow-k8"
-Date: Tue, 19 Aug 2008 15:43:25 -0400
-Message-ID: <20080819194325.GA641@redhat.com>
-References: <200808092321.16711.rjw@sisk.pl> <6453C3CB8E2B3646B0D020C112613273C5AC60@sausexmb4.amd.com> <200808192137.55818.rjw@sisk.pl>
+From: Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
+Subject: Re: [Bug #11313] Plugging HDMI causes "unable to handle kernel paging
+ request"
+Date: Tue, 19 Aug 2008 14:31:22 -0700
+Message-ID: <48AB3BAA.9090009@goop.org>
+References: <DLWXHEp37wB.A.duD.yZzpIB@albercik>	 <sNRO-BDDjQL.A.DYF.sazpIB@albercik> <b170af450808171228i37951c6vd77071da7584669b@mail.gmail.com>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758019AbYHSToh@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <200808192137.55818.rjw@sisk.pl>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <b170af450808171228i37951c6vd77071da7584669b-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, "Langsdorf, Mark" <mark.langsdorf@amd.com>, LKML <linux-kernel@vger.kernel.org>, kernel-testers@vger.kernel.org, Randy Dunlap <randy.dunlap@oracle.com>, "Arnold, Frank" <Frank.Arnold@amd.com>, Torsten Kaiser <just.for.lkml@googlemail.com>
+Content-Type: text/plain; charset="utf-8"
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-On Tue, Aug 19, 2008 at 09:37:54PM +0200, Rafael J. Wysocki wrote:
- > From: Rafael J. Wysocki <rjw@sisk.pl>
- > 
- > Revert "[CPUFREQ][2/2] preregister support for powernow-k8"
- >     
- > Revert commit 34ae7f35a21694aa5cb8829dc5142c39d73d6ba0
- > ("[CPUFREQ][2/2] preregister support for powernow-k8") that causes
- > regressions tracked as:
- > http://bugzilla.kernel.org/show_bug.cgi?id=11296 ,
- > http://bugzilla.kernel.org/show_bug.cgi?id=11339 .
- > Namely, my test box with the Asus M3A32-MVP mainboard and the AMD
- > Phenom 9850 CPU crashes during hibernation, suspend to RAM and ACPI
- > power off, apparently due to a failing CPU hotplug notifier.  In
- > turn, on the Torsten Kaiser's test system only one CPU is correctly
- > handled by cpufreq.  These problems go away after reverting
- > 34ae7f35a21694aa5cb8829dc5142c39d73d6ba0, but unfortunately they are
- > quite difficult to debug.
- > 
- > Signed-off-by: Rafael J. Wysocki <rjw@sisk.pl>
+Rafa=C5=82 Mi=C5=82ecki wrote:
+> 2008/8/16, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+>  =20
+>> This message has been generated automatically as a part of a report
+>> of recent regressions.
+>>
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.26.  Please verify if it still should be listed and let me =
+know
+>> (either way).
+>>
+>>
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11313
+>> Subject		: Plugging HDMI causes "unable to handle kernel paging requ=
+est"
+>> Submitter	: Rafa=C5=82 Mi=C5=82ecki <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> Date		: 2008-08-12 14:30 (5 days old)
+>>    =20
+>
+> Bug still exists in current git (tested 15 minutes ago).
+>  =20
 
-ACKed-by: Dave Jones <davej@redhat.com>
+What's your .config on this kernel, BTW?
 
-	Dave
-
--- 
-http://www.codemonkey.org.uk
+    J
