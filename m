@@ -1,42 +1,39 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11191] 2.6.26-git8: spinlock lockup in c1e_idle()
-Date: Mon, 18 Aug 2008 23:54:49 +0200
-Message-ID: <200808182354.49669.rjw@sisk.pl>
-References: <DLWXHEp37wB.A.duD.yZzpIB@albercik> <sNRO-BDDjQL.A.ugH.CdzpIB@albercik> <20080819014544.390ff3c2@gmail.com>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #11330] int3: 0000 in tsc_read_refs when using powernow_k7
+Date: Tue, 19 Aug 2008 02:22:32 +0200
+Message-ID: <20080819002232.GF9914@elte.hu>
+References: <DLWXHEp37wB.A.duD.yZzpIB@albercik> <sNRO-BDDjQL.A.v-E.dazpIB@albercik> <1219079740.13032.14.camel@alok-dev1> <20080818183328.GB22989@elte.hu>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080819014544.390ff3c2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <20080818183328.GB22989-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Mikhail Kshevetskiy <mikhail.kshevetskiy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Alok Kataria <akataria-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Daniel Hecht <dhecht-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>, Mikko Vinni <mmvinni-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, the arch/x86 maintainers <x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
-On Monday, 18 of August 2008, Mikhail Kshevetskiy wrote:
-> As of 2.6.26-rc3-git3 bug still exist.
-> It affect both i386 and x86_64 architectures.
+
+* Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
+
+> > There is this fix 
+> > 
+> > commit d554d9a4295dd0595d12eeccbc55d1f495b15176
+> > Author: Marcin Slusarz <marcin.slusarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date:   Mon Aug 11 00:07:44 2008 +0200
+> > 
+> >     x86, tsc: fix section mismatch warning
+> > 
+> > which is in x86/tip-master which fixes this issue. 
+> > I don't see the fix in the mainline tree yet. 
+> > 
+> > Maybe Ingo, has it queued, for upstream ?
+> > Ingo, other than a section mismatch warning it also fixes a real bug.
 > 
-> Mikhail
+> yeah, hpa queued it up into x86/urgent as well earlier today, it will go 
+> out with the next pull request.
 
-Thanks for the update,
-Rafael
+FYI, commit d554d9a4295d is upstream now, and will be part of -rc4.
 
-> On Sat, 16 Aug 2008 21:02:46 +0200 (CEST)
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.26.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11191
-> > Subject		: 2.6.26-git8: spinlock lockup in c1e_idle()
-> > Submitter	: Mikhail Kshevetskiy <mikhail.kshevetskiy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2008-07-24 03:22 (24 days old)
-> > References	: http://lkml.org/lkml/2008/7/23/317
-> > Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+	Ingo
