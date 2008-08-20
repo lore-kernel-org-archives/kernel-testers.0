@@ -1,58 +1,39 @@
-From: Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
-Subject: Re: [Bug #11313] Plugging HDMI causes "unable to handle kernel paging
- request"
-Date: Tue, 19 Aug 2008 16:53:59 -0700
-Message-ID: <48AB5D17.5030600@goop.org>
-References: <DLWXHEp37wB.A.duD.yZzpIB@albercik>	 <sNRO-BDDjQL.A.DYF.sazpIB@albercik> <b170af450808171228i37951c6vd77071da7584669b@mail.gmail.com>
+From: "=?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?=" <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11313] Plugging HDMI causes "unable to handle kernel paging request"
+Date: Wed, 20 Aug 2008 13:10:44 +0200
+Message-ID: <b170af450808200410v3d7cd076h3e62546b48ddf507@mail.gmail.com>
+References: <DLWXHEp37wB.A.duD.yZzpIB@albercik>
+	 <sNRO-BDDjQL.A.DYF.sazpIB@albercik>
+	 <b170af450808171228i37951c6vd77071da7584669b@mail.gmail.com>
+	 <48AB5D17.5030600@goop.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: base64
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b170af450808171228i37951c6vd77071da7584669b-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=1jXBY1NaRSInrSezKEu3z+dMCx9ktNdX2d5dkag6Rys=;
+        b=OUHkUInTphLUZRcXBp06J8so0WbH2/s5SYjvUfM1NUHwkQkRUpsvWN9gjBDqm/gUMl
+         JNEYxsmpaqk+WtlOpW4PRqg2DixM0nnrX7GwWBYNlz+mzHCKr82Y+p/MsmKeeP0gWvuC
+         XJ1yDoLhlALYR36HSzUjw4n+DgeHe4Wih710I=
+In-Reply-To: <48AB5D17.5030600-TSDbQ3PG+2Y@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
 Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-Rafa=C5=82 Mi=C5=82ecki wrote:
-> Bug still exists in current git (tested 15 minutes ago).
->  =20
-
-Could you apply this patch and post the output of dmesg from booting (n=
-o
-need to crash it again).
-
-Thanks,
-    J
-
-diff -r 3f465c361b3c arch/x86/mm/init_64.c
---- a/arch/x86/mm/init_64.c	Wed Aug 13 20:50:10 2008 -0700
-+++ b/arch/x86/mm/init_64.c	Tue Aug 19 16:50:10 2008 -0700
-@@ -331,6 +331,8 @@
- 		}
-=20
- 		if (pmd_val(*pmd)) {
-+			printk("addr %lx reusing pmd %lx %016lx\n",
-+			       address, __pa(pmd), pmd_val(*pmd));
- 			if (!pmd_large(*pmd))
- 				last_map_addr =3D phys_pte_update(pmd, address,
- 								 end);
-@@ -392,6 +394,8 @@
- 		}
-=20
- 		if (pud_val(*pud)) {
-+			printk("addr %lx reusing pud %lx %016lx\n",
-+			       addr, __pa(pud), pud_val(*pud));
- 			if (!pud_large(*pud))
- 				last_map_addr =3D phys_pmd_update(pud, addr, end,
- 							 page_size_mask);
-@@ -500,6 +504,8 @@
- 			next =3D end;
-=20
- 		if (pgd_val(*pgd)) {
-+			printk("addr %lx reusing pgd %lx %016lx\n",
-+			       __pa(start), __pa(pgd), pgd_val(*pgd));
- 			last_map_addr =3D phys_pud_update(pgd, __pa(start),
- 						 __pa(end), page_size_mask);
- 			continue;
-
+MjAwOC84LzE5LCBKZXJlbXkgRml0emhhcmRpbmdlIDxqZXJlbXlAZ29vcC5vcmc+Ogo+IFdoYXQn
+cyB5b3VyIC5jb25maWcgb24gdGhpcyBrZXJuZWwsIEJUVz8KCkkgbW9zdGx5IHVzZWQgb3BlblNV
+U0UncyBrZXJuZWwgY29uZmlndXJhdGlvbi4gSSBqdXN0IGRpc2FibGVkIHBhcmF2aXJ0LgpodHRw
+Oi8vYnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0xNzMyOQoKCjIwMDgvOC8y
+MCwgSmVyZW15IEZpdHpoYXJkaW5nZSA8amVyZW15QGdvb3Aub3JnPjoKPiBSYWZhxYIgTWnFgmVj
+a2kgd3JvdGU6Cj4+IEJ1ZyBzdGlsbCBleGlzdHMgaW4gY3VycmVudCBnaXQgKHRlc3RlZCAxNSBt
+aW51dGVzIGFnbykuCj4+Cj4KPiBDb3VsZCB5b3UgYXBwbHkgdGhpcyBwYXRjaCBhbmQgcG9zdCB0
+aGUgb3V0cHV0IG9mIGRtZXNnIGZyb20gYm9vdGluZyAobm8KPiBuZWVkIHRvIGNyYXNoIGl0IGFn
+YWluKS4KClN1cmUsIGFzIGV2ZXJ5dGhpbmcgdG8gaGVscCBkZWJ1Z2dpbmcgdGhpcyA6KQpodHRw
+Oi8vYnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0xNzMzMAoKLS0gClJhZmHF
+giBNacWCZWNraQo=
