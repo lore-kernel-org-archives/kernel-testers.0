@@ -1,28 +1,61 @@
-From: Greg KH <gregkh-l3A5Bk7waGM@public.gmane.org>
-Subject: Re: [BUG] linux-next: Tree for August 21 - WARNING: at
-	fs/sysfs/dir.c:465 sysfs_add_one()
-Date: Thu, 21 Aug 2008 12:23:15 -0700
-Message-ID: <20080821192315.GA17600@suse.de>
-References: <20080821191253.ba180d5e.sfr@canb.auug.org.au> <48ADC08C.6030406@linux.vnet.ibm.com>
+From: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+Subject: Re: [Bug #11272] BUG: parport_serial in 2.6.27-rc1 for NetMos Technology PCI 9835
+Date: Thu, 21 Aug 2008 15:34:16 -0600
+Message-ID: <200808211534.16465.bjorn.helgaas@hp.com>
+References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A.F6.BDjnIB@albercik> <3f9a31f40808092354s3d057effm6ed1d2f506fb4637@mail.gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <3f9a31f40808092354s3d057effm6ed1d2f506fb4637-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <48ADC08C.6030406-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Kamalesh Babulal <kamalesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: Stephen Rothwell <sfr-3FnU+UHB4dNDw9hX6IcOSA@public.gmane.org>, linux-next-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Whitcroft <apw-26w3C0LaAnFg9hUCZPvPmw@public.gmane.org>
+To: Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-serial-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Fri, Aug 22, 2008 at 12:52:52AM +0530, Kamalesh Babulal wrote:
-> Hi,
+On Sunday 10 August 2008 12:54:14 am Jaswinder Singh wrote:
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=11272
+> > Subject         : BUG: parport_serial in 2.6.27-rc1 for NetMos Technology PCI 9835
+> > Submitter       : Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2008-08-05 15:12 (5 days old)
+> > References      : http://marc.info/?l=linux-kernel&m=121794900319776&w=4
 > 
-> while booting up the next-20080821 kernel on x86 machine, warning shows up for sysfs_add_one
-> of acpi getting called twice
+> This problem still exists on 2.6.27-rc2
+> 
+> When I connect  development boads to /dev/ttyS1 and /dev/ttyS2:
+> bootloader still prints Junk (Garbage Characters) but when Linux
+> starts then it becomes readable and normal.
+> 
+> So I thought problem is in bootloader so I connected different kind of
+> develepment boards and all shows junk characters during boot-loading.
+> 
+> But when I connect  development boads to /dev/ttyS0 : bootloader
+> messages are readable and normal with same settings.
 
-See lkml, patches to resolve this have been posted.
+This sounds like a problem with the port configuration, e.g.,
+baud rate, data bits, etc.
 
-thanks,
+I'm a little confused about what's connected to what.
 
-greg k-h
+I assume you have the consoles of various development boards ("targets")
+connected to a NetMos card in the host, and you're running conserver
+or something on the host.  And the target bootloader output is garbled,
+but after the target boots Linux, the output from the target becomes
+normal?
+
+If that's the case, nothing should be changing on the host side that
+could account for the change from garbled to normal.
+
+I notice you're running at 115200.  Does the same thing happen if
+you run at 9600 baud?  I'm wondering if the bootloader programs the
+UART with a divisor that results in a baud rate that's enough different
+to cause garbling, and when Linux boots, it reprograms the UART with
+something that matches the NetMos more closely.  The builtin ttyS0
+and the NetMos ports probably use different clocks, which could
+explain why it works on one but not the other.
+
+There were no changes in parport_serial between 2.6.26 and 2.6.27-rc2.
+Please confirm whether this is a regression from 2.6.26 or not.
+
+Bjorn
