@@ -1,30 +1,66 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11414] Random crashes with 2.6.27-rc3 on PPC
-Date: Sat, 23 Aug 2008 20:10:26 +0200 (CEST)
-Message-ID: <VSpL6AnBTS.A.6_F.0ZGsIB@albercik>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
+ bisected
+Date: Sat, 23 Aug 2008 13:10:45 -0700 (PDT)
+Message-ID: <alpine.LFD.1.10.0808231257310.3363@nehalem.linux-foundation.org>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.q9H.6aGsIB@albercik>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
-Content-Disposition: inline
+In-Reply-To: <VSpL6AnBTS.A.q9H.6aGsIB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Buesch <mb-fseUSCV1ubazQB+pC5nmwQ@public.gmane.org>
-
-This message has been generated automatically as a part of a report
-of recent regressions.
-
-The following bug entry is on the current list of known regressions
-from 2.6.26.  Please verify if it still should be listed and let me know
-(either way).
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11414
-Subject		: Random crashes with 2.6.27-rc3 on PPC
-Submitter	: Michael Buesch <mb-fseUSCV1ubazQB+pC5nmwQ@public.gmane.org>
-Date		: 2008-08-23 14:10 (1 days old)
-References	: http://marc.info/?l=linux-kernel&m=121950076812616&w=4
 
+On Sat, 23 Aug 2008, Rafael J. Wysocki wrote:
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11342
+> Subject		: Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
+> Submitter	: Alan D. Brunelle <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>
+> Date		: 2008-08-13 23:03 (11 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121866876027629&w=4
+> Handled-By	: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+
+This one makes no sense. It's triggering a BUG_ON(in_interrupt()), but 
+then the call chain shows that there is no interrupt going on.
+
+Also, the bisection is senseless - there's a trivial change wrt 
+"do_one_initcall()" that got merged, but everything else is trivial about 
+lguest and has nothing to do with the whole CPU-init thing. But if it was 
+that initcall one, then "git bisect" woul have pointed to it, not the 
+merge. And the merge itself had no conflicts or anything else going on..
+
+The fact that it came and went later also implies that it's probably just 
+some timing-dependent thing or some subtle memory corruption, making the 
+bisection result even less likely to be exact.
+
+But I'm adding Arjan and Rusty to the Cc, because that merge was takign 
+Rusty's branch, and the "do_one_initcall()" is Arjan's commit. Since 
+undoing that merge apparently does fix it, I'm wondering if something 
+there just does end up triggering the problem.
+
+The do_one_commit() thing _is_ in the path of sys_init_module(), so it 
+_is_ at least somewhat relevant from an oops standpoint. 
+
+One thing the "do_one_commit()" thing does is to put more pressure on the 
+stack due to that whole buffer for the printk's going on.
+
+Alan, can you try 
+ - seeing how consistent it is with one kernel (ie boot a known-bad kernel 
+   a few times just to see if it really is 100% consistent)
+ - try enabling 'initcall_debug' on the kernel command line, to (a) see 
+   the new code actually do something and (b) see what it is actually 
+   calling just before.
+
+Hmm..
+
+			Linus
