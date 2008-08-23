@@ -1,17 +1,18 @@
-From: Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
-Subject: Re: [Bug #11271] BUG: fealnx in 2.6.27-rc1
-Date: Sat, 23 Aug 2008 18:26:28 -0400
-Message-ID: <48B08E94.8030805@garzik.org>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.U-.FcGsIB@albercik>
+From: Jeff Garzik <jeff@garzik.org>
+Subject: Re: [Bug #11343] SATA Cold Boot Problems with 2.6.27-rc[23] on nVidia
+ 680i
+Date: Sat, 23 Aug 2008 18:34:47 -0400
+Message-ID: <48B09087.3090202@garzik.org>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.m3H.3aGsIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <VSpL6AnBTS.A.U-.FcGsIB@albercik>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-ide-owner@vger.kernel.org>
+In-Reply-To: <VSpL6AnBTS.A.m3H.3aGsIB@albercik>
+Sender: linux-ide-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Francois Romieu <romieu-W8zweXLXuWQS+FvcfC7Uqw@public.gmane.org>
+To: Manny Maxwell <mannymax@mannymax.net>, Linux IDE mailing list <linux-ide@vger.kernel.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
 Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
@@ -22,18 +23,35 @@ Rafael J. Wysocki wrote:
 > (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11271
-> Subject		: BUG: fealnx in 2.6.27-rc1
-> Submitter	: Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2008-08-05 14:58 (19 days old)
-> References	: http://marc.info/?l=linux-netdev&m=121794762016830&w=4
-> 		  http://lkml.org/lkml/2008/8/10/98
-> Handled-By	: Francois Romieu <romieu-W8zweXLXuWQS+FvcfC7Uqw@public.gmane.org>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11343
+> Subject		: SATA Cold Boot Problems with 2.6.27-rc[23] on nVidia 680i
+> Submitter	: Manny Maxwell <mannymax@mannymax.net>
+> Date		: 2008-08-14 4:16 (10 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121868782917600&w=4
 
 
-Jaswinder, does reverting 28cd4289abc2c8db90344ee4ff064a9bdf086fdf help?
+hmmmm.  Looking at changes between the two csets listed in the email 
+(623fa57..8f616cd), all of them are driver-specific and unrelated to 
+Manny's hardware except for
 
-That's the only material change to fealnx itself in years.
+	commit 2486fa561a3192bbbec39c7feef87a1e07bd6342
+	Author: Tejun Heo <tj@kernel.org>
+	Date:   Thu Jul 31 07:52:40 2008 +0900
 
-If not, any chance you could bisect this problem, and add more info to 
-the bug?
+	    libata: update atapi disable handling
+
+So you could try to revert that and see what happens.  But given that 
+small range of changes, it really seems like something else, maybe in 
+the PCI subsystem (random guess).
+
+Looking at the entire kernel, nothing jumps out, either.  Its mostly fs 
+updates (ext4, xfs), a networking update, an ARM update, and a libata 
+update.
+
+Also, some reset-related fixes just went in, so re-testing the latest 
+-git would be helpful as well.
+
+	Jeff
+
+
+
