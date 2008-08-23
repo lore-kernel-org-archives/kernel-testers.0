@@ -1,30 +1,35 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11402] skbuff bug?
-Date: Sat, 23 Aug 2008 20:10:24 +0200 (CEST)
-Message-ID: <VSpL6AnBTS.A.G3G.NaGsIB@albercik>
+Subject: [Bug #11409] build issue #564 for v2.6.27-rc4 : undefined reference to `NS8390p_init'
+Date: Sat, 23 Aug 2008 20:10:25 +0200 (CEST)
+Message-ID: <VSpL6AnBTS.A.rPG.8ZGsIB@albercik>
 References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="iso-8859-1"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bruce Allan <bruce.w.allan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jeff Garzik <jgarzik-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jeff Kirsher <jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, =?utf-8?q?Toralf=20F=C3=B6rster?= <toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.26.  Please verify if it still should be listed and let me know
+from 2.6.26.  Please verify if it still should be listed and let me kno=
+w
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11402
-Subject		: skbuff bug?
-Submitter	: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-08-21 3:56 (3 days old)
-References	: http://marc.info/?l=linux-kernel&m=121929102707658&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11409
+Subject		: build issue #564 for v2.6.27-rc4 : undefined reference to `N=
+S8390p_init'
+Submitter	: Toralf F=C3=B6rster <toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
+Date		: 2008-08-22 8:33 (2 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D121939410214677&w=3D=
+4
+Handled-By	: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D121943097320451&w=3D4
 
