@@ -1,61 +1,30 @@
-From: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
-Subject: Re: [Bug #11272] BUG: parport_serial in 2.6.27-rc1 for NetMos Technology PCI 9835
-Date: Thu, 21 Aug 2008 15:34:16 -0600
-Message-ID: <200808211534.16465.bjorn.helgaas@hp.com>
-References: <VYYCiQF4qDI.A.BPH.KCjnIB@albercik> <cX_-nNkxKaF.A.F6.BDjnIB@albercik> <3f9a31f40808092354s3d057effm6ed1d2f506fb4637@mail.gmail.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #11279] 2.6.27-rc0 Power Bugs with HP/Compaq Laptops
+Date: Sat, 23 Aug 2008 12:26:38 +0200
+Message-ID: <200808231226.39080.rjw@sisk.pl>
+References: <DLWXHEp37wB.A.duD.yZzpIB@albercik> <200808230019.09040.rjw@sisk.pl> <680ad8bc0808230032g458319b6nbcaddd24ad84f7a4@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <3f9a31f40808092354s3d057effm6ed1d2f506fb4637-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <680ad8bc0808230032g458319b6nbcaddd24ad84f7a4-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-serial-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Matt Parnell <mparnell-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sunday 10 August 2008 12:54:14 am Jaswinder Singh wrote:
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=11272
-> > Subject         : BUG: parport_serial in 2.6.27-rc1 for NetMos Technology PCI 9835
-> > Submitter       : Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date            : 2008-08-05 15:12 (5 days old)
-> > References      : http://marc.info/?l=linux-kernel&m=121794900319776&w=4
-> 
-> This problem still exists on 2.6.27-rc2
-> 
-> When I connect  development boads to /dev/ttyS1 and /dev/ttyS2:
-> bootloader still prints Junk (Garbage Characters) but when Linux
-> starts then it becomes readable and normal.
-> 
-> So I thought problem is in bootloader so I connected different kind of
-> develepment boards and all shows junk characters during boot-loading.
-> 
-> But when I connect  development boads to /dev/ttyS0 : bootloader
-> messages are readable and normal with same settings.
+On Saturday, 23 of August 2008, you wrote:
+> Arrgh...I spoke too soon. It'll boot if I disable hrtimers, but I also
+> have to make it use jiffies as the clocksource...so I guess we're back
+> to square one. If i have hrtimers enabled, with or without
+> clocksource=jiffies, I end up getting segfaults...so, I'm pretty much
+> not sure what to do at this point, but relay this message to the pros.
 
-This sounds like a problem with the port configuration, e.g.,
-baud rate, data bits, etc.
+Well, thanks for the update again.
 
-I'm a little confused about what's connected to what.
+I've added some CCs to the message, perhaps someone will have an idea what to
+do next.
 
-I assume you have the consoles of various development boards ("targets")
-connected to a NetMos card in the host, and you're running conserver
-or something on the host.  And the target bootloader output is garbled,
-but after the target boots Linux, the output from the target becomes
-normal?
-
-If that's the case, nothing should be changing on the host side that
-could account for the change from garbled to normal.
-
-I notice you're running at 115200.  Does the same thing happen if
-you run at 9600 baud?  I'm wondering if the bootloader programs the
-UART with a divisor that results in a baud rate that's enough different
-to cause garbling, and when Linux boots, it reprograms the UART with
-something that matches the NetMos more closely.  The builtin ttyS0
-and the NetMos ports probably use different clocks, which could
-explain why it works on one but not the other.
-
-There were no changes in parport_serial between 2.6.26 and 2.6.27-rc2.
-Please confirm whether this is a regression from 2.6.26 or not.
-
-Bjorn
+Thanks,
+Rafafel
