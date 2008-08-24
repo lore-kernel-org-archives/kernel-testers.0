@@ -1,53 +1,64 @@
-From: Sitsofe Wheeler <sitsofe@yahoo.com>
-Subject: Reproducible rRootage segfault with 2.6.25 and above (regression?)
-Date: Sun, 24 Aug 2008 23:29:26 +0100
-Message-ID: <g8sncp$8us$1@ger.gmane.org>
+From: Sean Young <sean@mess.org>
+Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
+Date: Sun, 24 Aug 2008 22:50:58 +0000
+Message-ID: <20080824225058.GA55406@atlantis.8hz.com>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <alpine.LFD.1.10.0808241141470.3363@nehalem.linux-foundation.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756882AbYHXWaT@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757253AbYHXWvT@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.LFD.1.10.0808241141470.3363@nehalem.linux-foundation.org>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: linux-kernel@vger.kernel.org
-Cc: kernel-testers@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Ingo Molnar <mingo@elte.hu>, "H. Peter Anvin" <hpa@zytor.com>, Alok Kataria <akataria@vmware.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-I've found that when running certain levels in the game rRootage on 
-kernels later than 2.6.24 a segfault will be caused. This segfault is 
-not there on 2.6.24 (and below) though...
+On Sun, Aug 24, 2008 at 11:52:06AM -0700, Linus Torvalds wrote:
+> On Sat, 23 Aug 2008, Rafael J. Wysocki wrote:
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11354
+> > Subject		: AMD Elan regression with 2.6.27-rc3
+> > Submitter	: Sean Young <sean@mess.org>
+> > Date		: 2008-08-15 18:37 (9 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=121882578430056&w=4
+> 
+> Peter? Ingo? Alok?
+> 
+> This _looks_ like it might be due to "x86: merge the TSC cpu-freq code" 
+> thing by Alok, where we do this:
+> 
+> 	+static struct notifier_block time_cpufreq_notifier_block = {
+> 	+       .notifier_call  = time_cpufreq_notifier
+> 	+};
+> 	+
+> 	+static int __init cpufreq_tsc(void)
+> 	+{
+> 	+       cpufreq_register_notifier(&time_cpufreq_notifier_block,
+> 	+                               CPUFREQ_TRANSITION_NOTIFIER);
+> 	+       return 0;
+> 	+}
+> 
+> but that's just _insane_ if the CPU doesn't even support TSC to begin 
+> with. Also, in the actual time_cpufreq_notifier(), we do:
+> 
+> 	if (cpu_has(&cpu_data(freq->cpu), X86_FEATURE_CONSTANT_TSC))
+> 		return 0;
+> 
+> and this is stupid because:
+> 
+>  (a) if the CPU has no TSC at all, then it sure as hell won't have a 
+>      _constant_ one, so we'll actually continue into the function.
+> 
+>  (b) and why the hell is this done at run-time in the notifier, and not in 
+>      the "cpufreq_tsc" init function? If anybody mixes totally different 
+>      kinds of CPU's in SMP, they deserve whatever they want.
+> 
+> so why is the patch not something like the appended?
+> 
+> Sean, does this make any difference for you?
 
-Frustratingly I have been unable to bisect my way to the kernel change 
-because I hit a USB timeout issue bisecting between 2.6.24-2.6.25 which 
-made booting impossible. Further it seems there are a number of 
-conditions that need to be met before the problem manifests itself:
+Yes, this patch fixes it.
 
-1. Compiler optimisation used to compile rRootage must be -O1 or higher 
-(-Os also triggers the problem)
-2. The running kernel (going by release) must be 2.6.25 or later.
-3. The gcc used to compile the game must (seemingly) not be 3.3 (using 
-4.2 shows the problem. Other versions may also show up the problem).
-4. Not every level in every mode will show the problem (it seems linked 
-to certain patterns). I have found level 9A in the green "GigaWing" mode 
-is usually quick to trigger the issue but you may have to kill the first 
-enemy once to see the problem (if you can just get to even that part it 
-is likely the problem is non present).
-
-I have seen the issue on a range of 2.6.25+ kernels (both hand compiled 
-on openSUSE kernels and a pre-shipped 2.6.26-5 from Ubuntu 8.10).
-
-The segfault in question is due to an array being accessed beyond its 
-bounds (the array sctbl on this line 
-http://www.koders.com/cpp/fid93F842B399CA68D754CADEC374AE934EED72C07D.aspx#L246 
-). Running the game under valgrind on a 2.6.24 kernel did not generate 
-any  warnings about that array (using MALLOC_CHECK_=2 didn't generate 
-any warnings either). The problem has been reproduced on two different 
-machines (a Thinkpad T60 and an eeePC).
-
-Finally, this also afflicts a prebuilt binary from 2004 (which probably 
-wasn't built using gcc4.x 
-http://sourceforge.net/project/showfiles.php?group_id=112441 ).
-
-The issue is fiddly but reproducible. All help in pinpointing the 
-problem source is appreciated.
-
--- 
-Sitsofe | http://sucs.org/~sits/
+Thanks
+Sean
