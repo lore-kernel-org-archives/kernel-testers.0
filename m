@@ -1,48 +1,54 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
 Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
-Date: Sun, 24 Aug 2008 10:48:37 -0700 (PDT)
-Message-ID: <alpine.LFD.1.10.0808241030060.3363@nehalem.linux-foundation.org>
+Date: Sun, 24 Aug 2008 11:03:09 -0700 (PDT)
+Message-ID: <alpine.LFD.1.10.0808241050180.3363@nehalem.linux-foundation.org>
 References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756458AbYHXSE2@vger.kernel.org>
 In-Reply-To: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Greaves <david-FQ/kcb21CSxWk0Htik3J/w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>, Vegard Nossum <vegard.nossum@gmail.com>, Daniel J Blueman <daniel.blueman@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@elte.hu>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
 
 
 On Sat, 23 Aug 2008, Rafael J. Wysocki wrote:
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11405
-> Subject		: 2.6.27-rc3 segfault on cold boot; not on warm boot.
-> Submitter	: David Greaves <david-FQ/kcb21CSxWk0Htik3J/w@public.gmane.org>
-> Date		: 2008-08-21 9:45 (3 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121931198904777&w=4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11410
+> Subject		: SLUB list_lock vs obj_hash.lock...
+> Submitter	: Daniel J Blueman <daniel.blueman@gmail.com>
+> Date		: 2008-08-22 21:48 (2 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121944176609042&w=4
 
-It would be good to have some kind of bisection of this one, because it 
-looks pretty odd. Also, google doesn't find anybody else seeing that 
-"segfault at ffffffbf", even though it seems to be very consistent for 
-David. So I don't think we'll be able to even _guess_ where it is without 
-some more information about exactly when it started happening.
+This one now has a suggested patch for Daniel to try from Vegard, but no 
+reply yet:
 
-Since it's present in 2.6.26 too, it's clearly not a regression from that 
-one, but perhaps more importantly, since it's apparently an old one I'd 
-have expected more reports like this if it was some common problem. And 
-the warm-vs-cold-boot thing makes me think it's some hardware setup issue. 
+	http://marc.info/?l=linux-kernel&m=121946972307110&w=4
 
-Possibly the disk controller, possibly the CPU (eg some MTRR/PAT 
-setup issue or TLB thing). But the dmesg's are all from late enough at 
-boot that I can't even tell what disk controller it is (except that it is 
-SATA), nor can I tell what CPU it is.
+Vegard, I think your patch is a bit odd, though. The result of your patch 
+is
 
-But again, if it was some MTRR/PAT issue, I'd expect a _lot_ more reports 
-of this. 
+ - first loop:
 
-MD/XFS sounds unlikely, since they should have absolutely nothing that 
-could possibly matter for cold/hot boot.
+	hlist_for_each_entry_safe(obj, node, tmp, &db->list, node) {
+		hlist_del(&obj->node);
+		hlist_add_head(&obj->node, &freelist);
+	}
 
-			Linus
+   and quite frankly, I don't see what the difference between that and a 
+   something like a simple
+
+	struct hlist_node *first = bd->list.first;
+	if (first) {
+		bd->list.first = NULL;
+		first->pprev = &first;
+	}
+
+   really is?
+
+I dunno. We don't have list splicing ops for the hlist things.
+
+		Linus
