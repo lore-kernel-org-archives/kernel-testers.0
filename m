@@ -1,29 +1,48 @@
-From: Martin Michlmayr <tbm-R+vWnYXSFMfQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #11334] myri10ge: use ioremap_wc: compilation failure on
-	ARM
-Date: Sun, 24 Aug 2008 15:26:43 +0300
-Message-ID: <20080824122643.GG8772@deprecation.cyrius.com>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.HZ.JbGsIB@albercik>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
+Date: Sun, 24 Aug 2008 10:48:37 -0700 (PDT)
+Message-ID: <alpine.LFD.1.10.0808241030060.3363@nehalem.linux-foundation.org>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <VSpL6AnBTS.A.HZ.JbGsIB@albercik>
+In-Reply-To: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Brice Goglin <brice-vV262kQ/Wyo@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Greaves <david-FQ/kcb21CSxWk0Htik3J/w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> [2008-08-23 20:10]:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+
+
+On Sat, 23 Aug 2008, Rafael J. Wysocki wrote:
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me know
-> (either way).
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11405
+> Subject		: 2.6.27-rc3 segfault on cold boot; not on warm boot.
+> Submitter	: David Greaves <david-FQ/kcb21CSxWk0Htik3J/w@public.gmane.org>
+> Date		: 2008-08-21 9:45 (3 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121931198904777&w=4
 
-Yes, this is still there.
--- 
-Martin Michlmayr
-http://www.cyrius.com/
+It would be good to have some kind of bisection of this one, because it 
+looks pretty odd. Also, google doesn't find anybody else seeing that 
+"segfault at ffffffbf", even though it seems to be very consistent for 
+David. So I don't think we'll be able to even _guess_ where it is without 
+some more information about exactly when it started happening.
+
+Since it's present in 2.6.26 too, it's clearly not a regression from that 
+one, but perhaps more importantly, since it's apparently an old one I'd 
+have expected more reports like this if it was some common problem. And 
+the warm-vs-cold-boot thing makes me think it's some hardware setup issue. 
+
+Possibly the disk controller, possibly the CPU (eg some MTRR/PAT 
+setup issue or TLB thing). But the dmesg's are all from late enough at 
+boot that I can't even tell what disk controller it is (except that it is 
+SATA), nor can I tell what CPU it is.
+
+But again, if it was some MTRR/PAT issue, I'd expect a _lot_ more reports 
+of this. 
+
+MD/XFS sounds unlikely, since they should have absolutely nothing that 
+could possibly matter for cold/hot boot.
+
+			Linus
