@@ -1,40 +1,53 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
-Date: Sun, 24 Aug 2008 23:40:31 +0200
-Message-ID: <200808242340.31988.rjw@sisk.pl>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
+From: Sitsofe Wheeler <sitsofe@yahoo.com>
+Subject: Reproducible rRootage segfault with 2.6.25 and above (regression?)
+Date: Sun, 24 Aug 2008 23:29:26 +0100
+Message-ID: <g8sncp$8us$1@ger.gmane.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756882AbYHXWaT@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: linux-kernel@vger.kernel.org
+Cc: kernel-testers@vger.kernel.org
 
-On Saturday, 23 of August 2008, Rafael J. Wysocki wrote:
-[--snip--]
+I've found that when running certain levels in the game rRootage on 
+kernels later than 2.6.24 a segfault will be caused. This segfault is 
+not there on 2.6.24 (and below) though...
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11361
-> Subject		: my servers with nvidia mcp55 nic don't work with msi in second kernel by kexec
-> Submitter	: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2008-08-17 6:25 (7 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121895439927053&w=4
-> Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> Patch		: http://marc.info/?l=linux-kernel&m=121917167232014&w=4
+Frustratingly I have been unable to bisect my way to the kernel change 
+because I hit a USB timeout issue bisecting between 2.6.24-2.6.25 which 
+made booting impossible. Further it seems there are a number of 
+conditions that need to be met before the problem manifests itself:
 
-[--snip--]
- 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11358
-> Subject		: net: forcedeth call restore mac addr in nv_shutdown path
-> Submitter	: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2008-08-17 3:30 (7 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121894389018584&w=4
-> Handled-By	: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Patch		: http://marc.info/?l=linux-kernel&m=121894389018584&w=4
+1. Compiler optimisation used to compile rRootage must be -O1 or higher 
+(-Os also triggers the problem)
+2. The running kernel (going by release) must be 2.6.25 or later.
+3. The gcc used to compile the game must (seemingly) not be 3.3 (using 
+4.2 shows the problem. Other versions may also show up the problem).
+4. Not every level in every mode will show the problem (it seems linked 
+to certain patterns). I have found level 9A in the green "GigaWing" mode 
+is usually quick to trigger the issue but you may have to kill the first 
+enemy once to see the problem (if you can just get to even that part it 
+is likely the problem is non present).
 
-Jeff, do you have the patches for these two in your queue?
+I have seen the issue on a range of 2.6.25+ kernels (both hand compiled 
+on openSUSE kernels and a pre-shipped 2.6.26-5 from Ubuntu 8.10).
 
-Rafael
+The segfault in question is due to an array being accessed beyond its 
+bounds (the array sctbl on this line 
+http://www.koders.com/cpp/fid93F842B399CA68D754CADEC374AE934EED72C07D.aspx#L246 
+). Running the game under valgrind on a 2.6.24 kernel did not generate 
+any  warnings about that array (using MALLOC_CHECK_=2 didn't generate 
+any warnings either). The problem has been reproduced on two different 
+machines (a Thinkpad T60 and an eeePC).
+
+Finally, this also afflicts a prebuilt binary from 2004 (which probably 
+wasn't built using gcc4.x 
+http://sourceforge.net/project/showfiles.php?group_id=112441 ).
+
+The issue is fiddly but reproducible. All help in pinpointing the 
+problem source is appreciated.
+
+-- 
+Sitsofe | http://sucs.org/~sits/
