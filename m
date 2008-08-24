@@ -1,44 +1,40 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11355] Regression in 2.6.27-rc2 when cross-building the kernel
-Date: Sun, 24 Aug 2008 23:34:04 +0200
-Message-ID: <200808242334.05993.rjw@sisk.pl>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.jvH.vaGsIB@albercik>
+Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
+Date: Sun, 24 Aug 2008 23:40:31 +0200
+Message-ID: <200808242340.31988.rjw@sisk.pl>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <VSpL6AnBTS.A.jvH.vaGsIB@albercik>
+In-Reply-To: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>, David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 On Saturday, 23 of August 2008, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11355
-> Subject		: Regression in 2.6.27-rc2 when cross-building the kernel
-> Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-> Date		: 2008-08-16 2:38 (8 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121885432118368&w=4
+[--snip--]
 
-As I wrote in the Bugzilla, I'm seeing a related problem.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11361
+> Subject		: my servers with nvidia mcp55 nic don't work with msi in second kernel by kexec
+> Submitter	: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2008-08-17 6:25 (7 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121895439927053&w=4
+> Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> Patch		: http://marc.info/?l=linux-kernel&m=121917167232014&w=4
 
-Namely, I build kernels on one box, with 'make O=<target>', then I mount
-<target> on another one over NFS, 'cd' to it and try to install the kernel
-modules with 'make modules_install'.  This results in 'HOSTCC firmware/ihex2fw'
-and 'fatal error: ...: Read-only file system'.  It's readily reproducible.
+[--snip--]
+ 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11358
+> Subject		: net: forcedeth call restore mac addr in nv_shutdown path
+> Submitter	: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2008-08-17 3:30 (7 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121894389018584&w=4
+> Handled-By	: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Patch		: http://marc.info/?l=linux-kernel&m=121894389018584&w=4
 
-Commenting out line 1130 of Makefile
-("$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.fwinst obj=firmware __fw_modinst")
-obviously helps, so it looks like Makefile.fwinst needs fixing.
+Jeff, do you have the patches for these two in your queue?
 
-Thanks,
 Rafael
