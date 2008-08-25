@@ -1,451 +1,489 @@
-From: "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>
-Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
-Date: Mon, 25 Aug 2008 08:44:15 -0400
-Message-ID: <48B2A91F.8000302@hp.com>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.q9H.6aGsIB@albercik> <alpine.LFD.1.10.0808231257310.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808231313170.3363@nehalem.linux-foundation.org>
+From: "Daniel J Blueman" <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
+Date: Mon, 25 Aug 2008 14:03:15 +0100
+Message-ID: <6278d2220808250603p3e96ffau2fc26e50ad70c204@mail.gmail.com>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
+	 <alpine.LFD.1.10.0808241050180.3363@nehalem.linux-foundation.org>
+	 <19f34abd0808241143t6f5239d7o679135e9e974fe63@mail.gmail.com>
+	 <alpine.LFD.1.10.0808241152370.3363@nehalem.linux-foundation.org>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------030100080109070101040806"
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.1.10.0808231313170.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=oKQVwD+g5uwfuTdwPtQENntTUq9KYazuGhB87XIOovA=;
+        b=OFJfx67Hh7Ly36CV4esDXBWnHFrIfxVYXvgG+I58f4Gtw4PlcXIEXiW/QfTZIIgdTb
+         Q3czhCAJkYBWNys/weKOjEsTr0h27sSCHafw91GVqfbqQPLbuLpTgPkWuG7WNAH7nfY5
+         VZ8tSq01YuyCfz9avALZBZQCgh8HjpM/eKfTc=
+In-Reply-To: <alpine.LFD.1.10.0808241152370.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-This is a multi-part message in MIME format.
---------------030100080109070101040806
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Hi Linus, Vegard,
 
-Linus Torvalds wrote:
-> 
-> On Sat, 23 Aug 2008, Linus Torvalds wrote:
->> This one makes no sense. It's triggering a BUG_ON(in_interrupt()), but 
->> then the call chain shows that there is no interrupt going on.
-> 
-> Ahh, later in that thread there's another totally unrelated oops in 
-> debug_mutex_add_waiter().
-> 
-> I'd guess that it is really wild pointer corrupting memory, quite possibly 
-> due to a double free or something like that. Alan - it would be good to 
-> run with DEBUG_PAGE_ALLOC and SLUB debugging etc if you don't already do 
-> that?
+On Sun, Aug 24, 2008 at 7:58 PM, Linus Torvalds
+<torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
+> On Sun, 24 Aug 2008, Vegard Nossum wrote:
+[snip]
+> Anyway, I think your patch is likely fine, I just thought it looked a bit
+> odd to have a loop to move a list from one head pointer to another.
+>
+> But regardless, it would need some testing. Daniel?
 
-With /just/ DEBUG_PAGE_ALLOC defined, I have seen two general panic types:
+This opens another lockdep report at boot-time [1] - promoting
+pool_lock may not be the best fix?
 
-o  A new double fault w/ SMP_DEBUG_PAGEALLOC problem (prob4.txt)
+We then see a new deadlock condition (on the pool_lock spinlock) [2],
+which seemingly was avoided by taking the debug-bucket lock first.
 
-o  The NULL pointer dereference @ 0x858 (prob4a.txt)
+We reproduce this by booting with debug_objects=1 and causing a lot of activity.
 
-Enabling SLUB debugging to see what that shows
+Daniel
 
-Alan
+--- [1]
 
---------------030100080109070101040806
-Content-Type: text/plain;
- name="prob4.txt"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
- filename="prob4.txt"
+[ INFO: possible irq lock inversion dependency detected ]
+2.6.27-rc4-225c-debug #3
+---------------------------------------------------------
+rcu_sched_grace/9 just changed the state of lock:
+ (pool_lock){-...}, at: [<ffffffff80466c2c>] free_object+0x7c/0xc0
+but this lock was taken by another, hard-irq-safe lock in the past:
+ (xtime_lock){++..}
 
-Begin: Loading essential drivers... ...
-[    6.680626] fuse init (API version 7.9)
-[    6.680626] modprobe used greatest stack depth: 1720 bytes left
-[    6.704224] double fault: 0000 [1] SMP DEBUG_PAGEALLOC
-[    6.704224] CPU 1
-[    6.704224] Modules linked in: processor(+) fan thermal_sys fuse
-[    6.710629] Pid: 1259, comm: modprobe Not tainted 2.6.27-rc3 #30
-[    6.710629] RIP: 0010:[<ffffffff802214dc>]  [<ffffffff802214dc>] flat_send_IPI_allbutself+0x2c/0x80
-[    6.710629] RSP: 0018:ffff88021a513ff8  EFLAGS: 00010282
-[    6.710629] RAX: ffffffff805f5520 RBX: ffff88021a5141f8 RCX: 000000000000003f
-[    6.710629] RDX: 0000000000000200 RSI: ffffffff80bf7920 RDI: ffff88021a5141f8
-[    6.710629] RBP: ffff88021a514408 R08: 0000000000000040 R09: 0000000000000040
-[    6.710629] R10: 0000000000001000 R11: 0000000000000000 R12: 00000000000000fc
-[    6.710629] R13: ffff88021a514eb8 R14: 0000000000000001 R15: ffffffff8021cba0
-[    6.710629] FS:  00007f39acc136e0(0000) GS:ffff88022fc81a00(0000) knlGS:0000000000000000
-[    6.710629] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
-[    6.710629] CR2: ffff88021a513fe8 CR3: 000000021a469000 CR4: 00000000000006e0
-[    6.710629] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[    6.710629] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
-[    6.710629] Process modprobe (pid: 1259, threadinfo ffff88021a514000, task ffff88021a9da050)
-[    6.710629] Stack: <1>BUG: unable to handle kernel paging request at ffff88021a513ff8
-[    6.710629] IP: [<ffffffff8020dd22>] show_stack_log_lvl+0x82/0x130
-[    6.710629] PGD 202063 PUD 10067 PMD 22f176163 PTE 800000021a513160
-[    6.710629] Oops: 0000 [2] SMP DEBUG_PAGEALLOC
-[    6.710629] CPU 1
-[    6.710629] Modules linked in: processor(+) fan thermal_sys fuse
-[    6.710629] Pid: 1259, comm: modprobe Not tainted 2.6.27-rc3 #30
-[    6.710629] RIP: 0010:[<ffffffff8020dd22>]  [<ffffffff8020dd22>] show_stack_log_lvl+0x82/0x130
-[    6.710629] RSP: 0018:ffff88022f12ce28  EFLAGS: 00010046
-[    6.710629] RAX: ffff88022fc81a00 RBX: ffff88021a513ff8 RCX: 000000000000000c
-[    6.710629] RDX: ffff88021a513ff8 RSI: ffff88022f12cf58 RDI: 0000000000000000
-[    6.710629] RBP: ffff88022f12ce78 R08: ffffffff8059aea9 R09: 0000000000000001
-[    6.710629] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-[    6.710629] R13: ffff88022f127fc0 R14: ffff88022f12bfc0 R15: 0000000000000000
-[    6.710629] FS:  00007f39acc136e0(0000) GS:ffff88022fc81a00(0000) knlGS:0000000000000000
-[    6.710629] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
-[    6.710629] CR2: ffff88021a513ff8 CR3: 000000021a469000 CR4: 00000000000006e0
-[    6.710629] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[    6.710629] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
-[    6.710629] Process modprobe (pid: 1259, threadinfo ffff88021a514000, task ffff88021a9da050)
-[    6.710629] Stack:  ffff88022f12ce78 ffffffff8059aea9 ffff88021a514408 ffff88022f12cf58
-[    6.710629]  ffff88021a513ff8 ffff88021a9da050 0000000000000000 ffff88022f12cf58
-[    6.710629]  0000000000000040 000000000000002b ffff88022f12ceb8 ffffffff8020dea8
-[    6.710629] Call Trace:
-[    6.710629]  <#DF>  [<ffffffff8020dea8>] show_registers+0xd8/0x260
-[    6.710629]  [<ffffffff8021cba0>] ? do_flush_tlb_all+0x0/0x40
-[    6.710629]  [<ffffffff804a2083>] __die+0xa3/0x120
-[    6.710629]  [<ffffffff8020e073>] die+0x43/0x90
-[    6.710629]  [<ffffffff8020e1e3>] do_double_fault+0x63/0x70
-[    6.710629]  [<ffffffff8020d4fd>] double_fault+0x7d/0x90
-[    6.710629]  [<ffffffff8021cba0>] ? do_flush_tlb_all+0x0/0x40
-[    6.710629]  [<ffffffff802214dc>] ? flat_send_IPI_allbutself+0x2c/0x80
-[    6.710629]  <<EOE>>
-[    6.710629]
-[    6.710629] Code: 55 d0 85 c9 48 89 d3 7e 5a 45 31 e4 eb 44 4c 39 f3 77 44 66 0f 1f 44 00 00 74 7e 45 85 e4 74 0b 41 f6 c4 03 0f 1f 44 00 00 7
-[    6.720629] RIP  [<ffffffff8020dd22>] show_stack_log_lvl+0x82/0x130
-[    6.720629]  RSP <ffff88022f12ce28>
-[    6.720629] CR2: ffff88021a513ff8
-[    6.720629] ---[ end trace d4fdf12ff3e07cc3 ]---
-[    7.052961] modprobe used greatest stack depth: 920 bytes left
-Killed
+and interrupts could create inverse lock ordering between them.
 
---------------030100080109070101040806
-Content-Type: text/plain;
- name="prob4a.txt"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
- filename="prob4a.txt"
 
-[    6.551876] all_generic_ide used greatest stack depth: 4784 bytes left
-Begin: Loading essential drivers... ...
-[    6.658003] fuse init (API version 7.9)
-[    6.661876] modprobe used greatest stack depth: 1720 bytes left
-[    6.683510] ACPI: SSDT CFFD0D0A, 08C4 (r1 HPQOEM  CPU_TM2        1 MSFT  100000E)
-[    6.690632] BUG: unable to handle kernel NULL pointer dereference at 0000000000000858
-[    6.690632] IP: [<ffffffff8025e512>] debug_mutex_add_waiter+0x32/0x80
-[    6.690632] PGD 21a145067 PUD 22f13a067 PMD 0
-[    6.690632] Oops: 0002 [1] SMP DEBUG_PAGEALLOC
-[    6.690632] CPU 1
-[    6.690632] Modules linked in: processor(+) fan thermal_sys fuse
-[    6.690632] Pid: 1259, comm: modprobe Not tainted 2.6.27-rc3 #30
-[    6.690632] RIP: 0010:[<ffffffff8025e512>]  [<ffffffff8025e512>] debug_mutex_add_waiter+0x32/0x80
-[    6.690632] RSP: 0018:ffff88021a959998  EFLAGS: 00010002
-[    6.690632] RAX: 0000000000000000 RBX: ffff88021a9599d8 RCX: 0000000000000000
-[    6.690632] RDX: 0000000000000001 RSI: ffff88021a9599d8 RDI: ffffffffa0091a60
-[    6.690632] RBP: ffff88021a9599b8 R08: ffffffff811deff0 R09: ffff8800a6fdb000
-[    6.690632] R10: ffffffffa008f524 R11: 0000000000000000 R12: ffffffffa0091a60
-[    6.690632] R13: ffff88021a958000 R14: ffff88021a1c2050 R15: ffffffffa0091a98
-[    6.690632] FS:  00007f28063c16e0(0000) GS:ffff88022fc81a00(0000) knlGS:0000000000000000
-[    6.690632] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
-[    6.690632] CR2: 0000000000000858 CR3: 0000000219c64000 CR4: 00000000000006e0
-[    6.690632] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[    6.690632] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
-[    6.690632] Process modprobe (pid: 1259, threadinfo ffff88021a958000, task ffff88021a1c2050)
-[    6.690632] Stack:  0000000000000000 ffffffffa0091a60 0000000000000246 ffffffffa008f524
-[    6.690632]  ffff88021a959a38 ffffffff8049f856 ffffffffa008f524 ffffffffa0091a18
-[    6.690632]  ffff88021a9599d8 ffff88021a9599d8 1111111111111111 1111111111111111
-[    6.690632] Call Trace:
-[    6.690632]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    6.690632]  [<ffffffff8049f856>] mutex_lock_nested+0xa6/0x250
-[    6.690632]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    6.690632]  [<ffffffff80363884>] ? idr_pre_get+0x44/0x90
-[    6.690632]  [<ffffffffa008f524>] get_idr+0x44/0xa0 [thermal_sys]
-[    6.690632]  [<ffffffffa008fe43>] thermal_cooling_device_register+0x83/0x250 [thermal_sys]
-[    6.690632]  [<ffffffffa019b2a3>] acpi_processor_start+0x64b/0x774 [processor]
-[    6.690632]  [<ffffffff8031ac0b>] ? __sysfs_add_one+0x6b/0xa0
-[    6.690632]  [<ffffffff8031bcfc>] ? sysfs_do_create_link+0xbc/0x150
-[    6.690632]  [<ffffffff803a821e>] acpi_start_single_object+0x2d/0x52
-[    6.690632]  [<ffffffff803a9816>] acpi_device_probe+0x7e/0x92
-[    6.690632]  [<ffffffff803dd6ab>] driver_probe_device+0x9b/0x1a0
-[    6.690632]  [<ffffffff803dd836>] __driver_attach+0x86/0x90
-[    6.690632]  [<ffffffff803dd7b0>] ? __driver_attach+0x0/0x90
-[    6.690632]  [<ffffffff803dcbfd>] bus_for_each_dev+0x5d/0x90
-[    6.690632]  [<ffffffff803dd4ec>] driver_attach+0x1c/0x20
-[    6.690632]  [<ffffffff803dd239>] bus_add_driver+0x1e9/0x260
-[    6.690632]  [<ffffffffa0222000>] ? acpi_processor_init+0x0/0x107 [processor]
-[    6.690632]  [<ffffffff803dda0f>] driver_register+0x5f/0x140
-[    6.690632]  [<ffffffffa0222000>] ? acpi_processor_init+0x0/0x107 [processor]
-[    6.690632]  [<ffffffff803a9b26>] acpi_bus_register_driver+0x3e/0x40
-[    6.690632]  [<ffffffffa0222094>] acpi_processor_init+0x94/0x107 [processor]
-[    6.690632]  [<ffffffff80209040>] _stext+0x40/0x180
-[    6.690632]  [<ffffffff802a8bd1>] ? __vunmap+0xa1/0x110
-[    6.690632]  [<ffffffff802678d2>] sys_init_module+0x142/0x1dc0
-[    6.690632]  [<ffffffff80367dd6>] ? __up_read+0x46/0xb0
-[    6.690632]  [<ffffffff8048e830>] ? cpu_down+0x0/0x70
-[    6.690632]  [<ffffffff8020c34b>] system_call_fastpath+0x16/0x1b
-[    6.690632]
-[    6.690632]
-[    6.690632] Code: 20 48 89 5d e8 4c 89 65 f0 48 89 f3 4c 89 6d f8 8b 47 08 49 89 d5 49 89 fc 89 c2 25 ff ff 00 00 c1 ea 10 39 c2 74 1d 49 8b 4
-[    6.690632] RIP  [<ffffffff8025e512>] debug_mutex_add_waiter+0x32/0x80
-[    6.690632]  RSP <ffff88021a959998>
-[    6.690632] CR2: 0000000000000858
-[    6.690632] ---[ end trace 62c38812ae35bad0 ]---
-[    7.060556] ------------[ cut here ]------------
-[    7.060741] WARNING: at kernel/sched_fair.c:884 hrtick_start_fair+0x187/0x190()
-[    7.060741] Modules linked in: processor(+) fan thermal_sys fuse
-[    7.060741] Pid: 1259, comm: modprobe Tainted: G      D   2.6.27-rc3 #30
-[    7.060741]
-[    7.060741] Call Trace:
-[    7.060741]  <IRQ>  [<ffffffff8023bcff>] warn_on_slowpath+0x5f/0x80
-[    7.060741]  [<ffffffff8022db37>] hrtick_start_fair+0x187/0x190
-[    7.060741]  [<ffffffff8022ee89>] enqueue_task_fair+0x49/0x250
-[    7.060741]  [<ffffffff8022c4a0>] enqueue_task+0x50/0x60
-[    7.060741]  [<ffffffff8022c4d3>] activate_task+0x23/0x40
-[    7.060741]  [<ffffffff80231863>] try_to_wake_up+0x253/0x280
-[    7.060741]  [<ffffffff8023189d>] default_wake_function+0xd/0x10
-[    7.060741]  [<ffffffff802523e1>] autoremove_wake_function+0x11/0x40
-[    7.060741]  [<ffffffff8022bf7a>] __wake_up_common+0x5a/0x90
-[    7.060741]  [<ffffffff8022d583>] __wake_up+0x43/0x70
-[    7.060741]  [<ffffffff8024eb20>] ? delayed_work_timer_fn+0x0/0x40
-[    7.060741]  [<ffffffff8024e178>] insert_work+0x48/0x50
-[    7.060741]  [<ffffffff8024eb01>] __queue_work+0x31/0x50
-[    7.060741]  [<ffffffff8024eb52>] delayed_work_timer_fn+0x32/0x40
-[    7.060741]  [<ffffffff8024606b>] run_timer_softirq+0x1bb/0x230
-[    7.060741]  [<ffffffff80255d0a>] ? ktime_get_ts+0x4a/0x60
-[    7.060741]  [<ffffffff8024178a>] __do_softirq+0x7a/0xf0
-[    7.060741]  [<ffffffff8025cf9e>] ? tick_program_event+0x3e/0x70
-[    7.060741]  [<ffffffff8020d69c>] call_softirq+0x1c/0x30
-[    7.060741]  [<ffffffff8020f28d>] do_softirq+0x3d/0x80
-[    7.060741]  [<ffffffff80241705>] irq_exit+0x85/0x90
-[    7.060741]  [<ffffffff8021d648>] smp_apic_timer_interrupt+0x88/0xc0
-[    7.060741]  [<ffffffff8020d0e6>] apic_timer_interrupt+0x66/0x70
-[    7.060741]  <EOI>  [<ffffffff804a15eb>] ? _spin_unlock_irq+0x2b/0x30
-[    7.060741]  [<ffffffff804a0e75>] ? __down_read+0xa5/0xb7
-[    7.060741]  [<ffffffff8026fdf5>] ? acct_collect+0x45/0x1d0
-[    7.060741]  [<ffffffff8049fe57>] ? down_read+0x37/0x40
-[    7.060741]  [<ffffffff8026fdf5>] ? acct_collect+0x45/0x1d0
-[    7.060741]  [<ffffffff8026fdf5>] ? acct_collect+0x45/0x1d0
-[    7.060741]  [<ffffffff8023f4ad>] ? do_exit+0x18d/0xa10
-[    7.060741]  [<ffffffff803c8019>] ? do_unblank_screen+0x19/0x130
-[    7.060741]  [<ffffffff804a1d17>] ? oops_end+0x87/0x90
-[    7.060741]  [<ffffffff804a3fe3>] ? do_page_fault+0x663/0x800
-[    7.060741]  [<ffffffff804a18ed>] ? error_exit+0x0/0x9a
-[    7.060741]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060741]  [<ffffffff8025e512>] ? debug_mutex_add_waiter+0x32/0x80
-[    7.060741]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060741]  [<ffffffff8049f856>] ? mutex_lock_nested+0xa6/0x250
-[    7.060741]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060741]  [<ffffffff80363884>] ? idr_pre_get+0x44/0x90
-[    7.060741]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060741]  [<ffffffffa008fe43>] ? thermal_cooling_device_register+0x83/0x250 [thermal_sys]
-[    7.060741]  [<ffffffffa019b2a3>] ? acpi_processor_start+0x64b/0x774 [processor]
-[    7.060741]  [<ffffffff8031ac0b>] ? __sysfs_add_one+0x6b/0xa0
-[    7.060741]  [<ffffffff8031bcfc>] ? sysfs_do_create_link+0xbc/0x150
-[    7.060741]  [<ffffffff803a821e>] ? acpi_start_single_object+0x2d/0x52
-[    7.060741]  [<ffffffff803a9816>] ? acpi_device_probe+0x7e/0x92
-[    7.060741]  [<ffffffff803dd6ab>] ? driver_probe_device+0x9b/0x1a0
-[    7.060741]  [<ffffffff803dd836>] ? __driver_attach+0x86/0x90
-[    7.060741]  [<ffffffff803dd7b0>] ? __driver_attach+0x0/0x90
-[    7.060741]  [<ffffffff803dcbfd>] ? bus_for_each_dev+0x5d/0x90
-[    7.060741]  [<ffffffff803dd4ec>] ? driver_attach+0x1c/0x20
-[    7.060741]  [<ffffffff803dd239>] ? bus_add_driver+0x1e9/0x260
-[    7.060741]  [<ffffffffa0222000>] ? acpi_processor_init+0x0/0x107 [processor]
-[    7.060741]  [<ffffffff803dda0f>] ? driver_register+0x5f/0x140
-[    7.060741]  [<ffffffffa0222000>] ? acpi_processor_init+0x0/0x107 [processor]
-[    7.060741]  [<ffffffff803a9b26>] ? acpi_bus_register_driver+0x3e/0x40
-[    7.060741]  [<ffffffffa0222094>] ? acpi_processor_init+0x94/0x107 [processor]
-[    7.060741]  [<ffffffff80209040>] ? _stext+0x40/0x180
-[    7.060741]  [<ffffffff802a8bd1>] ? __vunmap+0xa1/0x110
-[    7.060741]  [<ffffffff802678d2>] ? sys_init_module+0x142/0x1dc0
-[    7.060741]  [<ffffffff80367dd6>] ? __up_read+0x46/0xb0
-[    7.060741]  [<ffffffff8048e830>] ? cpu_down+0x0/0x70
-[    7.060741]  [<ffffffff8020c34b>] ? system_call_fastpath+0x16/0x1b
-[    7.060741]
-[    7.060741] ---[ end trace 62c38812ae35bad0 ]---
-[    7.060741] ------------[ cut here ]------------
-[    7.060741] kernel BUG at kernel/sched.c:1155!
-[    7.060741] invalid opcode: 0000 [2] SMP DEBUG_PAGEALLOC
-[    7.060741] CPU 1
-[    7.060741] Modules linked in: processor(+) fan thermal_sys fuse
-[    7.060741] Pid: 1259, comm: modprobe Tainted: G      D W 2.6.27-rc3 #30
-[    7.060741] RIP: 0010:[<ffffffff8022ce3b>]  [<ffffffff8022ce3b>] resched_task+0x6b/0x70
-[    7.060741] RSP: 0018:ffff88022f12bce0  EFLAGS: 00010046
-[    7.060741] RAX: 00000000000006e5 RBX: 00000000012c627a RCX: ffff88021a958000
-[    7.060741] RDX: 00000000000006e5 RSI: 0000000000000000 RDI: ffff88021a1c2050
-[    7.060741] RBP: ffff88022f12bce0 R08: ffff88022f1d8038 R09: ffff88021a1c2088
-[    7.060741] R10: ffffffff810c9e00 R11: 0000000000000000 R12: ffff8800a6fc9000
-[    7.060741] R13: ffffffff810c9e00 R14: ffff88021a1c2050 R15: 0000000000000001
-[    7.060741] FS:  00007f28063c16e0(0000) GS:ffff88022fc81a00(0000) knlGS:0000000000000000
-[    7.060741] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
-[    7.060741] CR2: 0000000000000858 CR3: 0000000219c64000 CR4: 00000000000006e0
-[    7.060741] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[    7.060741] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
-[    7.060741] Process modprobe (pid: 1259, threadinfo ffff88021a958000, task ffff88021a1c2050)
-[    7.060741] Stack:  ffff88022f12bd20 ffffffff802389c3 0000000000000400 0000000000400000
-[    7.060741]  ffff88022f1d8000 ffff8800280a4e00 0000000000000001 0000000000000003
-[    7.060741]  ffff88022f12bd70 ffffffff802316cf 0000000100000001 0000000000000000
-[    7.060741] Call Trace:
-[    7.060741]  <IRQ>  [<ffffffff802389c3>] check_preempt_wakeup+0x133/0x1c0
-[    7.060741]  [<ffffffff802316cf>] try_to_wake_up+0xbf/0x280
-[    7.060741]  [<ffffffff8023189d>] default_wake_function+0xd/0x10
-[    7.060741]  [<ffffffff802523e1>] autoremove_wake_function+0x11/0x40
-[    7.060741]  [<ffffffff8022bf7a>] __wake_up_common+0x5a/0x90
-[    7.060741]  [<ffffffff8022d583>] __wake_up+0x43/0x70
-[    7.060741]  [<ffffffff8024eb20>] ? delayed_work_timer_fn+0x0/0x40
-[    7.060741]  [<ffffffff8024e178>] insert_work+0x48/0x50
-[    7.060741]  [<ffffffff8024eb01>] __queue_work+0x31/0x50
-[    7.060741]  [<ffffffff8024eb52>] delayed_work_timer_fn+0x32/0x40
-[    7.060741]  [<ffffffff8024606b>] run_timer_softirq+0x1bb/0x230
-[    7.060741]  [<ffffffff80255d0a>] ? ktime_get_ts+0x4a/0x60
-[    7.060741]  [<ffffffff8024178a>] __do_softirq+0x7a/0xf0
-[    7.060741]  [<ffffffff8025cf9e>] ? tick_program_event+0x3e/0x70
-[    7.060741]  [<ffffffff8020d69c>] call_softirq+0x1c/0x30
-[    7.060741]  [<ffffffff8020f28d>] do_softirq+0x3d/0x80
-[    7.060741]  [<ffffffff80241705>] irq_exit+0x85/0x90
-[    7.060741]  [<ffffffff8021d648>] smp_apic_timer_interrupt+0x88/0xc0
-[    7.060741]  [<ffffffff8020d0e6>] apic_timer_interrupt+0x66/0x70
-[    7.060741]  <EOI>  [<ffffffff804a15eb>] ? _spin_unlock_irq+0x2b/0x30
-[    7.060741]  [<ffffffff804a0e75>] ? __down_read+0xa5/0xb7
-[    7.060741]  [<ffffffff8026fdf5>] ? acct_collect+0x45/0x1d0
-[    7.060741]  [<ffffffff8049fe57>] ? down_read+0x37/0x40
-[    7.060741]  [<ffffffff8026fdf5>] ? acct_collect+0x45/0x1d0
-[    7.060741]  [<ffffffff8026fdf5>] ? acct_collect+0x45/0x1d0
-[    7.060741]  [<ffffffff8023f4ad>] ? do_exit+0x18d/0xa10
-[    7.060741]  [<ffffffff803c8019>] ? do_unblank_screen+0x19/0x130
-[    7.060741]  [<ffffffff804a1d17>] ? oops_end+0x87/0x90
-[    7.060741]  [<ffffffff804a3fe3>] ? do_page_fault+0x663/0x800
-[    7.060741]  [<ffffffff804a18ed>] ? error_exit+0x0/0x9a
-[    7.060741]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060741]  [<ffffffff8025e512>] ? debug_mutex_add_waiter+0x32/0x80
-[    7.060741]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060741]  [<ffffffff8049f856>] ? mutex_lock_nested+0xa6/0x250
-[    7.060741]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060741]  [<ffffffff80363884>] ? idr_pre_get+0x44/0x90
-[    7.060741]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060741]  [<ffffffffa008fe43>] ? thermal_cooling_device_register+0x83/0x250 [thermal_sys]
-[    7.060741]  [<ffffffffa019b2a3>] ? acpi_processor_start+0x64b/0x774 [processor]
-[    7.060741]  [<ffffffff8031ac0b>] ? __sysfs_add_one+0x6b/0xa0
-[    7.060741]  [<ffffffff8031bcfc>] ? sysfs_do_create_link+0xbc/0x150
-[    7.060741]  [<ffffffff803a821e>] ? acpi_start_single_object+0x2d/0x52
-[    7.060741]  [<ffffffff803a9816>] ? acpi_device_probe+0x7e/0x92
-[    7.060741]  [<ffffffff803dd6ab>] ? driver_probe_device+0x9b/0x1a0
-[    7.060741]  [<ffffffff803dd836>] ? __driver_attach+0x86/0x90
-[    7.060741]  [<ffffffff803dd7b0>] ? __driver_attach+0x0/0x90
-[    7.060741]  [<ffffffff803dcbfd>] ? bus_for_each_dev+0x5d/0x90
-[    7.060741]  [<ffffffff803dd4ec>] ? driver_attach+0x1c/0x20
-[    7.060741]  [<ffffffff803dd239>] ? bus_add_driver+0x1e9/0x260
-[    7.060741]  [<ffffffffa0222000>] ? acpi_processor_init+0x0/0x107 [processor]
-[    7.060741]  [<ffffffff803dda0f>] ? driver_register+0x5f/0x140
-[    7.060741]  [<ffffffffa0222000>] ? acpi_processor_init+0x0/0x107 [processor]
-[    7.060741]  [<ffffffff803a9b26>] ? acpi_bus_register_driver+0x3e/0x40
-[    7.060741]  [<ffffffffa0222094>] ? acpi_processor_init+0x94/0x107 [processor]
-[    7.060741]  [<ffffffff80209040>] ? _stext+0x40/0x180
-[    7.060741]  [<ffffffff802a8bd1>] ? __vunmap+0xa1/0x110
-[    7.060741]  [<ffffffff802678d2>] ? sys_init_module+0x142/0x1dc0
-[    7.060741]  [<ffffffff80367dd6>] ? __up_read+0x46/0xb0
-[    7.060741]  [<ffffffff8048e830>] ? cpu_down+0x0/0x70
-[    7.060741]  [<ffffffff8020c34b>] ? system_call_fastpath+0x16/0x1b
-[    7.060741]
-[    7.060741]
-[    7.060741] Code: 8b 47 08 8b 50 1c 65 8b 04 25 24 00 00 00 39 c2 74 0d 0f ae f0 48 8b 47 08 f6 40 18 04 74 02 c9 c3 89 d7 ff 15 0f 79 3c 00 c
-[    7.060741] RIP  [<ffffffff8022ce3b>] resched_task+0x6b/0x70
-[    7.060741]  RSP <ffff88022f12bce0>
-[    7.060741] ---[ end trace 62c38812ae35bad0 ]---
-[    7.060741] Kernel panic - not syncing: Aiee, killing interrupt handler!
-[    7.060741] ------------[ cut here ]------------
-[    7.060741] WARNING: at kernel/smp.c:328 smp_call_function_mask+0x25a/0x260()
-[    7.060741] Modules linked in: processor(+) fan thermal_sys fuse
-[    7.060741] Pid: 1259, comm: modprobe Tainted: G      D W 2.6.27-rc3 #30
-[    7.060741]
-[    7.060741] Call Trace:
-[    7.060741]  <IRQ>  [<ffffffff8023bcff>] warn_on_slowpath+0x5f/0x80
-[    7.060741]  [<ffffffff8026535a>] smp_call_function_mask+0x25a/0x260
-[    7.060741]  [<ffffffff8036987d>] ? string+0x3d/0xd0
-[    7.060741]  [<ffffffff80369d4b>] ? vsnprintf+0x43b/0x720
-[    7.060741]  [<ffffffff8036987d>] ? string+0x3d/0xd0
-[    7.060741]  [<ffffffff80369d4b>] ? vsnprintf+0x43b/0x720
-[    7.060741]  [<ffffffff8036987d>] ? string+0x3d/0xd0
-[    7.060741]  [<ffffffff8036987d>] ? string+0x3d/0xd0
-[    7.060741]  [<ffffffff80369d4b>] ? vsnprintf+0x43b/0x720
-[    7.060741]  [<ffffffff8036901e>] ? number+0x2ae/0x2d0
-[    7.060741]  [<ffffffff8036901e>] ? number+0x2ae/0x2d0
-[    7.060741]  [<ffffffff8026a0dd>] ? kallsyms_lookup+0x5d/0xa0
-[    7.060741]  [<ffffffff8036901e>] ? number+0x2ae/0x2d0
-[    7.060741]  [<ffffffff80369d4b>] ? vsnprintf+0x43b/0x720
-[    7.060741]  [<ffffffff8036a098>] ? sprintf+0x68/0x70
-[    7.060741]  [<ffffffff8036987d>] ? string+0x3d/0xd0
-[    7.060741]  [<ffffffff804a4273>] ? __atomic_notifier_call_chain+0x83/0xa0
-[    7.060741]  [<ffffffff804a41f0>] ? __atomic_notifier_call_chain+0x0/0xa0
-[    7.060741]  [<ffffffff804a11b6>] ? _spin_unlock+0x26/0x30
-[    7.060741]  [<ffffffff8021c470>] ? stop_this_cpu+0x0/0x30
-[    7.060741]  [<ffffffff802653a0>] smp_call_function+0x40/0x50
-[    7.060741]  [<ffffffff8021c4f3>] native_smp_send_stop+0x23/0x40
-[    7.060741]  [<ffffffff8023c04f>] panic+0xaf/0x190
-[    7.060741]  [<ffffffff8023cea7>] ? printk+0x67/0x70
-[    7.060741]  [<ffffffff8049f7a9>] ? mutex_unlock+0x9/0x10
-[    7.060741]  [<ffffffff80256f21>] ? blocking_notifier_call_chain+0x11/0x20
-[    7.060741]  [<ffffffff8023fb89>] do_exit+0x869/0xa10
-[    7.060741]  [<ffffffff803c8019>] ? do_unblank_screen+0x19/0x130
-[    7.060741]  [<ffffffff804a1d17>] oops_end+0x87/0x90
-[    7.060741]  [<ffffffff8020e08e>] die+0x5e/0x90
-[    7.060741]  [<ffffffff804a2230>] do_trap+0x130/0x150
-[    7.060741]  [<ffffffff8020e662>] do_invalid_op+0x92/0xb0
-[    7.060741]  [<ffffffff8022ce3b>] ? resched_task+0x6b/0x70
-[    7.060741]  [<ffffffff804a18ed>] error_exit+0x0/0x9a
-[    7.060741]  [<ffffffff8022ce3b>] ? resched_task+0x6b/0x70
-[    7.060741]  [<ffffffff802389c3>] check_preempt_wakeup+0x133/0x1c0
-[    7.060741]  [<ffffffff802316cf>] try_to_wake_up+0xbf/0x280
-[    7.060741]  [<ffffffff8023189d>] default_wake_function+0xd/0x10
-[    7.060741]  [<ffffffff802523e1>] autoremove_wake_function+0x11/0x40
-[    7.060741]  [<ffffffff8022bf7a>] __wake_up_common+0x5a/0x90
-[    7.060741]  [<ffffffff8022d583>] __wake_up+0x43/0x70
-[    7.060741]  [<ffffffff8024eb20>] ? delayed_work_timer_fn+0x0/0x40
-[    7.060741]  [<ffffffff8024e178>] insert_work+0x48/0x50
-[    7.060741]  [<ffffffff8024eb01>] __queue_work+0x31/0x50
-[    7.060741]  [<ffffffff8024eb52>] delayed_work_timer_fn+0x32/0x40
-[    7.060741]  [<ffffffff8024606b>] run_timer_softirq+0x1bb/0x230
-[    7.060741]  [<ffffffff80255d0a>] ? ktime_get_ts+0x4a/0x60
-[    7.060741]  [<ffffffff8024178a>] __do_softirq+0x7a/0xf0
-[    7.060741]  [<ffffffff8025cf9e>] ? tick_program_event+0x3e/0x70
-[    7.060741]  [<ffffffff8020d69c>] call_softirq+0x1c/0x30
-[    7.060741]  [<ffffffff8020f28d>] do_softirq+0x3d/0x80
-[    7.060741]  [<ffffffff80241705>] irq_exit+0x85/0x90
-[    7.060741]  [<ffffffff8021d648>] smp_apic_timer_interrupt+0x88/0xc0
-[    7.060741]  [<ffffffff8020d0e6>] apic_timer_interrupt+0x66/0x70
-[    7.060741]  <EOI>  [<ffffffff804a15eb>] ? _spin_unlock_irq+0x2b/0x30
-[    7.060741]  [<ffffffff804a0e75>] ? __down_read+0xa5/0xb7
-[    7.060741]  [<ffffffff8026fdf5>] ? acct_collect+0x45/0x1d0
-[    7.060742]  [<ffffffff8049fe57>] ? down_read+0x37/0x40
-[    7.060742]  [<ffffffff8026fdf5>] ? acct_collect+0x45/0x1d0
-[    7.060742]  [<ffffffff8026fdf5>] ? acct_collect+0x45/0x1d0
-[    7.060742]  [<ffffffff8023f4ad>] ? do_exit+0x18d/0xa10
-[    7.060742]  [<ffffffff803c8019>] ? do_unblank_screen+0x19/0x130
-[    7.060742]  [<ffffffff804a1d17>] ? oops_end+0x87/0x90
-[    7.060742]  [<ffffffff804a3fe3>] ? do_page_fault+0x663/0x800
-[    7.060742]  [<ffffffff804a18ed>] ? error_exit+0x0/0x9a
-[    7.060742]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060742]  [<ffffffff8025e512>] ? debug_mutex_add_waiter+0x32/0x80
-[    7.060742]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060742]  [<ffffffff8049f856>] ? mutex_lock_nested+0xa6/0x250
-[    7.060742]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060742]  [<ffffffff80363884>] ? idr_pre_get+0x44/0x90
-[    7.060742]  [<ffffffffa008f524>] ? get_idr+0x44/0xa0 [thermal_sys]
-[    7.060742]  [<ffffffffa008fe43>] ? thermal_cooling_device_register+0x83/0x250 [thermal_sys]
-[    7.060742]  [<ffffffffa019b2a3>] ? acpi_processor_start+0x64b/0x774 [processor]
-[    7.060742]  [<ffffffff8031ac0b>] ? __sysfs_add_one+0x6b/0xa0
-[    7.060742]  [<ffffffff8031bcfc>] ? sysfs_do_create_link+0xbc/0x150
-[    7.060742]  [<ffffffff803a821e>] ? acpi_start_single_object+0x2d/0x52
-[    7.060742]  [<ffffffff803a9816>] ? acpi_device_probe+0x7e/0x92
-[    7.060742]  [<ffffffff803dd6ab>] ? driver_probe_device+0x9b/0x1a0
-[    7.060742]  [<ffffffff803dd836>] ? __driver_attach+0x86/0x90
-[    7.060742]  [<ffffffff803dd7b0>] ? __driver_attach+0x0/0x90
-[    7.060742]  [<ffffffff803dcbfd>] ? bus_for_each_dev+0x5d/0x90
-[    7.060742]  [<ffffffff803dd4ec>] ? driver_attach+0x1c/0x20
-[    7.060742]  [<ffffffff803dd239>] ? bus_add_driver+0x1e9/0x260
-[    7.060742]  [<ffffffffa0222000>] ? acpi_processor_init+0x0/0x107 [processor]
-[    7.060742]  [<ffffffff803dda0f>] ? driver_register+0x5f/0x140
-[    7.060742]  [<ffffffffa0222000>] ? acpi_processor_init+0x0/0x107 [processor]
-[    7.060742]  [<ffffffff803a9b26>] ? acpi_bus_register_driver+0x3e/0x40
-[    7.060742]  [<ffffffffa0222094>] ? acpi_processor_init+0x94/0x107 [processor]
-[    7.060742]  [<ffffffff80209040>] ? _stext+0x40/0x180
-[    7.060742]  [<ffffffff802a8bd1>] ? __vunmap+0xa1/0x110
-[    7.060742]  [<ffffffff802678d2>] ? sys_init_module+0x142/0x1dc0
-[    7.060742]  [<ffffffff80367dd6>] ? __up_read+0x46/0xb0
-[    7.060742]  [<ffffffff8048e830>] ? cpu_down+0x0/0x70
-[    7.060742]  [<ffffffff8020c34b>] ? system_call_fastpath+0x16/0x1b
-[    7.060742]
-[    7.060742] ---[ end trace 62c38812ae35bad0 ]---
+other info that might help us debug this:
+no locks held by rcu_sched_grace/9.
 
---------------030100080109070101040806--
+the first lock's dependencies:
+-> (pool_lock){-...} ops: 59 {
+   initial-use  at:
+                                       [<ffffffff8026f795>]
+__lock_acquire+0x1a5/0x1160
+                                       [<ffffffff802707e1>]
+lock_acquire+0x91/0xc0
+                                       [<ffffffff806a2bb1>] _spin_lock+0x41/0x80
+                                       [<ffffffff804675fa>]
+__debug_object_init+0x14a/0x3e0
+                                       [<ffffffff804678df>]
+debug_object_init+0x1f/0x30
+                                       [<ffffffff80260eee>]
+hrtimer_init+0x2e/0x50
+                                       [<ffffffff80237571>]
+init_rt_bandwidth+0x41/0x60
+                                       [<ffffffff812f3810>]
+sched_init+0x72/0x63d
+                                       [<ffffffff812e17e2>]
+start_kernel+0x19c/0x456
+                                       [<ffffffff812e10a9>]
+x86_64_start_reservations+0x99/0xb6
+                                       [<ffffffff812e11d0>]
+x86_64_start_kernel+0xe2/0xe9
+                                       [<ffffffffffffffff>] 0xffffffffffffffff
+   hardirq-on-W at:
+                                       [<ffffffff8026fae9>]
+__lock_acquire+0x4f9/0x1160
+                                       [<ffffffff802707e1>]
+lock_acquire+0x91/0xc0
+                                       [<ffffffff806a2bb1>] _spin_lock+0x41/0x80
+                                       [<ffffffff80466c2c>]
+free_object+0x7c/0xc0
+                                       [<ffffffff8046707e>]
+debug_object_free+0xbe/0x130
+                                       [<ffffffff806a070e>]
+schedule_timeout+0x7e/0xe0
+                                       [<ffffffff806a07ce>]
+schedule_timeout_interruptible+0x1e/0x20
+                                       [<ffffffff8029cfb2>]
+rcu_sched_grace_period+0xa2/0x3a0
+                                       [<ffffffff8025d50e>] kthread+0x4e/0x90
+                                       [<ffffffff8020d919>] child_rip+0xa/0x11
+                                       [<ffffffffffffffff>] 0xffffffffffffffff
+ }
+ ... key      at: [<ffffffff8088f5d8>] pool_lock+0x18/0x40
+
+the second lock's dependencies:
+-> (xtime_lock){++..} ops: 211 {
+   initial-use  at:
+                                       [<ffffffff8026f795>]
+__lock_acquire+0x1a5/0x1160
+                                       [<ffffffff802707e1>]
+lock_acquire+0x91/0xc0
+                                       [<ffffffff806a2bb1>] _spin_lock+0x41/0x80
+                                       [<ffffffff812f5628>]
+timekeeping_init+0x2f/0x144
+                                       [<ffffffff812e189d>]
+start_kernel+0x257/0x456
+                                       [<ffffffff812e10a9>]
+x86_64_start_reservations+0x99/0xb6
+                                       [<ffffffff812e11d0>]
+x86_64_start_kernel+0xe2/0xe9
+                                       [<ffffffffffffffff>] 0xffffffffffffffff
+   in-hardirq-W at:
+                                       [<ffffffffffffffff>] 0xffffffffffffffff
+   in-softirq-W at:
+                                       [<ffffffffffffffff>] 0xffffffffffffffff
+ }
+ ... key      at: [<ffffffff80907220>] xtime_lock+0x20/0x40
+ -> (&obj_hash[i].lock){.+..} ops: 1003901 {
+    initial-use  at:
+                                         [<ffffffff8026f795>]
+__lock_acquire+0x1a5/0x1160
+                                         [<ffffffff802707e1>]
+lock_acquire+0x91/0xc0
+                                         [<ffffffff806a2d43>]
+_spin_lock_irqsave+0x53/0x90
+                                         [<ffffffff80467567>]
+__debug_object_init+0xb7/0x3e0
+                                         [<ffffffff804678df>]
+debug_object_init+0x1f/0x30
+                                         [<ffffffff80260eee>]
+hrtimer_init+0x2e/0x50
+                                         [<ffffffff80237571>]
+init_rt_bandwidth+0x41/0x60
+                                         [<ffffffff812f3810>]
+sched_init+0x72/0x63d
+                                         [<ffffffff812e17e2>]
+start_kernel+0x19c/0x456
+                                         [<ffffffff812e10a9>]
+x86_64_start_reservations+0x99/0xb6
+                                         [<ffffffff812e11d0>]
+x86_64_start_kernel+0xe2/0xe9
+                                         [<ffffffffffffffff>] 0xffffffffffffffff
+    in-softirq-W at:
+                                         [<ffffffffffffffff>] 0xffffffffffffffff
+  }
+  ... key      at: [<ffffffff81cd2eb0>] __key.16550+0x0/0x8
+  -> (pool_lock){-...} ops: 59 {
+     initial-use  at:
+                                           [<ffffffff8026f795>]
+__lock_acquire+0x1a5/0x1160
+                                           [<ffffffff802707e1>]
+lock_acquire+0x91/0xc0
+                                           [<ffffffff806a2bb1>]
+_spin_lock+0x41/0x80
+                                           [<ffffffff804675fa>]
+__debug_object_init+0x14a/0x3e0
+                                           [<ffffffff804678df>]
+debug_object_init+0x1f/0x30
+                                           [<ffffffff80260eee>]
+hrtimer_init+0x2e/0x50
+                                           [<ffffffff80237571>]
+init_rt_bandwidth+0x41/0x60
+                                           [<ffffffff812f3810>]
+sched_init+0x72/0x63d
+                                           [<ffffffff812e17e2>]
+start_kernel+0x19c/0x456
+                                           [<ffffffff812e10a9>]
+x86_64_start_reservations+0x99/0xb6
+                                           [<ffffffff812e11d0>]
+x86_64_start_kernel+0xe2/0xe9
+                                           [<ffffffffffffffff>]
+0xffffffffffffffff
+     hardirq-on-W at:
+                                           [<ffffffff8026fae9>]
+__lock_acquire+0x4f9/0x1160
+                                           [<ffffffff802707e1>]
+lock_acquire+0x91/0xc0
+                                           [<ffffffff806a2bb1>]
+_spin_lock+0x41/0x80
+                                           [<ffffffff80466c2c>]
+free_object+0x7c/0xc0
+                                           [<ffffffff8046707e>]
+debug_object_free+0xbe/0x130
+                                           [<ffffffff806a070e>]
+schedule_timeout+0x7e/0xe0
+                                           [<ffffffff806a07ce>]
+schedule_timeout_interruptible+0x1e/0x20
+                                           [<ffffffff8029cfb2>]
+rcu_sched_grace_period+0xa2/0x3a0
+                                           [<ffffffff8025d50e>]
+kthread+0x4e/0x90
+                                           [<ffffffff8020d919>]
+child_rip+0xa/0x11
+                                           [<ffffffffffffffff>]
+0xffffffffffffffff
+   }
+   ... key      at: [<ffffffff8088f5d8>] pool_lock+0x18/0x40
+  ... acquired at:
+   [<ffffffff802703b1>] __lock_acquire+0xdc1/0x1160
+   [<ffffffff802707e1>] lock_acquire+0x91/0xc0
+   [<ffffffff806a2bb1>] _spin_lock+0x41/0x80
+   [<ffffffff804675fa>] __debug_object_init+0x14a/0x3e0
+   [<ffffffff804678df>] debug_object_init+0x1f/0x30
+   [<ffffffff80260eee>] hrtimer_init+0x2e/0x50
+   [<ffffffff80237571>] init_rt_bandwidth+0x41/0x60
+   [<ffffffff812f3810>] sched_init+0x72/0x63d
+   [<ffffffff812e17e2>] start_kernel+0x19c/0x456
+   [<ffffffff812e10a9>] x86_64_start_reservations+0x99/0xb6
+   [<ffffffff812e11d0>] x86_64_start_kernel+0xe2/0xe9
+   [<ffffffffffffffff>] 0xffffffffffffffff
+
+ ... acquired at:
+   [<ffffffff802703b1>] __lock_acquire+0xdc1/0x1160
+   [<ffffffff802707e1>] lock_acquire+0x91/0xc0
+   [<ffffffff806a2d43>] _spin_lock_irqsave+0x53/0x90
+   [<ffffffff80467567>] __debug_object_init+0xb7/0x3e0
+   [<ffffffff804678df>] debug_object_init+0x1f/0x30
+   [<ffffffff80260eee>] hrtimer_init+0x2e/0x50
+   [<ffffffff812f577b>] ntp_init+0x1e/0x2b
+   [<ffffffff812f5633>] timekeeping_init+0x3a/0x144
+   [<ffffffff812e189d>] start_kernel+0x257/0x456
+   [<ffffffff812e10a9>] x86_64_start_reservations+0x99/0xb6
+   [<ffffffff812e11d0>] x86_64_start_kernel+0xe2/0xe9
+   [<ffffffffffffffff>] 0xffffffffffffffff
+
+ -> (clocksource_lock){++..} ops: 214 {
+    initial-use  at:
+                                         [<ffffffff8026f795>]
+__lock_acquire+0x1a5/0x1160
+                                         [<ffffffff802707e1>]
+lock_acquire+0x91/0xc0
+                                         [<ffffffff806a2d43>]
+_spin_lock_irqsave+0x53/0x90
+                                         [<ffffffff80266245>]
+clocksource_get_next+0x15/0x60
+                                         [<ffffffff812f5638>]
+timekeeping_init+0x3f/0x144
+                                         [<ffffffff812e189d>]
+start_kernel+0x257/0x456
+                                         [<ffffffff812e10a9>]
+x86_64_start_reservations+0x99/0xb6
+                                         [<ffffffff812e11d0>]
+x86_64_start_kernel+0xe2/0xe9
+                                         [<ffffffffffffffff>] 0xffffffffffffffff
+    in-hardirq-W at:
+                                         [<ffffffffffffffff>] 0xffffffffffffffff
+    in-softirq-W at:
+                                         [<ffffffffffffffff>] 0xffffffffffffffff
+  }
+  ... key      at: [<ffffffff80877bb8>] clocksource_lock+0x18/0x40
+ ... acquired at:
+   [<ffffffff802703b1>] __lock_acquire+0xdc1/0x1160
+   [<ffffffff802707e1>] lock_acquire+0x91/0xc0
+   [<ffffffff806a2d43>] _spin_lock_irqsave+0x53/0x90
+   [<ffffffff80266245>] clocksource_get_next+0x15/0x60
+   [<ffffffff812f5638>] timekeeping_init+0x3f/0x144
+   [<ffffffff812e189d>] start_kernel+0x257/0x456
+   [<ffffffff812e10a9>] x86_64_start_reservations+0x99/0xb6
+   [<ffffffff812e11d0>] x86_64_start_kernel+0xe2/0xe9
+   [<ffffffffffffffff>] 0xffffffffffffffff
+
+ -> (old_style_seqlock_init){++..} ops: 210 {
+    initial-use  at:
+                                         [<ffffffffffffffff>] 0xffffffffffffffff
+    in-hardirq-W at:
+                                         [<ffffffffffffffff>] 0xffffffffffffffff
+    in-softirq-W at:
+                                         [<ffffffffffffffff>] 0xffffffffffffffff
+  }
+  ... key      at: [<ffffffff812d61a0>] nl80211_policy+0xda0/0x2c00
+ ... acquired at:
+   [<ffffffffffffffff>] 0xffffffffffffffff
+
+ -> (ftrace_shutdown_lock){++..} ops: 480 {
+    initial-use  at:
+                                         [<ffffffff8026f795>]
+__lock_acquire+0x1a5/0x1160
+                                         [<ffffffff802707e1>]
+lock_acquire+0x91/0xc0
+                                         [<ffffffff806a2d43>]
+_spin_lock_irqsave+0x53/0x90
+                                         [<ffffffff802a4216>]
+ftrace_record_ip+0x196/0x2f0
+                                         [<ffffffff8020c6b4>]
+mcount_call+0x5/0x31
+                                         [<ffffffff812e1c9b>]
+kernel_init+0x14d/0x1b2
+                                         [<ffffffff8020d919>] child_rip+0xa/0x11
+                                         [<ffffffffffffffff>] 0xffffffffffffffff
+    in-hardirq-W at:
+                                         [<ffffffffffffffff>] 0xffffffffffffffff
+    in-softirq-W at:
+                                         [<ffffffffffffffff>] 0xffffffffffffffff
+  }
+  ... key      at: [<ffffffff8087c1b8>] ftrace_shutdown_lock+0x18/0x40
+ ... acquired at:
+   [<ffffffffffffffff>] 0xffffffffffffffff
+
+
+stack backtrace:
+Pid: 9, comm: rcu_sched_grace Not tainted 2.6.27-rc4-225c-debug #3
+
+Call Trace:
+ [<ffffffff8026d8b2>] print_irq_inversion_bug+0x142/0x160
+ [<ffffffff8026dd27>] check_usage_backwards+0x67/0xb0
+ [<ffffffff8026ebd3>] mark_lock+0x363/0x7f0
+ [<ffffffff8026fae9>] __lock_acquire+0x4f9/0x1160
+ [<ffffffff802707e1>] lock_acquire+0x91/0xc0
+ [<ffffffff80466c2c>] ? free_object+0x7c/0xc0
+ [<ffffffff806a2bb1>] _spin_lock+0x41/0x80
+ [<ffffffff80466c2c>] ? free_object+0x7c/0xc0
+ [<ffffffff806a6bc9>] ? sub_preempt_count+0x69/0xd0
+ [<ffffffff80466c2c>] free_object+0x7c/0xc0
+ [<ffffffff8046707e>] debug_object_free+0xbe/0x130
+ [<ffffffff806a070e>] schedule_timeout+0x7e/0xe0
+ [<ffffffff802503a0>] ? process_timeout+0x0/0x10
+ [<ffffffff806a06f2>] ? schedule_timeout+0x62/0xe0
+ [<ffffffff8029cf10>] ? rcu_sched_grace_period+0x0/0x3a0
+ [<ffffffff806a07ce>] schedule_timeout_interruptible+0x1e/0x20
+ [<ffffffff8029cfb2>] rcu_sched_grace_period+0xa2/0x3a0
+ [<ffffffff8029cf10>] ? rcu_sched_grace_period+0x0/0x3a0
+ [<ffffffff8025d50e>] kthread+0x4e/0x90
+ [<ffffffff8020d919>] child_rip+0xa/0x11
+ [<ffffffff80239b8f>] ? finish_task_switch+0x5f/0x120
+ [<ffffffff806a356b>] ? _spin_unlock_irq+0x3b/0x70
+ [<ffffffff8020cf23>] ? restore_args+0x0/0x30
+ [<ffffffff8025d4c0>] ? kthread+0x0/0x90
+ [<ffffffff8020d90f>] ? child_rip+0x0/0x11
+
+--- [2]
+
+procs -----------memory---------- ---swap-- -----io---- -system-- ----cpu----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa
+58  0  63972  17316     16 145172  128 21176   128 21176 6054 8662 79 21  0  0
+47  2  81020  14380     16 139472 1120 17052  1240 17052 6106 9532 77 23  0  0
+52  1  86276  33656     16 137140  604 5304   796  5304 5349 7954 81 19  0  0
+94  0  86276  32192     16 137484  480    0   772     0 5418 7618 84 16  0  0
+88  0  86264  22416     16 137800   96    0   396     0 4746 5937 87 13  0  0
+63  1  86200  54636     16 137932 1380    0  1408     0 5472 8007 82 18  0  0
+47  0  86020  22848     16 138132  256    0   312     0 6126 12227 72 28  0  0
+75  2 103828  20252     16 135500  528 17836   592 17836 6655 12862 69 31  0  0
+21  0 128568  17536     16 128888 2336 24732  2336 24732 6762 12891 66 34  0  0
+159  0 154996  16888     16 124808  480 26236   504 26236 5930 7689 80 20  0  0
+45  0 165616  40108     16 120544  192 10696   248 10696 6136 9163 77 23  0  0
+95  0 165616  27296     16 120632  924    0   940     0 5293 7468 82 18  0  0
+BUG: NMI Watchdog detected LOCKUP on CPU0, ip ffffffff80214407, registers:
+CPU 0
+Modules linked in: rfcomm l2cap bluetooth kvm_intel kvm microcode
+dvb_usb_dtt200u dvb_usb uvcvideo dvb_core compat_ioctl32 i2c_core
+videodev v4l1_compat shpchp pcig
+Pid: 6948, comm: spiral Not tainted 2.6.27-rc4-225c-debug #3
+RIP: 0010:[<ffffffff80214407>]  [<ffffffff80214407>] native_read_tsc+0x7/0x30
+RSP: 0018:ffffffff8153ab70  EFLAGS: 00000002
+RAX: 00000467c85cb001 RBX: ffffffff8088f5c0 RCX: 00000000c85cb001
+RDX: 00000000c85cb001 RSI: 0000000000000103 RDI: 0000000000000001
+RBP: ffffffff8153ab70 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: ffff8800cf978000 R12: 00000000c85cb001
+R13: 0000000000000001 R14: 0000000000000000 R15: ffff88012a61c8c0
+FS:  00007fb48cb796e0(0000) GS:ffffffff80e82dc0(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
+CR2: 00000000075212e6 CR3: 00000000cc1e6000 CR4: 00000000000026e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff4ff0 DR7: 0000000000000400
+Process spiral (pid: 6948, threadinfo ffff8800cf950000, task ffff8800cf978000)
+Stack:  ffffffff8153aba0 ffffffff804560c7 ffffffff8088f5c0 0000000005b61b94
+ 00000000d6915628 0000000000000001 ffffffff8153abb0 ffffffff80455fff
+ ffffffff8153abe0 ffffffff80466302 ffffffff8088f5d8 ffffffff8088f5c0
+Call Trace:
+ <IRQ>  [<ffffffff804560c7>] delay_tsc+0x67/0xd0
+ [<ffffffff80455fff>] __delay+0xf/0x20
+ [<ffffffff80466302>] _raw_spin_lock+0x122/0x170
+ [<ffffffff806a2bd1>] _spin_lock+0x61/0x80
+ [<ffffffff80466c2c>] ? free_object+0x7c/0xc0
+ [<ffffffff80466c2c>] free_object+0x7c/0xc0
+ [<ffffffff80466e0f>] __debug_check_no_obj_freed+0x19f/0x1e0
+ [<ffffffff80466e65>] debug_check_no_obj_freed+0x15/0x20
+ [<ffffffff802dff0c>] kmem_cache_free+0xec/0x110
+ [<ffffffff80517fa1>] ? scsi_pool_free_command+0x51/0x60
+ [<ffffffff80517fa1>] scsi_pool_free_command+0x51/0x60
+ [<ffffffff805184bf>] __scsi_put_command+0x5f/0xa0
+ [<ffffffff80518561>] scsi_put_command+0x61/0x70
+ [<ffffffff8051e47a>] scsi_next_command+0x3a/0x60
+ [<ffffffff8051e544>] scsi_end_request+0xa4/0xc0
+ [<ffffffff8051e68f>] scsi_io_completion+0x12f/0x440
+ [<ffffffff80517bf5>] scsi_finish_command+0x95/0xd0
+ [<ffffffff8051eb36>] scsi_softirq_done+0x86/0x110
+ [<ffffffff8043bbed>] blk_done_softirq+0x8d/0xa0
+ [<ffffffff8024ba04>] __do_softirq+0x74/0xf0
+ [<ffffffff8020dc7c>] call_softirq+0x1c/0x30
+ [<ffffffff8020f485>] do_softirq+0x75/0xb0
+ [<ffffffff8024b155>] irq_exit+0xa5/0xb0
+ [<ffffffff8020f7d3>] do_IRQ+0xe3/0x1d0
+ [<ffffffff80466c66>] ? free_object+0xb6/0xc0
+ [<ffffffff8020ce76>] ret_from_intr+0x0/0xf
+ <EOI>  [<ffffffff80270ba0>] ? lock_release+0xe0/0x210
+ [<ffffffff806a3253>] ? _spin_unlock+0x23/0x60
+ [<ffffffff80466c66>] ? free_object+0xb6/0xc0
+ [<ffffffff8046707e>] ? debug_object_free+0xbe/0x130
+ [<ffffffff806a070e>] ? schedule_timeout+0x7e/0xe0
+ [<ffffffff802503a0>] ? process_timeout+0x0/0x10
+ [<ffffffff806a06f2>] ? schedule_timeout+0x62/0xe0
+ [<ffffffff802f8b3e>] ? do_select+0x4be/0x610
+ [<ffffffff802f8c90>] ? __pollwait+0x0/0x120
+ [<ffffffff8026f1d9>] ? trace_hardirqs_on_caller+0x29/0x1b0
+ [<ffffffff8026f1d9>] ? trace_hardirqs_on_caller+0x29/0x1b0
+ [<ffffffff8026f36d>] ? trace_hardirqs_on+0xd/0x10
+ [<ffffffff806a0b9e>] ? mutex_unlock+0xe/0x10
+ [<ffffffff8065919e>] ? unix_stream_recvmsg+0x32e/0x6d0
+ [<ffffffff8026f1d9>] ? trace_hardirqs_on_caller+0x29/0x1b0
+ [<ffffffff8026f36d>] ? trace_hardirqs_on+0xd/0x10
+ [<ffffffff802f8f4b>] ? core_sys_select+0x19b/0x2e0
+ [<ffffffff802e89e9>] ? do_sync_read+0xf9/0x140
+ [<ffffffff8025d8e0>] ? autoremove_wake_function+0x0/0x40
+ [<ffffffff806a6bc9>] ? sub_preempt_count+0x69/0xd0
+ [<ffffffff802f94b0>] ? sys_select+0xd0/0x1c0
+ [<ffffffff8020c86b>] ? system_call_fastpath+0x16/0x1b
+
+
+Code: 90 90 90 90 55 89 f8 48 89 e5 e6 70 e4 71 c9 c3 0f 1f 40 00 55
+89 f0 48 89 e5 e6 70 89 f8 e6 71 c9 c3 66 90 55 48 89 e5 0f 1f 00 <0f>
+ae e8 0f 31 89 c1 0f 1f
+BUG: NMI Watchdog detected LOCKUP<4>---[ end trace fd851c3db62e5044 ]---
+Kernel panic - not syncing: Aiee, killing interrupt handler!
+ on CPU1, ip ffffffff80214407, registers:
+CPU 1
+Modules linked in: rfcomm l2cap bluetooth kvm_intel kvm microcode
+dvb_usb_dtt200u dvb_usb uvcvideo dvb_core compat_ioctl32 i2c_core
+videodev v4l1_compat shpchp pcig
+Pid: 10150, comm: gcc Not tainted 2.6.27-rc4-225c-debug #3
+RIP: 0010:[<ffffffff80214407>]  [<ffffffff80214407>] native_read_tsc+0x7/0x30
+RSP: 0018:ffff8800b6269c28  EFLAGS: 00000092
+RAX: 0000000000000001 RBX: ffffffff8088f5c0 RCX: 00000000c85cafc2
+RDX: 000000008b468b00 RSI: 0000000000000002 RDI: 0000000000000001
+RBP: ffff8800b6269c28 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: ffff8800a65047e0 R12: 0000000005d22695
+R13: 0000000000000001 R14: 0000000000000001 R15: ffff88009e9be940
+FS:  00002b124e4fc6e0(0000) GS:ffff88012fa644b0(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
+CR2: 00002b8a265f5960 CR3: 00000000b61e9000 CR4: 00000000000026e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+Process gcc (pid: 10150, threadinfo ffff8800b6268000, task ffff8800a65047e0)
+Stack:  ffff8800b6269c58 ffffffff8045608a ffffffff8088f5c0 0000000005d22695
+ 00000000d6915628 0000000000000001 ffff8800b6269c68 ffffffff80455fff
+ ffff8800b6269c98 ffffffff80466302 ffffffff8088f5d8 ffffffff8088f5c0
+Call Trace:
+ [<ffffffff8045608a>] delay_tsc+0x2a/0xd0
+ [<ffffffff80455fff>] __delay+0xf/0x20
+ [<ffffffff80466302>] _raw_spin_lock+0x122/0x170
+ [<ffffffff806a2bd1>] _spin_lock+0x61/0x80
+ [<ffffffff80466c2c>] ? free_object+0x7c/0xc0
+ [<ffffffff80466c2c>] free_object+0x7c/0xc0
+ [<ffffffff80466e0f>] __debug_check_no_obj_freed+0x19f/0x1e0
+ [<ffffffff80466e65>] debug_check_no_obj_freed+0x15/0x20
+ [<ffffffff802dff0c>] kmem_cache_free+0xec/0x110
+ [<ffffffff8024264b>] ? __cleanup_signal+0x1b/0x20
+ [<ffffffff8024264b>] __cleanup_signal+0x1b/0x20
+ [<ffffffff80248273>] release_task+0x233/0x3d0
+ [<ffffffff80248960>] wait_consider_task+0x550/0x8b0
+ [<ffffffff80248e16>] do_wait+0x156/0x350
+ [<ffffffff8023b6f0>] ? default_wake_function+0x0/0x10
+ [<ffffffff802490a6>] sys_wait4+0x96/0xf0
+ [<ffffffff8020c86b>] system_call_fastpath+0x16/0x1b
+
+
+Code: 90 90 90 90 55 89 f8 48 89 e5 e6 70 e4 71 c9 c3 0f 1f 40 00 55
+89 f0 48 89 e5 e6 70 89 f8 e6 71 c9 c3 66 90 55 48 89 e5 0f 1f 00 <0f>
+ae e8 0f 31 89 c1 0f 1f
+---[ end trace fd851c3db62e5044 ]---
+-- 
+Daniel J Blueman
