@@ -1,69 +1,103 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
- bisected
-Date: Mon, 25 Aug 2008 11:09:36 -0700 (PDT)
-Message-ID: <alpine.LFD.1.10.0808251106270.3363@nehalem.linux-foundation.org>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.q9H.6aGsIB@albercik> <alpine.LFD.1.10.0808231257310.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808231313170.3363@nehalem.linux-foundation.org> <48B29F7B.6080405@hp.com> <48B2A421.7080705@hp.com>
- <alpine.LFD.1.10.0808251019380.3363@nehalem.linux-foundation.org>
+From: "Vegard Nossum" <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: SLUB/debugobjects locking (Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26)
+Date: Mon, 25 Aug 2008 21:44:09 +0200
+Message-ID: <19f34abd0808251244v439e78b1hbb24f77c637559c3@mail.gmail.com>
 Mime-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_92374_6092228.1219693449156"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.1.10.0808251019380.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:mime-version:content-type;
+        bh=MaB0kgGKHCt0ot7W4/LOEaEzh4qBQphdsztgi8wCOsc=;
+        b=ZME4ycrADlr1lGvpNJwcTH8t7mDZgJ82W2Q+Gt7qR3uH26FvBZMM7HHrogp082HQrF
+         wbfaQMgFYKC9aR+bBsexr7k794kegynOGz/yXGPVsPO9G1Hq5ofdvsGe58g2RxofFHfP
+         3NverZdAQL04Mrp6HUzgWbFXhwLnD73aOeuU0=
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+To: Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+
+------=_Part_92374_6092228.1219693449156
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-To: "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Content-Disposition: inline
+
+On Mon, Aug 25, 2008 at 3:03 PM, Daniel J Blueman
+<daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi Linus, Vegard,
+>
+> On Sun, Aug 24, 2008 at 7:58 PM, Linus Torvalds
+> <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
+>> On Sun, 24 Aug 2008, Vegard Nossum wrote:
+> [snip]
+>> Anyway, I think your patch is likely fine, I just thought it looked a bit
+>> odd to have a loop to move a list from one head pointer to another.
+>>
+>> But regardless, it would need some testing. Daniel?
+>
+> This opens another lockdep report at boot-time [1] - promoting
+> pool_lock may not be the best fix?
+>
+> We then see a new deadlock condition (on the pool_lock spinlock) [2],
+> which seemingly was avoided by taking the debug-bucket lock first.
+>
+> We reproduce this by booting with debug_objects=1 and causing a lot of activity.
+
+Thanks. I get the same thing here as well.
+
+I tried your suggestion of promoting the lock to irq-safe, and it
+fixed the warning for me (didn't get or look for deadlocks yet, but it
+seems likely that it is caused by the same thing?), the patch is
+attached for reference.
+
+I also don't know if this is the best fix, but I also don't have any
+other (better) suggestions.
+
+Others are welcome to pick it up from here...
 
 
+Vegard
 
-On Mon, 25 Aug 2008, Linus Torvalds wrote:
-> 
-> Could you make your kernel image available somewhere, and we can take a 
-> look at it? Some versions of gcc are total pigs when it comes to stack 
-> usage, and your exact configuration matters too.  But yes, module loading 
-> is a bad case, for me "sys_init_module()" contains
-> 
-> 	subq    $392, %rsp      #,
-> 
-> which is probably mostly because of the insane inlining gcc does (ie it 
-> will likely have inlined every single function in that file that is only 
-> called once, and then it will make all local variables of all those 
-> functions alive over the whole function and allocate stack-space for them 
-> ALL AT THE SAME TIME).
+-- 
+"The animistic metaphor of the bug that maliciously sneaked in while
+the programmer was not looking is intellectually dishonest as it
+disguises that the error is the programmer's own creation."
+	-- E. W. Dijkstra, EWD1036
 
-I bet this one-liner will probably make your kernel work. It's not a full 
-solution, but it will make the module-loading path lose _all_ of the above 
-stack slots by just not inlining "load_module()" - the stack slots will 
-still be used when the module is _loaded_, but by the time we actually 
-callt he ->init function they will have been released since it's not all 
-in the same crazy function any more.
+------=_Part_92374_6092228.1219693449156
+Content-Type: application/octet-stream; name=promoted.patch
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_fkbhvyqy0
+Content-Disposition: attachment; filename=promoted.patch
 
-I _seriously_ believe that we were better off back when gcc only inlined 
-what we told it to inline, and never inlined on its own. The gcc inlining 
-logic is pure and utter sh*t in an environment like the kernel where stack 
-space is a valuable resource.
-
-Anyway, Alan, even if this solves your particular problem, I'd still like 
-to see your kernel image, so that I can hunt for other problems like 
-this..
-
-			Linus
-
----
- kernel/module.c |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/kernel/module.c b/kernel/module.c
-index 08864d2..9db1191 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -1799,7 +1799,7 @@ static void *module_alloc_update_bounds(unsigned long size)
- 
- /* Allocate and load the module: note that size of section 0 is always
-    zero, and we rely on this for optional sections. */
--static struct module *load_module(void __user *umod,
-+static noinline struct module *load_module(void __user *umod,
- 				  unsigned long len,
- 				  const char __user *uargs)
- {
+ZGlmZiAtLWdpdCBhL2xpYi9kZWJ1Z29iamVjdHMuYyBiL2xpYi9kZWJ1Z29iamVjdHMuYwppbmRl
+eCA5ZDgxNjFmLi5hYzQ2NDA1IDEwMDY0NAotLS0gYS9saWIvZGVidWdvYmplY3RzLmMKKysrIGIv
+bGliL2RlYnVnb2JqZWN0cy5jCkBAIC0xMTYsOSArMTE2LDEwIEBAIHN0YXRpYyBzdHJ1Y3QgZGVi
+dWdfb2JqICpsb29rdXBfb2JqZWN0KHZvaWQgKmFkZHIsIHN0cnVjdCBkZWJ1Z19idWNrZXQgKmIp
+CiBzdGF0aWMgc3RydWN0IGRlYnVnX29iaiAqCiBhbGxvY19vYmplY3Qodm9pZCAqYWRkciwgc3Ry
+dWN0IGRlYnVnX2J1Y2tldCAqYiwgc3RydWN0IGRlYnVnX29ial9kZXNjciAqZGVzY3IpCiB7CisJ
+dW5zaWduZWQgbG9uZyBmbGFnczsKIAlzdHJ1Y3QgZGVidWdfb2JqICpvYmogPSBOVUxMOwogCi0J
+c3Bpbl9sb2NrKCZwb29sX2xvY2spOworCXNwaW5fbG9ja19pcnFzYXZlKCZwb29sX2xvY2ssIGZs
+YWdzKTsKIAlpZiAob2JqX3Bvb2wuZmlyc3QpIHsKIAkJb2JqCSAgICA9IGhsaXN0X2VudHJ5KG9i
+al9wb29sLmZpcnN0LCB0eXBlb2YoKm9iaiksIG5vZGUpOwogCkBAIC0xMzcsNyArMTM4LDcgQEAg
+YWxsb2Nfb2JqZWN0KHZvaWQgKmFkZHIsIHN0cnVjdCBkZWJ1Z19idWNrZXQgKmIsIHN0cnVjdCBk
+ZWJ1Z19vYmpfZGVzY3IgKmRlc2NyKQogCQlpZiAob2JqX3Bvb2xfZnJlZSA8IG9ial9wb29sX21p
+bl9mcmVlKQogCQkJb2JqX3Bvb2xfbWluX2ZyZWUgPSBvYmpfcG9vbF9mcmVlOwogCX0KLQlzcGlu
+X3VubG9jaygmcG9vbF9sb2NrKTsKKwlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZwb29sX2xvY2ss
+IGZsYWdzKTsKIAogCXJldHVybiBvYmo7CiB9CkBAIC0xNDcsMTggKzE0OCwxOSBAQCBhbGxvY19v
+YmplY3Qodm9pZCAqYWRkciwgc3RydWN0IGRlYnVnX2J1Y2tldCAqYiwgc3RydWN0IGRlYnVnX29i
+al9kZXNjciAqZGVzY3IpCiAgKi8KIHN0YXRpYyB2b2lkIGZyZWVfb2JqZWN0KHN0cnVjdCBkZWJ1
+Z19vYmogKm9iaikKIHsKKwl1bnNpZ25lZCBsb25nIGZsYWdzOwogCXVuc2lnbmVkIGxvbmcgaWR4
+ID0gKHVuc2lnbmVkIGxvbmcpKG9iaiAtIG9ial9zdGF0aWNfcG9vbCk7CiAKIAlpZiAob2JqX3Bv
+b2xfZnJlZSA8IE9ERUJVR19QT09MX1NJWkUgfHwgaWR4IDwgT0RFQlVHX1BPT0xfU0laRSkgewot
+CQlzcGluX2xvY2soJnBvb2xfbG9jayk7CisJCXNwaW5fbG9ja19pcnFzYXZlKCZwb29sX2xvY2ss
+IGZsYWdzKTsKIAkJaGxpc3RfYWRkX2hlYWQoJm9iai0+bm9kZSwgJm9ial9wb29sKTsKIAkJb2Jq
+X3Bvb2xfZnJlZSsrOwogCQlvYmpfcG9vbF91c2VkLS07Ci0JCXNwaW5fdW5sb2NrKCZwb29sX2xv
+Y2spOworCQlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZwb29sX2xvY2ssIGZsYWdzKTsKIAl9IGVs
+c2UgewotCQlzcGluX2xvY2soJnBvb2xfbG9jayk7CisJCXNwaW5fbG9ja19pcnFzYXZlKCZwb29s
+X2xvY2ssIGZsYWdzKTsKIAkJb2JqX3Bvb2xfdXNlZC0tOwotCQlzcGluX3VubG9jaygmcG9vbF9s
+b2NrKTsKKwkJc3Bpbl91bmxvY2tfaXJxcmVzdG9yZSgmcG9vbF9sb2NrLCBmbGFncyk7CiAJCWtt
+ZW1fY2FjaGVfZnJlZShvYmpfY2FjaGUsIG9iaik7CiAJfQogfQo=
+------=_Part_92374_6092228.1219693449156--
