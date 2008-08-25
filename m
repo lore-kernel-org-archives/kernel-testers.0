@@ -1,64 +1,36 @@
-From: Sean Young <sean@mess.org>
+From: "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
 Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
-Date: Sun, 24 Aug 2008 22:50:58 +0000
-Message-ID: <20080824225058.GA55406@atlantis.8hz.com>
+Date: Sun, 24 Aug 2008 17:16:57 -0700
+Message-ID: <48B1F9F9.6090407@zytor.com>
 References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <alpine.LFD.1.10.0808241141470.3363@nehalem.linux-foundation.org>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757253AbYHXWvT@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.LFD.1.10.0808241141470.3363@nehalem.linux-foundation.org>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Ingo Molnar <mingo@elte.hu>, "H. Peter Anvin" <hpa@zytor.com>, Alok Kataria <akataria@vmware.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.LFD.1.10.0808241141470.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Alok Kataria <akataria-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>, Sean Young <sean-hENCXIMQXOg@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sun, Aug 24, 2008 at 11:52:06AM -0700, Linus Torvalds wrote:
-> On Sat, 23 Aug 2008, Rafael J. Wysocki wrote:
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11354
-> > Subject		: AMD Elan regression with 2.6.27-rc3
-> > Submitter	: Sean Young <sean@mess.org>
-> > Date		: 2008-08-15 18:37 (9 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=121882578430056&w=4
-> 
-> Peter? Ingo? Alok?
-> 
-> This _looks_ like it might be due to "x86: merge the TSC cpu-freq code" 
-> thing by Alok, where we do this:
-> 
-> 	+static struct notifier_block time_cpufreq_notifier_block = {
-> 	+       .notifier_call  = time_cpufreq_notifier
-> 	+};
-> 	+
-> 	+static int __init cpufreq_tsc(void)
-> 	+{
-> 	+       cpufreq_register_notifier(&time_cpufreq_notifier_block,
-> 	+                               CPUFREQ_TRANSITION_NOTIFIER);
-> 	+       return 0;
-> 	+}
-> 
-> but that's just _insane_ if the CPU doesn't even support TSC to begin 
-> with. Also, in the actual time_cpufreq_notifier(), we do:
-> 
-> 	if (cpu_has(&cpu_data(freq->cpu), X86_FEATURE_CONSTANT_TSC))
-> 		return 0;
-> 
-> and this is stupid because:
-> 
->  (a) if the CPU has no TSC at all, then it sure as hell won't have a 
->      _constant_ one, so we'll actually continue into the function.
-> 
->  (b) and why the hell is this done at run-time in the notifier, and not in 
->      the "cpufreq_tsc" init function? If anybody mixes totally different 
->      kinds of CPU's in SMP, they deserve whatever they want.
-> 
-> so why is the patch not something like the appended?
-> 
-> Sean, does this make any difference for you?
+Linus Torvalds wrote:
+>> 
+> diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+> index 46af716..9bed5ca 100644
+> --- a/arch/x86/kernel/tsc.c
+> +++ b/arch/x86/kernel/tsc.c
+> @@ -325,6 +325,10 @@ static struct notifier_block time_cpufreq_notifier_block = {
+>  
+>  static int __init cpufreq_tsc(void)
+>  {
+> +	if (!cpu_has_tsc)
+> +		return 0;
+> +	if (boot_cpu_has(X86_FEATURE_CONSTANT_TSC))
+> +		return 0;
+>  	cpufreq_register_notifier(&time_cpufreq_notifier_block,
+>  				CPUFREQ_TRANSITION_NOTIFIER);
+>  	return 0;
 
-Yes, this patch fixes it.
+I added this patch to x86/urgent.
 
-Thanks
-Sean
+	-hpa
