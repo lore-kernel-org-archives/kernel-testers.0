@@ -1,106 +1,55 @@
-From: "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>
-Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
-Date: Mon, 25 Aug 2008 16:19:44 -0400
-Message-ID: <48B313E0.1000501@hp.com>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.q9H.6aGsIB@albercik> <alpine.LFD.1.10.0808231257310.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808231313170.3363@nehalem.linux-foundation.org> <48B29F7B.6080405@hp.com> <48B2A421.7080705@hp.com> <alpine.LFD.1.10.0808251019380.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251106270.3363@nehalem.linux-foundation.org>
+From: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Subject: Re: Reproducible rRootage segfault with 2.6.25 and above (solved)
+Date: Mon, 25 Aug 2008 21:30:37 +0100
+Message-ID: <48B3166D.3090300@yahoo.com>
+References: <g8sncp$8us$1@ger.gmane.org> <20080825131620.1d6aa87f@lxorguk.ukuu.org.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.1.10.0808251106270.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+In-Reply-To: <20080825131620.1d6aa87f-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
-
-Linus Torvalds wrote:
-> 
-> On Mon, 25 Aug 2008, Linus Torvalds wrote:
->> Could you make your kernel image available somewhere, and we can take a 
->> look at it? Some versions of gcc are total pigs when it comes to stack 
->> usage, and your exact configuration matters too.  But yes, module loading 
->> is a bad case, for me "sys_init_module()" contains
->>
->> 	subq    $392, %rsp      #,
->>
->> which is probably mostly because of the insane inlining gcc does (ie it 
->> will likely have inlined every single function in that file that is only 
->> called once, and then it will make all local variables of all those 
->> functions alive over the whole function and allocate stack-space for them 
->> ALL AT THE SAME TIME).
-
-Mine has:
-
-Dump of assembler code for function sys_init_module:
-0xffffffff802688c0 <sys_init_module+0>:	push   %rbp
-0xffffffff802688c1 <sys_init_module+1>:	mov    %rsp,%rbp
-0xffffffff802688c4 <sys_init_module+4>:	sub    $0x1c0,%rsp
-0xffffffff802688cb <sys_init_module+11>:	mov    %r12,-0x20(%rbp)
-0xffffffff802688cf <sys_init_module+15>:	mov    %rdi,%r12
-
-so 448 bytes.
-
-The kernel is up at: http://free.linux.hp.com/~adb/bug.11342/vmlinux (if
-you would let me know when you are through with it so I can free up some
-space there I'd appreciate it...)
-
-By doing the patch you provided, sys_init_module now looks like:
-
-Dump of assembler code for function sys_init_module:
-0xffffffff8026aa20 <sys_init_module+0>:	push   %rbp
-0xffffffff8026aa21 <sys_init_module+1>:	mov    %rsp,%rbp
-0xffffffff8026aa24 <sys_init_module+4>:	sub    $0x20,%rsp
-0xffffffff8026aa28 <sys_init_module+8>:	mov    %r14,0x18(%rsp)
-0xffffffff8026aa2d <sys_init_module+13>:	mov    %rdi,%r14
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Alan Cox <public-alan-qBU/x9rampVanCEyBjwyrvXRex20P6io-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org>
+Cc: public-linux-kernel-u79uwXL29TY76Z2rM5mHXA-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org, public-kernel-testers-u79uwXL29TY76Z2rM5mHXA-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org
 
 
-So only 32 bytes. (But of course, load_module() exists, and now has
-0x1d0 (464) bytes...)
 
-With the patch you provide, I /was/ able to repeatedly boot OK (latest
-tree, and I also ran the patch against the 26.27.rc3-based kernel I was
-having problems with initially, and that booted OK as well).
+Alan Cox wrote:
+> For the kernel bisect if you get stuck at a point it fails remember that
+> point and then lie either yes/no to it working and carry on. If need be
+> you can go back the other way.
 
-Alan
+I tried this quite a few times (you can always use replay and edit out
+the lie) before posting (and using gitk to pick commits to) but it seems
+like huge swathes of what I was interested in were inside this USB
+issue. Eventually I broke down and used a loan laptop that didn't need
+to boot from USB. I narrowed the issue down to 10 or so patches (from
+8a423ff0c4a0472607bbed6790fdaeec54af2ebb to
+0249c9c1e7505c2b020bcc6deaf1e0415de9943e which covers patches that
+randomize brk and change vDSO) but after further incorrectly bisecting
+to a patch it looks like the segfault was totally legit...
 
-> 
-> I bet this one-liner will probably make your kernel work. It's not a full 
-> solution, but it will make the module-loading path lose _all_ of the above 
-> stack slots by just not inlining "load_module()" - the stack slots will 
-> still be used when the module is _loaded_, but by the time we actually 
-> callt he ->init function they will have been released since it's not all 
-> in the same crazy function any more.
-> 
-> I _seriously_ believe that we were better off back when gcc only inlined 
-> what we told it to inline, and never inlined on its own. The gcc inlining 
-> logic is pure and utter sh*t in an environment like the kernel where stack 
-> space is a valuable resource.
-> 
-> Anyway, Alan, even if this solves your particular problem, I'd still like 
-> to see your kernel image, so that I can hunt for other problems like 
-> this..
-> 
-> 			Linus
-> 
-> ---
->  kernel/module.c |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
-> 
-> diff --git a/kernel/module.c b/kernel/module.c
-> index 08864d2..9db1191 100644
-> --- a/kernel/module.c
-> +++ b/kernel/module.c
-> @@ -1799,7 +1799,7 @@ static void *module_alloc_update_bounds(unsigned long size)
->  
->  /* Allocate and load the module: note that size of section 0 is always
->     zero, and we rely on this for optional sections. */
-> -static struct module *load_module(void __user *umod,
-> +static noinline struct module *load_module(void __user *umod,
->  				  unsigned long len,
->  				  const char __user *uargs)
->  {
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> Please read the FAQ at  http://www.tux.org/lkml/
+> Another completely off the wall guess would be that your client code is
+> causing gcc to generate something where it is using data which has ended
+> up below the stack pointer and the timings have changed. Either through
+> gcc bug or passing around the address of an object that is out of
+> context. At that point a signal will rewrite the data in fun ways
+> producing results like you describe.
+
+After reading this I went back and stuffed a bunch of asserts into the
+rRootage code to see what was going on and found what looks like a bug
+rRootage. I guess valgrind can't do array bounds checking - in fact this
+is what I get for not reading the FAQ -
+http://valgrind.org/docs/manual/faq.html#faq.overruns . A workaround
+seems to be to do capping on the value used to index the array -
+https://bugs.launchpad.net/ubuntu/+source/rrootage/+bug/261189/comments/4
+  . I even just tried using mudflap but that brought up so many spurious
+warnings (supposedly it doesn't currently do well with C++) it wasn't
+helpful.
+
+
+-- 
+Sitsofe | http://sucs.org/~sits/
+
+
