@@ -1,40 +1,43 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
-Date: Mon, 25 Aug 2008 13:40:43 +0200
-Message-ID: <200808251340.44993.rjw@sisk.pl>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <1219625301.13162.2.camel@pasglop>
+From: "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
+Date: Mon, 25 Aug 2008 08:03:07 -0400
+Message-ID: <48B29F7B.6080405@hp.com>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.q9H.6aGsIB@albercik> <alpine.LFD.1.10.0808231257310.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808231313170.3363@nehalem.linux-foundation.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1219625301.13162.2.camel@pasglop>
-Content-Disposition: inline
+In-Reply-To: <alpine.LFD.1.10.0808231313170.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 
-On Monday, 25 of August 2008, Benjamin Herrenschmidt wrote:
+Linus Torvalds wrote:
 > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11414
-> > Subject		: Random crashes with 2.6.27-rc3 on PPC
-> > Submitter	: Michael Buesch <mb-fseUSCV1ubazQB+pC5nmwQ@public.gmane.org>
-> > Date		: 2008-08-23 14:10 (1 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=121950076812616&w=4
+> On Sat, 23 Aug 2008, Linus Torvalds wrote:
+>> This one makes no sense. It's triggering a BUG_ON(in_interrupt()), but 
+>> then the call chain shows that there is no interrupt going on.
 > 
-> This appears to be a gcc bug when -fno-omit-stack-pointer is used (which
-> we mostly don't need on ppc anyway except that another gcc stupidity makes
-> it mandatory for -pg which ftrace needs).
+> Ahh, later in that thread there's another totally unrelated oops in 
+> debug_mutex_add_waiter().
 > 
-> We're working on a two fold workaround: removing -fno-omit-stack-pointer
-> in all the cases where we don't really need it, and for when we do (ie,
-> CONFIG_FTRACE becaues of -pg), using -mno-sched-epilog which seems to
-> work around it.
+> I'd guess that it is really wild pointer corrupting memory, quite possibly 
+> due to a double free or something like that. Alan - it would be good to 
+> run with DEBUG_PAGE_ALLOC and SLUB debugging etc if you don't already do 
+> that?
 > 
-> The root cause in gcc hasn't been fully identified yet.
+> 		Linus
+> 
 
-Thanks Ben.
+I'll add those in - as to the repeatability: The "bad" kernels seem to
+repeat quite reliably - not only in terms of counts (5 or 6 times in a
+row before trying something else), but also in terms of the "what" -
+either the original issue () or the other kernel with the later issue
+(debug_mutex_add_waiter). That's /goodness/ in that it should help
+narrow it down.
 
-I've already dropped it from the list of recent regressions.
+I'll make sure the kernel is still failing this morning, and then add in
+DEBUG_PAGE_ALLOC and if that doesn't help, SLUB debugging...
 
-Rafael
+Alan
