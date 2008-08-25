@@ -1,80 +1,24 @@
-From: "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>
+From: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
-Date: Mon, 25 Aug 2008 17:30:00 -0400
-Message-ID: <48B32458.5020104@hp.com>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.q9H.6aGsIB@albercik> <alpine.LFD.1.10.0808231257310.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808231313170.3363@nehalem.linux-foundation.org> <48B29F7B.6080405@hp.com> <48B2A421.7080705@hp.com> <alpine.LFD.1.10.0808251019380.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251106270.3363@nehalem.linux-foundation.org> <48B313E0.1000501@hp.com> <alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org>
+Date: Mon, 25 Aug 2008 17:07:53 -0500
+Message-ID: <48B32D39.5040709@linux-foundation.org>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.q9H.6aGsIB@albercik> <alpine.LFD.1.10.0808231257310.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808231313170.3363@nehalem.linux-foundation.org> <48B29F7B.6080405@hp.com> <48B2A421.7080705@hp.com> <alpine.LFD.1.10.0808251019380.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251106270.3363@nehalem.linux-foundation.org> <48B313E0.1000501@hp.com> <alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <48B32458.5020104@hp.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.1.10.0808251344250.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+In-Reply-To: <48B32458.5020104-VXdhtT5mjnY@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+To: "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-Linus Torvalds wrote:
-> 
-> On Mon, 25 Aug 2008, Linus Torvalds wrote:
->> But I'll look at your vmlinux, see what stands out.
-> 
-> Oops. I already see the problem.
-> 
-> Your .config has soem _huge_ CPU count, doesn't it?
-> 
-> checkstack.pl shows these things as the top problems:
-> 
-> 	0xffffffff80266234 smp_call_function_mask [vmlinux]:    2736
-> 	0xffffffff80234747 __build_sched_domains [vmlinux]:     2232
-> 	0xffffffff8023523f __build_sched_domains [vmlinux]:     2232
-> 	0xffffffff8021e884 setup_IO_APIC_irq [vmlinux]:         1616
-> 	0xffffffff8021ee24 arch_setup_ht_irq [vmlinux]:         1600
-> 	0xffffffff8021f144 arch_setup_msi_irq [vmlinux]:        1600
-> 	0xffffffff8021e3b0 __assign_irq_vector [vmlinux]:       1592
-> 	0xffffffff8021e626 __assign_irq_vector [vmlinux]:       1592
-> 	0xffffffff8023257e move_task_off_dead_cpu [vmlinux]:    1592
-> 	0xffffffff802326e8 move_task_off_dead_cpu [vmlinux]:    1592
-> 	0xffffffff8025dbc5 tick_handle_oneshot_broadcast [vmlinux]:1544
-> 	0xffffffff8025dcb4 tick_handle_oneshot_broadcast [vmlinux]:1544
-> 	0xffffffff803f3dc4 store_scaling_governor [vmlinux]:    1376
-> 	0xffffffff80279ef4 cpuset_write_resmask [vmlinux]:      1360
-> 	0xffffffff803f465d cpufreq_add_dev [vmlinux]:           1352
-> 	0xffffffff803f495b cpufreq_add_dev [vmlinux]:           1352
-> 	0xffffffff803f3fc4 store_scaling_max_freq [vmlinux]:    1328
-> 	0xffffffff803f4064 store_scaling_min_freq [vmlinux]:    1328
-> 	0xffffffff803f44c4 cpufreq_update_policy [vmlinux]:     1328
-> 	..
-> 
-> and sys_init_module is actually way way down the list. I bet the only 
-> reason it showed up at all was because dynamically it was such a deep 
-> callchain, and part of that callchain probably called some of those really 
-> nasty things.
-> 
-> Anyway, the reason smp_call_function_mask and friends have such _huge_ 
-> stack usages for you is that they contain a 'cpumask_t' on the stack.
-> 
-> For example, for me, usign a sane NR_CPU, the size of the stack frame for 
-> smp_call_function_mask is under 200 bytes.  For you, it's 2736 bytes.
-> 
-> How about you make CONFIG_NR_CPU's something _sane_? Like 16? Or do you 
-> really have four thousand CPU's in that system?
-> 
-> Oh, I guess you have the MAXSMP config enabled? I really think that was a 
-> bit too aggressive.
-> 
-> 		Linus
+Alan D. Brunelle wrote:
 
-This probably all started when I was working on a software tool (aiod)
-that was failing because somebody ELSE had 4,096 CPUs configured.
-[[Seems that gcc had/has? it's MAX CPU value set to 1,024 (bits/sched.h
-__CPU_SETSIZE), so when you issue system calls like sched_getaffinity,
-it will "fail" for systems configured w/ 4,096 CPUs. I worked around it
-by simply forgetting about the gcc values, and kept allocating larger
-CPU masks until it worked.]]
+> I think you're right: the kernel as a whole may not be ready for 4,096
+> CPUs apparently...
 
-I think you're right: the kernel as a whole may not be ready for 4,096
-CPUs apparently...
-
-Thanks for taking the time to look into this...
-
-Alan
+Mike has been working diligently on getting all these cpumasks off the stack
+for the last months and has created an infrastructure to do this. So I think
+we are close. It might just be a matter of merging some more patches that are
+still left in Ingo's tree.
