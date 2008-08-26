@@ -1,63 +1,39 @@
-From: Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
-Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
-Date: Tue, 26 Aug 2008 15:55:14 -0400
-Message-ID: <48B45FA2.8040603@garzik.org>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <48B313E0.1000501@hp.com> <alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org> <200808261111.19205.rusty@rustcorp.com.au> <alpine.LFD.1.10.0808261019450.3363@nehalem.linux-foundation.org>
+From: Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -	bisected
+Date: Tue, 26 Aug 2008 13:01:02 -0700
+Message-ID: <48B460FE.2020100@sgi.com>
+References: <48B29F7B.6080405@hp.com> <48B2A421.7080705@hp.com> <alpine.LFD.1.10.0808251019380.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251106270.3363@nehalem.linux-foundation.org> <48B313E0.1000501@hp.com> <alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251401590.3363@nehalem.linux-foundation.org> <48B452F3.9040304@sgi.com> <alpine.LFD.1.10.0808261205530.3363@nehalem.linux-foundation.org> <20080826192848.GA20653@redhat.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.1.10.0808261019450.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+In-Reply-To: <20080826192848.GA20653-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>, "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-Linus Torvalds wrote:
-> The downsides of inlining are big enough from both a debugging and a real 
-> code generation angle (eg stack usage like this), that the upsides 
-> (_somesimes_ smaller kernel, possibly slightly faster code) simply aren't 
-> relevant.
+Dave Jones wrote:
+...
 > 
-> So the "noinline" was random, yes, but this is a real issue. Looking at 
-> checkstack output for a saner config (NR_CPUS=16), the top entries for me 
-> are things like
+> But yes, for this to be even remotely feasible, there has to be a negligable
+> performance cost associated with it, which right now, we clearly don't have.
+> Given that the number of people running 4096 CPU boxes even in a few years time
+> will still be tiny, punishing the common case is obviously absurd.
 > 
-> 	ide_generic_init [vmlinux]:             1384
-> 	idefloppy_ioctl [vmlinux]:              1208
-> 	e1000_check_options [vmlinux]:  	1152
-> 	...
+> 	Dave
 > 
-> which are "leaf" functions. They are broken as hell (the e1000 is 
-> apparently because it builds structs on the stack that should all be 
-> "static const", for example), but they are different from something like 
-> the module init sequence in that they are not going to affect anything 
-> else.
 
+I did do some fairly extensive benchmarking between configs of NR_CPUS = 128 and
+4096 and most performance hits were in the neighborhood of < 5% on systems with
+8 cpus and 4GB of memory (our most common test system).  [But changing cpumask_t's
+to be pointers instead of values will likely increase this.]  I've tried to be
+very sensitive to this issue with all my previous changes, so convincing the distros
+to set NR_CPUS=4096 would be as painless for them as possible. ;-)
 
-e1000_check_options builds a struct (singular) on the stack, really... 
-struct e1000_option is reasonably small.
+Btw, huge count cpu systems I don't think are that far away.  I believe the nextgen
+Larabbee chips will be geared towards HPC applications [instead of just GFX apps],
+and putting 4 of these chips on a motherboard would add up to 512 cpu threads (1024
+if they support hyperthreading.)
 
-The problem, which has also shown itself in large ioctl-style switch{} 
-statements, is that gcc will generate code such that the stack usage 
-from independent code branches
-
-	if {cond1} {
-		char buster1[1000];
-		foo(buster1);
-	} else if (cond2) {
-		char buster2[1000];
-		foo(buster2);
-	}
-
-are added together, not noticed as mutually exclusive.
-
-Of course, adding 'static const' as you noted is a reasonable 
-workaround, but gcc is really annoying WRT stack allocation in this manner.
-
-I had problems in the past, before struct ethtool_ops, with like ethtool 
-ioctl switch statements using gobs of stack.  In fact, that was a big 
-motivation for struct ethtool_ops.
-
-	Jeff
-
+Thanks,
+Mike
