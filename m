@@ -1,69 +1,52 @@
 From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
 	bisected
-Date: Tue, 26 Aug 2008 09:53:55 +0200
-Message-ID: <20080826075355.GA7596@elte.hu>
-References: <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251401590.3363@nehalem.linux-foundation.org> <20080826072220.GB31876@elte.hu> <20080826.004607.253712060.davem@davemloft.net>
+Date: Tue, 26 Aug 2008 09:59:37 +0200
+Message-ID: <20080826075937.GB7596@elte.hu>
+References: <alpine.LFD.1.10.0808231313170.3363@nehalem.linux-foundation.org> <48B29F7B.6080405@hp.com> <48B2A421.7080705@hp.com> <alpine.LFD.1.10.0808251019380.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251106270.3363@nehalem.linux-foundation.org> <48B313E0.1000501@hp.com> <alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <48B32458.5020104@hp.com> <48B32D39.5040709@linux-foundation.org>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20080826.004607.253712060.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+In-Reply-To: <48B32D39.5040709-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Cc: torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, Alan.Brunelle-VXdhtT5mjnY@public.gmane.org, travis-sJ/iWh9BUns@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org
+To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>
 
 
-* David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org> wrote:
+* Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
 
-> From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-> Date: Tue, 26 Aug 2008 09:22:20 +0200
+> Alan D. Brunelle wrote:
 > 
-> > And i guess the next generation of 4K CPUs support should just get away 
-> > from cpumask_t-on-kernel-stack model altogether, as the current model is 
-> > not maintainable. We tried the on-kernel-stack variant, and it really 
-> > does not work reliably. We can fix this in v2.6.28.
+> > I think you're right: the kernel as a whole may not be ready for 4,096
+> > CPUs apparently...
 > 
-> I recenetly did some work on sparc64 to use cpumask pointers as much 
-> as possible.
-> 
-> The only case that didn't work was due to a limitation in arch 
-> interfaces for the new generic smp_call_function() code. It passes a 
-> cpumask_t instead of a pointer to one via 
-> arch_send_call_function_ipi().
-> 
-> But other than that, the whole sparc64 SMP stuff uses cpumask_t 
-> pointers only.
+> Mike has been working diligently on getting all these cpumasks off the 
+> stack for the last months and has created an infrastructure to do 
+> this. So I think we are close. It might just be a matter of merging 
+> some more patches that are still left in Ingo's tree.
 
-nice!
+hm, there are no such patches left that i know of - the only bits in 
+-tip are the zero-based percpu, which was found to be a bit fragile in 
+testing:
 
-> What it comes down to is that you have to do the "self cpu" and other 
-> tests in the cross-call dispatch routines themselves, instead of at 
-> the top-level working on cpumask_t objects.
-> 
-> Otherwise you have to modify cpumask_t objects and thus pluck them 
-> onto the stack where they take up silly amounts of space.
+ earth4:~/tip> git-log-line --author=Travis linus..
+ d379497: Zero based percpu: infrastructure to rebase the per cpu area to zero
+ b3a0cb4: x86: extend percpu ops to 64 bit
 
-What we did was this: we added MAXSMP which just revs up all the SMP 
-tunables to the maximum, so that we can see any problems early in 
-testing.
+[and it has no relevance to stack footprint.]
 
-And we triggered problems, and we fixed a couple of regressions all 
-around stack footprint. But we didnt catch all of them - some were gcc 
-version dependent and configuration dependent. So i think it's safe to 
-say that the whole concept of allowing such a large cpumask_t to be on 
-the stack is fragile.
+So i dont think the current cpumask_t approach will work. We simply 
+should not get into an endless fight against the windmills that 
+introduce on-stack cpumask_t again and again. We should just take the 
+plunge once and do a clean alloc/free cpumask model. Most of the hotpath 
+cpumasks are constant or pre-constructed, so they are not a real issue.
 
-Hence, i think the best way forward is to change the whole cpumask_t 
-concept and disallow explicit masks altogether. It's so easy to smack a 
-cpumask_t variable on the stack and nothing really warns about it, and 
-any function can become part of a nested call sequence.
-
-So i think the dynamics of it has to be changed: we need a get/put API 
-and we need to make on-stack cpumask illegal on the build level (in 
-generic code at least). This has been Rusty's main argument early on i 
-think, and i now concur.
+Plus, on the general question of stack footprint problems and the 
+difficulty of debugging them, the worst-case stack footprint tracer i 
+wrote for -rt some time ago should be dusted off as well and put into 
+ftrace. David has something quite close to that for Sparc64 already.
 
 	Ingo
