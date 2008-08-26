@@ -1,124 +1,76 @@
-From: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Subject: Re: [regression] usb: sometimes dead keyboard after boot (was: new
- errors during device detection)
-Date: Tue, 26 Aug 2008 16:53:33 -0400 (EDT)
-Message-ID: <Pine.LNX.4.44L0.0808261626140.2139-100000@iolanthe.rowland.org>
-References: <200808262103.50984.elendil@planet.nl>
+From: Adrian Bunk <bunk-HeJ8Db2Gnd6zQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
+	bisected
+Date: Tue, 26 Aug 2008 23:59:16 +0300
+Message-ID: <20080826205916.GB11734@cs181140183.pp.htv.fi>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <48B313E0.1000501@hp.com> <alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org> <200808261111.19205.rusty@rustcorp.com.au> <alpine.LFD.1.10.0808261019450.3363@nehalem.linux-foundation.org> <20080826183051.GB10925@cs181140183.pp.htv.fi> <alpine.LFD.1.10.0808261144510.3363@nehalem.linux-foundation.org>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200808262103.50984.elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.LFD.1.10.0808261144510.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, linux-embedded-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Tue, 26 Aug 2008, Frans Pop wrote:
-
-> Thanks a lot for the explanation Alan. I get the general idea and it all 
-> sounds somewhat logical if you accept the fact that EHCI can be loaded at 
-> any random time after [UO]HCI as a given, but _that_ still seems to me 
-> (admittedly a relative outsider and not hindered by any actual technical 
-> knowledge ;-) like something that is fundamentally broken in this 
-> sequence.
-
-The arrangement certainly isn't perfect.  Partly it's an historical
-artifact, arising from the way USB 2.0 controller hardware was
-"designed" to work with existing USB 1.1 devices.  (I put "designed" in
-quotes because that's just what they didn't do -- they came up with a 
-separate chip to handle the high-speed connections and left the 
-full/low-speed connections to be handled by the old hardware.)
-
-> It also seems to be fragile in practice. I have now had two occasions 
-> since your last mail where my system would come up with a dead USB 
-> keyboard and it looks like this issue is the root cause.
-
-It isn't any more fragile than unplugging the USB cable and then
-plugging it back in.  If your system can't handle that sort of thing
-then something else is wrong.  I.e., you've run across a bug, not a 
-design flaw.
-
-> Attached a full diff between dmesg from two consecutive boots: first 
-> without keyboard; after reboot the keyboard is detected. The actual 
-> difference is fairly small and clearly shows that usb 3-1 is not handed 
-> off correctly, probably due to a small difference in timing.
+On Tue, Aug 26, 2008 at 11:47:01AM -0700, Linus Torvalds wrote:
 > 
-> Note that I've never seen this problem with earlier kernels.
-
-I can't tell exactly what's going on because your usbcore module wasn't 
-built with CONFIG_USB_DEBUG enabled.
-
-Have you experimented with unloading and reloading uhci-hcd and
-ehci-hcd by hand (over the network if your only keyboard is USB)?  If
-you remove both and then load uhci-hcd first followed by ehci-hcd, does 
-the same thing happen?
-
-> I still feel it should not be up to individual users to need to "force" 
-> something like this by manually messing with their initramfs or
-> /etc/modules. If loading EHCI first is the right thing to do (and it seems 
-> to me like it is) then the kernel itself should ensure that that's what 
-> happens.
-
-The kernel has very little control over the order in which modules are
-loaded, partly because loading is carried out by programs like udev
-running in userspace and partly because there can be multiple threads
-sending out device-discovery messages in parallel.
-
-With UHCI and EHCI things are made even worse by the fact that UHCI is 
-always discovered first.  The EHCI spec requires that the companion
-controllers have the lowest PCI function numbers and the EHCI 
-controller has the highest.  You can see this in your log, where 1d.0 
-through 1d.3 are UHCI devices and 1d.7 is EHCI.  Since PCI devices are 
-probed in order of function number, the natural result is that uhci-hcd 
-will be loaded before ehci-hcd.
-
-> From an end-user PoV (which basically I am) I personally actually don't 
-> think it is reasonable to have _any_ error messages in situations that 
-> are expected and part of a "normal" boot sequence. For me, error messages 
-> always indicate that something is wrong or broken and needs to be fixed 
-> and followed up on. So, if this driver hand-off is really necessary, 
-> expected and safe, it should be done with only informational messages, 
-> not errors.
 > 
-> Even in the case where ehci-hcd is loaded much later I don't think error 
-> messages would be right. At least, assuming that the kernel can guarantee 
-> that the driver hand-off can be done cleanly (without risk of damaging 
-> interruptions in the working of already connected devices). And if it 
-> cannot guarantee that, then maybe it should just refuse to load ehci-hcd 
-> at all!
-
-Well, that's a problem.  The kernel _can't_ make that guarantee, not
-once some USB devices have been set up.  So according to your
-reasoning, ehci-hcd shouldn't be allowed to load if uhci-hcd is already 
-loaded!
-
-Can you suggest a reasonable method for suppressing the unwanted error
-messages?  Maybe I'm too close to the problem, but nothing occurs to
-me.  Part of the problem is that these errors could occur at any point
-during the life cycle of a USB device: during detection, during
-enumeration, during configuration, or during normal operation.  It
-doesn't seem reasonable to have a flag to suppress _every_ error
-message generated by the USB subsystem.
-
-One possible approach would be to have uhci-hcd and ohci-hcd not 
-initialize themselves until ehci-hcd is loaded.  But what if ehci-hcd 
-never does get loaded?  Or what if ehci-hcd is unloaded and then 
-reloaded?
-
-> Side note.
-> Both as a Debian Developer and kernel tester I probably pay more attention 
-> than most users to my console and logs, but in principle I try to follow 
-> up on any message that does not seem to belong, especially ones that 
-> are "new".
-> I boot kernels with 'quiet', so any error during boot is immediately 
-> visible (and disturbing). I also run logcheck on all my systems, so I see 
-> any unexpected log messages during normal operation. As boot logs are 
-> noisy by definition, I finally do diffs between old and new boot time 
-> dmesg after most new (rc) kernel builds.
+> On Tue, 26 Aug 2008, Adrian Bunk wrote:
+> > 
+> > I added "-fno-inline-functions-called-once -fno-early-inlining" to 
+> > KBUILD_CFLAGS, and (with gcc 4.3) that increased the size of my kernel 
+> > image by 2%.
 > 
-> Call it my contribution to quality assurance.
+> Btw, did you check with just "-fno-inline-functions-called-once"?
+> 
+> The -fearly-inlining decisions _should_ be mostly right. If gcc sees early 
+> that a function is so small (even without any constant propagation etc) 
+> that it can be inlined, it's probably right. 
+> 
+> The inline-functions-called-once thing is what causes even big functions 
+> to be inlined, and that's where you find the big downsides too (eg the 
+> stack usage).
 
-Kernel developers appreciate such keen oversight.  Thank you.
+-fno-inline-functions-called-once alone costs me nearly 1% in code size.
 
-Alan Stern
+And I'd expect it to become more with "-fwhole-program --combine".
+
+
+If you think we have too many stacksize problems I'd suggest to consider 
+removing the choice of 4k stacks on i386, sh and m68knommu instead of 
+using -fno-inline-functions-called-once:
+
+Now that 32bit x86 is no longer used for extreme highend configurations 
+the only serious usecase for 4k stacks are AFAIK space savings on 
+embedded archs.
+
+4k stacks have caused us much pain [1], and the cases where gcc inlined 
+too much were the easy ones.
+
+I'm not saying that I'd like removing the choice of 4k stacks, but if we 
+want to reduce the number of stack related problems that's IMHO the 
+better alternative.
+
+
+> 			Linus
+
+cu
+Adrian
+
+[1] AFAIR some callpaths in the kernel are still too big
+
+BTW: In case anyone wonders about why I suggest removing 4k stacks:
+     My position is that 4k stacks should either be enabled 
+     unconditionally or no longer offered at all.
+     And if we remove 4k stacks from 32bit x86 it's no longer 
+     realistically maintainable for other architectures.
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
