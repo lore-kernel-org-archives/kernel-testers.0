@@ -1,60 +1,94 @@
-From: Dave Jones <davej@redhat.com>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
-	bisected
-Date: Tue, 26 Aug 2008 15:28:48 -0400
-Message-ID: <20080826192848.GA20653@redhat.com>
-References: <48B29F7B.6080405@hp.com> <48B2A421.7080705@hp.com> <alpine.LFD.1.10.0808251019380.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251106270.3363@nehalem.linux-foundation.org> <48B313E0.1000501@hp.com> <alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251401590.3363@nehalem.linux-foundation.org> <48B452F3.9040304@sgi.com> <alpine.LFD.1.10.0808261205530.3363@nehalem.linux-foundation.org>
+ bisected
+Date: Tue, 26 Aug 2008 12:40:26 -0700 (PDT)
+Message-ID: <alpine.LFD.1.10.0808261219050.3363@nehalem.linux-foundation.org>
+References: <alpine.LFD.1.10.0808231257310.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808231313170.3363@nehalem.linux-foundation.org> <48B29F7B.6080405@hp.com> <48B2A421.7080705@hp.com> <alpine.LFD.1.10.0808251019380.3363@nehalem.linux-foundation.org>
+ <alpine.LFD.1.10.0808251106270.3363@nehalem.linux-foundation.org> <48B313E0.1000501@hp.com> <alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org>
+ <alpine.LFD.1.10.0808251401590.3363@nehalem.linux-foundation.org> <20080826072220.GB31876@elte.hu> <48B45387.8090205@sgi.com>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1760163AbYHZTiI@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.LFD.1.10.0808261205530.3363@nehalem.linux-foundation.org>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <48B45387.8090205-sJ/iWh9BUns@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mike Travis <travis@sgi.com>, "Alan D. Brunelle" <Alan.Brunelle@hp.com>, Ingo Molnar <mingo@elte.hu>, Thomas Gleixner <tglx@linutronix.de>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Arjan van de Ven <arjan@linux.intel.com>, Rusty Russell <rusty@rustcorp.com.au>, "Siddha, Suresh B" <suresh.b.siddha@intel.com>, "Luck, Tony" <tony.luck@intel.com>, Jack Steiner <steiner@sgi.com>, Christoph Lameter <cl@linux-foundation.org>
+To: Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>
+Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 
-On Tue, Aug 26, 2008 at 12:09:46PM -0700, Linus Torvalds wrote:
 
- > If you want the default kernel to support 4k cores, we'll need to fix the 
- > stack usage.  I don't think that is impossible, but IT IS NOT GOING TO 
- > HAPPEN for 2.6.27.
- > 
- > And quite frankly, if some vendor like RedHat enables NR_CPUS=4096 by 
- > default, they are totally and utterly crazy.
 
-heh.  *picks through Fedora changelog*
+On Tue, 26 Aug 2008, Mike Travis wrote:
+> 
+> I would be most interested in any tools to analyze call-trees and
+> accumulated stack usages.  My current method of using kdb is really
+> time consuming.
 
-* Thu Aug 14 2008 Dave Jones <davej@redhat.com>
-- Bump max cpus supported on x86-64 to 4096. Just to see what happens.
+Well, even just scripts/checkstack.pl is quite relevant.
 
-I never did get to find out unfortunatly, because of the security fiasco
-in Fedora infrastructure the last week or two.
- 
- > But some SGI-specific binary that is meant for SGI machines only, and has 
- > been extensively tested with the setup used on SGI machines is a different 
- > thing.
+The fact is, anything with a stack footprint of more than a hundred bytes 
+is suspect. We _do_ have a lot of cases of several hundred bytes, and some 
+of them are even very intentional.
 
-Every extra kernel image a distro vendor ends up shipping has an associated cost.
+For an example of _intentional_ and valid large stacks, look at 
+do_sys_poll and do_select. They both have a big stack footprint in a 
+normal kernel, and that's on purpose - it's not pretty, but they are very 
+common and performance-sensitive functions, and using a big stack allows 
+some basic allocations to be much cheaper by default.
 
-* build time: It currently takes about 2 hours for a set of Fedora RPMs.
-  For RHEL it'll be even worse due to the extra archs).
-  Killing off -smp specific builds was a big win for us in this regard.
-  Adding extra flavours is always painful.
+Same goes for early_printk(), although I don't think the reasons are 
+really very strong in that case.
 
-* diskspace (distro kernels aren't small. With the associated debugging symbols,
-   they take up a shitload of disk space really fast).
+Sadly, while those functions are _fairly_ high up, they aren't at the top, 
+and we do have a lot of other functions that have huge stack footprints 
+for totally bogus reasons. But the intentional ones are at least in the 
+top ten.
 
-* Having everyone running the same kernel makes it much easier to test/debug.
-  Our QA guys hate adding extra columns to their test matrix.
+But the kernel that Alan had problems with was different. The 
+_intentional_ ones were way down in the noise.  do_sys_poll wasn't in the 
+top ten, it was barely even in the top 50! (It was in fact #49, to be 
+exact).
 
-But yes, for this to be even remotely feasible, there has to be a negligable
-performance cost associated with it, which right now, we clearly don't have.
-Given that the number of people running 4096 CPU boxes even in a few years time
-will still be tiny, punishing the common case is obviously absurd.
+So look at the top ten in my kernel:
 
-	Dave
+     1  ide_generic_init [vmlinux]:             1384
+     2  idefloppy_ioctl [vmlinux]:              1208
+     3  e1000_check_options [vmlinux]:  	1152
+     4  do_sys_poll [vmlinux]:          	904
+     5  ide_floppy_get_capacity [vmlinux]:      872
+     6  do_select [vmlinux]:                    744
+     7  early_printk [vmlinux]:         	720
+     8  do_task_stat [vmlinux]:         	680
+     9  mmc_ioctl [vmlinux]:                    648
+    10  elf_kcore_store_hdr [vmlinux]:  	576
 
--- 
-http://www.codemonkey.org.uk
+.. and in Alan's kernel:
+
+     1  smp_call_function_mask [vmlinux]:       2736
+     2  __build_sched_domains [vmlinux]:        2232
+     3  setup_IO_APIC_irq [vmlinux]:            1616
+     4  arch_setup_ht_irq [vmlinux]:            1600
+     5  arch_setup_msi_irq [vmlinux]:   	1600
+     6  __assign_irq_vector [vmlinux]:  	1592
+     7  move_task_off_dead_cpu [vmlinux]:       1592
+     8  tick_handle_oneshot_broadcast [vmlinux]:1544
+     9  store_scaling_governor [vmlinux]:       1376
+    10  cpuset_write_resmask [vmlinux]:		1360
+
+That's a big difference. The top #1 in my kernel would just _barely_ be in 
+the top 10 in Alan's kernel (he doesn't have it at all, because he didn't 
+compile the drives I did into the kernel).
+
+And the top three in my kernel are just because of crap code. That 
+"e1000_check_options" thing is there just because it creates multiple 
+"struct e1000_option" structures. I wrote an ugly but totally trivial 
+patch to get it down to ~600 bytes, and it would be less if I had bothered 
+to waste any more time on it.
+
+The others are similar issues of "people just didn't think".
+
+But look at the top ones in Alan's kernel. Not only are they _much_ bigger 
+than the top ones in a sane kernel, they are _all_ due to cpumask_t, I 
+think.
+
+			Linus
