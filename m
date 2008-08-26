@@ -1,49 +1,60 @@
-From: Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>
-Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
-Date: Tue, 26 Aug 2008 12:35:16 -0700
-Message-ID: <48B45AF4.8040101@sgi.com>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <VSpL6AnBTS.A.q9H.6aGsIB@albercik> <alpine.LFD.1.10.0808231257310.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808231313170.3363@nehalem.linux-foundation.org> <48B29F7B.6080405@hp.com> <48B2A421.7080705@hp.com> <alpine.LFD.1.10.0808251019380.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251106270.3363@nehalem.linux-foundation.org> <48B313E0.1000501@hp.com> <alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251401590.3363@nehalem.linux-foundation.org> <48B452F3.9040304@sgi.com> <alpine.LFD.1.10.0808261205530.3363@nehalem.linux-foundation.org>
+From: Dave Jones <davej@redhat.com>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
+	bisected
+Date: Tue, 26 Aug 2008 15:28:48 -0400
+Message-ID: <20080826192848.GA20653@redhat.com>
+References: <48B29F7B.6080405@hp.com> <48B2A421.7080705@hp.com> <alpine.LFD.1.10.0808251019380.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251106270.3363@nehalem.linux-foundation.org> <48B313E0.1000501@hp.com> <alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <alpine.LFD.1.10.0808251401590.3363@nehalem.linux-foundation.org> <48B452F3.9040304@sgi.com> <alpine.LFD.1.10.0808261205530.3363@nehalem.linux-foundation.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.1.10.0808261205530.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1760163AbYHZTiI@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.LFD.1.10.0808261205530.3363@nehalem.linux-foundation.org>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "Siddha, Suresh B" <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "Luck, Tony" <tony.luck-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jack Steiner <steiner-sJ/iWh9BUns@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mike Travis <travis@sgi.com>, "Alan D. Brunelle" <Alan.Brunelle@hp.com>, Ingo Molnar <mingo@elte.hu>, Thomas Gleixner <tglx@linutronix.de>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Arjan van de Ven <arjan@linux.intel.com>, Rusty Russell <rusty@rustcorp.com.au>, "Siddha, Suresh B" <suresh.b.siddha@intel.com>, "Luck, Tony" <tony.luck@intel.com>, Jack Steiner <steiner@sgi.com>, Christoph Lameter <cl@linux-foundation.org>
 
-Linus Torvalds wrote:
-> 
-> On Tue, 26 Aug 2008, Mike Travis wrote:
->> The need to allow distros to set NR_CPUS=4096 (and NODES_SHIFT=9) is
->> critical to our upcoming SGI systems using what we have been calling
->> "UV".
-> 
-> That's fine. You can do it. The default kernel will not, because it's 
-> clearly not safe.
-> 
-> I really don't care what you do to _your_ images. But I will not 
-> distribute a known-broken kernel, and I will not debug random stack 
-> overflows that happen in it.
-> 
-> If you want the default kernel to support 4k cores, we'll need to fix the 
-> stack usage.  I don't think that is impossible, but IT IS NOT GOING TO 
-> HAPPEN for 2.6.27.
-> 
-> And quite frankly, if some vendor like RedHat enables NR_CPUS=4096 by 
-> default, they are totally and utterly crazy.
-> 
-> But some SGI-specific binary that is meant for SGI machines only, and has 
-> been extensively tested with the setup used on SGI machines is a different 
-> thing.
-> 
-> 			Linus
+On Tue, Aug 26, 2008 at 12:09:46PM -0700, Linus Torvalds wrote:
 
-Ok, thanks for the reply, and looking into this issue.  We will "strongly
-encourage" our distros to base the relevant releases on 2.6.28. :-)  
+ > If you want the default kernel to support 4k cores, we'll need to fix the 
+ > stack usage.  I don't think that is impossible, but IT IS NOT GOING TO 
+ > HAPPEN for 2.6.27.
+ > 
+ > And quite frankly, if some vendor like RedHat enables NR_CPUS=4096 by 
+ > default, they are totally and utterly crazy.
 
-[Supplying an SGI-specific kernel would not be acceptable to many of our
-customers because of the certification issues I mentioned.] 
+heh.  *picks through Fedora changelog*
 
-Mike
+* Thu Aug 14 2008 Dave Jones <davej@redhat.com>
+- Bump max cpus supported on x86-64 to 4096. Just to see what happens.
+
+I never did get to find out unfortunatly, because of the security fiasco
+in Fedora infrastructure the last week or two.
+ 
+ > But some SGI-specific binary that is meant for SGI machines only, and has 
+ > been extensively tested with the setup used on SGI machines is a different 
+ > thing.
+
+Every extra kernel image a distro vendor ends up shipping has an associated cost.
+
+* build time: It currently takes about 2 hours for a set of Fedora RPMs.
+  For RHEL it'll be even worse due to the extra archs).
+  Killing off -smp specific builds was a big win for us in this regard.
+  Adding extra flavours is always painful.
+
+* diskspace (distro kernels aren't small. With the associated debugging symbols,
+   they take up a shitload of disk space really fast).
+
+* Having everyone running the same kernel makes it much easier to test/debug.
+  Our QA guys hate adding extra columns to their test matrix.
+
+But yes, for this to be even remotely feasible, there has to be a negligable
+performance cost associated with it, which right now, we clearly don't have.
+Given that the number of people running 4096 CPU boxes even in a few years time
+will still be tiny, punishing the common case is obviously absurd.
+
+	Dave
+
+-- 
+http://www.codemonkey.org.uk
