@@ -1,45 +1,89 @@
-From: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
-Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
- bisected
-Date: Wed, 27 Aug 2008 14:21:42 +0100
-Message-ID: <20080827142142.303cdba8@lxorguk.ukuu.org.uk>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
-	<alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org>
-	<200808261111.19205.rusty@rustcorp.com.au>
-	<alpine.LFD.1.10.0808261019450.3363@nehalem.linux-foundation.org>
-	<20080826183051.GB10925@cs181140183.pp.htv.fi>
-	<alpine.LFD.1.10.0808261144510.3363@nehalem.linux-foundation.org>
-	<20080826205916.GB11734@cs181140183.pp.htv.fi>
-	<alpine.LFD.1.10.0808261403360.3363@nehalem.linux-foundation.org>
-	<20080826232411.GC11734@cs181140183.pp.htv.fi>
-	<20080827092528.780916bd@lxorguk.ukuu.org.uk>
-	<f7848160808270552u2ee66167x912a68e0bf8b25bf@mail.gmail.com>
+From: Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
+Date: Wed, 27 Aug 2008 07:35:23 -0700
+Message-ID: <48B5662B.2020806@sgi.com>
+References: <48B29F7B.6080405@hp.com> <20080826192848.GA20653@redhat.com> <48B460FE.2020100@sgi.com> <200808271654.32721.nickpiggin@yahoo.com.au>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <f7848160808270552u2ee66167x912a68e0bf8b25bf-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <200808271654.32721.nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, linux-embedded-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
+Cc: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "Siddha, Suresh B" <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "Luck, Tony" <tony.luck-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jack Steiner <steiner-sJ/iWh9BUns@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-> By your logic though, XFS on x86 should work fine with 4K stacks -
-> many will attest that it does not and blows up due to stack issues.
+Nick Piggin wrote:
+> On Wednesday 27 August 2008 06:01, Mike Travis wrote:
+>> Dave Jones wrote:
+>> ...
+>>
+>>> But yes, for this to be even remotely feasible, there has to be a
+>>> negligable performance cost associated with it, which right now, we
+>>> clearly don't have. Given that the number of people running 4096 CPU
+>>> boxes even in a few years time will still be tiny, punishing the common
+>>> case is obviously absurd.
+>>>
+>>> 	Dave
+>> I did do some fairly extensive benchmarking between configs of NR_CPUS =
+>> 128 and 4096 and most performance hits were in the neighborhood of < 5% on
+>> systems with 8 cpus and 4GB of memory (our most common test system).
 > 
-> I have first hand experiences of things blowing up with deep call
-> chains when using 4K stacks where 8K worked just fine on same
-> workload.
+> 5% is a pretty nasty performance hit... what sort of benchmarks are we
+> talking about here?
+
+It's been a while now, I should go back and check my notes.  Many of the
+BM's did not have any changes.  I believe the ones that were right on the
+edge of paging were affected by the fact that less memory was available.
 > 
-> So there is definitely some other problem with 4K stacks.
+> I just made some pretty crazy changes to the VM to get "only" around 5
+> or so % performance improvement in some workloads.
+> 
+> What places are making heavy use of cpumasks that causes such a slowdown?
+> Hopefully callers can mostly be improved so they don't need to use cpumasks
+> for common cases.
 
-Nothing of the sort. If it blows up with a 4K stack it will almost
-certainly blow up with an 8K stack *eventually* - when a heavy stack usage
-coincides with a heavy stack using IRQ handler.
+That's another study I did, and it seemed that maybe 95% of the functions
+would not be affected by passing pointers to cpumasks instead of the cpumasks
+themselves, because the data was processed by a cpu_xxx function that
+uses a pointer.  Most commonly was to create a temp cpumask, using
+cpus_and(temp_mask, callers_mask, cpu_online_map);  The speedup to use nr_cpu_ids
+instead of NR_CPUS in the traversal functions helped quite a bit.  Using this
+same method in the cpus_xxx functions would further speed up things.  (As
+well as only allocating the cpumask sized by nr_cpu_ids instead of NR_CPUS
+as the current cpumask_t definition specifies.)
 
-You won't catch it in simple testing, you won't catch it in trivial
-simulation and it'll be incredibly hard to reproduce. Not the kind of bug
-you want in a production system really. IRQ stacks make things much more
-predictable.
+> 
+> Until then, it would be kind of sad for a distro to ship a generic x86
+> kernel and lose 5% performance because it is set to 4096 CPUs...
+> 
+> But if I misunderstand and you're talking about specific microbenchmarks to
+> find the worst case for huge cpumasks, then I take that back.
 
-Alan
+Yes, I was (at the time) trying to determine how many of the cpumask functions
+were actually in play by user tasks, so I was zeroing in on those (cpusets,
+rescheds, etc.)
+
+> 
+> 
+>> [But 
+>> changing cpumask_t's to be pointers instead of values will likely increase
+>> this.]  I've tried to be very sensitive to this issue with all my previous
+>> changes, so convincing the distros to set NR_CPUS=4096 would be as painless
+>> for them as possible. ;-)
+>>
+>> Btw, huge count cpu systems I don't think are that far away.  I believe the
+>> nextgen Larabbee chips will be geared towards HPC applications [instead of
+>> just GFX apps], and putting 4 of these chips on a motherboard would add up
+>> to 512 cpu threads (1024 if they support hyperthreading.)
+> 
+> It would be quite interesting if they make them cache coherent / MP capable.
+> Will they be?
+
+There's not been a lot of info available yet, but I think the 128 cores will
+share at least an L2 cache + memory controller.  How the APIC's interact is
+also another big question.  And most likely some standard system controller
+CPU will be needed, but that could be a tiny VIA processor... ;-)
+
+Thanks,
+Mike
