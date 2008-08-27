@@ -1,43 +1,62 @@
-From: Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
-Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
- bisected
-Date: Wed, 27 Aug 2008 16:01:50 +1000
-Message-ID: <18612.60878.887716.452936@drongo.ozlabs.ibm.com>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
-	<alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org>
-	<200808261111.19205.rusty@rustcorp.com.au>
-	<alpine.LFD.1.10.0808261019450.3363@nehalem.linux-foundation.org>
-	<20080826183051.GB10925@cs181140183.pp.htv.fi>
-	<alpine.LFD.1.10.0808261144510.3363@nehalem.linux-foundation.org>
-	<20080826205916.GB11734@cs181140183.pp.htv.fi>
-	<alpine.LFD.1.10.0808261403360.3363@nehalem.linux-foundation.org>
-	<f7848160808261554j2f4eaaa6i1ee8801ae75ca7bf@mail.gmail.com>
-	<alpine.LFD.1.10.0808261644260.3363@nehalem.linux-foundation.org>
-	<f7848160808261758q7b84aab1m188c1ebb59304818@mail.gmail.com>
-	<alpine.LFD.1.10.0808261837530.3363@nehalem.linux-foundation.org>
+From: Nick Piggin <nickpiggin@yahoo.com.au>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c =?iso-8859-1?q?-=09bisected?=
+Date: Wed, 27 Aug 2008 16:54:32 +1000
+Message-ID: <200808271654.32721.nickpiggin@yahoo.com.au>
+References: <48B29F7B.6080405@hp.com> <20080826192848.GA20653@redhat.com> <48B460FE.2020100@sgi.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.1.10.0808261837530.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754100AbYH0Gyv@vger.kernel.org>
+In-Reply-To: <48B460FE.2020100@sgi.com>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Adrian Bunk <bunk-HeJ8Db2Gnd6zQB+pC5nmwQ@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, linux-embedded-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Travis <travis@sgi.com>
+Cc: Dave Jones <davej@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, "Alan D. Brunelle" <Alan.Brunelle@hp.com>, Ingo Molnar <mingo@elte.hu>, Thomas Gleixner <tglx@linutronix.de>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Arjan van de Ven <arjan@linux.intel.com>, Rusty Russell <rusty@rustcorp.com.au>, "Siddha, Suresh B" <suresh.b.siddha@intel.com>, "Luck, Tony" <tony.luck@intel.com>, Jack Steiner <steiner@sgi.com>, Christoph Lameter <cl@linux-foundation.org>
 
-Linus Torvalds writes:
+On Wednesday 27 August 2008 06:01, Mike Travis wrote:
+> Dave Jones wrote:
+> ...
+>
+> > But yes, for this to be even remotely feasible, there has to be a
+> > negligable performance cost associated with it, which right now, we
+> > clearly don't have. Given that the number of people running 4096 CPU
+> > boxes even in a few years time will still be tiny, punishing the common
+> > case is obviously absurd.
+> >
+> > 	Dave
+>
+> I did do some fairly extensive benchmarking between configs of NR_CPUS =
+> 128 and 4096 and most performance hits were in the neighborhood of < 5% on
+> systems with 8 cpus and 4GB of memory (our most common test system).
 
-> 4kB used to be the _only_ choice. And no, there weren't even irq stacks. 
-> So that 4kB was not just the whole kernel call-chain, it was also all the 
-> irq nesting above it.
+5% is a pretty nasty performance hit... what sort of benchmarks are we
+talking about here?
 
-I think your memory is failing you.  In 2.4 and earlier, the kernel
-stack was 8kB minus the size of the task_struct, which sat at the
-start of the 8kB.  For instance, from include/asm-i386/processor.h for
-2.4.29:
+I just made some pretty crazy changes to the VM to get "only" around 5
+or so % performance improvement in some workloads.
 
-#define THREAD_SIZE (2*PAGE_SIZE)
-#define alloc_task_struct() ((struct task_struct *) __get_free_pages(GFP_KERNEL,1))
-#define free_task_struct(p) free_pages((unsigned long) (p), 1)
+What places are making heavy use of cpumasks that causes such a slowdown?
+Hopefully callers can mostly be improved so they don't need to use cpumasks
+for common cases.
 
-Paul.
+Until then, it would be kind of sad for a distro to ship a generic x86
+kernel and lose 5% performance because it is set to 4096 CPUs...
+
+But if I misunderstand and you're talking about specific microbenchmarks to
+find the worst case for huge cpumasks, then I take that back.
+
+
+> [But 
+> changing cpumask_t's to be pointers instead of values will likely increase
+> this.]  I've tried to be very sensitive to this issue with all my previous
+> changes, so convincing the distros to set NR_CPUS=4096 would be as painless
+> for them as possible. ;-)
+>
+> Btw, huge count cpu systems I don't think are that far away.  I believe the
+> nextgen Larabbee chips will be geared towards HPC applications [instead of
+> just GFX apps], and putting 4 of these chips on a motherboard would add up
+> to 512 cpu threads (1024 if they support hyperthreading.)
+
+It would be quite interesting if they make them cache coherent / MP capable.
+Will they be?
