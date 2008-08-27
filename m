@@ -1,44 +1,33 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+From: Alan Cox <alan@lxorguk.ukuu.org.uk>
 Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
  bisected
-Date: Wed, 27 Aug 2008 01:44:57 -0700 (PDT)
-Message-ID: <20080827.014457.140528687.davem@davemloft.net>
-References: <200808271654.32721.nickpiggin@yahoo.com.au>
-	<20080827.000506.177643294.davem@davemloft.net>
-	<200808271747.14690.nickpiggin@yahoo.com.au>
+Date: Wed, 27 Aug 2008 09:32:51 +0100
+Message-ID: <20080827093251.41b6b3eb@lxorguk.ukuu.org.uk>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
+	<alpine.LFD.1.10.0808261019450.3363@nehalem.linux-foundation.org>
+	<20080826183051.GB10925@cs181140183.pp.htv.fi>
+	<alpine.LFD.1.10.0808261144510.3363@nehalem.linux-foundation.org>
+	<20080826205916.GB11734@cs181140183.pp.htv.fi>
+	<alpine.LFD.1.10.0808261403360.3363@nehalem.linux-foundation.org>
+	<f7848160808261554j2f4eaaa6i1ee8801ae75ca7bf@mail.gmail.com>
+	<alpine.LFD.1.10.0808261644260.3363@nehalem.linux-foundation.org>
+	<f7848160808261758q7b84aab1m188c1ebb59304818@mail.gmail.com>
+	<alpine.LFD.1.10.0808261837530.3363@nehalem.linux-foundation.org>
+	<f7848160808261936m18c69dc0r26f41850efae4b91@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200808271747.14690.nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-embedded-owner@vger.kernel.org>
+In-Reply-To: <f7848160808261936m18c69dc0r26f41850efae4b91@mail.gmail.com>
+Sender: linux-embedded-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org
-Cc: travis-sJ/iWh9BUns@public.gmane.org, davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, Alan.Brunelle-VXdhtT5mjnY@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org, suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, tony.luck-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, steiner-sJ/iWh9BUns@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Parag Warudkar <parag.lkml@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Adrian Bunk <bunk@stusta.de>, Rusty Russell <rusty@rustcorp.com.au>, "Alan D. Brunelle" <Alan.Brunelle@hp.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Arjan van de Ven <arjan@linux.intel.com>, Ingo Molnar <mingo@elte.hu>, linux-embedded@vger.kernel.org
 
-From: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Date: Wed, 27 Aug 2008 17:47:14 +1000
+> What about deep call chains? The problem with the uptake of 4K stacks
+> seems to be that is not reliably provable that it will work under all
+> circumstances.
 
-> Yeah, I see. That's stupid isn't it? (Well, I guess it was completely
-> sane when cpumasks were word sized ;))
-> 
-> Hopefully that accounts for a significant chunk...
-
-There is a lot of indirect costs that are hard to see as well.
-
-Two things a lot of these cross-call dispatch paths do is:
-
-1) Clear self-cpu
-
-2) AND with cpus_online
-
-#1 can normally be a simple bit clear, but some places can also
-implement this with something like "cpus_andn(X, cpumask_of_cpu(cpu))"
-
-It's simply easier to move those two things down to the bottom of
-the APIC programming code, they just loop over the cpumask doing
-an expensive APIC I/O operation anyways, might as well overlap it
-with these "skip self-cpu" and "skip not-online cpus" checks.
-
-And oh yeah we get the stack wastage fixed too, isn't what what we
-were talking about? :-)
+On x86-32 with 8K stacks your IRQ paths share them so that is even harder
+to prove (not that you can prove any of them) and the bugs are more
+obscure and random.
