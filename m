@@ -1,35 +1,44 @@
-From: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
  bisected
-Date: Wed, 27 Aug 2008 09:25:28 +0100
-Message-ID: <20080827092528.780916bd@lxorguk.ukuu.org.uk>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
-	<48B313E0.1000501@hp.com>
-	<alpine.LFD.1.10.0808251326500.3363@nehalem.linux-foundation.org>
-	<200808261111.19205.rusty@rustcorp.com.au>
-	<alpine.LFD.1.10.0808261019450.3363@nehalem.linux-foundation.org>
-	<20080826183051.GB10925@cs181140183.pp.htv.fi>
-	<alpine.LFD.1.10.0808261144510.3363@nehalem.linux-foundation.org>
-	<20080826205916.GB11734@cs181140183.pp.htv.fi>
-	<alpine.LFD.1.10.0808261403360.3363@nehalem.linux-foundation.org>
-	<20080826232411.GC11734@cs181140183.pp.htv.fi>
+Date: Wed, 27 Aug 2008 01:44:57 -0700 (PDT)
+Message-ID: <20080827.014457.140528687.davem@davemloft.net>
+References: <200808271654.32721.nickpiggin@yahoo.com.au>
+	<20080827.000506.177643294.davem@davemloft.net>
+	<200808271747.14690.nickpiggin@yahoo.com.au>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080826232411.GC11734-re2QNgSbS3j4D6uPqz5PAwR5/fbUUdgG@public.gmane.org>
+In-Reply-To: <200808271747.14690.nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "Alan D. Brunelle" <Alan.Brunelle-VXdhtT5mjnY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, linux-embedded-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org
+Cc: travis-sJ/iWh9BUns@public.gmane.org, davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, Alan.Brunelle-VXdhtT5mjnY@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org, suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, tony.luck-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, steiner-sJ/iWh9BUns@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
 
-> You have a good point that aiming at 4kB makes 8kB a very safe choice.
+From: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
+Date: Wed, 27 Aug 2008 17:47:14 +1000
 
-Not really no - we use separate IRQ stacks in 4K but not 8K mode on
-x86-32. That means you've actually got no more space if you are unlucky
-with the timing of events. The 8K mode is merely harder to debug.
+> Yeah, I see. That's stupid isn't it? (Well, I guess it was completely
+> sane when cpumasks were word sized ;))
+> 
+> Hopefully that accounts for a significant chunk...
 
-If 4K stacks really are not safe then x86-32 really really needs to
-switch to using IRQ stacks in 8K stack mode as well.
+There is a lot of indirect costs that are hard to see as well.
 
-Alan
+Two things a lot of these cross-call dispatch paths do is:
+
+1) Clear self-cpu
+
+2) AND with cpus_online
+
+#1 can normally be a simple bit clear, but some places can also
+implement this with something like "cpus_andn(X, cpumask_of_cpu(cpu))"
+
+It's simply easier to move those two things down to the bottom of
+the APIC programming code, they just loop over the cpumask doing
+an expensive APIC I/O operation anyways, might as well overlap it
+with these "skip self-cpu" and "skip not-online cpus" checks.
+
+And oh yeah we get the stack wastage fixed too, isn't what what we
+were talking about? :-)
