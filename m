@@ -1,65 +1,31 @@
-From: Bernd Petrovitsch <bernd@firmix.at>
-Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
-	bisected
-Date: Wed, 27 Aug 2008 21:30:31 +0200
-Message-ID: <1219865431.3475.3.camel@gimli.at.home>
-References: <20080826205916.GB11734@cs181140183.pp.htv.fi>
-	 <alpine.LFD.1.10.0808261403360.3363@nehalem.linux-foundation.org>
-	 <f7848160808261554j2f4eaaa6i1ee8801ae75ca7bf@mail.gmail.com>
-	 <alpine.LFD.1.10.0808261644260.3363@nehalem.linux-foundation.org>
-	 <f7848160808261758q7b84aab1m188c1ebb59304818@mail.gmail.com>
-	 <1219827609.30209.29.camel@spike.firmix.at>
-	 <f7848160808270556q54c36270ye6a465d2ca123cc@mail.gmail.com>
-	 <1219843032.30209.51.camel@spike.firmix.at>
-	 <20080827154805.GA25387@shareable.org>
-	 <1219855121.30209.112.camel@spike.firmix.at>
-	 <20080827175152.GA27491@shareable.org>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
+Date: Wed, 27 Aug 2008 13:40:10 -0700 (PDT)
+Message-ID: <alpine.LFD.1.10.0808271335260.3363@nehalem.linux-foundation.org>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <alpine.LFD.1.10.0808241120460.3363@nehalem.linux-foundation.org> <m3k5e2qkk2.fsf@telia.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-embedded-owner@vger.kernel.org>
-In-Reply-To: <20080827175152.GA27491@shareable.org>
-Content-Disposition: inline
-Sender: linux-embedded-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <m3k5e2qkk2.fsf-zq6IREYz3ykAvxtiuMwx3w@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Jamie Lokier <jamie@shareable.org>
-Cc: Parag Warudkar <parag.lkml@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>, Adrian Bunk <bunk@stusta.de>, Rusty Russell <rusty@rustcorp.com.au>, "Alan D. Brunelle" <Alan.Brunelle@hp.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Arjan van de Ven <arjan@linux.intel.com>, Ingo Molnar <mingo@elte.hu>, linux-embedded@vger.kernel.org
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Peter Osterlund <petero2-zq6IREYz3ykAvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Alan Cox <alan-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mit, 2008-08-27 at 18:51 +0100, Jamie Lokier wrote:
-> Bernd Petrovitsch wrote:
-[...]
-> It is, but the idea that small embedded systems go through a 'all
-> components are known, drivers are known, test and if it passes it's
-> shippable' does not always apply.
 
-Not always but often enough. And yes, there is ARM-based embedded
-hardware with 1GB Flash-RAM and 128MB RAM.
 
-> > > I'm seriously thinking of forwarding porting the 4 year old firmware
-> > > from 2.4.26 to 2.6.current, just to get new drivers and capabilities.
-> > 
-> > That sounds reasonable (and I never meant maintaining the old system
-> > infinitely.
+On Wed, 27 Aug 2008, Peter Osterlund wrote:
 > 
-> Sounds reasonable, but it's vetoed for anticipated time and cost,
+> Why not just revert the offending change and try again during the next
+> merge window, assuming someone has figured out an acceptable way to
+> handle this mess by then?
 
-That is to be expected;-)
+Well,, for 2.6.27 that's what we'll have to do. But there's actually a 
+real problem here - the unlocked ioctl's (which we _should_ prefer) have a 
+strictly weaker and worse interface. I also wonder if any other 
+block_ioctl users were converted..
 
-[....]
-> > ACK. We avoid MMU-less hardware too - especially since there is enough
-> > hardware with a MMU around.
-> 
-> I can't emphasise enough how much difference MMU makes to Linux userspace.
-> 
-> It's practically: MMU = standard Linux (with less RAM), have everything.
-> No-MMU = lots of familiar 'Linux' things not available or break.
+Anyway, I'll take your email as an ack for the revert.
 
-ACK. And tell that a customer that everything is more effort and more
-risk and not just "simply cross-compile it as it runs on my desktop
-too".
-
-	Bernd
--- 
-Firmix Software GmbH                   http://www.firmix.at/
-mobil: +43 664 4416156                 fax: +43 1 7890849-55
-          Embedded Linux Development and Services
+		Linus
