@@ -1,12 +1,12 @@
 From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
-Date: Wed, 27 Aug 2008 16:00:29 -0700 (PDT)
-Message-ID: <alpine.LFD.1.10.0808271551380.3419@nehalem.linux-foundation.org>
+Date: Wed, 27 Aug 2008 16:12:20 -0700 (PDT)
+Message-ID: <alpine.LFD.1.10.0808271611230.3419@nehalem.linux-foundation.org>
 References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <alpine.LFD.1.10.0808241120460.3363@nehalem.linux-foundation.org> <m3k5e2qkk2.fsf@telia.com> <20080827230828.4285022b@lxorguk.ukuu.org.uk> <alpine.LFD.1.10.0808271530350.3419@nehalem.linux-foundation.org>
- <20080827232803.2ba8dd96@lxorguk.ukuu.org.uk>
+ <20080827232803.2ba8dd96@lxorguk.ukuu.org.uk> <alpine.LFD.1.10.0808271551380.3419@nehalem.linux-foundation.org>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080827232803.2ba8dd96-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+In-Reply-To: <alpine.LFD.1.10.0808271551380.3419-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: TEXT/PLAIN; charset="us-ascii"
@@ -16,20 +16,13 @@ Cc: Peter Osterlund <petero2-zq6IREYz3ykAvxtiuMwx3w@public.gmane.org>, "Rafael J
 
 
 
-On Wed, 27 Aug 2008, Alan Cox wrote:
+On Wed, 27 Aug 2008, Linus Torvalds wrote:
 > 
-> I'll take a crack at it tomorrow - but if its 185 entries then it
-> probably wants to go into -next instead.
+> I wonder if I could essentially automate something to do the conversion..
 
-Being more careful.. This:
+Hmm. compat_ioctl() actually has exactly the same issue. Damn.
 
-	git grep 'unlocked_ioctl.*=' |
-		sed 's/^.*=[ 	]*\([_a-zA-Z0-9]*\).*$/\1/' |
-		uniq | wc
-
-says that ther are 160 distinct cases. I'm not sure it catches everything 
-exactly, but it will be reasonably close, at least.
-
-I wonder if I could essentially automate something to do the conversion..
+So you can't just add the new argument, you also have to _pass_ the 
+argument in the compat_ioctl handlers to the non-compat ones.
 
 		Linus
