@@ -1,11 +1,11 @@
 From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
-Date: Wed, 27 Aug 2008 13:40:10 -0700 (PDT)
-Message-ID: <alpine.LFD.1.10.0808271335260.3363@nehalem.linux-foundation.org>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <alpine.LFD.1.10.0808241120460.3363@nehalem.linux-foundation.org> <m3k5e2qkk2.fsf@telia.com>
+Date: Wed, 27 Aug 2008 13:45:06 -0700 (PDT)
+Message-ID: <alpine.LFD.1.10.0808271343500.3363@nehalem.linux-foundation.org>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <alpine.LFD.1.10.0808241120460.3363@nehalem.linux-foundation.org> <m3k5e2qkk2.fsf@telia.com> <alpine.LFD.1.10.0808271335260.3363@nehalem.linux-foundation.org>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <m3k5e2qkk2.fsf-zq6IREYz3ykAvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <alpine.LFD.1.10.0808271335260.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: TEXT/PLAIN; charset="us-ascii"
@@ -15,17 +15,16 @@ Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Alan Cox <alan-H+wXa
 
 
 
-On Wed, 27 Aug 2008, Peter Osterlund wrote:
-> 
-> Why not just revert the offending change and try again during the next
-> merge window, assuming someone has figured out an acceptable way to
-> handle this mess by then?
+On Wed, 27 Aug 2008, Linus Torvalds wrote:
+>
+> I also wonder if any other block_ioctl users were converted..
 
-Well,, for 2.6.27 that's what we'll have to do. But there's actually a 
-real problem here - the unlocked ioctl's (which we _should_ prefer) have a 
-strictly weaker and worse interface. I also wonder if any other 
-block_ioctl users were converted..
+Well, doing
 
-Anyway, I'll take your email as an ack for the revert.
+	git log -p v2.6.26.. -Sunlocked_ioctl
 
-		Linus
+and looking for blkdev_ioctl, that does seem to be the only one. So 
+hopefully no other case like this is lurking, although it is possible that 
+non-block areas have similar issues.
+
+			Linus
