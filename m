@@ -1,58 +1,186 @@
-From: Ingo Molnar <mingo@elte.hu>
-Subject: Re: SLUB/debugobjects locking (Re: 2.6.27-rc4-git1: Reported
-	regressions from 2.6.26)
-Date: Thu, 28 Aug 2008 15:56:59 +0200
-Message-ID: <20080828135659.GA1929@elte.hu>
-References: <19f34abd0808251244v439e78b1hbb24f77c637559c3@mail.gmail.com> <6278d2220808261514p2661251aw914215652c547125@mail.gmail.com> <19f34abd0808280642j529eab2ct17722644d1550ad9@mail.gmail.com>
+From: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] debugobjects: fix lockdep warning #2
+Date: Thu, 28 Aug 2008 17:32:14 +0200
+Message-ID: <20080828153214.GA27653@localhost.localdomain>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754857AbYH1N5h@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:to:cc:subject:message-id
+         :mime-version:content-type:content-disposition:user-agent:from;
+        bh=q/bWYfNUtvpCXN8w+Yetvnv0MV5wA/do9ZKWnqQNzXA=;
+        b=oOCZQuYjW0Lh9KhK+3KplZ20bXIsqRkcJ4QhO4mxzJMs1G0uc8nOqRqU1Y+ss+WutV
+         J/ZbBLPykcEoGheZe0SLtKddQ/97uF768GmcIy+Hkvbz7SscEDzHIgXw4et/Cg0SqwMg
+         bUr/dUYadcOhP/R2/QHOFyng+zEanDSksbFQU=
 Content-Disposition: inline
-In-Reply-To: <19f34abd0808280642j529eab2ct17722644d1550ad9@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Vegard Nossum <vegard.nossum@gmail.com>
-Cc: Daniel J Blueman <daniel.blueman@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Christoph Lameter <clameter@sgi.com>, Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Christoph Lameter <clameter-sJ/iWh9BUns@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+
+On Thu, Aug 28, 2008 at 3:56 PM, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
+> could you resend the final patch please? It's a candidate for .27, if it
+> works out fine.
+
+Here is the combined patch. I've tested it only briefly, and I am
+unsure of whether it still produces lockdep warnings for Daniel or
+not. I wish it would not be applied anywhere unless it was
+officially Reviewed-by: someone. In particular, I'm not quite
+steady with the irq-safe locking (Thomas might want to have a look).
+
+Thanks :)
 
 
-* Vegard Nossum <vegard.nossum@gmail.com> wrote:
+Vegard
 
-> On Wed, Aug 27, 2008 at 12:14 AM, Daniel J Blueman
-> <daniel.blueman@gmail.com> wrote:
-> > On Mon, Aug 25, 2008 at 8:44 PM, Vegard Nossum <vegard.nossum@gmail.com> wrote:
-> >> I tried your suggestion of promoting the lock to irq-safe, and it
-> >> fixed the warning for me (didn't get or look for deadlocks yet, but it
-> >> seems likely that it is caused by the same thing?), the patch is
-> >> attached for reference.
-> >>
-> >> I also don't know if this is the best fix, but I also don't have any
-> >> other (better) suggestions.
-> >>
-> >> Others are welcome to pick it up from here...
-> >
-> > The solution looks like is needs to get the lock ordering correct
-> > w.r.t. SLUB, as we get this, alas:
-> >
-> > =======================================================
-> > [ INFO: possible circular locking dependency detected ]
-> > 2.6.27-rc4-229c-debug #1
-> 
-> Hm. Is this with my first patch + the one in the e-mail you replied
-> to? It was intended to be a delta patch on top of my first one.
-> 
-> That would be the one in
-> 
->     http://marc.info/?l=linux-kernel&m=121946972307110&w=4
-> 
-> plus the one in
-> 
->     http://marc.info/?l=linux-kernel&m=121969394110327&w=1
-> 
-> Thanks for testing and sorry for the confusion. (Maybe I just confused
-> myself. Please let me know either way.)
 
-could you resend the final patch please? It's a candidate for .27, if it 
-works out fine.
+From 977cf583b79be7308d5e310711fe6038c8af96a4 Mon Sep 17 00:00:00 2001
+From: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date: Thu, 28 Aug 2008 17:09:57 +0200
+Subject: [PATCH] debugobjects: fix lockdep warning #2
 
-	Ingo
+Daniel J. Blueman reported:
+> =======================================================
+> [ INFO: possible circular locking dependency detected ]
+> 2.6.27-rc4-224c #1
+> -------------------------------------------------------
+> hald/4680 is trying to acquire lock:
+>  (&n->list_lock){++..}, at: [<ffffffff802bfa26>] add_partial+0x26/0x80
+>
+> but task is already holding lock:
+>  (&obj_hash[i].lock){++..}, at: [<ffffffff8041cfdc>]
+> debug_object_free+0x5c/0x120
+
+We fix it by moving the actual freeing to outside the lock (the lock
+now only protects the list).
+
+The lock is also promoted to irq-safe (suggested by Dan).
+
+Reported-by: Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Signed-off-by: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
+ lib/debugobjects.c |   38 +++++++++++++++++++++++++++++---------
+ 1 files changed, 29 insertions(+), 9 deletions(-)
+
+diff --git a/lib/debugobjects.c b/lib/debugobjects.c
+index 19acf8c..acf9ed8 100644
+--- a/lib/debugobjects.c
++++ b/lib/debugobjects.c
+@@ -115,9 +115,10 @@ static struct debug_obj *lookup_object(void *addr, struct debug_bucket *b)
+ static struct debug_obj *
+ alloc_object(void *addr, struct debug_bucket *b, struct debug_obj_descr *descr)
+ {
++	unsigned long flags;
+ 	struct debug_obj *obj = NULL;
+ 
+-	spin_lock(&pool_lock);
++	spin_lock_irqsave(&pool_lock, flags);
+ 	if (obj_pool.first) {
+ 		obj	    = hlist_entry(obj_pool.first, typeof(*obj), node);
+ 
+@@ -136,7 +137,7 @@ alloc_object(void *addr, struct debug_bucket *b, struct debug_obj_descr *descr)
+ 		if (obj_pool_free < obj_pool_min_free)
+ 			obj_pool_min_free = obj_pool_free;
+ 	}
+-	spin_unlock(&pool_lock);
++	spin_unlock_irqrestore(&pool_lock, flags);
+ 
+ 	return obj;
+ }
+@@ -146,18 +147,19 @@ alloc_object(void *addr, struct debug_bucket *b, struct debug_obj_descr *descr)
+  */
+ static void free_object(struct debug_obj *obj)
+ {
++	unsigned long flags;
+ 	unsigned long idx = (unsigned long)(obj - obj_static_pool);
+ 
+ 	if (obj_pool_free < ODEBUG_POOL_SIZE || idx < ODEBUG_POOL_SIZE) {
+-		spin_lock(&pool_lock);
++		spin_lock_irqsave(&pool_lock, flags);
+ 		hlist_add_head(&obj->node, &obj_pool);
+ 		obj_pool_free++;
+ 		obj_pool_used--;
+-		spin_unlock(&pool_lock);
++		spin_unlock_irqrestore(&pool_lock, flags);
+ 	} else {
+-		spin_lock(&pool_lock);
++		spin_lock_irqsave(&pool_lock, flags);
+ 		obj_pool_used--;
+-		spin_unlock(&pool_lock);
++		spin_unlock_irqrestore(&pool_lock, flags);
+ 		kmem_cache_free(obj_cache, obj);
+ 	}
+ }
+@@ -170,19 +172,28 @@ static void debug_objects_oom(void)
+ {
+ 	struct debug_bucket *db = obj_hash;
+ 	struct hlist_node *node, *tmp;
++	HLIST_HEAD(freelist);
+ 	struct debug_obj *obj;
+ 	unsigned long flags;
+ 	int i;
+ 
+ 	printk(KERN_WARNING "ODEBUG: Out of memory. ODEBUG disabled\n");
+ 
++	/* XXX: Could probably be optimized by transplantation of more than
++	 * one entry at a time. */
+ 	for (i = 0; i < ODEBUG_HASH_SIZE; i++, db++) {
+ 		spin_lock_irqsave(&db->lock, flags);
+ 		hlist_for_each_entry_safe(obj, node, tmp, &db->list, node) {
+ 			hlist_del(&obj->node);
+-			free_object(obj);
++			hlist_add_head(&obj->node, &freelist);
+ 		}
+ 		spin_unlock_irqrestore(&db->lock, flags);
++
++		/* Now free them */
++		hlist_for_each_entry_safe(obj, node, tmp, &freelist, node) {
++			hlist_del(&obj->node);
++			free_object(obj);
++		}
+ 	}
+ }
+ 
+@@ -500,8 +511,9 @@ void debug_object_free(void *addr, struct debug_obj_descr *descr)
+ 		return;
+ 	default:
+ 		hlist_del(&obj->node);
++		spin_unlock_irqrestore(&db->lock, flags);
+ 		free_object(obj);
+-		break;
++		return;
+ 	}
+ out_unlock:
+ 	spin_unlock_irqrestore(&db->lock, flags);
+@@ -512,6 +524,7 @@ static void __debug_check_no_obj_freed(const void *address, unsigned long size)
+ {
+ 	unsigned long flags, oaddr, saddr, eaddr, paddr, chunks;
+ 	struct hlist_node *node, *tmp;
++	HLIST_HEAD(freelist);
+ 	struct debug_obj_descr *descr;
+ 	enum debug_obj_state state;
+ 	struct debug_bucket *db;
+@@ -547,11 +560,18 @@ repeat:
+ 				goto repeat;
+ 			default:
+ 				hlist_del(&obj->node);
+-				free_object(obj);
++				hlist_add_head(&obj->node, &freelist);
+ 				break;
+ 			}
+ 		}
+ 		spin_unlock_irqrestore(&db->lock, flags);
++
++		/* Now free them */
++		hlist_for_each_entry_safe(obj, node, tmp, &freelist, node) {
++			hlist_del(&obj->node);
++			free_object(obj);
++		}
++
+ 		if (cnt > debug_objects_maxchain)
+ 			debug_objects_maxchain = cnt;
+ 	}
+-- 
+1.5.5.1
