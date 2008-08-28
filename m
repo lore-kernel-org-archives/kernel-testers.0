@@ -1,81 +1,68 @@
-From: Greg Ungerer <gerg-XXXsiaCtIV5Wk0Htik3J/w@public.gmane.org>
-Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
-Date: Thu, 28 Aug 2008 11:05:55 +1000
-Message-ID: <48B5F9F3.20505@snapgear.com>
-References: <alpine.LFD.1.10.0808261019450.3363@nehalem.linux-foundation.org> <20080826183051.GB10925@cs181140183.pp.htv.fi> <alpine.LFD.1.10.0808261144510.3363@nehalem.linux-foundation.org> <20080826205916.GB11734@cs181140183.pp.htv.fi> <alpine.LFD.1.10.0808261403360.3363@nehalem.linux-foundation.org> <20080826232411.GC11734@cs181140183.pp.htv.fi> <alpine.LFD.1.10.0808261648140.3363@nehalem.linux-foundation.org> <20080827002316.GE11734@cs181140183.pp.htv.fi> <alpine.LFD.1.10.0808261726560.3363@nehalem.linux-foundation.org> <20080827115829.GF11734@cs181140183.pp.htv.fi> <20080827160052.GA15968@linux-sh.org>
+From: "Vegard Nossum" <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: SLUB/debugobjects locking (Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26)
+Date: Thu, 28 Aug 2008 15:42:26 +0200
+Message-ID: <19f34abd0808280642j529eab2ct17722644d1550ad9@mail.gmail.com>
+References: <19f34abd0808251244v439e78b1hbb24f77c637559c3@mail.gmail.com>
+	 <6278d2220808261514p2661251aw914215652c547125@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080827160052.GA15968-M7jkjyW5wf5g9hUCZPvPmw@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=7JdfBoOlAblbeZipSz3B19gQO+zoFl1fUZq6pTr6v4E=;
+        b=BHBdBRixHdZwScrdyUCBeBFLdW5hNiu0TQAx1HSDhUZ5AmEK3ilXd+JW2eva0OYbOy
+         z76EzekNwvEF29tzC6GirjBVbrXPsZd3Gr2F2HafGwpx/6sEeA7A44RikcpdDfZmCL4t
+         785GNVvfNZElmpqmFCZFGbwDWDKVIDJJnTopM=
+In-Reply-To: <6278d2220808261514p2661251aw914215652c547125-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Paul Mundt <lethal-M7jkjyW5wf5g9hUCZPvPmw@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "Alan D. Brunelle" <Alan.Brunel>
+Content-Type: text/plain; charset="us-ascii"
+To: Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Christoph Lameter <clameter-sJ/iWh9BUns@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-
-Paul Mundt wrote:
-> On Wed, Aug 27, 2008 at 02:58:30PM +0300, Adrian Bunk wrote:
->> On Tue, Aug 26, 2008 at 05:28:37PM -0700, Linus Torvalds wrote:
->>> On Wed, 27 Aug 2008, Adrian Bunk wrote:
->>>> When did we get callpaths like like nfs+xfs+md+scsi reliably 
->>>> working with 4kB stacks on x86-32?
->>> XFS may never have been usable, but the rest, sure.
->>>
->>> And you seem to be making this whole argument an excuse to SUCK, adn an 
->>> excuse to let gcc crap even more on our stack space.
->>>
->>> Why?
->>>
->>> Why aren't you saying that we should be able to do better? Instead, you 
->>> seem to asking us to do even worse than we do now?
->> My main point is:
->> - getting 4kB stacks working reliably is a hard task
->> - having an eye on gcc increasing the stack usage, and fixing it if
->>   required, is relatively easy
+On Wed, Aug 27, 2008 at 12:14 AM, Daniel J Blueman
+<daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> On Mon, Aug 25, 2008 at 8:44 PM, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> I tried your suggestion of promoting the lock to irq-safe, and it
+>> fixed the warning for me (didn't get or look for deadlocks yet, but it
+>> seems likely that it is caused by the same thing?), the patch is
+>> attached for reference.
 >>
->> If we should be able to do better at getting (and keeping) 4kB stacks 
->> working, then coping with possible inlining problems caused by gcc
->> should not be a big problem for us.
+>> I also don't know if this is the best fix, but I also don't have any
+>> other (better) suggestions.
 >>
-> Out of the architectures you've mentioned for 4k stacks, they also tend
-> to do IRQ stacks, which is something you seem to have overlooked.
-> 
-> In addition to that, debugging the runaway stack users on 4k tends to be
-> easier anyways since you end up blowing the stack a lot sooner. On sh
-> we've had pretty good luck with it, though most of our users are using
-> fairly deterministic workloads and continually profiling the footprint.
-> Anything that runs away or uses an insane amount of stack space needs to
-> be fixed well before that anyways, so catching it sooner is always
-> preferable. I imagine the same case is true for m68knommu (even sans IRQ
-> stacks).
+>> Others are welcome to pick it up from here...
+>
+> The solution looks like is needs to get the lock ordering correct
+> w.r.t. SLUB, as we get this, alas:
+>
+> =======================================================
+> [ INFO: possible circular locking dependency detected ]
+> 2.6.27-rc4-229c-debug #1
 
-Yep, definitely true for m68knommu in my experience. I haven't had
-any problems with 4k stacks recently. But yes the workloads do tend
-to be constrained - and almost never use any of the more exotic
-filesystems or drivers.
+Hm. Is this with my first patch + the one in the e-mail you replied
+to? It was intended to be a delta patch on top of my first one.
 
+That would be the one in
 
+    http://marc.info/?l=linux-kernel&m=121946972307110&w=4
 
-> Things might be more sensitive on x86, but it's certainly not something
-> that's a huge problem for the various embedded platforms to wire up,
-> whether they want to go the IRQ stack route or not.
-> 
-> In any event, lack of support for something on embedded architectures in
-> the kernel is more often due to apathy/utter indifference on the part of
-> the architecture maintainer rather than being indicative of any intrinsic
-> difficulty in supporting the thing in question. Most new "features" on the
-> lesser maintained architectures tend to end up there either out of peer
-> pressure or copying-and-pasting accidents rather than any sort of design.
-> ;-)
+plus the one in
 
-Indeed :-)
+    http://marc.info/?l=linux-kernel&m=121969394110327&w=1
 
-Regards
-Greg
+Thanks for testing and sorry for the confusion. (Maybe I just confused
+myself. Please let me know either way.)
 
 
-------------------------------------------------------------------------
-Greg Ungerer  --  Chief Software Dude       EMAIL:     gerg-XXXsiaCtIV5Wk0Htik3J/w@public.gmane.org
-Secure Computing Corporation                PHONE:       +61 7 3435 2888
-825 Stanley St,                             FAX:         +61 7 3891 3630
-Woolloongabba, QLD, 4102, Australia         WEB: http://www.SnapGear.com
+Vegard
+
+-- 
+"The animistic metaphor of the bug that maliciously sneaked in while
+the programmer was not looking is intellectually dishonest as it
+disguises that the error is the programmer's own creation."
+	-- E. W. Dijkstra, EWD1036
