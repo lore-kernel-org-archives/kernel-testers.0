@@ -1,71 +1,150 @@
-From: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Subject: Re: [regression] usb: sometimes dead keyboard after boot (was: new
- errors during device detection)
-Date: Fri, 29 Aug 2008 17:22:02 -0400 (EDT)
-Message-ID: <Pine.LNX.4.44L0.0808291709400.13185-100000@netrider.rowland.org>
-References: <200808291933.43331.elendil@planet.nl>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit
+ a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
+Date: Fri, 29 Aug 2008 14:44:24 -0700 (PDT)
+Message-ID: <alpine.LFD.1.10.0808291434110.3300@nehalem.linux-foundation.org>
+References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org> <200808291913.26585.rjw@sisk.pl> <200808292157.24179.rjw@sisk.pl>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200808291933.43331.elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+In-Reply-To: <200808292157.24179.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Cc: Kernel development list <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, USB list <linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Fri, 29 Aug 2008, Frans Pop wrote:
 
-> Here's a snippet of what I got when I enabled USB debug recently:
-> [...]
-> Aug  6 22:06:23 faramir kernel: hub 2-0:1.0: hub_resume
-> Aug  6 22:06:23 faramir kernel: hub 2-0:1.0: state 7 ports 2 chg 0000 evt 0000
-> Aug  6 22:06:23 faramir kernel: usb usb1: usb auto-resume
-> Aug  6 22:06:23 faramir kernel: usb usb1: wakeup_rh
-> Aug  6 22:06:23 faramir kernel: hub 1-0:1.0: hub_resume
-> Aug  6 22:06:23 faramir kernel: hub 1-0:1.0: state 7 ports 2 chg 0000 evt 0000
-> Aug  6 22:06:24 faramir kernel: usb usb2: suspend_rh (auto-stop)
-> Aug  6 22:06:24 faramir kernel: usb usb1: suspend_rh (auto-stop)
-> Aug  6 22:06:25 faramir kernel: hub 5-0:1.0: hub_suspend
-> Aug  6 22:06:25 faramir kernel: usb usb5: bus auto-suspend
-> Aug  6 22:06:25 faramir kernel: ehci_hcd 0000:00:1d.7: suspend root hub
-> Aug  6 22:06:25 faramir kernel: hub 2-0:1.0: hub_suspend
-> Aug  6 22:06:25 faramir kernel: usb usb2: bus auto-suspend
-> Aug  6 22:06:25 faramir kernel: usb usb2: suspend_rh
-> Aug  6 22:06:25 faramir kernel: hub 1-0:1.0: hub_suspend
-> Aug  6 22:06:25 faramir kernel: usb usb1: bus auto-suspend
-> Aug  6 22:06:25 faramir kernel: usb usb1: suspend_rh
-> Aug  6 22:06:28 faramir kernel: usb usb5: usb auto-resume
-> Aug  6 22:06:28 faramir kernel: ehci_hcd 0000:00:1d.7: resume root hub
-> Aug  6 22:06:28 faramir kernel: hub 5-0:1.0: hub_resume
-> Aug  6 22:06:28 faramir kernel: hub 5-0:1.0: state 7 ports 8 chg 0000 evt fe00
-> Aug  6 22:06:28 faramir kernel: usb usb2: usb auto-resume
-> Aug  6 22:06:28 faramir kernel: usb usb2: wakeup_rh
-> Aug  6 22:06:28 faramir kernel: hub 2-0:1.0: hub_resume
-> Aug  6 22:06:28 faramir kernel: usb usb1: usb auto-resume
-> Aug  6 22:06:28 faramir kernel: usb usb1: wakeup_rh
-> Aug  6 22:06:28 faramir kernel: hub 2-0:1.0: state 7 ports 2 chg 0000 evt 0000
-> Aug  6 22:06:28 faramir kernel: hub 1-0:1.0: hub_resume
-> Aug  6 22:06:28 faramir kernel: hub 1-0:1.0: state 7 ports 2 chg 0000 evt 0000
-> Aug  6 22:06:29 faramir kernel: usb usb2: suspend_rh (auto-stop)
-> Aug  6 22:06:29 faramir kernel: usb usb1: suspend_rh (auto-stop)
-> [...]
+
+On Fri, 29 Aug 2008, Rafael J. Wysocki wrote:
 > 
-> AFAIK I have not enabled anything special in userland when it comes to
-> USB suspension; this is just a standard boot.
+> Bisection turned up commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd as the culprit:
+> 
+> commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
+> Author: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date:   Mon Aug 25 00:56:08 2008 -0700
+> 
+>     x86: fix HPET regression in 2.6.26 versus 2.6.25, check hpet against BAR, v3
+> 
+> Reverting this commit helps.
 
-Maybe you haven't enabled anything special, but something sure is 
-running.  It appears to be probing your USB devices every 5 seconds.  
-You might be able to find out what it is by adding
+Heh, interesting, since we were talking about reverting that one for other 
+reasons entirely.
 
-	printk(KERN_INFO "usbdev open by %s\n", current->comm);
+See the thread "x86: split e820 reserved entries record to late" (yeah, I 
+know that subject isn't very grammatical or sensible) for some patches 
+worth trying _after_ you've reverted that one.
 
-to usbdev_open() in drivers/usb/core/devio.c.
+Anyway, clearly that commit needs to be reverted regardless, so I'll do 
+the revert. Can you please test the appended test-patch by Yinghai on top 
+of the revert?
 
-> I do have CONFIG_USB_SUSPEND enabled though, so maybe one should not do that
-> when using USB_DEBUG?
+(This is not the final version, but it should be sufficient to be tested)
 
-Turning off CONFIG_USB_SUSPEND would get rid of most but not all of
-those messages above.
+And if you have the whole dmesg, that would be useful.
 
-Alan Stern
+		Linus
+
+---
+From: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] x86: split e820 reserved entries record to late v3
+Date: Thu, 28 Aug 2008 17:41:29 -0700
+
+so could let BAR res register at first, or even pnp?
+
+v2: insert e820 reserve resources before pnp_system_init
+v3: fix merging problem in tip/x86/core
+    please drop the one in tip/x86/core use this one instead
+
+Signed-off-by: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+
+---
+ arch/x86/kernel/e820.c |   20 ++++++++++++++++++--
+ arch/x86/pci/i386.c    |    3 +++
+ include/asm-x86/e820.h |    1 +
+ 3 files changed, 22 insertions(+), 2 deletions(-)
+
+Index: linux-2.6/arch/x86/kernel/e820.c
+===================================================================
+--- linux-2.6.orig/arch/x86/kernel/e820.c
++++ linux-2.6/arch/x86/kernel/e820.c
+@@ -1271,13 +1271,15 @@ static inline const char *e820_type_to_s
+ /*
+  * Mark e820 reserved areas as busy for the resource manager.
+  */
++struct resource __initdata *e820_res;
+ void __init e820_reserve_resources(void)
+ {
+ 	int i;
+-	struct resource *res;
+ 	u64 end;
++	struct resource *res;
+ 
+ 	res = alloc_bootmem_low(sizeof(struct resource) * e820.nr_map);
++	e820_res = res;
+ 	for (i = 0; i < e820.nr_map; i++) {
+ 		end = e820.map[i].addr + e820.map[i].size - 1;
+ #ifndef CONFIG_RESOURCES_64BIT
+@@ -1291,7 +1293,8 @@ void __init e820_reserve_resources(void)
+ 		res->end = end;
+ 
+ 		res->flags = IORESOURCE_MEM | IORESOURCE_BUSY;
+-		insert_resource(&iomem_resource, res);
++		if (e820.map[i].type != E820_RESERVED || res->start < (1ULL<<20))
++			insert_resource(&iomem_resource, res);
+ 		res++;
+ 	}
+ 
+@@ -1303,6 +1306,19 @@ void __init e820_reserve_resources(void)
+ 	}
+ }
+ 
++void __init e820_reserve_resources_late(void)
++{
++	int i;
++	struct resource *res;
++
++	res = e820_res;
++	for (i = 0; i < e820.nr_map; i++) {
++		if (e820.map[i].type == E820_RESERVED && res->start >= (1ULL<<20))
++			insert_resource(&iomem_resource, res);
++		res++;
++	}
++}
++
+ char *__init default_machine_specific_memory_setup(void)
+ {
+ 	char *who = "BIOS-e820";
+Index: linux-2.6/arch/x86/pci/i386.c
+===================================================================
+--- linux-2.6.orig/arch/x86/pci/i386.c
++++ linux-2.6/arch/x86/pci/i386.c
+@@ -33,6 +33,7 @@
+ #include <linux/bootmem.h>
+ 
+ #include <asm/pat.h>
++#include <asm/e820.h>
+ 
+ #include "pci.h"
+ 
+@@ -230,6 +231,8 @@ void __init pcibios_resource_survey(void
+ 	pcibios_allocate_bus_resources(&pci_root_buses);
+ 	pcibios_allocate_resources(0);
+ 	pcibios_allocate_resources(1);
++
++	e820_reserve_resources_late();
+ }
+ 
+ /**
+Index: linux-2.6/include/asm-x86/e820.h
+===================================================================
+--- linux-2.6.orig/include/asm-x86/e820.h
++++ linux-2.6/include/asm-x86/e820.h
+@@ -122,6 +122,7 @@ extern void e820_register_active_regions
+ extern u64 e820_hole_size(u64 start, u64 end);
+ extern void finish_e820_parsing(void);
+ extern void e820_reserve_resources(void);
++extern void e820_reserve_resources_late(void);
+ extern void setup_memory_map(void);
+ extern char *default_machine_specific_memory_setup(void);
+ extern char *machine_specific_memory_setup(void);
