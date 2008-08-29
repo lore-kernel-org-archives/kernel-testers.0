@@ -1,56 +1,45 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-Date: Fri, 29 Aug 2008 21:57:22 +0200
-Message-ID: <200808292157.24179.rjw@sisk.pl>
-References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org> <200808291913.26585.rjw@sisk.pl>
+From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
+ bisected
+Date: Fri, 29 Aug 2008 13:04:55 -0700 (PDT)
+Message-ID: <20080829.130455.54621315.davem@davemloft.net>
+References: <20080826.134535.193703558.davem@davemloft.net>
+	<48B7EEA2.7090300@sgi.com>
+	<alpine.LFD.1.10.0808290909020.3300@nehalem.linux-foundation.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200808291913.26585.rjw-KKrjLPT3xs0@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <alpine.LFD.1.10.0808290909020.3300-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+Cc: jes-sJ/iWh9BUns@public.gmane.org, travis-sJ/iWh9BUns@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, Alan.Brunelle-VXdhtT5mjnY@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org
 
-On Friday, 29 of August 2008, Rafael J. Wysocki wrote:
-> On Friday, 29 of August 2008, Linus Torvalds wrote:
-> > 
-> > Another week (my weeks do seem to be eight days, don't they? Very odd), 
-> > another -rc.
-> > 
-> > The dirstat pretty much says it all:
-> > 
-> >   43.0% arch/arm/configs/
-> >   43.9% arch/arm/
-> >   25.5% arch/powerpc/configs/
-> >   26.8% arch/powerpc/
-> >   73.9% arch/
-> >    4.4% drivers/usb/musb/
-> >    5.4% drivers/usb/
-> >    4.0% drivers/watchdog/
-> >   16.0% drivers/
-> >    3.5% fs/
-> > 
-> > yeah, the bulk of it is all config updates, and with arm and powerpc 
-> > leading the pack.
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Date: Fri, 29 Aug 2008 09:14:44 -0700 (PDT)
+
+> Well, it probably boots because it doesn't really seem to _change_ much of 
+> anything.
 > 
-> Doesn't boot on my quad core test box, apparently because of an AHCI failure.
+> Things like this:
 > 
-> Bisecting ...
+> 	-static inline void arch_send_call_function_ipi(cpumask_t mask)
+> 	+static inline void arch_send_call_function_ipi(cpumask_t *mask)
+> 	 {
+> 	-       smp_ops.send_call_func_ipi(mask);
+> 	+       smp_ops.send_call_func_ipi(*mask);
+> 	 }
+> 
+> will still do that stack allocation at the time of the call. You'd have to 
+> pass the thing all the way down as a pointer..
 
-Bisection turned up commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd as the culprit:
+True, but we have to get there one step at a time.
 
-commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-Author: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date:   Mon Aug 25 00:56:08 2008 -0700
+BTW, sparc64 already wants a pointer here, so it's completely ready for
+this:
 
-    x86: fix HPET regression in 2.6.26 versus 2.6.25, check hpet against BAR, v3
-
-Reverting this commit helps.
-
-The symptom is that AHCI probe fails with this commit applied.
-
-Thanks,
-Rafael
+void arch_send_call_function_ipi(cpumask_t mask)
+{
+	xcall_deliver((u64) &xcall_call_function, 0, 0, &mask);
+}
