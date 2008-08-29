@@ -1,60 +1,507 @@
-From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Subject: Re: [PATCH] debugobjects: fix lockdep warning #2
-Date: Fri, 29 Aug 2008 12:42:44 +0200 (CEST)
-Message-ID: <alpine.LFD.1.10.0808291212100.3243@apollo.tec.linutronix.de>
-References: <20080828153214.GA27653@localhost.localdomain>
+From: Jes Sorensen <jes-sJ/iWh9BUns@public.gmane.org>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
+Date: Fri, 29 Aug 2008 14:42:10 +0200
+Message-ID: <48B7EEA2.7090300@sgi.com>
+References: <20080826072220.GB31876@elte.hu> <20080826.004607.253712060.davem@davemloft.net> <48B4542A.1050004@sgi.com> <20080826.134535.193703558.davem@davemloft.net>
 Mime-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="------------000105070102070306040301"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080828153214.GA27653-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+In-Reply-To: <20080826.134535.193703558.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Cc: travis-sJ/iWh9BUns@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, Alan.Brunelle-VXdhtT5mjnY@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org
+
+This is a multi-part message in MIME format.
+--------------000105070102070306040301
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
-To: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Christoph Lameter <clameter-sJ/iWh9BUns@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Thu, 28 Aug 2008, Vegard Nossum wrote:
-> On Thu, Aug 28, 2008 at 3:56 PM, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
-> > could you resend the final patch please? It's a candidate for .27, if it
-> > works out fine.
+David Miller wrote:
+>>> Otherwise you have to modify cpumask_t objects and thus pluck
+>>> them onto the stack where they take up silly amounts of space.
+>> Yes, I had proposed either modifying, or supplementing a new
+>> smp_call function to pass the cpumask_t as a pointer (similar
+>> to set_cpus_allowed_ptr.)  But an ABI change such as this was
+>> not well received at the time.
 > 
-> Here is the combined patch. I've tested it only briefly, and I am
-> unsure of whether it still produces lockdep warnings for Daniel or
-> not. I wish it would not be applied anywhere unless it was
-> officially Reviewed-by: someone. In particular, I'm not quite
-> steady with the irq-safe locking (Thomas might want to have a look).
+> What it seems to come down to is that any cpumask_t not inside of
+> a dynamically allocated object should be marked const.
+> 
+> And that is something we can enforce at compile time.
+> 
+> Linus has just suggested dynamically allocating cpumask_t's
+> for such cases but I don't see that as the fix either.
+> 
+> Just mark them const and enforce that cpumask_t objects can only
+> be modified when they appear in dynamically allocated objects.
 
-The irq safe locking is the easy part :) Calling free_object w/o the
-hash bucket lock held is fine as we removed it already from the bucket
-and there is no other reference than the pointer we hold at that point.
+Dave and others,
+
+Sorry if I jump into the middle of the thread. Stopped subscribing to
+lkml for a while, so this is through the archives.
+
+Ran into some of these issues with KVM too, and noticed just how much
+we pass cpumask_t around in the smp_call functions :-( In fact, the
+only arch that did pretty well on this front was sparc64.
+
+I totally agree, that marking them const makes a ton of sense, but at
+the same time I suggest we convert smp_call_function_mask() to take a
+pointer to the cpumask_t. I whipped up the following patch, which cuts
+down the amont of memcpy calls emitted quite a fair bit.
+
+I have only tested this on ia64, but it boots, so it's obviously
+perfect<tm> :-)
+
+Comments, suggestions welcome.
+
+I have a followup patch that makes virt/kvm/kvm_main.c use the new
+interface.
+
+Cheers,
+Jes
+
+
+--------------000105070102070306040301
+Content-Type: text/plain;
+ name="0040-smp-call-cpumask.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename="0040-smp-call-cpumask.patch"
+
+Change smp_call_function_mask() to take a pointer to the cpumask_t
+rather than passing it by value. This avoids recursive copies of the
+cpumask_t on the stack in the IPI call. For large NR_CPUS, this is
+particularly bad, and the cost of doing this for
+NR_CPUS < bits_per_long is negligeble.
+
+Signed-off-by: Jes Sorensen <jes-sJ/iWh9BUns@public.gmane.org>
+
+---
+ arch/alpha/include/asm/smp.h    |    2 +-
+ arch/alpha/kernel/smp.c         |    4 ++--
+ arch/arm/include/asm/smp.h      |    2 +-
+ arch/arm/kernel/smp.c           |    4 ++--
+ arch/ia64/include/asm/smp.h     |    2 +-
+ arch/ia64/kernel/smp.c          |    6 +++---
+ arch/m32r/kernel/smp.c          |    4 ++--
+ arch/mips/kernel/smp.c          |    4 ++--
+ arch/parisc/kernel/smp.c        |    6 +++---
+ arch/powerpc/include/asm/smp.h  |    2 +-
+ arch/powerpc/kernel/smp.c       |    4 ++--
+ arch/sh/include/asm/smp.h       |    2 +-
+ arch/sh/kernel/smp.c            |    4 ++--
+ arch/sparc/include/asm/smp_64.h |    2 +-
+ arch/sparc64/kernel/smp.c       |    4 ++--
+ include/asm-m32r/smp.h          |    2 +-
+ include/asm-mips/smp.h          |    2 +-
+ include/asm-parisc/smp.h        |    2 +-
+ include/asm-x86/smp.h           |    4 ++--
+ include/linux/smp.h             |    2 +-
+ kernel/smp.c                    |   15 ++++++++-------
+ virt/kvm/kvm_main.c             |    4 ++--
+ 22 files changed, 42 insertions(+), 41 deletions(-)
+
+Index: linux-2.6.git/arch/alpha/include/asm/smp.h
+===================================================================
+--- linux-2.6.git.orig/arch/alpha/include/asm/smp.h
++++ linux-2.6.git/arch/alpha/include/asm/smp.h
+@@ -48,7 +48,7 @@
+ #define cpu_possible_map	cpu_present_map
  
->  
->  	printk(KERN_WARNING "ODEBUG: Out of memory. ODEBUG disabled\n");
->  
-> +	/* XXX: Could probably be optimized by transplantation of more than
-> +	 * one entry at a time. */
->  	for (i = 0; i < ODEBUG_HASH_SIZE; i++, db++) {
->  		spin_lock_irqsave(&db->lock, flags);
->  		hlist_for_each_entry_safe(obj, node, tmp, &db->list, node) {
->  			hlist_del(&obj->node);
-> -			free_object(obj);
-> +			hlist_add_head(&obj->node, &freelist);
->  		}
->  		spin_unlock_irqrestore(&db->lock, flags);
-> +
-> +		/* Now free them */
-> +		hlist_for_each_entry_safe(obj, node, tmp, &freelist, node) {
-> +			hlist_del(&obj->node);
-> +			free_object(obj);
-> +		}
->  	}
->  }
+ extern void arch_send_call_function_single_ipi(int cpu);
+-extern void arch_send_call_function_ipi(cpumask_t mask);
++extern void arch_send_call_function_ipi(cpumask_t *mask);
+ 
+ #else /* CONFIG_SMP */
+ 
+Index: linux-2.6.git/arch/alpha/kernel/smp.c
+===================================================================
+--- linux-2.6.git.orig/arch/alpha/kernel/smp.c
++++ linux-2.6.git/arch/alpha/kernel/smp.c
+@@ -637,9 +637,9 @@
+ 	send_ipi_message(to_whom, IPI_CPU_STOP);
+ }
+ 
+-void arch_send_call_function_ipi(cpumask_t mask)
++void arch_send_call_function_ipi(cpumask_t *mask)
+ {
+-	send_ipi_message(mask, IPI_CALL_FUNC);
++	send_ipi_message(*mask, IPI_CALL_FUNC);
+ }
+ 
+ void arch_send_call_function_single_ipi(int cpu)
+Index: linux-2.6.git/arch/arm/include/asm/smp.h
+===================================================================
+--- linux-2.6.git.orig/arch/arm/include/asm/smp.h
++++ linux-2.6.git/arch/arm/include/asm/smp.h
+@@ -102,7 +102,7 @@
+ extern void platform_cpu_enable(unsigned int cpu);
+ 
+ extern void arch_send_call_function_single_ipi(int cpu);
+-extern void arch_send_call_function_ipi(cpumask_t mask);
++extern void arch_send_call_function_ipi(cpumask_t *mask);
+ 
+ /*
+  * Local timer interrupt handling function (can be IPI'ed).
+Index: linux-2.6.git/arch/arm/kernel/smp.c
+===================================================================
+--- linux-2.6.git.orig/arch/arm/kernel/smp.c
++++ linux-2.6.git/arch/arm/kernel/smp.c
+@@ -356,9 +356,9 @@
+ 	local_irq_restore(flags);
+ }
+ 
+-void arch_send_call_function_ipi(cpumask_t mask)
++void arch_send_call_function_ipi(cpumask_t *mask)
+ {
+-	send_ipi_message(mask, IPI_CALL_FUNC);
++	send_ipi_message(*mask, IPI_CALL_FUNC);
+ }
+ 
+ void arch_send_call_function_single_ipi(int cpu)
+Index: linux-2.6.git/arch/ia64/include/asm/smp.h
+===================================================================
+--- linux-2.6.git.orig/arch/ia64/include/asm/smp.h
++++ linux-2.6.git/arch/ia64/include/asm/smp.h
+@@ -127,7 +127,7 @@
+ extern int is_multithreading_enabled(void);
+ 
+ extern void arch_send_call_function_single_ipi(int cpu);
+-extern void arch_send_call_function_ipi(cpumask_t mask);
++extern void arch_send_call_function_ipi(cpumask_t *mask);
+ 
+ #else /* CONFIG_SMP */
+ 
+Index: linux-2.6.git/arch/ia64/kernel/smp.c
+===================================================================
+--- linux-2.6.git.orig/arch/ia64/kernel/smp.c
++++ linux-2.6.git/arch/ia64/kernel/smp.c
+@@ -166,11 +166,11 @@
+  * Called with preemption disabled.
+  */
+ static inline void
+-send_IPI_mask(cpumask_t mask, int op)
++send_IPI_mask(cpumask_t *mask, int op)
+ {
+ 	unsigned int cpu;
+ 
+-	for_each_cpu_mask(cpu, mask) {
++	for_each_cpu_mask(cpu, *mask) {
+ 			send_IPI_single(cpu, op);
+ 	}
+ }
+@@ -316,7 +316,7 @@
+ 	send_IPI_single(cpu, IPI_CALL_FUNC_SINGLE);
+ }
+ 
+-void arch_send_call_function_ipi(cpumask_t mask)
++void arch_send_call_function_ipi(cpumask_t *mask)
+ {
+ 	send_IPI_mask(mask, IPI_CALL_FUNC);
+ }
+Index: linux-2.6.git/arch/m32r/kernel/smp.c
+===================================================================
+--- linux-2.6.git.orig/arch/m32r/kernel/smp.c
++++ linux-2.6.git/arch/m32r/kernel/smp.c
+@@ -546,9 +546,9 @@
+ 	for ( ; ; );
+ }
+ 
+-void arch_send_call_function_ipi(cpumask_t mask)
++void arch_send_call_function_ipi(cpumask_t *mask)
+ {
+-	send_IPI_mask(mask, CALL_FUNCTION_IPI, 0);
++	send_IPI_mask(*mask, CALL_FUNCTION_IPI, 0);
+ }
+ 
+ void arch_send_call_function_single_ipi(int cpu)
+Index: linux-2.6.git/arch/mips/kernel/smp.c
+===================================================================
+--- linux-2.6.git.orig/arch/mips/kernel/smp.c
++++ linux-2.6.git/arch/mips/kernel/smp.c
+@@ -131,9 +131,9 @@
+ 	cpu_idle();
+ }
+ 
+-void arch_send_call_function_ipi(cpumask_t mask)
++void arch_send_call_function_ipi(cpumask_t *mask)
+ {
+-	mp_ops->send_ipi_mask(mask, SMP_CALL_FUNCTION);
++	mp_ops->send_ipi_mask(*mask, SMP_CALL_FUNCTION);
+ }
+ 
+ /*
+Index: linux-2.6.git/arch/parisc/kernel/smp.c
+===================================================================
+--- linux-2.6.git.orig/arch/parisc/kernel/smp.c
++++ linux-2.6.git/arch/parisc/kernel/smp.c
+@@ -228,11 +228,11 @@
+ }
+ 
+ static void
+-send_IPI_mask(cpumask_t mask, enum ipi_message_type op)
++send_IPI_mask(cpumask_t *mask, enum ipi_message_type op)
+ {
+ 	int cpu;
+ 
+-	for_each_cpu_mask(cpu, mask)
++	for_each_cpu_mask(cpu, *mask)
+ 		ipi_send(cpu, op);
+ }
+ 
+@@ -274,7 +274,7 @@
+ 	send_IPI_allbutself(IPI_NOP);
+ }
+ 
+-void arch_send_call_function_ipi(cpumask_t mask)
++void arch_send_call_function_ipi(cpumask_t *mask)
+ {
+ 	send_IPI_mask(mask, IPI_CALL_FUNC);
+ }
+Index: linux-2.6.git/arch/powerpc/include/asm/smp.h
+===================================================================
+--- linux-2.6.git.orig/arch/powerpc/include/asm/smp.h
++++ linux-2.6.git/arch/powerpc/include/asm/smp.h
+@@ -119,7 +119,7 @@
+ extern struct smp_ops_t *smp_ops;
+ 
+ extern void arch_send_call_function_single_ipi(int cpu);
+-extern void arch_send_call_function_ipi(cpumask_t mask);
++extern void arch_send_call_function_ipi(cpumask_t *mask);
+ 
+ #endif /* __ASSEMBLY__ */
+ 
+Index: linux-2.6.git/arch/powerpc/kernel/smp.c
+===================================================================
+--- linux-2.6.git.orig/arch/powerpc/kernel/smp.c
++++ linux-2.6.git/arch/powerpc/kernel/smp.c
+@@ -135,11 +135,11 @@
+ 	smp_ops->message_pass(cpu, PPC_MSG_CALL_FUNC_SINGLE);
+ }
+ 
+-void arch_send_call_function_ipi(cpumask_t mask)
++void arch_send_call_function_ipi(cpumask_t *mask)
+ {
+ 	unsigned int cpu;
+ 
+-	for_each_cpu_mask(cpu, mask)
++	for_each_cpu_mask(cpu, *mask)
+ 		smp_ops->message_pass(cpu, PPC_MSG_CALL_FUNCTION);
+ }
+ 
+Index: linux-2.6.git/arch/sh/include/asm/smp.h
+===================================================================
+--- linux-2.6.git.orig/arch/sh/include/asm/smp.h
++++ linux-2.6.git/arch/sh/include/asm/smp.h
+@@ -39,7 +39,7 @@
+ int plat_register_ipi_handler(unsigned int message,
+ 			      void (*handler)(void *), void *arg);
+ extern void arch_send_call_function_single_ipi(int cpu);
+-extern void arch_send_call_function_ipi(cpumask_t mask);
++extern void arch_send_call_function_ipi(cpumask_t *mask);
+ 
+ #else
+ 
+Index: linux-2.6.git/arch/sh/kernel/smp.c
+===================================================================
+--- linux-2.6.git.orig/arch/sh/kernel/smp.c
++++ linux-2.6.git/arch/sh/kernel/smp.c
+@@ -171,11 +171,11 @@
+ 	smp_call_function(stop_this_cpu, 0, 0);
+ }
+ 
+-void arch_send_call_function_ipi(cpumask_t mask)
++void arch_send_call_function_ipi(cpumask_t *mask)
+ {
+ 	int cpu;
+ 
+-	for_each_cpu_mask(cpu, mask)
++	for_each_cpu_mask(cpu, *mask)
+ 		plat_send_ipi(cpu, SMP_MSG_FUNCTION);
+ }
+ 
+Index: linux-2.6.git/arch/sparc/include/asm/smp_64.h
+===================================================================
+--- linux-2.6.git.orig/arch/sparc/include/asm/smp_64.h
++++ linux-2.6.git/arch/sparc/include/asm/smp_64.h
+@@ -35,7 +35,7 @@
+ extern int sparc64_multi_core;
+ 
+ extern void arch_send_call_function_single_ipi(int cpu);
+-extern void arch_send_call_function_ipi(cpumask_t mask);
++extern void arch_send_call_function_ipi(cpumask_t *mask);
+ 
+ /*
+  *	General functions that each host system must provide.
+Index: linux-2.6.git/arch/sparc64/kernel/smp.c
+===================================================================
+--- linux-2.6.git.orig/arch/sparc64/kernel/smp.c
++++ linux-2.6.git/arch/sparc64/kernel/smp.c
+@@ -810,9 +810,9 @@
+ 
+ extern unsigned long xcall_call_function;
+ 
+-void arch_send_call_function_ipi(cpumask_t mask)
++void arch_send_call_function_ipi(cpumask_t *mask)
+ {
+-	xcall_deliver((u64) &xcall_call_function, 0, 0, &mask);
++	xcall_deliver((u64) &xcall_call_function, 0, 0, mask);
+ }
+ 
+ extern unsigned long xcall_call_function_single;
+Index: linux-2.6.git/include/asm-m32r/smp.h
+===================================================================
+--- linux-2.6.git.orig/include/asm-m32r/smp.h
++++ linux-2.6.git/include/asm-m32r/smp.h
+@@ -90,7 +90,7 @@
+ extern unsigned long send_IPI_mask_phys(cpumask_t, int, int);
+ 
+ extern void arch_send_call_function_single_ipi(int cpu);
+-extern void arch_send_call_function_ipi(cpumask_t mask);
++extern void arch_send_call_function_ipi(cpumask_t *mask);
+ 
+ #endif	/* not __ASSEMBLY__ */
+ 
+Index: linux-2.6.git/include/asm-mips/smp.h
+===================================================================
+--- linux-2.6.git.orig/include/asm-mips/smp.h
++++ linux-2.6.git/include/asm-mips/smp.h
+@@ -58,6 +58,6 @@
+ extern asmlinkage void smp_call_function_interrupt(void);
+ 
+ extern void arch_send_call_function_single_ipi(int cpu);
+-extern void arch_send_call_function_ipi(cpumask_t mask);
++extern void arch_send_call_function_ipi(cpumask_t *mask);
+ 
+ #endif /* __ASM_SMP_H */
+Index: linux-2.6.git/include/asm-parisc/smp.h
+===================================================================
+--- linux-2.6.git.orig/include/asm-parisc/smp.h
++++ linux-2.6.git/include/asm-parisc/smp.h
+@@ -31,7 +31,7 @@
+ extern void smp_send_all_nop(void);
+ 
+ extern void arch_send_call_function_single_ipi(int cpu);
+-extern void arch_send_call_function_ipi(cpumask_t mask);
++extern void arch_send_call_function_ipi(cpumask_t *mask);
+ 
+ #endif /* !ASSEMBLY */
+ 
+Index: linux-2.6.git/include/asm-x86/smp.h
+===================================================================
+--- linux-2.6.git.orig/include/asm-x86/smp.h
++++ linux-2.6.git/include/asm-x86/smp.h
+@@ -101,9 +101,9 @@
+ 	smp_ops.send_call_func_single_ipi(cpu);
+ }
+ 
+-static inline void arch_send_call_function_ipi(cpumask_t mask)
++static inline void arch_send_call_function_ipi(cpumask_t *mask)
+ {
+-	smp_ops.send_call_func_ipi(mask);
++	smp_ops.send_call_func_ipi(*mask);
+ }
+ 
+ void native_smp_prepare_boot_cpu(void);
+Index: linux-2.6.git/include/linux/smp.h
+===================================================================
+--- linux-2.6.git.orig/include/linux/smp.h
++++ linux-2.6.git/include/linux/smp.h
+@@ -62,7 +62,7 @@
+  * Call a function on all other processors
+  */
+ int smp_call_function(void(*func)(void *info), void *info, int wait);
+-int smp_call_function_mask(cpumask_t mask, void(*func)(void *info), void *info,
++int smp_call_function_mask(cpumask_t *mask, void(*func)(void *info), void *info,
+ 				int wait);
+ int smp_call_function_single(int cpuid, void (*func) (void *info), void *info,
+ 				int wait);
+Index: linux-2.6.git/kernel/smp.c
+===================================================================
+--- linux-2.6.git.orig/kernel/smp.c
++++ linux-2.6.git/kernel/smp.c
+@@ -318,7 +318,7 @@
+  * hardware interrupt handler or from a bottom half handler. Preemption
+  * must be disabled when calling this function.
+  */
+-int smp_call_function_mask(cpumask_t mask, void (*func)(void *), void *info,
++int smp_call_function_mask(cpumask_t *mask, void (*func)(void *), void *info,
+ 			   int wait)
+ {
+ 	struct call_function_data d;
+@@ -334,8 +334,8 @@
+ 	cpu = smp_processor_id();
+ 	allbutself = cpu_online_map;
+ 	cpu_clear(cpu, allbutself);
+-	cpus_and(mask, mask, allbutself);
+-	num_cpus = cpus_weight(mask);
++	cpus_and(*mask, *mask, allbutself);
++	num_cpus = cpus_weight(*mask);
+ 
+ 	/*
+ 	 * If zero CPUs, return. If just a single CPU, turn this request
+@@ -344,7 +344,7 @@
+ 	if (!num_cpus)
+ 		return 0;
+ 	else if (num_cpus == 1) {
+-		cpu = first_cpu(mask);
++		cpu = first_cpu(*mask);
+ 		return smp_call_function_single(cpu, func, info, wait);
+ 	}
+ 
+@@ -364,7 +364,7 @@
+ 	data->csd.func = func;
+ 	data->csd.info = info;
+ 	data->refs = num_cpus;
+-	data->cpumask = mask;
++	data->cpumask = *mask;
+ 
+ 	spin_lock_irqsave(&call_function_lock, flags);
+ 	list_add_tail_rcu(&data->csd.list, &call_function_queue);
+@@ -377,7 +377,7 @@
+ 	if (wait) {
+ 		csd_flag_wait(&data->csd);
+ 		if (unlikely(slowpath))
+-			smp_call_function_mask_quiesce_stack(mask);
++			smp_call_function_mask_quiesce_stack(*mask);
+ 	}
+ 
+ 	return 0;
+@@ -402,9 +402,10 @@
+ int smp_call_function(void (*func)(void *), void *info, int wait)
+ {
+ 	int ret;
++	cpumask_t tmp_online_map = cpu_online_map;
+ 
+ 	preempt_disable();
+-	ret = smp_call_function_mask(cpu_online_map, func, info, wait);
++	ret = smp_call_function_mask(&tmp_online_map, func, info, wait);
+ 	preempt_enable();
+ 	return ret;
+ }
+Index: linux-2.6.git/virt/kvm/kvm_main.c
+===================================================================
+--- linux-2.6.git.orig/virt/kvm/kvm_main.c
++++ linux-2.6.git/virt/kvm/kvm_main.c
+@@ -124,7 +124,7 @@
+ 	if (cpus_empty(cpus))
+ 		goto out;
+ 	++kvm->stat.remote_tlb_flush;
+-	smp_call_function_mask(cpus, ack_flush, NULL, 1);
++	smp_call_function_mask(&cpus, ack_flush, NULL, 1);
+ out:
+ 	put_cpu();
+ }
+@@ -149,7 +149,7 @@
+ 	}
+ 	if (cpus_empty(cpus))
+ 		goto out;
+-	smp_call_function_mask(cpus, ack_flush, NULL, 1);
++	smp_call_function_mask(&cpus, ack_flush, NULL, 1);
+ out:
+ 	put_cpu();
+ }
 
-What you want is a helper function which moves the complete list from
-one head to the other. I'll whip one up.
-
-I'll push it through the tip tree.
-
-Thanks,
-
-	tglx
+--------------000105070102070306040301--
