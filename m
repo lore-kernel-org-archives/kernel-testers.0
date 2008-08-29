@@ -1,150 +1,194 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit
- a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-Date: Fri, 29 Aug 2008 14:44:24 -0700 (PDT)
-Message-ID: <alpine.LFD.1.10.0808291434110.3300@nehalem.linux-foundation.org>
-References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org> <200808291913.26585.rjw@sisk.pl> <200808292157.24179.rjw@sisk.pl>
+From: "Daniel J Blueman" <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] debugobjects: fix lockdep warning #2
+Date: Fri, 29 Aug 2008 22:57:29 +0100
+Message-ID: <6278d2220808291457p50f8f24w3de3a5623acc37a4@mail.gmail.com>
+References: <20080828153214.GA27653@localhost.localdomain>
+	 <20080828171706.6080accf.akpm@linux-foundation.org>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200808292157.24179.rjw-KKrjLPT3xs0@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=3n3HhSudc80L3yxTE/XnVE5ZClTKycbRyDJ5xQD2EIo=;
+        b=QpTBNkiUljwqw4b6Lb02a1JDTZ/or3k12OqTby9JZ9g0GrMb2PTvLfyIkxjO/+eiCd
+         0VSgyjK/yNt4zFcU4PhfEbl/NQbfcTyIbkOe0PK+zruIPFlMQMzbjnHQcH3R1fGfly9p
+         G283Ob1CY+L31Lwt24cRIvJFHj06Z/Er2b/sQ=
+In-Reply-To: <20080828171706.6080accf.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, clameter-sJ/iWh9BUns@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
+Hi Andrew, Vegard, Ingo,
 
+On Fri, Aug 29, 2008 at 1:17 AM, Andrew Morton
+<akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
+> On Thu, 28 Aug 2008 17:32:14 +0200
+> Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>
+>> On Thu, Aug 28, 2008 at 3:56 PM, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
+>> > could you resend the final patch please? It's a candidate for .27, if it
+>> > works out fine.
+>>
+>> Here is the combined patch. I've tested it only briefly, and I am
+>> unsure of whether it still produces lockdep warnings for Daniel or
+>> not. I wish it would not be applied anywhere unless it was
+>> officially Reviewed-by: someone. In particular, I'm not quite
+>> steady with the irq-safe locking (Thomas might want to have a look).
+>>
+>
+> It all looks good to me.
+>
+>>
+>>
+>> >From 977cf583b79be7308d5e310711fe6038c8af96a4 Mon Sep 17 00:00:00 2001
+>> From: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> Date: Thu, 28 Aug 2008 17:09:57 +0200
+>> Subject: [PATCH] debugobjects: fix lockdep warning #2
+>>
+>> Daniel J. Blueman reported:
+>> > =======================================================
+>> > [ INFO: possible circular locking dependency detected ]
+>> > 2.6.27-rc4-224c #1
+>> > -------------------------------------------------------
+>> > hald/4680 is trying to acquire lock:
+>> >  (&n->list_lock){++..}, at: [<ffffffff802bfa26>] add_partial+0x26/0x80
+>> >
+>> > but task is already holding lock:
+>> >  (&obj_hash[i].lock){++..}, at: [<ffffffff8041cfdc>]
+>> > debug_object_free+0x5c/0x120
+>>
+>> We fix it by moving the actual freeing to outside the lock (the lock
+>> now only protects the list).
+>>
+>> The lock is also promoted to irq-safe (suggested by Dan).
+>
+> What was the reason for this other change?  I'm sure Dan is a fine chap,
+> but we usually prefer a little more justification for changes ;)
 
-On Fri, 29 Aug 2008, Rafael J. Wysocki wrote:
-> 
-> Bisection turned up commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd as the culprit:
-> 
-> commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-> Author: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date:   Mon Aug 25 00:56:08 2008 -0700
-> 
->     x86: fix HPET regression in 2.6.26 versus 2.6.25, check hpet against BAR, v3
-> 
-> Reverting this commit helps.
+IRQ-safe xtime_lock is taken, then pool_lock is taken in
+__debug_object_init, which is potentially unsafe. Upgrading
+pool_lock's usage to IRQ-safe ensures there can be no potential for
+deadlock.
 
-Heh, interesting, since we were talking about reverting that one for other 
-reasons entirely.
+>> Reported-by: Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> Signed-off-by: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> ---
+>>  lib/debugobjects.c |   38 +++++++++++++++++++++++++++++---------
+>>  1 files changed, 29 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/lib/debugobjects.c b/lib/debugobjects.c
+>> index 19acf8c..acf9ed8 100644
+>> --- a/lib/debugobjects.c
+>> +++ b/lib/debugobjects.c
+>> @@ -115,9 +115,10 @@ static struct debug_obj *lookup_object(void *addr, struct debug_bucket *b)
+>>  static struct debug_obj *
+>>  alloc_object(void *addr, struct debug_bucket *b, struct debug_obj_descr *descr)
+>>  {
+>> +     unsigned long flags;
+>>       struct debug_obj *obj = NULL;
+>>
+>> -     spin_lock(&pool_lock);
+>> +     spin_lock_irqsave(&pool_lock, flags);
+>>       if (obj_pool.first) {
+>>               obj         = hlist_entry(obj_pool.first, typeof(*obj), node);
+>>
+>> @@ -136,7 +137,7 @@ alloc_object(void *addr, struct debug_bucket *b, struct debug_obj_descr *descr)
+>>               if (obj_pool_free < obj_pool_min_free)
+>>                       obj_pool_min_free = obj_pool_free;
+>>       }
+>> -     spin_unlock(&pool_lock);
+>> +     spin_unlock_irqrestore(&pool_lock, flags);
+>>
+>>       return obj;
+>>  }
+>> @@ -146,18 +147,19 @@ alloc_object(void *addr, struct debug_bucket *b, struct debug_obj_descr *descr)
+>>   */
+>>  static void free_object(struct debug_obj *obj)
+>>  {
+>> +     unsigned long flags;
+>>       unsigned long idx = (unsigned long)(obj - obj_static_pool);
+>>
+>>       if (obj_pool_free < ODEBUG_POOL_SIZE || idx < ODEBUG_POOL_SIZE) {
+>> -             spin_lock(&pool_lock);
+>> +             spin_lock_irqsave(&pool_lock, flags);
+>>               hlist_add_head(&obj->node, &obj_pool);
+>>               obj_pool_free++;
+>>               obj_pool_used--;
+>> -             spin_unlock(&pool_lock);
+>> +             spin_unlock_irqrestore(&pool_lock, flags);
+>>       } else {
+>> -             spin_lock(&pool_lock);
+>> +             spin_lock_irqsave(&pool_lock, flags);
+>>               obj_pool_used--;
+>> -             spin_unlock(&pool_lock);
+>> +             spin_unlock_irqrestore(&pool_lock, flags);
+>>               kmem_cache_free(obj_cache, obj);
+>>       }
+>>  }
+>> @@ -170,19 +172,28 @@ static void debug_objects_oom(void)
+>>  {
+>>       struct debug_bucket *db = obj_hash;
+>>       struct hlist_node *node, *tmp;
+>> +     HLIST_HEAD(freelist);
+>>       struct debug_obj *obj;
+>>       unsigned long flags;
+>>       int i;
+>>
+>>       printk(KERN_WARNING "ODEBUG: Out of memory. ODEBUG disabled\n");
+>>
+>> +     /* XXX: Could probably be optimized by transplantation of more than
+>> +      * one entry at a time. */
+>>       for (i = 0; i < ODEBUG_HASH_SIZE; i++, db++) {
+>>               spin_lock_irqsave(&db->lock, flags);
+>>               hlist_for_each_entry_safe(obj, node, tmp, &db->list, node) {
+>>                       hlist_del(&obj->node);
+>> -                     free_object(obj);
+>> +                     hlist_add_head(&obj->node, &freelist);
+>>               }
+>>               spin_unlock_irqrestore(&db->lock, flags);
+>> +
+>> +             /* Now free them */
+>> +             hlist_for_each_entry_safe(obj, node, tmp, &freelist, node) {
+>> +                     hlist_del(&obj->node);
+>> +                     free_object(obj);
+>
+> I suspect that we can avoid the hlist_del() here, perhaps with a little
+> effort.
+>
+>> +
+>> +             /* Now free them */
+>> +             hlist_for_each_entry_safe(obj, node, tmp, &freelist, node) {
+>> +                     hlist_del(&obj->node);
+>> +                     free_object(obj);
+>> +             }
+>> +
+>
+> and the other one.
+>
+> But I'm not sure that it's worth putting effort into - leaving dead
+> objects strung onto a partially-live list is a little bit smelly IMO.
 
-See the thread "x86: split e820 reserved entries record to late" (yeah, I 
-know that subject isn't very grammatical or sensible) for some patches 
-worth trying _after_ you've reverted that one.
+I've done some fairly heavy testing with the patch at it's current
+state (ie with the upgraded pool_lock, explained above), and it _is_
+in fact solid; I wasn't looking at the right setup previously.
 
-Anyway, clearly that commit needs to be reverted regardless, so I'll do 
-the revert. Can you please test the appended test-patch by Yinghai on top 
-of the revert?
+(with the other XFS tweaks too) I'm not able to cause any
+deadlocks/stack traces/warnings with maximum debugging [* the KVM
+errors are another story], which would be the first time so far, so
+the patch looks good for mainline and 2.6.27 is looking very strong!
 
-(This is not the final version, but it should be sufficient to be tested)
+Daniel
 
-And if you have the whole dmesg, that would be useful.
+--- [*]
 
-		Linus
-
----
-From: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] x86: split e820 reserved entries record to late v3
-Date: Thu, 28 Aug 2008 17:41:29 -0700
-
-so could let BAR res register at first, or even pnp?
-
-v2: insert e820 reserve resources before pnp_system_init
-v3: fix merging problem in tip/x86/core
-    please drop the one in tip/x86/core use this one instead
-
-Signed-off-by: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-
----
- arch/x86/kernel/e820.c |   20 ++++++++++++++++++--
- arch/x86/pci/i386.c    |    3 +++
- include/asm-x86/e820.h |    1 +
- 3 files changed, 22 insertions(+), 2 deletions(-)
-
-Index: linux-2.6/arch/x86/kernel/e820.c
-===================================================================
---- linux-2.6.orig/arch/x86/kernel/e820.c
-+++ linux-2.6/arch/x86/kernel/e820.c
-@@ -1271,13 +1271,15 @@ static inline const char *e820_type_to_s
- /*
-  * Mark e820 reserved areas as busy for the resource manager.
-  */
-+struct resource __initdata *e820_res;
- void __init e820_reserve_resources(void)
- {
- 	int i;
--	struct resource *res;
- 	u64 end;
-+	struct resource *res;
- 
- 	res = alloc_bootmem_low(sizeof(struct resource) * e820.nr_map);
-+	e820_res = res;
- 	for (i = 0; i < e820.nr_map; i++) {
- 		end = e820.map[i].addr + e820.map[i].size - 1;
- #ifndef CONFIG_RESOURCES_64BIT
-@@ -1291,7 +1293,8 @@ void __init e820_reserve_resources(void)
- 		res->end = end;
- 
- 		res->flags = IORESOURCE_MEM | IORESOURCE_BUSY;
--		insert_resource(&iomem_resource, res);
-+		if (e820.map[i].type != E820_RESERVED || res->start < (1ULL<<20))
-+			insert_resource(&iomem_resource, res);
- 		res++;
- 	}
- 
-@@ -1303,6 +1306,19 @@ void __init e820_reserve_resources(void)
- 	}
- }
- 
-+void __init e820_reserve_resources_late(void)
-+{
-+	int i;
-+	struct resource *res;
-+
-+	res = e820_res;
-+	for (i = 0; i < e820.nr_map; i++) {
-+		if (e820.map[i].type == E820_RESERVED && res->start >= (1ULL<<20))
-+			insert_resource(&iomem_resource, res);
-+		res++;
-+	}
-+}
-+
- char *__init default_machine_specific_memory_setup(void)
- {
- 	char *who = "BIOS-e820";
-Index: linux-2.6/arch/x86/pci/i386.c
-===================================================================
---- linux-2.6.orig/arch/x86/pci/i386.c
-+++ linux-2.6/arch/x86/pci/i386.c
-@@ -33,6 +33,7 @@
- #include <linux/bootmem.h>
- 
- #include <asm/pat.h>
-+#include <asm/e820.h>
- 
- #include "pci.h"
- 
-@@ -230,6 +231,8 @@ void __init pcibios_resource_survey(void
- 	pcibios_allocate_bus_resources(&pci_root_buses);
- 	pcibios_allocate_resources(0);
- 	pcibios_allocate_resources(1);
-+
-+	e820_reserve_resources_late();
- }
- 
- /**
-Index: linux-2.6/include/asm-x86/e820.h
-===================================================================
---- linux-2.6.orig/include/asm-x86/e820.h
-+++ linux-2.6/include/asm-x86/e820.h
-@@ -122,6 +122,7 @@ extern void e820_register_active_regions
- extern u64 e820_hole_size(u64 start, u64 end);
- extern void finish_e820_parsing(void);
- extern void e820_reserve_resources(void);
-+extern void e820_reserve_resources_late(void);
- extern void setup_memory_map(void);
- extern char *default_machine_specific_memory_setup(void);
- extern char *machine_specific_memory_setup(void);
+emulation failed (pagetable) rip bf9032c5 0f 6f 17 0f
+__ratelimit: 1804664 callbacks suppressed
+Fail to handle apic access vmexit! Offset is 0xf0
+-- 
+Daniel J Blueman
