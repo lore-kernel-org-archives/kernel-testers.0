@@ -1,35 +1,45 @@
-From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: [Bug #11438] Upcoming oops in lockdep
-Date: Sat, 30 Aug 2008 23:36:45 +0200
-Message-ID: <1220132205.8426.40.camel@twins>
-References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik>
-	 <N8SeMoDzuxC.A.C9D.FibuIB@albercik>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: 2.6.27-rc5-git2: Reported regressions from 2.6.26
+Date: Sat, 30 Aug 2008 23:42:25 +0200
+Message-ID: <200808302342.27062.rjw@sisk.pl>
+References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik> <20080830.143256.62760515.davem@davemloft.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <N8SeMoDzuxC.A.C9D.FibuIB@albercik>
+In-Reply-To: <20080830.143256.62760515.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Sat, 2008-08-30 at 21:50 +0200, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11438
-> Subject		: Upcoming oops in lockdep
-> Submitter	: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> Date		: 2008-08-23 20:49 (8 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121952463613140&w=4
-> 		  http://www.kerneloops.org/searchweek.php?search=mark_lock
-> Handled-By	: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+On Saturday, 30 of August 2008, David Miller wrote:
+> From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+> Date: Sat, 30 Aug 2008 21:46:30 +0200 (CEST)
+>=20
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11409
+> > Subject		: build issue #564 for v2.6.27-rc4 : undefined reference t=
+o `NS8390p_init'
+> > Submitter	: Toralf F=F6rster <toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
+> > Date		: 2008-08-22 8:33 (9 days old)
+> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D121939410214677=
+&w=3D4
+> > Handled-By	: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+> > Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D121943097320451&w=3D=
+4
+>=20
+> Should be fixed by:
+>=20
+> commit d3d7b53d1ae46534cd73e1073a5c29e3b61a0552
+> Author: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+> Date:   Fri Aug 22 19:24:15 2008 +0100
+>=20
+>     [netdrvr] fix build issue: undefined reference to `NS8390p_init'
+>    =20
+>     Signed-off-by: Alan 'pass the paper bags' Cox <alan-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>     Signed-off-by: Jeff Garzik <jgarzik-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-as far as I'm concerned this has nothing to do with lockdep
+Thanks, closed.
 
+Rafael
