@@ -1,7 +1,7 @@
 From: "Yinghai Lu" <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-Date: Fri, 29 Aug 2008 17:11:46 -0700
-Message-ID: <86802c440808291711t32d3e76dsf804856b0a8f4939@mail.gmail.com>
+Date: Fri, 29 Aug 2008 17:20:38 -0700
+Message-ID: <86802c440808291720w67de2285yc8cf645ff3b70666@mail.gmail.com>
 References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org>
 	 <200808292157.24179.rjw@sisk.pl>
 	 <86802c440808291413t4f31993fmba59a65aefd906ca@mail.gmail.com>
@@ -16,10 +16,10 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:received:received:message-id:date:from:to
          :subject:cc:in-reply-to:mime-version:content-type
          :content-transfer-encoding:content-disposition:references;
-        bh=SjdFdwC1mITBsGNB+y99aVTc5sZNnD3HCmZkPL/CwG0=;
-        b=Cvn5G0Cxj82KZcTvIrs9mSzSrn560+Q9iuc8nbpJNJEExu5nxz2Ch9Vk3WQk3X9hb4
-         slvntG43l5dVzL23gvMY1JBh8jyTa82b+kGzIZ3FIC4PBCgPzbVgjOAtWMjprfZ6sWKJ
-         g4sxk7hqFsy828dJlouLVI6S3XHTtjdmzHUmY=
+        bh=CAEB+Bvel3AF84qbWubYh6RztbCT8pQJN3inOjhhxEM=;
+        b=EiiZfKCOwicxWcdwHM0rLo6OR4x3DKn2ja2RuUxTDhivGRWCyeAqjElaBcRfvfVs1M
+         rX7GduuWREZ3c5xhcEyrsbYGh2YKnIuHzGkjniIW/WLvNOHBRWkfgq1Rr/a5RwnO6kOZ
+         keO52h2pffXcdGYuZJr0lZpNdWa32ft+jMNW0=
 In-Reply-To: <alpine.LFD.1.10.0808291704070.3300-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -43,8 +43,15 @@ On Fri, Aug 29, 2008 at 5:08 PM, Linus Torvalds
 >        PCI: Using MMCONFIG at e0000000 - efffffff
 >
 > Where did it get that bogus "ffffffff" end address?
+>
+> Anyway, that whole MMCONFIG/BAR thing was totally broken to begin with,
+> and it's reverted now in my tree, so I guess it doesn't much matter.
 
-the BAR is from pci_read_bases..., so that chipset is broken...
-they are even supposed to to hide that BAR to os.
+we need to handle it. otherwise if the BAR go first, and it will stop
+other BARs to be registered...
+
+a quirk should do the work....
+
+Rafael, can you send out lspci -tv and lspci --vvxxx too.
 
 YH
