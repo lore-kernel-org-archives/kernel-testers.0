@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11276] build error: CONFIG_OPTIMIZE_INLINING=y causes gcc 4.2 to do stupid things
-Date: Sat, 30 Aug 2008 21:50:16 +0200 (CEST)
-Message-ID: <N8SeMoDzuxC.A.Y-F.DkbuIB@albercik>
+Subject: [Bug #11271] BUG: fealnx in 2.6.27-rc1
+Date: Sat, 30 Aug 2008 21:50:15 +0200 (CEST)
+Message-ID: <N8SeMoDzuxC.A.xIG.OkbuIB@albercik>
 References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Francois Romieu <romieu-W8zweXLXuWQS+FvcfC7Uqw@public.gmane.org>, Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,12 +22,11 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11276
-Subject		: build error: CONFIG_OPTIMIZE_INLINING=y causes gcc 4.2 to do stupid things
-Submitter	: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Date		: 2008-08-06 17:18 (25 days old)
-References	: http://marc.info/?l=linux-kernel&m=121804329014332&w=4
-		  http://lkml.org/lkml/2008/7/22/353
-Handled-By	: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
-Patch		: http://lkml.org/lkml/2008/7/22/364
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11271
+Subject		: BUG: fealnx in 2.6.27-rc1
+Submitter	: Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-08-05 14:58 (26 days old)
+References	: http://marc.info/?l=linux-netdev&m=121794762016830&w=4
+		  http://lkml.org/lkml/2008/8/10/98
+Handled-By	: Francois Romieu <romieu-W8zweXLXuWQS+FvcfC7Uqw@public.gmane.org>
 
