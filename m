@@ -1,116 +1,106 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-Date: Sat, 30 Aug 2008 19:14:59 +0200
-Message-ID: <200808301915.00381.rjw@sisk.pl>
-References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org> <200808301532.57307.rjw@sisk.pl> <86802c440808300905v5056fe0apdc6e328d99dff090@mail.gmail.com>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit
+ a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
+Date: Sat, 30 Aug 2008 10:39:29 -0700 (PDT)
+Message-ID: <alpine.LFD.1.10.0808301012060.3290@nehalem.linux-foundation.org>
+References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org> <200808292157.24179.rjw@sisk.pl> <alpine.LFD.1.10.0808291434110.3300@nehalem.linux-foundation.org> <200808300030.32905.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <86802c440808300905v5056fe0apdc6e328d99dff090-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <200808300030.32905.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Saturday, 30 of August 2008, Yinghai Lu wrote:
-> On Sat, Aug 30, 2008 at 6:32 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > On Saturday, 30 of August 2008, Yinghai Lu wrote:
-> >> On Fri, Aug 29, 2008 at 5:20 PM, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> >> > On Fri, Aug 29, 2008 at 5:08 PM, Linus Torvalds
-> >> > <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
-> >> >>
-> >> >>
-> >> >> On Fri, 29 Aug 2008, Yinghai Lu wrote:
-> >> >>> >
-> >> >>> > http://www.sisk.pl/kernel/debug/mainline/2.6.27-rc5/broken.log
-> >> >>>
-> >> >>> pci 0000:00:00.0: BAR has MMCONFIG at e0000000-ffffffff
-> >> >>
-> >> >> And that seems utter crap to begin with.
-> >> >>
-> >> >>        PCI: Using MMCONFIG at e0000000 - efffffff
-> >> >>
-> >> >> Where did it get that bogus "ffffffff" end address?
-> >> >>
-> >> >> Anyway, that whole MMCONFIG/BAR thing was totally broken to begin with,
-> >> >> and it's reverted now in my tree, so I guess it doesn't much matter.
-> >> >
-> >> > we need to handle it. otherwise if the BAR go first, and it will stop
-> >> > other BARs to be registered...
-> >> >
-> >> > a quirk should do the work....
-> >> >
-> >> > Rafael, can you send out lspci -tv and lspci --vvxxx too.
-> >>
-> >> cat /proc/iomem please.
-> >
-> > http://www.sisk.pl/kernel/debug/mainline/2.6.27-rc5/lspci-tv.txt
-> > http://www.sisk.pl/kernel/debug/mainline/2.6.27-rc5/lspci-vvxxx.txt
-> > http://www.sisk.pl/kernel/debug/mainline/2.6.27-rc5/proc_iomem.txt
-> >
-> 
-> 00:00.0 Host bridge: ATI Technologies Inc RD790 Northbridge only dual
-> slot PCI-e_GFX and HT3 K8 part
-> 	Subsystem: ATI Technologies Inc RD790 Northbridge only dual slot
-> PCI-e_GFX and HT3 K8 part
-> 	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
-> Stepping- SERR- FastB2B-
-> 	Status: Cap+ 66MHz+ UDF- FastB2B- ParErr- DEVSEL=medium >TAbort-
-> <TAbort- <MAbort+ >SERR- <PERR-
-> 	Latency: 0
-> 	Region 3: Memory at <ignored> (64-bit, non-prefetchable)
-> 	Capabilities: [c4] HyperTransport: Slave or Primary Interface
-> 		Command: BaseUnitID=0 UnitCnt=12 MastHost- DefDir- DUL-
-> 		Link Control 0: CFlE- CST- CFE- <LkFail- Init+ EOC- TXO- <CRCErr=0
-> IsocEn- LSEn- ExtCTL- 64b-
-> 		Link Config 0: MLWI=16bit DwFcIn- MLWO=16bit DwFcOut- LWI=16bit
-> DwFcInEn- LWO=16bit DwFcOutEn-
-> 		Link Control 1: CFlE- CST- CFE- <LkFail+ Init- EOC+ TXO+ <CRCErr=0
-> IsocEn- LSEn- ExtCTL- 64b-
-> 		Link Config 1: MLWI=8bit DwFcIn- MLWO=8bit DwFcOut- LWI=8bit
-> DwFcInEn- LWO=8bit DwFcOutEn-
-> 		Revision ID: 3.00
-> 		Link Frequency 0: [b]
-> 		Link Error 0: <Prot- <Ovfl- <EOC- CTLTm-
-> 		Link Frequency Capability 0: 200MHz+ 300MHz- 400MHz+ 500MHz- 600MHz+
-> 800MHz+ 1.0GHz+ 1.2GHz+ 1.4GHz- 1.6GHz- Vend-
-> 		Feature Capability: IsocFC- LDTSTOP+ CRCTM- ECTLT- 64bA- UIDRD-
-> 		Link Frequency 1: 200MHz
-> 		Link Error 1: <Prot- <Ovfl- <EOC- CTLTm-
-> 		Link Frequency Capability 1: 200MHz- 300MHz- 400MHz- 500MHz- 600MHz-
-> 800MHz- 1.0GHz- 1.2GHz- 1.4GHz- 1.6GHz- Vend-
-> 		Error Handling: PFlE- OFlE- PFE- OFE- EOCFE- RFE- CRCFE- SERRFE- CF-
-> RE- PNFE- ONFE- EOCNFE- RNFE- CRCNFE- SERRNFE-
-> 		Prefetchable memory behind bridge Upper: 00-00
-> 		Bus Number: 00
-> 	Capabilities: [40] HyperTransport: Retry Mode
-> 	Capabilities: [54] HyperTransport: UnitID Clumping
-> 	Capabilities: [9c] HyperTransport: #1a
-> 00: 02 10 56 59 06 00 30 22 00 00 00 06 00 00 00 00
-> 10: 00 00 00 00 00 00 00 00 00 00 00 00 04 00 00 e0
-> 
-> so bar3 of 00:00.0 has oxe0000000 - 0xffffffff
-> and request_resource failed, so
-> 	Region 3: Memory at <ignored> (64-bit, non-prefetchable)
-> 
-> BIOS should hide that region, and because AMD quad core has MMCONFIG
-> set in NB MSR already.
-> 
-> please try to apply attached patches, and boot with "debug initcall_debug"
-> 
-> applying sequence:
-> 
-> split_e820_reserve=.patch
-> pci_res_print_out.patch
-> split_e820_reserve_xx1.patch
 
-The above one doesn't apply.
 
-> insert_resource_debug.patch
-> pci_mmconf.patch
+On Sat, 30 Aug 2008, Rafael J. Wysocki wrote:
+> 
+> > And if you have the whole dmesg, that would be useful.
+> 
+> dmesg from -rc5 with the offending commit reverted and with the patch
+> below applied is at:
+> 
+> http://www.sisk.pl/kernel/debug/mainline/2.6.27-rc5/2.6.27-rc5-git.log
 
-Could you please rebase them on top of current -git?
+Ok, the more I look at this, the more interesting it gets.
 
-Rafael
+In particular, this:
+
+	...
+	ACPI: bus type pnp registered
+	pnp 00:08: mem resource (0xfec00000-0xfec00fff) overlaps 0000:00:00.0 BAR 3 (0xe0000000-0xffffffff), disabling
+	pnp 00:08: mem resource (0xfee00000-0xfee00fff) overlaps 0000:00:00.0 BAR 3 (0xe0000000-0xffffffff), disabling
+	pnp 00:09: mem resource (0xffb80000-0xffbfffff) overlaps 0000:00:00.0 BAR 3 (0xe0000000-0xffffffff), disabling
+	pnp 00:09: mem resource (0xfff00000-0xffffffff) overlaps 0000:00:00.0 BAR 3 (0xe0000000-0xffffffff), disabling
+	pnp 00:0b: mem resource (0xe0000000-0xefffffff) overlaps 0000:00:00.0 BAR 3 (0xe0000000-0xffffffff), disabling
+	pnp 00:0c: mem resource (0xfec00000-0xffffffff) overlaps 0000:00:00.0 BAR 3 (0xe0000000-0xffffffff), disabling
+	pnp: PnP ACPI: found 13 devices
+	ACPI: ACPI bus type pnp unregistered
+	SCSI subsystem initialized
+	libata version 3.00 loaded.
+	usbcore: registered new interface driver usbfs
+	usbcore: registered new interface driver hub
+	usbcore: registered new device driver usb
+	PCI: Using ACPI for IRQ routing
+	pci 0000:00:00.0: BAR 3: can't allocate resource
+	...
+
+there's a few things to note here:
+
+ - the resource at 0000:00:00.0 BAR 3 is totally bogus.
+
+   We know it's totally bogus because you actually have other resources in 
+   the 0xf....... range, and they work fine. It's also likely to be 
+   totally bogus because it so happens that the end-point of 0xffffffff is 
+   commonly something that the BIOS leaves as a "I sized this resource", 
+   because that's how resources are sized (you write all ones into them 
+   and look what you can read back).
+
+   But your lspci -vxx output clearly shows that (a) MEM is enabled in 
+   the command word, and yes, the BAR register at 0x18 does indeed have 
+   value 0xe0000000. So it's just the length that is really bogus.
+
+ - pnp clearly sees that bogus resource at 0xe0000000-0xffffffff
+
+ - BUT: the "can't allocate resource" thing is from 
+   pcibios_allocate_resources(), and means that the request_resource() 
+   failed _despite_ the fact that you hadn't reserved the e820 resources 
+   yet with the new patch.
+
+The thing that seems to save you is that we've already allocated something 
+in that region. There's a few things there, like:
+
+	fee00000-fee00fff : Local APIC
+
+but that particular one is actually reserved much later, so that doesn't 
+explain it. I think that what happens is that we have allocated the _bus_ 
+resources earlier in "pcibios_allocate_bus_resources()", and that means 
+that we already have these resources:
+
+	fe700000-fe7fffff : PCI Bus 0000:01
+	fe800000-fe8fffff : PCI Bus 0000:02
+	fe900000-fe9fffff : PCI Bus 0000:03
+	fea00000-feafffff : PCI Bus 0000:04
+	feb00000-febfffff : PCI Bus 0000:05
+
+in the resource tree, and that in turn means that when we try to allocate 
+the bogus MCFG resource, it fails.
+
+Which is good - it mustn't succeed.
+
+What _broke_ for you is that the horrible patch that got reverted said 
+that "if we recognize this as an MCFG resource, we will _always_ try to 
+insert it", so it fundamentally broke the whole resource tree, because it 
+force-inserted that totally crap resource.
+
+Now, the thing that worries me a bit is that I wonder how common this kind 
+of crap is. And in particular, I wonder how often we've been saved from 
+horrible issues like this by the fact that we've inserted the e820 
+resources first. Of course - it can work both ways - sometimes it saves 
+us, and sometimes it just causes more problems (eg when we then 
+re-allocate the resource successfully somewhere else).
+
+		Linus
