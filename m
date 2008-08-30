@@ -1,954 +1,472 @@
-From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Subject: Re: [regression] usb: sometimes dead keyboard after boot (with debug log)
-Date: Sat, 30 Aug 2008 17:36:26 +0200
-Message-ID: <200808301736.27377.elendil@planet.nl>
-References: <Pine.LNX.4.44L0.0808261626140.2139-100000@iolanthe.rowland.org>
+From: "Yinghai Lu" <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
+Date: Sat, 30 Aug 2008 09:05:08 -0700
+Message-ID: <86802c440808300905v5056fe0apdc6e328d99dff090@mail.gmail.com>
+References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org>
+	 <86802c440808291720w67de2285yc8cf645ff3b70666@mail.gmail.com>
+	 <86802c440808291727nbd297c0w8a2a60bed423c0f7@mail.gmail.com>
+	 <200808301532.57307.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Type: Multipart/Mixed;
-  boundary="Boundary-00=_7jWuI8r9hNYpVO6"
-Return-path: <linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Pine.LNX.4.44L0.0808261626140.2139-100000-IYeN2dnnYyZXsRXLowluHWD2FQJk+8+b@public.gmane.org>
-Sender: linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_16847_27709860.1220112308413"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type:references;
+        bh=Eyyl/x0qf2yFKqiWDvFNqbjUaq4zUCbxLxkzLBbxlAM=;
+        b=olJsVQHYl78Rj5zRYShTfbx9Yne+5VWBgrLNoHi4FO+bLf1LI3in1fzUm0XbDaJJYW
+         /nEeSsvfPl3zvVV+glffYNZLJDM+u8kQyZ3EVD/ou81ccOmzBiC6ZJL6C02Uf3YH7lXY
+         Hv3UVJiUV9ScLzuBR+f+J8HtfTNOVBD6Qv6Mk=
+In-Reply-To: <200808301532.57307.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
---Boundary-00=_7jWuI8r9hNYpVO6
-Content-Type: text/plain;
-  charset="iso-8859-1"
+------=_Part_16847_27709860.1220112308413
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
-On Tuesday 26 August 2008, Alan Stern wrote:
-> > Attached a full diff between dmesg from two consecutive boots: first
-> > without keyboard; after reboot the keyboard is detected. The actual
-> > difference is fairly small and clearly shows that usb 3-1 is not
-> > handed off correctly, probably due to a small difference in timing.
-> >
-> > Note that I've never seen this problem with earlier kernels.
+On Sat, Aug 30, 2008 at 6:32 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> On Saturday, 30 of August 2008, Yinghai Lu wrote:
+>> On Fri, Aug 29, 2008 at 5:20 PM, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> > On Fri, Aug 29, 2008 at 5:08 PM, Linus Torvalds
+>> > <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
+>> >>
+>> >>
+>> >> On Fri, 29 Aug 2008, Yinghai Lu wrote:
+>> >>> >
+>> >>> > http://www.sisk.pl/kernel/debug/mainline/2.6.27-rc5/broken.log
+>> >>>
+>> >>> pci 0000:00:00.0: BAR has MMCONFIG at e0000000-ffffffff
+>> >>
+>> >> And that seems utter crap to begin with.
+>> >>
+>> >>        PCI: Using MMCONFIG at e0000000 - efffffff
+>> >>
+>> >> Where did it get that bogus "ffffffff" end address?
+>> >>
+>> >> Anyway, that whole MMCONFIG/BAR thing was totally broken to begin with,
+>> >> and it's reverted now in my tree, so I guess it doesn't much matter.
+>> >
+>> > we need to handle it. otherwise if the BAR go first, and it will stop
+>> > other BARs to be registered...
+>> >
+>> > a quirk should do the work....
+>> >
+>> > Rafael, can you send out lspci -tv and lspci --vvxxx too.
+>>
+>> cat /proc/iomem please.
 >
-> I can't tell exactly what's going on because your usbcore module wasn't
-> built with CONFIG_USB_DEBUG enabled.
+> http://www.sisk.pl/kernel/debug/mainline/2.6.27-rc5/lspci-tv.txt
+> http://www.sisk.pl/kernel/debug/mainline/2.6.27-rc5/lspci-vvxxx.txt
+> http://www.sisk.pl/kernel/debug/mainline/2.6.27-rc5/proc_iomem.txt
+>
 
-I got lucky on the second boot with -rc5 and USB_DEBUG enabled.
-Attached the output of dmesg. After this boot the keyboard was dead and 
-the telltale "reset low speed USB device" message is present.
+00:00.0 Host bridge: ATI Technologies Inc RD790 Northbridge only dual
+slot PCI-e_GFX and HT3 K8 part
+	Subsystem: ATI Technologies Inc RD790 Northbridge only dual slot
+PCI-e_GFX and HT3 K8 part
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
+Stepping- SERR- FastB2B-
+	Status: Cap+ 66MHz+ UDF- FastB2B- ParErr- DEVSEL=medium >TAbort-
+<TAbort- <MAbort+ >SERR- <PERR-
+	Latency: 0
+	Region 3: Memory at <ignored> (64-bit, non-prefetchable)
+	Capabilities: [c4] HyperTransport: Slave or Primary Interface
+		Command: BaseUnitID=0 UnitCnt=12 MastHost- DefDir- DUL-
+		Link Control 0: CFlE- CST- CFE- <LkFail- Init+ EOC- TXO- <CRCErr=0
+IsocEn- LSEn- ExtCTL- 64b-
+		Link Config 0: MLWI=16bit DwFcIn- MLWO=16bit DwFcOut- LWI=16bit
+DwFcInEn- LWO=16bit DwFcOutEn-
+		Link Control 1: CFlE- CST- CFE- <LkFail+ Init- EOC+ TXO+ <CRCErr=0
+IsocEn- LSEn- ExtCTL- 64b-
+		Link Config 1: MLWI=8bit DwFcIn- MLWO=8bit DwFcOut- LWI=8bit
+DwFcInEn- LWO=8bit DwFcOutEn-
+		Revision ID: 3.00
+		Link Frequency 0: [b]
+		Link Error 0: <Prot- <Ovfl- <EOC- CTLTm-
+		Link Frequency Capability 0: 200MHz+ 300MHz- 400MHz+ 500MHz- 600MHz+
+800MHz+ 1.0GHz+ 1.2GHz+ 1.4GHz- 1.6GHz- Vend-
+		Feature Capability: IsocFC- LDTSTOP+ CRCTM- ECTLT- 64bA- UIDRD-
+		Link Frequency 1: 200MHz
+		Link Error 1: <Prot- <Ovfl- <EOC- CTLTm-
+		Link Frequency Capability 1: 200MHz- 300MHz- 400MHz- 500MHz- 600MHz-
+800MHz- 1.0GHz- 1.2GHz- 1.4GHz- 1.6GHz- Vend-
+		Error Handling: PFlE- OFlE- PFE- OFE- EOCFE- RFE- CRCFE- SERRFE- CF-
+RE- PNFE- ONFE- EOCNFE- RNFE- CRCNFE- SERRNFE-
+		Prefetchable memory behind bridge Upper: 00-00
+		Bus Number: 00
+	Capabilities: [40] HyperTransport: Retry Mode
+	Capabilities: [54] HyperTransport: UnitID Clumping
+	Capabilities: [9c] HyperTransport: #1a
+00: 02 10 56 59 06 00 30 22 00 00 00 06 00 00 00 00
+10: 00 00 00 00 00 00 00 00 00 00 00 00 04 00 00 e0
 
-Cheers,
-FJP
+so bar3 of 00:00.0 has oxe0000000 - 0xffffffff
+and request_resource failed, so
+	Region 3: Memory at <ignored> (64-bit, non-prefetchable)
 
+BIOS should hide that region, and because AMD quad core has MMCONFIG
+set in NB MSR already.
 
---Boundary-00=_7jWuI8r9hNYpVO6
-Content-Type: text/plain;
-  charset="iso 8859-15";
-  name="dmesg_no-keyboard_debug"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename="dmesg_no-keyboard_debug"
+please try to apply attached patches, and boot with "debug initcall_debug"
 
-Linux version 2.6.27-rc5 (root@faramir) (gcc version 4.3.1 (Debian 4.3.1-9) ) #69 SMP Sat Aug 30 16:44:17 CEST 2008
-Command line: root=/dev/mapper/main-root ro vga=791 quiet
-KERNEL supported cpus:
-  Intel GenuineIntel
-  AMD AuthenticAMD
-  Centaur CentaurHauls
-BIOS-provided physical RAM map:
- BIOS-e820: 0000000000000000 - 000000000009fc00 (usable)
- BIOS-e820: 000000000009fc00 - 00000000000a0000 (reserved)
- BIOS-e820: 00000000000e0000 - 0000000000100000 (reserved)
- BIOS-e820: 0000000000100000 - 000000007f674000 (usable)
- BIOS-e820: 000000007f674000 - 000000007f6e9000 (ACPI NVS)
- BIOS-e820: 000000007f6e9000 - 000000007f6ec000 (usable)
- BIOS-e820: 000000007f6ec000 - 000000007f6ff000 (ACPI data)
- BIOS-e820: 000000007f6ff000 - 000000007f700000 (usable)
-last_pfn = 0x7f700 max_arch_pfn = 0x3ffffffff
-x86 PAT enabled: cpu 0, old 0x7040600070406, new 0x7010600070106
-init_memory_mapping
- 0000000000 - 007f600000 page 2M
- 007f600000 - 007f700000 page 4k
-kernel direct mapping tables up to 7f700000 @ 8000-c000
-last_map_addr: 7f700000 end: 7f700000
-RAMDISK: 37d18000 - 37fefa92
-DMI 2.3 present.
-ACPI: RSDP 000FE020, 0014 (r0 INTEL )
-ACPI: RSDT 7F6FDE48, 0058 (r1 INTEL  D945GCZ       FF9 MSFT  1000013)
-ACPI: FACP 7F6FCF10, 0074 (r1 INTEL  D945GCZ       FF9 MSFT  1000013)
-ACPI: DSDT 7F6F7010, 4348 (r1 INTEL  D945GCZ       FF9 MSFT  1000013)
-ACPI: FACS 7F6E2C40, 0040
-ACPI: APIC 7F6FCE10, 0078 (r1 INTEL  D945GCZ       FF9 MSFT  1000013)
-ACPI: WDDT 7F6F6F90, 0040 (r1 INTEL  D945GCZ       FF9 MSFT  1000013)
-ACPI: MCFG 7F6F6F10, 003C (r1 INTEL  D945GCZ       FF9 MSFT  1000013)
-ACPI: ASF! 7F6FCD10, 00A6 (r32 INTEL  D945GCZ       FF9 MSFT  1000013)
-ACPI: HPET 7F6F6E90, 0038 (r1 INTEL  D945GCZ       FF9 MSFT  1000013)
-ACPI: SSDT 7F6FDC10, 01BC (r1 INTEL     CpuPm      FF9 MSFT  1000013)
-ACPI: SSDT 7F6FDA10, 0175 (r1 INTEL   Cpu0Ist      FF9 MSFT  1000013)
-ACPI: SSDT 7F6FD810, 0175 (r1 INTEL   Cpu1Ist      FF9 MSFT  1000013)
-ACPI: SSDT 7F6FD610, 0175 (r1 INTEL   Cpu2Ist      FF9 MSFT  1000013)
-ACPI: SSDT 7F6FD410, 0175 (r1 INTEL   Cpu3Ist      FF9 MSFT  1000013)
-ACPI: SSDT 7F6F6E10, 002F (r1 INTEL  SetupVar      FF9 MSFT  1000013)
-ACPI: TCPA 7F6E4D90, 0032 (r1 INTEL  TIANO           2 MSFT  1000013)
-No NUMA configuration found
-Faking a node at 0000000000000000-000000007f700000
-Bootmem setup node 0 0000000000000000-000000007f700000
-  NODE_DATA [0000000000001000 - 0000000000004fff]
-  bootmap [000000000000a000 -  0000000000019edf] pages 10
-(6 early reservations) ==> bootmem [0000000000 - 007f700000]
-  #0 [0000000000 - 0000001000]   BIOS data page ==> [0000000000 - 0000001000]
-  #1 [0000006000 - 0000008000]       TRAMPOLINE ==> [0000006000 - 0000008000]
-  #2 [0000200000 - 000074e4e0]    TEXT DATA BSS ==> [0000200000 - 000074e4e0]
-  #3 [0037d18000 - 0037fefa92]          RAMDISK ==> [0037d18000 - 0037fefa92]
-  #4 [000009fc00 - 0000100000]    BIOS reserved ==> [000009fc00 - 0000100000]
-  #5 [0000008000 - 000000a000]          PGTABLE ==> [0000008000 - 000000a000]
-found SMP MP-table at [ffff8800000fe680] 000fe680
- [ffffe20000000000-ffffe20001ffffff] PMD -> [ffff880001200000-ffff8800031fffff] on node 0
-Zone PFN ranges:
-  DMA      0x00000000 -> 0x00001000
-  DMA32    0x00001000 -> 0x00100000
-  Normal   0x00100000 -> 0x00100000
-Movable zone start PFN for each node
-early_node_map[4] active PFN ranges
-    0: 0x00000000 -> 0x0000009f
-    0: 0x00000100 -> 0x0007f674
-    0: 0x0007f6e9 -> 0x0007f6ec
-    0: 0x0007f6ff -> 0x0007f700
-On node 0 totalpages: 521751
-  DMA zone: 2474 pages, LIFO batch:0
-  DMA32 zone: 509660 pages, LIFO batch:31
-ACPI: PM-Timer IO Port: 0x408
-ACPI: Local APIC address 0xfee00000
-ACPI: LAPIC (acpi_id[0x01] lapic_id[0x00] enabled)
-ACPI: LAPIC (acpi_id[0x02] lapic_id[0x01] enabled)
-ACPI: LAPIC (acpi_id[0x03] lapic_id[0x82] disabled)
-ACPI: LAPIC (acpi_id[0x04] lapic_id[0x83] disabled)
-ACPI: LAPIC_NMI (acpi_id[0x01] dfl dfl lint[0x1])
-ACPI: LAPIC_NMI (acpi_id[0x02] dfl dfl lint[0x1])
-ACPI: IOAPIC (id[0x02] address[0xfec00000] gsi_base[0])
-IOAPIC[0]: apic_id 2, version 0, address 0xfec00000, GSI 0-23
-ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
-ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
-ACPI: IRQ0 used by override.
-ACPI: IRQ2 used by override.
-ACPI: IRQ9 used by override.
-Setting APIC routing to flat
-ACPI: HPET id: 0x8086a201 base: 0xfed00000
-Using ACPI (MADT) for SMP configuration information
-SMP: Allowing 4 CPUs, 2 hotplug CPUs
-PM: Registered nosave memory: 000000000009f000 - 00000000000a0000
-PM: Registered nosave memory: 00000000000a0000 - 00000000000e0000
-PM: Registered nosave memory: 00000000000e0000 - 0000000000100000
-PM: Registered nosave memory: 000000007f674000 - 000000007f6e9000
-PM: Registered nosave memory: 000000007f6ec000 - 000000007f6ff000
-Allocating PCI resources starting at 80000000 (gap: 7f700000:80900000)
-PERCPU: Allocating 47648 bytes of per cpu data
-NR_CPUS: 8, nr_cpu_ids: 4, nr_node_ids 1
-Built 1 zonelists in Node order, mobility grouping on.  Total pages: 512134
-Policy zone: DMA32
-Kernel command line: root=/dev/mapper/main-root ro vga=791 quiet
-Initializing CPU#0
-PID hash table entries: 4096 (order: 12, 32768 bytes)
-TSC calibrated against PM_TIMER
-Detected 3199.878 MHz processor.
-Console: colour dummy device 80x25
-console [tty0] enabled
-Checking aperture...
-No AGP bridge found
-Calgary: detecting Calgary via BIOS EBDA area
-Calgary: Unable to locate Rio Grande table in EBDA - bailing!
-Memory: 2045500k/2087936k available (2287k kernel code, 41504k reserved, 1439k data, 368k init)
-CPA: page pool initialized 1 of 1 pages preallocated
-SLUB: Genslabs=13, HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
-hpet clockevent registered
-Calibrating delay loop (skipped), value calculated using timer frequency.. 6399.75 BogoMIPS (lpj=12799512)
-Security Framework initialized
-SELinux:  Disabled at boot.
-Dentry cache hash table entries: 262144 (order: 9, 2097152 bytes)
-Inode-cache hash table entries: 131072 (order: 8, 1048576 bytes)
-Mount-cache hash table entries: 256
-CPU: Trace cache: 12K uops, L1 D cache: 16K
-CPU: L2 cache: 1024K
-CPU 0/0 -> Node 0
-CPU: Physical Processor ID: 0
-CPU: Processor Core ID: 0
-CPU0: Thermal monitoring enabled (TM1)
-using mwait in idle threads.
-ACPI: Core revision 20080609
-..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
-CPU0:               Intel(R) Pentium(R) D CPU 3.20GHz stepping 07
-Using local APIC timer interrupts.
-APIC timer calibration result 12499515
-Detected 12.499 MHz APIC timer.
-Booting processor 1/1 ip 6000
-Initializing CPU#1
-Calibrating delay using timer specific routine.. 6399.97 BogoMIPS (lpj=12799952)
-CPU: Trace cache: 12K uops, L1 D cache: 16K
-CPU: L2 cache: 1024K
-CPU 1/1 -> Node 0
-CPU: Physical Processor ID: 0
-CPU: Processor Core ID: 1
-CPU1: Thermal monitoring enabled (TM1)
-x86 PAT enabled: cpu 1, old 0x7040600070406, new 0x7010600070106
-CPU1:               Intel(R) Pentium(R) D CPU 3.20GHz stepping 07
-checking TSC synchronization [CPU#0 -> CPU#1]: passed.
-Brought up 2 CPUs
-Total of 2 processors activated (12799.73 BogoMIPS).
-CPU0 attaching sched-domain:
- domain 0: span 0-1 level CPU
-  groups: 0 1
-  domain 1: span 0-1 level NODE
-   groups: 0-1
-CPU1 attaching sched-domain:
- domain 0: span 0-1 level CPU
-  groups: 1 0
-  domain 1: span 0-1 level NODE
-   groups: 0-1
-net_namespace: 1552 bytes
-NET: Registered protocol family 16
-ACPI: bus type pci registered
-PCI: Found Intel Corporation 945G/GZ/P/PL Express Memory Controller Hub without MMCONFIG support.
-PCI: Using configuration type 1 for base access
-ACPI: EC: Look up EC in DSDT
-ACPI: Interpreter enabled
-ACPI: (supports S0 S1 S3 S4 S5)
-ACPI: Using IOAPIC for interrupt routing
-ACPI: PCI Root Bridge [PCI0] (0000:00)
-pci 0000:00:1b.0: PME# supported from D0 D3hot D3cold
-pci 0000:00:1b.0: PME# disabled
-pci 0000:00:1c.0: PME# supported from D0 D3hot D3cold
-pci 0000:00:1c.0: PME# disabled
-pci 0000:00:1c.2: PME# supported from D0 D3hot D3cold
-pci 0000:00:1c.2: PME# disabled
-pci 0000:00:1c.3: PME# supported from D0 D3hot D3cold
-pci 0000:00:1c.3: PME# disabled
-pci 0000:00:1c.4: PME# supported from D0 D3hot D3cold
-pci 0000:00:1c.4: PME# disabled
-pci 0000:00:1c.5: PME# supported from D0 D3hot D3cold
-pci 0000:00:1c.5: PME# disabled
-pci 0000:00:1d.7: PME# supported from D0 D3hot D3cold
-pci 0000:00:1d.7: PME# disabled
-pci 0000:00:1f.0: quirk: region 0400-047f claimed by ICH6 ACPI/GPIO/TCO
-pci 0000:00:1f.0: quirk: region 0500-053f claimed by ICH6 GPIO
-pci 0000:00:1f.2: PME# supported from D3hot
-pci 0000:00:1f.2: PME# disabled
-pci 0000:01:00.0: PME# supported from D0 D3hot D3cold
-pci 0000:01:00.0: PME# disabled
-pci 0000:01:00.3: PME# supported from D0 D3hot D3cold
-pci 0000:01:00.3: PME# disabled
-pci 0000:01:00.4: PME# supported from D0 D3hot D3cold
-pci 0000:01:00.4: PME# disabled
-PCI: bridge 0000:00:1c.0 io port: [1000, 1fff]
-PCI: bridge 0000:00:1c.0 32bit mmio: [90000000, 901fffff]
-PCI: bridge 0000:00:1c.2 32bit mmio: [90300000, 903fffff]
-PCI: bridge 0000:00:1c.3 32bit mmio: [90400000, 904fffff]
-PCI: bridge 0000:00:1c.4 32bit mmio: [90500000, 905fffff]
-PCI: bridge 0000:00:1c.5 32bit mmio: [90600000, 906fffff]
-pci 0000:00:1e.0: transparent bridge
-ACPI: PCI Interrupt Routing Table [\_SB_.PCI0._PRT]
-ACPI: PCI Interrupt Routing Table [\_SB_.PCI0.P32_._PRT]
-ACPI: PCI Interrupt Routing Table [\_SB_.PCI0.PEX0._PRT]
-ACPI: PCI Interrupt Routing Table [\_SB_.PCI0.PEX2._PRT]
-ACPI: PCI Interrupt Routing Table [\_SB_.PCI0.PEX3._PRT]
-ACPI: PCI Interrupt Routing Table [\_SB_.PCI0.PEX4._PRT]
-ACPI: PCI Interrupt Routing Table [\_SB_.PCI0.PEX5._PRT]
-ACPI: PCI Interrupt Link [LNKA] (IRQs 3 4 5 7 9 10 *11 12)
-ACPI: PCI Interrupt Link [LNKB] (IRQs 3 4 5 7 9 10 11 12) *0, disabled.
-ACPI: PCI Interrupt Link [LNKC] (IRQs 3 4 5 7 9 *10 11 12)
-ACPI: PCI Interrupt Link [LNKD] (IRQs 3 4 5 7 9 10 *11 12)
-ACPI: PCI Interrupt Link [LNKE] (IRQs 3 4 5 7 9 10 11 12) *0, disabled.
-ACPI: PCI Interrupt Link [LNKF] (IRQs 3 4 5 7 9 10 11 12) *0, disabled.
-ACPI: PCI Interrupt Link [LNKG] (IRQs 3 4 5 7 *9 10 11 12)
-ACPI: PCI Interrupt Link [LNKH] (IRQs 3 4 5 7 *9 10 11 12)
-Linux Plug and Play Support v0.97 (c) Adam Belay
-pnp: PnP ACPI init
-ACPI: bus type pnp registered
-pnp 00:00: parse allocated resources
-pnp 00:00:   add io  0xcf8-0xcff flags 0x1
-pnp 00:00: Plug and Play ACPI device, IDs PNP0a03 (active)
-pnp 00:01: parse allocated resources
-pnp 00:01:   add mem 0xf0000000-0xf3ffffff flags 0x0
-pnp 00:01:   add mem 0xfed13000-0xfed13fff flags 0x0
-pnp 00:01:   add mem 0xfed14000-0xfed17fff flags 0x0
-pnp 00:01:   add mem 0xfed18000-0xfed18fff flags 0x0
-pnp 00:01:   add mem 0xfed19000-0xfed19fff flags 0x0
-pnp 00:01:   add mem 0xfed1c000-0xfed1ffff flags 0x0
-pnp 00:01:   add mem 0xfed20000-0xfed3ffff flags 0x0
-pnp 00:01:   add mem 0xfed45000-0xfed99fff flags 0x0
-pnp 00:01:   add mem 0xc0000-0xdffff flags 0x0
-pnp 00:01:   add mem 0xe0000-0xfffff flags 0x0
-pnp 00:01: PNP0c02: calling quirk_system_pci_resources+0x0/0x179
-pnp 00:01: Plug and Play ACPI device, IDs PNP0c02 (active)
-pnp 00:02: parse allocated resources
-pnp 00:02:   add io  0x0-0xf flags 0x1
-pnp 00:02:   add io  0x81-0x83 flags 0x1
-pnp 00:02:   add io  0x87-0x87 flags 0x1
-pnp 00:02:   add io  0x89-0x8b flags 0x1
-pnp 00:02:   add io  0x8f-0x8f flags 0x1
-pnp 00:02:   add io  0xc0-0xdf flags 0x1
-pnp 00:02:   add dma 4 flags 0x0
-pnp 00:02: Plug and Play ACPI device, IDs PNP0200 (active)
-pnp 00:03: parse allocated resources
-pnp 00:03:   add io  0x70-0x71 flags 0x1
-pnp 00:03:   add io  0x74-0x77 flags 0x1
-pnp 00:03:   add irq 8 flags 0x1
-pnp 00:03: Plug and Play ACPI device, IDs PNP0b00 (active)
-pnp 00:04: parse allocated resources
-pnp 00:04:   add io  0xf0-0xf0 flags 0x1
-pnp 00:04:   add irq 13 flags 0x1
-pnp 00:04: Plug and Play ACPI device, IDs PNP0c04 (active)
-pnp 00:05: parse allocated resources
-pnp 00:05:   add io  0x61-0x61 flags 0x1
-pnp 00:05: Plug and Play ACPI device, IDs PNP0800 (active)
-pnp 00:06: parse allocated resources
-pnp 00:06:   add io  0x500-0x53f flags 0x1
-pnp 00:06:   add io  0x400-0x47f flags 0x1
-pnp 00:06:   add io  0x92-0x92 flags 0x1
-pnp 00:06:   add io  0x680-0x6ff flags 0x1
-pnp 00:06:   add io  0x10-0x1f flags 0x1
-pnp 00:06:   add io  0x72-0x73 flags 0x1
-pnp 00:06:   add io  0x80-0x80 flags 0x1
-pnp 00:06:   add io  0x84-0x86 flags 0x1
-pnp 00:06:   add io  0x88-0x88 flags 0x1
-pnp 00:06:   add io  0x8c-0x8e flags 0x1
-pnp 00:06:   add io  0x90-0x9f flags 0x1
-pnp 00:06: PNP0c02: calling quirk_system_pci_resources+0x0/0x179
-pnp 00:06: Plug and Play ACPI device, IDs PNP0c02 (active)
-pnp 00:07: parse allocated resources
-pnp 00:07:   add mem 0xfed40000-0xfed44fff flags 0x0
-pnp 00:07: PNP0c02: calling quirk_system_pci_resources+0x0/0x179
-pnp 00:07: Plug and Play ACPI device, IDs PNP0c31 PNP0c02 (active)
-pnp 00:08: parse allocated resources
-pnp 00:08:   add io  0x60-0x60 flags 0x1
-pnp 00:08:   add io  0x64-0x64 flags 0x1
-pnp 00:08: PNP0c02: calling quirk_system_pci_resources+0x0/0x179
-pnp 00:08: Plug and Play ACPI device, IDs PNP0c02 (active)
-pnp 00:09: parse allocated resources
-pnp 00:09:   add io  0x3f0-0x3f5 flags 0x1
-pnp 00:09:   add io  0x3f0-0x3f0 flags 0x1
-pnp 00:09:   add irq 6 flags 0x1
-pnp 00:09:   add dma 2 flags 0x0
-pnp 00:09: parse resource options
-pnp 00:09:   dependent set 0 (preferred) io  min 0x3f0 max 0x3f0 align 1 size 6 flags 0x1
-pnp 00:09:   dependent set 0 (preferred) io  min 0x3f7 max 0x3f7 align 1 size 1 flags 0x1
-pnp 00:09:   dependent set 0 (preferred) irq 6 flags 0x1
-pnp 00:09:   dependent set 0 (preferred) dma 2 (bitmask 0x4) flags 0x0
-pnp 00:09: Plug and Play ACPI device, IDs PNP0700 (active)
-pnp 00:0a: parse allocated resources
-pnp 00:0a:   add io  0x378-0x37f flags 0x1
-pnp 00:0a:   add io  0x778-0x77f flags 0x1
-pnp 00:0a:   add irq 7 flags 0x1
-pnp 00:0a:   add dma 0 flags 0x10000000
-pnp 00:0a: parse resource options
-pnp 00:0a:   dependent set 0 (preferred) io  min 0x378 max 0x378 align 1 size 8 flags 0x1
-pnp 00:0a:   dependent set 0 (preferred) io  min 0x778 max 0x778 align 1 size 8 flags 0x1
-pnp 00:0a:   dependent set 0 (preferred) irq 5 7 flags 0x1
-pnp 00:0a:   dependent set 0 (preferred) dma 1 3 (bitmask 0xa) flags 0x0
-pnp 00:0a:   dependent set 1 (preferred) io  min 0x278 max 0x278 align 1 size 8 flags 0x1
-pnp 00:0a:   dependent set 1 (preferred) io  min 0x678 max 0x678 align 1 size 8 flags 0x1
-pnp 00:0a:   dependent set 1 (preferred) irq 5 7 flags 0x1
-pnp 00:0a:   dependent set 1 (preferred) dma 1 3 (bitmask 0xa) flags 0x0
-pnp 00:0a:   dependent set 2 (preferred) io  min 0x3bc max 0x3bc align 1 size 4 flags 0x1
-pnp 00:0a:   dependent set 2 (preferred) io  min 0x7bc max 0x7bc align 1 size 4 flags 0x1
-pnp 00:0a:   dependent set 2 (preferred) irq 5 7 flags 0x1
-pnp 00:0a:   dependent set 2 (preferred) dma 1 3 (bitmask 0xa) flags 0x0
-pnp 00:0a: Plug and Play ACPI device, IDs PNP0401 (active)
-pnp 00:0b: parse allocated resources
-pnp 00:0b:   add io  0x3f8-0x3ff flags 0x1
-pnp 00:0b:   add irq 4 flags 0x1
-pnp 00:0b: parse resource options
-pnp 00:0b:   dependent set 0 (preferred) io  min 0x3f8 max 0x3f8 align 1 size 8 flags 0x1
-pnp 00:0b:   dependent set 0 (preferred) irq 4 flags 0x1
-pnp 00:0b:   dependent set 1 (preferred) io  min 0x3e8 max 0x3e8 align 1 size 8 flags 0x1
-pnp 00:0b:   dependent set 1 (preferred) irq 4 flags 0x1
-pnp 00:0b:   dependent set 2 (preferred) io  min 0x2f8 max 0x2f8 align 1 size 8 flags 0x1
-pnp 00:0b:   dependent set 2 (preferred) irq 3 flags 0x1
-pnp 00:0b:   dependent set 3 (preferred) io  min 0x2e8 max 0x2e8 align 1 size 8 flags 0x1
-pnp 00:0b:   dependent set 3 (preferred) irq 3 flags 0x1
-pnp 00:0b:   dependent set 4 (functional) io  min 0x100 max 0x3f8 align 8 size 8 flags 0x1
-pnp 00:0b:   dependent set 4 (functional) irq 1 3 4 5 6 7 8 10 11 12 13 14 15 flags 0x1
-pnp 00:0b: Plug and Play ACPI device, IDs PNP0501 (active)
-pnp 00:0c: parse allocated resources
-pnp 00:0c:   add mem 0xfec00000-0xfec000ff flags 0x0
-pnp 00:0c: Plug and Play ACPI device, IDs PNP0003 (active)
-pnp 00:0d: parse allocated resources
-pnp 00:0d:   add mem 0xfed00000-0xfed003ff flags 0x0
-pnp 00:0d: Plug and Play ACPI device, IDs PNP0103 (active)
-pnp: PnP ACPI: found 14 devices
-ACPI: ACPI bus type pnp unregistered
-usbcore: registered new interface driver usbfs
-usbcore: registered new interface driver hub
-usbcore: registered new device driver usb
-PCI: Using ACPI for IRQ routing
-PCI-GART: No AMD northbridge found.
-hpet0: at MMIO 0xfed00000, IRQs 2, 8, 0
-hpet0: 3 64-bit timers, 14318180 Hz
-ACPI: RTC can wake from S4
-pnp: the driver 'system' has been registered
-system 00:01: iomem range 0xf0000000-0xf3ffffff has been reserved
-system 00:01: iomem range 0xfed13000-0xfed13fff has been reserved
-system 00:01: iomem range 0xfed14000-0xfed17fff has been reserved
-system 00:01: iomem range 0xfed18000-0xfed18fff has been reserved
-system 00:01: iomem range 0xfed19000-0xfed19fff has been reserved
-system 00:01: iomem range 0xfed1c000-0xfed1ffff has been reserved
-system 00:01: iomem range 0xfed20000-0xfed3ffff has been reserved
-system 00:01: iomem range 0xfed45000-0xfed99fff has been reserved
-system 00:01: iomem range 0xc0000-0xdffff has been reserved
-system 00:01: iomem range 0xe0000-0xfffff could not be reserved
-system 00:01: driver attached
-system 00:06: ioport range 0x500-0x53f has been reserved
-system 00:06: ioport range 0x400-0x47f has been reserved
-system 00:06: ioport range 0x680-0x6ff has been reserved
-system 00:06: driver attached
-system 00:07: iomem range 0xfed40000-0xfed44fff has been reserved
-system 00:07: driver attached
-system 00:08: driver attached
-pci 0000:00:1c.0: PCI bridge, secondary bus 0000:01
-pci 0000:00:1c.0:   IO window: 0x1000-0x1fff
-pci 0000:00:1c.0:   MEM window: 0x90000000-0x901fffff
-pci 0000:00:1c.0:   PREFETCH window: disabled
-pci 0000:00:1c.2: PCI bridge, secondary bus 0000:02
-pci 0000:00:1c.2:   IO window: disabled
-pci 0000:00:1c.2:   MEM window: 0x90300000-0x903fffff
-pci 0000:00:1c.2:   PREFETCH window: disabled
-pci 0000:00:1c.3: PCI bridge, secondary bus 0000:03
-pci 0000:00:1c.3:   IO window: disabled
-pci 0000:00:1c.3:   MEM window: 0x90400000-0x904fffff
-pci 0000:00:1c.3:   PREFETCH window: disabled
-pci 0000:00:1c.4: PCI bridge, secondary bus 0000:04
-pci 0000:00:1c.4:   IO window: disabled
-pci 0000:00:1c.4:   MEM window: 0x90500000-0x905fffff
-pci 0000:00:1c.4:   PREFETCH window: disabled
-pci 0000:00:1c.5: PCI bridge, secondary bus 0000:05
-pci 0000:00:1c.5:   IO window: disabled
-pci 0000:00:1c.5:   MEM window: 0x90600000-0x906fffff
-pci 0000:00:1c.5:   PREFETCH window: disabled
-pci 0000:00:1e.0: PCI bridge, secondary bus 0000:06
-pci 0000:00:1e.0:   IO window: disabled
-pci 0000:00:1e.0:   MEM window: disabled
-pci 0000:00:1e.0:   PREFETCH window: disabled
-pci 0000:00:1c.0: PCI INT A -> GSI 17 (level, low) -> IRQ 17
-pci 0000:00:1c.0: setting latency timer to 64
-pci 0000:00:1c.2: PCI INT C -> GSI 18 (level, low) -> IRQ 18
-pci 0000:00:1c.2: setting latency timer to 64
-pci 0000:00:1c.3: PCI INT D -> GSI 19 (level, low) -> IRQ 19
-pci 0000:00:1c.3: setting latency timer to 64
-pci 0000:00:1c.4: PCI INT A -> GSI 17 (level, low) -> IRQ 17
-pci 0000:00:1c.4: setting latency timer to 64
-pci 0000:00:1c.5: PCI INT B -> GSI 16 (level, low) -> IRQ 16
-pci 0000:00:1c.5: setting latency timer to 64
-pci 0000:00:1e.0: setting latency timer to 64
-bus: 00 index 0 io port: [0, ffff]
-bus: 00 index 1 mmio: [0, ffffffffffffffff]
-bus: 01 index 0 io port: [1000, 1fff]
-bus: 01 index 1 mmio: [90000000, 901fffff]
-bus: 01 index 2 mmio: [0, 0]
-bus: 01 index 3 mmio: [0, 0]
-bus: 02 index 0 mmio: [0, 0]
-bus: 02 index 1 mmio: [90300000, 903fffff]
-bus: 02 index 2 mmio: [0, 0]
-bus: 02 index 3 mmio: [0, 0]
-bus: 03 index 0 mmio: [0, 0]
-bus: 03 index 1 mmio: [90400000, 904fffff]
-bus: 03 index 2 mmio: [0, 0]
-bus: 03 index 3 mmio: [0, 0]
-bus: 04 index 0 mmio: [0, 0]
-bus: 04 index 1 mmio: [90500000, 905fffff]
-bus: 04 index 2 mmio: [0, 0]
-bus: 04 index 3 mmio: [0, 0]
-bus: 05 index 0 mmio: [0, 0]
-bus: 05 index 1 mmio: [90600000, 906fffff]
-bus: 05 index 2 mmio: [0, 0]
-bus: 05 index 3 mmio: [0, 0]
-bus: 06 index 0 mmio: [0, 0]
-bus: 06 index 1 mmio: [0, 0]
-bus: 06 index 2 mmio: [0, 0]
-bus: 06 index 3 io port: [0, ffff]
-bus: 06 index 4 mmio: [0, ffffffffffffffff]
-NET: Registered protocol family 2
-IP route cache hash table entries: 65536 (order: 7, 524288 bytes)
-TCP established hash table entries: 262144 (order: 10, 4194304 bytes)
-TCP bind hash table entries: 65536 (order: 9, 2097152 bytes)
-TCP: Hash tables configured (established 262144 bind 65536)
-TCP reno registered
-NET: Registered protocol family 1
-checking if image is initramfs... it is
-Switched to high resolution mode on CPU 1
-Switched to high resolution mode on CPU 0
-Freeing initrd memory: 2910k freed
-audit: initializing netlink socket (disabled)
-type=2000 audit(1220109416.516:1): initialized
-VFS: Disk quotas dquot_6.5.1
-Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
-msgmni has been set to 4000
-io scheduler noop registered
-io scheduler anticipatory registered
-io scheduler deadline registered
-io scheduler cfq registered (default)
-pci 0000:00:02.0: Boot video device
-pci 0000:00:1d.0: uhci_check_and_reset_hc: legsup = 0x0f10
-pci 0000:00:1d.0: Performing full reset
-pci 0000:00:1d.1: uhci_check_and_reset_hc: legsup = 0x0010
-pci 0000:00:1d.1: Performing full reset
-pci 0000:00:1d.2: uhci_check_and_reset_hc: legsup = 0x0010
-pci 0000:00:1d.2: Performing full reset
-pci 0000:00:1d.3: uhci_check_and_reset_hc: legsup = 0x0010
-pci 0000:00:1d.3: Performing full reset
-pcieport-driver 0000:00:1c.0: setting latency timer to 64
-pcieport-driver 0000:00:1c.0: found MSI capability
-pci_express 0000:00:1c.0:pcie00: allocate port service
-pci_express 0000:00:1c.0:pcie02: allocate port service
-pcieport-driver 0000:00:1c.2: setting latency timer to 64
-pcieport-driver 0000:00:1c.2: found MSI capability
-pci_express 0000:00:1c.2:pcie00: allocate port service
-pci_express 0000:00:1c.2:pcie02: allocate port service
-pcieport-driver 0000:00:1c.3: setting latency timer to 64
-pcieport-driver 0000:00:1c.3: found MSI capability
-pci_express 0000:00:1c.3:pcie00: allocate port service
-pci_express 0000:00:1c.3:pcie02: allocate port service
-pcieport-driver 0000:00:1c.4: setting latency timer to 64
-pcieport-driver 0000:00:1c.4: found MSI capability
-pci_express 0000:00:1c.4:pcie00: allocate port service
-pci_express 0000:00:1c.4:pcie02: allocate port service
-pcieport-driver 0000:00:1c.5: setting latency timer to 64
-pcieport-driver 0000:00:1c.5: found MSI capability
-pci_express 0000:00:1c.5:pcie00: allocate port service
-pci_express 0000:00:1c.5:pcie02: allocate port service
-vesafb: framebuffer at 0x80000000, mapped to 0xffffc20000a00000, using 3072k, total 7872k
-vesafb: mode is 1024x768x16, linelength=2048, pages=4
-vesafb: scrolling: redraw
-vesafb: Truecolor: size=0:5:6:5, shift=0:11:5:0
-Console: switching to colour frame buffer device 128x48
-fb0: VESA VGA frame buffer device
-hpet_resources: 0xfed00000 is busy
-Linux agpgart interface v0.103
-Serial: 8250/16550 driver4 ports, IRQ sharing enabled
-serial8250: ttyS0 at I/O 0x3f8 (irq = 4) is a 16550A
-pnp: the driver 'serial' has been registered
-00:0b: ttyS0 at I/O 0x3f8 (irq = 4) is a 16550A
-serial 00:0b: driver attached
-serial 0000:01:00.3: PCI INT C -> GSI 18 (level, low) -> IRQ 18
-0000:01:00.3: ttyS1 at I/O 0x1020 (irq = 18) is a 16550A
-brd: module loaded
-pnp: the driver 'i8042 kbd' has been registered
-pnp: the driver 'i8042 aux' has been registered
-pnp: the driver 'i8042 kbd' has been unregistered
-pnp: the driver 'i8042 aux' has been unregistered
-PNP: No PS/2 controller found. Probing ports directly.
-serio: i8042 KBD port at 0x60,0x64 irq 1
-serio: i8042 AUX port at 0x60,0x64 irq 12
-mice: PS/2 mouse device common for all mice
-pnp: the driver 'rtc_cmos' has been registered
-rtc_cmos 00:03: rtc core: registered rtc_cmos as rtc0
-rtc0: alarms up to one month, hpet irqs
-rtc_cmos 00:03: driver attached
-cpuidle: using governor ladder
-cpuidle: using governor menu
-TCP bic registered
-NET: Registered protocol family 17
-rtc_cmos 00:03: setting system clock to 2008-08-30 15:16:57 UTC (1220109417)
-Freeing unused kernel memory: 368k freed
-No dock devices found.
-SCSI subsystem initialized
-libata version 3.00 loaded.
-ahci 0000:00:1f.2: version 3.0
-ahci 0000:00:1f.2: PCI INT B -> GSI 19 (level, low) -> IRQ 19
-ahci 0000:00:1f.2: AHCI 0001.0100 32 slots 4 ports 3 Gbps 0xf impl SATA mode
-ahci 0000:00:1f.2: flags: 64bit ncq led clo pio slum part 
-ahci 0000:00:1f.2: setting latency timer to 64
-scsi0 : ahci
-scsi1 : ahci
-scsi2 : ahci
-scsi3 : ahci
-ata1: SATA max UDMA/133 abar m1024@0x902c4000 port 0x902c4100 irq 506
-ata2: SATA max UDMA/133 abar m1024@0x902c4000 port 0x902c4180 irq 506
-ata3: SATA max UDMA/133 abar m1024@0x902c4000 port 0x902c4200 irq 506
-ata4: SATA max UDMA/133 abar m1024@0x902c4000 port 0x902c4280 irq 506
-ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
-ata1.00: ATA-7: HDT722516DLA380, V43OA96A, max UDMA/133
-ata1.00: 321672960 sectors, multi 16: LBA48 NCQ (depth 31/32)
-ata1.00: configured for UDMA/133
-ata2: SATA link down (SStatus 0 SControl 300)
-ata3: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
-ata3.00: ATAPI: Optiarc DVD RW AD-7170S, 1.00, max UDMA/66
-ata3.00: configured for UDMA/66
-ata4: SATA link down (SStatus 0 SControl 300)
-scsi 0:0:0:0: Direct-Access     ATA      HDT722516DLA380  V43O PQ: 0 ANSI: 5
-scsi 2:0:0:0: CD-ROM            Optiarc  DVD RW AD-7170S  1.00 PQ: 0 ANSI: 5
-processor ACPI0007:00: registered as cooling_device0
-processor ACPI0007:01: registered as cooling_device1
-Driver 'sd' needs updating - please use bus_type methods
-sd 0:0:0:0: [sda] 321672960 512-byte hardware sectors (164697 MB)
-sd 0:0:0:0: [sda] Write Protect is off
-sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
-sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-sd 0:0:0:0: [sda] 321672960 512-byte hardware sectors (164697 MB)
-sd 0:0:0:0: [sda] Write Protect is off
-sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
-sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
- sda: sda1 sda2 < sda5 sda6 > sda3 sda4
-sd 0:0:0:0: [sda] Attached SCSI disk
-device-mapper: ioctl: 4.14.0-ioctl (2008-04-23) initialised: dm-devel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-kjournald starting.  Commit interval 5 seconds
-EXT3-fs: mounted filesystem with ordered data mode.
-udevd version 125 started
-Uniform Multi-Platform E-IDE driver
-input: PC Speaker as /class/input/input0
-USB Universal Host Controller Interface driver v3.0
-uhci_hcd 0000:00:1d.0: PCI INT A -> GSI 23 (level, low) -> IRQ 23
-uhci_hcd 0000:00:1d.0: setting latency timer to 64
-uhci_hcd 0000:00:1d.0: UHCI Host Controller
-drivers/usb/core/inode.c: creating file 'devices'
-drivers/usb/core/inode.c: creating file '001'
-uhci_hcd 0000:00:1d.0: new USB bus registered, assigned bus number 1
-uhci_hcd 0000:00:1d.0: detected 2 ports
-uhci_hcd 0000:00:1d.0: uhci_check_and_reset_hc: cmd = 0x0000
-uhci_hcd 0000:00:1d.0: Performing full reset
-uhci_hcd 0000:00:1d.0: supports USB remote wakeup
-uhci_hcd 0000:00:1d.0: irq 23, io base 0x00002080
-usb usb1: default language 0x0409
-usb usb1: uevent
-usb usb1: usb_probe_device
-usb usb1: configuration #1 chosen from 1 choice
-usb usb1: adding 1-0:1.0 (config #1, interface 0)
-usb 1-0:1.0: uevent
-hub 1-0:1.0: usb_probe_interface
-hub 1-0:1.0: usb_probe_interface - got id
-hub 1-0:1.0: USB hub found
-hub 1-0:1.0: 2 ports detected
-hub 1-0:1.0: standalone hub
-hub 1-0:1.0: no power switching (usb 1.0)
-hub 1-0:1.0: individual port over-current protection
-hub 1-0:1.0: power on to power good time: 2ms
-hub 1-0:1.0: local power source is good
-hub 1-0:1.0: trying to enable port power on non-switchable hub
-ehci_hcd: block sizes: qh 160 qtd 96 itd 192 sitd 96
-Floppy drive(s): fd0 is 1.44M
-e1000e: Intel(R) PRO/1000 Network Driver - 0.3.3.3-k2
-e1000e: Copyright (c) 1999-2008 Intel Corporation.
-FDC 0 is a post-1991 82077
-input: Power Button (FF) as /class/input/input1
-hub 1-0:1.0: state 7 ports 2 chg 0000 evt 0000
-drivers/usb/core/inode.c: creating file '001'
-usb usb1: New USB device found, idVendor=1d6b, idProduct=0001
-usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
-usb usb1: Product: UHCI Host Controller
-usb usb1: Manufacturer: Linux 2.6.27-rc5 uhci_hcd
-usb usb1: SerialNumber: 0000:00:1d.0
-uhci_hcd 0000:00:1d.1: PCI INT B -> GSI 19 (level, low) -> IRQ 19
-uhci_hcd 0000:00:1d.1: setting latency timer to 64
-uhci_hcd 0000:00:1d.1: UHCI Host Controller
-drivers/usb/core/inode.c: creating file '002'
-uhci_hcd 0000:00:1d.1: new USB bus registered, assigned bus number 2
-uhci_hcd 0000:00:1d.1: detected 2 ports
-uhci_hcd 0000:00:1d.1: uhci_check_and_reset_hc: cmd = 0x0000
-uhci_hcd 0000:00:1d.1: Performing full reset
-uhci_hcd 0000:00:1d.1: supports USB remote wakeup
-uhci_hcd 0000:00:1d.1: irq 19, io base 0x00002060
-usb usb2: default language 0x0409
-usb usb2: uevent
-usb usb2: usb_probe_device
-usb usb2: configuration #1 chosen from 1 choice
-usb usb2: adding 2-0:1.0 (config #1, interface 0)
-usb 2-0:1.0: uevent
-hub 2-0:1.0: usb_probe_interface
-hub 2-0:1.0: usb_probe_interface - got id
-hub 2-0:1.0: USB hub found
-hub 2-0:1.0: 2 ports detected
-hub 2-0:1.0: standalone hub
-hub 2-0:1.0: no power switching (usb 1.0)
-hub 2-0:1.0: individual port over-current protection
-hub 2-0:1.0: power on to power good time: 2ms
-hub 2-0:1.0: local power source is good
-hub 2-0:1.0: trying to enable port power on non-switchable hub
-iTCO_wdt: Intel TCO WatchDog Timer Driver v1.03 (30-Apr-2008)
-iTCO_wdt: Found a ICH7 or ICH7R TCO device (Version=2, TCOBASE=0x0460)
-iTCO_wdt: initialized. heartbeat=30 sec (nowayout=0)
-ACPI: Power Button (FF) [PWRF]
-input: Sleep Button (CM) as /class/input/input2
-Driver 'sr' needs updating - please use bus_type methods
-sr0: scsi3-mmc drive: 48x/48x writer dvd-ram cd/rw xa/form2 cdda tray
-Uniform CD-ROM driver Revision: 3.20
-sr 2:0:0:0: Attached scsi CD-ROM sr0
-ACPI: Sleep Button (CM) [SLPB]
-hub 2-0:1.0: state 7 ports 2 chg 0000 evt 0000
-drivers/usb/core/inode.c: creating file '001'
-usb usb2: New USB device found, idVendor=1d6b, idProduct=0001
-usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
-usb usb2: Product: UHCI Host Controller
-usb usb2: Manufacturer: Linux 2.6.27-rc5 uhci_hcd
-usb usb2: SerialNumber: 0000:00:1d.1
-agpgart-intel 0000:00:00.0: Intel 945G Chipset
-agpgart-intel 0000:00:00.0: detected 7932K stolen memory
-agpgart-intel 0000:00:00.0: AGP aperture is 256M @ 0x80000000
-uhci_hcd 0000:00:1d.2: PCI INT C -> GSI 18 (level, low) -> IRQ 18
-uhci_hcd 0000:00:1d.2: setting latency timer to 64
-uhci_hcd 0000:00:1d.2: UHCI Host Controller
-drivers/usb/core/inode.c: creating file '003'
-uhci_hcd 0000:00:1d.2: new USB bus registered, assigned bus number 3
-uhci_hcd 0000:00:1d.2: detected 2 ports
-uhci_hcd 0000:00:1d.2: uhci_check_and_reset_hc: cmd = 0x0000
-uhci_hcd 0000:00:1d.2: Performing full reset
-uhci_hcd 0000:00:1d.2: supports USB remote wakeup
-uhci_hcd 0000:00:1d.2: irq 18, io base 0x00002040
-usb usb3: default language 0x0409
-usb usb3: uevent
-usb usb3: usb_probe_device
-usb usb3: configuration #1 chosen from 1 choice
-usb usb3: adding 3-0:1.0 (config #1, interface 0)
-usb 3-0:1.0: uevent
-hub 3-0:1.0: usb_probe_interface
-hub 3-0:1.0: usb_probe_interface - got id
-hub 3-0:1.0: USB hub found
-hub 3-0:1.0: 2 ports detected
-hub 3-0:1.0: standalone hub
-hub 3-0:1.0: no power switching (usb 1.0)
-hub 3-0:1.0: individual port over-current protection
-hub 3-0:1.0: power on to power good time: 2ms
-hub 3-0:1.0: local power source is good
-hub 3-0:1.0: trying to enable port power on non-switchable hub
-sd 0:0:0:0: Attached scsi generic sg0 type 0
-sr 2:0:0:0: Attached scsi generic sg1 type 5
-pnp: the driver 'parport_pc' has been registered
-parport_pc 00:0a: reported by Plug and Play ACPI
-parport0: PC-style at 0x378 (0x778), irq 7, using FIFO [PCSPP,TRISTATE,COMPAT,ECP]
-intel_rng: Firmware space is locked read-only. If you can't or
-intel_rng: don't want to disable this in firmware setup, and if
-intel_rng: you are certain that your system has a functional
-intel_rng: RNG, try using the 'no_fwh_detect' option.
-uhci_hcd 0000:00:1d.2: port 1 portsc 01ab,00
-hub 3-0:1.0: port 1: status 0301 change 0003
-parport0: Printer, HEWLETT-PACKARD PHOTOSMART P1100
-parport_pc 00:0a: driver attached
-drivers/usb/core/inode.c: creating file '001'
-usb usb3: New USB device found, idVendor=1d6b, idProduct=0001
-usb usb3: New USB device strings: Mfr=3, Product=2, SerialNumber=1
-usb usb3: Product: UHCI Host Controller
-usb usb3: Manufacturer: Linux 2.6.27-rc5 uhci_hcd
-usb usb3: SerialNumber: 0000:00:1d.2
-uhci_hcd 0000:00:1d.3: PCI INT D -> GSI 16 (level, low) -> IRQ 16
-uhci_hcd 0000:00:1d.3: setting latency timer to 64
-uhci_hcd 0000:00:1d.3: UHCI Host Controller
-drivers/usb/core/inode.c: creating file '004'
-uhci_hcd 0000:00:1d.3: new USB bus registered, assigned bus number 4
-uhci_hcd 0000:00:1d.3: detected 2 ports
-uhci_hcd 0000:00:1d.3: uhci_check_and_reset_hc: cmd = 0x0000
-uhci_hcd 0000:00:1d.3: Performing full reset
-uhci_hcd 0000:00:1d.3: supports USB remote wakeup
-uhci_hcd 0000:00:1d.3: irq 16, io base 0x00002020
-usb usb4: default language 0x0409
-usb usb4: uevent
-usb usb4: usb_probe_device
-usb usb4: configuration #1 chosen from 1 choice
-usb usb4: adding 4-0:1.0 (config #1, interface 0)
-usb 4-0:1.0: uevent
-hub 4-0:1.0: usb_probe_interface
-hub 4-0:1.0: usb_probe_interface - got id
-hub 4-0:1.0: USB hub found
-hub 4-0:1.0: 2 ports detected
-hub 4-0:1.0: standalone hub
-hub 4-0:1.0: no power switching (usb 1.0)
-hub 4-0:1.0: individual port over-current protection
-hub 4-0:1.0: power on to power good time: 2ms
-hub 4-0:1.0: local power source is good
-hub 4-0:1.0: trying to enable port power on non-switchable hub
-hub 3-0:1.0: state 7 ports 2 chg 0002 evt 0000
-hub 3-0:1.0: port 1, status 0301, change 0000, 1.5 Mb/s
-uhci_hcd 0000:00:1d.3: port 1 portsc 01ab,00
-hub 4-0:1.0: port 1: status 0301 change 0003
-usb 3-1: new low speed USB device using uhci_hcd and address 2
-drivers/usb/core/inode.c: creating file '001'
-usb usb4: New USB device found, idVendor=1d6b, idProduct=0001
-usb usb4: New USB device strings: Mfr=3, Product=2, SerialNumber=1
-usb usb4: Product: UHCI Host Controller
-usb usb4: Manufacturer: Linux 2.6.27-rc5 uhci_hcd
-usb usb4: SerialNumber: 0000:00:1d.3
-HDA Intel 0000:00:1b.0: PCI INT A -> GSI 22 (level, low) -> IRQ 22
-HDA Intel 0000:00:1b.0: setting latency timer to 64
-usb 3-1: skipped 1 descriptor after interface
-usb 3-1: skipped 1 descriptor after interface
-usb 3-1: default language 0x0409
-ehci_hcd 0000:00:1d.7: PCI INT A -> GSI 23 (level, low) -> IRQ 23
-ehci_hcd 0000:00:1d.7: setting latency timer to 64
-ehci_hcd 0000:00:1d.7: EHCI Host Controller
-drivers/usb/core/inode.c: creating file '005'
-ehci_hcd 0000:00:1d.7: new USB bus registered, assigned bus number 5
-ehci_hcd 0000:00:1d.7: reset hcs_params 0x104208 dbg=1 cc=4 pcc=2 ordered !ppc ports=8
-ehci_hcd 0000:00:1d.7: reset hcc_params 6871 thresh 7 uframes 1024 64 bit addr
-ehci_hcd 0000:00:1d.7: reset command 080002 (park)=0 ithresh=8 period=1024 Reset HALT
-ehci_hcd 0000:00:1d.7: debug port 1
-ehci_hcd 0000:00:1d.7: cache line size of 128 is not supported
-ehci_hcd 0000:00:1d.7: supports USB remote wakeup
-ehci_hcd 0000:00:1d.7: irq 23, io mem 0x902c4400
-ehci_hcd 0000:00:1d.7: reset command 080002 (park)=0 ithresh=8 period=1024 Reset HALT
-ehci_hcd 0000:00:1d.7: init command 010001 (park)=0 ithresh=1 period=1024 RUN
-usb 3-1: uevent
-usb 3-1: usb_probe_device
-usb 3-1: configuration #1 chosen from 1 choice
-usb 3-1: uhci_result_common: failed with status 440000
-usb 3-1: can't set config #1, error -71
-drivers/usb/core/inode.c: creating file '002'
-usb 3-1: New USB device found, idVendor=05a4, idProduct=9841
-usb 3-1: New USB device strings: Mfr=0, Product=1, SerialNumber=0
-usb 3-1: Product: USB Compliant Keyboard
-hub 4-0:1.0: state 7 ports 2 chg 0002 evt 0000
-uhci_hcd 0000:00:1d.3: port 1 portsc 0082,00
-hub 4-0:1.0: port 1, status 0100, change 0001, 12 Mb/s
-ehci_hcd 0000:00:1d.7: USB 2.0 started, EHCI 1.00, driver 10 Dec 2004
-usb usb5: default language 0x0409
-usb usb5: uevent
-usb usb5: usb_probe_device
-usb usb5: configuration #1 chosen from 1 choice
-usb usb5: adding 5-0:1.0 (config #1, interface 0)
-usb 5-0:1.0: uevent
-hub 5-0:1.0: usb_probe_interface
-hub 5-0:1.0: usb_probe_interface - got id
-hub 5-0:1.0: USB hub found
-hub 5-0:1.0: 8 ports detected
-hub 5-0:1.0: standalone hub
-hub 5-0:1.0: no power switching (usb 1.0)
-hub 5-0:1.0: individual port over-current protection
-hub 5-0:1.0: power on to power good time: 20ms
-hub 5-0:1.0: local power source is good
-hub 5-0:1.0: trying to enable port power on non-switchable hub
-ehci_hcd 0000:00:1d.7: GetStatus port 5 status 001403 POWER sig=k CSC CONNECT
-hub 5-0:1.0: port 5: status 0501 change 0001
-ehci_hcd 0000:00:1d.7: GetStatus port 7 status 001403 POWER sig=k CSC CONNECT
-hub 5-0:1.0: port 7: status 0501 change 0001
-hub 4-0:1.0: debounce: port 1: total 100ms stable 100ms status 0x100
-drivers/usb/core/inode.c: creating file '001'
-usb usb5: New USB device found, idVendor=1d6b, idProduct=0002
-usb usb5: New USB device strings: Mfr=3, Product=2, SerialNumber=1
-usb usb5: Product: EHCI Host Controller
-usb usb5: Manufacturer: Linux 2.6.27-rc5 ehci_hcd
-usb usb5: SerialNumber: 0000:00:1d.7
-e1000e 0000:01:00.0: PCI INT A -> GSI 16 (level, low) -> IRQ 16
-e1000e 0000:01:00.0: setting latency timer to 64
-piix 0000:00:1f.1: IDE controller (0x8086:0x27df rev 0x01)
-PIIX_IDE 0000:00:1f.1: PCI INT A -> GSI 18 (level, low) -> IRQ 18
-piix 0000:00:1f.1: IDE port disabled
-piix 0000:00:1f.1: not 100% native mode: will probe irqs later
-    ide0: BM-DMA at 0x20b0-0x20b7
-Probing IDE interface ide0...
-hub 5-0:1.0: state 7 ports 8 chg 00a0 evt 0000
-hub 5-0:1.0: port 5, status 0501, change 0000, 480 Mb/s
-ehci_hcd 0000:00:1d.7: port 5 low speed --> companion
-e1000e 0000:01:00.0: Warning: detected DSPD enabled in EEPROM
-ehci_hcd 0000:00:1d.7: GetStatus port 5 status 003002 POWER OWNER sig=se0 CSC
-hub 5-0:1.0: port 7, status 0501, change 0000, 480 Mb/s
-ehci_hcd 0000:00:1d.7: port 7 low speed --> companion
-ehci_hcd 0000:00:1d.7: GetStatus port 7 status 003002 POWER OWNER sig=se0 CSC
-hub 5-0:1.0: state 7 ports 8 chg 0000 evt fe80
-hub 3-0:1.0: state 7 ports 2 chg 0000 evt 0002
-uhci_hcd 0000:00:1d.2: port 1 portsc 01ab,00
-hub 3-0:1.0: port 1, status 0301, change 0003, 1.5 Mb/s
-0000:01:00.0: eth0: (PCI Express:2.5GB/s:Width x1) 00:16:76:04:ff:09
-0000:01:00.0: eth0: Intel(R) PRO/1000 Network Connection
-0000:01:00.0: eth0: MAC: 2, PHY: 2, PBA No: ffffff-0ff
-hub 3-0:1.0: debounce: port 1: total 100ms stable 100ms status 0x301
-usb usb1: suspend_rh (auto-stop)
-usb usb2: suspend_rh (auto-stop)
-usb 3-1: reset low speed USB device using uhci_hcd and address 2
-hda: LITE-ON DVD SOHD-16P9SV, ATAPI CD/DVD-ROM drive
-hub 4-0:1.0: state 7 ports 2 chg 0000 evt 0002
-uhci_hcd 0000:00:1d.3: port 1 portsc 01a3,00
-hub 4-0:1.0: port 1, status 0301, change 0001, 1.5 Mb/s
-hub 4-0:1.0: debounce: port 1: total 100ms stable 100ms status 0x301
-usb 4-1: new low speed USB device using uhci_hcd and address 2
-usb 4-1: skipped 1 descriptor after interface
-usb 4-1: default language 0x0409
-usb 4-1: uevent
-usb 4-1: usb_probe_device
-usb 4-1: configuration #1 chosen from 1 choice
-usb 4-1: adding 4-1:1.0 (config #1, interface 0)
-usb 4-1:1.0: uevent
-drivers/usb/core/inode.c: creating file '002'
-usb 4-1: New USB device found, idVendor=046d, idProduct=c50d
-usb 4-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-usb 4-1: Product: USB Receiver
-usb 4-1: Manufacturer: Logitech
-usbcore: registered new interface driver hiddev
-usbhid 4-1:1.0: usb_probe_interface
-usbhid 4-1:1.0: usb_probe_interface - got id
-input: Logitech USB Receiver as /class/input/input3
-input: USB HID v1.10 Mouse [Logitech USB Receiver] on usb-0000:00:1d.3-1
-usbcore: registered new interface driver usbhid
-usbhid: v2.6:USB HID core driver
-hda: host max PIO4 wanted PIO255(auto-tune) selected PIO4
-hda: UDMA/33 mode selected
-ide0 at 0x1f0-0x1f7,0x3f6 on irq 14
-i801_smbus 0000:00:1f.3: PCI INT B -> GSI 19 (level, low) -> IRQ 19
-hub 1-0:1.0: hub_suspend
-usb usb1: bus auto-suspend
-usb usb1: suspend_rh
-hub 2-0:1.0: hub_suspend
-usb usb2: bus auto-suspend
-usb usb2: suspend_rh
-hda: ATAPI 48X DVD-ROM drive, 254kB Cache
-hub 5-0:1.0: hub_suspend
-usb usb5: bus auto-suspend
-ehci_hcd 0000:00:1d.7: suspend root hub
-Adding 979924k swap on /dev/sda6.  Priority:-1 extents:1 across:979924k
-EXT3 FS on dm-0, internal journal
-NET: Registered protocol family 10
-lo: Disabled Privacy Extensions
-i2c-adapter i2c-0: lm85: Detected SMSC chip
-i2c-adapter i2c-0: lm85: Unrecognized version/stepping 0x68 Defaulting to Generic LM85.
-fuse init (API version 7.9)
-kjournald starting.  Commit interval 5 seconds
-EXT3 FS on sda1, internal journal
-EXT3-fs: mounted filesystem with ordered data mode.
-kjournald starting.  Commit interval 5 seconds
-EXT3 FS on dm-2, internal journal
-EXT3-fs: mounted filesystem with ordered data mode.
-kjournald starting.  Commit interval 5 seconds
-EXT3 FS on dm-4, internal journal
-EXT3-fs: mounted filesystem with ordered data mode.
-kjournald starting.  Commit interval 5 seconds
-EXT3 FS on dm-1, internal journal
-EXT3-fs: mounted filesystem with ordered data mode.
-kjournald starting.  Commit interval 5 seconds
-EXT3 FS on dm-3, internal journal
-EXT3-fs: mounted filesystem with ordered data mode.
-kjournald starting.  Commit interval 5 seconds
-EXT3 FS on dm-7, internal journal
-EXT3-fs: mounted filesystem with ordered data mode.
-kjournald starting.  Commit interval 5 seconds
-EXT3 FS on dm-6, internal journal
-EXT3-fs: mounted filesystem with ordered data mode.
-kjournald starting.  Commit interval 5 seconds
-EXT3 FS on dm-5, internal journal
-EXT3-fs: mounted filesystem with ordered data mode.
-Bridge firewalling registered
-br0: Dropping NETIF_F_UFO since no NETIF_F_HW_CSUM feature.
-device eth0 entered promiscuous mode
-ADDRCONF(NETDEV_UP): eth0: link is not ready
-0000:01:00.0: eth0: Link is Up 100 Mbps Full Duplex, Flow Control: RX/TX
-0000:01:00.0: eth0: 10/100 speed: disabling TSO
-ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
-br0: port 1(eth0) entering learning state
-br0: topology change detected, propagating
-br0: port 1(eth0) entering forwarding state
-RPC: Registered udp transport module.
-RPC: Registered tcp transport module.
-br0: no IPv6 routers present
-lp0: using parport0 (interrupt-driven).
-ppdev: user-space parallel port driver
-eth0: no IPv6 routers present
-tun: Universal TUN/TAP device driver, 1.6
-tun: (C) 1999-2004 Max Krasnyansky <maxk-zC7DfRvBq/JWk0Htik3J/w@public.gmane.org>
-device vbox0 entered promiscuous mode
-br0: port 2(vbox0) entering learning state
-br0: topology change detected, propagating
-br0: port 2(vbox0) entering forwarding state
-[drm] Initialized drm 1.1.0 20060810
-pci 0000:00:02.0: PCI INT A -> GSI 16 (level, low) -> IRQ 16
-pci 0000:00:02.0: setting latency timer to 64
-[drm] Initialized i915 1.6.0 20060119 on minor 0
-uhci_hcd 0000:00:1d.3: reserve dev 2 ep81-INT, period 8, phase 4, 118 us
-uhci_hcd 0000:00:1d.3: release dev 2 ep81-INT, period 8, phase 4, 118 us
-uhci_hcd 0000:00:1d.3: reserve dev 2 ep81-INT, period 8, phase 4, 118 us
-vbox0: no IPv6 routers present
+applying sequence:
 
---Boundary-00=_7jWuI8r9hNYpVO6--
---
-To unsubscribe from this list: send the line "unsubscribe linux-usb" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+split_e820_reserve=.patch
+pci_res_print_out.patch
+split_e820_reserve_xx1.patch
+insert_resource_debug.patch
+pci_mmconf.patch
+
+please send out
+dmesg -s 262144 > x.txt
+cat /proc/iomem
+
+need to verify if we need quirk to clear that resource.
+
+YH
+
+------=_Part_16847_27709860.1220112308413
+Content-Type: text/x-patch; name=pci_mmconf.patch
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_fkif4jll0
+Content-Disposition: attachment; filename=pci_mmconf.patch
+
+RnJvbTogWWluZ2hhaSBMdSA8eWhsdS5rZXJuZWxAZ21haWwuY29tPgpTdWJqZWN0OiBbUEFUQ0hd
+IHg4NjogdW5pZnkgdXNpbmcgcGNpX21tY2ZnX2luc2VydF9yZXNvdXJjZQoKZXZlbiB3aXRoIGtu
+b3duX2JyaWRnZSBpbnNlcnQgdGhlbSBsYXRlIHRvby4KClNpZ25lZC1vZmYtYnk6IFlpbmdoYWkg
+THUgPHlobHUua2VybmVsQGdtYWlsLmNvbT4KCkluZGV4OiBsaW51eC0yLjYvYXJjaC94ODYvcGNp
+L21tY29uZmlnLXNoYXJlZC5jCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tIGxpbnV4LTIuNi5vcmlnL2FyY2gveDg2
+L3BjaS9tbWNvbmZpZy1zaGFyZWQuYworKysgbGludXgtMi42L2FyY2gveDg2L3BjaS9tbWNvbmZp
+Zy1zaGFyZWQuYwpAQCAtMjA5LDcgKzIwOSw3IEBAIHN0YXRpYyBpbnQgX19pbml0IHBjaV9tbWNm
+Z19jaGVja19ob3N0YnIKIAlyZXR1cm4gbmFtZSAhPSBOVUxMOwogfQogCi1zdGF0aWMgdm9pZCBf
+X2luaXQgcGNpX21tY2ZnX2luc2VydF9yZXNvdXJjZXModW5zaWduZWQgbG9uZyByZXNvdXJjZV9m
+bGFncykKK3N0YXRpYyB2b2lkIF9faW5pdCBwY2lfbW1jZmdfaW5zZXJ0X3Jlc291cmNlcyh2b2lk
+KQogewogI2RlZmluZSBQQ0lfTU1DRkdfUkVTT1VSQ0VfTkFNRV9MRU4gMTkKIAlpbnQgaTsKQEAg
+LTIzMyw3ICsyMzMsNyBAQCBzdGF0aWMgdm9pZCBfX2luaXQgcGNpX21tY2ZnX2luc2VydF9yZXNv
+CiAJCQkgY2ZnLT5wY2lfc2VnbWVudCk7CiAJCXJlcy0+c3RhcnQgPSBjZmctPmFkZHJlc3M7CiAJ
+CXJlcy0+ZW5kID0gcmVzLT5zdGFydCArIChudW1fYnVzZXMgPDwgMjApIC0gMTsKLQkJcmVzLT5m
+bGFncyA9IElPUkVTT1VSQ0VfTUVNIHwgcmVzb3VyY2VfZmxhZ3M7CisJCXJlcy0+ZmxhZ3MgPSBJ
+T1JFU09VUkNFX01FTSB8IElPUkVTT1VSQ0VfQlVTWTsKIAkJaW5zZXJ0X3Jlc291cmNlKCZpb21l
+bV9yZXNvdXJjZSwgcmVzKTsKIAkJbmFtZXMgKz0gUENJX01NQ0ZHX1JFU09VUkNFX05BTUVfTEVO
+OwogCX0KQEAgLTQzNCwxMSArNDM0LDkgQEAgc3RhdGljIHZvaWQgX19pbml0IF9fcGNpX21tY2Zn
+X2luaXQoaW50CiAJICAgIChwY2lfbW1jZmdfY29uZmlnWzBdLmFkZHJlc3MgPT0gMCkpCiAJCXJl
+dHVybjsKIAotCWlmIChwY2lfbW1jZmdfYXJjaF9pbml0KCkpIHsKLQkJaWYgKGtub3duX2JyaWRn
+ZSkKLQkJCXBjaV9tbWNmZ19pbnNlcnRfcmVzb3VyY2VzKElPUkVTT1VSQ0VfQlVTWSk7CisJaWYg
+KHBjaV9tbWNmZ19hcmNoX2luaXQoKSkKIAkJcGNpX3Byb2JlID0gKHBjaV9wcm9iZSAmIH5QQ0lf
+UFJPQkVfTUFTSykgfCBQQ0lfUFJPQkVfTU1DT05GOwotCX0gZWxzZSB7CisJZWxzZSB7CiAJCS8q
+CiAJCSAqIFNpZ25hbCBub3QgdG8gYXR0ZW1wdCB0byBpbnNlcnQgbW1jZmcgcmVzb3VyY2VzIGJl
+Y2F1c2UKIAkJICogdGhlIGFyY2hpdGVjdHVyZSBtbWNmZyBzZXR1cCBjb3VsZCBub3QgaW5pdGlh
+bGl6ZS4KQEAgLTQ3NSw3ICs0NzMsNyBAQCBzdGF0aWMgaW50IF9faW5pdCBwY2lfbW1jZmdfbGF0
+ZV9pbnNlcnRfCiAJICogbWFya2VkIHNvIGl0IHdvbid0IGNhdXNlIHJlcXVlc3QgZXJyb3JzIHdo
+ZW4gX19yZXF1ZXN0X3JlZ2lvbiBpcwogCSAqIGNhbGxlZC4KIAkgKi8KLQlwY2lfbW1jZmdfaW5z
+ZXJ0X3Jlc291cmNlcygwKTsKKwlwY2lfbW1jZmdfaW5zZXJ0X3Jlc291cmNlcygpOwogCiAJcmV0
+dXJuIDA7CiB9Cg==
+------=_Part_16847_27709860.1220112308413
+Content-Type: text/x-patch; name=pci_res_print_out.patch
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_fkif4vdh1
+Content-Disposition: attachment; filename=pci_res_print_out.patch
+
+RnJvbTogWWluZ2hhaSBMdSA8eWhsdS5rZXJuZWxAZ21haWwuY29tPgpTdWJqZWN0OiBbUEFUQ0hd
+IHBjaTogZml4IG1lcmdpbmcgbGVmdCBvdXQgZm9yIEJBUiBwcmludCBvdXQKCnByaW50IG91dCBm
+b3IgRGV2aWNlIEJBUiBhZGRyZXNzIGJlZm9yZSBrZXJuZWwgdHJ5IHRvIHVwZGF0ZSB0aGVtLgoK
+YWxzbyBjaGFuZ2UgaXQgdG8gS0VSTl9ERUJVRyBpbnN0ZWFkLi4uCgpTaWduZWQtb2ZmLWJ5OiBZ
+aW5naGFpIEx1IDx5aGx1Lmtlcm5lbEBnbWFpbC5jb20+CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9w
+Y2kvcHJvYmUuYyBiL2RyaXZlcnMvcGNpL3Byb2JlLmMKaW5kZXggY2NlMmY0Yy4uNGVlMDZjMyAx
+MDA2NDQKLS0tIGEvZHJpdmVycy9wY2kvcHJvYmUuYworKysgYi9kcml2ZXJzL3BjaS9wcm9iZS5j
+CkBAIC0zMDQsNiArMzA0LDggQEAgc3RhdGljIGludCBfX3BjaV9yZWFkX2Jhc2Uoc3RydWN0IHBj
+aV9kZXYgKmRldiwgZW51bSBwY2lfYmFyX3R5cGUgdHlwZSwKIAkJfSBlbHNlIHsKIAkJCXJlcy0+
+c3RhcnQgPSBsNjQ7CiAJCQlyZXMtPmVuZCA9IGw2NCArIHN6NjQ7CisJCQlwcmludGsoS0VSTl9E
+RUJVRyAiUENJOiAlcyByZWcgJXggNjRiaXQgbW1pbzogWyVsbHgsICVsbHhdXG4iLAorCQkJCSBw
+Y2lfbmFtZShkZXYpLCBwb3MsIHJlcy0+c3RhcnQsIHJlcy0+ZW5kKTsKIAkJfQogCX0gZWxzZSB7
+CiAJCXN6ID0gcGNpX3NpemUobCwgc3osIG1hc2spOwpAQCAtMzEzLDYgKzMxNSwxMCBAQCBzdGF0
+aWMgaW50IF9fcGNpX3JlYWRfYmFzZShzdHJ1Y3QgcGNpX2RldiAqZGV2LCBlbnVtIHBjaV9iYXJf
+dHlwZSB0eXBlLAogCiAJCXJlcy0+c3RhcnQgPSBsOwogCQlyZXMtPmVuZCA9IGwgKyBzejsKKwkJ
+cHJpbnRrKEtFUk5fREVCVUcgIlBDSTogJXMgcmVnICV4ICVzOiBbJWxseCwgJWxseF1cbiIsIHBj
+aV9uYW1lKGRldiksCisJCQkgcG9zLCAocmVzLT5mbGFncyAmIElPUkVTT1VSQ0VfSU8pID8gImlv
+IHBvcnQiOiIzMmJpdCBtbWlvIiwKKwkJCSByZXMtPnN0YXJ0LCByZXMtPmVuZCk7CisKIAl9CiAK
+ICBvdXQ6CkBAIC0zODMsNyArMzg5LDcgQEAgdm9pZCBfX2RldmluaXQgcGNpX3JlYWRfYnJpZGdl
+X2Jhc2VzKHN0cnVjdCBwY2lfYnVzICpjaGlsZCkKIAkJCXJlcy0+c3RhcnQgPSBiYXNlOwogCQlp
+ZiAoIXJlcy0+ZW5kKQogCQkJcmVzLT5lbmQgPSBsaW1pdCArIDB4ZmZmOwotCQlwcmludGsoS0VS
+Tl9JTkZPICJQQ0k6IGJyaWRnZSAlcyBpbyBwb3J0OiBbJWxseCwgJWxseF1cbiIsIHBjaV9uYW1l
+KGRldiksIHJlcy0+c3RhcnQsIHJlcy0+ZW5kKTsKKwkJcHJpbnRrKEtFUk5fREVCVUcgIlBDSTog
+YnJpZGdlICVzIGlvIHBvcnQ6IFslbGx4LCAlbGx4XVxuIiwgcGNpX25hbWUoZGV2KSwgcmVzLT5z
+dGFydCwgcmVzLT5lbmQpOwogCX0KIAogCXJlcyA9IGNoaWxkLT5yZXNvdXJjZVsxXTsKQEAgLTM5
+NSw3ICs0MDEsNyBAQCB2b2lkIF9fZGV2aW5pdCBwY2lfcmVhZF9icmlkZ2VfYmFzZXMoc3RydWN0
+IHBjaV9idXMgKmNoaWxkKQogCQlyZXMtPmZsYWdzID0gKG1lbV9iYXNlX2xvICYgUENJX01FTU9S
+WV9SQU5HRV9UWVBFX01BU0spIHwgSU9SRVNPVVJDRV9NRU07CiAJCXJlcy0+c3RhcnQgPSBiYXNl
+OwogCQlyZXMtPmVuZCA9IGxpbWl0ICsgMHhmZmZmZjsKLQkJcHJpbnRrKEtFUk5fSU5GTyAiUENJ
+OiBicmlkZ2UgJXMgMzJiaXQgbW1pbzogWyVsbHgsICVsbHhdXG4iLCBwY2lfbmFtZShkZXYpLCBy
+ZXMtPnN0YXJ0LCByZXMtPmVuZCk7CisJCXByaW50ayhLRVJOX0RFQlVHICJQQ0k6IGJyaWRnZSAl
+cyAzMmJpdCBtbWlvOiBbJWxseCwgJWxseF1cbiIsIHBjaV9uYW1lKGRldiksIHJlcy0+c3RhcnQs
+IHJlcy0+ZW5kKTsKIAl9CiAKIAlyZXMgPSBjaGlsZC0+cmVzb3VyY2VbMl07CkBAIC00MzEsNyAr
+NDM3LDcgQEAgdm9pZCBfX2RldmluaXQgcGNpX3JlYWRfYnJpZGdlX2Jhc2VzKHN0cnVjdCBwY2lf
+YnVzICpjaGlsZCkKIAkJcmVzLT5mbGFncyA9IChtZW1fYmFzZV9sbyAmIFBDSV9NRU1PUllfUkFO
+R0VfVFlQRV9NQVNLKSB8IElPUkVTT1VSQ0VfTUVNIHwgSU9SRVNPVVJDRV9QUkVGRVRDSDsKIAkJ
+cmVzLT5zdGFydCA9IGJhc2U7CiAJCXJlcy0+ZW5kID0gbGltaXQgKyAweGZmZmZmOwotCQlwcmlu
+dGsoS0VSTl9JTkZPICJQQ0k6IGJyaWRnZSAlcyAlc2JpdCBtbWlvIHByZWY6IFslbGx4LCAlbGx4
+XVxuIiwgcGNpX25hbWUoZGV2KSwgKHJlcy0+ZmxhZ3MgJiBQQ0lfUFJFRl9SQU5HRV9UWVBFXzY0
+KT8iNjQiOiIzMiIscmVzLT5zdGFydCwgcmVzLT5lbmQpOworCQlwcmludGsoS0VSTl9ERUJVRyAi
+UENJOiBicmlkZ2UgJXMgJXNiaXQgbW1pbyBwcmVmOiBbJWxseCwgJWxseF1cbiIsIHBjaV9uYW1l
+KGRldiksIChyZXMtPmZsYWdzICYgUENJX1BSRUZfUkFOR0VfVFlQRV82NCk/IjY0IjoiMzIiLHJl
+cy0+c3RhcnQsIHJlcy0+ZW5kKTsKIAl9CiB9CiAK
+------=_Part_16847_27709860.1220112308413
+Content-Type: text/x-patch; name=split_e820_reserve.patch
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_fkif502x2
+Content-Disposition: attachment; filename=split_e820_reserve.patch
+
+RnJvbTogWWluZ2hhaSBMdSA8eWhsdS5rZXJuZWxAZ21haWwuY29tPgpTdWJqZWN0OiBbUEFUQ0hd
+IHg4Njogc3BsaXQgZTgyMCByZXNlcnZlZCBlbnRyaWVzIHJlY29yZCB0byBsYXRlIHY0CgpMaW51
+cyBzYWlkIHdlIHNob3VsZCByZWdpc3RlciBzb21lIGVudHJpZXMgaW4gZTgyMCBsYXRlciwKc28g
+Y291bGQgbGV0IEJBUiByZXMgcmVnaXN0ZXIgYXQgZmlyc3QsIG9yIGV2ZW4gcG5wPwoKdGhpcyBv
+bmUgcmVwbGFjZQp8IGNvbW1pdCBhMmJkNzI3NGI0NzEyNGQyZmM0ZGZkYjhjMDU5MWY1NDViYTc0
+OWRkCnwgQXV0aG9yOiBZaW5naGFpIEx1IDx5aGx1Lmtlcm5lbEBnbWFpbC5jb20+CnwgRGF0ZTog
+ICBNb24gQXVnIDI1IDAwOjU2OjA4IDIwMDggLTA3MDAKfAp8ICAgIHg4NjogZml4IEhQRVQgcmVn
+cmVzc2lvbiBpbiAyLjYuMjYgdmVyc3VzIDIuNi4yNSwgY2hlY2sgaHBldCBhZ2FpbnN0IEJBUiwg
+djMKCnYyOiBpbnNlcnQgZTgyMCByZXNlcnZlIHJlc291cmNlcyBiZWZvcmUgcG5wX3N5c3RlbV9p
+bml0CnYzOiBmaXggbWVyZ2luZyBwcm9ibGVtIGluIHRpcC94ODYvY29yZQogICAgcGxlYXNlIGRy
+b3AgdGhlIG9uZSBpbiB0aXAveDg2L2NvcmUgdXNlIHRoaXMgb25lIGluc3RlYWQKdjQ6IGFkZHJl
+c3MgTGludXMncyByZXZpZXcgYWJvdXQgY29tbWVudHMgYW5kIGNvbmRpdGlvbiBpbiBfbGF0ZSgp
+CgpTaWduZWQtb2ZmLWJ5OiBZaW5naGFpIEx1IDx5aGx1Lmtlcm5lbEBnbWFpbC5jb20+CgotLS0K
+IGFyY2gveDg2L2tlcm5lbC9lODIwLmMgfCAgIDI0ICsrKysrKysrKysrKysrKysrKysrKysrLQog
+YXJjaC94ODYvcGNpL2kzODYuYyAgICB8ICAgIDMgKysrCiBpbmNsdWRlL2FzbS14ODYvZTgyMC5o
+IHwgICAgMSArCiAzIGZpbGVzIGNoYW5nZWQsIDI3IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24o
+LSkKCkluZGV4OiBsaW51eC0yLjYvYXJjaC94ODYva2VybmVsL2U4MjAuYwo9PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0t
+LSBsaW51eC0yLjYub3JpZy9hcmNoL3g4Ni9rZXJuZWwvZTgyMC5jCisrKyBsaW51eC0yLjYvYXJj
+aC94ODYva2VybmVsL2U4MjAuYwpAQCAtMTI3MSw2ICsxMjcxLDcgQEAgc3RhdGljIGlubGluZSBj
+b25zdCBjaGFyICplODIwX3R5cGVfdG9fcwogLyoKICAqIE1hcmsgZTgyMCByZXNlcnZlZCBhcmVh
+cyBhcyBidXN5IGZvciB0aGUgcmVzb3VyY2UgbWFuYWdlci4KICAqLworc3RhdGljIHN0cnVjdCBy
+ZXNvdXJjZSBfX2luaXRkYXRhICplODIwX3JlczsKIHZvaWQgX19pbml0IGU4MjBfcmVzZXJ2ZV9y
+ZXNvdXJjZXModm9pZCkKIHsKIAlpbnQgaTsKQEAgLTEyNzgsNiArMTI3OSw3IEBAIHZvaWQgX19p
+bml0IGU4MjBfcmVzZXJ2ZV9yZXNvdXJjZXModm9pZCkKIAl1NjQgZW5kOwogCiAJcmVzID0gYWxs
+b2NfYm9vdG1lbV9sb3coc2l6ZW9mKHN0cnVjdCByZXNvdXJjZSkgKiBlODIwLm5yX21hcCk7CisJ
+ZTgyMF9yZXMgPSByZXM7CiAJZm9yIChpID0gMDsgaSA8IGU4MjAubnJfbWFwOyBpKyspIHsKIAkJ
+ZW5kID0gZTgyMC5tYXBbaV0uYWRkciArIGU4MjAubWFwW2ldLnNpemUgLSAxOwogI2lmbmRlZiBD
+T05GSUdfUkVTT1VSQ0VTXzY0QklUCkBAIC0xMjkxLDcgKzEyOTMsMTQgQEAgdm9pZCBfX2luaXQg
+ZTgyMF9yZXNlcnZlX3Jlc291cmNlcyh2b2lkKQogCQlyZXMtPmVuZCA9IGVuZDsKIAogCQlyZXMt
+PmZsYWdzID0gSU9SRVNPVVJDRV9NRU0gfCBJT1JFU09VUkNFX0JVU1k7Ci0JCWluc2VydF9yZXNv
+dXJjZSgmaW9tZW1fcmVzb3VyY2UsIHJlcyk7CisKKwkJLyoKKwkJICogZG9uJ3QgcmVnaXN0ZXIg
+dGhlIHJlZ2lvbiB0aGF0IGNvdWxkIGJlIGNvbmZsaWN0ZWQgd2l0aAorCQkgKiBwY2kgZGV2aWNl
+IEJBUiByZXNvdXJjZSBhbmQgaW5zZXJ0IHRoZW0gbGF0ZXIgaW4KKwkJICogcGNpYmlvc19yZXNv
+dXJjZV9zdXJ2ZXkoKQorCQkgKi8KKwkJaWYgKGU4MjAubWFwW2ldLnR5cGUgIT0gRTgyMF9SRVNF
+UlZFRCB8fCByZXMtPnN0YXJ0IDwgKDFVTEw8PDIwKSkKKwkJCWluc2VydF9yZXNvdXJjZSgmaW9t
+ZW1fcmVzb3VyY2UsIHJlcyk7CiAJCXJlcysrOwogCX0KIApAQCAtMTMwMyw2ICsxMzEyLDE5IEBA
+IHZvaWQgX19pbml0IGU4MjBfcmVzZXJ2ZV9yZXNvdXJjZXModm9pZCkKIAl9CiB9CiAKK3ZvaWQg
+X19pbml0IGU4MjBfcmVzZXJ2ZV9yZXNvdXJjZXNfbGF0ZSh2b2lkKQoreworCWludCBpOworCXN0
+cnVjdCByZXNvdXJjZSAqcmVzOworCisJcmVzID0gZTgyMF9yZXM7CisJZm9yIChpID0gMDsgaSA8
+IGU4MjAubnJfbWFwOyBpKyspIHsKKwkJaWYgKCFyZXMtPnBhcmVudCAmJiByZXMtPmVuZCkKKwkJ
+CWluc2VydF9yZXNvdXJjZSgmaW9tZW1fcmVzb3VyY2UsIHJlcyk7CisJCXJlcysrOworCX0KK30K
+KwogY2hhciAqX19pbml0IGRlZmF1bHRfbWFjaGluZV9zcGVjaWZpY19tZW1vcnlfc2V0dXAodm9p
+ZCkKIHsKIAljaGFyICp3aG8gPSAiQklPUy1lODIwIjsKSW5kZXg6IGxpbnV4LTIuNi9hcmNoL3g4
+Ni9wY2kvaTM4Ni5jCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT0KLS0tIGxpbnV4LTIuNi5vcmlnL2FyY2gveDg2L3BjaS9p
+Mzg2LmMKKysrIGxpbnV4LTIuNi9hcmNoL3g4Ni9wY2kvaTM4Ni5jCkBAIC0zMyw2ICszMyw3IEBA
+CiAjaW5jbHVkZSA8bGludXgvYm9vdG1lbS5oPgogCiAjaW5jbHVkZSA8YXNtL3BhdC5oPgorI2lu
+Y2x1ZGUgPGFzbS9lODIwLmg+CiAKICNpbmNsdWRlICJwY2kuaCIKIApAQCAtMjMwLDYgKzIzMSw4
+IEBAIHZvaWQgX19pbml0IHBjaWJpb3NfcmVzb3VyY2Vfc3VydmV5KHZvaWQKIAlwY2liaW9zX2Fs
+bG9jYXRlX2J1c19yZXNvdXJjZXMoJnBjaV9yb290X2J1c2VzKTsKIAlwY2liaW9zX2FsbG9jYXRl
+X3Jlc291cmNlcygwKTsKIAlwY2liaW9zX2FsbG9jYXRlX3Jlc291cmNlcygxKTsKKworCWU4MjBf
+cmVzZXJ2ZV9yZXNvdXJjZXNfbGF0ZSgpOwogfQogCiAvKioKSW5kZXg6IGxpbnV4LTIuNi9pbmNs
+dWRlL2FzbS14ODYvZTgyMC5oCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tIGxpbnV4LTIuNi5vcmlnL2luY2x1ZGUv
+YXNtLXg4Ni9lODIwLmgKKysrIGxpbnV4LTIuNi9pbmNsdWRlL2FzbS14ODYvZTgyMC5oCkBAIC0x
+MjIsNiArMTIyLDcgQEAgZXh0ZXJuIHZvaWQgZTgyMF9yZWdpc3Rlcl9hY3RpdmVfcmVnaW9ucwog
+ZXh0ZXJuIHU2NCBlODIwX2hvbGVfc2l6ZSh1NjQgc3RhcnQsIHU2NCBlbmQpOwogZXh0ZXJuIHZv
+aWQgZmluaXNoX2U4MjBfcGFyc2luZyh2b2lkKTsKIGV4dGVybiB2b2lkIGU4MjBfcmVzZXJ2ZV9y
+ZXNvdXJjZXModm9pZCk7CitleHRlcm4gdm9pZCBlODIwX3Jlc2VydmVfcmVzb3VyY2VzX2xhdGUo
+dm9pZCk7CiBleHRlcm4gdm9pZCBzZXR1cF9tZW1vcnlfbWFwKHZvaWQpOwogZXh0ZXJuIGNoYXIg
+KmRlZmF1bHRfbWFjaGluZV9zcGVjaWZpY19tZW1vcnlfc2V0dXAodm9pZCk7CiBleHRlcm4gY2hh
+ciAqbWFjaGluZV9zcGVjaWZpY19tZW1vcnlfc2V0dXAodm9pZCk7Cg==
+------=_Part_16847_27709860.1220112308413
+Content-Type: text/x-patch; name=split_e820_reserve_xx1.patch
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_fkif55993
+Content-Disposition: attachment; filename=split_e820_reserve_xx1.patch
+
+RnJvbTogWWluZ2hhaSBMdSA8eWhsdS5rZXJuZWxAZ21haWwuY29tPgpTdWJqZWN0OiBbUEFUQ0hd
+IHg4Njogc3BsaXQgZTgyMCByZXNlcnZlZCBlbnRyaWVzIHJlY29yZCB0byBsYXRlIHY0IC0gZml4
+IHYzCgp0cnkgdG8gaW5zZXJ0X3Jlc291cmNlIHNlY29uZCB0aW1lLCBieSBleHBhbmQgdGhlIHJl
+c291cmNlLi4uCgpmb3IgY2FzZTogZTgyMCByZXNlcnZlZCBlbnRyeSBpcyBwYXJ0aWFsbHkgb3Zl
+cmxhcHBlZCB3aXRoIGJhciByZXMuLi4KCmhvcGUgaXQgd2lsbCBuZXZlciBoYXBwZW4KCnYyOiBh
+Y2NvcmRpbmcgdG8gTGludXMsIGFkZCBpbnNlcnRfcmVzb3VyY2VfZXhwYW5kX3RvX2ZpdCwgYW5k
+IGNoYW5nZQoJX19pbnNlcnRfcmVzb3VyY2UgdG8gc3RhdGljIHdpdGhvdXQgbG9jawoKdjM6IHVz
+ZSByZXNlcnZlX3JlZ2lvbl93aXRoX3NwbGl0KCkgaW5zdGVhZCB0byBoYW5kIG92ZXJsYXBwaW5n
+Cgl3aXRoIHRlc3QgY2FzZSBieSBleHRlbmQgMHhlMDAwMDAwMCAtIDB4ZWZmZmZmZiB0byAweGRk
+ODAwMDAwIC0KCWdldAoJCWUwMDAwMDAwLWVmZmZmZmZmIDogUENJIE1NQ09ORklHIDAKCQkJIGUw
+MDAwMDAwLWVmZmZmZmZmIDogcmVzZXJ2ZWQKCWluIC9wcm9jL2lvbWVtCglnZXQKCQlmb3VuZCBj
+b25mbGljdCBmb3IgcmVzZXJ2ZWQgW2RkODAwMDAwLCBlZmZmZmZmZl0sIHRyeSB0byByZXNlcnZl
+IHdpdGggc3BsaXQKCQkgICAgX19yZXNlcnZlX3JlZ2lvbl93aXRoX3NwbGl0OiAoUENJIEJ1cyAj
+ODApIFtkZDAwMDAwMCwgZGRmZmZmZmZdLCByZXM6IChyZXNlcnZlZCkgW2RkODAwMDAwLCBlZmZm
+ZmZmZl0KCQkgICAgX19yZXNlcnZlX3JlZ2lvbl93aXRoX3NwbGl0OiAoUENJIEJ1cyAjMDApIFtk
+ZTAwMDAwMCwgZGZmZmZmZmZdLCByZXM6IChyZXNlcnZlZCkgW2RlMDAwMDAwLCBlZmZmZmZmZl0K
+CQlpbml0Y2FsbCBwY2lfc3Vic3lzX2luaXQrMHgwLzB4MTIxIHJldHVybmVkIDAgYWZ0ZXIgMzgx
+IG1zZWNzCglpbiBkbWVzZwoKU2lnbmVkLW9mZi1ieTogWWluZ2hhaSBMdSA8eWhsdS5rZXJuZWxA
+Z21haWwuY29tPgoKLS0tCiBhcmNoL3g4Ni9rZXJuZWwvZTgyMC5jIHwgICAgOCArKystCiBpbmNs
+dWRlL2xpbnV4L2lvcG9ydC5oIHwgICAgMyArCiBrZXJuZWwvcmVzb3VyY2UuYyAgICAgIHwgICA5
+NSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tCiAzIGZp
+bGVzIGNoYW5nZWQsIDkyIGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQoKSW5kZXg6IGxp
+bnV4LTIuNi9hcmNoL3g4Ni9rZXJuZWwvZTgyMC5jCj09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tIGxpbnV4LTIuNi5v
+cmlnL2FyY2gveDg2L2tlcm5lbC9lODIwLmMKKysrIGxpbnV4LTIuNi9hcmNoL3g4Ni9rZXJuZWwv
+ZTgyMC5jCkBAIC0xMzE5LDggKzEzMTksMTIgQEAgdm9pZCBfX2luaXQgZTgyMF9yZXNlcnZlX3Jl
+c291cmNlc19sYXRlKAogCiAJcmVzID0gZTgyMF9yZXM7CiAJZm9yIChpID0gMDsgaSA8IGU4MjAu
+bnJfbWFwOyBpKyspIHsKLQkJaWYgKCFyZXMtPnBhcmVudCAmJiByZXMtPmVuZCkKLQkJCWluc2Vy
+dF9yZXNvdXJjZSgmaW9tZW1fcmVzb3VyY2UsIHJlcyk7CisJCWlmICghcmVzLT5wYXJlbnQgJiYg
+cmVzLT5lbmQgJiYgaW5zZXJ0X3Jlc291cmNlKCZpb21lbV9yZXNvdXJjZSwgcmVzKSkgeworCQkJ
+cHJpbnRrKEtFUk5fV0FSTklORyAiZm91bmQgY29uZmxpY3QgZm9yICVzIFslMDhsbHgsICUwOGxs
+eF0sIHRyeSB0byByZXNlcnZlIHdpdGggc3BsaXRcbiIsCisJCQkJcmVzLT5uYW1lLCByZXMtPnN0
+YXJ0LCByZXMtPmVuZCk7CisKKwkJCXJlc2VydmVfcmVnaW9uX3dpdGhfc3BsaXQoJmlvbWVtX3Jl
+c291cmNlLCByZXMtPnN0YXJ0LCByZXMtPmVuZCwgcmVzLT5uYW1lKTsKKwkJfQogCQlyZXMrKzsK
+IAl9CiB9CkluZGV4OiBsaW51eC0yLjYvaW5jbHVkZS9saW51eC9pb3BvcnQuaAo9PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+Ci0tLSBsaW51eC0yLjYub3JpZy9pbmNsdWRlL2xpbnV4L2lvcG9ydC5oCisrKyBsaW51eC0yLjYv
+aW5jbHVkZS9saW51eC9pb3BvcnQuaApAQCAtMTA4LDYgKzEwOCw5IEBAIGV4dGVybiBzdHJ1Y3Qg
+cmVzb3VyY2UgaW9tZW1fcmVzb3VyY2U7CiAKIGV4dGVybiBpbnQgcmVxdWVzdF9yZXNvdXJjZShz
+dHJ1Y3QgcmVzb3VyY2UgKnJvb3QsIHN0cnVjdCByZXNvdXJjZSAqbmV3KTsKIGV4dGVybiBpbnQg
+cmVsZWFzZV9yZXNvdXJjZShzdHJ1Y3QgcmVzb3VyY2UgKm5ldyk7CitleHRlcm4gdm9pZCByZXNl
+cnZlX3JlZ2lvbl93aXRoX3NwbGl0KHN0cnVjdCByZXNvdXJjZSAqcm9vdCwKKwkJCSAgICAgcmVz
+b3VyY2Vfc2l6ZV90IHN0YXJ0LCByZXNvdXJjZV9zaXplX3QgZW5kLAorCQkJICAgICBjb25zdCBj
+aGFyICpuYW1lKTsKIGV4dGVybiBpbnQgaW5zZXJ0X3Jlc291cmNlKHN0cnVjdCByZXNvdXJjZSAq
+cGFyZW50LCBzdHJ1Y3QgcmVzb3VyY2UgKm5ldyk7CiBleHRlcm4gaW50IGFsbG9jYXRlX3Jlc291
+cmNlKHN0cnVjdCByZXNvdXJjZSAqcm9vdCwgc3RydWN0IHJlc291cmNlICpuZXcsCiAJCQkgICAg
+IHJlc291cmNlX3NpemVfdCBzaXplLCByZXNvdXJjZV9zaXplX3QgbWluLApJbmRleDogbGludXgt
+Mi42L2tlcm5lbC9yZXNvdXJjZS5jCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tIGxpbnV4LTIuNi5vcmlnL2tlcm5l
+bC9yZXNvdXJjZS5jCisrKyBsaW51eC0yLjYva2VybmVsL3Jlc291cmNlLmMKQEAgLTM2MywzMiAr
+MzYzLDMwIEBAIGludCBhbGxvY2F0ZV9yZXNvdXJjZShzdHJ1Y3QgcmVzb3VyY2UgKnIKIEVYUE9S
+VF9TWU1CT0woYWxsb2NhdGVfcmVzb3VyY2UpOwogCiAvKioKLSAqIGluc2VydF9yZXNvdXJjZSAt
+IEluc2VydHMgYSByZXNvdXJjZSBpbiB0aGUgcmVzb3VyY2UgdHJlZQorICogX19pbnNlcnRfcmVz
+b3VyY2UgLSBJbnNlcnRzIGEgcmVzb3VyY2UgaW4gdGhlIHJlc291cmNlIHRyZWUKICAqIEBwYXJl
+bnQ6IHBhcmVudCBvZiB0aGUgbmV3IHJlc291cmNlCiAgKiBAbmV3OiBuZXcgcmVzb3VyY2UgdG8g
+aW5zZXJ0CiAgKgotICogUmV0dXJucyAwIG9uIHN1Y2Nlc3MsIC1FQlVTWSBpZiB0aGUgcmVzb3Vy
+Y2UgY2FuJ3QgYmUgaW5zZXJ0ZWQuCisgKiBSZXR1cm5zIE5VTEwgb24gc3VjY2Vzcywgb3IgZmly
+c3QgY29uZmxpY3QgcmVzb3VyY2UuCiAgKgotICogVGhpcyBmdW5jdGlvbiBpcyBlcXVpdmFsZW50
+IHRvIHJlcXVlc3RfcmVzb3VyY2Ugd2hlbiBubyBjb25mbGljdAorICogVGhpcyBmdW5jdGlvbiBp
+cyBlcXVpdmFsZW50IHRvIF9fcmVxdWVzdF9yZXNvdXJjZSB3aGVuIG5vIGNvbmZsaWN0CiAgKiBo
+YXBwZW5zLiBJZiBhIGNvbmZsaWN0IGhhcHBlbnMsIGFuZCB0aGUgY29uZmxpY3RpbmcgcmVzb3Vy
+Y2VzCiAgKiBlbnRpcmVseSBmaXQgd2l0aGluIHRoZSByYW5nZSBvZiB0aGUgbmV3IHJlc291cmNl
+LCB0aGVuIHRoZSBuZXcKICAqIHJlc291cmNlIGlzIGluc2VydGVkIGFuZCB0aGUgY29uZmxpY3Rp
+bmcgcmVzb3VyY2VzIGJlY29tZSBjaGlsZHJlbiBvZgogICogdGhlIG5ldyByZXNvdXJjZS4KICAq
+LwotaW50IGluc2VydF9yZXNvdXJjZShzdHJ1Y3QgcmVzb3VyY2UgKnBhcmVudCwgc3RydWN0IHJl
+c291cmNlICpuZXcpCitzdGF0aWMgc3RydWN0IHJlc291cmNlICpfX2luc2VydF9yZXNvdXJjZShz
+dHJ1Y3QgcmVzb3VyY2UgKnBhcmVudCwgc3RydWN0IHJlc291cmNlICpuZXcpCiB7Ci0JaW50IHJl
+c3VsdDsKKwlzdHJ1Y3QgcmVzb3VyY2UgKnJldF9yZXM7CiAJc3RydWN0IHJlc291cmNlICpmaXJz
+dCwgKm5leHQ7CiAKLQl3cml0ZV9sb2NrKCZyZXNvdXJjZV9sb2NrKTsKLQogCWZvciAoOzsgcGFy
+ZW50ID0gZmlyc3QpIHsKLQkgCXJlc3VsdCA9IDA7CisJCXJldF9yZXMgPSBOVUxMOwogCQlmaXJz
+dCA9IF9fcmVxdWVzdF9yZXNvdXJjZShwYXJlbnQsIG5ldyk7CiAJCWlmICghZmlyc3QpCiAJCQln
+b3RvIG91dDsKIAotCQlyZXN1bHQgPSAtRUJVU1k7CisJCXJldF9yZXMgPSBmaXJzdDsKIAkJaWYg
+KGZpcnN0ID09IHBhcmVudCkKIAkJCWdvdG8gb3V0OwogCkBAIC00MDAsMTUgKzM5OCwxNyBAQCBp
+bnQgaW5zZXJ0X3Jlc291cmNlKHN0cnVjdCByZXNvdXJjZSAqcGFyCiAKIAlmb3IgKG5leHQgPSBm
+aXJzdDsgOyBuZXh0ID0gbmV4dC0+c2libGluZykgewogCQkvKiBQYXJ0aWFsIG92ZXJsYXA/IEJh
+ZCwgYW5kIHVuZml4YWJsZSAqLwotCQlpZiAobmV4dC0+c3RhcnQgPCBuZXctPnN0YXJ0IHx8IG5l
+eHQtPmVuZCA+IG5ldy0+ZW5kKQorCQlpZiAobmV4dC0+c3RhcnQgPCBuZXctPnN0YXJ0IHx8IG5l
+eHQtPmVuZCA+IG5ldy0+ZW5kKSB7CisJCQlyZXRfcmVzID0gbmV4dDsKIAkJCWdvdG8gb3V0Owor
+CQl9CiAJCWlmICghbmV4dC0+c2libGluZykKIAkJCWJyZWFrOwogCQlpZiAobmV4dC0+c2libGlu
+Zy0+c3RhcnQgPiBuZXctPmVuZCkKIAkJCWJyZWFrOwogCX0KIAotCXJlc3VsdCA9IDA7CisJcmV0
+X3JlcyA9IE5VTEw7CiAKIAluZXctPnBhcmVudCA9IHBhcmVudDsKIAluZXctPnNpYmxpbmcgPSBu
+ZXh0LT5zaWJsaW5nOwpAQCAtNDI4LDggKzQyOCw3OSBAQCBpbnQgaW5zZXJ0X3Jlc291cmNlKHN0
+cnVjdCByZXNvdXJjZSAqcGFyCiAJfQogCiAgb3V0OgorCXJldHVybiByZXRfcmVzOworfQorCisv
+KioKKyAqIGluc2VydF9yZXNvdXJjZSAtIEluc2VydHMgYSByZXNvdXJjZSBpbiB0aGUgcmVzb3Vy
+Y2UgdHJlZQorICogQHBhcmVudDogcGFyZW50IG9mIHRoZSBuZXcgcmVzb3VyY2UKKyAqIEBuZXc6
+IG5ldyByZXNvdXJjZSB0byBpbnNlcnQKKyAqCisgKiBSZXR1cm5zIDAgb24gc3VjY2VzcywgLUVC
+VVNZIGlmIHRoZSByZXNvdXJjZSBjYW4ndCBiZSBpbnNlcnRlZC4KKyAqLworaW50IGluc2VydF9y
+ZXNvdXJjZShzdHJ1Y3QgcmVzb3VyY2UgKnBhcmVudCwgc3RydWN0IHJlc291cmNlICpuZXcpCit7
+CisJc3RydWN0IHJlc291cmNlICpyZXNfY29uZmxpY3Q7CisKKwl3cml0ZV9sb2NrKCZyZXNvdXJj
+ZV9sb2NrKTsKKwlyZXNfY29uZmxpY3QgPSBfX2luc2VydF9yZXNvdXJjZShwYXJlbnQsIG5ldyk7
+CisJd3JpdGVfdW5sb2NrKCZyZXNvdXJjZV9sb2NrKTsKKworCXJldHVybiByZXNfY29uZmxpY3Qg
+PyAtRUJVU1kgOiAwOworfQorCitzdGF0aWMgdm9pZCBfX2luaXQgX19yZXNlcnZlX3JlZ2lvbl93
+aXRoX3NwbGl0KHN0cnVjdCByZXNvdXJjZSAqcm9vdCwKKwkJcmVzb3VyY2Vfc2l6ZV90IHN0YXJ0
+LCByZXNvdXJjZV9zaXplX3QgZW5kLAorCQljb25zdCBjaGFyICpuYW1lKQoreworCXN0cnVjdCBy
+ZXNvdXJjZSAqcGFyZW50ID0gcm9vdDsKKwlzdHJ1Y3QgcmVzb3VyY2UgKmNvbmZsaWN0OworCXN0
+cnVjdCByZXNvdXJjZSAqcmVzID0ga3phbGxvYyhzaXplb2YoKnJlcyksIEdGUF9LRVJORUwpOwor
+CisJaWYgKCFyZXMpCisJCXJldHVybjsKKworCXJlcy0+bmFtZSA9IG5hbWU7CisJcmVzLT5zdGFy
+dCA9IHN0YXJ0OworCXJlcy0+ZW5kID0gZW5kOworCXJlcy0+ZmxhZ3MgPSBJT1JFU09VUkNFX0JV
+U1k7CisKKwlmb3IgKDs7KSB7CisJCWNvbmZsaWN0ID0gX19yZXF1ZXN0X3Jlc291cmNlKHBhcmVu
+dCwgcmVzKTsKKwkJaWYgKCFjb25mbGljdCkKKwkJCWJyZWFrOworCQlpZiAoY29uZmxpY3QgIT0g
+cGFyZW50KSB7CisJCQlwYXJlbnQgPSBjb25mbGljdDsKKwkJCWlmICghKGNvbmZsaWN0LT5mbGFn
+cyAmIElPUkVTT1VSQ0VfQlVTWSkpCisJCQkJY29udGludWU7CisJCX0KKworCQkvKiBVaGh1aCwg
+dGhhdCBkaWRuJ3Qgd29yayBvdXQuLiAqLworCQlrZnJlZShyZXMpOworCQlyZXMgPSBOVUxMOwor
+CQlicmVhazsKKwl9CisKKwlpZiAoIXJlcykgeworCQlwcmludGsoS0VSTl9ERUJVRyAiICAgIF9f
+cmVzZXJ2ZV9yZWdpb25fd2l0aF9zcGxpdDogKCVzKSBbJWxseCwgJWxseF0sIHJlczogKCVzKSBb
+JWxseCwgJWxseF1cbiIsCisJCQkgY29uZmxpY3QtPm5hbWUsIGNvbmZsaWN0LT5zdGFydCwgY29u
+ZmxpY3QtPmVuZCwKKwkJCSBuYW1lLCBzdGFydCwgZW5kKTsKKwkJLyogZmFpbGVkLCBzcGxpdCBh
+bmQgdHJ5IGFnYWluICovCisJCWlmIChjb25mbGljdC0+c3RhcnQgPiBzdGFydCkKKwkJCV9fcmVz
+ZXJ2ZV9yZWdpb25fd2l0aF9zcGxpdChyb290LCBzdGFydCwgY29uZmxpY3QtPnN0YXJ0LCBuYW1l
+KTsKKwkJaWYgKGNvbmZsaWN0LT5lbmQgPCBlbmQpCisJCQlfX3Jlc2VydmVfcmVnaW9uX3dpdGhf
+c3BsaXQocm9vdCwgY29uZmxpY3QtPmVuZCsxLCBlbmQsIG5hbWUpOworCX0KKworfQorCit2b2lk
+IHJlc2VydmVfcmVnaW9uX3dpdGhfc3BsaXQoc3RydWN0IHJlc291cmNlICpyb290LAorCQlyZXNv
+dXJjZV9zaXplX3Qgc3RhcnQsIHJlc291cmNlX3NpemVfdCBlbmQsCisJCWNvbnN0IGNoYXIgKm5h
+bWUpCit7CisJd3JpdGVfbG9jaygmcmVzb3VyY2VfbG9jayk7CisJX19yZXNlcnZlX3JlZ2lvbl93
+aXRoX3NwbGl0KHJvb3QsIHN0YXJ0LCBlbmQsIG5hbWUpOwogCXdyaXRlX3VubG9jaygmcmVzb3Vy
+Y2VfbG9jayk7Ci0JcmV0dXJuIHJlc3VsdDsKIH0KIAogLyoqCg==
+------=_Part_16847_27709860.1220112308413
+Content-Type: text/x-patch; name=insert_resource_debug.patch
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_fkif5bh14
+Content-Disposition: attachment; filename=insert_resource_debug.patch
+
+LS0tCiBrZXJuZWwvcmVzb3VyY2UuYyB8ICAgMTggKysrKysrKysrKysrKysrLS0tCiAxIGZpbGUg
+Y2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCkluZGV4OiBsaW51eC0y
+LjYva2VybmVsL3Jlc291cmNlLmMKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0gbGludXgtMi42Lm9yaWcva2VybmVs
+L3Jlc291cmNlLmMKKysrIGxpbnV4LTIuNi9rZXJuZWwvcmVzb3VyY2UuYwpAQCAtMjAxLDYgKzIw
+MSw3IEBAIGludCByZXF1ZXN0X3Jlc291cmNlKHN0cnVjdCByZXNvdXJjZSAqcm8KIAl3cml0ZV9s
+b2NrKCZyZXNvdXJjZV9sb2NrKTsKIAljb25mbGljdCA9IF9fcmVxdWVzdF9yZXNvdXJjZShyb290
+LCBuZXcpOwogCXdyaXRlX3VubG9jaygmcmVzb3VyY2VfbG9jayk7CisJcHJpbnRrKEtFUk5fREVC
+VUcgInJlcXVlc3RfcmVzb3VyY2U6IHJvb3Q6ICglcykgWyVsbHgsICVsbHhdLCBuZXc6ICglcykg
+WyVsbHgsICVsbHhdIGNvbmZsaWN0ICVkXG4iLCByb290LT5uYW1lLCByb290LT5zdGFydCwgcm9v
+dC0+ZW5kLCBuZXctPm5hbWUsIG5ldy0+c3RhcnQsIG5ldy0+ZW5kLCAhIWNvbmZsaWN0KTsKIAly
+ZXR1cm4gY29uZmxpY3QgPyAtRUJVU1kgOiAwOwogfQogCkBAIC0zODAsMTYgKzM4MSwyMCBAQCBz
+dGF0aWMgc3RydWN0IHJlc291cmNlICpfX2luc2VydF9yZXNvdXJjCiAJc3RydWN0IHJlc291cmNl
+ICpyZXRfcmVzOwogCXN0cnVjdCByZXNvdXJjZSAqZmlyc3QsICpuZXh0OwogCisJcHJpbnRrKEtF
+Uk5fREVCVUcgImluc2VydF9yZXNvdXJjZTogcGFyZW50OiAoJXMpIFslbGx4LCAlbGx4XSwgbmV3
+OiAoJXMpIFslbGx4LCAlbGx4XVxuIiwgcGFyZW50LT5uYW1lLCBwYXJlbnQtPnN0YXJ0LCBwYXJl
+bnQtPmVuZCwgbmV3LT5uYW1lLCBuZXctPnN0YXJ0LCBuZXctPmVuZCk7CiAJZm9yICg7OyBwYXJl
+bnQgPSBmaXJzdCkgewogCQlyZXRfcmVzID0gTlVMTDsKIAkJZmlyc3QgPSBfX3JlcXVlc3RfcmVz
+b3VyY2UocGFyZW50LCBuZXcpOwotCQlpZiAoIWZpcnN0KQorCQlpZiAoIWZpcnN0KSB7CisJCQlw
+cmludGsoS0VSTl9ERUJVRyAiICAgIGluc2VydF9yZXNvdXJjZTogZ29vZCB3aXRoIHJlcXVlc3Qg
+ZGlyZWN0IHBhcmVudDogKCVzKSBbJWxseCwgJWxseF0sIG5ldzogKCVzKSBbJWxseCwgJWxseF1c
+biIsIHBhcmVudC0+bmFtZSwgcGFyZW50LT5zdGFydCwgcGFyZW50LT5lbmQsIG5ldy0+bmFtZSwg
+bmV3LT5zdGFydCwgbmV3LT5lbmQpOwogCQkJZ290byBvdXQ7CisJCX0KIAogCQlyZXRfcmVzID0g
+Zmlyc3Q7CiAJCWlmIChmaXJzdCA9PSBwYXJlbnQpCiAJCQlnb3RvIG91dDsKIAorCQlwcmludGso
+S0VSTl9ERUJVRyAiICBpbnNlcnRfcmVzb3VyY2U6IGZpcnN0OiAoJXMpIFslbGx4LCAlbGx4XSwg
+bmV3OiAoJXMpIFslbGx4LCAlbGx4XVxuIiwgZmlyc3QtPm5hbWUsIGZpcnN0LT5zdGFydCwgZmly
+c3QtPmVuZCwgbmV3LT5uYW1lLCBuZXctPnN0YXJ0LCBuZXctPmVuZCk7CiAJCWlmICgoZmlyc3Qt
+PnN0YXJ0ID4gbmV3LT5zdGFydCkgfHwgKGZpcnN0LT5lbmQgPCBuZXctPmVuZCkpCiAJCQlicmVh
+azsKIAkJaWYgKChmaXJzdC0+c3RhcnQgPT0gbmV3LT5zdGFydCkgJiYgKGZpcnN0LT5lbmQgPT0g
+bmV3LT5lbmQpKQpAQCAtNDEzLDEwICs0MTgsMTMgQEAgc3RhdGljIHN0cnVjdCByZXNvdXJjZSAq
+X19pbnNlcnRfcmVzb3VyYwogCW5ldy0+cGFyZW50ID0gcGFyZW50OwogCW5ldy0+c2libGluZyA9
+IG5leHQtPnNpYmxpbmc7CiAJbmV3LT5jaGlsZCA9IGZpcnN0OworCXByaW50ayhLRVJOX0RFQlVH
+ICIgIGluc2VydF9yZXNvdXJjZTogZGlyZWN0IHBhcmVudDogKCVzKSBbJWxseCwgJWxseF0sIG5l
+dzogKCVzKSBbJWxseCwgJWxseF1cbiIsIHBhcmVudC0+bmFtZSwgcGFyZW50LT5zdGFydCwgcGFy
+ZW50LT5lbmQsIG5ldy0+bmFtZSwgbmV3LT5zdGFydCwgbmV3LT5lbmQpOwogCiAJbmV4dC0+c2li
+bGluZyA9IE5VTEw7Ci0JZm9yIChuZXh0ID0gZmlyc3Q7IG5leHQ7IG5leHQgPSBuZXh0LT5zaWJs
+aW5nKQorCWZvciAobmV4dCA9IGZpcnN0OyBuZXh0OyBuZXh0ID0gbmV4dC0+c2libGluZykgewog
+CQluZXh0LT5wYXJlbnQgPSBuZXc7CisJCXByaW50ayhLRVJOX0RFQlVHICIgICAgaW5zZXJ0X3Jl
+c291cmNlOiBjaGlsZDogKCVzKSBbJWxseCwgJWxseF0sIG5ldzogKCVzKSBbJWxseCwgJWxseF1c
+biIsIG5leHQtPm5hbWUsIG5leHQtPnN0YXJ0LCBuZXh0LT5lbmQsIG5ldy0+bmFtZSwgbmV3LT5z
+dGFydCwgbmV3LT5lbmQpOworCX0KIAogCWlmIChwYXJlbnQtPmNoaWxkID09IGZpcnN0KSB7CiAJ
+CXBhcmVudC0+Y2hpbGQgPSBuZXc7CkBAIC02MDIsMTIgKzYxMCwxNiBAQCBzdHJ1Y3QgcmVzb3Vy
+Y2UgKiBfX3JlcXVlc3RfcmVnaW9uKHN0cnVjCiAJCQlzdHJ1Y3QgcmVzb3VyY2UgKmNvbmZsaWN0
+OwogCiAJCQljb25mbGljdCA9IF9fcmVxdWVzdF9yZXNvdXJjZShwYXJlbnQsIHJlcyk7Ci0JCQlp
+ZiAoIWNvbmZsaWN0KQorCQkJaWYgKCFjb25mbGljdCkgeworCQkJCXByaW50ayhLRVJOX0RFQlVH
+ICIgICAgX19yZXF1ZXN0X3JlZ2lvbjogZ29vZCB3aXRoIHJlcXVlc3QgZGlyZWN0IHBhcmVudDog
+KCVzKSBbJWxseCwgJWxseF0sIHJlczogKCVzKSBbJWxseCwgJWxseF1cbiIsIHBhcmVudC0+bmFt
+ZSwgcGFyZW50LT5zdGFydCwgcGFyZW50LT5lbmQsIHJlcy0+bmFtZSwgcmVzLT5zdGFydCwgcmVz
+LT5lbmQpOwogCQkJCWJyZWFrOworCQkJfQogCQkJaWYgKGNvbmZsaWN0ICE9IHBhcmVudCkgewor
+CQkJCXByaW50ayhLRVJOX0RFQlVHICIgIF9fcmVxdWVzdF9yZWdpb246IGNvbmZsaWN0OiAoJXMp
+IFslbGx4LCAlbGx4XSwgcmVzOiAoJXMpIFslbGx4LCAlbGx4XVxuIiwgY29uZmxpY3QtPm5hbWUs
+IGNvbmZsaWN0LT5zdGFydCwgY29uZmxpY3QtPmVuZCwgcmVzLT5uYW1lLCByZXMtPnN0YXJ0LCBy
+ZXMtPmVuZCk7CiAJCQkJcGFyZW50ID0gY29uZmxpY3Q7CiAJCQkJaWYgKCEoY29uZmxpY3QtPmZs
+YWdzICYgSU9SRVNPVVJDRV9CVVNZKSkKIAkJCQkJY29udGludWU7CisJCQkJcHJpbnRrKEtFUk5f
+REVCVUcgImJ1c3kgZmxhZ1xuIik7CiAJCQl9CiAKIAkJCS8qIFVoaHVoLCB0aGF0IGRpZG4ndCB3
+b3JrIG91dC4uICovCg==
+------=_Part_16847_27709860.1220112308413--
