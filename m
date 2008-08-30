@@ -1,61 +1,34 @@
-From: "Yinghai Lu" <yhlu.kernel@gmail.com>
-Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-Date: Sat, 30 Aug 2008 01:02:25 -0700
-Message-ID: <86802c440808300102nfd878adqc68d53159858f94e@mail.gmail.com>
-References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org>
-	 <alpine.LFD.1.10.0808291751480.3300@nehalem.linux-foundation.org>
-	 <86802c440808291830t4547140dx9b12353649edd975@mail.gmail.com>
-	 <alpine.LFD.1.10.0808291919080.3300@nehalem.linux-foundation.org>
-	 <alpine.LFD.1.10.0808291954410.3300@nehalem.linux-foundation.org>
-	 <86802c440808292007t3588edfnef95b723320ff023@mail.gmail.com>
-	 <alpine.LFD.1.10.0808292017440.5010@nehalem.linux-foundation.org>
-	 <86802c440808292141g6ffd1329p54e58ee04c26540a@mail.gmail.com>
-	 <alpine.LFD.1.10.0808292216310.3290@nehalem.linux-foundation.org>
-	 <alpine.LFD.1.10.0808292312120.3290@nehalem.linux-foundation.org>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [regression] usb: sometimes dead keyboard after boot
+Date: Sat, 30 Aug 2008 12:44:19 +0200
+Message-ID: <200808301244.19968.elendil@planet.nl>
+References: <Pine.LNX.4.44L0.0808291709400.13185-100000@netrider.rowland.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752385AbYH3ICr@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=yNociEB3NHYu6IJlPY7jL8DowphkQokSeXEWwacRCKA=;
-        b=MuJQcFS9Bubua0aPGGWjzOzax/O0yJd4gay4iKEmiFHCeqY5w158SKEYlK9p7mmkCN
-         OTaXJ6s+gtfNEHMNcTl3n+MblU/evwO+YLiHS9WWuGSK1e841e6P0XckxFni5j+ec+ko
-         L5c3xvhhoZYVrefxyPbyJF3CblmhSwUcVHsck=
-In-Reply-To: <alpine.LFD.1.10.0808292312120.3290@nehalem.linux-foundation.org>
+Return-path: <linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <Pine.LNX.4.44L0.0808291709400.13185-100000-pYrvlCTfrz9XsRXLowluHWD2FQJk+8+b@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Jeff Garzik <jeff@garzik.org>, Tejun Heo <htejun@gmail.com>, Ingo Molnar <mingo@elte.hu>, David Witbrodt <dawitbro@sbcglobal.net>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers <kernel-testers@vger.kernel.org>
+To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Cc: Kernel development list <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, USB list <linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-please check fix v3
+On Friday 29 August 2008, you wrote:
+> Maybe you haven't enabled anything special, but something sure is
+> running.  It appears to be probing your USB devices every 5 seconds.
+> You might be able to find out what it is by adding
+>
+> 	printk(KERN_INFO "usbdev open by %s\n", current->comm);
+>
+> to usbdev_open() in drivers/usb/core/devio.c.
 
-[PATCH] x86: split e820 reserved entries record to late v4 - fix v3
+Thanks a lot. That identified the culprit: brltty (which I only have 
+installed for some very rare testing with the Debian Installer).
 
-try to insert_resource second time, by expand the resource...
-
-for case: e820 reserved entry is partially overlapped with bar res...
-
-hope it will never happen
-
-v3: use reserve_region_with_split() instead to hand overlapping
-       with test case by extend 0xe0000000 - 0xeffffff to 0xdd800000 -
-       get
-               e0000000-efffffff : PCI MMCONFIG 0
-                        e0000000-efffffff : reserved
-       in /proc/iomem
-       get
-               found conflict for reserved [dd800000, efffffff], try
-to reserve with split
-                   __reserve_region_with_split: (PCI Bus #80)
-[dd000000, ddffffff], res: (reserved) [dd800000, efffffff]
-                   __reserve_region_with_split: (PCI Bus #00)
-[de000000, dfffffff], res: (reserved) [de000000, efffffff]
-               initcall pci_subsys_init+0x0/0x121 returned 0 after 381 msecs
-       in dmesg
-
-YH
+I'll file a bug in the Debian BTS as I know the Debian maintainer has very 
+good contacts with the upstream developers.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-usb" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
