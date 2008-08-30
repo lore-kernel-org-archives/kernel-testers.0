@@ -1,7 +1,7 @@
 From: "Yinghai Lu" <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-Date: Sat, 30 Aug 2008 13:14:57 -0700
-Message-ID: <86802c440808301314t525d1b75r9afcc73857cf5c79@mail.gmail.com>
+Date: Sat, 30 Aug 2008 13:38:25 -0700
+Message-ID: <86802c440808301338h59a5338rabe9e64560b55476@mail.gmail.com>
 References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org>
 	 <200808292157.24179.rjw@sisk.pl>
 	 <alpine.LFD.1.10.0808291434110.3300@nehalem.linux-foundation.org>
@@ -11,6 +11,7 @@ References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org>
 	 <alpine.LFD.1.10.0808301141590.3290@nehalem.linux-foundation.org>
 	 <86802c440808301210u6db1b4e7p4036bdc95db1a601@mail.gmail.com>
 	 <alpine.LFD.1.10.0808301214310.3290@nehalem.linux-foundation.org>
+	 <86802c440808301314t525d1b75r9afcc73857cf5c79@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -19,11 +20,11 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:received:received:message-id:date:from:to
          :subject:cc:in-reply-to:mime-version:content-type
          :content-transfer-encoding:content-disposition:references;
-        bh=UCx6JAH9KYqOJX6hKQibVYNIflbTNz0+QmRt4gOiqr4=;
-        b=kAybJoauoz2FIelymev6v2mptAC8ajmnzZtpSsLJK9b+Hw/dNjvnnUetNi0dkmznLO
-         LDfJRyb0VMKfylC71kysGVcJuFfR5rG5cBurnigwKTdIU6+9G3ZMRttNYRcqM7LxUL5e
-         Px1ymuhWndo9scYyuK3aEn8Xn1QvRljPESoXE=
-In-Reply-To: <alpine.LFD.1.10.0808301214310.3290-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+        bh=HdGPruI2xheqD81IP66loJCZQh7MU4sMYp8xmLTcBk4=;
+        b=XudE6RvUciQ6RWZmKWTJm8QxDRo3JLtHTkS0IR92Xl3Arsze0rxU5frAtW4mHWZYQl
+         Qz8G41YEyEDlLT7jWbLExzUaGpMZkrIlPU9p5fUtxw6vBSC+/F3mxzo2aYmIIkyd8gT2
+         F1V5bFFmt4pAikw3yTmZlEkE73wLyHCHoEe1Q=
+In-Reply-To: <86802c440808301314t525d1b75r9afcc73857cf5c79-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
@@ -31,89 +32,9 @@ Content-Type: text/plain; charset="us-ascii"
 To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sat, Aug 30, 2008 at 12:31 PM, Linus Torvalds
-<torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
->
->
-> On Sat, 30 Aug 2008, Yinghai Lu wrote:
->>
->> do you agree to use quirk to make the BAR res to have correct end
->> between pci_probe and pci_resource_survey?
->
-> In general I would agree, but now that I've looked at it a bit more, I
-> actually don't think it's a bug in the chipset any more. See my previous
-> email that crossed with yours.
->
-> I suspect that that northbridge resource is basically acting as a bridge
-> resource. So 0xe0000000 - 0xffffffff is actually _correct_. And MCFG being
-> in that window (and being first in it) is just a detail.
->
-> Look at the resource allocations on Rafael's machine: there are two
-> different classes:
->
->  - outside that BAR3 window:
->
->   The "external gfx0 port A" decode (bridged by device 0000:02.0):
->
->        d8000000-dfffffff : PCI Bus 0000:01
->          d8000000-dfffffff : 0000:01:00.0
->            d8000000-d8ffffff : vesafb
->
->   and suspect the graphics port is special (considering that this is an
->   ATI chipset)
->
->  - inside that BAR3 window: everything else (PCI express):
->
->        e0000000-efffffff : PCI MMCONFIG 0
->        fe6f4000-fe6f7fff : 0000:00:14.2
->          fe6f4000-fe6f7fff : ICH HD audio
->        fe6fa000-fe6fafff : 0000:00:13.4
->          fe6fa000-fe6fafff : ohci_hcd
->        fe6fb000-fe6fbfff : 0000:00:13.3
->          fe6fb000-fe6fbfff : ohci_hcd
->        fe6fc000-fe6fcfff : 0000:00:13.2
->          fe6fc000-fe6fcfff : ohci_hcd
->        fe6fd000-fe6fdfff : 0000:00:13.1
->          fe6fd000-fe6fdfff : ohci_hcd
->        fe6fe000-fe6fefff : 0000:00:13.0
->          fe6fe000-fe6fefff : ohci_hcd
->        fe6ff000-fe6ff0ff : 0000:00:13.5
->          fe6ff000-fe6ff0ff : ehci_hcd
->        fe6ff800-fe6ffbff : 0000:00:12.0
->          fe6ff800-fe6ffbff : ahci
->        fe700000-fe7fffff : PCI Bus 0000:01
->          fe7c0000-fe7dffff : 0000:01:00.0
->          fe7e0000-fe7effff : 0000:01:00.1
->          fe7f0000-fe7fffff : 0000:01:00.0
->        fe800000-fe8fffff : PCI Bus 0000:02
->          fe8ffc00-fe8fffff : 0000:02:00.0
->            fe8ffc00-fe8fffff : ahci
->        fe900000-fe9fffff : PCI Bus 0000:03
->          fe9c0000-fe9dffff : 0000:03:00.0
->          fe9fc000-fe9fffff : 0000:03:00.0
->            fe9fc000-fe9fffff : sky2
->        fea00000-feafffff : PCI Bus 0000:04
->          feaffc00-feafffff : 0000:04:00.0
->            feaffc00-feafffff : ahci
->        feb00000-febfffff : PCI Bus 0000:05
->          febff000-febfffff : 0000:05:08.0
->            febff000-febff7ff : ohci1394
->        fec00000-fec00fff : IOAPIC 0
->        fed00000-fed003ff : HPET 2
->        fee00000-fee00fff : Local APIC
->        fff00000-ffffffff : reserved
->
-> Hmm?
->
-> (yeah, some of those resources are _really_ special, and are inside the
-> CPU itself, eg the APIC and possibly HPET, and never necessarily even make
-> it to the host bridge at all because they get decoded early).
+please check
 
-wonder:
-in old kernel, after BAR3 request_filed, pci_assigned_unassigned
-should get update resource for that... but it could find that big
-space for it.
-
-that is interesting...
+[PATCH] x86: split e820 reserved entries record to late v4
+[PATCH] x86: split e820 reserved entries record to late v4 - fix v6
 
 YH
