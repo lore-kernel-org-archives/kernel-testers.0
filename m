@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11361] my servers with nvidia mcp55 nic don't work with msi in second kernel by kexec
-Date: Sat, 30 Aug 2008 21:50:21 +0200 (CEST)
-Message-ID: <N8SeMoDzuxC.A.58E.wibuIB@albercik>
+Subject: [Bug #11388] 2.6.27-rc3 warns about MTRR range; only 3 of 16gb of memory is usable
+Date: Sat, 30 Aug 2008 21:50:22 +0200 (CEST)
+Message-ID: <N8SeMoDzuxC.A.8uE.libuIB@albercik>
 References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,8 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11361
-Subject		: my servers with nvidia mcp55 nic don't work with msi in second kernel by kexec
-Submitter	: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-08-17 6:25 (14 days old)
-References	: http://marc.info/?l=linux-kernel&m=121895439927053&w=4
-Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-Patch		: http://marc.info/?l=linux-kernel&m=121917167232014&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11388
+Subject		: 2.6.27-rc3 warns about MTRR range; only 3 of 16gb of memory is usable
+Submitter	: Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>
+Date		: 2008-08-20 17:38 (11 days old)
 
