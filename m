@@ -1,52 +1,58 @@
-From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Subject: Re: [Bug #11237] corrupt PMD after resume
-Date: Sat, 30 Aug 2008 22:49:06 +0100
-Message-ID: <48B9C052.8090404@tuffmail.co.uk>
-References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik> <N8SeMoDzuxC.A.kUG.jkbuIB@albercik>
+From: "Yinghai Lu" <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
+Date: Sat, 30 Aug 2008 14:49:53 -0700
+Message-ID: <86802c440808301449s72aa10e7k5b408883d2e5f99@mail.gmail.com>
+References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org>
+	 <86802c440808301412k4e0b5562ie03ce41547ddab9a@mail.gmail.com>
+	 <86802c440808301413g7f496e8bxd21adc60b328cd24@mail.gmail.com>
+	 <200808302334.29156.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding:sender;
-        bh=2npWyqWsd5ZTCsD48AdBH9IZlfZdV71UMAgw01ziTV8=;
-        b=uR4dBek3aC1kYTXxbw9V76MUjMkesHkpa/Y9PSau667Av7ylH9nRoPoqCNNyQU+D5C
-         TcAoE5Gl2nHyoMuH3B+bfMpaeYEAx2eLCkp48PDmCVS7FMZ+xH/ONBM8qYGaRZ/xwbGo
-         RPgDFRfrhu9lL+LEIkzT+Z4Kp9/hTxeUl4Okk=
-In-Reply-To: <N8SeMoDzuxC.A.kUG.jkbuIB@albercik>
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=PFqJp/rJV/2U5wAKw8yzI/WNz+at1MEajAT2UEqiFIs=;
+        b=dJZnhqVfUeZMA4DaLbSuaJgSFfZALmlFy6NlOvYL/xLlr50J39U53oUFMCA2Fj4/5r
+         /19z3dTxtyIdRxkaVoTqI2XFRBVpQWh6Mix2eRxqps/nqxLO7pwxgi7VIWzjphkrYRCJ
+         STOOf8CTPEbJFqCmgBMzHVo3Gi/Pe7cG3YzVA=
+In-Reply-To: <200808302334.29156.rjw-KKrjLPT3xs0@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jeremy Fitzhardinge <jeremy.fitzhardinge-Sxgqhf6Nn4DQT0dZR+AlfA@public.gmane.org>, Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+On Sat, Aug 30, 2008 at 2:34 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> On Saturday, 30 of August 2008, Yinghai Lu wrote:
+>> On Sat, Aug 30, 2008 at 2:12 PM, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> > On Sat, Aug 30, 2008 at 1:46 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+>> >> On Saturday, 30 of August 2008, Yinghai Lu wrote:
+>> >>> please check
+>> >>>
+>> >>> [PATCH] x86: split e820 reserved entries record to late v4
+>> >>> [PATCH] x86: split e820 reserved entries record to late v4 - fix v6
+>> >>
+>> >> What kernel should I apply those to and in what order?
+>> >
+>> > linus git tree
+>> > 1. [PATCH] x86: split e820 reserved entries record to late v4
+>> > 2. [PATCH] x86: split e820 reserved entries record to late v4 - fix v6
+>> >
+>> > tip/master
+>> > 1. Resource handling: add 'insert_resource_expand_to_fit()' function
+>> > 2. [PATCH] x86: split e820 reserved entries record to late v4 - fix v6
+>>
+>> actually it is almost the same to tar ball send you for your system...
 >
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me know
-> (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11237
-> Subject		: corrupt PMD after resume
-> Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-> Date		: 2008-08-02 9:51 (29 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121767073424952&w=4
-> Handled-By	: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
-> 		  Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
->
->   
+> I've just tested these two patches on top of the current Linus' tree and the
+> system works normally.
 
-This has been isolated (to disparate buggy BIOSes), patches written and
-tested.  It's more policy decisions now; mainly whether the workaround
-(which wastes 64k) should be applied by default.  So I think you should add
+thanks,
 
-Patch                   :
-http://marc.info/?l=linux-kernel&m=122001615314700&w=2
+David, can you test those two patches on top of linus tree?
 
-Regards
-Alan
+YH
