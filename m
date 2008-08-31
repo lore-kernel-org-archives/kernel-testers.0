@@ -1,40 +1,99 @@
-From: "Yinghai Lu" <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-Date: Sat, 30 Aug 2008 19:17:36 -0700
-Message-ID: <86802c440808301917n67d2fb34k96137829a49d36ac@mail.gmail.com>
-References: <349034.72587.qm@web82104.mail.mud.yahoo.com>
+From: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Subject: Re: [regression] usb: sometimes dead keyboard after boot
+Date: Sat, 30 Aug 2008 22:21:20 -0400 (EDT)
+Message-ID: <Pine.LNX.4.44L0.0808302202250.514-100000@netrider.rowland.org>
+References: <200808301640.21043.elendil@planet.nl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=iQLsSX2B2ZjE54UXiy2lt86rSstt9Lt2YN6jsIQyHII=;
-        b=r8qYj7wv1dGa0e+W9XeFPw2k9tQ4av18T+EyBylvPem/wznaKaDdeiBu9RfVXJUP7k
-         cI1XjINICGtYmxEZVrbWOmzBlfOpXPMPJgf5sswLXQJBgp12Bn9hFqZyH7ZuUrC2q3N/
-         bu1/8TBkG7AxEMmJ0/K3NQOXErvO9RI5vR1J4=
-In-Reply-To: <349034.72587.qm-Yi6apYOI+buvuULXzWHTWIglqE1Y4D90QQ4Iyu8u01E@public.gmane.org>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200808301640.21043.elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Sender: linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Cc: Kernel development list <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, USB list <linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sat, Aug 30, 2008 at 6:25 PM, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org> wrote:
->
->
->> please use split_e820_reserve_xx2.patch instead...
->
-> OK, that produces the same result:  a happy kernel!
->
-> I compared the full 'dmesg' output from the previous build and the
-> current build using diff:  the only differences were trivial --
-> return times from initcall functions, and the order in which some
-> initcalls were performed was different very late in the boot process.
+On Sat, 30 Aug 2008, Frans Pop wrote:
 
-good, let wait for Ingo back to check the two patches too.
+> The patch seems to do exactly what I was looking for! Details further 
+> down, but first some other comments.
+> 
+> 
+> My first boot with your patch was with brltty still enabled. The log 
+> showed the right result, but I wanted to get a cleaner log without all 
+> the USB suspend/resume noise caused by brltty. So I disabled brltty's 
+> init script and rebooted.
+> 
+> This gave a totally unexpected result: ehci now got loaded and initialized 
+> _before_ uhci which of course avoids the problem altogether (see attached 
+> log: dmesg_ehci-first). So apparently brltty's init script was 
+> responsible not only for the suspend/resume noise, but also influenced 
+> the load order of the two USB drivers.
+> And apparently when things are left alone ehci _will_ be loaded before 
+> uhci, but that does not match what you described in earlier mails as it 
+> means the PCI bus order isn't followed. Confusing...
 
-YH
+It _is_ confusing.  There's so much going on at boot time, with tons of
+processes all trying to run at once...  Small changes can have
+unexpectedly large effects.
+
+What I said before was that the UHCI controllers are discovered and
+registered before the EHCI controller.  That's different from the order
+in which the drivers are loaded, however; driver loading is managed
+by the hotplug infrastructure in userspace, which is outside the
+kernel's control.  If your drivers had been built into the kernel
+instead of as separate modules, then they would be probed in order of 
+discovery -- which would mean ehci-hcd would _always_ come after 
+uhci-hcd, not what you want.
+
+(Actually even this might not be true any more.  There are patches in 
+development which make certain parts of the kernel initialization, 
+including driver probing, run in parallel threads rather than 
+serially.)
+
+> Anyway, this meant that to test your patch I had to try to get uhci to 
+> load first again. This turned out to be simple: just adding uhci_hcd 
+> in /etc/modules did the trick. The result is in dmesg_uhci-first.
+> 
+> That log shows what was desired, at least 3-1 and 4-1 get disconnected 
+> cleanly and I get no error messages to the console. Yay!
+> 
+> I added two extra printk's around the usb_wait_for_khubd_idle call to show 
+> the exact effect of the wait (look for "khubd_idle" in two messages). 
+> These seem to show what was wanted: both keyboard and mouse are detected 
+> during the wait.
+
+So it worked as intended.
+
+> But it also shows a few events on bus 3 and 4 that happen after I get 
+> khubd_idle that seem to indicate the probe on that bus is not completely 
+> finished and that could maybe still cause "problems". But maybe I'm just 
+> reading it wrong and those events are part of the lead up to the 
+> disconnects for the hand-off.
+
+Both statements are correct.  The initialization of the devices on 
+buses 3 and 4 _was_ complete.  But the drivers were loaded later, so 
+driver probing and/or normal driver operation were in progress when 
+ehci-hcd interrupted things.  Initialization != probing.
+
+Remember what I said earlier, that EHCI initialization would interfere 
+with _any_ ongoing operations on the companion controllers?  Now you're 
+seeing that effect in action.
+
+> Anyway, I'm quite happy with the result, so:
+> Tested-by: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+
+I still regard this more as a band-aid than anything else.  In fact, it 
+should (in theory) be _safer_ to interrupt things during device 
+initialization than later, after the driver has started up.  So I'm not 
+at all certain the patch should be merged.
+
+Tomorrow I'll try asking for comments from other people on the mailing
+list...
+
+Alan Stern
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-usb" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
