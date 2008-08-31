@@ -1,42 +1,27 @@
-From: Gene Heskett <gene.heskett-H+0wwilmMs3R7s880joybQ@public.gmane.org>
-Subject: Re: [Bug #11465] Linux-2.6.27-rc5, drm errors in log
-Date: Sat, 30 Aug 2008 21:21:25 -0400
-Message-ID: <200808302121.26078.gene.heskett@verizon.net>
-References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik>
- <N8SeMoDzuxC.A.M9C.jhbuIB@albercik>
+From: David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>
+Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
+Date: Sat, 30 Aug 2008 18:25:14 -0700 (PDT)
+Message-ID: <349034.72587.qm@web82104.mail.mud.yahoo.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-reply-to: <N8SeMoDzuxC.A.M9C.jhbuIB@albercik>
-Content-disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 
-On Saturday 30 August 2008, Rafael J. Wysocki wrote:
->This message has been generated automatically as a part of a report
->of recent regressions.
->
->The following bug entry is on the current list of known regressions
->from 2.6.26.  Please verify if it still should be listed and let me know
->(either way).
->
->
->Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11465
->Subject		: Linux-2.6.27-rc5, drm errors in log
->Submitter	: Gene Heskett <gene.heskett-H+0wwilmMs3R7s880joybQ@public.gmane.org>
->Date		: 2008-08-30 18:52 (1 days old)
->References	: http://marc.info/?l=linux-kernel&m=122012238925775&w=4
->Handled-By	: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 
-Yes, is still valid as of 08/30/08 21:21 ESDT.
 
--- 
-Cheers, Gene
-"There are four boxes to be used in defense of liberty:
- soap, ballot, jury, and ammo. Please use in that order."
--Ed Howdershelt (Author)
-Should I start with the time I SWITCHED personalities with a BEATNIK
-hair stylist or my failure to refer five TEENAGERS to a good OCULIST?
+> please use split_e820_reserve_xx2.patch instead...
+
+OK, that produces the same result:  a happy kernel!
+
+I compared the full 'dmesg' output from the previous build and the
+current build using diff:  the only differences were trivial --
+return times from initcall functions, and the order in which some
+initcalls were performed was different very late in the boot process.
+
+
+Thanks Yinghai,
+Dave W.
