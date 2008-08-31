@@ -1,34 +1,36 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit
- a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-Date: Sun, 31 Aug 2008 11:03:44 -0700 (PDT)
-Message-ID: <alpine.LFD.1.10.0808311100520.12958@nehalem.linux-foundation.org>
-References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org>  <200808302334.29156.rjw@sisk.pl>  <86802c440808301810r17657f3fnb3c8af5496955e0d@mail.gmail.com>  <200808311427.19369.rjw@sisk.pl>  <alpine.LFD.1.10.0808311039330.12958@nehalem.linux-foundation.org>
- <86802c440808311054q4b8e8921qa9f090527b456e34@mail.gmail.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #11357] Can not boot up with zd1211rw USB-Wlan Stick
+Date: Sun, 31 Aug 2008 21:47:01 +0200
+Message-ID: <200808312147.02824.rjw@sisk.pl>
+References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik> <N8SeMoDzuxC.A.NHF.2ibuIB@albercik> <20080831163015.GA2929@tuxdriver.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <86802c440808311054q4b8e8921qa9f090527b456e34-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20080831163015.GA2929-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, uwe <kender-KuiJ5kEpwI6ELgA04lAiVw@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>
 
-
-
-On Sun, 31 Aug 2008, Yinghai Lu wrote:
+On Sunday, 31 of August 2008, John W. Linville wrote:
+> On Sat, Aug 30, 2008 at 09:50:19PM +0200, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.26.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11357
+> > Subject		: Can not boot up with zd1211rw USB-Wlan Stick
+> > Submitter	: uwe <kender-KuiJ5kEpwI6ELgA04lAiVw@public.gmane.org>
+> > Date		: 2008-08-16 14:17 (15 days old)
 > 
-> wonder how the probe could find out the size of is 1fff_ffff..
+> This one could benefit from being looked at by an FTRACE person...
 
-Heh. That's how PCI sizing works: you write all ones to the register, and 
-read back the result. The low bits won't change, and that indicates the 
-size.
+Why don't we CC him, then?
 
-But if _none_ of the bits change, then that simply means that the size 
-will be calculated to be 0xffffffff-start.
-
-So the sizing will "work", it will just always report that the BAR covers 
-everything from start to the 4G limit.
-
-		Linus
+Rafael
