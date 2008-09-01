@@ -1,46 +1,30 @@
-From: Mikhail Kshevetskiy <mikhail.kshevetskiy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #11191] 2.6.26-git8: spinlock lockup in c1e_idle()
-Date: Tue, 2 Sep 2008 00:46:24 +0400
-Message-ID: <20080902004624.61f39cfe@gmail.com>
-References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik>
-	<N8SeMoDzuxC.A.TJH.klbuIB@albercik>
+From: Francois Romieu <romieu-W8zweXLXuWQS+FvcfC7Uqw@public.gmane.org>
+Subject: Re: [Bug #11271] BUG: fealnx in 2.6.27-rc1
+Date: Mon, 1 Sep 2008 23:18:10 +0200
+Message-ID: <20080901211810.GA21777@electric-eye.fr.zoreil.com>
+References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik> <N8SeMoDzuxC.A.xIG.OkbuIB@albercik> <3f9a31f40809011002k572450ffg90654912f3e1fa2a@mail.gmail.com> <20080901100649.59c1ab1f@infradead.org> <3f9a31f40809011027o34dbfccfh9ed82228938cb572@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:in-reply-to:references:x-mailer:mime-version
-         :content-type:content-transfer-encoding;
-        bh=BzTwco5r3d+CIaeCzZff9KVB8WujL+C8NY9r5kVrB50=;
-        b=oVMit5ZJI6YNiXR8921uZHqeUjtThud31FW0/riMt8xrGtk0KwK+nhvcDbY+yz78Ri
-         0HXT636fUk4TsHTLz/uoPuUFnpAJhT+OcKqa3mxbztHEm4drmiupeVk6dWCP0xuux4CR
-         g15t3jMv9EirnJg24Sivyz9WXOK/Mp+94jNUY=
-In-Reply-To: <N8SeMoDzuxC.A.TJH.klbuIB@albercik>
+Content-Disposition: inline
+In-Reply-To: <3f9a31f40809011027o34dbfccfh9ed82228938cb572-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sat, 30 Aug 2008 21:50:13 +0200 (CEST)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+Jaswinder Singh <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> :
+[...]
+> may be you are right, I have never noticed it earlier. But currently
+> this is soo serious that it has totally screwed up my networking when
+> I use fealnx based NICs.
 
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11191
-> Subject		: 2.6.26-git8: spinlock lockup in c1e_idle()
-> Submitter	: Mikhail Kshevetskiy <mikhail.kshevetskiy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2008-07-24 03:22 (38 days old)
-> References	: http://lkml.org/lkml/2008/7/23/317
-> Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-> 
-> 
+Could you enable CONFIG_PRINTK_TIME and give Jeff's reversal suggestion
+a try ?
 
-not fixed yet
+I do not see where the patch would break. Would a broken clock trigger
+a lot of spurious tx timeout ?
+
+-- 
+Ueimor
