@@ -1,52 +1,60 @@
-From: Jes Sorensen <jes-sJ/iWh9BUns@public.gmane.org>
-Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
-Date: Mon, 01 Sep 2008 13:53:44 +0200
-Message-ID: <48BBD7C8.4070005@sgi.com>
-References: <20080826072220.GB31876@elte.hu> <20080826.004607.253712060.davem@davemloft.net> <48B4542A.1050004@sgi.com> <20080826.134535.193703558.davem@davemloft.net> <48B7EEA2.7090300@sgi.com> <alpine.LFD.1.10.0808290909020.3300@nehalem.linux-foundation.org>
+From: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [Bug #11438] Upcoming oops in lockdep
+Date: Mon, 1 Sep 2008 07:48:18 -0700
+Message-ID: <20080901074818.06345dc9@infradead.org>
+References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik>
+	<1220132205.8426.40.camel@twins>
+	<20080831210115.4fdff99f@infradead.org>
+	<200809011348.29917.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.1.10.0808290909020.3300-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+In-Reply-To: <200809011348.29917.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, travis-sJ/iWh9BUns@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, Alan.Brunelle-VXdhtT5mjnY@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 
-Linus Torvalds wrote:
+On Mon, 1 Sep 2008 13:48:29 +0200
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+
+> On Monday, 1 of September 2008, Arjan van de Ven wrote:
+> > On Sat, 30 Aug 2008 23:36:45 +0200
+> > Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
+> > 
+> > > On Sat, 2008-08-30 at 21:50 +0200, Rafael J. Wysocki wrote:
+> > > > This message has been generated automatically as a part of a
+> > > > report of recent regressions.
+> > > > 
+> > > > The following bug entry is on the current list of known
+> > > > regressions from 2.6.26.  Please verify if it still should be
+> > > > listed and let me know (either way).
+> > > > 
+> > > > 
+> > > > Bug-Entry	:
+> > > > http://bugzilla.kernel.org/show_bug.cgi?id=11438
+> > > > Subject		: Upcoming oops in lockdep
+> > > > Submitter	: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> > > > Date		: 2008-08-23 20:49 (8 days old)
+> > > > References	:
+> > > > http://marc.info/?l=linux-kernel&m=121952463613140&w=4
+> > > > http://www.kerneloops.org/searchweek.php?search=mark_lock
+> > > > Handled-By	: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> > > 
+> > > as far as I'm concerned this has nothing to do with lockdep
+> > > 
+> > >
+> > 
+> > yeah the pattern increasing looks like a fedora special; eg the
+> > fedora utrace patches seem to be utter bust. As long as we keep
+> > utrace out of mainline we're fine ;-)
 > 
-> On Fri, 29 Aug 2008, Jes Sorensen wrote:
->> I have only tested this on ia64, but it boots, so it's obviously
->> perfect<tm> :-)
-> 
-> Well, it probably boots because it doesn't really seem to _change_ much of 
-> anything.
+> Should I close it, then?
 
-Hi Linus,
+yeah close it for now
 
-I realize that, but as I have been doing this work on ia64, I didn't
-want to mess too much with the x86 code. The ia64 part of the patch does
-change things :-)
-
-If someone with more x86 knowledge would want to try and make that part
-of the patch better, and more importantly test it, I'd be quite keen on
-helping out.
-
-Cheers,
-Jes
-
-
-> Things like this:
-> 
-> 	-static inline void arch_send_call_function_ipi(cpumask_t mask)
-> 	+static inline void arch_send_call_function_ipi(cpumask_t *mask)
-> 	 {
-> 	-       smp_ops.send_call_func_ipi(mask);
-> 	+       smp_ops.send_call_func_ipi(*mask);
-> 	 }
-> 
-> will still do that stack allocation at the time of the call. You'd have to 
-> pass the thing all the way down as a pointer..
-> 
-> 			Linus
-> 
+-- 
+If you want to reach me at my work email, use arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
+For development, discussion and tips for power savings, 
+visit http://www.lesswatts.org
