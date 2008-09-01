@@ -1,96 +1,102 @@
-From: "Yinghai Lu" <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-Date: Sun, 31 Aug 2008 14:03:23 -0700
-Message-ID: <86802c440808311403y57ba050q223fbe370d2c7675@mail.gmail.com>
-References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org>
-	 <200808302334.29156.rjw@sisk.pl>
-	 <86802c440808301810r17657f3fnb3c8af5496955e0d@mail.gmail.com>
-	 <200808311427.19369.rjw@sisk.pl>
-	 <alpine.LFD.1.10.0808311039330.12958@nehalem.linux-foundation.org>
-	 <86802c440808311054q4b8e8921qa9f090527b456e34@mail.gmail.com>
-	 <alpine.LFD.1.10.0808311100520.12958@nehalem.linux-foundation.org>
+From: Neil Brown <neilb-l3A5Bk7waGM@public.gmane.org>
+Subject: Re: [Bug #11460] 2.6.27-rc3 to -rc4 regression: init 0 hangs in halt
+Date: Mon, 1 Sep 2008 12:54:57 +1000
+Message-ID: <18619.22913.1452.426243@notabene.brown>
+References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik>
+	<N8SeMoDzuxC.A.-VD.xhbuIB@albercik>
+	<48B9C7C6.2060209@dgreaves.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_23139_6993983.1220216603530"
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type:references;
-        bh=5iOoGPX4wCZ42UzzRZjdesHxSklXY5t0N1J8DtYOBhI=;
-        b=fyIxnL3b6TxSklAWH4WO4rh1cX3mpkffEFPQcjw90rvktlUNxnVxd/aWI6RhGj1PSA
-         7B3ooFnYWFFY/0G06pAoI1RxGKTlBd967OObO5zcDmaL7w7OphwQLF7lBWP6ziMx+7rv
-         KDM7gZHGIWeyGk0Cjk1BBWMGX2603WLl/EwDQ=
-In-Reply-To: <alpine.LFD.1.10.0808311100520.12958-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+In-Reply-To: message from David Greaves on Saturday August 30
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: David Greaves <david-FQ/kcb21CSxWk0Htik3J/w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-------=_Part_23139_6993983.1220216603530
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+On Saturday August 30, david-FQ/kcb21CSxWk0Htik3J/w@public.gmane.org wrote:
+> Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.26.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11460
+> > Subject		: 2.6.27-rc3 to -rc4 regression: init 0 hangs in halt
+> > Submitter	: David Greaves <david-FQ/kcb21CSxWk0Htik3J/w@public.gmane.org>
+> > Date		: 2008-08-30 04:07 (1 days old)
+> 
+> Yes.
+> 
+> I'm trying to bisect it but came across a bug/problem in git doing bisects.
+> (see message subject "setlocalversion wasn't producing git labels for bisect")
 
-On Sun, Aug 31, 2008 at 11:03 AM, Linus Torvalds
-<torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
->
->
-> On Sun, 31 Aug 2008, Yinghai Lu wrote:
->>
->> wonder how the probe could find out the size of is 1fff_ffff..
->
-> Heh. That's how PCI sizing works: you write all ones to the register, and
-> read back the result. The low bits won't change, and that indicates the
-> size.
->
-> But if _none_ of the bits change, then that simply means that the size
-> will be calculated to be 0xffffffff-start.
->
-> So the sizing will "work", it will just always report that the BAR covers
-> everything from start to the 4G limit.
+Hi David.
 
-how about
+Could you please try this patch?
 
-
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index cce2f4c..3b5269a 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -240,6 +240,11 @@ static int __pci_read_base(struct pci_dev *dev,
-enum pci_bar_type type,
-        pci_read_config_dword(dev, pos, &l);
-        pci_write_config_dword(dev, pos, mask);
-        pci_read_config_dword(dev, pos, &sz);
-+
-+       /* sticky and non changable */
-+       if (sz == l)
-+               goto fail;
-+
-        pci_write_config_dword(dev, pos, l);
-
-        /*
+Thanks,
+NeilBrown
 
 
-Rafael,
+From 271f5a9b8f8ae0db95de72779d115c9d0b9d3cc5 Mon Sep 17 00:00:00 2001
+From: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
+Date: Mon, 1 Sep 2008 12:32:52 +1000
+Subject: [PATCH] Remove invalidate_partition call from do_md_stop.
 
-can you check attach one  to see if we still have warning ?
+When stopping an md array, or just switching to read-only, we
+currently call invalidate_partition while holding the mddev lock.
+The main reason for this is probably to ensure all dirty buffers
+are flushed (invalidate_partition calls fsync_bdev).
 
-YH
+However if any dirty buffers are found, it will almost certainly cause
+a deadlock as starting writeout will require an update to the
+superblock, and performing that updates requires taking the mddev
+lock - which is already held.
 
-------=_Part_23139_6993983.1220216603530
-Content-Type: text/x-patch; name=sticky_bar.patch
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_fkk5d8xo0
-Content-Disposition: attachment; filename=sticky_bar.patch
+This deadlock can be demonstrated by running "reboot -f -n" with
+a root filesystem on md/raid, and some dirty buffers in memory.
 
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvcGNpL3Byb2JlLmMgYi9kcml2ZXJzL3BjaS9wcm9iZS5jCmlu
-ZGV4IGNjZTJmNGMuLjNiNTI2OWEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcGNpL3Byb2JlLmMKKysr
-IGIvZHJpdmVycy9wY2kvcHJvYmUuYwpAQCAtMjQwLDYgKzI0MCwxMSBAQCBzdGF0aWMgaW50IF9f
-cGNpX3JlYWRfYmFzZShzdHJ1Y3QgcGNpX2RldiAqZGV2LCBlbnVtIHBjaV9iYXJfdHlwZSB0eXBl
-LAogCXBjaV9yZWFkX2NvbmZpZ19kd29yZChkZXYsIHBvcywgJmwpOwogCXBjaV93cml0ZV9jb25m
-aWdfZHdvcmQoZGV2LCBwb3MsIG1hc2spOwogCXBjaV9yZWFkX2NvbmZpZ19kd29yZChkZXYsIHBv
-cywgJnN6KTsKKworCS8qIHN0aWNreSBhbmQgbm9uIGNoYW5nYWJsZSAqLworCWlmIChzeiA9PSBs
-KQorCQlnb3RvIGZhaWw7CisKIAlwY2lfd3JpdGVfY29uZmlnX2R3b3JkKGRldiwgcG9zLCBsKTsK
-IAogCS8qCg==
-------=_Part_23139_6993983.1220216603530--
+All other calls to stop an array should already happen after a flush.
+The normal sequence is to stop using the array (e.g. umount) which
+will cause __blkdev_put to call sync_blockdev.  Then open the
+array and issue the STOP_ARRAY ioctl while the buffers are all still
+clean.
+
+So this invalidate_partition is normally a no-op, except for one case
+where it will cause a deadlock.
+
+So remove it.
+
+This patch possibly addresses the regression recored in
+   http://bugzilla.kernel.org/show_bug.cgi?id=11460
+and
+   http://bugzilla.kernel.org/show_bug.cgi?id=11452
+
+though it isn't yet clear how it ever worked.
+
+
+Signed-off-by: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
+---
+ drivers/md/md.c |    2 --
+ 1 files changed, 0 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index 8cfadc5..4790c83 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -3841,8 +3841,6 @@ static int do_md_stop(mddev_t * mddev, int mode, int is_open)
+ 
+ 		del_timer_sync(&mddev->safemode_timer);
+ 
+-		invalidate_partition(disk, 0);
+-
+ 		switch(mode) {
+ 		case 1: /* readonly */
+ 			err  = -ENXIO;
+-- 
+1.5.6.5
