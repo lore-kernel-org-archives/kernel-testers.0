@@ -1,46 +1,46 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit
- a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
-Date: Mon, 1 Sep 2008 10:53:04 -0700 (PDT)
-Message-ID: <alpine.LFD.1.10.0809011047530.12958@nehalem.linux-foundation.org>
-References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org>  <200808302334.29156.rjw@sisk.pl>  <86802c440808301810r17657f3fnb3c8af5496955e0d@mail.gmail.com>  <200808311427.19369.rjw@sisk.pl>  <alpine.LFD.1.10.0808311039330.12958@nehalem.linux-foundation.org>
-  <86802c440808311054q4b8e8921qa9f090527b456e34@mail.gmail.com>  <alpine.LFD.1.10.0808311100520.12958@nehalem.linux-foundation.org> <86802c440808311403y57ba050q223fbe370d2c7675@mail.gmail.com>
+From: Mikhail Kshevetskiy <mikhail.kshevetskiy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11191] 2.6.26-git8: spinlock lockup in c1e_idle()
+Date: Tue, 2 Sep 2008 00:46:24 +0400
+Message-ID: <20080902004624.61f39cfe@gmail.com>
+References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik>
+	<N8SeMoDzuxC.A.TJH.klbuIB@albercik>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <86802c440808311403y57ba050q223fbe370d2c7675-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:in-reply-to:references:x-mailer:mime-version
+         :content-type:content-transfer-encoding;
+        bh=BzTwco5r3d+CIaeCzZff9KVB8WujL+C8NY9r5kVrB50=;
+        b=oVMit5ZJI6YNiXR8921uZHqeUjtThud31FW0/riMt8xrGtk0KwK+nhvcDbY+yz78Ri
+         0HXT636fUk4TsHTLz/uoPuUFnpAJhT+OcKqa3mxbztHEm4drmiupeVk6dWCP0xuux4CR
+         g15t3jMv9EirnJg24Sivyz9WXOK/Mp+94jNUY=
+In-Reply-To: <N8SeMoDzuxC.A.TJH.klbuIB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
+On Sat, 30 Aug 2008 21:50:13 +0200 (CEST)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-
-On Sun, 31 Aug 2008, Yinghai Lu wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
-> how about
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
 > 
 > 
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index cce2f4c..3b5269a 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -240,6 +240,11 @@ static int __pci_read_base(struct pci_dev *dev,
-> enum pci_bar_type type,
->         pci_read_config_dword(dev, pos, &l);
->         pci_write_config_dword(dev, pos, mask);
->         pci_read_config_dword(dev, pos, &sz);
-> +
-> +       /* sticky and non changable */
-> +       if (sz == l)
-> +               goto fail;
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11191
+> Subject		: 2.6.26-git8: spinlock lockup in c1e_idle()
+> Submitter	: Mikhail Kshevetskiy <mikhail.kshevetskiy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2008-07-24 03:22 (38 days old)
+> References	: http://lkml.org/lkml/2008/7/23/317
+> Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+> 
+> 
 
-No, because a resource really _can_ be at the end. It's perfectly ok to 
-have something like a memory resource at 0xff000000-0xffffffff, and then 
-the BAR register would always read 0xff000000 (or 0x...4 for a 64-bit 
-resource).
-
-So calling that a failure case would be wrong.
-
-		Linus
+not fixed yet
