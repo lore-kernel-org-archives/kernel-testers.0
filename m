@@ -1,44 +1,84 @@
-From: David Greaves <david@dgreaves.com>
-Subject: Re: [Bug #11460] 2.6.27-rc3 to -rc4 regression: init 0 hangs in halt
-Date: Mon, 01 Sep 2008 10:23:12 +0100
-Message-ID: <48BBB480.3000907@dgreaves.com>
-References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik>	<N8SeMoDzuxC.A.-VD.xhbuIB@albercik>	<48B9C7C6.2060209@dgreaves.com> <18619.22913.1452.426243@notabene.brown>
+From: David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [Bug #11355] Regression in 2.6.27-rc2 when cross-building the
+	kernel
+Date: Mon, 01 Sep 2008 10:35:20 +0100
+Message-ID: <1220261720.2982.51.camel@pmac.infradead.org>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
+	 <VSpL6AnBTS.A.jvH.vaGsIB@albercik>  <200808242334.05993.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756898AbYIAJXZ@vger.kernel.org>
-In-Reply-To: <18619.22913.1452.426243@notabene.brown>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200808242334.05993.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Neil Brown <neilb@suse.de>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-Neil Brown wrote:
-> On Saturday August 30, david@dgreaves.com wrote:
->> Rafael J. Wysocki wrote:
->>> This message has been generated automatically as a part of a report
->>> of recent regressions.
->>>
->>> The following bug entry is on the current list of known regressions
->>> from 2.6.26.  Please verify if it still should be listed and let me know
->>> (either way).
->>>
->>>
->>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11460
->>> Subject		: 2.6.27-rc3 to -rc4 regression: init 0 hangs in halt
->>> Submitter	: David Greaves <david@dgreaves.com>
->>> Date		: 2008-08-30 04:07 (1 days old)
->> Yes.
->>
->> I'm trying to bisect it but came across a bug/problem in git doing bisects.
->> (see message subject "setlocalversion wasn't producing git labels for bisect")
+On Sun, 2008-08-24 at 23:34 +0200, Rafael J. Wysocki wrote:
+> On Saturday, 23 of August 2008, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.26.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11355
+> > Subject		: Regression in 2.6.27-rc2 when cross-building the kernel
+> > Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+> > Date		: 2008-08-16 2:38 (8 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=121885432118368&w=4
 > 
-> Hi David.
+> As I wrote in the Bugzilla, I'm seeing a related problem.
 > 
-> Could you please try this patch?
+> Namely, I build kernels on one box, with 'make O=<target>', then I mount
+> <target> on another one over NFS, 'cd' to it and try to install the kernel
+> modules with 'make modules_install'.  This results in 'HOSTCC firmware/ihex2fw'
+> and 'fatal error: ...: Read-only file system'.  It's readily reproducible.
+> 
+> Commenting out line 1130 of Makefile
+> ("$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.fwinst obj=firmware __fw_modinst")
+> obviously helps, so it looks like Makefile.fwinst needs fixing.
 
-Yes, that fixed it.
+I don't like this much, but it should do the trick... please confirm.
 
-Thanks
+diff --git a/firmware/Makefile b/firmware/Makefile
+index aab12bf..e7130b5 100644
+--- a/firmware/Makefile
++++ b/firmware/Makefile
+@@ -166,15 +166,28 @@ $(patsubst %,$(obj)/%.gen.o, $(fw-external-y)): $(obj)/%.gen.o: $(fwdir)/%
+ $(obj)/%: $(obj)/%.ihex | $(objtree)/$(obj)/$$(dir %)
+ 	$(call cmd,ihex)
+ 
++# Don't depend on ihex2fw if we're installing and it already exists.
++# Putting it after | in the dependencies doesn't seem sufficient when
++# we're installing after a cross-compile, because ihex2fw has dependencies
++# on stuff like /usr/lib/gcc/ppc64-redhat-linux/4.3.0/include/stddef.h and 
++# thus wants to be rebuilt. Which it can't be, if the prebuilt kernel tree
++# is exported read-only for someone to run 'make install'.
++ifeq ($(INSTALL):$(wildcard $(obj)/ihex2fw),install:$(obj)/ihex2fw)
++ihex2fw_dep :=
++else
++ihex2fw_dep := $(obj)/ihex2fw
++endif
++
++
+ # .HEX is also Intel HEX, but where the offset and length in each record
+ # is actually meaningful, because the firmware has to be loaded in a certain
+ # order rather than as a single binary blob. Thus, we convert them into our
+ # more compact binary representation of ihex records (<linux/ihex.h>)
+-$(obj)/%.fw: $(obj)/%.HEX $(obj)/ihex2fw | $(objtree)/$(obj)/$$(dir %)
++$(obj)/%.fw: $(obj)/%.HEX $(ihex2fw_dep) | $(objtree)/$(obj)/$$(dir %)
+ 	$(call cmd,ihex2fw)
+ 
+ # .H16 is our own modified form of Intel HEX, with 16-bit length for records.
+-$(obj)/%.fw: $(obj)/%.H16 $(obj)/ihex2fw | $(objtree)/$(obj)/$$(dir %)
++$(obj)/%.fw: $(obj)/%.H16 $(ihex2fw_dep) | $(objtree)/$(obj)/$$(dir %)
+ 	$(call cmd,h16tofw)
+ 
+ $(firmware-dirs):
 
-David
+-- 
+dwmw2
