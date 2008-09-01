@@ -1,59 +1,46 @@
-From: David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: [Bug #11355] Regression in 2.6.27-rc2 when cross-building the
-	kernel
-Date: Mon, 01 Sep 2008 18:37:47 +0100
-Message-ID: <1220290667.2982.95.camel@pmac.infradead.org>
-References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik>
-	 <VSpL6AnBTS.A.jvH.vaGsIB@albercik>  <200808242334.05993.rjw@sisk.pl>
-	 <1220261720.2982.51.camel@pmac.infradead.org>
-	 <48BC1D8E.9050608@lwfinger.net>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: Linux 2.6.27-rc5: System boot regression caused by commit
+ a2bd7274b47124d2fc4dfdb8c0591f545ba749dd
+Date: Mon, 1 Sep 2008 10:53:04 -0700 (PDT)
+Message-ID: <alpine.LFD.1.10.0809011047530.12958@nehalem.linux-foundation.org>
+References: <alpine.LFD.1.10.0808281555230.3300@nehalem.linux-foundation.org>  <200808302334.29156.rjw@sisk.pl>  <86802c440808301810r17657f3fnb3c8af5496955e0d@mail.gmail.com>  <200808311427.19369.rjw@sisk.pl>  <alpine.LFD.1.10.0808311039330.12958@nehalem.linux-foundation.org>
+  <86802c440808311054q4b8e8921qa9f090527b456e34@mail.gmail.com>  <alpine.LFD.1.10.0808311100520.12958@nehalem.linux-foundation.org> <86802c440808311403y57ba050q223fbe370d2c7675@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <48BC1D8E.9050608-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+In-Reply-To: <86802c440808311403y57ba050q223fbe370d2c7675-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Witbrodt <dawitbro-rphTv4pjVZMJGwgDXS7ZQA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, 2008-09-01 at 11:51 -0500, Larry Finger wrote:
-> David Woodhouse wrote:
-> > On Sun, 2008-08-24 at 23:34 +0200, Rafael J. Wysocki wrote:
-> >> On Saturday, 23 of August 2008, Rafael J. Wysocki wrote:
-> >>> This message has been generated automatically as a part of a report
-> >>> of recent regressions.
-> >>>
-> >>> The following bug entry is on the current list of known regressions
-> >>> from 2.6.26.  Please verify if it still should be listed and let me know
-> >>> (either way).
-> >>>
-> >>>
-> >>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11355
-> >>> Subject		: Regression in 2.6.27-rc2 when cross-building the kernel
-> >>> Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-> >>> Date		: 2008-08-16 2:38 (8 days old)
-> >>> References	: http://marc.info/?l=linux-kernel&m=121885432118368&w=4
-> >> As I wrote in the Bugzilla, I'm seeing a related problem.
-> >>
-> >> Namely, I build kernels on one box, with 'make O=<target>', then I mount
-> >> <target> on another one over NFS, 'cd' to it and try to install the kernel
-> >> modules with 'make modules_install'.  This results in 'HOSTCC firmware/ihex2fw'
-> >> and 'fatal error: ...: Read-only file system'.  It's readily reproducible.
-> >>
-> >> Commenting out line 1130 of Makefile
-> >> ("$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.fwinst obj=firmware __fw_modinst")
-> >> obviously helps, so it looks like Makefile.fwinst needs fixing.
-> > 
-> > I don't like this much, but it should do the trick... please confirm.
+
+
+On Sun, 31 Aug 2008, Yinghai Lu wrote:
 > 
-> Yes, the patch fixes the problem. Thanks.
+> how about
+> 
+> 
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index cce2f4c..3b5269a 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -240,6 +240,11 @@ static int __pci_read_base(struct pci_dev *dev,
+> enum pci_bar_type type,
+>         pci_read_config_dword(dev, pos, &l);
+>         pci_write_config_dword(dev, pos, mask);
+>         pci_read_config_dword(dev, pos, &sz);
+> +
+> +       /* sticky and non changable */
+> +       if (sz == l)
+> +               goto fail;
 
-Ok, I have a small handful of fixes to send to Linus for 2.6.27; Unless
-Sam (or someone else) comes up with a better answer, I'll make sure that
-goes with them.
+No, because a resource really _can_ be at the end. It's perfectly ok to 
+have something like a memory resource at 0xff000000-0xffffffff, and then 
+the BAR register would always read 0xff000000 (or 0x...4 for a 64-bit 
+resource).
 
-Thanks.
+So calling that a failure case would be wrong.
 
--- 
-dwmw2
+		Linus
