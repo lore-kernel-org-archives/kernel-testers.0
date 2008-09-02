@@ -1,41 +1,43 @@
-From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Subject: Re: [Bug #11191] 2.6.26-git8: spinlock lockup in c1e_idle()
-Date: Mon, 1 Sep 2008 23:20:28 +0200 (CEST)
-Message-ID: <alpine.LFD.1.10.0809012320050.3243@apollo.tec.linutronix.de>
-References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik> <N8SeMoDzuxC.A.TJH.klbuIB@albercik> <20080902004624.61f39cfe@gmail.com>
+From: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: 2.6.27-rc4-git1: Reported regressions from 2.6.26
+Date: Tue, 2 Sep 2008 09:26:43 +0200
+Message-ID: <20080902072642.GX20055@kernel.dk>
+References: <mzBsPw3QUOF.A.87F.wZGsIB@albercik> <alpine.LFD.1.10.0808241120460.3363@nehalem.linux-foundation.org> <m3k5e2qkk2.fsf@telia.com> <alpine.LFD.1.10.0808271335260.3363@nehalem.linux-foundation.org> <20080828135245.GA12410@infradead.org>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080902004624.61f39cfe-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20080828135245.GA12410-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mikhail Kshevetskiy <mikhail.kshevetskiy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Peter Osterlund <petero2-zq6IREYz3ykAvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Alan Cox <alan-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org
 
-On Tue, 2 Sep 2008, Mikhail Kshevetskiy wrote:
-> On Sat, 30 Aug 2008 21:50:13 +0200 (CEST)
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Thu, Aug 28 2008, Christoph Hellwig wrote:
+> On Wed, Aug 27, 2008 at 01:40:10PM -0700, Linus Torvalds wrote:
+> > 
+> > 
+> > On Wed, 27 Aug 2008, Peter Osterlund wrote:
+> > > 
+> > > Why not just revert the offending change and try again during the next
+> > > merge window, assuming someone has figured out an acceptable way to
+> > > handle this mess by then?
+> > 
+> > Well,, for 2.6.27 that's what we'll have to do. But there's actually a 
+> > real problem here - the unlocked ioctl's (which we _should_ prefer) have a 
+> > strictly weaker and worse interface. I also wonder if any other 
+> > block_ioctl users were converted..
 > 
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.26.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11191
-> > Subject		: 2.6.26-git8: spinlock lockup in c1e_idle()
-> > Submitter	: Mikhail Kshevetskiy <mikhail.kshevetskiy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2008-07-24 03:22 (38 days old)
-> > References	: http://lkml.org/lkml/2008/7/23/317
-> > Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-> > 
-> > 
+> Actually both interfaces are a fscking disaster.  The right things to
+> pass is neither and inode nor a file but a struct block_device.  Al had
+> all this work done a while and it just needs rebasing to a current tree:
 > 
-> not fixed yet
+> 	http://git.kernel.org/?p=linux/kernel/git/viro/bdev.git;a=summary
 
-Working on a debug patch.
+Completely agreed. Al, I remember talking to you about this at the
+storage summit back in february. What are your current plans wrt moving
+this forward?
 
-	tglx
+-- 
+Jens Axboe
