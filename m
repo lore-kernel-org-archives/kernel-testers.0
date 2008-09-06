@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11404] BUG: in 2.6.23-rc3-git7 in do_cciss_intr
+Subject: [Bug #11403] 2.6.27-rc2 USB suspend regression
 Date: Sat,  6 Sep 2008 23:30:41 +0200 (CEST)
-Message-ID: <Wz8EH5sroeE.A.ROB.hpwwIB@albercik>
+Message-ID: <Wz8EH5sroeE.A.RTB.jpwwIB@albercik>
 References: <s3QDdfEDq6.A.wlH.MowwIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>, "Miller, Mike (OS Dev)" <Mike.Miller-VXdhtT5mjnY@public.gmane.org>, rdunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,12 +22,10 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11404
-Subject		: BUG: in 2.6.23-rc3-git7 in do_cciss_intr
-Submitter	: rdunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Date		: 2008-08-21 5:52 (17 days old)
-References	: http://marc.info/?l=linux-kernel&m=121929819616273&w=4
-		  http://marc.info/?l=linux-kernel&m=121932889105368&w=4
-Handled-By	: Miller, Mike (OS Dev) <Mike.Miller-VXdhtT5mjnY@public.gmane.org>
-		  James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11403
+Subject		: 2.6.27-rc2 USB suspend regression
+Submitter	: Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
+Date		: 2008-08-20 20:48 (18 days old)
+References	: http://marc.info/?l=linux-kernel&m=121926536103630&w=4
+Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
 
