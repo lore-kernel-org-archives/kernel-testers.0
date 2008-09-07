@@ -1,30 +1,33 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11512] sort-of regression due to "kconfig: speed up all*config + randconfig"
-Date: Sat,  6 Sep 2008 23:30:47 +0200 (CEST)
-Message-ID: <Wz8EH5sroeE.A.upH.RowwIB@albercik>
+From: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [Bug #11209] 2.6.27-rc1 process time accounting
+Date: Sun, 07 Sep 2008 11:04:33 +0200
+Message-ID: <1220778273.8687.20.camel@twins.programming.kicks-ass.net>
 References: <s3QDdfEDq6.A.wlH.MowwIB@albercik>
+	 <Wz8EH5sroeE.A.mUD.WswwIB@albercik>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <s3QDdfEDq6.A.wlH.MowwIB@albercik>
-Content-Disposition: inline
+In-Reply-To: <Wz8EH5sroeE.A.mUD.WswwIB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of recent regressions.
+On Sat, 2008-09-06 at 23:30 +0200, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11209
+> Subject		: 2.6.27-rc1 process time accounting
+> Submitter	: Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
+> Date		: 2008-07-31 10:43 (38 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121750102917490&w=4
+> Handled-By	: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-The following bug entry is on the current list of known regressions
-from 2.6.26.  Please verify if it still should be listed and let me know
-(either way).
-
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11512
-Subject		: sort-of regression due to "kconfig: speed up all*config + randconfig"
-Submitter	: Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-09-05 22:50 (2 days old)
-References	: http://marc.info/?l=linux-kernel&m=122065498013858&w=4
-
+Should be fixed in the latest -git
