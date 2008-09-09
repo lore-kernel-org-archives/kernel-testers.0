@@ -1,55 +1,37 @@
-From: Jens Axboe <jens.axboe@oracle.com>
-Subject: Re: 2.6.27-rc5-mm1: rmmod ide-cd_mod: tried to init an initialized  object, something is seriously wrong.
-Date: Tue, 9 Sep 2008 15:21:42 +0200
-Message-ID: <20080909132142.GM20055@kernel.dk>
-References: <200809051528.54213.rjw@sisk.pl> <200809091107.04629.m.kozlowski@tuxland.pl> <20080909102925.GE20055@kernel.dk> <200809091414.32570.m.kozlowski@tuxland.pl>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [PATCH] e100: Use pci_pme_active for clearing wake-up events and disabling PME#
+Date: Tue, 9 Sep 2008 18:01:30 +0200
+Message-ID: <200809091801.31732.elendil@planet.nl>
+References: <200809090812.37649.elendil@planet.nl> <200809091514.23817.rjw@sisk.pl>
 Mime-Version: 1.0
-Return-path: <linux-ide-owner@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200809091514.23817.rjw-KKrjLPT3xs0@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <200809091414.32570.m.kozlowski@tuxland.pl>
-Sender: linux-ide-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Mariusz Kozlowski <m.kozlowski@tuxland.pl>
-Cc: FUJITA Tomonori <fujita.tomonori@lab.ntt.co.jp>, rjw@sisk.pl, akpm@linux-foundation.org, bzolnier@gmail.com, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, linux-ide@vger.kernel.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, e1000-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Tue, Sep 09 2008, Mariusz Kozlowski wrote:
-> > > On the other hand on newer kernels (post 2.6.26 - these which did not blow up) right
-> > > after boot I have to run rmmod ide-cd_mod exactly three times to have ide-cd_mod
-> > > unloaded. If I modprobe and rmmod again it works as expected. Why is this?
-> > > 
-> > > laptop mako # modprobe ide-cd_mod
-> > > laptop mako # rmmod ide-cd_mod
-> > > laptop mako # rmmod ide-cd_mod
-> > > laptop mako # rmmod ide-cd_mod
-> > > laptop mako # rmmod ide-cd_mod
-> > > ERROR: Module ide_cd_mod does not exist in /proc/modules
-> > > laptop mako # modprobe ide-cd_mod
-> > > laptop mako # rmmod ide-cd_mod
-> > > laptop mako # rmmod ide-cd_mod
-> > > ERROR: Module ide_cd_mod does not exist in /proc/modules
-> > 
-> > Can you try the below patch from Elias?
-> 
-> Sure. It applied fine to clean current mainline. It looks ok now. No oopses and no BUGs.
-> But still after a fresh boot I see 
-> 
-> # modprobe ide-cd_mod
-> # rmmod ide-cd_mod
-> # rmmod ide-cd_mod
-> # rmmod ide-cd_mod
-> ERROR: Module ide_cd_mod does not exist in /proc/modules
-> # modprobe ide-cd_mod
-> # rmmod ide-cd_mod
-> # rmmod ide-cd_mod
-> ERROR: Module ide_cd_mod does not exist in /proc/modules
-> 
-> You need to rmmod ide-cd_mod twice to get it unloaded. After another
-> modprobe/rmmod it works as expected.
+On Tuesday 09 September 2008, Rafael J. Wysocki wrote:
+> The appended patch should fix the problem (ISTR sending it some time
+> ago already).
 
-Looks like something for Bart to look into.
+Patch works for me.
 
--- 
-Jens Axboe
+Thanks Rafael!
 
+> e100: Use pci_pme_active for clearing wake-up events and disabling PME#
+>
+> Currently e100 uses pci_enable_wake() to clear pending wake-up events
+> and disable PME# during intitialization, but that function is not
+> suitable for this purpose, because it immediately returns error code
+> if device_may_wakeup() returns false for given device.
+>
+> Make e100 use pci_pme_active(), which carries out exactly the
+> required operations, instead.
+>
+> Signed-off-by: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+
+Tested-by: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
