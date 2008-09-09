@@ -1,30 +1,23 @@
 From: Frans Pop <elendil@planet.nl>
-Subject: [regression] e100: PCI wake-up handling rework causes
-	"Error clearing wake event"
-Date: Tue, 9 Sep 2008 07:42:15 +0200
-Message-ID: <200809090742.19652.elendil@planet.nl>
+Subject: [regression] e100: PCI wake-up handling rework causes "Error clearing wake event"
+Date: Tue, 9 Sep 2008 08:12:34 +0200
+Message-ID: <200809090812.37649.elendil@planet.nl>
 Mime-Version: 1.0
 Content-Type: Multipart/Mixed;
-  boundary="Boundary-00=_7ygxILAmMvBRh7H"
-Return-path: <e1000-devel-bounces@lists.sourceforge.net>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/e1000-devel>, 
-	<mailto:e1000-devel-request@lists.sourceforge.net?subject=unsubscribe>
-List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=e1000-devel>
-List-Post: <mailto:e1000-devel@lists.sourceforge.net>
-List-Help: <mailto:e1000-devel-request@lists.sourceforge.net?subject=help>
-List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/e1000-devel>,
-	<mailto:e1000-devel-request@lists.sourceforge.net?subject=subscribe>
-Sender: e1000-devel-bounces@lists.sourceforge.net
-Errors-To: e1000-devel-bounces@lists.sourceforge.net
+  boundary="Boundary-00=_VPhxI2X0PVuxfKD"
+Return-path: <netdev-owner@vger.kernel.org>
+Sender: netdev-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
 To: linux-kernel@vger.kernel.org
-Cc: e1000-devel@lists.sourceforge.net, "Rafael J. Wysocki" <rjw@sisk.pl>, kernel-testers@vger.kernel.org, jesse.brandeburg@intel.com, netdev@vger.kernel.org
+Cc: e1000-devel@lists.sourceforge.net, "Rafael J. Wysocki" <rjw@sisk.pl>, netdev@vger.kernel.org, kernel-testers@vger.kernel.org, jesse.brandeburg@intel.com
 
---Boundary-00=_7ygxILAmMvBRh7H
+--Boundary-00=_VPhxI2X0PVuxfKD
 Content-Type: text/plain;
   charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
+
+(Resending because of error in mail headers in previous attempt; sorry)
 
 On my Toshiba Satellite A40 with 2.6.27-rc4/5 I noticed the following 
 error in the boot log (not there with 2.6.26):
@@ -57,7 +50,7 @@ Cheers,
 FJP
 
 
---Boundary-00=_7ygxILAmMvBRh7H
+--Boundary-00=_VPhxI2X0PVuxfKD
 Content-Type: text/plain;
   charset="us-ascii";
   name="2.6.27-rc5"
@@ -587,7 +580,7 @@ e100: eth0: e100_watchdog: link up, 100Mbps, full-duplex
 ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
 eth0: no IPv6 routers present
 
---Boundary-00=_7ygxILAmMvBRh7H
+--Boundary-00=_VPhxI2X0PVuxfKD
 Content-Type: text/plain;
   charset="us-ascii";
   name="config-2.6.27-rc5"
@@ -3201,27 +3194,4 @@ CONFIG_HAS_IOPORT=y
 CONFIG_HAS_DMA=y
 CONFIG_CHECK_SIGNATURE=y
 
---Boundary-00=_7ygxILAmMvBRh7H
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
--------------------------------------------------------------------------
-This SF.Net email is sponsored by the Moblin Your Move Developer's challenge
-Build the coolest Linux based applications with Moblin SDK & win great prizes
-Grand prize is a trip for two to an Open Source event anywhere in the world
-http://moblin-contest.org/redirect.php?banner_id=100&url=/
---Boundary-00=_7ygxILAmMvBRh7H
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-E1000-devel mailing list
-E1000-devel@lists.sourceforge.net
-https://lists.sourceforge.net/lists/listinfo/e1000-devel
-
---Boundary-00=_7ygxILAmMvBRh7H--
-
+--Boundary-00=_VPhxI2X0PVuxfKD--
