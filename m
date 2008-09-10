@@ -1,37 +1,36 @@
-From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Subject: Re: [PATCH] e100: Use pci_pme_active for clearing wake-up events and disabling PME#
-Date: Tue, 9 Sep 2008 18:01:30 +0200
-Message-ID: <200809091801.31732.elendil@planet.nl>
-References: <200809090812.37649.elendil@planet.nl> <200809091514.23817.rjw@sisk.pl>
+From: Lennert Buytenhek <buytenh-OLH4Qvv75CYX/NnBR394Jw@public.gmane.org>
+Subject: Re: [Bug #11334] myri10ge: use ioremap_wc: compilation failure on ARM
+Date: Wed, 10 Sep 2008 14:09:34 +0200
+Message-ID: <20080910120934.GA23772@xi.wantstofly.org>
+References: <s3QDdfEDq6.A.wlH.MowwIB@albercik> <Wz8EH5sroeE.A.aLC.aqwwIB@albercik>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200809091514.23817.rjw-KKrjLPT3xs0@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <Wz8EH5sroeE.A.aLC.aqwwIB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, e1000-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Brice Goglin <brice-vV262kQ/Wyo@public.gmane.org>, Martin Michlmayr <tbm-R+vWnYXSFMfQT0dZR+AlfA@public.gmane.org>
 
-On Tuesday 09 September 2008, Rafael J. Wysocki wrote:
-> The appended patch should fix the problem (ISTR sending it some time
-> ago already).
+On Sat, Sep 06, 2008 at 11:30:38PM +0200, Rafael J. Wysocki wrote:
 
-Patch works for me.
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11334
+> Subject		: myri10ge: use ioremap_wc: compilation failure on ARM
+> Submitter	: Martin Michlmayr <tbm-R+vWnYXSFMfQT0dZR+AlfA@public.gmane.org>
+> Date		: 2008-08-10 11:25 (28 days old)
+> References	: http://marc.info/?l=linux-netdev&m=121836771727632&w=2
+> Handled-By	: Lennert Buytenhek <buytenh-OLH4Qvv75CYX/NnBR394Jw@public.gmane.org>
+> Patch		: http://bugzilla.kernel.org/show_bug.cgi?id=11334#c13
 
-Thanks Rafael!
-
-> e100: Use pci_pme_active for clearing wake-up events and disabling PME#
->
-> Currently e100 uses pci_enable_wake() to clear pending wake-up events
-> and disable PME# during intitialization, but that function is not
-> suitable for this purpose, because it immediately returns error code
-> if device_may_wakeup() returns false for given device.
->
-> Make e100 use pci_pme_active(), which carries out exactly the
-> required operations, instead.
->
-> Signed-off-by: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-
-Tested-by: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+The patch to fix this is upstream now (in -rc6), as commit
+1ad77a876da48331451698cc4172c90ab9b6372f.
