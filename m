@@ -1,42 +1,53 @@
-From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [Bug #11500] /proc/net bug related to selinux
-Date: Fri, 12 Sep 2008 15:24:43 -0700
-Message-ID: <20080912152443.c4e59f42.akpm@linux-foundation.org>
-References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
-	<SpS7rta8n4.A.i9G.ZcsyIB@albercik>
-	<alpine.LRH.1.10.0809130812460.12313@tundra.namei.org>
+From: Rene Herman <rene.herman-cENuUygGYd//D1n+0JDH9g@public.gmane.org>
+Subject: Re: [Bug #11550] pnp: Huge number of "io resource overlap" messages
+Date: Sat, 13 Sep 2008 00:52:33 +0200
+Message-ID: <48CAF2B1.7000008@keyaccess.nl>
+References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik> <SpS7rta8n4.A.aHG.2bsyIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LRH.1.10.0809130812460.12313-CK9fWmtY32x9JUWOpEiw7w@public.gmane.org>
+In-Reply-To: <SpS7rta8n4.A.aHG.2bsyIB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>
-Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, sds-+05T5uksL2qpZYMLLGbcSA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
 
-On Sat, 13 Sep 2008 08:14:10 +1000 (EST)
-James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org> wrote:
+On 12-09-08 21:06, Rafael J. Wysocki wrote:
 
-> On Fri, 12 Sep 2008, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.26.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11500
-> > Subject		: /proc/net bug related to selinux
-> > Submitter	: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-> > Date		: 2008-09-04 17:45 (9 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=122055041313270&w=4
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
 > 
-> I think this might be a regression caused by namespace changes which we 
-> addressed in SELinux policy.  Which distro version & policy version is 
-> this seen with?
 > 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11550
+> Subject		: pnp: Huge number of "io resource overlap" messages
+> Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+> Date		: 2008-09-09 10:50 (4 days old)
+> References	: http://marc.info/?l=linux-kernel&m=122095745403793&w=4
+> Handled-By	: Rene Herman <rene.herman-cENuUygGYd//D1n+0JDH9g@public.gmane.org>
+> 		  Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+> Patch		: http://marc.info/?l=linux-kernel&m=122098498125536&w=4
 
-FC5 on x86_32 and FC6 on x86_64.
+It should be. The patch listed should be good as far as I'm concerned 
+but needs to be pushed by Bjorn as PnP mainatainer. Generally speaking 0 
+wouldn't be a _very_ necesarily invalid value it seems so it's maybe not 
+very nice.
+
+If someone wants a changelog though, this should do:
+
+===
+PNP: avoid checking unitialized BARs for conflicts
+
+Avoid checking a PCI BAR for conflicts if the BIOS left it unitialized.
+
+Reported-by: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Signed-off-by: Rene Herman <rene.herman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+===
+
+(Frans: Tested-by?)
+
+Rene.
