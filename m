@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11556] e100: PCI wake-up handling rework causes "Error clearing wake event"
-Date: Fri, 12 Sep 2008 21:06:32 +0200 (CEST)
-Message-ID: <SpS7rta8n4.A.OiF.mbsyIB@albercik>
+Subject: [Bug #11554] Partition check considered as error is breaking mounting in 2.6.27
+Date: Fri, 12 Sep 2008 21:06:31 +0200 (CEST)
+Message-ID: <SpS7rta8n4.A.oyF.sbsyIB@albercik>
 References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Abdel Benamrouche <draconux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Herton Ronaldo Krzesinski <herton-4qZELD6Fgxg39yzSjRtAkw@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,9 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11556
-Subject		: e100: PCI wake-up handling rework causes "Error clearing wake event"
-Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Date		: 2008-09-09 6:12 (4 days old)
-References	: http://marc.info/?l=linux-netdev&m=122094080712131&w=4
-Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-Patch		: http://marc.info/?l=linux-kernel&m=122096638020191&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11554
+Subject		: Partition check considered as error is breaking mounting in 2.6.27
+Submitter	: Herton Ronaldo Krzesinski <herton-4qZELD6Fgxg39yzSjRtAkw@public.gmane.org>
+Date		: 2008-09-12 16:56 (1 days old)
+References	: http://marc.info/?l=linux-kernel&m=122123862519434&w=4
 
