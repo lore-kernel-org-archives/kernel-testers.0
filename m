@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11308] tbench regression on each kernel release from  2.6.22 -&gt; 2.6.28
-Date: Fri, 12 Sep 2008 21:06:23 +0200 (CEST)
-Message-ID: <SpS7rta8n4.A.mr.ZesyIB@albercik>
+Subject: [Bug #11343] SATA Cold Boot Problems with 2.6.27-rc[23] on nVidia 680i
+Date: Fri, 12 Sep 2008 21:06:24 +0200 (CEST)
+Message-ID: <SpS7rta8n4.A.rU.6dsyIB@albercik>
 References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Manny Maxwell <mannymax-7UBucS1kxs3k1uMJSBkQmQ@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11308
-Subject		: tbench regression on each kernel release from 2.6.22 -&gt; 2.6.28
-Submitter	: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Date		: 2008-08-11 18:36 (33 days old)
-References	: http://marc.info/?l=linux-kernel&m=121847986119495&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11343
+Subject		: SATA Cold Boot Problems with 2.6.27-rc[23] on nVidia 680i
+Submitter	: Manny Maxwell <mannymax-7UBucS1kxs3k1uMJSBkQmQ@public.gmane.org>
+Date		: 2008-08-14 4:16 (30 days old)
+References	: http://marc.info/?l=linux-kernel&m=121868782917600&w=4
 
