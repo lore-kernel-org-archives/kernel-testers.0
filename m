@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11476] failure to associate after resume from suspend to ram
-Date: Fri, 12 Sep 2008 21:06:28 +0200 (CEST)
-Message-ID: <SpS7rta8n4.A.fJH.jcsyIB@albercik>
+Subject: [Bug #11505] oltp ~10% regression with 2.6.27-rc5 on stoakley machine
+Date: Fri, 12 Sep 2008 21:06:29 +0200 (CEST)
+Message-ID: <SpS7rta8n4.A.ZvG.OcsyIB@albercik>
 References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dan Williams <dcbw-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jouni Malinen <j@w1.fi>, "Michael S. Tsirkin" <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Zhu Yi <yi.zhu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gregory Haskins <ghaskins-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,12 +22,13 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11476
-Subject		: failure to associate after resume from suspend to ram
-Submitter	: Michael S. Tsirkin <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-09-01 13:33 (12 days old)
-References	: http://marc.info/?l=linux-kernel&m=122028529415108&w=4
-Handled-By	: Zhu Yi <yi.zhu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-		  Dan Williams <dcbw-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-		  Jouni Malinen <j@w1.fi>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11505
+Subject		: oltp ~10% regression with 2.6.27-rc5 on stoakley machine
+Submitter	: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2008-09-04 7:06 (9 days old)
+References	: http://marc.info/?l=linux-kernel&m=122051202202373&w=4
+		  http://marc.info/?t=122089704700005&r=1&w=4
+Handled-By	: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+		  Gregory Haskins <ghaskins-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>
+		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
