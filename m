@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11463] sshd hangs on close
-Date: Fri, 12 Sep 2008 21:06:26 +0200 (CEST)
-Message-ID: <SpS7rta8n4.A.5WH.rcsyIB@albercik>
+Subject: [Bug #11501] Failed to open destination file: Permission deniedihex2fw
+Date: Fri, 12 Sep 2008 21:06:28 +0200 (CEST)
+Message-ID: <SpS7rta8n4.A.e5G.XcsyIB@albercik>
 References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Matthias Urlichs <matthias-+qxcz+fHsVSELgA04lAiVw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11463
-Subject		: sshd hangs on close
-Submitter	: Matthias Urlichs <matthias-+qxcz+fHsVSELgA04lAiVw@public.gmane.org>
-Date		: 2008-08-30 9:18 (14 days old)
-References	: http://marc.info/?l=linux-kernel&m=122008800512864&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11501
+Subject		: Failed to open destination file: Permission deniedihex2fw
+Submitter	: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Date		: 2008-09-04 18:34 (9 days old)
+References	: http://marc.info/?l=linux-kernel&m=122055342419068&w=4
 
