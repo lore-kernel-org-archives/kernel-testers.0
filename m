@@ -1,55 +1,119 @@
-From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Subject: Re: [Bug #11553] Strange looking line from "ps aux"
-Date: Sat, 13 Sep 2008 09:51:38 +0100
-Message-ID: <48CB7F1A.7080201@tuffmail.co.uk>
-References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik> <SpS7rta8n4.A.o2F.ubsyIB@albercik>
+From: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [Bug #11308] tbench regression on each kernel release from 
+	2.6.22 -&gt; 2.6.28
+Date: Sat, 13 Sep 2008 13:44:47 +0200
+Message-ID: <1221306287.5213.111.camel@marge.simson.net>
+References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
+	 <SpS7rta8n4.A.mr.ZesyIB@albercik>  <48CAE7A0.8000004@linux-foundation.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding:sender;
-        bh=3X1u/EpqJCmHOMMuy2tHDltEKdChgVOXZ8MJH1EmBgc=;
-        b=Oc4Ghh/2nz4y6gua+ada7PlwP4Aae0zlVzT2KMEcHQaawyQkJE98SviXbv32HZ2unf
-         m+h6m00YJhqoDuPziWv+qx0o7psYEEFumYHA20j08y7oL09HWig+ZkdnCYx9sI96eKF4
-         msJWdeRDfLCqK3kNcQ6sJ3lboekPHN8Re65D4=
-In-Reply-To: <SpS7rta8n4.A.o2F.ubsyIB@albercik>
+In-Reply-To: <48CAE7A0.8000004-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="macroman"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?UTF-8?B?Um9nw6lyaW8gQnJpdG8=?= <rbrito-qczF+2RCDl1fyO9Q7EP/yw@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me k=
-now
-> (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11553
-> Subject		: Strange looking line from "ps aux"
-> Submitter	: Rog=C3=A9rio Brito <rbrito-qczF+2RCDl1fyO9Q7EP/yw@public.gmane.org>
-> Date		: 2008-09-11 17:43 (2 days old)
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D122115506018275&w=
-=3D4
->
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe kernel-test=
-ers" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->  =20
+On Fri, 2008-09-12 at 17:05 -0500, Christoph Lameter wrote:
+> Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.26.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11308
+> > Subject		: tbench regression on each kernel release from 2.6.22 -&gt; 2.6.28
+> > Submitter	: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+> > Date		: 2008-08-11 18:36 (33 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=121847986119495&w=4
+> > 
+> > 
+> > 
+> 
+> tbench
+> 
+> 2.6.27-rc6	2760 MB/sec
+> 2.6.22 		3235.47 MB/sec
 
-Isn't this another instance of
-<http://bugzilla.kernel.org/show_bug.cgi?id=3D11209>?
+Numbers from my Q6600 Aldi supermarket box (hm, your box is from different shelf)
 
-If you can try 2.6.27-rc6, that should fix it.
+tbench -t 60 4 localhost followed by 4 60s netperf TCP_RR pairs, each pair
+jabbering on a separate port and affine to a separate CPU.  Configs are
+as close as I can make them, all kernels built and tested today by
+identical userland.
 
-Alan
+2.6.22.19
+Throughput 1136.02 MB/sec 4 procs
+
+16384  87380  1        1       60.01    94179.12
+16384  87380  1        1       60.01    88780.61
+16384  87380  1        1       60.01    91057.72
+16384  87380  1        1       60.01    94242.16
+
+2.6.22.19-cfs-v24.1  (identical config)
+Throughput 1126.79 MB/sec 4 procs
+
+16384  87380  1        1       60.00    88809.14
+16384  87380  1        1       60.00    89971.25
+16384  87380  1        1       60.01    89452.91
+16384  87380  1        1       60.01    89478.63
+
+2.6.23.17
+Throughput 1073.2 MB/sec 4 procs
+
+16384  87380  1        1       60.00    83635.61
+16384  87380  1        1       60.00    82754.36
+16384  87380  1        1       60.00    84594.59
+16384  87380  1        1       60.00    82995.81
+
+2.6.23.17-cfs-v24.1  (identical config)
+Throughput 1145.28 MB/sec 4 procs
+
+16384  87380  1        1       60.00    90278.55
+16384  87380  1        1       60.01    90579.31
+16384  87380  1        1       60.01    89412.14
+16384  87380  1        1       60.00    90270.97
+
+2.6.24.7
+Throughput 1119.28 MB/sec 4 procs
+
+16384  87380  1        1       60.00    84092.78
+16384  87380  1        1       60.00    84120.68
+16384  87380  1        1       60.00    84076.73
+16384  87380  1        1       60.00    83995.07
+
+2.6.25.17
+Throughput 1113.82 MB/sec 4 procs
+
+16384  87380  1        1       60.00    84629.98
+16384  87380  1        1       60.00    84776.38
+16384  87380  1        1       60.00    84356.49
+16384  87380  1        1       60.00    84469.71
+
+2.6.26.5
+Throughput 1095.26 MB/sec 4 procs
+
+16384  87380  1        1       60.00    84481.11
+16384  87380  1        1       60.00    84604.38
+16384  87380  1        1       60.01    86526.84
+16384  87380  1        1       60.01    84478.01
+
+2.6.27-rc6
+Throughput 1037.98 MB/sec 4 procs
+
+16384  87380  1        1       60.00    80293.80
+16384  87380  1        1       60.00    80266.60
+16384  87380  1        1       60.00    80394.83
+16384  87380  1        1       60.01    80397.27
+
+I spent two weeks chasing various and sundry netperf numbers recently,
+only learning in the process that netperf is _utterly immune_ to
+bisection.  Tbench numbers don't look promising for bisection from here.
+
+Note to quixotic self: destroy log immediately lest you be tempted.
+
+	-Mike
