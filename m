@@ -1,40 +1,52 @@
-From: James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>
-Subject: Re: [Bug #11500] /proc/net bug related to selinux
-Date: Sat, 13 Sep 2008 10:15:43 +1000 (EST)
-Message-ID: <alpine.LRH.1.10.0809131012310.13073@tundra.namei.org>
-References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik> <SpS7rta8n4.A.i9G.ZcsyIB@albercik> <alpine.LRH.1.10.0809130812460.12313@tundra.namei.org> <20080912152443.c4e59f42.akpm@linux-foundation.org>
+From: "Justin Mattock" <justinmattock@gmail.com>
+Subject: Re: [Bug #11552] Disabling IRQ #23
+Date: Fri, 12 Sep 2008 20:24:48 -0700
+Message-ID: <dd18b0c30809122024g7fc2f77cpc3dedd8d7d1053a5@mail.gmail.com>
+References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
+	 <SpS7rta8n4.A.h8F.xbsyIB@albercik>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080912152443.c4e59f42.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, sds-+05T5uksL2qpZYMLLGbcSA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757871AbYIMDZB@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=GbvyQP+Kh4j859L4kGPNP1Xx8qNrkspwT8KSSdqfWBM=;
+        b=aYyXjMIpmO2/IFI3P5zsxmEVCL6ESUjwE0lECo3CVYjryGjA0JvpLNHrt8JxGDuoFD
+         hO1SbE6x7pHQVQZbE8+Qfds3OqWBE6ySuaq42iuDQqB85AMgcfHlcpkMHXisVnVhBOqe
+         DqtbiGUGSkOf99KijVJuUDNXenLsLg2VYfsX8=
+In-Reply-To: <SpS7rta8n4.A.h8F.xbsyIB@albercik>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Yinghai Lu <yhlu.kernel@gmail.com>
 
-On Fri, 12 Sep 2008, Andrew Morton wrote:
+On Fri, Sep 12, 2008 at 12:06 PM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
+>
+>
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=11552
+> Subject         : Disabling IRQ #23
+> Submitter       : Justin Mattock <justinmattock@gmail.com>
+> Date            : 2008-09-09 19:08 (4 days old)
+> References      : http://marc.info/?l=linux-kernel&m=122098735230906&w=4
+>                  http://marc.info/?l=linux-kernel&m=122107367715361&w=4
+> Handled-By      : Yinghai Lu <yhlu.kernel@gmail.com>
+>
+>
+>
 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11500
-> > > Subject		: /proc/net bug related to selinux
-> > > Submitter	: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-> > > Date		: 2008-09-04 17:45 (9 days old)
-> > > References	: http://marc.info/?l=linux-kernel&m=122055041313270&w=4
-> > 
-> > I think this might be a regression caused by namespace changes which we 
-
-By which I mean, this was caused by a non-SELinux change to the upstream 
-kernel many, many eons ago.
-
-> > addressed in SELinux policy.  Which distro version & policy version is 
-> > this seen with?
-> > 
-> 
-> FC5 on x86_32 and FC6 on x86_64.
-
-As mentioned in the bugzilla, any related avc messages would be useful.
-
+yeah I think it would be a good idea.
+something to do with ehci_hcd, i.g. if I blacklist
+ehci_hcd  Disabling IRQ#23 message doesnt seem to be showing up.
 
 -- 
-James Morris
-<jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>
+Justin P. Mattock
