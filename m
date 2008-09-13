@@ -1,87 +1,152 @@
-From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [Bug #11500] /proc/net bug related to selinux
-Date: Sat, 13 Sep 2008 12:37:22 -0700
-Message-ID: <20080913123722.e238ae2a.akpm@linux-foundation.org>
-References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
-	<SpS7rta8n4.A.i9G.ZcsyIB@albercik>
-	<alpine.LRH.1.10.0809130812460.12313@tundra.namei.org>
-	<20080912152443.c4e59f42.akpm@linux-foundation.org>
-	<alpine.LRH.1.10.0809131012310.13073@tundra.namei.org>
+From: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: 2.6.27-rc6: lockdep warning: iprune_mutex at
+	shrink_icache_memory+0x38/0x1a8
+Date: Sun, 14 Sep 2008 03:31:38 +0400
+Message-ID: <20080913233138.GA19576@orion>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LRH.1.10.0809131012310.13073-CK9fWmtY32x9JUWOpEiw7w@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:subject
+         :message-id:mime-version:content-type:content-disposition:user-agent;
+        bh=yggihOV+zFCOW1FWl7u5Ron1fIwpjZ/fz8w77gEgycU=;
+        b=DGtKDv7xsr5nR5iYRUoeDXBh/AO0kLUEsd47gOgfNbTrRA9fAsUy8wJuIdpRZaJV0G
+         Hm4Y1WZGoNWzH4GprdRb5VrqiL/WJfkYNVVN0yiOeb9lU6mNKHEYYmPQN8QH7fj8X88H
+         7mvN8HSaWi/RPMJ7VgnBZ3YmjJ6/TCdDMf4Gc=
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>
-Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, sds-+05T5uksL2qpZYMLLGbcSA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Sat, 13 Sep 2008 10:15:43 +1000 (EST) James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org> wrote:
+Hi
 
-> On Fri, 12 Sep 2008, Andrew Morton wrote:
-> 
-> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11500
-> > > > Subject		: /proc/net bug related to selinux
-> > > > Submitter	: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-> > > > Date		: 2008-09-04 17:45 (9 days old)
-> > > > References	: http://marc.info/?l=linux-kernel&m=122055041313270&w=4
-> > > 
-> > > I think this might be a regression caused by namespace changes which we 
-> 
-> By which I mean, this was caused by a non-SELinux change to the upstream 
-> kernel many, many eons ago.
+[ INFO: possible circular locking dependency detected ]
+2.6.27-rc6-00034-gd1c6d2e #3
+-------------------------------------------------------
+nfsd/1766 is trying to acquire lock:
+ (iprune_mutex){--..}, at: [<c01743fb>] shrink_icache_memory+0x38/0x1a8
 
-hm, seems that 2.6.24 is OK but 2.6.25 is not.  I must have missed the
-bug when testing 2.6.25-based kernels.
-
-I started a git bisection search but after half an hour I hit bad
-bisection breakage: a complete machine hang in fib_rules_init().
-
-> > > addressed in SELinux policy.  Which distro version & policy version is 
-> > > this seen with?
-> > > 
-> > 
-> > FC5 on x86_32 and FC6 on x86_64.
-> 
-> As mentioned in the bugzilla, any related avc messages would be useful.
-
-2.6.25 dmesg: http://userweb.kernel.org/~akpm/dmesg-sony.txt
-/var/log/messages: http://userweb.kernel.org/~akpm/messages-sony.txt
-
-The latter includes this:
-
-Sep 13 12:32:43 sony kernel: SELinux:  class key not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  class dccp_socket not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  class memprotect not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  class peer not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  class capability2 not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission open in class dir not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission open in class file not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission open in class chr_file not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission open in class blk_file not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission open in class fifo_file not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_recv in class node not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_send in class node not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission recvfrom in class node not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission sendto in class node not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_recv in class netif not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_send in class netif not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission ingress in class netif not defined in policy
-Sep 13 12:32:43 sony kernel: SELinux:  permission egress in class netif not defined in policy
-Sep 13 12:32:44 sony kernel: SELinux:  permission setkeycreate in class process not defined in policy
-Sep 13 12:32:44 sony kernel: SELinux:  permission setsockcreate in class process not defined in policy
-Sep 13 12:32:44 sony kernel: SELinux:  permission setfcap in class capability not defined in policy
-Sep 13 12:32:44 sony kernel: SELinux:  permission polmatch in class association not defined in policy
-Sep 13 12:32:44 sony kernel: SELinux:  permission flow_in in class packet not defined in policy
-Sep 13 12:32:44 sony kernel: SELinux:  permission flow_out in class packet not defined in policy
-Sep 13 12:32:44 sony kernel: SELinux:  permission forward_in in class packet not defined in policy
-Sep 13 12:32:44 sony kernel: SELinux:  permission forward_out in class packet not defined in policy
-Sep 13 12:32:44 sony kernel: SELinux: the above unknown classes and permissions will be denied
-Sep 13 12:32:44 sony kernel: type=1403 audit(1221309118.644:3): policy loaded auid=4294967295 ses=4294967295
-Sep 13 12:32:44 sony kernel: type=1400 audit(1221334321.726:4): avc:  denied  { audit_write } for  pid=400 comm="hwclock" capability=29 scontext=system_u:system_r:hwclock_t:s0 tcontext=system_u:system_r:hwclock_t:s0 tclass=capability
+ but task is already holding lock:
+  (&(&ip->i_iolock)->mr_lock){----}, at: [<c021134f>]
+  xfs_ilock+0xa2/0xd6
 
 
-Why am I seeing this on two machines and two vanilla-installed distros
-but nobody else is reporting it?
+I read files through nfs and saw delay for few seconds.
+System is x86_32, nfs, xfs.
+The last working kernel is 2.6.27-rc5,
+I do not know yet is it reproducible or not.
 
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #1 (&(&ip->i_iolock)->mr_lock){----}:
+       [<c0137b3f>] __lock_acquire+0x970/0xae8
+       [<c0137d12>] lock_acquire+0x5b/0x77
+       [<c012e803>] down_write_nested+0x35/0x6c
+       [<c0211328>] xfs_ilock+0x7b/0xd6
+       [<c02114a1>] xfs_ireclaim+0x1d/0x59
+       [<c022e056>] xfs_finish_reclaim+0x12a/0x134
+       [<c022e1d8>] xfs_reclaim+0xbc/0x125
+       [<c023aba9>] xfs_fs_clear_inode+0x55/0x8e
+       [<c01742aa>] clear_inode+0x7a/0xc9
+       [<c0174335>] dispose_list+0x3c/0xca
+       [<c017453e>] shrink_icache_memory+0x17b/0x1a8
+       [<c014e5be>] shrink_slab+0xd3/0x12e
+       [<c014e8e4>] kswapd+0x2cb/0x3ac
+       [<c012b404>] kthread+0x39/0x5e
+       [<c0103933>] kernel_thread_helper+0x7/0x10
+       [<ffffffff>] 0xffffffff
+
+-> #0 (iprune_mutex){--..}:
+       [<c0137a14>] __lock_acquire+0x845/0xae8
+       [<c0137d12>] lock_acquire+0x5b/0x77
+       [<c037a03e>] __mutex_lock_common+0xa0/0x2d0
+       [<c037a2f7>] mutex_lock_nested+0x29/0x31
+       [<c01743fb>] shrink_icache_memory+0x38/0x1a8
+       [<c014e5be>] shrink_slab+0xd3/0x12e
+       [<c014eded>] try_to_free_pages+0x1cf/0x287
+       [<c014a665>] __alloc_pages_internal+0x257/0x3c6
+       [<c014be50>] __do_page_cache_readahead+0xb7/0x16f
+       [<c014c141>] ondemand_readahead+0x115/0x123
+       [<c014c1c6>] page_cache_sync_readahead+0x16/0x1c
+       [<c017e7be>] __generic_file_splice_read+0xe0/0x3f7
+       [<c017eb3b>] generic_file_splice_read+0x66/0x80
+       [<c023914c>] xfs_splice_read+0x46/0x71
+       [<c0236573>] xfs_file_splice_read+0x24/0x29
+       [<c017d686>] do_splice_to+0x4e/0x5f
+       [<c017da41>] splice_direct_to_actor+0xc1/0x185
+       [<c01d0e19>] nfsd_vfs_read+0x21d/0x310
+       [<c01d1387>] nfsd_read+0x84/0x9b
+       [<c01d63e5>] nfsd3_proc_read+0xb9/0x104
+       [<c01cd1b7>] nfsd_dispatch+0xcf/0x1a2
+       [<c035f6d6>] svc_process+0x379/0x587
+       [<c01cd6db>] nfsd+0x106/0x153
+       [<c012b404>] kthread+0x39/0x5e
+       [<c0103933>] kernel_thread_helper+0x7/0x10
+       [<ffffffff>] 0xffffffff
+
+other info that might help us debug this:
+
+3 locks held by nfsd/1766:
+ #0:  (hash_sem){..--}, at: [<c01d3fbf>] exp_readlock+0xd/0xf
+ #1:  (&(&ip->i_iolock)->mr_lock){----}, at: [<c021134f>] xfs_ilock+0xa2/0xd6
+ #2:  (shrinker_rwsem){----}, at: [<c014e50f>] shrink_slab+0x24/0x12e
+
+stack backtrace:
+Pid: 1766, comm: nfsd Not tainted 2.6.27-rc6-00034-gd1c6d2e #3
+ [<c03793b5>] ? printk+0xf/0x12
+ [<c0136fb8>] print_circular_bug_tail+0x5c/0x67
+ [<c0137a14>] __lock_acquire+0x845/0xae8
+ [<c0137d12>] lock_acquire+0x5b/0x77
+ [<c01743fb>] ? shrink_icache_memory+0x38/0x1a8
+ [<c037a03e>] __mutex_lock_common+0xa0/0x2d0
+ [<c01743fb>] ? shrink_icache_memory+0x38/0x1a8
+ [<c037a2f7>] mutex_lock_nested+0x29/0x31
+ [<c01743fb>] ? shrink_icache_memory+0x38/0x1a8
+ [<c01743fb>] shrink_icache_memory+0x38/0x1a8
+ [<c012e7c4>] ? down_read_trylock+0x38/0x42
+ [<c014e5be>] shrink_slab+0xd3/0x12e
+ [<c014eded>] try_to_free_pages+0x1cf/0x287
+ [<c014d53f>] ? isolate_pages_global+0x0/0x3e
+ [<c014a665>] __alloc_pages_internal+0x257/0x3c6
+ [<c0136bff>] ? trace_hardirqs_on_caller+0xe6/0x10d
+ [<c014be50>] __do_page_cache_readahead+0xb7/0x16f
+ [<c014c141>] ondemand_readahead+0x115/0x123
+ [<c014c1c6>] page_cache_sync_readahead+0x16/0x1c
+ [<c017e7be>] __generic_file_splice_read+0xe0/0x3f7
+ [<c0135a86>] ? register_lock_class+0x17/0x26a
+ [<c0137ca8>] ? __lock_acquire+0xad9/0xae8
+ [<c0135a86>] ? register_lock_class+0x17/0x26a
+ [<c0137ca8>] ? __lock_acquire+0xad9/0xae8
+ [<c017d896>] ? spd_release_page+0x0/0xf
+ [<c017eb3b>] generic_file_splice_read+0x66/0x80
+ [<c023914c>] xfs_splice_read+0x46/0x71
+ [<c0236573>] xfs_file_splice_read+0x24/0x29
+ [<c017d686>] do_splice_to+0x4e/0x5f
+ [<c017da41>] splice_direct_to_actor+0xc1/0x185
+ [<c01d0f3c>] ? nfsd_direct_splice_actor+0x0/0xf
+ [<c01d0e19>] nfsd_vfs_read+0x21d/0x310
+ [<c01d1387>] nfsd_read+0x84/0x9b
+ [<c01d63e5>] nfsd3_proc_read+0xb9/0x104
+ [<c01cd1b7>] nfsd_dispatch+0xcf/0x1a2
+ [<c035f6d6>] svc_process+0x379/0x587
+ [<c01cd6db>] nfsd+0x106/0x153
+ [<c01cd5d5>] ? nfsd+0x0/0x153
+ [<c012b404>] kthread+0x39/0x5e
+ [<c012b3cb>] ? kthread+0x0/0x5e
+ [<c0103933>] kernel_thread_helper+0x7/0x10
+ =======================
+e1000: eth0: e1000_clean_tx_irq: Detected Tx Unit Hang
+  Tx Queue             <0>
+  TDH                  <86>
+  TDT                  <86>
+  next_to_use          <86>
+  next_to_clean        <dc>
+buffer_info[next_to_clean]
+  time_stamp           <1f7dc5>
+  next_to_watch        <dc>
+  jiffies              <1f8034>
+  next_to_watch.status <1>
