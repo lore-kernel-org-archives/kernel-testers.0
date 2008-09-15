@@ -1,192 +1,113 @@
-From: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [Bug #11308] tbench regression on each kernel release from
-	2.6.22 -&gt; 2.6.28
-Date: Mon, 15 Sep 2008 12:44:00 +0200
-Message-ID: <1221475440.4784.39.camel@marge.simson.net>
+From: Stephen Smalley <sds-+05T5uksL2qpZYMLLGbcSA@public.gmane.org>
+Subject: Re: [Bug #11500] /proc/net bug related to selinux
+Date: Mon, 15 Sep 2008 09:05:26 -0400
+Message-ID: <1221483926.30816.18.camel@moss-spartans.epoch.ncsc.mil>
 References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
-	 <SpS7rta8n4.A.mr.ZesyIB@albercik>  <48CAE7A0.8000004@linux-foundation.org>
-	 <1221306287.5213.111.camel@marge.simson.net>
-	 <48CD1D25.9080301@linux-foundation.org>
-	 <1221421907.4597.24.camel@marge.simson.net>
+	 <SpS7rta8n4.A.i9G.ZcsyIB@albercik>
+	 <alpine.LRH.1.10.0809130812460.12313@tundra.namei.org>
+	 <20080912152443.c4e59f42.akpm@linux-foundation.org>
+	 <alpine.LRH.1.10.0809131012310.13073@tundra.namei.org>
+	 <20080913123722.e238ae2a.akpm@linux-foundation.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1221421907.4597.24.camel-YqMYhexLQo1vAv1Ojkdn7Q@public.gmane.org>
+In-Reply-To: <20080913123722.e238ae2a.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Sun, 2008-09-14 at 21:51 +0200, Mike Galbraith wrote:
-> On Sun, 2008-09-14 at 09:18 -0500, Christoph Lameter wrote:
-> > Mike Galbraith wrote:
-> > > Numbers from my Q6600 Aldi supermarket box (hm, your box is from different shelf)
-> > >   
-> > My box is an 8p with recent quad core processors. 8G, 32bit Linux.
+
+On Sat, 2008-09-13 at 12:37 -0700, Andrew Morton wrote:
+> On Sat, 13 Sep 2008 10:15:43 +1000 (EST) James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org> wrote:
 > 
-> Don't hold your breath, but after putting my network config of a very
-> severe diet, I'm starting to see something resembling sensible results.
+> > On Fri, 12 Sep 2008, Andrew Morton wrote:
+> > 
+> > > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11500
+> > > > > Subject		: /proc/net bug related to selinux
+> > > > > Submitter	: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+> > > > > Date		: 2008-09-04 17:45 (9 days old)
+> > > > > References	: http://marc.info/?l=linux-kernel&m=122055041313270&w=4
+> > > > 
+> > > > I think this might be a regression caused by namespace changes which we 
+> > 
+> > By which I mean, this was caused by a non-SELinux change to the upstream 
+> > kernel many, many eons ago.
+> 
+> hm, seems that 2.6.24 is OK but 2.6.25 is not.  I must have missed the
+> bug when testing 2.6.25-based kernels.
+> 
+> I started a git bisection search but after half an hour I hit bad
+> bisection breakage: a complete machine hang in fib_rules_init().
+> 
+> > > > addressed in SELinux policy.  Which distro version & policy version is 
+> > > > this seen with?
+> > > > 
+> > > 
+> > > FC5 on x86_32 and FC6 on x86_64.
+> > 
+> > As mentioned in the bugzilla, any related avc messages would be useful.
+> 
+> 2.6.25 dmesg: http://userweb.kernel.org/~akpm/dmesg-sony.txt
+> /var/log/messages: http://userweb.kernel.org/~akpm/messages-sony.txt
+> 
+> The latter includes this:
+> 
+> Sep 13 12:32:43 sony kernel: SELinux:  class key not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  class dccp_socket not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  class memprotect not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  class peer not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  class capability2 not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission open in class dir not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission open in class file not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission open in class chr_file not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission open in class blk_file not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission open in class fifo_file not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_recv in class node not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_send in class node not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission recvfrom in class node not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission sendto in class node not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_recv in class netif not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_send in class netif not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission ingress in class netif not defined in policy
+> Sep 13 12:32:43 sony kernel: SELinux:  permission egress in class netif not defined in policy
+> Sep 13 12:32:44 sony kernel: SELinux:  permission setkeycreate in class process not defined in policy
+> Sep 13 12:32:44 sony kernel: SELinux:  permission setsockcreate in class process not defined in policy
+> Sep 13 12:32:44 sony kernel: SELinux:  permission setfcap in class capability not defined in policy
+> Sep 13 12:32:44 sony kernel: SELinux:  permission polmatch in class association not defined in policy
+> Sep 13 12:32:44 sony kernel: SELinux:  permission flow_in in class packet not defined in policy
+> Sep 13 12:32:44 sony kernel: SELinux:  permission flow_out in class packet not defined in policy
+> Sep 13 12:32:44 sony kernel: SELinux:  permission forward_in in class packet not defined in policy
+> Sep 13 12:32:44 sony kernel: SELinux:  permission forward_out in class packet not defined in policy
+> Sep 13 12:32:44 sony kernel: SELinux: the above unknown classes and permissions will be denied
+> Sep 13 12:32:44 sony kernel: type=1403 audit(1221309118.644:3): policy loaded auid=4294967295 ses=4294967295
+> Sep 13 12:32:44 sony kernel: type=1400 audit(1221334321.726:4): avc:  denied  { audit_write } for  pid=400 comm="hwclock" capability=29 scontext=system_u:system_r:hwclock_t:s0 tcontext=system_u:system_r:hwclock_t:s0 tclass=capability
+> 
+> 
+> Why am I seeing this on two machines and two vanilla-installed distros
+> but nobody else is reporting it?
 
-Turns off all netfilter options except tables, etc.
+What we actually need to see is the output of:
+/sbin/ausearch -i -m AVC -sv no
 
-Since 2.6.22.19-cfs-v24.1 and 2.6.23.17-cfs-v24.1 schedulers are
-identical, and these are essentially identical with 2.6.24.7, what I
-read from numbers below is that cfs in 2.6.23 was somewhat less than
-wonderful for either netperf or tbench,  Something happened somewhere
-other than the scheduler at 23->24 which cost us some performance, and
-another something happened at 26->27.  I'll likely go looking again..
-and likely regret it again ;-)
+However, the most likely explanation is simply that when /proc/net was
+changed from being a directory to being a symlink to /proc/self/net,
+that introduced an additional permission check on accesses
+of /proc/net/<whatever>, namely the read check on the symlink itself.
+And since that check wasn't happening on /proc/net accesses with older
+kernels, older policies didn't allow it.
 
-Math ain't free is part of it, though apparently not much.  For me,
-tbench regression 22->27 is ~10%, and netperf regression is ~16%.
+As to why others haven't reported it, I expect that they have updated
+their policies to newer ones that allow the necessary access.  The fact
+that legacy distros wouldn't have such updated policies isn't surprising
+- they don't push updates to those distros for new kernels.  FC5 and FC6
+are both EOL'd, right?
 
-Data:
+In any event, we didn't change anything in SELinux - the change was
+elsewhere (in the proc/net implementation).  Don't blame the messenger
+please.
 
-2.6.22.19
-
-Throughput 1250.73 MB/sec 4 procs                  1.00
-
-16384  87380  1        1       60.01    111272.55  1.00
-16384  87380  1        1       60.00    104689.58
-16384  87380  1        1       60.00    110733.05
-16384  87380  1        1       60.00    110748.88
-
-2.6.22.19-cfs-v24.1
-
-Throughput 1204.14 MB/sec 4 procs                  .962
-
-16384  87380  1        1       60.01    101799.85  .929
-16384  87380  1        1       60.01    101659.41
-16384  87380  1        1       60.01    101628.78
-16384  87380  1        1       60.01    101700.53
-
-wakeup granularity = 0 (make scheduler as preempt happy as 2.6.22 is)
-
-Throughput 1213.21 MB/sec 4 procs                  .970
-
-16384  87380  1        1       60.01    108569.27  .992
-16384  87380  1        1       60.01    108541.04
-16384  87380  1        1       60.00    108579.63
-16384  87380  1        1       60.01    108519.09
-
-2.6.23.17
-
-Throughput 1192.49 MB/sec 4 procs                  .953
-
-16384  87380  1        1       60.00    91124.67   .866
-16384  87380  1        1       60.00    93124.38
-16384  87380  1        1       60.01    92249.69
-16384  87380  1        1       60.01    91103.12
-
-wakeup granularity = 0
-
-Throughput 1200.46 MB/sec 4 procs                  .959
-
-16384  87380  1        1       60.01    95987.66   .866
-16384  87380  1        1       60.01    92819.98
-16384  87380  1        1       60.01    95454.00
-16384  87380  1        1       60.01    94834.84
-
-2.6.23.17-cfs-v24.1
-
-Throughput 1242.47 MB/sec 4 procs                  .993
-
-16384  87380  1        1       60.00    101728.34  .931
-16384  87380  1        1       60.00    101930.23
-16384  87380  1        1       60.00    101803.15
-16384  87380  1        1       60.00    101908.29
-
-wakeup granularity = 0
-
-Throughput 1238.68 MB/sec 4 procs                  .990
-
-16384  87380  1        1       60.01    105871.52  .969
-16384  87380  1        1       60.01    105813.11
-16384  87380  1        1       60.01    106106.31
-16384  87380  1        1       60.01    106310.20
-
-2.6.24.7
-
-Throughput 1202.49 MB/sec 4 procs                  .961
-
-16384  87380  1        1       60.00    94643.23   .868
-16384  87380  1        1       60.00    94754.37
-16384  87380  1        1       60.00    94909.77
-16384  87380  1        1       60.00    95457.41
-
-wakeup granularity = 0
-
-Throughput 1204 MB/sec 4 procs                     .962
-
-16384  87380  1        1       60.00    99599.27   .910
-16384  87380  1        1       60.00    99439.95
-16384  87380  1        1       60.00    99556.38
-16384  87380  1        1       60.00    99500.45
-
-2.6.25.17
-
-Throughput 1220.47 MB/sec 4 procs                  .975
-
-16384  87380  1        1       60.00    94641.06   .867
-16384  87380  1        1       60.00    94864.87
-16384  87380  1        1       60.01    95033.81
-16384  87380  1        1       60.00    94863.49
-
-wakeup granularity = 0
-
-Throughput 1223.16 MB/sec 4 procs                  .977
-16384  87380  1        1       60.00    101768.95  .930
-16384  87380  1        1       60.00    101888.46
-16384  87380  1        1       60.01    101608.21
-16384  87380  1        1       60.01    101833.05
-
-2.6.26.5
-
-Throughput 1182.24 MB/sec 4 procs                  .945
-
-16384  87380  1        1       60.00    93814.75   .854
-16384  87380  1        1       60.00    94173.41
-16384  87380  1        1       60.00    92925.24
-16384  87380  1        1       60.00    93002.51
-
-wakeup granularity = 0
-
-Throughput 1183.47 MB/sec 4 procs                  .945
-
-16384  87380  1        1       60.00    100837.12  .922
-16384  87380  1        1       60.00    101230.12
-16384  87380  1        1       60.00    100868.45
-16384  87380  1        1       60.00    100491.41
-
-2.6.27
-
-Throughput 1088.17 MB/sec 4 procs                  .870
-
-16384  87380  1        1       60.00    84225.59   .766
-16384  87380  1        1       60.00    83362.65
-16384  87380  1        1       60.00    84060.73
-16384  87380  1        1       60.00    83462.72
-
-wakeup granularity = 0
-
-Throughput 1116.22 MB/sec 4 procs                  .892
-
-16384  87380  1        1       60.00    92502.44   .841
-16384  87380  1        1       60.01    92213.72
-16384  87380  1        1       60.00    91445.86
-16384  87380  1        1       60.00    91832.84
-
-revert sched weight/asym changes, gran = 0
-
-Throughput 1149.16 MB/sec 4 proc                   .918
-
-16384  87380  1        1       60.00    94824.92   .868
-16384  87380  1        1       60.01    94579.45
-16384  87380  1        1       60.01    95284.94
-16384  87380  1        1       60.01    95228.22
-
-Weight/asym changes cost ~3%.  Mysql+oltp agrees.  Preempt happy loads
-lose a bit, preempt haters gain a bit.  Performance shift.
-
-
+-- 
+Stephen Smalley
+National Security Agency
