@@ -1,62 +1,63 @@
-From: "Alexander Beregalov" <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.27-rc6: lockdep warning: iprune_mutex at shrink_icache_memory+0x38/0x1a8
-Date: Tue, 16 Sep 2008 11:35:20 +0400
-Message-ID: <a4423d670809160035s25fd5227j831492b3f43daa6a@mail.gmail.com>
-References: <20080913233138.GA19576@orion> <20080916025204.GL5811@disturbed>
+From: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [Bug #11308] tbench regression on each kernel release from
+	2.6.22 -&gt; 2.6.28
+Date: Tue, 16 Sep 2008 14:28:25 +0200
+Message-ID: <1221568105.5020.17.camel@marge.simson.net>
+References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
+	 <SpS7rta8n4.A.mr.ZesyIB@albercik>  <48CAE7A0.8000004@linux-foundation.org>
+	 <1221306287.5213.111.camel@marge.simson.net>
+	 <48CD1D25.9080301@linux-foundation.org>
+	 <1221421907.4597.24.camel@marge.simson.net>
+	 <1221475440.4784.39.camel@marge.simson.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=ep5QLwtqyZnzry7n2XZvZBGagzNNS9cpevCUqjRHClw=;
-        b=pAVgkRSjGeSpI5V3R7bd3Ra5NxlWgzUVnnIXa+oYmGHT+0ec5QTlOdsxQMVEmv7g9g
-         xodiXCtcVJtrTgqXj+cnFyL3o1wS0fSvusFQFhi7Pgh+2c8YceKKhgOI7Yb/oxM5/o3S
-         vuC9nWNcqlW27pg7+p4Q6vacaIYc4cKvXBogk=
-In-Reply-To: <20080916025204.GL5811@disturbed>
-Content-Disposition: inline
+In-Reply-To: <1221475440.4784.39.camel-YqMYhexLQo1vAv1Ojkdn7Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
+To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-2008/9/16 Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>:
-> On Sun, Sep 14, 2008 at 03:31:38AM +0400, Alexander Beregalov wrote:
->> Hi
->>
->> [ INFO: possible circular locking dependency detected ]
->> 2.6.27-rc6-00034-gd1c6d2e #3
->> -------------------------------------------------------
->> nfsd/1766 is trying to acquire lock:
->>  (iprune_mutex){--..}, at: [<c01743fb>] shrink_icache_memory+0x38/0x1a8
->>
->>  but task is already holding lock:
->>   (&(&ip->i_iolock)->mr_lock){----}, at: [<c021134f>]
->>   xfs_ilock+0xa2/0xd6
->>
->>
->> I read files through nfs and saw delay for few seconds.
->> System is x86_32, nfs, xfs.
->> The last working kernel is 2.6.27-rc5,
->> I do not know yet is it reproducible or not.
->
-> <sigh>
->
-> We need a FAQ for this one. It's a false positive.  Google for an
-> explanation - I've explained it 4 or 5 times in the past year and
-> asked that the lockdep folk invent a special annotation for the
-> iprune_mutex (or memory reclaim) because of the way it can cause
-> recursion into the filesystem and hence invert lock orders without
-> causing deadlocks.....
+On Mon, 2008-09-15 at 12:44 +0200, Mike Galbraith wrote:
+> On Sun, 2008-09-14 at 21:51 +0200, Mike Galbraith wrote:
+> > On Sun, 2008-09-14 at 09:18 -0500, Christoph Lameter wrote:
+> > > Mike Galbraith wrote:
+> > > > Numbers from my Q6600 Aldi supermarket box (hm, your box is from different shelf)
+> > > >   
+> > > My box is an 8p with recent quad core processors. 8G, 32bit Linux.
+> > 
+> > Don't hold your breath, but after putting my network config of a very
+> > severe diet, I'm starting to see something resembling sensible results.
+> 
+> Turns off all netfilter options except tables, etc.
+> 
+> Since 2.6.22.19-cfs-v24.1 and 2.6.23.17-cfs-v24.1 schedulers are
+> identical, and these are essentially identical with 2.6.24.7, what I
+> read from numbers below is that cfs in 2.6.23 was somewhat less than
+> wonderful for either netperf or tbench,  Something happened somewhere
+> other than the scheduler at 23->24 which cost us some performance, and
+> another something happened at 26->27.  I'll likely go looking again..
+> and likely regret it again ;-)
 
-Hi Dave
+Bisecting 26->27 yet again turned up a repeatable downturn in netperf
+throughput.  There is no difference at this point with tbench. 
 
-Yes, you already explained a similar message to me, but it was a bug,
-not false positive.
-http://lkml.org/lkml/2008/7/3/29
-http://lkml.org/lkml/2008/7/3/315
+Bisect says first bad commit is 847106f, a security merge.  Post
+bisection sanity checkouts say...
 
-I will try to bisect.
-It is not a OOM case.
+v2.6.26-21-g2069f45
+16384  87380  1        1       60.00    98435.13
+16384  87380  1        1       60.01    99259.90
+16384  87380  1        1       60.01    99325.61
+16384  87380  1        1       60.00    99039.84
+
+v2.6.26-343-g847106f
+16384  87380  1        1       60.00    94764.59
+16384  87380  1        1       60.00    94909.89
+16384  87380  1        1       60.00    94858.63
+16384  87380  1        1       60.00    94801.12
+
+...every time.  I knew I'd regret doing this.
+
+	-Mike
