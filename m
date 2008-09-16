@@ -1,50 +1,38 @@
-From: Grant Coady <grant_lkml-rGYn+TmxqGy6c6uEtOJ/EA@public.gmane.org>
-Subject: Re: 2.6.27-rc6: lockdep warning: iprune_mutex at shrink_icache_memory+0x38/0x1a8
-Date: Tue, 16 Sep 2008 14:31:05 +1000
-Message-ID: <7iduc45t9dvo0396fm78d8uat84uurh131@4ax.com>
-References: <20080913233138.GA19576@orion> <20080916025204.GL5811@disturbed>
-Reply-To: Grant Coady <gcoady.lk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11471] GPE storm detected, kernel freezes
+Date: Tue, 16 Sep 2008 13:50:48 +0800
+Message-ID: <1221544248.3441.133.camel@rzhang-dt>
+References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
+	 <SpS7rta8n4.A.KMH.lcsyIB@albercik>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080916025204.GL5811@disturbed>
+In-Reply-To: <SpS7rta8n4.A.KMH.lcsyIB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
-Cc: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, George Gibbs <Vash63-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Tue, 16 Sep 2008 12:52:04 +1000, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org> wrote:
+On Sat, 2008-09-13 at 03:06 +0800, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 
->On Sun, Sep 14, 2008 at 03:31:38AM +0400, Alexander Beregalov wrote:
->> Hi
->> 
->> [ INFO: possible circular locking dependency detected ]
->> 2.6.27-rc6-00034-gd1c6d2e #3
->> -------------------------------------------------------
->> nfsd/1766 is trying to acquire lock:
->>  (iprune_mutex){--..}, at: [<c01743fb>] shrink_icache_memory+0x38/0x1a8
->> 
->>  but task is already holding lock:
->>   (&(&ip->i_iolock)->mr_lock){----}, at: [<c021134f>]
->>   xfs_ilock+0xa2/0xd6
->> 
->> 
->> I read files through nfs and saw delay for few seconds.
->> System is x86_32, nfs, xfs.
->> The last working kernel is 2.6.27-rc5,
->> I do not know yet is it reproducible or not.
->
-><sigh>
->
->We need a FAQ for this one. It's a false positive.  Google for an
->explanation - I've explained it 4 or 5 times in the past year and
->asked that the lockdep folk invent a special annotation for the
->iprune_mutex (or memory reclaim) because of the way it can cause
->recursion into the filesystem and hence invert lock orders without
->causing deadlocks.....
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me
+> know
+> (either way).
 
-Yeah, but a 30 second dreadlock?  It's a long wait wondering what's 
-gone down or not ;)
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D11471
+> Subject         : GPE storm detected, kernel freezes
+> Submitter       : George Gibbs <Vash63-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date            : 2008-08-31 22:00 (13 days old)
+> Handled-By      : Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+>=20
+=EF=BB=BFthis has already been fixed in -rc6.
+please refer to http://bugzilla.kernel.org/show_bug.cgi?id=3D11471#c22
 
-Grant.
+so I think this should be removed from the list.
+
+thanks,
+rui
