@@ -1,37 +1,84 @@
-From: Jiri Kosina <jkosina@suse.cz>
-Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Wed, 24 Sep 2008 18:33:53 +0200 (CEST)
-Message-ID: <alpine.LNX.1.10.0809241829500.4671@pegasus.suse.cz>
-References: <21d7e9970809232245x6a91c6e2l552ff039d07e2017@mail.gmail.com>  <20080924.003638.71148740.davem@davemloft.net>  <21d7e9970809240159u6db747eex51892061846b2251@mail.gmail.com>  <20080924.020116.193720569.davem@davemloft.net>
- <21d7e9970809240216m4a93a339sb51a5928fcb5f6fb@mail.gmail.com>
+From: "=?ISO-8859-1?Q?Ilpo_J=E4rvinen?=" <ilpo.jarvinen-pxSi+dnQzZMxHbG02/KK1g@public.gmane.org>
+Subject: Re: [Bug #11308] tbench regression on each kernel release	from	2.6.22
+ -&gt; 2.6.28
+Date: Wed, 17 Sep 2008 20:04:22 +0300 (EEST)
+Message-ID: <Pine.LNX.4.64.0809171953350.26270@wrl-59.cs.helsinki.fi>
+References: <1221306287.5213.111.camel@marge.simson.net> 
+ <48CD1D25.9080301@linux-foundation.org>  <1221421907.4597.24.camel@marge.simson.net>
+  <1221475440.4784.39.camel@marge.simson.net>  <1221568105.5020.17.camel@marge.simson.net>
+  <Pine.LNX.4.64.0809161700020.1034@wrl-59.cs.helsinki.fi> 
+ <1221626391.5043.13.camel@marge.simson.net>  <1221627676.5125.3.camel@marge.simson.net>
+ <20080917104044.GC18764@elte.hu>  <1221651701.5102.17.camel@marge.simson.net>
+ <20080917124943.GA7738@elte.hu>  <1221657111.5511.14.camel@marge.simson.net>
+  <Pine.LNX.4.64.0809171629550.1034@wrl-59.cs.helsinki.fi>
+ <1221659858.8818.13.camel@marge.simson.net>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755201AbYIXQdM@vger.kernel.org>
-In-Reply-To: <21d7e9970809240216m4a93a339sb51a5928fcb5f6fb@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Type: MULTIPART/MIXED; BOUNDARY="-696208474-337667718-1221671062=:26270"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1221659858.8818.13.camel-YqMYhexLQo1vAv1Ojkdn7Q@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Dave Airlie <airlied@gmail.com>
-Cc: David Miller <davem@davemloft.net>, jeffrey.t.kirsher@intel.com, david.vrabel@csr.com, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, chrisl@vmware.com
+To: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Wed, 24 Sep 2008, Dave Airlie wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> Hopefully tglx can supply some traces, I think getting an interrupt 
-> during device startup can possibly access the nvram
-> http://www.tglx.de/~tglx/wtf2.txt
-> seems to suggest bad things could happen.
+---696208474-337667718-1221671062=:26270
+Content-Type: TEXT/PLAIN; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Actually another user has just reported [1] that his e1000e card got 
-screwed up exactly at the point when the installer was probing the X 
-configuration. So this really seems a lot like some lethal interaction 
-between intel graphics and the network card.
+On Wed, 17 Sep 2008, Mike Galbraith wrote:
 
-Dave (Airlie, too many Daves on CC here really), do you by any chance see 
-any recent change in kernel intel graphic parts of DRM be causing this 
-breakage?
+> On Wed, 2008-09-17 at 16:36 +0300, Ilpo J=E4rvinen wrote:
+> > On Wed, 17 Sep 2008, Mike Galbraith wrote:
+> >=20
+> > > On Wed, 2008-09-17 at 14:49 +0200, Ingo Molnar wrote:
+> > >=20
+> > > > git log --pretty=3Dformat:"%h: %s" 2069f45..847106f | grep -viE \
+> > > > 'block|alsa|pcmcia|sound|Merge|iosched|blk|DAC960|scsi|s390|paride|=
+pktcdvd|filter|cdrom|drm'
+> > > >=20
+> > > > gives us:
+> > > >=20
+> > > >  7daf705: Start using the new '%pS' infrastructure to print symbols
+> > > >  6f0f0fd: security: remove register_security hook
+> > > >  93cbace: security: remove dummy module fix
+> > > >  5915eb5: security: remove dummy module
+> > > >  b478a9f: security: remove unused sb_get_mnt_opts hook
+> > > >  32502b8: splice: fix generic_file_splice_read() race with page inv=
+alidation
+> > > >  8b3d356: ramfs: enable splice write
+> > > >  a144ff0: xen: Avoid allocations causing swap activity on the resum=
+e path
+> > > >=20
+> > > > which really only leaves that security commit your bisection finger=
+ed.=20
+> > > > Which _slightly_ raises its likelyhood of being implicated. Structu=
+re=20
+> > > > size changes can move two formerly far-apart netperf-relevant symbo=
+ls on=20
+> > > > the same cacheline, which can start cache ping-pong-ing badly.
+> > >=20
+> > > I sure hope it's something like ping-pong, it's driving me NUTS.
+> >=20
+> > How about dividing the problem to smaller blocks then by restoring=20
+> > parts of the change...
+>=20
+> Well, what I've done is check out the "bad" tree, reverted every darn
+> commit between there and the "good" tree, and then reverted the reverts
+> so I have a nice merge-free line and don't have to remember to think
+> backward.  (probably sounds silly to git-foo masters)  I'll try
+> bisecting that in the a.m. and see what happens.
 
-[1] https://bugzilla.novell.com/show_bug.cgi?id=425480#c69
+This was my initial idea (which was mainly an error from my part as I=20
+misread some shaids and midunderstood that the first regressing would be=20
+the merge instead of the actual change), but in here I meant taking parts=20
+of the 6f0f0fd on top of 6f0f0fd^. The most easiest way to do that=20
+actually might be to do in fact the opposite, ie., but some of the=20
+datastructure/layout changes back on top of 6f0f0fd and see if the=20
+performance get restored (besides testing the Eric's patch).
 
--- 
-Jiri Kosina
-SUSE Labs
+--=20
+ i.
+---696208474-337667718-1221671062=:26270--
