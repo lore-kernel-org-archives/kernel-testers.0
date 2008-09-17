@@ -1,66 +1,135 @@
-From: "Alexander Beregalov" <a.beregalov@gmail.com>
-Subject: Re: 2.6.27-rc6: lockdep warning: iprune_mutex at shrink_icache_memory+0x38/0x1a8
-Date: Wed, 17 Sep 2008 22:33:28 +0400
-Message-ID: <a4423d670809171133r39260814y211ba8104698d5f2@mail.gmail.com>
-References: <20080913233138.GA19576@orion> <20080916025204.GL5811@disturbed>
-	 <a4423d670809160035s25fd5227j831492b3f43daa6a@mail.gmail.com>
+From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #11500] /proc/net bug related to selinux
+Date: Wed, 17 Sep 2008 12:50:53 -0700
+Message-ID: <20080917125053.1f9ecf37.akpm@linux-foundation.org>
+References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
+	<SpS7rta8n4.A.i9G.ZcsyIB@albercik>
+	<alpine.LRH.1.10.0809130812460.12313@tundra.namei.org>
+	<20080912152443.c4e59f42.akpm@linux-foundation.org>
+	<alpine.LRH.1.10.0809131012310.13073@tundra.namei.org>
+	<20080913123722.e238ae2a.akpm@linux-foundation.org>
+	<1221483926.30816.18.camel@moss-spartans.epoch.ncsc.mil>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=Rd08lx9FJ35x7GN1RmGKSTRc9RK/gO7dCHEUQHOiFw4=;
-        b=i4Tyqx5mgt9/S9aNXjc0j/xaG5iC79N9Xyy/U5o8rfWBdTEeX/Scqy8KHG64nOpn2T
-         +CSexs/3iCySXKsanrllwxjtGe4rc21nQYf+6kSfxRB8ZHwaOHU/ejUVUVIc7WAeYM8z
-         y6AFclShO5x1BfWoqQm6JjaBlnfTx1SEd50zM=
-In-Reply-To: <a4423d670809160035s25fd5227j831492b3f43daa6a@mail.gmail.com>
-Content-Disposition: inline
-Sender: linux-fsdevel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1221483926.30816.18.camel-/ugcdrsPCSfIm9DtXLC9OUVfdvkotuLY+aIohriVLy8@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alexander Beregalov <a.beregalov@gmail.com>, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, linux-fsdevel@vger.kernel.org, xfs@oss.sgi.com
+To: Stephen Smalley <sds-+05T5uksL2qpZYMLLGbcSA@public.gmane.org>
+Cc: jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-2008/9/16 Alexander Beregalov <a.beregalov@gmail.com>:
-> 2008/9/16 Dave Chinner <david@fromorbit.com>:
->> On Sun, Sep 14, 2008 at 03:31:38AM +0400, Alexander Beregalov wrote:
->>> Hi
->>>
->>> [ INFO: possible circular locking dependency detected ]
->>> 2.6.27-rc6-00034-gd1c6d2e #3
->>> -------------------------------------------------------
->>> nfsd/1766 is trying to acquire lock:
->>>  (iprune_mutex){--..}, at: [<c01743fb>] shrink_icache_memory+0x38/0x1a8
->>>
->>>  but task is already holding lock:
->>>   (&(&ip->i_iolock)->mr_lock){----}, at: [<c021134f>]
->>>   xfs_ilock+0xa2/0xd6
->>>
->>>
->>> I read files through nfs and saw delay for few seconds.
->>> System is x86_32, nfs, xfs.
->>> The last working kernel is 2.6.27-rc5,
->>> I do not know yet is it reproducible or not.
->>
->> <sigh>
->>
->> We need a FAQ for this one. It's a false positive.  Google for an
->> explanation - I've explained it 4 or 5 times in the past year and
->> asked that the lockdep folk invent a special annotation for the
->> iprune_mutex (or memory reclaim) because of the way it can cause
->> recursion into the filesystem and hence invert lock orders without
->> causing deadlocks.....
->
-> Hi Dave
->
-> Yes, you already explained a similar message to me, but it was a bug,
-> not false positive.
-> http://lkml.org/lkml/2008/7/3/29
-> http://lkml.org/lkml/2008/7/3/315
->
-> I will try to bisect.
-> It is not a OOM case.
->
-I can not reproduce it.
+On Mon, 15 Sep 2008 09:05:26 -0400
+Stephen Smalley <sds-+05T5uksL2qpZYMLLGbcSA@public.gmane.org> wrote:
+
+> 
+> On Sat, 2008-09-13 at 12:37 -0700, Andrew Morton wrote:
+> > On Sat, 13 Sep 2008 10:15:43 +1000 (EST) James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org> wrote:
+> > 
+> > > On Fri, 12 Sep 2008, Andrew Morton wrote:
+> > > 
+> > > > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11500
+> > > > > > Subject		: /proc/net bug related to selinux
+> > > > > > Submitter	: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+> > > > > > Date		: 2008-09-04 17:45 (9 days old)
+> > > > > > References	: http://marc.info/?l=linux-kernel&m=122055041313270&w=4
+> > > > > 
+> > > > > I think this might be a regression caused by namespace changes which we 
+> > > 
+> > > By which I mean, this was caused by a non-SELinux change to the upstream 
+> > > kernel many, many eons ago.
+> > 
+> > hm, seems that 2.6.24 is OK but 2.6.25 is not.  I must have missed the
+> > bug when testing 2.6.25-based kernels.
+> > 
+> > I started a git bisection search but after half an hour I hit bad
+> > bisection breakage: a complete machine hang in fib_rules_init().
+> > 
+> > > > > addressed in SELinux policy.  Which distro version & policy version is 
+> > > > > this seen with?
+> > > > > 
+> > > > 
+> > > > FC5 on x86_32 and FC6 on x86_64.
+> > > 
+> > > As mentioned in the bugzilla, any related avc messages would be useful.
+> > 
+> > 2.6.25 dmesg: http://userweb.kernel.org/~akpm/dmesg-sony.txt
+> > /var/log/messages: http://userweb.kernel.org/~akpm/messages-sony.txt
+> > 
+> > The latter includes this:
+> > 
+> > Sep 13 12:32:43 sony kernel: SELinux:  class key not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  class dccp_socket not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  class memprotect not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  class peer not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  class capability2 not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission open in class dir not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission open in class file not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission open in class chr_file not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission open in class blk_file not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission open in class fifo_file not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_recv in class node not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_send in class node not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission recvfrom in class node not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission sendto in class node not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_recv in class netif not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission dccp_send in class netif not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission ingress in class netif not defined in policy
+> > Sep 13 12:32:43 sony kernel: SELinux:  permission egress in class netif not defined in policy
+> > Sep 13 12:32:44 sony kernel: SELinux:  permission setkeycreate in class process not defined in policy
+> > Sep 13 12:32:44 sony kernel: SELinux:  permission setsockcreate in class process not defined in policy
+> > Sep 13 12:32:44 sony kernel: SELinux:  permission setfcap in class capability not defined in policy
+> > Sep 13 12:32:44 sony kernel: SELinux:  permission polmatch in class association not defined in policy
+> > Sep 13 12:32:44 sony kernel: SELinux:  permission flow_in in class packet not defined in policy
+> > Sep 13 12:32:44 sony kernel: SELinux:  permission flow_out in class packet not defined in policy
+> > Sep 13 12:32:44 sony kernel: SELinux:  permission forward_in in class packet not defined in policy
+> > Sep 13 12:32:44 sony kernel: SELinux:  permission forward_out in class packet not defined in policy
+> > Sep 13 12:32:44 sony kernel: SELinux: the above unknown classes and permissions will be denied
+> > Sep 13 12:32:44 sony kernel: type=1403 audit(1221309118.644:3): policy loaded auid=4294967295 ses=4294967295
+> > Sep 13 12:32:44 sony kernel: type=1400 audit(1221334321.726:4): avc:  denied  { audit_write } for  pid=400 comm="hwclock" capability=29 scontext=system_u:system_r:hwclock_t:s0 tcontext=system_u:system_r:hwclock_t:s0 tclass=capability
+> > 
+> > 
+> > Why am I seeing this on two machines and two vanilla-installed distros
+> > but nobody else is reporting it?
+
+Running `ls -l /proc/net' on the FC6 machine produces:
+
+[  132.591215] type=1400 audit(1221679672.590:10): avc:  denied  { getattr } for  pid=4389 comm="ls" path="/proc/net" dev=proc ino=4026531867 scontext=user_u:system_r:unconfined_t:s0 tcontext=system_u:object_r:proc_net_t:s0 tclass=lnk_file
+
+
+> What we actually need to see is the output of:
+> /sbin/ausearch -i -m AVC -sv no
+
+akpm2:/home/akpm# /sbin/ausearch -i -m AVC -sv no 
+<no matches>
+
+> However, the most likely explanation is simply that when /proc/net was
+> changed from being a directory to being a symlink to /proc/self/net,
+> that introduced an additional permission check on accesses
+> of /proc/net/<whatever>, namely the read check on the symlink itself.
+> And since that check wasn't happening on /proc/net accesses with older
+> kernels, older policies didn't allow it.
+> 
+> As to why others haven't reported it, I expect that they have updated
+> their policies to newer ones that allow the necessary access.  The fact
+> that legacy distros wouldn't have such updated policies isn't surprising
+> - they don't push updates to those distros for new kernels.  FC5 and FC6
+> are both EOL'd, right?
+> 
+> In any event, we didn't change anything in SELinux - the change was
+> elsewhere (in the proc/net implementation).  Don't blame the messenger
+> please.
+> 
+
+Vanilla FC5 broke and vanilla FC6 broke.  Did vanilla FC7, 8 or 9 break?
+
+http://smolt.fedoraproject.org/static/stats/stats.html shows 11,000-odd
+people running FC5 and FC6.  It would be incautious to assume that all
+those people have updated their selinux rules.
+
+And _requiring_ people to update their selinux rules to fix a
+kernel-caused regression is a pretty big deal for some people, I
+expect.
+
+Then again, given that this regression has been out there since 2.6.25,
+I guess not too many people are hurting from it.  But we suck.
