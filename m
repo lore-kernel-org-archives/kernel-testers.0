@@ -1,54 +1,66 @@
-From: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [Bug #11308] tbench regression on each kernel release
-	from	2.6.22 -&gt; 2.6.28
-Date: Wed, 17 Sep 2008 20:16:11 +0200
-Message-ID: <1221675371.5030.3.camel@marge.simson.net>
-References: <1221306287.5213.111.camel@marge.simson.net>
-	 <48CD1D25.9080301@linux-foundation.org>
-	 <1221421907.4597.24.camel@marge.simson.net>
-	 <1221475440.4784.39.camel@marge.simson.net>
-	 <1221568105.5020.17.camel@marge.simson.net>
-	 <Pine.LNX.4.64.0809161700020.1034@wrl-59.cs.helsinki.fi>
-	 <1221626391.5043.13.camel@marge.simson.net>
-	 <1221627676.5125.3.camel@marge.simson.net> <20080917104044.GC18764@elte.hu>
-	 <1221651701.5102.17.camel@marge.simson.net> <20080917124943.GA7738@elte.hu>
-	 <1221657111.5511.14.camel@marge.simson.net>
-	 <48D11871.4090805@cosmosbay.com>
+From: "Alexander Beregalov" <a.beregalov@gmail.com>
+Subject: Re: 2.6.27-rc6: lockdep warning: iprune_mutex at shrink_icache_memory+0x38/0x1a8
+Date: Wed, 17 Sep 2008 22:33:28 +0400
+Message-ID: <a4423d670809171133r39260814y211ba8104698d5f2@mail.gmail.com>
+References: <20080913233138.GA19576@orion> <20080916025204.GL5811@disturbed>
+	 <a4423d670809160035s25fd5227j831492b3f43daa6a@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <48D11871.4090805-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=Rd08lx9FJ35x7GN1RmGKSTRc9RK/gO7dCHEUQHOiFw4=;
+        b=i4Tyqx5mgt9/S9aNXjc0j/xaG5iC79N9Xyy/U5o8rfWBdTEeX/Scqy8KHG64nOpn2T
+         +CSexs/3iCySXKsanrllwxjtGe4rc21nQYf+6kSfxRB8ZHwaOHU/ejUVUVIc7WAeYM8z
+         y6AFclShO5x1BfWoqQm6JjaBlnfTx1SEd50zM=
+In-Reply-To: <a4423d670809160035s25fd5227j831492b3f43daa6a@mail.gmail.com>
+Content-Disposition: inline
+Sender: linux-fsdevel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen-pxSi+dnQzZMxHbG02/KK1g@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Alexander Beregalov <a.beregalov@gmail.com>, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, linux-fsdevel@vger.kernel.org, xfs@oss.sgi.com
 
-On Wed, 2008-09-17 at 16:47 +0200, Eric Dumazet wrote:
-
-> Could you please try following patch ?
-> 
-> [PATCH] security_ops moved to read_mostly section
-> 
-> "struct security_operations *security_ops" should be moved to read_mostly 
-> section in order to NOT let it share a cache line with higly modified variables.
-
-v2.6.26-974-g2846693 (tip of revert reverts tree, == 847106f)
-16384  87380  1        1       60.00    94350.45
-16384  87380  1        1       60.01    95857.25
-16384  87380  1        1       60.00    95334.84
-16384  87380  1        1       60.00    95052.11
-
-v2.6.26-659-g7804ad8 (first commit prior, == 2069f45)
-16384  87380  1        1       60.00    98630.64
-16384  87380  1        1       60.00    98653.14
-16384  87380  1        1       60.00    99162.65
-16384  87380  1        1       60.00    98652.38
-
-v2.6.26-974-g2846693 patched
-16384  87380  1        1       60.00    95877.41
-16384  87380  1        1       60.00    95810.27
-16384  87380  1        1       60.00    95530.03
-16384  87380  1        1       60.00    94968.12
-
-(poo, "it" didn't die)
+2008/9/16 Alexander Beregalov <a.beregalov@gmail.com>:
+> 2008/9/16 Dave Chinner <david@fromorbit.com>:
+>> On Sun, Sep 14, 2008 at 03:31:38AM +0400, Alexander Beregalov wrote:
+>>> Hi
+>>>
+>>> [ INFO: possible circular locking dependency detected ]
+>>> 2.6.27-rc6-00034-gd1c6d2e #3
+>>> -------------------------------------------------------
+>>> nfsd/1766 is trying to acquire lock:
+>>>  (iprune_mutex){--..}, at: [<c01743fb>] shrink_icache_memory+0x38/0x1a8
+>>>
+>>>  but task is already holding lock:
+>>>   (&(&ip->i_iolock)->mr_lock){----}, at: [<c021134f>]
+>>>   xfs_ilock+0xa2/0xd6
+>>>
+>>>
+>>> I read files through nfs and saw delay for few seconds.
+>>> System is x86_32, nfs, xfs.
+>>> The last working kernel is 2.6.27-rc5,
+>>> I do not know yet is it reproducible or not.
+>>
+>> <sigh>
+>>
+>> We need a FAQ for this one. It's a false positive.  Google for an
+>> explanation - I've explained it 4 or 5 times in the past year and
+>> asked that the lockdep folk invent a special annotation for the
+>> iprune_mutex (or memory reclaim) because of the way it can cause
+>> recursion into the filesystem and hence invert lock orders without
+>> causing deadlocks.....
+>
+> Hi Dave
+>
+> Yes, you already explained a similar message to me, but it was a bug,
+> not false positive.
+> http://lkml.org/lkml/2008/7/3/29
+> http://lkml.org/lkml/2008/7/3/315
+>
+> I will try to bisect.
+> It is not a OOM case.
+>
+I can not reproduce it.
