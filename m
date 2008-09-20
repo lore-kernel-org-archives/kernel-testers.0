@@ -1,67 +1,42 @@
-From: Stephen Smalley <sds@tycho.nsa.gov>
-Subject: Re: [Bug #11500] /proc/net bug related to selinux
-Date: Fri, 19 Sep 2008 13:07:45 -0400
-Message-ID: <1221844065.25857.69.camel@moss-spartans.epoch.ncsc.mil>
-References: <j3zWxt-CgYL.A.WTF.bbsyIB@albercik>
-	 <1221483926.30816.18.camel@moss-spartans.epoch.ncsc.mil>
-	 <20080917125053.1f9ecf37.akpm@linux-foundation.org>
-	 <200809171724.36269.paul.moore@hp.com>
-	 <20080917144842.7df59f9e.akpm@linux-foundation.org>
-	 <m17i9axv1q.fsf@frodo.ebiederm.org>
-	 <1221741521.24048.17.camel@moss-spartans.epoch.ncsc.mil>
-	 <1221742980.24048.26.camel@moss-spartans.epoch.ncsc.mil>
-	 <m18wtpuy04.fsf@frodo.ebiederm.org>
-	 <1221762850.24048.107.camel@moss-spartans.epoch.ncsc.mil>
-	 <alpine.DEB.1.10.0809190958070.26104@asgard.lang.hm>
+From: Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>
+Subject: Re: [Bug #11357] Can not boot up with zd1211rw USB-Wlan Stick
+Date: Sat, 20 Sep 2008 10:05:54 -0400 (EDT)
+Message-ID: <alpine.DEB.1.10.0809201004470.12824@gandalf.stny.rr.com>
+References: <q6jBvyFdWbL.A.K4C.fhbuIB@albercik> <N8SeMoDzuxC.A.NHF.2ibuIB@albercik> <20080831163015.GA2929@tuxdriver.com> <200808312147.02824.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <alpine.DEB.1.10.0809190958070.26104@asgard.lang.hm>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200808312147.02824.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: david@lang.hm
-Cc: "Eric W. Biederman" <ebiederm@xmission.com>, Andrew Morton <akpm@linux-foundation.org>, Paul Moore <paul.moore@hp.com>, jmorris@namei.org, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org, Eric Paris <eparis@parisplace.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, uwe <kender-KuiJ5kEpwI6ELgA04lAiVw@public.gmane.org>
 
 
-On Fri, 2008-09-19 at 09:58 -0700, david@lang.hm wrote:
-> On Thu, 18 Sep 2008, Stephen Smalley wrote:
+
+On Sun, 31 Aug 2008, Rafael J. Wysocki wrote:
+
+> On Sunday, 31 of August 2008, John W. Linville wrote:
+> > On Sat, Aug 30, 2008 at 09:50:19PM +0200, Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of recent regressions.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.26.  Please verify if it still should be listed and let me know
+> > > (either way).
+> > > 
+> > > 
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11357
+> > > Subject		: Can not boot up with zd1211rw USB-Wlan Stick
+> > > Submitter	: uwe <kender-KuiJ5kEpwI6ELgA04lAiVw@public.gmane.org>
+> > > Date		: 2008-08-16 14:17 (15 days old)
+> > 
+> > This one could benefit from being looked at by an FTRACE person...
 > 
-> > On Thu, 2008-09-18 at 11:09 -0700, Eric W. Biederman wrote:
-> >> Stephen Smalley <sds@tycho.nsa.gov> writes:
-> >>
-> >>> On Thu, 2008-09-18 at 08:38 -0400, Stephen Smalley wrote:
-> >>>> I do however think that the mantra that we can't require users to update
-> >>>> policy for kernel changes is unsupportable in general.  The precise set
-> >>>> of permission checks on a given operation is not set in stone and it is
-> >>>> not part of the kernel/userland interface/contract.  Policy isn't
-> >>>> "userspace"; it governs what userspace can do, and it has to adapt to
-> >>>> kernel changes.
-> >>>
-> >>> I should note here that for changes to SELinux, we have gone out of our
-> >>> way to avoid such breakage to date through the introduction of
-> >>> compatibility switches, policy flags to enable any new checks, etc
-> >>> (albeit at a cost in complexity and ever creeping compatibility code).
-> >>> But changes to the rest of the kernel can just as easily alter the set
-> >>> of permission checks that get applied on a given operation, and I don't
-> >>> think we are always going to be able to guarantee that new kernel + old
-> >>> policy will Just Work.
-> >>
-> >> I know of at least 2 more directories that I intend to turn into
-> >> symlinks into somewhere under /proc/self.  How do we keep from
-> >> breaking selinux policies when I do that?
-> >
-> > I suspect we could tweak the logic in selinux_proc_get_sid() to always
-> > label all symlinks under /proc with the base proc_t type already used
-> > for e.g. /proc/self, at which point existing policies would be ok.
-> 
-> so if proc is mounted anywhere other then /proc the selinux policy would 
-> do odd things?
+> Why don't we CC him, then?
 
-No, the logic doesn't care where proc is mounted.  Only the name
-relative to the root of proc is used.
+Sorry, this email was buried in the rubble. Do you still need any of my 
+help?
 
--- 
-Stephen Smalley
-National Security Agency
-
+-- Steve
