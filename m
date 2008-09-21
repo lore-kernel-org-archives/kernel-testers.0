@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11569] Don't complain about disabled irqs when the system has paniced
-Date: Sun, 21 Sep 2008 20:54:22 +0200 (CEST)
-Message-ID: <7lIhZC4hCxE.A.ZWG.K0q1IB@albercik>
+Subject: [Bug #11550] pnp: Huge number of "io resource overlap" messages
+Date: Sun, 21 Sep 2008 20:54:20 +0200 (CEST)
+Message-ID: <7lIhZC4hCxE.A.t2G.d0q1IB@albercik>
 References: <PJz8fNrJNHG.A.65F.wzq1IB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Rene Herman <rene.herman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Rene Herman <rene.herman-cENuUygGYd//D1n+0JDH9g@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,12 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11569
-Subject		: Don't complain about disabled irqs when the system has paniced
-Submitter	: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Date		: 2008-09-02 13:49 (20 days old)
-References	: http://marc.info/?l=linux-kernel&m=122036356127282&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11550
+Subject		: pnp: Huge number of "io resource overlap" messages
+Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Date		: 2008-09-09 10:50 (13 days old)
+References	: http://marc.info/?l=linux-kernel&m=122095745403793&w=4
+Handled-By	: Rene Herman <rene.herman-cENuUygGYd//D1n+0JDH9g@public.gmane.org>
+		  Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=122098498125536&w=4
 
