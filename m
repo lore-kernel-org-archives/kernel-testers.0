@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11516] severe performance degradation on x86_64 going from 2.6.26-rc9 -&gt; 2.6.27-rc5
+Subject: [Bug #11505] oltp ~10% regression with 2.6.27-rc5 on stoakley machine
 Date: Sun, 21 Sep 2008 20:54:18 +0200 (CEST)
-Message-ID: <7lIhZC4hCxE.A.cLH.r0q1IB@albercik>
+Message-ID: <7lIhZC4hCxE.A.JjH.50q1IB@albercik>
 References: <PJz8fNrJNHG.A.65F.wzq1IB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gregory Haskins <ghaskins-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,14 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11516
-Subject		: severe performance degradation on x86_64 going from 2.6.26-rc9 -&gt; 2.6.27= -rc5
-Submitter	: Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-09-07 13:59 (15 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11505
+Subject		: oltp ~10% regression with 2.6.27-rc5 on stoakley machine
+Submitter	: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2008-09-04 7:06 (18 days old)
+References	: http://marc.info/?l=linux-kernel&m=122051202202373&w=4
+		  http://marc.info/?t=122089704700005&r=1&w=4
+Handled-By	: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+		  Gregory Haskins <ghaskins-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>
+		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=122194673932703&w=4
 
