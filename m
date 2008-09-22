@@ -1,30 +1,34 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Regression] Commit 2344abbcbdb82140050e8be29d3d55e4f6fe860b
-	breaks resume on nx6325
-Date: Mon, 22 Sep 2008 10:41:03 +0200
-Message-ID: <20080922084103.GF6601@elte.hu>
-References: <200809210124.30547.rjw@sisk.pl> <200809210132.46504.rjw@sisk.pl> <200809212103.17578.rjw@sisk.pl> <200809220036.52831.rjw@sisk.pl>
+From: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Subject: Re: [Bug #11552] Disabling IRQ #23
+Date: Mon, 22 Sep 2008 06:53:46 -0400 (EDT)
+Message-ID: <Pine.LNX.4.44L0.0809220651080.13379-100000@netrider.rowland.org>
+References: <dd18b0c30809211616g658b50c8k2ea9f9953f1de96f@mail.gmail.com>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <200809220036.52831.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <dd18b0c30809211616g658b50c8k2ea9f9953f1de96f-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Machek <pavel-AlSwsSmVLrQ@public.gmane.org>
+To: Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Brownell <david-b-yBeKhBN/0LDR7s880joybQ@public.gmane.org>
 
+On Sun, 21 Sep 2008, Justin Mattock wrote:
 
-* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> From over here, I did a bad install
+> of isight-firmware-tools, causing hal and udev
+> to clash.  After making sure the package was either
+> using hal or udev, there is no message of disable irq #23.
+> If its not too much trouble is there a way to verify that this was
+> the case, i.g. if udev creates a dev, then hal creates the same device
+> will this cause ehci_hcd to have messages of this kind? If so
+> then thats what happened, if not then theres something else causing this.
 
-> So, it looks like RCU is broken and I have no idea how to debug it 
-> further.
-> 
-> Please advise.
+You didn't read what I wrote earlier, did you?  The "HC died" message 
+should NEVER occur!  It doesn't matter what games you play with hal and 
+udev -- it should NEVER occur.  Not ever.
 
-i think RCU is not broken, RCU just happens to be the first entity 
-affected by C1E-enter magically killing the (previously working) lapic 
-timer clockevents device. We are working on a fix.
+And since the "HC died" is what causes IRQ #23 to be disabled, that 
+shouldn't happen either.
 
-	Ingo
+Alan Stern
