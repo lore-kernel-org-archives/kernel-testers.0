@@ -1,53 +1,54 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Sun, 21 Sep 2008 16:51:59 -0700 (PDT)
-Message-ID: <20080921.165159.67476441.davem@davemloft.net>
-References: <PJz8fNrJNHG.A.65F.wzq1IB@albercik>
-	<7lIhZC4hCxE.A.yj.E2q1IB@albercik>
+From: Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11543] kernel panic: softlockup in tick_periodic() ???
+Date: Mon, 22 Sep 2008 10:01:57 +0400
+Message-ID: <20080922060157.GA7663@localhost>
+References: <PJz8fNrJNHG.A.65F.wzq1IB@albercik> <7lIhZC4hCxE.A.zJH.p0q1IB@albercik>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <7lIhZC4hCxE.A.yj.E2q1IB@albercik>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:cc
+         :subject:message-id:references:mime-version:content-type
+         :content-disposition:in-reply-to:user-agent;
+        bh=ByxPVhll6b4VGNvS3zYiXzCj9E7zSytkU50Pa1DPKUc=;
+        b=SV5PmLmiEyr42HOG01BHQILx3kycTisDiVKUo4R62eWvz16CvdvPnt7RZFUakVVISd
+         8X0aQN8WqiX3/mvYlOHyT1OTIA1xwKt9yvnxHvTGVSoateMNoHlbrVAuRzMEeyD9ON/0
+         YHerl3GBnTQ4OhgPHb69cTzKgLDnUWWvvzH0g=
+Content-Disposition: inline
+In-Reply-To: <7lIhZC4hCxE.A.zJH.p0q1IB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: rjw-KKrjLPT3xs0@public.gmane.org
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Date: Sun, 21 Sep 2008 20:54:13 +0200 (CEST)
+[Rafael J. Wysocki - Sun, Sep 21, 2008 at 08:54:19PM +0200]
+| This message has been generated automatically as a part of a report
+| of recent regressions.
+| 
+| The following bug entry is on the current list of known regressions
+| from 2.6.26.  Please verify if it still should be listed and let me know
+| (either way).
+| 
+| 
+| Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11543
+| Subject		: kernel panic: softlockup in tick_periodic() ???
+| Submitter	: Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>
+| Date		: 2008-09-11 16:46 (11 days old)
+| References	: http://marc.info/?l=linux-kernel&m=122117786124326&w=4
+| Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+| 		  Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+| 		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+| 
+| 
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11382
-> Subject		: e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-> Submitter	: David Vrabel <david.vrabel-kQvG35nSl+M@public.gmane.org>
-> Date		: 2008-08-08 10:47 (45 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121819267211679&w=4
-> Handled-By	: Christopher Li <chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>
+There are really multiple issues touched in report. nmi_watchdog
+hangs, rtc device creation, NULL deref...
 
-Fixed by:
+I've asked Joshua for more information. Since he must to use
+netdev tree for a while maybe we could wait 'till next merge
+window will be closed and check if nmi_watchdog does work.
+So the work in progress.
 
-commit 78566fecbb12a7616ae9a88b2ffbc8062c4a89e3
-Author: Christopher Li <chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>
-Date:   Fri Sep 5 14:04:05 2008 -0700
-
-    e1000: prevent corruption of EEPROM/NVM
-    
-    Andrey reports e1000 corruption, and that a patch in vmware's ESX fixed
-    it.
-    
-    The EEPROM corruption is triggered by concurrent access of the EEPROM
-    read/write. Putting a lock around it solve the problem.
-    
-    [akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org: use DEFINE_SPINLOCK to avoid confusing lockdep]
-    Signed-off-by: Christopher Li <chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>
-    Reported-by: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
-    Cc: Zach Amsden <zach-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>
-    Cc: Pratap Subrahmanyam <pratap-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org>
-    Cc: Jeff Kirsher <jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-    Cc: Jesse Brandeburg <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-    Cc: Bruce Allan <bruce.w.allan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-    Cc: PJ Waskiewicz <peter.p.waskiewicz.jr-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-    Cc: John Ronciak <john.ronciak-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-    Cc: Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
-    Signed-off-by: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-    Signed-off-by: Jeff Garzik <jgarzik-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+		- Cyrill -
