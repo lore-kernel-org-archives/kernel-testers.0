@@ -1,36 +1,59 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Regression] Commit 2344abbcbdb82140050e8be29d3d55e4f6fe860b breaks resume on nx6325
-Date: Mon, 22 Sep 2008 17:37:31 +0200
-Message-ID: <200809221737.32117.rjw@sisk.pl>
-References: <200809210124.30547.rjw@sisk.pl> <200809220036.52831.rjw@sisk.pl> <20080922084103.GF6601@elte.hu>
+From: "Justin Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11552] Disabling IRQ #23
+Date: Mon, 22 Sep 2008 09:20:55 -0700
+Message-ID: <dd18b0c30809220920j7bd47167ibcc4ca72bae239f0@mail.gmail.com>
+References: <dd18b0c30809211616g658b50c8k2ea9f9953f1de96f@mail.gmail.com>
+	 <Pine.LNX.4.44L0.0809220651080.13379-100000@netrider.rowland.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080922084103.GF6601-X9Un+BFzKDI@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=g5vLG6Bkw8lh74cqnMRyrdPGJStw5AUwTIIqAmtoycc=;
+        b=og9Qs1Ph0xvtFIkysNpjVkxsWWiky2VESeNtoYjsYl+9xf2GYAkPkFoYpfzCOmbOr5
+         TIs5uQaZucUE2YXyfnaho9IPLgEUekRD++DfQcpO4ZgqVY5KohSKuO4sVlII7v8MLDNc
+         3H+4kA5taHf0dnxJ3fhCR97+np4lG0nJyFRdw=
+In-Reply-To: <Pine.LNX.4.44L0.0809220651080.13379-100000-pYrvlCTfrz9XsRXLowluHWD2FQJk+8+b@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Machek <pavel-AlSwsSmVLrQ@public.gmane.org>
+To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Brownell <david-b-yBeKhBN/0LDR7s880joybQ@public.gmane.org>
 
-On Monday, 22 of September 2008, Ingo Molnar wrote:
-> 
-> * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > So, it looks like RCU is broken and I have no idea how to debug it 
-> > further.
-> > 
-> > Please advise.
-> 
-> i think RCU is not broken, RCU just happens to be the first entity 
-> affected by C1E-enter magically killing the (previously working) lapic 
-> timer clockevents device.
+On Mon, Sep 22, 2008 at 3:53 AM, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org> wrote:
+> On Sun, 21 Sep 2008, Justin Mattock wrote:
+>
+>> From over here, I did a bad install
+>> of isight-firmware-tools, causing hal and udev
+>> to clash.  After making sure the package was either
+>> using hal or udev, there is no message of disable irq #23.
+>> If its not too much trouble is there a way to verify that this was
+>> the case, i.g. if udev creates a dev, then hal creates the same device
+>> will this cause ehci_hcd to have messages of this kind? If so
+>> then thats what happened, if not then theres something else causing this.
+>
+> You didn't read what I wrote earlier, did you?  The "HC died" message
+> should NEVER occur!  It doesn't matter what games you play with hal and
+> udev -- it should NEVER occur.  Not ever.
+>
+> And since the "HC died" is what causes IRQ #23 to be disabled, that
+> shouldn't happen either.
+>
+> Alan Stern
+>
+>
 
-Well, I should have said "RCU breaks as a result of the underlying issue". :-)
+appologize for not fully understanidng,
+I'm just getting confused with why and what is causing this
+to occur. The only reason for playing with hal and udev
+is to have this message appear, if I leave them out of the picture
+the system runs fine.
+Anyways, I'm up to trying anything at this point, and again
+appologize for causing any heat.
 
-> We are working on a fix. 
-
-Thanks!
-
-Rafael
+-- 
+Justin P. Mattock
