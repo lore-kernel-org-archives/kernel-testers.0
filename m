@@ -1,38 +1,32 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11543] kernel panic: softlockup in tick_periodic() ???
-Date: Tue, 23 Sep 2008 15:52:40 +0200
-Message-ID: <200809231552.41464.rjw@sisk.pl>
-References: <PJz8fNrJNHG.A.65F.wzq1IB@albercik> <7lIhZC4hCxE.A.zJH.p0q1IB@albercik> <alpine.LFD.1.10.0809231244190.3247@apollo.tec.linutronix.de>
+From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
+Date: Tue, 23 Sep 2008 16:29:16 +0200 (CEST)
+Message-ID: <alpine.LNX.1.10.0809231229460.4671@pegasus.suse.cz>
+References: <Pine.LNX.4.64.0809230010460.27884@twin.jikos.cz> <20080922.152815.22060684.davem@davemloft.net> <21d7e9970809221826i76081719pdd749237580fc68e@mail.gmail.com> <20080922.185902.80812984.davem@davemloft.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.1.10.0809231244190.3247-dbfLifZv8x0yMciVaGeJ0d53zsg1cpMQ@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <20080922.185902.80812984.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, david.vrabel-kQvG35nSl+M@public.gmane.org
+Cc: airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org
 
-On Tuesday, 23 of September 2008, Thomas Gleixner wrote:
-> On Sun, 21 Sep 2008, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.26.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11543
-> > Subject		: kernel panic: softlockup in tick_periodic() ???
-> 
-> The softlockup issue itself is fixed, but there are issues with
-> nmi_watchdog. I think we should remove the regression and keep the bug
-> alive to chase the other issues.
+On Mon, 22 Sep 2008, David Miller wrote:
 
-Well, for the sake of documentation I'd prefer to close this bug and create a
-new non-regression one for the other issues if that's not a problem.
+> So I went through the changes from 2.6.27-rc5 until the SHA1
+> ID ec0c15afb41fd9ad45b53468b60db50170e22346 and there were
+> definitely no E1000 or E1000E changes during that time.
 
-Thanks,
-Rafael
+Some recent comments on [1] seem to indicate that this is somehow coupled 
+into prior problems/panics with Intel graphics. 
+
+David, was this also your case, or did the EEPROM got garbled out of a 
+sudden?
+
+[1] https://bugzilla.novell.com/show_bug.cgi?id=425480
+
+-- 
+Jiri Kosina
+SUSE Labs
