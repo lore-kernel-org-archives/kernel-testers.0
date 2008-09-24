@@ -1,172 +1,96 @@
-From: Kyle McMartin <kyle-pfcGkIkfWfAsA/PxXw9srA@public.gmane.org>
+From: "Jesse Brandeburg" <jesse.brandeburg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Wed, 24 Sep 2008 15:10:22 -0400
-Message-ID: <20080924191022.GC2591@phobos.i.cabal.ca>
-References: <alpine.LNX.1.10.0809240014390.4671@pegasus.suse.cz> <20080923.211215.193696086.davem@davemloft.net> <21d7e9970809232245x6a91c6e2l552ff039d07e2017@mail.gmail.com> <20080924.003638.71148740.davem@davemloft.net>
+Date: Wed, 24 Sep 2008 12:22:20 -0700
+Message-ID: <4807377b0809241222n4ebf4ca0ifc886e0436904121@mail.gmail.com>
+References: <alpine.LNX.1.10.0809240014390.4671@pegasus.suse.cz>
+	 <20080923.211215.193696086.davem@davemloft.net>
+	 <21d7e9970809232245x6a91c6e2l552ff039d07e2017@mail.gmail.com>
+	 <20080924.003638.71148740.davem@davemloft.net>
+	 <20080924191022.GC2591@phobos.i.cabal.ca>
 Mime-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_150566_25386232.1222284140146"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20080924.003638.71148740.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type:references;
+        bh=2pjfjp4nMF4pTupmvvwA23zEzgmGONxZl0WFc84NPw4=;
+        b=c6fnJW8eYF1W1m/GX801R8jO9N/pe/OYYV0J7lU2jswJrr76xhkOZox6VoYG5/dB3I
+         HfQMGd5bG6QnF/FyV5XKHYdZdBnWQeCnHNJOrmrpT1rygEYy3KXza3xg1jQXib2UgCtn
+         aH2lyaeRxAS1eKh0Q5RpHYRv0SvxyHWhf6fOw=
+In-Reply-To: <20080924191022.GC2591-EK4dZfYtfFRW/gs8oUvUg/d9D2ou9A/h@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+To: Kyle McMartin <kyle-pfcGkIkfWfAsA/PxXw9srA@public.gmane.org>
+Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jkosina-AlSwsSmVLrQ@public.gmane.org, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org, "Brandeburg, Jesse" <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+
+------=_Part_150566_25386232.1222284140146
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Cc: airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jkosina-AlSwsSmVLrQ@public.gmane.org, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org
+Content-Disposition: inline
 
-On Wed, Sep 24, 2008 at 12:36:38AM -0700, David Miller wrote:
-> The e1000e side here is reproducable way too easily for it to be the
-> same case, as far as I see it.
-> 
+On Wed, Sep 24, 2008 at 12:10 PM, Kyle McMartin <kyle-pfcGkIkfWfAsA/PxXw9srA@public.gmane.org> wrote:
+> At the very least, if someone pokes in a hexdump of the firmware, at
+> least we might be able to see some of the method to the madness of the
+> corruption pattern.
 
-I've been working on a patch to detect (using a timer and checking at
- up/down) whether or not the flash has been corrupted, and, if it is
-rewrite it with the saved good copy (which obviously only helps if
-it's the same boot.)
+Thanks Kyle!
 
-Unfortunately, I don't have enough time to finish it before I go away
-for the weekend, so I'll toss it over the wall and see if it sticks to
-anything.
+attached is a patch to dump the eeprom to dmesg (first 64 bytes) at
+boot for e1000e, which kind of goes along with your AWOOGA part of
+your patch.
 
-At a glance, one would need to add support for rewriting
-adapter->hw.flash from ethtool if someone reprograms the good firmware
-back, and writing the good flash back on down/remove if it detects
-a change.
+------=_Part_150566_25386232.1222284140146
+Content-Type: text/plain; name=e1000e-dump-eeprom-to-dmesg.txt
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_flicdjrg0
+Content-Disposition: attachment; filename=e1000e-dump-eeprom-to-dmesg.txt
 
-Bear in mind, super quick hack, and I haven't even run-tested it yet.
-
-If nobody decides to run with it, I'll probably give it another poke
-late tonight.
-
-Definitely-not-signed-off-by-or-tested-by: Kyle
-
-At the very least, if someone pokes in a hexdump of the firmware, at
-least we might be able to see some of the method to the madness of the
-corruption pattern.
-
-diff --git a/drivers/net/e1000e/e1000.h b/drivers/net/e1000e/e1000.h
-index ac4e506..08cce8c 100644
---- a/drivers/net/e1000e/e1000.h
-+++ b/drivers/net/e1000e/e1000.h
-@@ -168,6 +168,7 @@ struct e1000_adapter {
- 	struct timer_list watchdog_timer;
- 	struct timer_list phy_info_timer;
- 	struct timer_list blink_timer;
-+	struct timer_list flash_timer;
- 
- 	struct work_struct reset_task;
- 	struct work_struct watchdog_task;
-diff --git a/drivers/net/e1000e/hw.h b/drivers/net/e1000e/hw.h
-index 74f263a..ca3f645 100644
---- a/drivers/net/e1000e/hw.h
-+++ b/drivers/net/e1000e/hw.h
-@@ -863,6 +863,11 @@ struct e1000_hw {
- 
- 	u8 __iomem *hw_addr;
- 	u8 __iomem *flash_address;
-+	int flash_len;
-+
-+	u8 *flash;
-+	u8 *flash_backup;
-+	spinlock_t flashlock;
- 
- 	struct e1000_mac_info  mac;
- 	struct e1000_fc_info   fc;
-diff --git a/drivers/net/e1000e/netdev.c b/drivers/net/e1000e/netdev.c
-index d266510..13f05f8 100644
---- a/drivers/net/e1000e/netdev.c
-+++ b/drivers/net/e1000e/netdev.c
-@@ -2535,6 +2535,7 @@ void e1000e_down(struct e1000_adapter *adapter)
- 
- 	del_timer_sync(&adapter->watchdog_timer);
- 	del_timer_sync(&adapter->phy_info_timer);
-+	del_timer_sync(&adapter->flash_timer);
- 
- 	netdev->tx_queue_len = adapter->tx_queue_len;
- 	netif_carrier_off(netdev);
-@@ -2922,6 +2923,33 @@ static void e1000_update_phy_info(unsigned long data)
- 	e1000_get_phy_info(&adapter->hw);
- }
- 
-+static inline int e1000_test_flash(struct e1000_adapter *adapter)
-+{
-+	int ret = 0;
-+
-+	if (adapter->hw.flash && adapter->hw.flash_backup) {
-+		spin_lock(&adapter->hw.flashlock);
-+		memcpy(adapter->hw.flash_backup, adapter->hw.flash_address,
-+			adapter->hw.flash_len);
-+		ret = memcmp(adapter->hw.flash, adapter->hw.flash_backup,
-+			adapter->hw.flash_len);
-+		spin_unlock(&adapter->hw.flashlock);
-+		if (ret) {
-+			/* dump_eeprom(adapter); */
-+			printk(KERN_ERR "AWOOOGA AWOOOGA flash changed\n");
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+static void e1000_flash_test(unsigned long data)
-+{
-+	struct e1000_adapter *adapter = (struct e1000_adapter *) data;
-+	e1000_test_flash(adapter);
-+	mod_timer(&adapter->flash_timer, jiffies+(20*HZ));
-+}
-+
- /**
-  * e1000e_update_stats - Update the board statistics counters
-  * @adapter: board private structure
-@@ -4439,6 +4467,22 @@ static int __devinit e1000_probe(struct pci_dev *pdev,
- 		adapter->hw.flash_address = ioremap(flash_start, flash_len);
- 		if (!adapter->hw.flash_address)
- 			goto err_flashmap;
-+
-+		adapter->hw.flash_len = (int)flash_len;
-+		/* stash away a copy of the flash, and allocate
-+		   space for a second copy... */
-+		if (!adapter->hw.flash) {
-+			u8 *flash = kmalloc(flash_len, GFP_KERNEL);
-+			u8 *flash_backup = kmalloc(flash_len, GFP_KERNEL);
-+			if (flash && flash_backup) {
-+				memcpy(flash, adapter->hw.flash_address,
-+					adapter->hw.flash_len);
-+				adapter->hw.flash = flash;
-+				adapter->hw.flash_backup = flash_backup;
-+				spin_lock_init(&adapter->hw.flashlock);
-+			}
-+		}
-+			
- 	}
- 
- 	/* construct the net_device struct */
-@@ -4570,6 +4614,10 @@ static int __devinit e1000_probe(struct pci_dev *pdev,
- 	adapter->phy_info_timer.function = &e1000_update_phy_info;
- 	adapter->phy_info_timer.data = (unsigned long) adapter;
- 
-+	init_timer(&adapter->flash_timer);
-+	adapter->flash_timer.function = &e1000_flash_test;
-+	adapter->flash_timer.data = (unsigned long) adapter;
-+
- 	INIT_WORK(&adapter->reset_task, e1000_reset_task);
- 	INIT_WORK(&adapter->watchdog_task, e1000_watchdog_task);
- 
-@@ -4641,6 +4689,9 @@ static int __devinit e1000_probe(struct pci_dev *pdev,
- 
- 	e1000_print_device_info(adapter);
- 
-+	/* every twenty seconds, test the flash */
-+	mod_timer(&adapter->flash_timer, jiffies+(HZ*20));
-+
- 	return 0;
- 
- err_register:
-@@ -4690,6 +4741,7 @@ static void __devexit e1000_remove(struct pci_dev *pdev)
- 	set_bit(__E1000_DOWN, &adapter->state);
- 	del_timer_sync(&adapter->watchdog_timer);
- 	del_timer_sync(&adapter->phy_info_timer);
-+	del_timer_sync(&adapter->flash_timer);
- 
- 	flush_scheduled_work();
- 
+ZTEwMDBlOiBkdW1wIGVlcHJvbSB0byBkbWVzZyBmb3IgaWNoOC85CgpGcm9tOiBKZXNzZSBCcmFu
+ZGVidXJnIDxqZXNzZS5icmFuZGVidXJnQGludGVsLmNvbT4KCmR1bXBpbmcgdGhlIGVlcHJvbSBm
+b3Igbm93IHNlZW1zIGxpa2UgYSBiaXQgb2YgYSB2ZXJib3NlCmhhY2ssIGJ1dCBtaWdodCBiZSB1
+c2VmdWwgd2hlbiB3ZSB3YW50IHRvIHJlc3RvcmUgaXQuCgppZiBzeXNsb2dkIChvciBzb21ldGhp
+bmcgbGlrZSkgaXNuJ3QgcnVubmluZyBpdCB3b24ndCBiZSBrZXB0Cmhvd2V2ZXIuCgpTaWduZWQt
+b2ZmLWJ5OiBKZXNzZSBCcmFuZGVidXJnIDxqZXNzZS5icmFuZGVidXJnQGludGVsLmNvbT4KLS0t
+CgogZHJpdmVycy9uZXQvZTEwMDBlL25ldGRldi5jIHwgICA1MSArKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrCiAxIGZpbGVzIGNoYW5nZWQsIDUxIGluc2VydGlvbnMo
+KyksIDAgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQvZTEwMDBlL25ldGRl
+di5jIGIvZHJpdmVycy9uZXQvZTEwMDBlL25ldGRldi5jCmluZGV4IDg5Y2EyNzIuLjQ4MDcyZmEg
+MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbmV0L2UxMDAwZS9uZXRkZXYuYworKysgYi9kcml2ZXJzL25l
+dC9lMTAwMGUvbmV0ZGV2LmMKQEAgLTQzMzgsNiArNDMzOCw1MiBAQCBzdGF0aWMgdm9pZCBlMTAw
+MF9lZXByb21fY2hlY2tzKHN0cnVjdCBlMTAwMF9hZGFwdGVyICphZGFwdGVyKQogfQogCiAvKioK
+KyAqIGUxMDAwZV9kdW1wX2VlcHJvbSAtIHdyaXRlIHRoZSBlZXByb20gdG8ga2VybmVsIGxvZwor
+ICogQGFkYXB0ZXI6IG91ciBhZGFwdGVyIHN0cnVjdAorICoKKyAqIER1bXAgdGhlIGVlcHJvbSBm
+b3IgdXNlcnMgaGF2aW5nIGNoZWNrc3VtIGlzc3VlcworICoqLworc3RhdGljIHZvaWQgZTEwMDBl
+X2R1bXBfZWVwcm9tKHN0cnVjdCBlMTAwMF9hZGFwdGVyICphZGFwdGVyKQoreworCXN0cnVjdCBu
+ZXRfZGV2aWNlICpuZXRkZXYgPSBhZGFwdGVyLT5uZXRkZXY7CisJc3RydWN0IGV0aHRvb2xfZWVw
+cm9tIGVlcHJvbTsKKwljb25zdCBzdHJ1Y3QgZXRodG9vbF9vcHMgKm9wcyA9IG5ldGRldi0+ZXRo
+dG9vbF9vcHM7CisJdTggKmRhdGE7CisJaW50IGk7CisJdTE2IGNzdW1fb2xkLCBjc3VtX25ldyA9
+IDA7CisKKwllZXByb20ubGVuID0gb3BzLT5nZXRfZWVwcm9tX2xlbihuZXRkZXYpOworCWVlcHJv
+bS5vZmZzZXQgPSAwOworCisJZGF0YSA9IGt6YWxsb2MoZWVwcm9tLmxlbiwgR0ZQX0tFUk5FTCk7
+CisJaWYgKCFkYXRhKSB7CisJCXByaW50ayhLRVJOX0VSUiAiVW5hYmxlIHRvIGFsbG9jYXRlIG1l
+bW9yeSB0byBkdW1wIEVFUFJPTSIKKwkJICAgICAgICIgZGF0YVxuIik7CisJCXJldHVybjsKKwl9
+CisKKwlvcHMtPmdldF9lZXByb20obmV0ZGV2LCAmZWVwcm9tLCBkYXRhKTsKKworCWNzdW1fb2xk
+ID0gKGRhdGFbTlZNX0NIRUNLU1VNX1JFRyAqIDJdKSArCisJCSAgIChkYXRhW05WTV9DSEVDS1NV
+TV9SRUcgKiAyICsgMV0gPDwgOCk7CisJZm9yIChpID0gMDsgaSA8IE5WTV9DSEVDS1NVTV9SRUcg
+KiAyOyBpICs9IDIpCisJCWNzdW1fbmV3ICs9IGRhdGFbaV0gKyAoZGF0YVtpICsgMV0gPDwgOCk7
+CisJY3N1bV9uZXcgPSBOVk1fU1VNIC0gY3N1bV9uZXc7CisKKwlwcmludGsoS0VSTl9FUlIgIi8q
+KioqKioqKioqKioqKioqKioqKiovXG4iKTsKKwlwcmludGsoS0VSTl9FUlIgIkN1cnJlbnQgRUVQ
+Uk9NIENoZWNrc3VtIDogMHglMDR4XG4iLCBjc3VtX29sZCk7CisJcHJpbnRrKEtFUk5fRVJSICJD
+YWxjdWxhdGVkICAgICAgICAgICAgICA6IDB4JTA0eFxuIiwgY3N1bV9uZXcpOworCisJcHJpbnRr
+KEtFUk5fRVJSICJPZmZzZXQgICAgVmFsdWVzXG4iKTsKKwlwcmludGsoS0VSTl9FUlIgIj09PT09
+PT09ICA9PT09PT1cbiIpOworCXByaW50X2hleF9kdW1wKEtFUk5fRVJSLCAiIiwgRFVNUF9QUkVG
+SVhfT0ZGU0VULCAxNiwgMSwgZGF0YSwgMTI4LCAwKTsKKworCXByaW50ayhLRVJOX0VSUiAiLyoq
+KioqKioqKioqKioqKioqKioqKi9cbiIpOworCisJa2ZyZWUoZGF0YSk7Cit9CisKKy8qKgogICog
+ZTEwMDBfcHJvYmUgLSBEZXZpY2UgSW5pdGlhbGl6YXRpb24gUm91dGluZQogICogQHBkZXY6IFBD
+SSBkZXZpY2UgaW5mb3JtYXRpb24gc3RydWN0CiAgKiBAZW50OiBlbnRyeSBpbiBlMTAwMF9wY2lf
+dGJsCkBAIC00NTQxLDYgKzQ1ODcsMTEgQEAgc3RhdGljIGludCBfX2RldmluaXQgZTEwMDBfcHJv
+YmUoc3RydWN0IHBjaV9kZXYgKnBkZXYsCiAKIAllMTAwMF9lZXByb21fY2hlY2tzKGFkYXB0ZXIp
+OwogCisJLyogZGVidWcgY29kZSAuLi4gZHVtcCB0aGUgZmlyc3QgMTI4IGJ5dGVzIG9mIHRoZSBl
+ZXByb20gZm9yCisJICogaWNoIHBhcnRzIHRoYXQgbWlnaHQgZ2V0IGEgY29ycnVwdGlvbiAqLwor
+CWlmIChhZGFwdGVyLT5mbGFncyAmIEZMQUdfSVNfSUNIKQorCQllMTAwMGVfZHVtcF9lZXByb20o
+YWRhcHRlcik7CisKIAkvKiBjb3B5IHRoZSBNQUMgYWRkcmVzcyBvdXQgb2YgdGhlIE5WTSAqLwog
+CWlmIChlMTAwMGVfcmVhZF9tYWNfYWRkcigmYWRhcHRlci0+aHcpKQogCQllX2VycigiTlZNIFJl
+YWQgRXJyb3Igd2hpbGUgcmVhZGluZyBNQUMgYWRkcmVzc1xuIik7Cg==
+------=_Part_150566_25386232.1222284140146--
