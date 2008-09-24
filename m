@@ -1,54 +1,54 @@
-From: "Dave Airlie" <airlied@gmail.com>
+From: "Dave Airlie" <airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Thu, 25 Sep 2008 06:07:12 +1000
-Message-ID: <21d7e9970809241307p2a0e68e0odcf69acff8fe9420@mail.gmail.com>
+Date: Thu, 25 Sep 2008 06:18:16 +1000
+Message-ID: <21d7e9970809241318s2717e121ic53f1357898a2cd0@mail.gmail.com>
 References: <21d7e9970809232245x6a91c6e2l552ff039d07e2017@mail.gmail.com>
 	 <20080924.003638.71148740.davem@davemloft.net>
 	 <21d7e9970809240159u6db747eex51892061846b2251@mail.gmail.com>
 	 <20080924.020116.193720569.davem@davemloft.net>
 	 <21d7e9970809240216m4a93a339sb51a5928fcb5f6fb@mail.gmail.com>
 	 <alpine.LNX.1.10.0809241829500.4671@pegasus.suse.cz>
+	 <alpine.LNX.1.10.0809241836180.4671@pegasus.suse.cz>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754073AbYIXUH3@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
         h=domainkey-signature:received:received:message-id:date:from:to
          :subject:cc:in-reply-to:mime-version:content-type
          :content-transfer-encoding:content-disposition:references;
-        bh=7FD+cK7HAweV05XagnfGzqtx2us6THh4IXH7pNNBaPg=;
-        b=vUPm/THfXfOAszjZjWM4SRoin2M1ZElyHGvrUCs5zx2A/COIWtiNgyK7dqK2tMrNz4
-         3t9/ZxjV3cFq/uSCgB2FvLLJIHbVnQlOonFodpso4A6tPI9Urf1UIyuLkgTSKn8jn09y
-         fp9r8H9fkDP7+IqrrC0eMW4BhWdQE6WbdgK+o=
-In-Reply-To: <alpine.LNX.1.10.0809241829500.4671@pegasus.suse.cz>
+        bh=3GRbxByupVDUOJSec7f2m9GPPYl5DxvXI76GfO1b+O8=;
+        b=aVRo2E8FGW5U505beOrjksH7xUvUR2oquRqz+jEJ1tHEhvsm6aLJ8/Dp4/hJ55bAFd
+         ypKdHvtOUgN2UM6LM/i4fTYpt89rBT9opDLmCUzhL9xjOkeSDPUMqHD83HXaLLnrfvDM
+         gWACGAzkWFOBWVOsG6lvjy5Cuwm0SI2MV8/yM=
+In-Reply-To: <alpine.LNX.1.10.0809241836180.4671-JCEl3tv+2Z8CVLCxKZUutA@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Jiri Kosina <jkosina@suse.cz>
-Cc: David Miller <davem@davemloft.net>, jeffrey.t.kirsher@intel.com, david.vrabel@csr.com, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, chrisl@vmware.com
+To: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org
 
-On Thu, Sep 25, 2008 at 2:33 AM, Jiri Kosina <jkosina@suse.cz> wrote:
-> On Wed, 24 Sep 2008, Dave Airlie wrote:
+On Thu, Sep 25, 2008 at 2:37 AM, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org> wrote:
+> On Wed, 24 Sep 2008, Jiri Kosina wrote:
 >
->> Hopefully tglx can supply some traces, I think getting an interrupt
->> during device startup can possibly access the nvram
->> http://www.tglx.de/~tglx/wtf2.txt
->> seems to suggest bad things could happen.
+>> Dave (Airlie, too many Daves on CC here really), do you by any chance
+>> see any recent change in kernel intel graphic parts of DRM be causing
+>> this breakage?
 >
-> Actually another user has just reported [1] that his e1000e card got
-> screwed up exactly at the point when the installer was probing the X
-> configuration. So this really seems a lot like some lethal interaction
-> between intel graphics and the network card.
->
-> Dave (Airlie, too many Daves on CC here really), do you by any chance see
-> any recent change in kernel intel graphic parts of DRM be causing this
-> breakage?
+> BTW, why is the PAT fix implented in commit 242e3df80 needed only for
+> radeons?
 >
 
-Okay some from the kernel if this isn't in 2.6.26, the drm has
-introduced no patches
-I can even remotely claim might affect this. So its either userspace
-or PAT related.
+Good question, mainly because only radeons showed the illegal mapping crash,
+which was mapping via sysfs _wc files and then doing a UC mapping in
+the kernel over the
+same address space would fail. However this was VRAM related and these
+things don't have VRAM.
 
 Dave.
+
+> --
+> Jiri Kosina
+> SUSE Labs
+>
