@@ -1,54 +1,42 @@
-From: "Dave Airlie" <airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Theodore Tso <tytso@mit.edu>
 Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Thu, 25 Sep 2008 06:18:16 +1000
-Message-ID: <21d7e9970809241318s2717e121ic53f1357898a2cd0@mail.gmail.com>
-References: <21d7e9970809232245x6a91c6e2l552ff039d07e2017@mail.gmail.com>
-	 <20080924.003638.71148740.davem@davemloft.net>
-	 <21d7e9970809240159u6db747eex51892061846b2251@mail.gmail.com>
-	 <20080924.020116.193720569.davem@davemloft.net>
-	 <21d7e9970809240216m4a93a339sb51a5928fcb5f6fb@mail.gmail.com>
-	 <alpine.LNX.1.10.0809241829500.4671@pegasus.suse.cz>
-	 <alpine.LNX.1.10.0809241836180.4671@pegasus.suse.cz>
+Date: Wed, 24 Sep 2008 16:47:15 -0400
+Message-ID: <20080924204715.GL9929@mit.edu>
+References: <alpine.LNX.1.10.0809240014390.4671@pegasus.suse.cz> <20080923.211215.193696086.davem@davemloft.net> <21d7e9970809232245x6a91c6e2l552ff039d07e2017@mail.gmail.com> <20080924.003638.71148740.davem@davemloft.net> <20080924102730.31ee305a@bike.lwn.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=3GRbxByupVDUOJSec7f2m9GPPYl5DxvXI76GfO1b+O8=;
-        b=aVRo2E8FGW5U505beOrjksH7xUvUR2oquRqz+jEJ1tHEhvsm6aLJ8/Dp4/hJ55bAFd
-         ypKdHvtOUgN2UM6LM/i4fTYpt89rBT9opDLmCUzhL9xjOkeSDPUMqHD83HXaLLnrfvDM
-         gWACGAzkWFOBWVOsG6lvjy5Cuwm0SI2MV8/yM=
-In-Reply-To: <alpine.LNX.1.10.0809241836180.4671-JCEl3tv+2Z8CVLCxKZUutA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755337AbYIXUry@vger.kernel.org>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <20080924102730.31ee305a@bike.lwn.net>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: David Miller <davem@davemloft.net>, airlied@gmail.com, jkosina@suse.cz, jeffrey.t.kirsher@intel.com, david.vrabel@csr.com, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, chrisl@vmware.com
 
-On Thu, Sep 25, 2008 at 2:37 AM, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org> wrote:
-> On Wed, 24 Sep 2008, Jiri Kosina wrote:
->
->> Dave (Airlie, too many Daves on CC here really), do you by any chance
->> see any recent change in kernel intel graphic parts of DRM be causing
->> this breakage?
->
-> BTW, why is the PAT fix implented in commit 242e3df80 needed only for
-> radeons?
->
+On Wed, Sep 24, 2008 at 10:27:30AM -0600, Jonathan Corbet wrote:
+> On Wed, 24 Sep 2008 00:36:38 -0700 (PDT)
+> David Miller <davem@davemloft.net> wrote:
+> 
+> > I'm about to leave for a week or so in Paris for the netfilter
+> > workshop, so I hope that someone other than myself will do some data
+> > mining like I have instead of (merely) tossing theories around and
+> > finger pointing.
+> 
+> A data point, just in case it helps...  I've not had time to update my
+> desktop system, so this all-Intel, ICH9, e1000e-based box has been stuck
+> at 2.6.27-rc3.  It has rawhide as of shortly after the floodgates
+> reopened (but with my own kernel); that means X server 1.5.0 and i810
+> 2.4.2-3.
 
-Good question, mainly because only radeons showed the illegal mapping crash,
-which was mapping via sysfs _wc files and then doing a UC mapping in
-the kernel over the
-same address space would fail. However this was VRAM related and these
-things don't have VRAM.
+I'm running a 2.6.26-rc6 kernel on a X61s laptop, which is an
+all-Intel ICH8, using the e1000e driver, and I haven't been been
+bitten with the problem either.  I'm using an Ubuntu Hardy userspace,
+which means I'm using an 1.4.0.90 X Server with an i915 drm version
+1.6.0 20060119, and my e1000 EEPROM hasn't been blasted to oblivion
+yet!
 
-Dave.
+Personally, I don't plan on upgrading to a newer userspace until we
+figure out what the heck is going on.  :-)
 
-> --
-> Jiri Kosina
-> SUSE Labs
->
+					- Ted
