@@ -1,31 +1,31 @@
-From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Wed, 24 Sep 2008 00:19:00 +0200 (CEST)
-Message-ID: <alpine.LNX.1.10.0809240014390.4671@pegasus.suse.cz>
-References: <alpine.LNX.1.10.0809231229460.4671@pegasus.suse.cz>  <20080923.140519.268233735.davem@davemloft.net>  <21d7e9970809231409r3fdd640h53a72a808266d220@mail.gmail.com>  <20080923.150722.141587696.davem@davemloft.net>
- <9929d2390809231512w160d221axa2923a6b293a041@mail.gmail.com>
+From: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #11548] kernel BUG at drivers/pci/intel-iommu.c:1373!
+Date: Tue, 23 Sep 2008 21:18:41 -0400
+Message-ID: <1222219121.7160.162.camel@think.oraclecorp.com>
+References: <PJz8fNrJNHG.A.65F.wzq1IB@albercik>
+	 <7lIhZC4hCxE.A.oAH.j0q1IB@albercik>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <9929d2390809231512w160d221axa2923a6b293a041-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <7lIhZC4hCxE.A.oAH.j0q1IB@albercik>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jeff Kirsher <jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tue, 23 Sep 2008, Jeff Kirsher wrote:
+On Sun, 2008-09-21 at 20:54 +0200, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
+> 
 
-> >> I don't think OpenSUSE was shipping any of the GEM bits.
-> > Good data point, can someone confirm this?  Also, what X server version
-> > is the effected OpenSUSE shipping?
-> OpenSuSE 11 ships x server version 7.3.
+I'm unable to reproduce this on 2.6.27-rc7.  I don't think it has been
+fixed, but I'm having a hard time finding a reliable way to trigger it
+on newer kernels.
 
-Opensuse 11 is fine.
+-chris
 
-The problem can be reproduced [not only] on opensuse 11.1 beta1, which has
-
-	xorg-x11-7.4-1.6.x86_64.rpm
-
--- 
-Jiri Kosina
