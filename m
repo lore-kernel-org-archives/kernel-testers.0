@@ -1,44 +1,51 @@
-From: "Parag Warudkar" <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
 Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Wed, 24 Sep 2008 18:54:53 -0400
-Message-ID: <f7848160809241554n44efa90bldfc656eda2cab66a@mail.gmail.com>
-References: <21d7e9970809232245x6a91c6e2l552ff039d07e2017@mail.gmail.com>
-	 <20080924.003638.71148740.davem@davemloft.net>
-	 <21d7e9970809240159u6db747eex51892061846b2251@mail.gmail.com>
-	 <20080924.020116.193720569.davem@davemloft.net>
-	 <21d7e9970809240216m4a93a339sb51a5928fcb5f6fb@mail.gmail.com>
-	 <alpine.LNX.1.10.0809241829500.4671@pegasus.suse.cz>
+Date: Thu, 25 Sep 2008 01:15:53 +0200 (CEST)
+Message-ID: <alpine.LNX.1.10.0809250110070.4671@pegasus.suse.cz>
+References: <20080923.150722.141587696.davem@davemloft.net> <9929d2390809231512w160d221axa2923a6b293a041@mail.gmail.com> <alpine.LNX.1.10.0809240014390.4671@pegasus.suse.cz> <20080923.211215.193696086.davem@davemloft.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=IIn0Squ9CDcgP7zv81VJm/8pjvkrrQxluXVXg7gpfvs=;
-        b=bNSuRcbFD2hop2rK4GMSNAk+Depvq61n9rqUltKTUiQYzCit7w11dz2P+NW423Aeae
-         HYqYdHi9fcse2YsqrBYMHmqcaIGwzDw8m/Gu1CATs9phgVqgdHuaejLdChwTCz8k87Nr
-         wBZBzi9v0j59zvuVuBFUzkpjeooqP0y24kgYA=
-In-Reply-To: <alpine.LNX.1.10.0809241829500.4671-JCEl3tv+2Z8CVLCxKZUutA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <20080923.211215.193696086.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-Cc: Dave Airlie <airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Cc: jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org
 
-On Wed, Sep 24, 2008 at 12:33 PM, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org> wrote:
+On Tue, 23 Sep 2008, David Miller wrote:
 
-> Actually another user has just reported [1] that his e1000e card got
-> screwed up exactly at the point when the installer was probing the X
-> configuration. So this really seems a lot like some lethal interaction
-> between intel graphics and the network card.
->
+> I did some snooping around, and while doing so I noticed that the PCI 
+> mmap code for x86 doesn't do one bit of range checking on the size, or 
+> any other aspect of the request, wrt. the MMIO regions actually mapped 
+> in the BARs of the PCI device.
 
-Another data point in the support of this theory - I've been running
-all various 2.6.27-rc releases (including rc7) on my HP machine which
-has an embedded 82566 and Radeon x1650 graphics - and so far I have
-not seen any problems.
+Ugh, indeed. Added Ingo and Jesse to CC.
 
-Parag
+> Yikes!
+> 
+> It just does a reserve_memtype() on the address range, and says "ok".
+> 
+> So if, for example, the X server tries to mmap() more than an MMIO bar
+> actually maps, the kernel lets the user do this.
+> 
+> It would be very interesting to add the appropriate checks to
+> pci_mmap_page_range() in arch/x86/pci/i386.c, anyone who wants to do
+> this can use the code in arch/sparc64/kernel/pci.c:
+> __pci_mmap_make_offset() as a guide, and see what happens.
+
+Absolutely. Or we can even do some dirty hackery in userspace, like 
+LD_PRELOADing X server and checking mmaps() that are close to MMIO regions 
+of affected devices.
+
+> If the MMIO space regions of the video cards sit right before the
+> E1000E ones on the effected systems, that would pretty much
+> convince me that this is the kind of problem we are having here.
+
+Unfortunately, looking at the lspci outputs that are in 
+https://bugzilla.novell.com/show_bug.cgi?id=425480 it seems to me that the 
+MMIO regions are quite far away from each other.
+
+-- 
+Jiri Kosina
+SUSE Labs
