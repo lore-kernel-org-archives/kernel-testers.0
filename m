@@ -1,34 +1,64 @@
-From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
 Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Thu, 25 Sep 2008 22:35:58 +0200 (CEST)
-Message-ID: <alpine.LNX.1.10.0809252234400.3389@pegasus.suse.cz>
-References: <20080923.150722.141587696.davem@davemloft.net> <200809251156.10648.jbarnes@virtuousgeek.org> <alpine.LNX.1.10.0809252218470.3389@pegasus.suse.cz> <200809251236.12287.jbarnes@virtuousgeek.org>
+Date: Thu, 25 Sep 2008 12:43:41 -0700
+Message-ID: <200809251243.43441.jbarnes@virtuousgeek.org>
+References: <20080923.150722.141587696.davem@davemloft.net> <alpine.LNX.1.10.0809250110070.4671@pegasus.suse.cz> <200809241726.58628.jbarnes@virtuousgeek.org>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200809251236.12287.jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Cc: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, jesse.brandeburg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753731AbYIYToV@vger.kernel.org>
+In-Reply-To: <200809241726.58628.jbarnes@virtuousgeek.org>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Jiri Kosina <jkosina@suse.cz>
+Cc: David Miller <davem@davemloft.net>, jeffrey.t.kirsher@intel.com, airlied@gmail.com, david.vrabel@csr.com, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, chrisl@vmware.com, Ingo Molnar <mingo@elte.hu>
 
-On Thu, 25 Sep 2008, Jesse Barnes wrote:
+On Tue, 23 Sep 2008, David Miller wrote:
+> I did some snooping around, and while doing so I noticed that the PCI
+> mmap code for x86 doesn't do one bit of range checking on the size, or
+> any other aspect of the request, wrt. the MMIO regions actually mapped
+> in the BARs of the PCI device.
 
-> However, the "Factory" log at #425480 *does* indicate that a GEM aware 
-> 2D driver was loaded (the "[drm:i915_getparam] *ERROR* Unknown parameter 
-> 5" message indicates as much), but the kernel was definitely not GEM 
-> aware otherwise the call would have succeeded.  So that rules out GEM 
-> proper, but it could still be a bug in one of the non-GEM paths in the 
-> experimental xf86-video-intel bits the various distros seem to be 
-> picking up.
+Here's a patch that adds range checking to the sysfs mappings at least.  This 
+patch should catch the case where X (or some other process) tries to map 
+beyond the specific BAR it's (supposedly) trying to access, making things 
+safer in general.  FWIW both my F9 and development versions of X start up 
+fine with this patch applied.
 
-That was exactly the point I was trying to make, that these error paths 
-will probably also need auditing, once we rule out the possibility of 
-NVRAM being overwritten from kernelspace.
+DaveM, will this work for you on sparc?  It looked like your code was allowing 
+bridge window mappings, but that behavior should be preserved as long as your 
+bridge devices reflect their window sizes correctly in their pdev->resources?
 
-Thanks,
+If we add similar code to the procfs stuff we wouldn't need to do any checking 
+in the arches.
 
--- 
-Jiri Kosina
-SUSE Labs
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index 9c71858..f4e8b4e 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -502,6 +502,8 @@ pci_mmap_resource(struct kobject *kobj, struct 
+bin_attribute *attr,
+ 	struct resource *res = (struct resource *)attr->private;
+ 	enum pci_mmap_state mmap_type;
+ 	resource_size_t start, end;
++	unsigned long map_len = vma->vm_end - vma->vm_start;
++	unsigned long map_offset = vma->vm_pgoff << PAGE_SHIFT;
+ 	int i;
+ 
+ 	for (i = 0; i < PCI_ROM_RESOURCE; i++)
+@@ -510,6 +512,13 @@ pci_mmap_resource(struct kobject *kobj, struct 
+bin_attribute *attr,
+ 	if (i >= PCI_ROM_RESOURCE)
+ 		return -ENODEV;
+ 
++	/*
++	 * Make sure the range the user is trying to map falls within
++	 * the resource
++	 */
++	if (map_offset + map_len > pci_resource_len(pdev, i))
++		return -EINVAL;
++
+ 	/* pci_mmap_page_range() expects the same kind of entry as coming
+ 	 * from /proc/bus/pci/ which is a "user visible" value. If this is
+ 	 * different from the resource itself, arch will do necessary fixup.
