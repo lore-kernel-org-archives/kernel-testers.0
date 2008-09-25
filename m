@@ -1,92 +1,147 @@
-From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Thu, 25 Sep 2008 03:27:05 +0200 (CEST)
-Message-ID: <alpine.LNX.1.10.0809250310190.4671@pegasus.suse.cz>
-References: <20080923.150722.141587696.davem@davemloft.net>  <9929d2390809231512w160d221axa2923a6b293a041@mail.gmail.com>  <alpine.LNX.1.10.0809240014390.4671@pegasus.suse.cz>  <20080923.211215.193696086.davem@davemloft.net>  <alpine.LNX.1.10.0809250110070.4671@pegasus.suse.cz>
- <21d7e9970809241722w7c3bb6a5w1af5801b7380169d@mail.gmail.com>
+From: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
+Date: Thu, 25 Sep 2008 11:50:25 +1000
+Message-ID: <200809251150.26760.rusty@rustcorp.com.au>
+References: <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <86802c440808260136t3a33a9c8if53b6f70ab9df9e2@mail.gmail.com> <alpine.LFD.1.10.0808260939070.3363@nehalem.linux-foundation.org>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <21d7e9970809241722w7c3bb6a5w1af5801b7380169d-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <alpine.LFD.1.10.0808260939070.3363-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Dave Airlie <airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org, jesse.brandeburg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset="utf-8"
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Alan.Brunelle-VXdhtT5mjnY@public.gmane.org, travis-sJ/iWh9BUns@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, Jack Steiner <steiner-sJ/iWh9BUns@public.gmane.org>
 
-On Thu, 25 Sep 2008, Dave Airlie wrote:
+On Wednesday 27 August 2008 02:51:46 Linus Torvalds wrote:
+> On Tue, 26 Aug 2008, Yinghai Lu wrote:
+> > wonder if could use "unsigned long *" directly.
+>
+> I would actually suggest something like this:
+>
+>  - we continue to have a magic "cpumask_t".
+>
+>  - we do different cases for big and small NR_CPUS:
+>
+> 	#if NR_CPUS <=3D BITS_PER_LONG
+>
+> 	/*
+> 	 * Make it an array - that way passing it as an argument will
+> 	 * always pass it as a pointer!
+> 	 */
+> 	typedef unsigned long cpumask_t[1];
+>
+> 	static inline void create_cpumask(cpumask_t *p)
+> 	{
+> 		*p =3D 0;
+> 	}
+> 	static inline void free_cpumask(cpumask_t *p)
+> 	{
+> 	}
+>
+> 	#else
+>
+> 	typedef unsigned long *cpumask_t;
+>
+> 	static inline void create_cpumask(cpumask_t *p)
+> 	{
+> 		*p =3D kcalloc(..);
+> 	}
+>
+> 	static inline void free_cpumask(cpumask_t *p)
+> 	{
+> 		kfree(*p);
+> 	}
+>
+> 	#endif
+>
+> and now after you do this, you can just do something like
+>
+> 	cpumask_t mycpu;
+>
+> 	create_cpumask(&mycpu);
+> 	..
+> 	free_cpumask(&mycpu);
+>
+> and in between, you can use 'cpumask' as a pointer, because even when=
+ it
+> is an array directly allocated on the stack, the array can always
+> degenerate into a pointer by C type rules!
 
-> Well I'm out of the race, my attempts to re-write my eeprom using an 
-> eeprom from an equivalent laptop have totally failed and my BIOS won't 
-> boot anymore - so my laptop is == a brick.
+Hi Linus,
 
-Uh oh. Shouldn't we put something like the patch below in Linus' tree 
-unless we get this sorted out? Otherwise more and more people who use -rc 
-kernels will run into this, and will get their hardware [hopefully 
-temporarily, but not all users are able to re-flash their network card 
-EEPROMs, right] bricked.
+    This turns out to be awful in practice, mainly due to const.  Consi=
+der:
 
-I know that it is quite aggressive and is going to disable wired 
-networking on a lot of systems that have been functioning properly, 
-therefore RFC ...
+	#ifdef CONFIG_CPUMASK_OFFSTACK
+	typedef unsigned long *cpumask_t;
+	#else
+	typedef unsigned long cpumask_t[1];
+	#endif
 
+	cpumask_t returns_cpumask(void);
 
+That's obviously illegal if cpumask_t is an array.  So we need a typede=
+f which=20
+says "really always a pointer".
 
-From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-Subject: [PATCH] [RFC] E1000E: temporarily disable e1000e driver
+	typedef unsigned long *cpumask_return_t;
+	cpumask_return_t returns_cpumask(void);
 
-E1000E: temporarily disable e1000e driver
+But we usually want it to return a const ptr, and this doesn't work:
 
-There is a serious bug somewhere, that renders e1000e network cards 
-unusable on certain hardware configurations by rewriting EEPROM with 0xff 
-all over. Debugging this is not trivial, because:
+	const cpumask_return_t returns_cpumask(void);
+	foo.c:12: warning: type qualifiers ignored on function return type
 
-- it is not yet even clear whether the bug is caused by userspace (new 
-  version of xorg drivers, bad interaction with PAT, ...) or some bug in 
-  kernel code; it's even not yet certain at which exact combination of 
-  software versions and hardware configuration this started to trigger
-- you have only one attempt to test potential fix. If the fix doesn't 
-  work, the eeprom of the card is hosed
+So now we need:
+	typedef const unsigned long *cpumask_const_return_t;
+	cpumask_const_return_t returns_cpumask(void);
 
-and therefore fixing this has potential to take some time.
+OK, now consider a function which wants to take a const cpu bitmap:
 
-The tool that will safely restore the previous contents of EEPROM is 
-currently being written, but even this is not trivial (Dave Airlie has 
-turned his notebook into brick while trying to restore the EEPROM 
-contents).
+	void cpus_copy(cpumask_t dst, const cpumask_t src);
+	...
+	cpus_copy(cpus, returns_cpumask());
+	foo.c:34: warning: passing argument 2 of =E2=80=98cpus_copy=E2=80=99 d=
+iscards qualifiers from=20
+pointer target type
 
-Let's therefore mark this driver as broken (though it is very well 
-possible that this particular driver is not at fault at all) until this 
-gets resolved, so that users of -rc kernels don't get their network cards 
-totally unusable.
+Oops, that didn't work with the pointer version.  So we need another ty=
+pedef:
+	#ifdef CONFIG_CPUMASK_OFFSTACK
+	typedef const unsigned long *cpumask_const_t;
+	#else
+	typedef const unsigned long cpumask_const_t[1];
+	#endif
 
-References (information about sw/hw configurations of affected systems 
-might be found in the bugzillas):
+	void cpus_copy(cpumask_t dst, cpumask_const_t src);
 
-	http://lkml.org/lkml/2008/8/8/123
-	http://lkml.org/lkml/2008/9/22/23
+We end up with this:
+	#ifdef CONFIG_CPUMASK_OFFSTACK
+	typedef unsigned long *cpumask_t;
+	typedef const unsigned long *cpumask_const_t;
+	#else
+	typedef unsigned long cpumask_t[1];
+	typedef const unsigned long cpumask_const_t[1];
+	#endif
+	typedef unsigned long *cpumask_return_t;
+	typedef const unsigned long *cpumask_const_return_t;
+	typedef unsigned long cpumask_data_t[1];
 
-	http://bugzilla.kernel.org/show_bug.cgi?id=11382
+I can't see a neater way down this path, and I don't want to lose const=
+=2E
 
-	https://bugzilla.novell.com/show_bug.cgi?id=425480
-	https://bugzilla.redhat.com/show_bug.cgi?id=459202
-	https://bugs.launchpad.net/ubuntu/+source/linux/+bug/263555
-	https://qa.mandriva.com/show_bug.cgi?id=44147
+I can see three alternatives:
+1) An ONSTACK_CPUMASK(name) macro which declares "struct cpumask name[1=
+]" or
+   "struct cpumask *name".  Same idea as yours, without the typedef.
+2) Use a normal struct for cpumask, make everyone use pointers, but hav=
+e an
+   struct cpumask *alloc_stack_cpumask() which uses alloca() for small
+   NR_CPUS.
+3) Same, but just use kmalloc everywhere.  Optimize important cases by =
+hand.
 
-Signed-off-by: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-
---- 
-
-diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
-index 4a11296..2d7a7f2 100644
---- a/drivers/net/Kconfig
-+++ b/drivers/net/Kconfig
-@@ -1938,7 +1938,7 @@ config E1000_DISABLE_PACKET_SPLIT
- 
- config E1000E
- 	tristate "Intel(R) PRO/1000 PCI-Express Gigabit Ethernet support"
--	depends on PCI && (!SPARC32 || BROKEN)
-+	depends on PCI && BROKEN
- 	---help---
- 	  This driver supports the PCI-Express Intel(R) PRO/1000 gigabit
- 	  ethernet family of adapters. For PCI or PCI-X e1000 adapters,
+Anyone see a better way?
+Rusty.
