@@ -1,33 +1,36 @@
-From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+From: "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
 Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Thu, 25 Sep 2008 21:01:14 +0200 (CEST)
-Message-ID: <alpine.LNX.1.10.0809252057530.3389@pegasus.suse.cz>
-References: <alpine.LNX.1.10.0809240014390.4671@pegasus.suse.cz> <20080923.211215.193696086.davem@davemloft.net> <21d7e9970809232245x6a91c6e2l552ff039d07e2017@mail.gmail.com> <20080924.003638.71148740.davem@davemloft.net>
- <20080924102730.31ee305a@bike.lwn.net>
+Date: Thu, 25 Sep 2008 11:39:45 -0700
+Message-ID: <48DBDAF1.3050708@zytor.com>
+References: <alpine.LNX.1.10.0809240014390.4671@pegasus.suse.cz> <20080923.211215.193696086.davem@davemloft.net> <21d7e9970809232245x6a91c6e2l552ff039d07e2017@mail.gmail.com> <20080924.003638.71148740.davem@davemloft.net> <20080924191022.GC2591@phobos.i.cabal.ca> <alpine.LNX.1.10.0809250036090.4671@pegasus.suse.cz>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080924102730.31ee305a-vw3g6Xz/EtPk1uMJSBkQmQ@public.gmane.org>
+In-Reply-To: <alpine.LNX.1.10.0809250036090.4671-JCEl3tv+2Z8CVLCxKZUutA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jonathan Corbet <corbet-T1hC0tSOHrs@public.gmane.org>
-Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org, jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org, jesse.brandeburg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Cc: Kyle McMartin <kyle-pfcGkIkfWfAsA/PxXw9srA@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org
 
-On Wed, 24 Sep 2008, Jonathan Corbet wrote:
+Jiri Kosina wrote:
+> On Wed, 24 Sep 2008, Kyle McMartin wrote:
+> 
+>> I've been working on a patch to detect (using a timer and checking at
+>>  up/down) whether or not the flash has been corrupted, and, if it is
+>> rewrite it with the saved good copy (which obviously only helps if
+>> it's the same boot.)
+> 
+> Thanks, looks interesting e1000e hack that might possibly be of some help.
+> 
+> BUT! please have a look at
+> 
+> 	http://lkml.org/lkml/2008/9/24/133
+> 
+> Looks like this device got a lot of 0xff written somewhere in its config 
+> space, right? But it isn't Intel card at all.
+> 
 
-> A data point, just in case it helps...  I've not had time to update my
-> desktop system, so this all-Intel, ICH9, e1000e-based box has been stuck
-> at 2.6.27-rc3.  It has rawhide as of shortly after the floodgates
-> reopened (but with my own kernel); that means X server 1.5.0 and i810
-> 2.4.2-3.
+That looks like the device disappeared completely.
 
-If any of you guys has Lenovo thinkpad (T60p ideally) with 8086:104b 
-revision 3 card, could you please send me the respective "ethtool -e" 
-dump?
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
+	-hpa
