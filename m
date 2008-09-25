@@ -1,54 +1,30 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
-	bisected
-Date: Thu, 25 Sep 2008 10:55:19 +0200
-Message-ID: <20080925085519.GA15771@elte.hu>
-References: <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <86802c440808260136t3a33a9c8if53b6f70ab9df9e2@mail.gmail.com> <alpine.LFD.1.10.0808260939070.3363@nehalem.linux-foundation.org> <200809251150.26760.rusty@rustcorp.com.au>
+From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
+Date: Thu, 25 Sep 2008 14:24:29 +0200 (CEST)
+Message-ID: <alpine.LNX.1.10.0809251423290.4671@pegasus.suse.cz>
+References: <21d7e9970809221826i76081719pdd749237580fc68e@mail.gmail.com>  <20080922.185902.80812984.davem@davemloft.net>  <alpine.LNX.1.10.0809231229460.4671@pegasus.suse.cz>  <20080923.140519.268233735.davem@davemloft.net>
+ <21d7e9970809231409r3fdd640h53a72a808266d220@mail.gmail.com>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <200809251150.26760.rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+In-Reply-To: <21d7e9970809231409r3fdd640h53a72a808266d220-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Alan.Brunelle-VXdhtT5mjnY@public.gmane.org, travis-sJ/iWh9BUns@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, Jack Steiner <steiner-sJ/iWh9BUns@public.gmane.org>
+To: Dave Airlie <airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org
 
+On Wed, 24 Sep 2008, Dave Airlie wrote:
 
-* Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org> wrote:
+> > My current suspicion in all of this is either the GEM kernel patches
+> > or recent X server.
+> I don't think OpenSUSE was shipping any of the GEM bits.
 
-> I can't see a neater way down this path, and I don't want to lose 
-> const.
-> 
-> I can see three alternatives:
-> 1) An ONSTACK_CPUMASK(name) macro which declares "struct cpumask name[1]" or
->    "struct cpumask *name".  Same idea as yours, without the typedef.
-> 2) Use a normal struct for cpumask, make everyone use pointers, but have an
->    struct cpumask *alloc_stack_cpumask() which uses alloca() for small
->    NR_CPUS.
-> 3) Same, but just use kmalloc everywhere.  Optimize important cases by hand.
-> 
-> Anyone see a better way?
+Actually there is no way of not shipping GEM when shipping xorg 7.4, isn't 
+it?
 
-since most of the important cpumasks in high-perf codepaths are already 
-pre-constructed and embedded in some existing object (say task_struct), 
-i think a variant of #3 is the best approach:
+So definitely GEM could be potential cause here, I think.
 
- - get rid of cpumask_t and use 'struct cpumask' everywhere.
-
- - do not expose normal kernel code to struct cpumask's definition, only
-   declare the type via 'struct cpumask;' in sched.h - a'la 
-   kmem_cache_t.
-
- - even hide the structure from sched.h - use an extra indirection for 
-   struct cpumask *cpus_allowed in task_struct and be done with it.
-
- - have normal cpumask object alloc/free codepaths.
-
- - optimize any remaining important cases by hand, if needed. (the 
-   scheduler mostly)
-
-(wrt. #2, alloca() is a nightmare i think.)
-
-	Ingo
+-- 
+Jiri Kosina
+SUSE Labs
