@@ -1,64 +1,42 @@
-From: Jesse Barnes <jbarnes@virtuousgeek.org>
+From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
 Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Thu, 25 Sep 2008 12:43:41 -0700
-Message-ID: <200809251243.43441.jbarnes@virtuousgeek.org>
-References: <20080923.150722.141587696.davem@davemloft.net> <alpine.LNX.1.10.0809250110070.4671@pegasus.suse.cz> <200809241726.58628.jbarnes@virtuousgeek.org>
+Date: Thu, 25 Sep 2008 22:45:24 +0200 (CEST)
+Message-ID: <alpine.LNX.1.10.0809252243090.3389@pegasus.suse.cz>
+References: <20080923.150722.141587696.davem@davemloft.net> <alpine.LNX.1.10.0809250110070.4671@pegasus.suse.cz> <200809241726.58628.jbarnes@virtuousgeek.org> <200809251243.43441.jbarnes@virtuousgeek.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753731AbYIYToV@vger.kernel.org>
-In-Reply-To: <200809241726.58628.jbarnes@virtuousgeek.org>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200809251243.43441.jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Jiri Kosina <jkosina@suse.cz>
-Cc: David Miller <davem@davemloft.net>, jeffrey.t.kirsher@intel.com, airlied@gmail.com, david.vrabel@csr.com, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, chrisl@vmware.com, Ingo Molnar <mingo@elte.hu>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-On Tue, 23 Sep 2008, David Miller wrote:
-> I did some snooping around, and while doing so I noticed that the PCI
-> mmap code for x86 doesn't do one bit of range checking on the size, or
-> any other aspect of the request, wrt. the MMIO regions actually mapped
-> in the BARs of the PCI device.
+On Thu, 25 Sep 2008, Jesse Barnes wrote:
 
-Here's a patch that adds range checking to the sysfs mappings at least.  This 
-patch should catch the case where X (or some other process) tries to map 
-beyond the specific BAR it's (supposedly) trying to access, making things 
-safer in general.  FWIW both my F9 and development versions of X start up 
-fine with this patch applied.
+> Here's a patch that adds range checking to the sysfs mappings at least.  
+> This patch should catch the case where X (or some other process) tries 
+> to map beyond the specific BAR it's (supposedly) trying to access, 
+> making things safer in general.  FWIW both my F9 and development 
+> versions of X start up fine with this patch applied.
 
-DaveM, will this work for you on sparc?  It looked like your code was allowing 
-bridge window mappings, but that behavior should be preserved as long as your 
-bridge devices reflect their window sizes correctly in their pdev->resources?
+Good. We will use this on affected machines after we start some real 
+debugging of this.
 
-If we add similar code to the procfs stuff we wouldn't need to do any checking 
-in the arches.
+> +	/*
+> +	 * Make sure the range the user is trying to map falls within
+> +	 * the resource
+> +	 */
+> +	if (map_offset + map_len > pci_resource_len(pdev, i))
+> +		return -EINVAL;
+> +
 
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 9c71858..f4e8b4e 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -502,6 +502,8 @@ pci_mmap_resource(struct kobject *kobj, struct 
-bin_attribute *attr,
- 	struct resource *res = (struct resource *)attr->private;
- 	enum pci_mmap_state mmap_type;
- 	resource_size_t start, end;
-+	unsigned long map_len = vma->vm_end - vma->vm_start;
-+	unsigned long map_offset = vma->vm_pgoff << PAGE_SHIFT;
- 	int i;
- 
- 	for (i = 0; i < PCI_ROM_RESOURCE; i++)
-@@ -510,6 +512,13 @@ pci_mmap_resource(struct kobject *kobj, struct 
-bin_attribute *attr,
- 	if (i >= PCI_ROM_RESOURCE)
- 		return -ENODEV;
- 
-+	/*
-+	 * Make sure the range the user is trying to map falls within
-+	 * the resource
-+	 */
-+	if (map_offset + map_len > pci_resource_len(pdev, i))
-+		return -EINVAL;
-+
- 	/* pci_mmap_page_range() expects the same kind of entry as coming
- 	 * from /proc/bus/pci/ which is a "user visible" value. If this is
- 	 * different from the resource itself, arch will do necessary fixup.
+At least for debugging purposes I'd propose to put a printk() there with 
+process name, and the range it tries to map.
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
