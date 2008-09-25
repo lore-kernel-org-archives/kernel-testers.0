@@ -1,26 +1,37 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+From: "Kok, Auke" <auke-jan.h.kok-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Thu, 25 Sep 2008 13:06:19 -0700 (PDT)
-Message-ID: <20080925.130619.193699562.davem@davemloft.net>
-References: <alpine.LNX.1.10.0809250310190.4671@pegasus.suse.cz>
-	<200809250401.54818.elendil@planet.nl>
-	<Pine.LNX.4.64.0809251921340.18801@twin.jikos.cz>
+Date: Thu, 25 Sep 2008 13:45:01 -0700
+Message-ID: <48DBF84D.6020905@intel.com>
+References: <alpine.LNX.1.10.0809240014390.4671@pegasus.suse.cz> <20080923.211215.193696086.davem@davemloft.net> <21d7e9970809232245x6a91c6e2l552ff039d07e2017@mail.gmail.com> <20080924.003638.71148740.davem@davemloft.net> <20080924191022.GC2591@phobos.i.cabal.ca> <alpine.LNX.1.10.0809250036090.4671@pegasus.suse.cz>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Pine.LNX.4.64.0809251921340.18801-1ReQVI26iDCaZKY3DrU6dA@public.gmane.org>
+In-Reply-To: <alpine.LNX.1.10.0809250036090.4671-JCEl3tv+2Z8CVLCxKZUutA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: jkosina-AlSwsSmVLrQ@public.gmane.org
-Cc: elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org, airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org, jesse.brandeburg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Cc: Kyle McMartin <kyle-pfcGkIkfWfAsA/PxXw9srA@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org
 
-From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-Date: Thu, 25 Sep 2008 19:24:57 +0200 (CEST)
+Jiri Kosina wrote:
+> On Wed, 24 Sep 2008, Kyle McMartin wrote:
+> 
+>> I've been working on a patch to detect (using a timer and checking at
+>>  up/down) whether or not the flash has been corrupted, and, if it is
+>> rewrite it with the saved good copy (which obviously only helps if
+>> it's the same boot.)
+> 
+> Thanks, looks interesting e1000e hack that might possibly be of some help.
+> 
+> BUT! please have a look at
+> 
+> 	http://lkml.org/lkml/2008/9/24/133
+> 
+> Looks like this device got a lot of 0xff written somewhere in its config 
+> space, right? But it isn't Intel card at all.
 
-> If being set to 0 (it's so easy to call memset(0) on a bogus pointer, 
-> there are usually lots of them in the code) or to random garbage, it would 
-> seem to be much more understandable, than 0xff.
+I asked that person and he said reverting to an older kernel made it work again,
+also there is a fix out as romieu pointed out as well, so this seems to be a
+different bug for now.
 
-Setting framebuffer bytes to 0xff is pretty common, for example
-for color keys and anti-aliasing pixel values.
+Auke
