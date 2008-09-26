@@ -1,41 +1,56 @@
-From: "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Thu, 25 Sep 2008 15:57:50 -0700
-Message-ID: <48DC176E.6020807@zytor.com>
-References: <20080923.150722.141587696.davem@davemloft.net> <200809251156.10648.jbarnes@virtuousgeek.org> <alpine.LNX.1.10.0809252218470.3389@pegasus.suse.cz> <200809251236.12287.jbarnes@virtuousgeek.org> <alpine.LNX.1.10.0809252234400.3389@pegasus.suse.cz>
+From: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c - bisected
+Date: Fri, 26 Sep 2008 15:25:29 +1000
+Message-ID: <200809261525.30258.rusty@rustcorp.com.au>
+References: <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <200809251150.26760.rusty@rustcorp.com.au> <alpine.LFD.1.10.0809250836270.3265@nehalem.linux-foundation.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LNX.1.10.0809252234400.3389-JCEl3tv+2Z8CVLCxKZUutA@public.gmane.org>
+In-Reply-To: <alpine.LFD.1.10.0809250836270.3265-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-Cc: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, jesse.brandeburg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Alan.Brunelle-VXdhtT5mjnY@public.gmane.org, travis-sJ/iWh9BUns@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, Jack Steiner <steiner-sJ/iWh9BUns@public.gmane.org>
 
-Jiri Kosina wrote:
-> On Thu, 25 Sep 2008, Jesse Barnes wrote:
-> 
->> However, the "Factory" log at #425480 *does* indicate that a GEM aware 
->> 2D driver was loaded (the "[drm:i915_getparam] *ERROR* Unknown parameter 
->> 5" message indicates as much), but the kernel was definitely not GEM 
->> aware otherwise the call would have succeeded.  So that rules out GEM 
->> proper, but it could still be a bug in one of the non-GEM paths in the 
->> experimental xf86-video-intel bits the various distros seem to be 
->> picking up.
-> 
-> That was exactly the point I was trying to make, that these error paths 
-> will probably also need auditing, once we rule out the possibility of 
-> NVRAM being overwritten from kernelspace.
-> 
+On Friday 26 September 2008 01:42:13 Linus Torvalds wrote:
+> On Thu, 25 Sep 2008, Rusty Russell wrote:
+> >     This turns out to be awful in practice, mainly due to const. 
+> > Consider:
+> >
+> > 	#ifdef CONFIG_CPUMASK_OFFSTACK
+> > 	typedef unsigned long *cpumask_t;
+> > 	#else
+> > 	typedef unsigned long cpumask_t[1];
+> > 	#endif
+> >
+> > 	cpumask_t returns_cpumask(void);
+>
+> No. That's already broken. You cannot return a cpumask_t, regardless of
+> interface. We must not do it regardless of how we pass those things
+> around, since it generates _yet_ another temporary on the stack for the
+> return slot for any kind of structure.
 
-Okay, I just had a scary and hopefully stupid thought.
+No, for large NR_CPUS, cpumask_t is a pointer as shown.  And we have numerous 
+basic functions which return a cpumask_t.  Yes, this is part of the problem.
 
-Especially Intel often has backchannels between the chipset and the 
-Ethernet controller for management functions -- anything from WoL to 
-IPMI -- generally over some kind of low-speed serial bus.
+> What _is_ relevant is how we allocate them when we need temporary CPU
+> masks. And _that_ is where my suggestion comes in. For small NR_CPUS, we
+> really do want to allocate them on the stack, because calling kmalloc for
+> a 4- or 8-byte allocation is just _stupid_.
 
-We're not in a situation where the EEPROM can be touched from the 
-chipset via the SMBus or some other non-CPU channel?
+Right, but cpumask_t is used for far more than stack decls, thus the problems.
 
-	-hpa
+I can make a separate "cpumask_stack_t" and use your method tho.  I think that 
+might even reduce churn and allow us to do this in parts.
+
+> which has to be converted some way. And I think it needs to be converted
+> in a way that does *not* force us to call kmalloc() for idiotically small
+> values.
+
+Yeah, got that.  But your suggestion to change cpumask_t turned out horribly 
+ugly.
+
+Cheers,
+Rusty.
