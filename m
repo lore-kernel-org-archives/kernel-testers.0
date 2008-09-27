@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: =?utf-8?q?[Bug=20#11237]=20corrupt=20PMD=20after=20resume?=
-Date: Sat, 27 Sep 2008 17:56:42 +0200 (CEST)
-Message-ID: <V8eU91268VO.A.L5.C_m3IB@albercik>
+Subject: =?utf-8?q?[Bug=20#11340]=20LTP=20overnight=20run=20resulted=20in=20unusable=20box?=
+Date: Sat, 27 Sep 2008 17:56:43 +0200 (CEST)
+Message-ID: <V8eU91268VO.A.4V.u9m3IB@albercik>
 References: <t_PcrlC6ypI.A.tGG.G7m3IB@albercik>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jeremy Fitzhardinge <jeremy.fitzhardinge-Sxgqhf6Nn4DQT0dZR+AlfA@public.gmane.org>, Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,12 +22,9 @@ from 2.6.26.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11237
-Subject		: corrupt PMD after resume
-Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Date		: 2008-08-02 9:51 (57 days old)
-References	: http://marc.info/?l=linux-kernel&m=121767073424952&w=4
-Handled-By	: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
-		  Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
-Patch		: http://marc.info/?l=linux-kernel&m=122001615314700&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11340
+Subject		: LTP overnight run resulted in unusable box
+Submitter	: Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-08-13 9:24 (46 days old)
+References	: http://marc.info/?l=linux-kernel&m=121861951902949&w=4
 
