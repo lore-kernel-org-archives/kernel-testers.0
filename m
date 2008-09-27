@@ -1,35 +1,48 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: 2.6.27-rc7-git5: Reported regressions from 2.6.26
-Date: Sat, 27 Sep 2008 19:57:00 +0200
-Message-ID: <200809271957.01278.rjw@sisk.pl>
-References: <t_PcrlC6ypI.A.tGG.G7m3IB@albercik>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #11237] corrupt PMD after resume
+Date: Sat, 27 Sep 2008 19:58:31 +0200
+Message-ID: <200809271958.32326.rjw@sisk.pl>
+References: <t_PcrlC6ypI.A.tGG.G7m3IB@albercik> <V8eU91268VO.A.L5.C_m3IB@albercik> <20080927174439.GD26047@elte.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <t_PcrlC6ypI.A.tGG.G7m3IB@albercik>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20080927174439.GD26047-X9Un+BFzKDI@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-acpi-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>, Jeremy Fitzhardinge <jeremy.fitzhardinge-Sxgqhf6Nn4DQT0dZR+AlfA@public.gmane.org>, Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Saturday, 27 of September 2008, Rafael J. Wysocki wrote:
-> This message contains a list of some regressions from 2.6.26, for which there
-> are no fixes in the mainline I know of.  If any of them have been fixed already,
-> please let me know.
+On Saturday, 27 of September 2008, Ingo Molnar wrote:
 > 
-> If you know of any other unresolved regressions from 2.6.26, please let me know
-> either and I'll add them to the list.  Also, please let me know if any of the
-> entries below are invalid.
+> * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 > 
-> Each entry from the list will be sent additionally in an automatic reply to
-> this message with CCs to the people involved in reporting and handling the
-> issue.
+> > This message has been generated automatically as a part of a report of 
+> > recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions 
+> > from 2.6.26.  Please verify if it still should be listed and let me 
+> > know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11237
+> > Subject		: corrupt PMD after resume
+> > Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+> > Date		: 2008-08-02 9:51 (57 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=121767073424952&w=4
+> > Handled-By	: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+> > 		  Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
+> > Patch		: http://marc.info/?l=linux-kernel&m=122001615314700&w=2
+> 
+> actually, it's now believed that this is a BIOS problem that affects all 
+> Linux versions. The aspect of v2.6.27 is that it happens to put kernel 
+> pagetables into the area that gets corrupted by the BIOS - and users 
+> notice that.
+> 
+> i.e. it's not a regression - unless i'm missing something.
 
-Some of the follow-up messages are borked because of a bug in my script.
-
-Sorry for that, the script has been fixed already.
+OK, I dropped it from the list.
 
 Thanks,
 Rafael
