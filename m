@@ -1,30 +1,77 @@
-From: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
-Subject: Re: [Bug #11382] e1000e: 2.6.27-rc1 corrupts EEPROM/NVM
-Date: Fri, 26 Sep 2008 20:39:33 +0100
-Message-ID: <20080926203933.4e0cd071@lxorguk.ukuu.org.uk>
-References: <20080923.150722.141587696.davem@davemloft.net>
-	<200809251156.10648.jbarnes@virtuousgeek.org>
-	<alpine.LNX.1.10.0809252218470.3389@pegasus.suse.cz>
-	<200809251236.12287.jbarnes@virtuousgeek.org>
-	<alpine.LNX.1.10.0809252234400.3389@pegasus.suse.cz>
-	<48DC176E.6020807@zytor.com>
-	<m38wten3dj.fsf@maximus.localdomain>
+From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Subject: Re: [Bug #11516] severe performance degradation on x86_64 going from
+ 2.6.26-rc9 -&gt; 2.6.27-rc5
+Date: Sat, 27 Sep 2008 11:23:28 +0200 (CEST)
+Message-ID: <alpine.LFD.1.10.0809271104300.27026@apollo.tec.linutronix.de>
+References: <PJz8fNrJNHG.A.65F.wzq1IB@albercik> <7lIhZC4hCxE.A.cLH.r0q1IB@albercik> <200809230549.28544.jason.vas.dias@gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <m38wten3dj.fsf-fiqtE+24Nu0B9AHHLWeGtNQXobZC6xk2@public.gmane.org>
+In-Reply-To: <200809230549.28544.jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Krzysztof Halasa <khc-9GfyWEdoJtJmR6Xm/wNWPw@public.gmane.org>
-Cc: "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, david.vrabel-kQvG35nSl+M@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, chrisl-pghWNbHTmq7QT0dZR+AlfA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, jesse.brandeburg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
-> external BMC (TCO) (loaded by external BMC from the SMBus) and one for
-> software only (not used by hardware). Some chips only support #1 (and
-> #4 of course).
+On Tue, 23 Sep 2008, Jason Vas Dias wrote:
 
-We have had historic problems where a very non standard EEPROM setup on
-some ancient thinkpads ended up with bad stuff happening due to smbus
-probing and the like. You would then however expect to see the bug occur
-without loading the e1000* drivers (unless you needed an interaction
-between the two)
+> CPU Frequency switching is completely disabled both when
+> powernow-k8 (the correct cpufreq module for my x86_64 AMD TL-64x2
+> 2.2GHz CPU) is installed as a module or is built-in , and the CPU
+> frequency remains at its lowest setting; attempts to modify
+> /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq and
+> /sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed are not
+> honored, even though /sys/devices/system/cpu/cpu0/cpufreq/governor
+> is "userspace" and scaling_min_freq < scaling_setspeed >
+> scaling_max_freq .
+>
+> I see no messages from powernow-k8 indicating that it is aware it
+> was unable to set the speed, though I do see a message if I attempt
+> to set an invalid speed (eg 600000) .
+>
+> With 2.6.26-rc9, I get a default CPU clock frequency of 2200000 ;
+> with 2.6.27-rc6, it becomes 800000 and is not switchable. For some
+> reason, powernow-k8 does not autoload with UDEV; but I don't really
+> need it if the speed is already set to its highest level.
+>
+>  On 2.6.27-rc6. after it manages to boot, any low-latency drivers
+> time out (eg. USB, Terminal, Keyboard, Network) and the machine does
+> not get through the boot-up sequence without becoming overloaded by
+> the kernel's debugging log messages - neither the network , the
+> terminal or the keyboard work usably.
+>
+> Building a kernel with USB completely disabled and turning off
+> debug log messages allows the machine to boot (after @ 15 minutes)
+> but the speed is still at its lowest setting and cannot be changed.
+
+I have to admit that I'm confused. 
+
+The dmesg output
+[    0.000000] Linux version 2.6.27-rc6.jvd ...
+....
+[   26.204477] hub 3-0:1.0: state 7 ports 2 chg 0000 evt 0000 
+
+says 26 seconds up to the point where user space should start.  Also
+USB is active in that log and I dont see timeout messages at all.
+
+I have a hard time to connect this to your problem description
+(timeouts, USB off, 15 minutes)
+
+Can you please shed some light on this ?
+
+> Also, 2.6.27-rc6 is unable to reboot the machine: it can put the
+> machine into the "HALT" state, with nothing displayed on the screen,
+> but the machine does not power-off until manual reset with the
+> power-button. Then, after the machine has powered-down, it cannot be
+> powered up until the power-on button is depressed for at least two
+> sections an released TWICE in a row.
+
+Len, any opinon on this: 
+
+[    0.000000] ACPI Error (tbfadt-0453): 32/64X address mismatch in "Pm2ControlBlock": 
+               [00008800] [0000000000008100], using 64X [20080609] 
+
+Thanks,
+
+	tglx
