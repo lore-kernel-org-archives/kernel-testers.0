@@ -1,69 +1,45 @@
-From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Subject: Re: [Bug #11516] severe performance degradation on x86_64 going from
- 2.6.26-rc9 -&gt; 2.6.27-rc5
-Date: Sun, 28 Sep 2008 12:58:34 +0200 (CEST)
-Message-ID: <alpine.LFD.1.10.0809281250270.27026@apollo.tec.linutronix.de>
-References: <PJz8fNrJNHG.A.65F.wzq1IB@albercik> <200809230549.28544.jason.vas.dias@gmail.com> <alpine.LFD.1.10.0809271104300.27026@apollo.tec.linutronix.de> <200809280138.57672.jason.vas.dias@gmail.com>
+From: Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -	bisected
+Date: Mon, 29 Sep 2008 07:33:30 -0700
+Message-ID: <48E0E73A.40803@sgi.com>
+References: <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <200809251150.26760.rusty@rustcorp.com.au> <alpine.LFD.1.10.0809250836270.3265@nehalem.linux-foundation.org> <200809261525.30258.rusty@rustcorp.com.au> <48DC78F2.8060400@sgi.com> <20080927191653.GB18619@elte.hu>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200809280138.57672.jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20080927191653.GB18619-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Alan.Brunelle-VXdhtT5mjnY@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, Jack Steiner <steiner-sJ/iWh9BUns@public.gmane.org>
 
-On Sun, 28 Sep 2008, Jason Vas Dias wrote:
-> The problem is not "slow booting" - indeed, as noted in the bug, boot time up to the point
-> where user space should start is very similar to the non-problematic 2.6.26 kernels.
+Ingo Molnar wrote:
+> * Mike Travis <travis-sJ/iWh9BUns@public.gmane.org> wrote:
 > 
-> The USB problem is that @ 10 messages per second are emitted to the log:
-> Sep 28 00:41:51 localhost kernel: [   11.985257] hub 3-0:1.0: state 7 ports 2 chg 0000 evt 0002
-> Sep 28 00:41:51 localhost kernel: [   12.789240] hub 1-0:1.0: state 7 ports 2 chg 0000 evt 0004
-> Sep 28 00:41:51 localhost kernel: [   12.937169] hub 4-0:1.0: state 7 ports 2 chg 0000 evt 0000
-> Sep 28 00:41:51 localhost kernel: [   12.937188] hub 3-0:1.0: state 7 ports 2 chg 0000 evt 0002
-> Sep 28 00:41:51 localhost kernel: [   13.041167] hub 5-0:1.0: state 7 ports 2 chg 0000 evt 0000
-> Sep 28 00:41:51 localhost kernel: [   13.041186] hub 6-0:1.0: state 7 ports 10 chg 0000 evt 0000
-> Sep 28 00:41:51 localhost kernel: [   13.453734] hub 6-0:1.0: state 7 ports 10 chg 0000 evt 0020
-> Sep 28 00:41:51 localhost kernel: [   13.453748] hub 1-0:1.0: state 7 ports 2 chg 0000 evt 0004
-> Sep 28 00:41:51 localhost kernel: [   13.846512] hub 3-0:1.0: state 7 ports 2 chg 0000 evt 0002
-> Sep 28 00:41:51 localhost kernel: [   14.220994] hub 3-0:1.0: state 7 ports 2 chg 0000 evt 0002
+>> Hi Rusty,
+>>
+>> I've gotten some good traction on the changes in the following patch.  
+>> About 30% of the kernel is compiling right now and I'm picking up 
+>> errors and warnings as I'm going along.  I think it's doing most of 
+>> what we need.  Attempting to hide the cpumask struct definition caused 
+>> all kinds of problems with the inline functions and statically 
+>> declaring cpumask's.
+>>
+>> (The following patch is a combination of all the changes to cpumask.h 
+>> with the header from the first patch.  I'll send you a complete copy 
+>> in separate email.)
 > 
-> Why should USB be emitting state change messages when no state has changed ?
+> could you please send whatever .c changes you have already, so that we 
+> can have a look at how the end result will look like? Doesnt have to 
+> build, i'm just curious about how it looks like in practice, 
+> semantically.
+> 
+> 	Ingo
 
-That's a separate question.
 
-> I think this is because the core PM-timer (clocksource is acpi-pm) is kaput ,
-> and every driver that depends on high-resolution timers gets confused .
-
-No, if the pmtimer would be defect your machine would not even reach
-user space.
-
-I analysed the proc/acpi data of .25 and .27 and the machine is set to
-throttling state T7 (12%) which would explain that behaviour halfways.
-
-Can you please verify if that state is always T7 on your machine with
-.27 ?
-
-Also please add "acpi.debug_level=0x11" to the kernel command line so
-we can get some more information out of the ACPI code.
-
-> Displaying text on the terminal is @ 140 times slower under 2.6.27
-> kernels than under 2.6.26 kernels .  Downloads over the network take
-> @ 1000 times longer under 2.6.27 than under 2.6.26.  Disk I/O is @
-> 100 times slower.
-
-That's indeed insane.
- 
-> There are numerous log messages about "interrupt during system call"
-> (EINTR) from user-space processes.
-
-Separate problem as well.
-
-Please let us concentrate on the throttling aspect and not mix
-USB/EINTR stuff into it for now.
+I will, and the full "allyesconfig" does compile.  And it's basically a
+benign change in that the functionality is still the same.  I'm currently
+reordering it a bit to clean it up.
 
 Thanks,
-
-	tglx
+Mike
