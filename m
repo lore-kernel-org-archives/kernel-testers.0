@@ -1,41 +1,38 @@
-From: Tino Keitel <tino.keitel-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [Bug #11654] Devices enabled in /proc/acpi/wakeup do not wake
-	up any more
-Date: Mon, 29 Sep 2008 23:21:42 +0200
-Message-ID: <20080929212142.GC3185@dose.home.local>
-References: <t_PcrlC6ypI.A.tGG.G7m3IB@albercik> <V8eU91268VO.A.wOG.L7m3IB@albercik>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #11342] Linux 2.6.27-rc3: kernel BUG at mm/vmalloc.c -
+	bisected
+Date: Tue, 30 Sep 2008 13:04:59 +0200
+Message-ID: <20080930110459.GB12529@elte.hu>
+References: <alpine.LFD.1.10.0808251344250.3363@nehalem.linux-foundation.org> <200809251150.26760.rusty@rustcorp.com.au> <alpine.LFD.1.10.0809250836270.3265@nehalem.linux-foundation.org> <200809261525.30258.rusty@rustcorp.com.au> <48DC78F2.8060400@sgi.com> <20080927191653.GB18619@elte.hu> <48E0E73A.40803@sgi.com>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <V8eU91268VO.A.wOG.L7m3IB@albercik>
+In-Reply-To: <48E0E73A.40803-sJ/iWh9BUns@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>
+Cc: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Alan.Brunelle-VXdhtT5mjnY@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, Jack Steiner <steiner-sJ/iWh9BUns@public.gmane.org>
 
-On Sat, Sep 27, 2008 at 17:56:50 +0200, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11654
-> Subject		: Devices enabled in /proc/acpi/wakeup do not wake up any more
-> Submitter	: Tino Keitel <tino.keitel-Mmb7MZpHnFY@public.gmane.org>
-> Date		: 2008-09-22 20:29 (6 days old)
-> References	: http://marc.info/?l=linux-kernel&m=122211535021493&w=4
-> 		  http://marc.info/?l=linux-kernel&m=122224359222164&w=4
-> Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> Patch		: http://marc.info/?l=linux-kernel&m=122238185304167&w=4
-> 		  http://marc.info/?l=linux-kernel&m=122237497811138&w=4
-> 
 
-The above patches fix the problems for me.
+* Mike Travis <travis-sJ/iWh9BUns@public.gmane.org> wrote:
 
-Thanks and regards,
-Tino
+> > could you please send whatever .c changes you have already, so that 
+> > we can have a look at how the end result will look like? Doesnt have 
+> > to build, i'm just curious about how it looks like in practice, 
+> > semantically.
+> 
+> 
+> I will, and the full "allyesconfig" does compile.  And it's basically 
+> a benign change in that the functionality is still the same.  I'm 
+> currently reordering it a bit to clean it up.
+
+btw., are the resulting instructions also expected to be the same? If 
+yes then you might want to verify it all by making sure the md5's of the 
+.o's do not change.
+
+(If that's not possible (gcc decides to compile it a bit differently) 
+then no big deal, just wanted to mention the possibility.)
+
+	Ingo
