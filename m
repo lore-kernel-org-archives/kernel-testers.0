@@ -1,41 +1,59 @@
-From: Thomas Backlund <tmb@mandriva.org>
-Subject: Re: [Bug #11615] sata_nv EH problems
-Date: Sat, 04 Oct 2008 22:44:42 +0300
-Message-ID: <48E7C7AA.2030706@mandriva.org>
-References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.kHH.u475IB@wind>
+From: Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
+Subject: Re: [Bug #11442] btusb hibernation/suspend breakage in current -git
+Date: Sat, 04 Oct 2008 22:17:11 +0200
+Message-ID: <1223151431.11272.54.camel@violet.holtmann.net>
+References: <0pOgGB.A.uLG.E475IB@wind>  <yWwteD.A.ab.L675IB@wind>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754499AbYJDTpN@vger.kernel.org>
-In-Reply-To: <yWwteD.A.kHH.u475IB@wind>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <yWwteD.A.ab.L675IB@wind>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"; format="flowed"
-To: linux-kernel@vger.kernel.org
-Cc: kernel-testers@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>
 
-Rafael J. Wysocki skrev:
+Hi Rafael,
+
 > This message has been generated automatically as a part of a report
 > of recent regressions.
->=20
+> 
 > The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me k=
-now
+> from 2.6.26.  Please verify if it still should be listed and let me know
 > (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11615
-> Subject		: sata_nv EH problems
-> Submitter	: P=C3=A4r Andersson <paran@lysator.liu.se>
-> Date		: 2008-09-21 18:09 (14 days old)
-> Handled-By	: Tejun Heo <tj@kernel.org>
-> Patch		: http://bugzilla.kernel.org/attachment.cgi?id=3D18078&action=3D=
-view
->=20
->=20
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11442
+> Subject		: btusb hibernation/suspend breakage in current -git
+> Submitter	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> Date		: 2008-08-25 11:37 (41 days old)
+> References	: http://marc.info/?l=linux-bluetooth&m=121966402012074&w=4
+> Handled-By	: Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>
+> Patch		: http://marc.info/?l=linux-bluetooth&m=121967226027323&w=4
+> 		  http://bugzilla.kernel.org/show_bug.cgi?id=11442#c1
 
-Merged in:
-http://git.kernel.org/git/?p=3Dlinux/kernel/git/torvalds/linux-2.6.git;=
-a=3Dcommit;h=3D4c1eb90a0908c0c60db2169dce08fb672e7582f1
+the patch is not the actual fix for it. It is just a band aid. As you
+confirmed, the double free patch fixes it. See my pull request, but it
+didn't make it into Linus' tree yet.
 
---
-Thomas
+Regards
+
+Marcel
+
+
+Please pull from
+
+    git://git.kernel.org/pub/scm/linux/kernel/git/holtmann/bluetooth-2.6.git master
+
+This will update the following files:
+
+ drivers/bluetooth/bpa10x.c |    2 --
+ drivers/bluetooth/btusb.c  |    7 ++++---
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+
+through these ChangeSets:
+
+Marcel Holtmann (2):
+    [Bluetooth] Fix double frees on error paths of btusb and bpa10x drivers
+    [Bluetooth] Add reset quirk for new Targus and Belkin dongles
+
