@@ -1,41 +1,30 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11629] quad G5 fails to shut down
-Date: Sun, 5 Oct 2008 00:26:02 +0200
-Message-ID: <200810050026.02893.rjw@sisk.pl>
-References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.DDH.r475IB@wind> <48E7D65F.1070909@mandriva.org>
+From: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: [Bug #11696] 2.6.27-rc8 doubled times
+Date: Sun, 5 Oct 2008 04:20:07 +0100 (BST)
+Message-ID: <Pine.LNX.4.64.0810050414260.27517@blonde.site>
+References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.itG.Y475IB@wind>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <48E7D65F.1070909-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <yWwteD.A.itG.Y475IB@wind>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
-On Saturday, 4 of October 2008, Thomas Backlund wrote:
-> Rafael J. Wysocki skrev:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.26.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11629
-> > Subject		: quad G5 fails to shut down
-> > Submitter	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-> > Date		: 2008-09-23 14:20 (12 days old)
-> > Handled-By	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-> > Patch		: http://bugzilla.kernel.org/show_bug.cgi?id=11629#c8
-> > 
-> > 
-> 
-> Merged in:
-> http://git.kernel.org/git/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=61e9916eba35dfb76d38013a5aae9a59cc50877a
+On Sat, 4 Oct 2008, Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11696
+> Subject		: 2.6.27-rc8 doubled times
+> Submitter	: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+> Date		: 2008-10-03 10:21 (2 days old)
+> References	: http://marc.info/?l=linux-kernel&m=122302939313636&w=4
+> Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+> Patch		: http://marc.info/?l=linux-kernel&m=122307260621434&w=4
 
-Thanks, closed.
+Can now be closed, thanks Rafael: Linus has taken Thomas's
+commit 07454bfff151d2465ada809bbaddf3548cc1097c
+clockevents: check broadcast tick device not the clock events device
+and I've just confirmed that the latest git indeed fixes the issue.
 
-Rafael
+Hugh
