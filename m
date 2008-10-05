@@ -1,32 +1,40 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11643] ALSA sound/core/pcm_native.c:1947: BUG? (err &gt;= 0)
-Date: Sun, 5 Oct 2008 13:04:02 +0200
-Message-ID: <200810051304.02691.rjw@sisk.pl>
-References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.i3G.l475IB@wind> <s5hbpxziemh.wl%tiwai@suse.de>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+From: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+Subject: Re: 2.6.27-rc8-git7: Reported regressions from 2.6.26
+Date: Sun, 05 Oct 2008 19:49:31 +0800
+Message-ID: <E1KmS79-0003mo-5j@gondolin.me.apana.org.au>
+References: <200810051302.20896.rjw@sisk.pl>
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <s5hbpxziemh.wl%tiwai-l3A5Bk7waGM@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <200810051302.20896.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, sangu <sangu.gnome-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="hz-gb-2312"
+Content-Transfer-Encoding: base64
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: johnpol-9fLWQ3dKdXwox3rIn2DAYQ@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
 
-On Sunday, 5 of October 2008, Takashi Iwai wrote:
-> At Sat,  4 Oct 2008 19:32:55 +0200 (CEST),
-> Rafael J. Wysocki wrote:
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11643
-> > Subject		: ALSA sound/core/pcm_native.c:1947: BUG? (err &gt;= 0)
-> > Submitter	: sangu <sangu.gnome-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2008-09-24 16:51 (11 days old)
-> 
-> This is unlikely a 2.6.27 regression.
-> It's a bug to be fixed, though.
-
-Dropped from the list.
-
-Thanks,
-Rafael
+UmFmYWVsIEouIFd5c29ja2kgPHJqdy1LS3JqTFBUM3hzMEBwdWJsaWMuZ21hbmUub3JnPiB3cm90
+ZToKPj4gPiBCdWctRW50cnkgICA6IGh0dHA6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVn
+LmNnaT9pZD0xMTMwOAo+PiA+IFN1YmplY3QgICAgICAgICAgICAgOiB0YmVuY2ggcmVncmVzc2lv
+biBvbiBlYWNoIGtlcm5lbCByZWxlYXNlIGZyb20gMi42LjIyIC0mZ3Q7IDIuNi4yOAo+PiA+IFN1
+Ym1pdHRlciAgIDogQ2hyaXN0b3BoIExhbWV0ZXIgPGNsLWRlL3RuWFRmK0pMc2ZIRFh2Ykt2M1dE
+MkZRSmsrOCtiQHB1YmxpYy5nbWFuZS5vcmc+Cj4+ID4gRGF0ZSAgICAgICAgICAgICAgICA6IDIw
+MDgtMDgtMTEgMTg6MzYgKDU1IGRheXMgb2xkKQo+PiA+IFJlZmVyZW5jZXMgIDogaHR0cDovL21h
+cmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMjE4NDc5ODYxMTk0OTUmdz00Cj4+ID4gICAgICAg
+ICAgICAgICBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEyMjEyNTczNzQyMTMz
+MiZ3PTQKPj4gCj4+IEp1c3QgZm9yIHRoZSByZWZlcmVuY2UsIHRoaXMgb25lIHJlZ3Jlc3NlcyBm
+cm9tIHRoZSAyLjYuMjMuCj4gCj4gU3RpbGwsIHRiZW5jaCByZXN1bHRzIGZyb20gMi42LjI2IGFy
+ZSBiZXR0ZXIgdGhhbiBmcm9tIDIuNi4yNy1yYy4KPiBUaGF0J3Mgd2h5IGl0J3Mgc3RpbGwgb24g
+dGhlIGxpc3QsIGJ1dCBpZiB5b3UgdGhpbmsgdGhhdCdzIG5vdCByZWxldmFudCwgcGxlYXNlCj4g
+bGV0IG1lIGtub3cgYW5kIEknbGwgZHJvcCBpdC4KCk5vdGUgdGhhdCAyLjYuMjcgYmVhdHMgMi42
+LjI2IGJ5IDMwJSB3aXRoIGJ1bGsgdHJhZmZpYyBvdmVyCmxvb3BiYWNrIGFzIG9wcG9zZWQgdG8g
+dGhlIHNtYWxsIHBhY2tldHMgc2VudCBieSB0YmVuY2ggd2hlcmUKSSBzYXcgYSA1JSBkcm9wIGlu
+IHBlcmZvcm1hbmNlIG9uIG15IG1hY2hpbmUuCgpTbyBJJ20gbm90IHN1cmUgd2hldGhlciB0aGlz
+IHNob3VsZCByZWFsbHkgYmUgY2xhc3NpZmllZCBhcwphIHJlZ3Jlc3Npb24gaWYgd2UgbGltaXQg
+b3Vyc2VsdmVzIHRvIHRoZSBjaGFuZ2VzIGJldHdlZW4gMjYKYW5kIDI3LgoKVGhlIGNoYW5nZXMg
+cHJpb3IgdG8gMjYgc2VlbSB0byBiZSBtb3JlIHNpZ25pZmljYW50LgoKQ2h5ZWVycywKLS0gClZp
+c2l0IE9wZW5zd2FuIGF0IGh0dHA6Ly93d3cub3BlbnN3YW4ub3JnLwpFbWFpbDogSGVyYmVydCBY
+dSB+e1BtVj5ISX59IDxoZXJiZXJ0LWxPQU0yYUswU3JSTEJvMXFERU9NUnJwenE0UzA0bjhRQHB1
+YmxpYy5nbWFuZS5vcmc+CkhvbWUgUGFnZTogaHR0cDovL2dvbmRvci5hcGFuYS5vcmcuYXUvfmhl
+cmJlcnQvClBHUCBLZXk6IGh0dHA6Ly9nb25kb3IuYXBhbmEub3JnLmF1L35oZXJiZXJ0L3B1Ymtl
+eS50eHQ=
