@@ -1,47 +1,43 @@
-From: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #11224] Only three cores found on quad-core machine.
-Date: Tue, 7 Oct 2008 11:32:03 -0400
-Message-ID: <20081007153203.GB3337@redhat.com>
-References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.xUB.2875IB@wind> <200810080218.18898.nickpiggin@yahoo.com.au>
+From: Nick Piggin <nickpiggin@yahoo.com.au>
+Subject: Re: [Bug #11569] Don't complain about disabled irqs when the system has paniced
+Date: Wed, 8 Oct 2008 02:44:06 +1100
+Message-ID: <200810080244.06958.nickpiggin@yahoo.com.au>
+References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.qTH.6475IB@wind> <20081006060238.GB3180@one.firstfloor.org>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753755AbYJGPok@vger.kernel.org>
+In-Reply-To: <20081006060238.GB3180@one.firstfloor.org>
 Content-Disposition: inline
-In-Reply-To: <200810080218.18898.nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Andi Kleen <andi@firstfloor.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Wed, Oct 08, 2008 at 02:18:18AM +1100, Nick Piggin wrote:
- > On Sunday 05 October 2008 04:32, Rafael J. Wysocki wrote:
- > > This message has been generated automatically as a part of a report
- > > of recent regressions.
- > >
- > > The following bug entry is on the current list of known regressions
- > > from 2.6.26.  Please verify if it still should be listed and let me know
- > > (either way).
- > >
- > >
- > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11224
- > > Subject		: Only three cores found on quad-core machine.
- > > Submitter	: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
- > > Date		: 2008-08-01 18:15 (65 days old)
- > > References	: http://marc.info/?l=linux-kernel&m=121761475224719&w=4
- > 
- > Dave, is your CPU2 getting stuck in calibrate_delay? Can you still
- > reproduce the bug? What if you boot the kernel with lpj=<something sane
- > like 2666785> in order to skip the calibrate_delay code?
- > 
- > If that helps, can you try adding some printks to narrow down where it
- > is getting stuck?
+On Monday 06 October 2008 17:02, Andi Kleen wrote:
+> On Sat, Oct 04, 2008 at 07:32:54PM +0200, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> >
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.26.  Please verify if it still should be listed and let me know
+> > (either way).
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11569
+> > Subject		: Don't complain about disabled irqs when the system has paniced
+> > Submitter	: Andi Kleen <andi@firstfloor.org>
+> > Date		: 2008-09-02 13:49 (33 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=122036356127282&w=4
+>
+> The problem is actually worse than this description suggests. I updated
+> the bugzilla entry now.
+>
+> The new smp_call_function() that is called from panic is quite unsuitable
+> for this task:
+> - It allocates memory (not a good idea in panic0
+> - It complains about interrupt off
+> - This whole thing breaks at least machine checks
 
-This is going to sound strange, but I've forgotten which box that was.
-I'm due to reinstall all my test boxes now that the next Fedora beta
-has come out anyway, so I'll hopefully figure out by the end of the week :)
-
-	Dave
-
--- 
-http://www.codemonkey.org.uk
+Why doesn't it use something like nmi_shootdown_cpus on panic rather than
+the (I guess less reliable and longer latency) smp_send_stop?
