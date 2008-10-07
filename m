@@ -1,20 +1,20 @@
-From: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Subject: Re: [Bug #11207] VolanoMark regression with 2.6.27-rc1
-Date: Wed, 8 Oct 2008 02:11:41 +1100
-Message-ID: <200810080211.42210.nickpiggin@yahoo.com.au>
-References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.S8B.b975IB@wind>
+From: Nick Piggin <nickpiggin@yahoo.com.au>
+Subject: Re: [Bug #11224] Only three cores found on quad-core machine.
+Date: Wed, 8 Oct 2008 02:18:18 +1100
+Message-ID: <200810080218.18898.nickpiggin@yahoo.com.au>
+References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.xUB.2875IB@wind>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <yWwteD.A.S8B.b975IB@wind>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755304AbYJGPSg@vger.kernel.org>
+In-Reply-To: <yWwteD.A.xUB.2875IB@wind>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dhaval Giani <dhaval-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Miao Xie <miaox-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dave Jones <davej@redhat.com>
 
-On Sunday 05 October 2008 04:28, Rafael J. Wysocki wrote:
+On Sunday 05 October 2008 04:32, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
 >
@@ -23,14 +23,15 @@ On Sunday 05 October 2008 04:28, Rafael J. Wysocki wrote:
 > (either way).
 >
 >
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11207
-> Subject		: VolanoMark regression with 2.6.27-rc1
-> Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> Date		: 2008-07-31 3:20 (66 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121747464114335&w=4
-> Handled-By	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> 		  Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
-> 		  Dhaval Giani <dhaval-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> 		  Miao Xie <miaox-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11224
+> Subject		: Only three cores found on quad-core machine.
+> Submitter	: Dave Jones <davej@redhat.com>
+> Date		: 2008-08-01 18:15 (65 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121761475224719&w=4
 
-Curious: what's happening with this one, handlers? Any progress being made?
+Dave, is your CPU2 getting stuck in calibrate_delay? Can you still
+reproduce the bug? What if you boot the kernel with lpj=<something sane
+like 2666785> in order to skip the calibrate_delay code?
+
+If that helps, can you try adding some printks to narrow down where it
+is getting stuck?
