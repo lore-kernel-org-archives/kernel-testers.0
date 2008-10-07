@@ -1,34 +1,28 @@
-From: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Subject: Re: [Bug #11608] 2.6.27-rc6 BUG: unable to handle kernel paging request
-Date: Wed, 8 Oct 2008 02:46:41 +1100
-Message-ID: <200810080246.41871.nickpiggin@yahoo.com.au>
-References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.sLH.z475IB@wind>
+From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Subject: Re: [Bug #11569] Don't complain about disabled irqs when the system has paniced
+Date: Tue, 7 Oct 2008 17:54:07 +0200
+Message-ID: <20081007155407.GO20740@one.firstfloor.org>
+References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.qTH.6475IB@wind> <20081006060238.GB3180@one.firstfloor.org> <200810080244.06958.nickpiggin@yahoo.com.au>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <yWwteD.A.sLH.z475IB@wind>
 Content-Disposition: inline
+In-Reply-To: <200810080244.06958.nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, John Daiker <daikerjohn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
+Cc: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sunday 05 October 2008 04:32, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me know
-> (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11608
-> Subject		: 2.6.27-rc6 BUG: unable to handle kernel paging request
-> Submitter	: John Daiker <daikerjohn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2008-09-16 23:00 (19 days old)
-> References	: http://marc.info/?l=linux-kernel&m=122160611517267&w=4
+> Why doesn't it use something like nmi_shootdown_cpus on panic rather than
 
-As I wrote (and you copied to the bugzilla), this looks a bitflip in
-one of the ptes... But no harm in waiting for the reporter to confirm
-or disprove before we strike it off the list :)
+There are unfortunately a couple of BIOS around that hang randomly when
+NMIs are used (e.g. common problem on ThinkPads). That broke the neck
+of the NMI watchdog too.
+
+But yes if we had some way to distingush these broken systems from
+sane ones NMI would be the way to go in panic.
+
+-Andi
+-- 
+ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
