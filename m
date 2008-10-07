@@ -1,43 +1,34 @@
-From: Nick Piggin <nickpiggin@yahoo.com.au>
-Subject: Re: [Bug #11569] Don't complain about disabled irqs when the system has paniced
-Date: Wed, 8 Oct 2008 02:44:06 +1100
-Message-ID: <200810080244.06958.nickpiggin@yahoo.com.au>
-References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.qTH.6475IB@wind> <20081006060238.GB3180@one.firstfloor.org>
+From: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
+Subject: Re: [Bug #11608] 2.6.27-rc6 BUG: unable to handle kernel paging request
+Date: Wed, 8 Oct 2008 02:46:41 +1100
+Message-ID: <200810080246.41871.nickpiggin@yahoo.com.au>
+References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.sLH.z475IB@wind>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753755AbYJGPok@vger.kernel.org>
-In-Reply-To: <20081006060238.GB3180@one.firstfloor.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <yWwteD.A.sLH.z475IB@wind>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Andi Kleen <andi@firstfloor.org>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, John Daiker <daikerjohn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Monday 06 October 2008 17:02, Andi Kleen wrote:
-> On Sat, Oct 04, 2008 at 07:32:54PM +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.26.  Please verify if it still should be listed and let me know
-> > (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11569
-> > Subject		: Don't complain about disabled irqs when the system has paniced
-> > Submitter	: Andi Kleen <andi@firstfloor.org>
-> > Date		: 2008-09-02 13:49 (33 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=122036356127282&w=4
+On Sunday 05 October 2008 04:32, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 >
-> The problem is actually worse than this description suggests. I updated
-> the bugzilla entry now.
+> The following bug entry is on the current list of known regressions
+> from 2.6.26.  Please verify if it still should be listed and let me know
+> (either way).
 >
-> The new smp_call_function() that is called from panic is quite unsuitable
-> for this task:
-> - It allocates memory (not a good idea in panic0
-> - It complains about interrupt off
-> - This whole thing breaks at least machine checks
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11608
+> Subject		: 2.6.27-rc6 BUG: unable to handle kernel paging request
+> Submitter	: John Daiker <daikerjohn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2008-09-16 23:00 (19 days old)
+> References	: http://marc.info/?l=linux-kernel&m=122160611517267&w=4
 
-Why doesn't it use something like nmi_shootdown_cpus on panic rather than
-the (I guess less reliable and longer latency) smp_send_stop?
+As I wrote (and you copied to the bugzilla), this looks a bitflip in
+one of the ptes... But no harm in waiting for the reporter to confirm
+or disprove before we strike it off the list :)
