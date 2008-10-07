@@ -1,37 +1,47 @@
-From: Nick Piggin <nickpiggin@yahoo.com.au>
-Subject: Re: [Bug #11264] Invalid op opcode in kernel/workqueue
-Date: Wed, 8 Oct 2008 02:23:03 +1100
-Message-ID: <200810080223.03395.nickpiggin@yahoo.com.au>
-References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.oLB.b875IB@wind>
+From: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #11224] Only three cores found on quad-core machine.
+Date: Tue, 7 Oct 2008 11:32:03 -0400
+Message-ID: <20081007153203.GB3337@redhat.com>
+References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.xUB.2875IB@wind> <200810080218.18898.nickpiggin@yahoo.com.au>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755745AbYJGPXZ@vger.kernel.org>
-In-Reply-To: <yWwteD.A.oLB.b875IB@wind>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+In-Reply-To: <200810080218.18898.nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>, davej@codemonkey.org.uk, oleg@tv-sign.ru
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jean-Luc Coulon <jean.luc.coulon@gmail.com>
+Content-Transfer-Encoding: 7bit
+To: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sunday 05 October 2008 04:32, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me know
-> (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11264
-> Subject		: Invalid op opcode in kernel/workqueue
-> Submitter	: Jean-Luc Coulon <jean.luc.coulon@gmail.com>
-> Date		: 2008-08-07 04:18 (59 days old)
+On Wed, Oct 08, 2008 at 02:18:18AM +1100, Nick Piggin wrote:
+ > On Sunday 05 October 2008 04:32, Rafael J. Wysocki wrote:
+ > > This message has been generated automatically as a part of a report
+ > > of recent regressions.
+ > >
+ > > The following bug entry is on the current list of known regressions
+ > > from 2.6.26.  Please verify if it still should be listed and let me know
+ > > (either way).
+ > >
+ > >
+ > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11224
+ > > Subject		: Only three cores found on quad-core machine.
+ > > Submitter	: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+ > > Date		: 2008-08-01 18:15 (65 days old)
+ > > References	: http://marc.info/?l=linux-kernel&m=121761475224719&w=4
+ > 
+ > Dave, is your CPU2 getting stuck in calibrate_delay? Can you still
+ > reproduce the bug? What if you boot the kernel with lpj=<something sane
+ > like 2666785> in order to skip the calibrate_delay code?
+ > 
+ > If that helps, can you try adding some printks to narrow down where it
+ > is getting stuck?
 
-Any progress being made with this one? Dave, Oleg did some pretty
-nice looking debugging work that indicates it might be a cpufreq
-problem. Have you had a chance to look at the comments in the
-bugzilla? Or have you been cc'ed on patches for this?
+This is going to sound strange, but I've forgotten which box that was.
+I'm due to reinstall all my test boxes now that the next Fedora beta
+has come out anyway, so I'll hopefully figure out by the end of the week :)
 
-Thanks,
-Nick
+	Dave
+
+-- 
+http://www.codemonkey.org.uk
