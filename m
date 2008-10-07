@@ -1,28 +1,45 @@
-From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Subject: Re: [Bug #11569] Don't complain about disabled irqs when the system has paniced
-Date: Tue, 7 Oct 2008 17:54:07 +0200
-Message-ID: <20081007155407.GO20740@one.firstfloor.org>
-References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.qTH.6475IB@wind> <20081006060238.GB3180@one.firstfloor.org> <200810080244.06958.nickpiggin@yahoo.com.au>
+From: Peter Zijlstra <a.p.zijlstra@chello.nl>
+Subject: Re: [Bug #11207] VolanoMark regression with 2.6.27-rc1
+Date: Tue, 07 Oct 2008 17:48:46 +0200
+Message-ID: <1223394526.26330.52.camel@lappy.programming.kicks-ass.net>
+References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.S8B.b975IB@wind>
+	 <200810080211.42210.nickpiggin@yahoo.com.au>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <200810080244.06958.nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755959AbYJGPt0@vger.kernel.org>
+In-Reply-To: <200810080211.42210.nickpiggin@yahoo.com.au>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Cc: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Nick Piggin <nickpiggin@yahoo.com.au>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dhaval Giani <dhaval@linux.vnet.ibm.com>, Miao Xie <miaox@cn.fujitsu.com>, "Zhang, Yanmin" <yanmin_zhang@linux.intel.com>
 
-> Why doesn't it use something like nmi_shootdown_cpus on panic rather than
+On Wed, 2008-10-08 at 02:11 +1100, Nick Piggin wrote:
+> On Sunday 05 October 2008 04:28, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> >
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.26.  Please verify if it still should be listed and let me know
+> > (either way).
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11207
+> > Subject		: VolanoMark regression with 2.6.27-rc1
+> > Submitter	: Zhang, Yanmin <yanmin_zhang@linux.intel.com>
+> > Date		: 2008-07-31 3:20 (66 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=121747464114335&w=4
+> > Handled-By	: Zhang, Yanmin <yanmin_zhang@linux.intel.com>
+> > 		  Peter Zijlstra <a.p.zijlstra@chello.nl>
+> > 		  Dhaval Giani <dhaval@linux.vnet.ibm.com>
+> > 		  Miao Xie <miaox@cn.fujitsu.com>
+> 
+> Curious: what's happening with this one, handlers? Any progress being made?
 
-There are unfortunately a couple of BIOS around that hang randomly when
-NMIs are used (e.g. common problem on ThinkPads). That broke the neck
-of the NMI watchdog too.
+Sadly not much, I can't seem to reproduce :-(
 
-But yes if we had some way to distingush these broken systems from
-sane ones NMI would be the way to go in panic.
+Yanmin, does the wakeup patch I did for oltp help this workload any?
 
--Andi
--- 
-ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
+http://marc.info/?l=linux-kernel&m=122194673932703&w=4
+
+
