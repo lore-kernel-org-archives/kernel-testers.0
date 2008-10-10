@@ -1,38 +1,44 @@
-From: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #11224] Only three cores found on quad-core machine.
-Date: Wed, 8 Oct 2008 10:22:21 -0400
-Message-ID: <20081008142221.GA3054@redhat.com>
-References: <0pOgGB.A.uLG.E475IB@wind> <200810080218.18898.nickpiggin@yahoo.com.au> <20081007153203.GB3337@redhat.com> <200810081524.40614.nickpiggin@yahoo.com.au>
+From: "Yudha Harimantoro T" <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Error : Linux-2.6.27
+Date: Fri, 10 Oct 2008 15:26:44 +0700
+Message-ID: <264b990a0810100126l1029f734x7204f8c42ae21609@mail.gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:mime-version:content-type:content-transfer-encoding
+         :content-disposition;
+        bh=c4FtV9atouWb+bPLonwQJhtBd356OO0Bv5+VHgoGmLA=;
+        b=HW3GCR32/CQVgCXZ6Ql9X4Es58O3rGbSfupoLqyBsq/ZaR3YugRKGw+epEsVO6d5tj
+         cApoan0aJTDYdXdQBKgP9DuP/MoFldKP1FYql+eEu1KIgvARWNF67FXi8wLzoedNxBoZ
+         8888TaTBfKkL5k/jIL1+DZzjA0wIotx4XZRU4=
 Content-Disposition: inline
-In-Reply-To: <200810081524.40614.nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Wed, Oct 08, 2008 at 03:24:40PM +1100, Nick Piggin wrote:
- 
- > >  > If that helps, can you try adding some printks to narrow down where it
- > >  > is getting stuck?
- > >
- > > This is going to sound strange, but I've forgotten which box that was.
- > > I'm due to reinstall all my test boxes now that the next Fedora beta
- > > has come out anyway, so I'll hopefully figure out by the end of the week :)
- > 
- > That does sound strange ;) But I can't believe that! It would be really
- > interesting if it was stuck in calibrate_delay, but maybe the backtrace
- > is just messed up...
- > 
- > If you do manage to reproduce it, I would be quite interested. Otherwise,
- > I think we can say it's not a showstopper for 2.6.27.
+Hi all,
 
-agreed.  I clearly have too many other shiny toys.
+Yesterday I build kernel 2.6.26.6 and it's run well. Today I got
+2.6.27 patch and try to build it.
 
-	Dave
+I build with `make oldconfig` and answer any question with default
+answer, I just press [enter].
+I build with `make`. No error and all compiled.
+Then I install with `make modules_install` and `make install`.
 
--- 
-http://www.codemonkey.org.uk
+After reboot the system I got 'kernel panic'.
+This is the error picture :
+http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101358.jpg
+Is it a bugs?
+
+http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101353.jpg
+[2.6.26.6 run well]
+
+
+
+Best regards,
+Yudha_HT
