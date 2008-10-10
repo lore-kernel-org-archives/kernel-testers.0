@@ -1,59 +1,55 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11224] Only three cores found on quad-core machine.
-Date: Fri, 10 Oct 2008 21:39:08 +0200
-Message-ID: <200810102139.09411.rjw@sisk.pl>
-References: <0pOgGB.A.uLG.E475IB@wind> <200810081524.40614.nickpiggin@yahoo.com.au> <20081010153938.GC12937@redhat.com>
+From: Bill Davidsen <davidsen-sQDSfeB7uhw@public.gmane.org>
+Subject: Re: Error : Linux-2.6.27
+Date: Fri, 10 Oct 2008 16:41:36 -0400
+Message-ID: <48EFBE00.8030609@tmr.com>
+References: <264b990a0810100126l1029f734x7204f8c42ae21609@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081010153938.GC12937-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <264b990a0810100126l1029f734x7204f8c42ae21609-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Yudha Harimantoro T <public-yudha.ht-Re5JQEeQqe8AvxtiuMwx3w-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org>
+Cc: public-kernel-testers-u79uwXL29TY76Z2rM5mHXA-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org, public-linux-kernel-u79uwXL29TY76Z2rM5mHXA-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org
 
-On Friday, 10 of October 2008, Dave Jones wrote:
-> On Wed, Oct 08, 2008 at 03:24:40PM +1100, Nick Piggin wrote:
->  > On Wednesday 08 October 2008 02:32, Dave Jones wrote:
->  > > On Wed, Oct 08, 2008 at 02:18:18AM +1100, Nick Piggin wrote:
->  > >  > On Sunday 05 October 2008 04:32, Rafael J. Wysocki wrote:
->  > >  > > This message has been generated automatically as a part of a report
->  > >  > > of recent regressions.
->  > >  > >
->  > >  > > The following bug entry is on the current list of known regressions
->  > >  > > from 2.6.26.  Please verify if it still should be listed and let me
->  > >  > > know (either way).
->  > >  > >
->  > >  > >
->  > >  > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11224
->  > >  > > Subject		: Only three cores found on quad-core machine.
->  > >  > > Submitter	: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->  > >  > > Date		: 2008-08-01 18:15 (65 days old)
->  > >  > > References	: http://marc.info/?l=linux-kernel&m=121761475224719&w=4
->  > >  >
->  > >  > Dave, is your CPU2 getting stuck in calibrate_delay? Can you still
->  > >  > reproduce the bug? What if you boot the kernel with lpj=<something sane
->  > >  > like 2666785> in order to skip the calibrate_delay code?
->  > >  >
->  > >  > If that helps, can you try adding some printks to narrow down where it
->  > >  > is getting stuck?
->  > >
->  > > This is going to sound strange, but I've forgotten which box that was.
->  > > I'm due to reinstall all my test boxes now that the next Fedora beta
->  > > has come out anyway, so I'll hopefully figure out by the end of the week :)
->  > 
->  > That does sound strange ;) But I can't believe that! It would be really
->  > interesting if it was stuck in calibrate_delay, but maybe the backtrace
->  > is just messed up...
->  > 
->  > If you do manage to reproduce it, I would be quite interested. Otherwise,
->  > I think we can say it's not a showstopper for 2.6.27.
+
+
+Yudha Harimantoro T wrote:
+> Hi all,
 > 
-> Ok, this can be closed out. 2.6.27 seems to work fine on all the
-> quad core machines I have in my cube.
+> Yesterday I build kernel 2.6.26.6 and it's run well. Today I got
+> 2.6.27 patch and try to build it.
+> 
+> I build with `make oldconfig` and answer any question with default
+> answer, I just press [enter].
+> I build with `make`. No error and all compiled.
+> Then I install with `make modules_install` and `make install`.
+> 
+I realize that this is a low-probability thought, but did you:
+- apply the patch against 2.6.26 NOT 2.6.26.6
+- run make clean before applying the patch
 
-Thanks, closed.
+> After reboot the system I got 'kernel panic'.
+> This is the error picture :
+> http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101358.jpg
+> Is it a bugs?
+> 
+> http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101353.jpg
+> [2.6.26.6 run well]
+> 
+I keep configs in a separate place. I would first copy a 2.6.26 tree to a new 
+directory (cp -rl linux-2.6.26 linux2.6.27) then be sure I had a clean copy with 
+"make distclean" (or "make mrproper") and then apply the 2.6.27 patch. Then I 
+would copy the 2.6.26 (or maybe 2.6.26.6) config to .config, and make the oldconfig.
 
-Rafael
+None of that is magic, it just keeps me from making common mistakes, lets me 
+start with a clean 2.6.27, etc, etc.
+
+You mentioned oldconfig, but not starting back with a clean 2.6.26, which made 
+me think of this.
+
+-- 
+Bill Davidsen <davidsen-sQDSfeB7uhw@public.gmane.org>
+   "We have more to fear from the bungling of the incompetent than from
+the machinations of the wicked."  - from Slashdot
