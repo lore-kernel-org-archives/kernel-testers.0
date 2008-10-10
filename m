@@ -1,55 +1,59 @@
-From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Subject: Re: Error : Linux-2.6.27
-Date: Fri, 10 Oct 2008 13:36:34 +0100
-Message-ID: <48EF4C52.4070802@tuffmail.co.uk>
-References: <264b990a0810100126l1029f734x7204f8c42ae21609@mail.gmail.com> <20081010115342.GB25982@x200.localdomain>
+From: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #11224] Only three cores found on quad-core machine.
+Date: Fri, 10 Oct 2008 11:39:38 -0400
+Message-ID: <20081010153938.GC12937@redhat.com>
+References: <0pOgGB.A.uLG.E475IB@wind> <200810080218.18898.nickpiggin@yahoo.com.au> <20081007153203.GB3337@redhat.com> <200810081524.40614.nickpiggin@yahoo.com.au>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding:sender;
-        bh=3bVcAbPzCIUfBW4EL3li8J1JMqV8vhNYkugHq3ctYWw=;
-        b=CQX7ryQvVqaMje470Y3Sddn64acqSTzxiOrGjjvP5wkTVGIIolGm2eGM7+Xfqw4L/C
-         gXaROsEgOnRexKafP9GBjkBiZCCqYsqw8SW7rovNsSwt+cz3AFSWzbUwJgdLLvbLT3lX
-         DajVTS46qsyg5bOU9CzKmy3fRwo882qL/EaWc=
-In-Reply-To: <20081010115342.GB25982-2ev+ksY9ol182hYKe6nXyg@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <200810081524.40614.nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Yudha Harimantoro T <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Alexey Dobriyan wrote:
-> On Fri, Oct 10, 2008 at 03:26:44PM +0700, Yudha Harimantoro T wrote:
->   
->> Yesterday I build kernel 2.6.26.6 and it's run well. Today I got
->> 2.6.27 patch and try to build it.
->>
->> I build with `make oldconfig` and answer any question with default
->> answer, I just press [enter].
->>     
->
-> Not wise.
->
->   
->> I build with `make`. No error and all compiled.
->> Then I install with `make modules_install` and `make install`.
->>
->> After reboot the system I got 'kernel panic'.
->> This is the error picture :
->> http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101358.jpg
->> Is it a bugs?
->>
->> http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101353.jpg
->> [2.6.26.6 run well]
->>     
->
-> Post diff -U0 between old and new config.
->   
+On Wed, Oct 08, 2008 at 03:24:40PM +1100, Nick Piggin wrote:
+ > On Wednesday 08 October 2008 02:32, Dave Jones wrote:
+ > > On Wed, Oct 08, 2008 at 02:18:18AM +1100, Nick Piggin wrote:
+ > >  > On Sunday 05 October 2008 04:32, Rafael J. Wysocki wrote:
+ > >  > > This message has been generated automatically as a part of a report
+ > >  > > of recent regressions.
+ > >  > >
+ > >  > > The following bug entry is on the current list of known regressions
+ > >  > > from 2.6.26.  Please verify if it still should be listed and let me
+ > >  > > know (either way).
+ > >  > >
+ > >  > >
+ > >  > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11224
+ > >  > > Subject		: Only three cores found on quad-core machine.
+ > >  > > Submitter	: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+ > >  > > Date		: 2008-08-01 18:15 (65 days old)
+ > >  > > References	: http://marc.info/?l=linux-kernel&m=121761475224719&w=4
+ > >  >
+ > >  > Dave, is your CPU2 getting stuck in calibrate_delay? Can you still
+ > >  > reproduce the bug? What if you boot the kernel with lpj=<something sane
+ > >  > like 2666785> in order to skip the calibrate_delay code?
+ > >  >
+ > >  > If that helps, can you try adding some printks to narrow down where it
+ > >  > is getting stuck?
+ > >
+ > > This is going to sound strange, but I've forgotten which box that was.
+ > > I'm due to reinstall all my test boxes now that the next Fedora beta
+ > > has come out anyway, so I'll hopefully figure out by the end of the week :)
+ > 
+ > That does sound strange ;) But I can't believe that! It would be really
+ > interesting if it was stuck in calibrate_delay, but maybe the backtrace
+ > is just messed up...
+ > 
+ > If you do manage to reproduce it, I would be quite interested. Otherwise,
+ > I think we can say it's not a showstopper for 2.6.27.
 
-There is scripts/diffconfig in the 2.6.27 tree, which you should
-probably use. "Using standard diff to compare .config files often
-includes extraneous and distracting information".
+Ok, this can be closed out. 2.6.27 seems to work fine on all the
+quad core machines I have in my cube.
+
+	Dave
+
+-- 
+http://www.codemonkey.org.uk
