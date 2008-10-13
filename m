@@ -1,37 +1,52 @@
-From: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #11404] BUG: in 2.6.23-rc3-git7 in do_cciss_intr
-Date: Sun, 12 Oct 2008 14:52:14 -0700
-Message-ID: <48F2718E.6010803@oracle.com>
-References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.0r.j675IB@wind>
+From: "Zaharov D.A." <zaharov-GhpCCtR9udU@public.gmane.org>
+Subject: Re: Error : Linux-2.6.27
+Date: Tue, 14 Oct 2008 10:03:09 +1200 (MAGST)
+Message-ID: <11744780.1501223935389354.JavaMail.root@zimbra>
+References: <6966154.1481223935318911.JavaMail.root@zimbra>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <yWwteD.A.0r.j675IB@wind>
+In-Reply-To: <6966154.1481223935318911.JavaMail.root@zimbra>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>, "Miller, Mike (OS Dev)" <Mike.Miller-VXdhtT5mjnY@public.gmane.org>
+To: Yudha Harimantoro T <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.26.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11404
-> Subject		: BUG: in 2.6.23-rc3-git7 in do_cciss_intr
-> Submitter	: rdunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-> Date		: 2008-08-21 5:52 (45 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121929819616273&w=4
-> 		  http://marc.info/?l=linux-kernel&m=121932889105368&w=4
-> Handled-By	: Miller, Mike (OS Dev) <Mike.Miller-VXdhtT5mjnY@public.gmane.org>
-> 		  James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+Show your loader config.
+How much drive attach?
+And ceck your drive detect in proper order.
 
-Also happened with 2.6.27-git2.
+----- Original Message -----
+From: "Yudha Harimantoro T" <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sent: Friday, October 10, 2008 8:26:44 PM (GMT+1100) Auto-Detected
+Subject: Error : Linux-2.6.27
 
--- 
-~Randy
+Hi all,
+
+Yesterday I build kernel 2.6.26.6 and it's run well. Today I got
+2.6.27 patch and try to build it.
+
+I build with `make oldconfig` and answer any question with default
+answer, I just press [enter].
+I build with `make`. No error and all compiled.
+Then I install with `make modules_install` and `make install`.
+
+After reboot the system I got 'kernel panic'.
+This is the error picture :
+http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101358.jpg
+Is it a bugs?
+
+http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101353.jpg
+[2.6.26.6 run well]
+
+
+
+Best regards,
+Yudha_HT
+--
+To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Please read the FAQ at  http://www.tux.org/lkml/
+
