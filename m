@@ -1,9 +1,10 @@
-From: "rajeev kumar" <rajeevcoder.cusat.mca-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: "Yudha Harimantoro T" <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: Error : Linux-2.6.27
-Date: Wed, 15 Oct 2008 11:29:32 +0530
-Message-ID: <df3f2abe0810142259m75c7f3a1ue8d8f9c1ed171ed5@mail.gmail.com>
+Date: Thu, 16 Oct 2008 13:16:58 +0700
+Message-ID: <264b990a0810152316k2d6de94dg90f2ac23f01e76d2@mail.gmail.com>
 References: <11744780.1501223935389354.JavaMail.root@zimbra>
 	 <48F4D24A.5070400@gmail.com> <48F4F6CA.9040103@tuffmail.co.uk>
+	 <df3f2abe0810142259m75c7f3a1ue8d8f9c1ed171ed5@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,95 +13,112 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:received:received:message-id:date:from:to
          :subject:cc:in-reply-to:mime-version:content-type
          :content-transfer-encoding:content-disposition:references;
-        bh=y89pRreRjkL2g1fMf9NZXZhPMCfGdimQZRQ9Y3mR6hA=;
-        b=B6CLBjtDfZq6fpCHRCqHG4VLcO1UXGgFT/tCCXtLQiWsqX1hB0Hq8d2qav6QgbXGo2
-         V8ClnTCMynKjHWa6kSr75Qi7/xkpnW/BMZeMnfHCK32mDHuCzHFdwshYKi4Ae7lKjycF
-         oY6IDoUbMVLn7d93+tDkvKTv2wIxMJYNAhU/0=
-In-Reply-To: <48F4F6CA.9040103-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+        bh=Y+fQEczPw14fOSz0ZJqdMJw6Vt+3PKpe9r4ECUQZsJY=;
+        b=X7uzChd103hjxkOF8U6jiHYig2pIR8H/4ATrQwI+NDs64e4fpHfreGqyK2Tzx+a/1J
+         eKRuuay009UxiF/fShgJ3ua7A5vcKdp/KaZK7OZKUXbrCJ2WNcx0y21N4UKUKZuVCqUM
+         Uo+eFhmnqSwYkqa8OM6TJ1NIyQ4H3yk7biZtk=
+In-Reply-To: <df3f2abe0810142259m75c7f3a1ue8d8f9c1ed171ed5-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Cc: Aioanei Rares <rares.aioanei-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Zaharov D.A." <zaharov-GhpCCtR9udU@public.gmane.org>, Yudha Harimantoro T <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: rajeev kumar <rajeevcoder.cusat.mca-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Aioanei Rares <rares.aioanei-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Zaharov D.A." <zaharov-GhpCCtR9udU@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Hi i got followoing error when after compiling 2.6.26 and booting it.
-waiting for root file system :
+Hi all,
 
-Then it dropped me to initramfs shell. Is there any way to boot the
-kernel without any need of initram
+Thx for all your respons.
+I have compile 2.6.27 patched with patch-2.6.27.1.bz2 successfully
+with slackware huge-smp config. And its run well.
 
-Also i have:
-
-intel 945 series mother board
-SATA 80 GB HardDisk.
-Debian 4.0(2.6.18) preinstalled.
-
-Regards
-Rajeev Kumar
+I don't know what difference between 2.6.26 and 2.6.27 tree. My config
+for 2.6.26 can't compile for 2.6.27. I thing it's about the device
+driver for SATA for my computer.
 
 
+Best regards,
+Yudha_HT
 
-On 10/15/08, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org> wrote:
-> Aioanei Rares wrote:
->> Zaharov D.A. wrote:
->>> Show your loader config.
->>> How much drive attach?
->>> And ceck your drive detect in proper order.
->>>
->>> ----- Original Message -----
->>> From: "Yudha Harimantoro T" <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->>> To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->>> Sent: Friday, October 10, 2008 8:26:44 PM (GMT+1100) Auto-Detected
->>> Subject: Error : Linux-2.6.27
->>>
->>> Hi all,
->>>
->>> Yesterday I build kernel 2.6.26.6 and it's run well. Today I got
->>> 2.6.27 patch and try to build it.
->>>
->>> I build with `make oldconfig` and answer any question with default
->>> answer, I just press [enter].
->>> I build with `make`. No error and all compiled.
->>> Then I install with `make modules_install` and `make install`.
->>>
->>> After reboot the system I got 'kernel panic'.
->>> This is the error picture :
->>> http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101358.jpg
->>> Is it a bugs?
->>>
->>> http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101353.jpg
->>> [2.6.26.6 run well]
->>>
->>>
->>>
->>> Best regards,
->>> Yudha_HT
->>> --
->>> To unsubscribe from this list: send the line "unsubscribe
->>> linux-kernel" in
->>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->>> Please read the FAQ at  http://www.tux.org/lkml/
->>>
->>>
->>> --
->>> To unsubscribe from this list: send the line "unsubscribe
->>> kernel-testers" in
->>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->>>
->>>
->> How about you do what the error message says? Try booting with init=3
->> for example and see if it boots.
+2008/10/15, rajeev kumar <rajeevcoder.cusat.mca-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> Hi i got followoing error when after compiling 2.6.26 and booting it.
+> waiting for root file system :
 >
-> That won't help.  It wants the path to the init program - the first
-> default is init=/sbin/init.  Probably it has mounted the wrong
-> filesystem as root - so it can't find /sbin/init.
+> Then it dropped me to initramfs shell. Is there any way to boot the
+> kernel without any need of initram
 >
-> Alan
-> --
-> To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Also i have:
+>
+> intel 945 series mother board
+> SATA 80 GB HardDisk.
+> Debian 4.0(2.6.18) preinstalled.
+>
+> Regards
+> Rajeev Kumar
+>
+>
+>
+> On 10/15/08, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org> wrote:
+>> Aioanei Rares wrote:
+>>> Zaharov D.A. wrote:
+>>>> Show your loader config.
+>>>> How much drive attach?
+>>>> And ceck your drive detect in proper order.
+>>>>
+>>>> ----- Original Message -----
+>>>> From: "Yudha Harimantoro T" <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>>>> To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>>>> Sent: Friday, October 10, 2008 8:26:44 PM (GMT+1100) Auto-Detected
+>>>> Subject: Error : Linux-2.6.27
+>>>>
+>>>> Hi all,
+>>>>
+>>>> Yesterday I build kernel 2.6.26.6 and it's run well. Today I got
+>>>> 2.6.27 patch and try to build it.
+>>>>
+>>>> I build with `make oldconfig` and answer any question with default
+>>>> answer, I just press [enter].
+>>>> I build with `make`. No error and all compiled.
+>>>> Then I install with `make modules_install` and `make install`.
+>>>>
+>>>> After reboot the system I got 'kernel panic'.
+>>>> This is the error picture :
+>>>> http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101358.jpg
+>>>> Is it a bugs?
+>>>>
+>>>> http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101353.jpg
+>>>> [2.6.26.6 run well]
+>>>>
+>>>>
+>>>>
+>>>> Best regards,
+>>>> Yudha_HT
+>>>> --
+>>>> To unsubscribe from this list: send the line "unsubscribe
+>>>> linux-kernel" in
+>>>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>>>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>>>> Please read the FAQ at  http://www.tux.org/lkml/
+>>>>
+>>>>
+>>>> --
+>>>> To unsubscribe from this list: send the line "unsubscribe
+>>>> kernel-testers" in
+>>>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>>>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>>>>
+>>>>
+>>> How about you do what the error message says? Try booting with init=3
+>>> for example and see if it boots.
+>>
+>> That won't help.  It wants the path to the init program - the first
+>> default is init=/sbin/init.  Probably it has mounted the wrong
+>> filesystem as root - so it can't find /sbin/init.
+>>
+>> Alan
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe kernel-testers"
+>> in
+>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>>
 >
