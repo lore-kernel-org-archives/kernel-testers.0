@@ -1,124 +1,37 @@
-From: "Yudha Harimantoro T" <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Error : Linux-2.6.27
-Date: Thu, 16 Oct 2008 13:16:58 +0700
-Message-ID: <264b990a0810152316k2d6de94dg90f2ac23f01e76d2@mail.gmail.com>
-References: <11744780.1501223935389354.JavaMail.root@zimbra>
-	 <48F4D24A.5070400@gmail.com> <48F4F6CA.9040103@tuffmail.co.uk>
-	 <df3f2abe0810142259m75c7f3a1ue8d8f9c1ed171ed5@mail.gmail.com>
+From: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #11404] BUG: in 2.6.23-rc3-git7 in do_cciss_intr
+Date: Fri, 17 Oct 2008 11:18:30 -0700
+Message-ID: <48F8D6F6.2050701@oracle.com>
+References: <0pOgGB.A.uLG.E475IB@wind> <yWwteD.A.0r.j675IB@wind> <48F2718E.6010803@oracle.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=Y+fQEczPw14fOSz0ZJqdMJw6Vt+3PKpe9r4ECUQZsJY=;
-        b=X7uzChd103hjxkOF8U6jiHYig2pIR8H/4ATrQwI+NDs64e4fpHfreGqyK2Tzx+a/1J
-         eKRuuay009UxiF/fShgJ3ua7A5vcKdp/KaZK7OZKUXbrCJ2WNcx0y21N4UKUKZuVCqUM
-         Uo+eFhmnqSwYkqa8OM6TJ1NIyQ4H3yk7biZtk=
-In-Reply-To: <df3f2abe0810142259m75c7f3a1ue8d8f9c1ed171ed5-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <48F2718E.6010803-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: rajeev kumar <rajeevcoder.cusat.mca-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Aioanei Rares <rares.aioanei-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Zaharov D.A." <zaharov-GhpCCtR9udU@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>, "Miller, Mike (OS Dev)" <Mike.Miller-VXdhtT5mjnY@public.gmane.org>
 
-Hi all,
-
-Thx for all your respons.
-I have compile 2.6.27 patched with patch-2.6.27.1.bz2 successfully
-with slackware huge-smp config. And its run well.
-
-I don't know what difference between 2.6.26 and 2.6.27 tree. My config
-for 2.6.26 can't compile for 2.6.27. I thing it's about the device
-driver for SATA for my computer.
-
-
-Best regards,
-Yudha_HT
-
-2008/10/15, rajeev kumar <rajeevcoder.cusat.mca-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
-> Hi i got followoing error when after compiling 2.6.26 and booting it.
-> waiting for root file system :
->
-> Then it dropped me to initramfs shell. Is there any way to boot the
-> kernel without any need of initram
->
-> Also i have:
->
-> intel 945 series mother board
-> SATA 80 GB HardDisk.
-> Debian 4.0(2.6.18) preinstalled.
->
-> Regards
-> Rajeev Kumar
->
->
->
-> On 10/15/08, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org> wrote:
->> Aioanei Rares wrote:
->>> Zaharov D.A. wrote:
->>>> Show your loader config.
->>>> How much drive attach?
->>>> And ceck your drive detect in proper order.
->>>>
->>>> ----- Original Message -----
->>>> From: "Yudha Harimantoro T" <yudha.ht-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->>>> To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->>>> Sent: Friday, October 10, 2008 8:26:44 PM (GMT+1100) Auto-Detected
->>>> Subject: Error : Linux-2.6.27
->>>>
->>>> Hi all,
->>>>
->>>> Yesterday I build kernel 2.6.26.6 and it's run well. Today I got
->>>> 2.6.27 patch and try to build it.
->>>>
->>>> I build with `make oldconfig` and answer any question with default
->>>> answer, I just press [enter].
->>>> I build with `make`. No error and all compiled.
->>>> Then I install with `make modules_install` and `make install`.
->>>>
->>>> After reboot the system I got 'kernel panic'.
->>>> This is the error picture :
->>>> http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101358.jpg
->>>> Is it a bugs?
->>>>
->>>> http://www.ryht.co.cc/wordpress/wp-content/uploads/2008/10/pa101353.jpg
->>>> [2.6.26.6 run well]
->>>>
->>>>
->>>>
->>>> Best regards,
->>>> Yudha_HT
->>>> --
->>>> To unsubscribe from this list: send the line "unsubscribe
->>>> linux-kernel" in
->>>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->>>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->>>> Please read the FAQ at  http://www.tux.org/lkml/
->>>>
->>>>
->>>> --
->>>> To unsubscribe from this list: send the line "unsubscribe
->>>> kernel-testers" in
->>>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->>>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->>>>
->>>>
->>> How about you do what the error message says? Try booting with init=3
->>> for example and see if it boots.
+Randy Dunlap wrote:
+> Rafael J. Wysocki wrote:
+>> This message has been generated automatically as a part of a report
+>> of recent regressions.
 >>
->> That won't help.  It wants the path to the init program - the first
->> default is init=/sbin/init.  Probably it has mounted the wrong
->> filesystem as root - so it can't find /sbin/init.
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.26.  Please verify if it still should be listed and let me know
+>> (either way).
 >>
->> Alan
->> --
->> To unsubscribe from this list: send the line "unsubscribe kernel-testers"
->> in
->> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 >>
->
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11404
+>> Subject		: BUG: in 2.6.23-rc3-git7 in do_cciss_intr
+>> Submitter	: rdunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+>> Date		: 2008-08-21 5:52 (45 days old)
+>> References	: http://marc.info/?l=linux-kernel&m=121929819616273&w=4
+>> 		  http://marc.info/?l=linux-kernel&m=121932889105368&w=4
+>> Handled-By	: Miller, Mike (OS Dev) <Mike.Miller-VXdhtT5mjnY@public.gmane.org>
+>> 		  James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+> 
+> Also happened with 2.6.27-git2.
+
+and on 2.6.27-git7.
