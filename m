@@ -1,45 +1,61 @@
-From: Davide Libenzi <davidel@xmailserver.org>
+From: "Alexander Beregalov" <a.beregalov@gmail.com>
 Subject: Re: 2.6.27-05178-g2e532d6: list_add corruption
-Date: Fri, 17 Oct 2008 16:19:13 -0700 (PDT)
-Message-ID: <Pine.LNX.4.64.0810171617490.21410@alien.or.mcafeemobile.com>
+Date: Sat, 18 Oct 2008 10:41:02 +0400
+Message-ID: <a4423d670810172341y5ae5542jea66ead938ba652d@mail.gmail.com>
 References: <a4423d670810171220t4d5602fekcb66e18758149925@mail.gmail.com>
+	 <Pine.LNX.4.64.0810171617490.21410@alien.or.mcafeemobile.com>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758200AbYJQXTY@vger.kernel.org>
-In-Reply-To: <a4423d670810171220t4d5602fekcb66e18758149925@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: base64
+Return-path: <netdev-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=p1OzNivOIoNhW3hHZhWiGJzI53CXLVhsrD0fmnU3vyk=;
+        b=bAcIo14+u1etiPA+8athTOkzkXQp6dp8lsatR+W8kWwS9kL2gWFlaLznMAyWazgoAg
+         RifO/sKhhJMN4JbUzE8McyIzQ0GkbTIBS6Qy4Kg+cBpY0MnnFg4Cy7DkfaVV38fONgnY
+         kijhu4x9y0eEDMDnCW/JRWNY21uF8fTFGQdtQ=
+In-Reply-To: <Pine.LNX.4.64.0810171617490.21410@alien.or.mcafeemobile.com>
+Content-Disposition: inline
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Alexander Beregalov <a.beregalov@gmail.com>
+Content-Type: text/plain; charset="macroman"
+To: Davide Libenzi <davidel@xmailserver.org>
 Cc: LKML <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Netdev <netdev@vger.kernel.org>
 
-On Fri, 17 Oct 2008, Alexander Beregalov wrote:
-
-> I am afraid I do not know how to reproduce this.
-> 
-> WARNING: at lib/list_debug.c:30 __list_add+0x44/0x5c()
-> list_add corruption. prev->next should be next (f6638448), but was
-> f26f078c. (prev=f26f078c).
-> Modules linked in: w83627hf hwmon_vid i2c_nforce2
-> Pid: 1933, comm: rtorrent Not tainted 2.6.27-05178-g2e532d6 #6
-> Call Trace:
->  [<c011de4b>] warn_slowpath+0x4b/0x69
->  [<c0137a03>] ? trace_hardirqs_off+0xb/0xd
->  [<c01070ab>] ? native_sched_clock+0x76/0x88
->  [<c0138cc5>] ? trace_hardirqs_on+0xb/0xd
->  [<c0138c93>] ? trace_hardirqs_on_caller+0xe6/0x10d
->  [<c031aa43>] ? release_sock+0xac/0xb4
->  [<c0138cc5>] ? trace_hardirqs_on+0xb/0xd
->  [<c0139d4e>] ? __lock_acquire+0xaeb/0xafa
->  [<c0139d4e>] ? __lock_acquire+0xaeb/0xafa
->  [<c0137a39>] ? put_lock_stats+0xd/0x21
->  [<c026a404>] __list_add+0x44/0x5c
->  [<c0186be0>] ep_poll_callback+0x5b/0xb4
-
-This is very likely to be caused by a patch that went in a few days ago. 
-Already posted a fix to Andrew.
-
-
-
-- Davide
-
+PiBUaGlzIGlzIHZlcnkgbGlrZWx5IHRvIGJlIGNhdXNlZCBieSBhIHBhdGNoIHRoYXQgd2VudCBp
+biBhIGZldyBkYXlzIGFnby4KPiBBbHJlYWR5IHBvc3RlZCBhIGZpeCB0byBBbmRyZXcuCj4KCklz
+IGl0IHRoZSBzYW1lIHByb2JsZW0/IDIuNi4yNy0wNTU3Ny1nMGNmZDgxMAoKQlVHIGV2ZW50cG9s
+bF9lcGk6IFBvaXNvbiBvdmVyd3JpdHRlbgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpJTkZPOiAweGYy
+YWM3NjhjLTB4ZjJhYzc2OTMuIEZpcnN0IGJ5dGUgMHhjIGluc3RlYWQgb2YgMHg2YgpJTkZPOiBB
+bGxvY2F0ZWQgaW4gc3lzX2Vwb2xsX2N0bCsweDEyMC8weDQwNSBhZ2U9MjE3NTMgY3B1PTAgcGlk
+PTE5MzYKSU5GTzogRnJlZWQgaW4gZXBfcmVtb3ZlKzB4N2YvMHg4NiBhZ2U9Mzk2NCBjcHU9MCBw
+aWQ9MTkzNgpJTkZPOiBTbGFiIDB4YzE2NTY4ZTAgb2JqZWN0cz0zMiB1c2VkPTI5IGZwPTB4ZjJh
+Yzc2ODAgZmxhZ3M9MHg0MDAwMDBjMwpJTkZPOiBPYmplY3QgMHhmMmFjNzY4MCBAb2Zmc2V0PTE2
+NjQgZnA9MHhmMmFjN2Y4MAoKQnl0ZXMgYjQgMHhmMmFjNzY3MDogIDVhIDVhIDVhIDVhIDVhIDVh
+IDVhIDVhIDVhIDVhIDVhIDVhIDVhIDVhIDVhIDVhClpaWlpaWlpaWlpaWlpaWloKICBPYmplY3Qg
+MHhmMmFjNzY4MDogIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDBjIDdkIGIx
+IGYyCmtra2tra2tra2tray594pWg0KAKICBPYmplY3QgMHhmMmFjNzY5MDogIDBjIDE1IGE3IGYy
+IDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiCi4u4pWW0KBra2tra2tra2tra2sK
+ICBPYmplY3QgMHhmMmFjNzZhMDogIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZi
+IDZiIDZiIDZiIDZiCmtra2tra2tra2tra2tra2sKICBPYmplY3QgMHhmMmFjNzZiMDogIDZiIDZi
+IDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiIDZiCmtra2tra2tra2tra2tr
+a2sKICBPYmplY3QgMHhmMmFjNzZjMDogIDZiIDZiIDZiIGE1ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIGtra+KVlAogUmVkem9uZSAweGYyYWM3NmM0OiAgYmIgYmIgYmIgYmIg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg4pWp4pWp4pWp4pWpCiBQYWRkaW5n
+IDB4ZjJhYzc2ZWM6ICA1YSA1YSA1YSA1YSA1YSA1YSA1YSA1YSA1YSA1YSA1YSA1YSA1YSA1YSA1
+YSA1YQpaWlpaWlpaWlpaWlpaWlpaCiBQYWRkaW5nIDB4ZjJhYzc2ZmM6ICA1YSA1YSA1YSA1YSAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBaWlpaClBpZDogMTkzNiwgY29tbTog
+cnRvcnJlbnQgTm90IHRhaW50ZWQgMi42LjI3LTA1NTc3LWcwY2ZkODEwICMxCkNhbGwgVHJhY2U6
+CiBbPGMwMTYxNjI4Pl0gcHJpbnRfdHJhaWxlcisweGUxLzB4ZTkKIFs8YzAxNjE2YjE+XSBjaGVj
+a19ieXRlc19hbmRfcmVwb3J0KzB4ODEvMHhhNAogWzxjMDE2MTdhOT5dIGNoZWNrX29iamVjdCsw
+eGE1LzB4MTYwCiBbPGMwMTYyY2ViPl0gX19zbGFiX2FsbG9jKzB4NDIwLzB4NGM3CiBbPGMwMTM4
+ZDQ1Pl0gPyB0cmFjZV9oYXJkaXJxc19vbisweGIvMHhkCiBbPGMwMTYzMGQ0Pl0ga21lbV9jYWNo
+ZV9hbGxvYysweDYyLzB4YWYKIFs8YzAxODc0ODU+XSA/IHN5c19lcG9sbF9jdGwrMHgxMjAvMHg0
+MDUKIFs8YzAxODc0ODU+XSA/IHN5c19lcG9sbF9jdGwrMHgxMjAvMHg0MDUKIFs8YzAxODc0ODU+
+XSBzeXNfZXBvbGxfY3RsKzB4MTIwLzB4NDA1CiBbPGMwMjVkNzIwPl0gPyB0cmFjZV9oYXJkaXJx
+c19vbl90aHVuaysweGMvMHgxMAogWzxjMDEwMmVhOT5dIHN5c2VudGVyX2RvX2NhbGwrMHgxMi8w
+eDM1CkZJWCBldmVudHBvbGxfZXBpOiBSZXN0b3JpbmcgMHhmMmFjNzY4Yy0weGYyYWM3NjkzPTB4
+NmIKCkZJWCBldmVudHBvbGxfZXBpOiBNYXJraW5nIGFsbCBvYmplY3RzIHVzZWQK
