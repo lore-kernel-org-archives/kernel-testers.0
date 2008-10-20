@@ -1,42 +1,73 @@
-From: "Alexander Beregalov" <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.27-05178-g2e532d6: list_add corruption
-Date: Sat, 18 Oct 2008 19:50:17 +0400
-Message-ID: <a4423d670810180850w1e3845a5lf4dae12c0a001e3d@mail.gmail.com>
-References: <a4423d670810171220t4d5602fekcb66e18758149925@mail.gmail.com>
-	 <Pine.LNX.4.64.0810171617490.21410@alien.or.mcafeemobile.com>
-	 <a4423d670810172341y5ae5542jea66ead938ba652d@mail.gmail.com>
-	 <Pine.LNX.4.64.0810180737100.21525@alien.or.mcafeemobile.com>
+From: Suresh Siddha <suresh.b.siddha@intel.com>
+Subject: Re: [saa7133] resource map sanity check conflict
+Date: Mon, 20 Oct 2008 13:57:02 -0700
+Message-ID: <20081020205702.GI7829@linux-os.sc.intel.com>
+References: <1224340447.5325.4.camel@zwerg>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=Gnt88quD6RWa0MjDqUOgRzvG2P+U7oVLXGGHgQsItiw=;
-        b=bxVoO+vba3MkwGIbvRPHcjSMgPD6RryhMLXbpPIVZdfaRlH9huI1nxtVhohnWhKKgi
-         oQFcSg1x5jibLF964DcBZmIoVK7CcyFUsdOwdpf0XIutQD8juyNUYEwJOKoXqUZ/QURx
-         oGSzY5v/7hck55JJtN7/jTXU+qjY0/aPTmQ0Y=
-In-Reply-To: <Pine.LNX.4.64.0810180737100.21525-GPJ85BhbkB8RepQJljzAVbITYcZ0+W3JAL8bYrjMMd8@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753776AbYJTU5V@vger.kernel.org>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <1224340447.5325.4.camel@zwerg>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>
-Cc: LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Alexey Fisher <bug-track@fisher-privat.net>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, "Siddha, Suresh B" <suresh.b.siddha@intel.com>, "mingo@elte.hu" <mingo@elte.hu>, linux-kernel@vger.kernel.org
 
-2008/10/18 Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>:
-> On Sat, 18 Oct 2008, Alexander Beregalov wrote:
->
->> > This is very likely to be caused by a patch that went in a few days ago.
->> > Already posted a fix to Andrew.
->> >
->>
->> Is it the same problem? 2.6.27-05577-g0cfd810
->
-> Hard to be sure, but certainly a double insert can create a similar
-> problem. The only way to tell is to get the fix and retry.
-I have already applied your patch and the kernel works better, no
-errors anymore.
-Thanks
+On Sat, Oct 18, 2008 at 07:34:07AM -0700, Alexey Fisher wrote:
+> i get this message after your patch: "IO resources, x86: ioremap sanity
+> check to catch mapping requests exceeding"
+> 
+> so may be saa7133 not clean ;) dmesg is attached.
+> 
+> resource map sanity check conflict: 0xcfeff800 0xcff007ff 0xcfe00000
+> 0xcfefffff PCI Bus 0000:01
+> ------------[ cut here ]------------
+> WARNING: at arch/x86/mm/ioremap.c:226 __ioremap_caller+0x2f5/0x33c()
+> Modules linked in: saa7134(+) ir_common hid snd_hda_intel compat_ioctl32
+> videodev v4l1_compat v4l2_common videobuf_dma_sg videobuf_core tveeprom
+> snd_pcm_oss snd_mixer_oss evdev snd_pcm snd_timer snd_page_alloc
+> Pid: 2345, comm: modprobe Not tainted 2.6.27-slub-04260-g6b2ada8 #9
+> Call Trace:
+>  [<ffffffff80238459>] warn_on_slowpath+0x51/0x7e
+>  [<ffffffff8051d3ba>] printk+0x4e/0x5c
+>  [<ffffffff80490880>] pci_conf1_read+0xb1/0xdc
+>  [<ffffffff8023e135>] iomem_map_sanity_check+0x94/0x9b
+>  [<ffffffff80222a52>] __ioremap_caller+0x2f5/0x33c
+>  [<ffffffffa00d8f0c>] saa7134_initdev+0x32c/0x9b5 [saa7134]
+
+Alexey, Appended patch should fix this conflict. Can you please test and
+ack it?
+
+thanks,
+suresh
+---
+From: Suresh Siddha <suresh.b.siddha@intel.com>
+Subject: saa7134: fix the hard coded size argument in ioremap()
+
+Alexey Fisher reported:
+> resource map sanity check conflict: 0xcfeff800 0xcff007ff 0xcfe00000
+> 0xcfefffff PCI Bus 0000:01
+
+BAR base is located in the middle of the 4K page and the hardcoded
+size argument makes the request span two pages causing the conflict.
+
+Fix the hard coded size argument in ioremap()
+
+Signed-off-by: Suresh Siddha <suresh.b.siddha@intel.com>
+---
+
+diff --git a/drivers/media/video/saa7134/saa7134-core.c b/drivers/media/video/saa7134/saa7134-core.c
+index b686bfa..cff3b99 100644
+--- a/drivers/media/video/saa7134/saa7134-core.c
++++ b/drivers/media/video/saa7134/saa7134-core.c
+@@ -941,7 +941,8 @@ static int __devinit saa7134_initdev(struct pci_dev *pci_dev,
+ 		       dev->name,(unsigned long long)pci_resource_start(pci_dev,0));
+ 		goto fail1;
+ 	}
+-	dev->lmmio = ioremap(pci_resource_start(pci_dev,0), 0x1000);
++	dev->lmmio = ioremap(pci_resource_start(pci_dev,0),
++			     pci_resource_len(pci_dev,0));
+ 	dev->bmmio = (__u8 __iomem *)dev->lmmio;
+ 	if (NULL == dev->lmmio) {
+ 		err = -EIO;
