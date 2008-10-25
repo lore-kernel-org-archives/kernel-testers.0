@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11209] 2.6.27-rc1 process time accounting
+Subject: [Bug #11264] Invalid op opcode in kernel/workqueue
 Date: Sat, 25 Oct 2008 23:07:45 +0200 (CEST)
-Message-ID: <gLTYxg3cC1.A.xQH.DO6AJB@chimera>
+Message-ID: <gLTYxg3cC1.A.p0G.WN6AJB@chimera>
 References: <3ZqdCuOdOqB.A.EPE.fJ6AJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jean-Luc Coulon <jean.luc.coulon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,12 +22,8 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11209
-Subject		: 2.6.27-rc1 process time accounting
-Submitter	: Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
-Date		: 2008-07-31 10:43 (87 days old)
-References	: http://marc.info/?l=linux-kernel&m=121750102917490&w=4
-		  http://lkml.org/lkml/2008/9/30/199
-		  http://marc.info/?l=linux-kernel&m=122470441624295&w=4
-Handled-By	: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11264
+Subject		: Invalid op opcode in kernel/workqueue
+Submitter	: Jean-Luc Coulon <jean.luc.coulon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-08-07 04:18 (80 days old)
 
