@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11543] kernel panic: softlockup in tick_periodic() ???
-Date: Sat, 25 Oct 2008 23:07:49 +0200 (CEST)
-Message-ID: <gLTYxg3cC1.A.csF.wK6AJB@chimera>
+Subject: [Bug #11505] oltp ~10% regression with 2.6.27-rc5 on stoakley machine
+Date: Sat, 25 Oct 2008 23:07:48 +0200 (CEST)
+Message-ID: <gLTYxg3cC1.A.q5F.8K6AJB@chimera>
 References: <3ZqdCuOdOqB.A.EPE.fJ6AJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gregory Haskins <ghaskins-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,12 +22,14 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11543
-Subject		: kernel panic: softlockup in tick_periodic() ???
-Submitter	: Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>
-Date		: 2008-09-11 16:46 (45 days old)
-References	: http://marc.info/?l=linux-kernel&m=122117786124326&w=4
-Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-		  Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11505
+Subject		: oltp ~10% regression with 2.6.27-rc5 on stoakley machine
+Submitter	: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2008-09-04 7:06 (52 days old)
+References	: http://marc.info/?l=linux-kernel&m=122051202202373&w=4
+		  http://marc.info/?t=122089704700005&r=1&w=4
+Handled-By	: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+		  Gregory Haskins <ghaskins-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>
 		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=122194673932703&w=4
 
