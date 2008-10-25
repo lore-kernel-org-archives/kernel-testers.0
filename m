@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11308] tbench regression on each kernel release from  2.6.22 -&gt; 2.6.28
-Date: Sat, 25 Oct 2008 23:07:46 +0200 (CEST)
-Message-ID: <gLTYxg3cC1.A._mG.oM6AJB@chimera>
+Subject: [Bug #11380] lockdep warning: cpu_add_remove_lock at:cpu_maps_update_begin+0x14/0x16
+Date: Sat, 25 Oct 2008 23:07:47 +0200 (CEST)
+Message-ID: <gLTYxg3cC1.A.LaG.7L6AJB@chimera>
 References: <3ZqdCuOdOqB.A.EPE.fJ6AJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,10 +22,9 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11308
-Subject		: tbench regression on each kernel release from  2.6.22 -&gt; 2.6.28
-Submitter	: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Date		: 2008-08-11 18:36 (76 days old)
-References	: http://marc.info/?l=linux-kernel&m=121847986119495&w=4
-		  http://marc.info/?l=linux-kernel&m=122125737421332&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11380
+Subject		: lockdep warning: cpu_add_remove_lock at:cpu_maps_update_begin+0x14/0x16
+Submitter	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Date		: 2008-08-20 6:44 (67 days old)
+References	: http://marc.info/?l=linux-kernel&m=121921480931970&w=4
 
