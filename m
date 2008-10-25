@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11831] NULL pointer derefence since 2.6.27 in (e)poll
-Date: Sat, 25 Oct 2008 23:07:53 +0200 (CEST)
-Message-ID: <gLTYxg3cC1.A.6iE.oJ6AJB@chimera>
+Subject: [Bug #11832] 2.6.27: "irq 18: nobody cared" on Toshiba Satellite A100
+Date: Sat, 25 Oct 2008 23:07:54 +0200 (CEST)
+Message-ID: <gLTYxg3cC1.A.BdE.nJ6AJB@chimera>
 References: <3ZqdCuOdOqB.A.EPE.fJ6AJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ben Castricum <lk0810-YLO5ZLKhJ/U/fZsR/wcYMA@public.gmane.org>, Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "M. Vefa Bicakci" <bicave-qUEp0r/b3FNfOZc0+OmrVg@public.gmane.org>, Stefan Assmann <sassmann-l3A5Bk7waGM@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,11 +22,10 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11831
-Subject		: NULL pointer derefence since 2.6.27 in (e)poll
-Submitter	: Ben Castricum <lk0810-YLO5ZLKhJ/U/fZsR/wcYMA@public.gmane.org>
-Date		: 2008-10-19 11:02 (7 days old)
-References	: http://marc.info/?l=linux-kernel&m=122441506419398&w=4
-Handled-By	: Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>
-Patch		: http://marc.info/?l=linux-kernel&m=122428548613067&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11832
+Subject		: 2.6.27: "irq 18: nobody cared" on Toshiba Satellite A100
+Submitter	: M. Vefa Bicakci <bicave-qUEp0r/b3FNfOZc0+OmrVg@public.gmane.org>
+Date		: 2008-10-19 14:06 (7 days old)
+References	: http://marc.info/?l=linux-kernel&m=122442552100406&w=4
+Handled-By	: Stefan Assmann <sassmann-l3A5Bk7waGM@public.gmane.org>
 
