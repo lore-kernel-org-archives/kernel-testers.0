@@ -1,31 +1,33 @@
-From: Roman Mindalev <lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org>
-Subject: Re: [2.6.28-rc1] sd I/O errors
-Date: Fri, 24 Oct 2008 23:09:12 +0400
-Message-ID: <49021D58.7010808@r000n.net>
-References: <4901E9B0.5080401@r000n.net> <4901F6AB.1090601@tuffmail.co.uk> <200810241938.56025.bug-track@fisher-privat.net>
-Reply-To: lists-ioAbOcnQCpJeoWH0uzbU5w@public.gmane.org
+From: Alexey Rempel <fishor-hi6Y0CQ0nG0@public.gmane.org>
+Subject: why differnet wlan drivers need different settings?
+Date: Sat, 25 Oct 2008 11:51:55 +0200
+Message-ID: <200810251151.55940.fishor@gmx.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200810241938.56025.bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Cc: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Alexey Fisher wrote:
-> On Friday 24 October 2008 18:24:11 Alan Jenkins wrote:
->> I guess this is using the ata_piix driver.  It's almost certainly the
->> same issue as:
->>
->> [Regression] 2.6.28-rc1 (2fca5c): libata: kernel cant boot
->>
->> (search for it).  A patch was posted just after rc1 was released :).
->>
->> Alan
-> 
-> Great! i just bisected it.... :( :)
-> 
-Funny, I began too late and not finished ;)
-Patch works for me
+May be this is the wrong plase to ask. 
+The question is: Why differnet wlan drivers use different settings to stay 
+silent - powered on but not trying to associate to any accespoint?
+For example: ipw2200 - if wlan was connfigured like:
+
+iwconfig wlan1 essid "my-ap" chan 6 ap my:aps:mac  key s:pass
+
+this will normaly connect to my secure  AP. and if i set after this:
+ 
+iwconfig wlan1 essid off ap off
+
+it will connect to unsecure AP of my neighbour or of Dr.Evil :)
+to disable association on ipw2200 i need to set all this and plus "chan 0".
+With this cnowleg i want to set up iwl3945, and surprise it's not working. 
+This driver do not accepted "chan 0" and instead of "essid off" it did 
+"essid """
+
+Are there any unified way to keep adapter powered on but not trying to 
+associate to some AP.
+
