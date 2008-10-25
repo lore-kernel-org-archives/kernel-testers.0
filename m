@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11664] acpi errors and random freeze on sony vaio sr
-Date: Sat, 25 Oct 2008 23:07:50 +0200 (CEST)
-Message-ID: <gLTYxg3cC1.A.nIF.GK6AJB@chimera>
+Subject: [Bug #11550] pnp: Huge number of "io resource overlap" messages
+Date: Sat, 25 Oct 2008 23:07:49 +0200 (CEST)
+Message-ID: <gLTYxg3cC1.A.KjF.nK6AJB@chimera>
 References: <3ZqdCuOdOqB.A.EPE.fJ6AJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Giovanni Pellerano <giovanni.pellerano-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Rene Herman <rene.herman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Rene Herman <rene.herman-cENuUygGYd//D1n+0JDH9g@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,8 +22,12 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11664
-Subject		: acpi errors and random freeze on sony vaio sr
-Submitter	: Giovanni Pellerano <giovanni.pellerano-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-09-28 03:48 (28 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11550
+Subject		: pnp: Huge number of "io resource overlap" messages
+Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Date		: 2008-09-09 10:50 (47 days old)
+References	: http://marc.info/?l=linux-kernel&m=122095745403793&w=4
+Handled-By	: Rene Herman <rene.herman-cENuUygGYd//D1n+0JDH9g@public.gmane.org>
+		  Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=122246533505643&w=4
 
