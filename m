@@ -1,34 +1,38 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11833] 2.6.27-git8 compile error in drivers/mfd/wm8350-core.c
-Date: Sun, 26 Oct 2008 01:13:35 +0200
-Message-ID: <200810260113.35856.rjw@sisk.pl>
-References: <nw2Y6lk-0lG.A.VUB.RV5AJB@chimera> <t1C3RWL0r7M.A.rkC.xV5AJB@chimera> <4903A598.7020706@imap.cc>
+From: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #11404] BUG: in 2.6.23-rc3-git7 in do_cciss_intr
+Date: Sat, 25 Oct 2008 16:24:12 -0700
+Message-ID: <20081025162412.59985815.randy.dunlap@oracle.com>
+References: <3ZqdCuOdOqB.A.EPE.fJ6AJB@chimera>
+	<gLTYxg3cC1.A.lVG.tL6AJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4903A598.7020706-ZTO5kqT2PaM@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <gLTYxg3cC1.A.lVG.tL6AJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Tilman Schmidt <tilman-ZTO5kqT2PaM@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>, "Miller, Mike (OS Dev)" <Mike.Miller-VXdhtT5mjnY@public.gmane.org>
 
-On Sunday, 26 of October 2008, Tilman Schmidt wrote:
-> Rafael J. Wysocki schrieb:
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.27.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11833
-> > Subject		: 2.6.27-git8 compile error in drivers/mfd/wm8350-core.c
-> > Submitter	: Tilman Schmidt <tilman-ZTO5kqT2PaM@public.gmane.org>
-> > Date		: 2008-10-19 18:17 (7 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=122444027920472&w=4
+On Sat, 25 Oct 2008 23:07:47 +0200 (CEST) Rafael J. Wysocki wrote:
+
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.26 and 2.6.27.
 > 
-> Fixed in 2.6.28-rc1 by commit c7752351c34d852ca0da697f812534101eecd82e:
-> mfd: Don't use NO_IRQ in WM8350
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+> be listed and let me know (either way).
 
-Thanks, closed.
+Yes, it should still be listed.
 
-Rafael
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11404
+> Subject		: BUG: in 2.6.23-rc3-git7 in do_cciss_intr
+> Submitter	: rdunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+> Date		: 2008-08-21 5:52 (66 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121929819616273&w=4
+> 		  http://marc.info/?l=linux-kernel&m=121932889105368&w=4
+> Handled-By	: Miller, Mike (OS Dev) <Mike.Miller-VXdhtT5mjnY@public.gmane.org>
+> 		  James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+
+---
+~Randy
