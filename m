@@ -1,69 +1,280 @@
-From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Subject: Re: why differnet wlan drivers need different settings?
-Date: Sat, 25 Oct 2008 22:45:29 +0200
-Message-ID: <200810252245.30279.bug-track@fisher-privat.net>
-References: <200810251153.25533.bug-track@fisher-privat.net> <200810251303.35295.rjw@sisk.pl> <20081025135512.GG19057@tuxdriver.com>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: 2.6.28-rc1-git1: Reported regressions from 2.6.27
+Date: Sat, 25 Oct 2008 22:02:47 +0200 (CEST)
+Message-ID: <nw2Y6lk-0lG.A.VUB.RV5AJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081025135512.GG19057-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-scsi-owner@vger.kernel.org>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-scsi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="utf-8"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
 
-On Saturday 25 October 2008 15:55:12 John W. Linville wrote:
-> On Sat, Oct 25, 2008 at 01:03:34PM +0200, Rafael J. Wysocki wrote:
-> > On Saturday, 25 of October 2008, Alexey Fisher wrote:
-> > > May be this is the wrong plase to ask.
-> >
-> > Yeah, better ask that on linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org (CCed).
-> >
-> > > The question is: Why differnet wlan drivers use different settings to
-> > > stay silent - powered on but not trying to associate to any accespoint?
-> > > For example: ipw2200 - if wlan was connfigured like:
-> > >
-> > > iwconfig wlan1 essid "my-ap" chan 6 ap my:aps:mac ?key s:pass
-> > >
-> > > this will normaly connect to my secure ?AP. and if i set after this:
-> > > ?
-> > > iwconfig wlan1 essid off ap off
-> > >
-> > > it will connect to unsecure AP of my neighbour or of Dr.Evil :)
-> > > to disable association on ipw2200 i need to set all this and plus "chan
-> > > 0". With this cnowleg i want to set up iwl3945, and surprise it's not
-> > > working. This driver do not accepted "chan 0" and instead of "essid
-> > > off" it did "essid """
-> > >
-> > > Are there any unified way to keep adapter powered on but not trying to
-> > > associate to some AP?
->
-> That is from the bad-ole-days.  I could be wrong, but AFAIK only the
-> ipw2x00 drivers do that anyway.  I recently merged a patch to change
-> the default for that for ipw2200 into wireless-testing.  We should
-> probably have one for ipw2100 as well.
->
-> Anyway, there are module options for those.  Add "options ipw2200
-> associate=0" to /etc/modprobe.conf.
+This message contains a list of some regressions from 2.6.27, for which=
+ there
+are no fixes in the mainline I know of.  If any of them have been fixed=
+ already,
+please let me know.
 
-I use associate=0 with smole workaround:
+If you know of any other unresolved regressions from 2.6.27, please let=
+ me know
+either and I'll add them to the list.  Also, please let me know if any =
+of the
+entries below are invalid.
 
-diff --git a/drivers/net/wireless/ipw2200.c b/drivers/net/wireless/ipw2200.c
-index dcce354..92583c6 100644
---- a/drivers/net/wireless/ipw2200.c
-+++ b/drivers/net/wireless/ipw2200.c
-@@ -7582,7 +7582,7 @@ static int ipw_associate(void *data)
- 
- 	if (!(priv->config & CFG_ASSOCIATE) &&
- 	    !(priv->config & (CFG_STATIC_ESSID |
--			      CFG_STATIC_CHANNEL | CFG_STATIC_BSSID))) {
-+			      CFG_STATIC_BSSID))) {
- 		IPW_DEBUG_ASSOC("Not attempting association (associate=0)\n");
- 		return 0;
- 	}
+Each entry from the list will be sent additionally in an automatic repl=
+y to
+this message with CCs to the people involved in reporting and handling =
+the
+issue.
 
-becouse networkmanager do not set channel=0 to be compartibel with other 
-drivers. 
-Are there any better solution?
+
+Listed regressions statistics:
+
+  Date          Total  Pending  Unresolved
+  ----------------------------------------
+  2008-10-25       26       25          20
+
+
+Unresolved regressions
+----------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11854
+Subject		: v2.6.28-rc1: readlink /proc/*/exe returns uninitialized data=
+ to userspace
+Submitter	: Vegard Nossum <vegard.nossum@gmail.com>
+Date		: 2008-10-25 17:14 (1 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122495490201663&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11853
+Subject		: Random problems with 2.6.28-rc1-git1
+Submitter	: Mikko C. <mikko.cal@gmail.com>
+Date		: 2008-10-25 14:53 (1 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122494643521893&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11852
+Subject		: v2.6.28-rc1: Regression in ext3/jbd
+Submitter	: Vegard Nossum <vegard.nossum@gmail.com>
+Date		: 2008-10-25 11:22 (1 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122493379905812&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11849
+Subject		: default IRQ affinity change in v2.6.27 (breaking several SMP=
+ PPC based systems)
+Submitter	: Kumar Gala <galak@kernel.crashing.org>
+Date		: 2008-10-24 12:45 (2 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122485245924125&w=3D=
+4
+Handled-By	: Chris Snook <csnook@redhat.com>
+		  Scott Wood <scottwood@freescale.com>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11848
+Subject		: 2.6.28-rc1: NCQ devices connected to PMP are  still dead
+Submitter	: Petr Vandrovec <vandrove@vc.cvut.cz>
+Date		: 2008-10-25 11:17 (1 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122493470907259&w=3D=
+4
+Handled-By	: Jens Axboe <jens.axboe@oracle.com>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11845
+Subject		: Suspend regression on Lenovo x60
+Submitter	: Jens Axboe <jens.axboe@oracle.com>
+Date		: 2008-10-24 18:02 (2 days old)
+References	: http://marc.info/?l=3Dlinux-next&m=3D122487159829507&w=3D4
+Handled-By	: Rafael J. Wysocki <rjw@sisk.pl>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11841
+Subject		: plenty of line "ACPI: EC: non-query interrupt received, swit=
+ching to interrupt mode" in dmesg
+Submitter	: Fran=C3=A7ois Valenduc <francois.valenduc@tvcablenet.be>
+Date		: 2008-10-25 10:29 (1 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11838
+Subject		: general protection fault: =C2=A0from release_blocks_on_commi=
+t
+Submitter	: Eric Paris <eparis@redhat.com>
+Date		: 2008-10-21 14:03 (5 days old)
+References	: http://lkml.org/lkml/2008/10/21/248
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11835
+Subject		: 2.6.27-git8: max1111_read_channel and corgi_ssp_ads7846_putg=
+et missing
+Submitter	: Pavel Machek <pavel@suse.cz>
+Date		: 2008-10-20 12:10 (6 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122450475101945&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11834
+Subject		: iwl3945: if I leave my machine running overnight, wifi will =
+not work in the morning
+Submitter	: Pavel Machek <pavel@suse.cz>
+Date		: 2008-10-19 21:40 (7 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122445440206101&w=3D=
+4
+Handled-By	: reinette chatre <reinette.chatre@intel.com>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11833
+Subject		: 2.6.27-git8 compile error in drivers/mfd/wm8350-core.c
+Submitter	: Tilman Schmidt <tilman@imap.cc>
+Date		: 2008-10-19 18:17 (7 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122444027920472&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11828
+Subject		: Linux 2.6.27-git3: no SD card reader
+Submitter	: J.A. Magall=C3=B3n <jamagallon@ono.com>
+Date		: 2008-10-14 0:54 (12 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122394573904699&w=3D=
+4
+Handled-By	: Pierre Ossman <drzeus-list@drzeus.cx>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11827
+Subject		: suspend broken on powerbook5,6
+Submitter	: Johannes Berg <johannes@sipsolutions.net>
+Date		: 2008-10-25 05:07 (1 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11826
+Subject		: extreme slowness of IO stuff using 2.6.28-rc1
+Submitter	: Yves-Alexis Perez <corsac@debian.org>
+Date		: 2008-10-25 04:25 (1 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11824
+Subject		: raw1394: possible deadlock if accessed by multithreaded app
+Submitter	: Stefan Richter <stefan-r-bz@s5r6.in-berlin.de>
+Date		: 2008-10-25 02:08 (1 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11822
+Subject		: ACPI Warning (nspredef-0858): _SB_.PCI0.LPC_.EC__.BAT0._BIF:=
+ Return Package type mismatch at index 9 - found Buffer, expected Strin=
+g [20080926]
+Submitter	: Len Brown <len.brown@intel.com>
+Date		: 2008-10-25 01:26 (1 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11806
+Subject		: iwl3945 fails with microcode error
+Submitter	: Johannes Berg <johannes@sipsolutions.net>
+Date		: 2008-10-22 02:36 (4 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122450235730661&w=3D=
+4
+Handled-By	: Reinette Chatre <reinette.chatre@intel.com>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11805
+Subject		: mounting XFS produces a segfault
+Submitter	: Tiago Maluta <maluta_tiago@yahoo.com.br>
+Date		: 2008-10-21 18:00 (5 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11799
+Subject		: xorg can not start up with stolen memory
+Submitter	: arrow zhang <arrow.ebd@gmail.com>
+Date		: 2008-10-21 06:08 (5 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11798
+Subject		: [Radeon Xpress 1100 IGP] DRI fail on recent kernel updates
+Submitter	: Gu Rui <chaos.proton@gmail.com>
+Date		: 2008-10-21 04:28 (5 days old)
+
+
+Regressions with patches
+------------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11851
+Subject		: wmifinfo dockapp takes 100% of cpu
+Submitter	: Carlos R. Mafra <crmafra2@gmail.com>
+Date		: 2008-10-25 9:40 (1 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122492763030453&w=3D=
+4
+Handled-By	: Arjan van de Ven <arjan@linux.intel.com>
+		  Marcin Slusarz <marcin.slusarz@gmail.com>
+Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D122496409612709&w=3D4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11847
+Subject		: 2.6.28-rc1 fails building on allnoconfig
+Submitter	: Matt Mackall <mpm@selenic.com>
+Date		: 2008-10-24 17:09 (2 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122487097728241&w=3D=
+4
+		  http://marc.info/?l=3Dlinux-pci&m=3D122485633732409&w=3D4
+Handled-By	: Fenghua Yu <fenghua.yu@intel.com>
+Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D122487160129531&w=3D4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11846
+Subject		: commit a802dd0e breaks console keyboard input
+Submitter	: walt <w41ter@gmail.com>
+Date		: 2008-10-24 0:09 (2 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122480701528944&w=3D=
+4
+Handled-By	: Heiko Carstens <heiko.carstens@de.ibm.com>
+Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D122487763507703&w=3D4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11844
+Subject		: ext3: fix ext3_dx_readdir hash collision handling
+Submitter	: Markus Trippelsdorf <markus@trippelsdorf.de>
+Date		: 2008-10-25 11:56 (1 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122493582908742&w=3D=
+4
+Handled-By	: Theodore Tso <tytso@mit.edu>
+Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D122493582908742&w=3D4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11825
+Subject		: appletouch broken
+Submitter	: Johannes Berg <johannes@sipsolutions.net>
+Date		: 2008-10-25 03:55 (1 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122433436930451&w=3D=
+4
+Handled-By	: Jiri Slaby <jirislaby@gmail.com>
+		  Jiri Kosina <jkosina@suse.cz>
+Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D122442584100873&w=3D4
+
+
+=46or details, please visit the bug entries and follow the links given =
+in
+references.
+
+As you can see, there is a Bugzilla entry for each of the listed regres=
+sions.
+There also is a Bugzilla entry used for tracking the regressions from 2=
+=2E6.27,
+unresolved as well as resolved, at:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=3D11808
+
+Please let me know if there are any Bugzilla entries that should be add=
+ed to
+the list in there.
+
+Thanks,
+Rafael
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-scsi" i=
+n
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
