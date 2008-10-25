@@ -1,21 +1,20 @@
 From: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #11404] BUG: in 2.6.23-rc3-git7 in do_cciss_intr
-Date: Sat, 25 Oct 2008 16:24:12 -0700
-Message-ID: <20081025162412.59985815.randy.dunlap@oracle.com>
-References: <3ZqdCuOdOqB.A.EPE.fJ6AJB@chimera>
-	<gLTYxg3cC1.A.lVG.tL6AJB@chimera>
+Subject: Re: [Bug #11504] reiserfs =?ISO-8859-1?Q?=3F=3F=3F=3FBUG_in_?=
+ =?ISO-8859-1?Q?2=2E6=2E27-rc5?=
+Date: Sat, 25 Oct 2008 16:55:43 -0700
+Message-ID: <4903B1FF.8060202@oracle.com>
+References: <3ZqdCuOdOqB.A.EPE.fJ6AJB@chimera> <gLTYxg3cC1.A.Z_F.-K6AJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <gLTYxg3cC1.A.lVG.tL6AJB@chimera>
+In-Reply-To: <gLTYxg3cC1.A.Z_F.-K6AJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>, "Miller, Mike (OS Dev)" <Mike.Miller-VXdhtT5mjnY@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sat, 25 Oct 2008 23:07:47 +0200 (CEST) Rafael J. Wysocki wrote:
-
+Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of regressions introduced between 2.6.26 and 2.6.27.
 > 
@@ -23,16 +22,17 @@ On Sat, 25 Oct 2008 23:07:47 +0200 (CEST) Rafael J. Wysocki wrote:
 > introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 > be listed and let me know (either way).
 
-Yes, it should still be listed.
+I believe this to be a valid bug report, but there doesn't appear to be
+anyone to be interested in working on it.  It can be killed off.
+I no longer care about it.
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11404
-> Subject		: BUG: in 2.6.23-rc3-git7 in do_cciss_intr
-> Submitter	: rdunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-> Date		: 2008-08-21 5:52 (66 days old)
-> References	: http://marc.info/?l=linux-kernel&m=121929819616273&w=4
-> 		  http://marc.info/?l=linux-kernel&m=121932889105368&w=4
-> Handled-By	: Miller, Mike (OS Dev) <Mike.Miller-VXdhtT5mjnY@public.gmane.org>
-> 		  James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
 
----
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11504
+> Subject		: reiserfs  BUG in 2.6.27-rc5
+> Submitter	: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+> Date		: 2008-09-03 16:35 (53 days old)
+> References	: http://marc.info/?l=linux-kernel&m=122045982120138&w=4
+
+
+-- 
 ~Randy
