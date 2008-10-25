@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11608] 2.6.27-rc6 BUG: unable to handle kernel paging request
-Date: Sat, 25 Oct 2008 23:07:50 +0200 (CEST)
-Message-ID: <gLTYxg3cC1.A.MNF.TK6AJB@chimera>
+Subject: [Bug #11699] 2.6.27-rc-7: BUG: scheduling while atomic, c1e_idle+0x98/0xe0
+Date: Sat, 25 Oct 2008 23:07:51 +0200 (CEST)
+Message-ID: <gLTYxg3cC1.A.j8E.5J6AJB@chimera>
 References: <3ZqdCuOdOqB.A.EPE.fJ6AJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, John Daiker <daikerjohn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Prakash Punnoor <prakash-HU31jPUvoIKELgA04lAiVw@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,9 +22,10 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11608
-Subject		: 2.6.27-rc6 BUG: unable to handle kernel paging request
-Submitter	: John Daiker <daikerjohn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-09-16 23:00 (40 days old)
-References	: http://marc.info/?l=linux-kernel&m=122160611517267&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11699
+Subject		: 2.6.27-rc-7: BUG: scheduling while atomic, c1e_idle+0x98/0xe0
+Submitter	: Prakash Punnoor <prakash-HU31jPUvoIKELgA04lAiVw@public.gmane.org>
+Date		: 2008-09-28 17:45 (28 days old)
+References	: http://marc.info/?l=linux-kernel&m=122262403415629&w=4
+Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
