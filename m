@@ -1,21 +1,39 @@
-From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Subject: Re: [Bug #11550] pnp: Huge number of "io resource overlap" messages
-Date: Sun, 26 Oct 2008 17:43:47 +0100
-Message-ID: <200810261743.48073.elendil@planet.nl>
-References: <3ZqdCuOdOqB.A.EPE.fJ6AJB@chimera> <gLTYxg3cC1.A.KjF.nK6AJB@chimera>
+From: Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #11669] when CPU hotplugging is disabled, nr_cpu_ids does
+ not get set properly during boot
+Date: Sun, 26 Oct 2008 18:00:52 -0400
+Message-ID: <20081026180052.414c7d66@redhat.com>
+References: <3ZqdCuOdOqB.A.EPE.fJ6AJB@chimera>
+	<gLTYxg3cC1.A.BHF.EK6AJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <gLTYxg3cC1.A.KjF.nK6AJB@chimera>
-Content-Disposition: inline
+In-Reply-To: <gLTYxg3cC1.A.BHF.EK6AJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, Rene Herman <rene.herman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Rene Herman <rene.herman-cENuUygGYd//D1n+0JDH9g@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Saturday 25 October 2008, Rafael J. Wysocki wrote:
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11550
-> Subject	: pnp: Huge number of "io resource overlap" messages
+On Sat, 25 Oct 2008 23:07:50 +0200 (CEST)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-AFAIK the issue should still be listed.
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.26 and 2.6.27.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11669
+> Subject		: when CPU hotplugging is disabled, nr_cpu_ids does not get set properly during boot
+> Submitter	: Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Date		: 2008-09-29 11:40 (27 days old)
+> References	: http://bugzilla.kernel.org/show_bug.cgi?id=11669
+> Handled-By	: Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Patch		: http://bugzilla.kernel.org/attachment.cgi?id=18105
+> 
+> 
+
+Fixed by commit 14adf855baefad5ac3b545be23a64e6b61d6b74a
