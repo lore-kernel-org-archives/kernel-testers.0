@@ -1,36 +1,79 @@
-From: Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #11838] general protection fault:
- =?ISO-8859-1?Q?=A0from?= release_blocks_on_commit
-Date: Mon, 27 Oct 2008 13:51:07 -0400
-Message-ID: <1225129867.3274.1.camel@localhost.localdomain>
-References: <nw2Y6lk-0lG.A.VUB.RV5AJB@chimera>
-	 <t1C3RWL0r7M.A.wXC.qV5AJB@chimera>
+From: Eric Anholt <eric@anholt.net>
+Subject: Re: 2.6.28-rc1: [drm:i915] *ERROR* ... Disabling tiling
+Date: Mon, 27 Oct 2008 11:00:22 -0700
+Message-ID: <1225130422.4845.35.camel@gaiman.anholt.net>
+References: <4905CFC3.1060907@tuffmail.co.uk>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <t1C3RWL0r7M.A.wXC.qV5AJB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: multipart/signed; micalg=pgp-sha1; protocol="application/pgp-signature"; boundary="=-/62sOKFmvuQ/K+Lrjgu5"
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752924AbYJ0SAb@vger.kernel.org>
+In-Reply-To: <4905CFC3.1060907@tuffmail.co.uk>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, sandeen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
+Cc: dri-devel@lists.sourceforge.net, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
 
-On Sat, 2008-10-25 at 22:06 +0200, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.27.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11838
-> Subject		: general protection fault:  from release_blocks_on_commit
-> Submitter	: Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> Date		: 2008-10-21 14:03 (5 days old)
-> References	: http://lkml.org/lkml/2008/10/21/248
 
-Pulled from Linus's git today so it is a 2.6.28-rc2+ kernel and this is
-still a regression I was able to hit.
+--=-/62sOKFmvuQ/K+Lrjgu5
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
--Eric
+On Mon, 2008-10-27 at 14:27 +0000, Alan Jenkins wrote:
+> What does this mean, should I do anything about it?  Is tiling nice to ha=
+ve?
+>=20
+> It sounds like GEM broke something - though maybe it just added a more=20
+> verbose error report.
+>=20
+> System: EeePC 701
+> Kernel: v2.6.36-rc1-5-g23cf24c
+> Chipset: Intel mobile 915G-something
+> Regretably necessary kernel boot option: noapic
+>=20
+>=20
+> [    1.438441] Linux agpgart interface v0.103
+> [    1.438441] agpgart-intel 0000:00:00.0: Intel 915GM Chipset
+> [    1.438441] agpgart-intel 0000:00:00.0: detected 7932K stolen memory
+> [    1.443353] agpgart-intel 0000:00:00.0: AGP aperture is 256M @ 0xd0000=
+000
+> [    1.443353] [drm] Initialized drm 1.1.0 20060810
+> [    1.443353] pci 0000:00:02.0: PCI INT A -> Link[LNKA] -> GSI 5=20
+> (level, low) -> IRQ 5
+> [    1.443353] pci 0000:00:02.0: setting latency timer to 64
+> [    1.443353] [drm:i915_gem_detect_bit_6_swizzle] *ERROR* Couldn't read=20
+> from MCHBAR.  Disabling
+> tiling.
+
+This means that something went wrong with our detection of the
+CPU-versus-GPU tiling swizzling mode, and object tiling under GEM will
+be disabled as a result.  I should get access to an eee 7xx on Thursday
+to see what's up with it -- it's supposed to be just a normal 915gm as
+far as I know.
+
+> [    1.443353] [drm:i915_driver_load]o  *ERROR* failed to enable MSI
+
+Looks like we emit the error message even if your chipset doesn't
+support MSI.  That's a mistake, I'll get it cleaned up.
+
+(MSI didn't actually get supported for integrated graphics until the
+G965 for the desktop and GM45 for mobile, though it got supported for
+ethernet and PEG earlier than that)
+
+--=20
+Eric Anholt
+eric@anholt.net                         eric.anholt@intel.com
+
+
+
+--=-/62sOKFmvuQ/K+Lrjgu5
+Content-Type: application/pgp-signature; name=signature.asc
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEABECAAYFAkkGAbYACgkQHUdvYGzw6vcElwCdGnROr7hWRAs1sO1J9mRzDqaO
+TIcAnjZ7XMKvMn0WPNB+HIjvyBRv6tcw
+=dlbC
+-----END PGP SIGNATURE-----
+
+--=-/62sOKFmvuQ/K+Lrjgu5--
