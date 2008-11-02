@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11569] Panic stop CPUs regression
-Date: Sun,  2 Nov 2008 17:49:35 +0100 (CET)
-Message-ID: <4xS1r6m15_B.A.qdB.0veDJB@chimera>
+Subject: [Bug #11836] Scheduler on C2D CPU and latest 2.6.27 kernel
+Date: Sun,  2 Nov 2008 17:49:37 +0100 (CET)
+Message-ID: <4xS1r6m15_B.A.xe.-ueDJB@chimera>
 References: <Sl8SUNhCbfL.A.O5H.yueDJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Snook <csnook-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,9 +22,10 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11569
-Subject		: Panic stop CPUs regression
-Submitter	: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Date		: 2008-09-02 13:49 (62 days old)
-References	: http://marc.info/?l=linux-kernel&m=122036356127282&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11836
+Subject		: Scheduler on C2D CPU and latest 2.6.27 kernel
+Submitter	: Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-10-21 9:59 (13 days old)
+References	: http://marc.info/?l=linux-kernel&m=122458320502371&w=4
+Handled-By	: Chris Snook <csnook-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
