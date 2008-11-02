@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11901] ath5k triggers WARN_ON in __ieee80211_rx
-Date: Sun,  2 Nov 2008 17:07:05 +0100 (CET)
-Message-ID: <wOAXuecskPD.A.HfF.GkeDJB@chimera>
+Subject: [Bug #11906] 2.6.28-rc2 seems to fail at powering down the monitor when it should
+Date: Sun,  2 Nov 2008 17:07:06 +0100 (CET)
+Message-ID: <wOAXuecskPD.A.IJF.AkeDJB@chimera>
 References: <603i_OdVYPF.A.7_D.mjeDJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gene Heskett <gene.heskett-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,9 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11901
-Subject		: ath5k triggers WARN_ON in __ieee80211_rx
-Submitter	: Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>
-Date		: 2008-10-30 09:15 (4 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11906
+Subject		: 2.6.28-rc2 seems to fail at powering down the monitor when it should
+Submitter	: Gene Heskett <gene.heskett-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-10-30 6:39 (4 days old)
+References	: http://marc.info/?l=linux-kernel&m=122534879721424&w=4
 
