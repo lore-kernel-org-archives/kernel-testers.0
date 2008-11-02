@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11908] linux-2.6.28-rc2 regression : oprofile doesnt work anymore
-Date: Sun,  2 Nov 2008 17:07:06 +0100 (CET)
-Message-ID: <wOAXuecskPD.A.lEF._jeDJB@chimera>
+Subject: [Bug #11917] Asus Eee PC hotkeys stop working after prolonged usage
+Date: Sun,  2 Nov 2008 17:07:07 +0100 (CET)
+Message-ID: <wOAXuecskPD.A.nlE.0jeDJB@chimera>
 References: <603i_OdVYPF.A.7_D.mjeDJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>, Jesper Dangaard Brouer <hawk-4UpuNZONu4c@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11908
-Subject		: linux-2.6.28-rc2 regression : oprofile doesnt work anymore
-Submitter	: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
-Date		: 2008-10-30 18:01 (4 days old)
-References	: http://marc.info/?l=linux-kernel&m=122539004100532&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11917
+Subject		: Asus Eee PC hotkeys stop working after prolonged usage
+Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Date		: 2008-10-31 03:21 (3 days old)
+Handled-By	: Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>
+Patch		: http://bugzilla.kernel.org/attachment.cgi?id=18558&action=view
 
