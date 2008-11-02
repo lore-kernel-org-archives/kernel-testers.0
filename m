@@ -1,47 +1,56 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11940] Unable to handle kernel paging request at iov_iter_copy_from_user_atomic
-Date: Sun, 2 Nov 2008 22:13:38 +0100
-Message-ID: <200811022213.38796.rjw@sisk.pl>
-References: <603i_OdVYPF.A.7_D.mjeDJB@chimera> <wOAXuecskPD.A.yGE.qjeDJB@chimera> <20081102.130409.86443785.davem@davemloft.net>
+From: "Vegard Nossum" <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11854] v2.6.28-rc1: readlink /proc/*/exe returns uninitialized data to userspace
+Date: Sun, 2 Nov 2008 22:09:24 +0100
+Message-ID: <19f34abd0811021309u341b0512x2220720176011e78@mail.gmail.com>
+References: <603i_OdVYPF.A.7_D.mjeDJB@chimera>
+	 <wOAXuecskPD.A.dhG.lkeDJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081102.130409.86443785.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=9BQYX6biC0laKjzc0eumOCvaLiurFKNPUj2yhfheTlw=;
+        b=kglyuzXxt2VWU0UhP3cVqg+JsdDPSOoUvm2rB7/I6z/vnvR5lbwQysKUfZjC6XWMvx
+         jjnBOWv7oSing2Va6icyZooh69Kh7ecDvqkOFTcjcQ86lsTW2M4zfQjKhwtR0nz1eyQG
+         r0D7zpn+yptAIQyyGrgvOrcn1ZpGaBeNRb6zQ=
+In-Reply-To: <wOAXuecskPD.A.dhG.lkeDJB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sunday, 2 of November 2008, David Miller wrote:
-> From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-> Date: Sun,  2 Nov 2008 17:07:10 +0100 (CET)
-> 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11940
-> > Subject		: Unable to handle kernel paging request at iov_iter_copy_from_user_atomic
-> > Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2008-11-01 14:23 (2 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=122554945922521&w=4
-> > Handled-By	: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
-> > Patch		: http://marc.info/?l=linux-kernel&m=122556602913200&w=4
-> 
-> Patch is now in Linus's tree:
-> 
-> commit 145e1c0023585e0e8f6df22316308ec61c5066b2
-> Author: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
-> Date:   Sat Nov 1 21:41:40 2008 -0700
-> 
->     sparc64: Fix __copy_{to,from}_user_inatomic defines.
->     
->     Alexander Beregalov reports oops in __bzero() called from
->     copy_from_user_fixup() called from iov_iter_copy_from_user_atomic(),
->     when running dbench on tmpfs on sparc64: its __copy_from_user_inatomic
->     and __copy_to_user_inatomic should be avoiding, not calling, the fixups.
->     
->     Signed-off-by: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
->     Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+On Sun, Nov 2, 2008 at 5:07 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.27.  Please verify if it still should be listed and let me know
+> (either way).
+>
+>
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=11854
+> Subject         : v2.6.28-rc1: readlink /proc/*/exe returns uninitialized data to userspace
+> Submitter       : Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date            : 2008-10-25 17:14 (9 days old)
+> References      : http://marc.info/?l=linux-kernel&m=122495490201663&w=4
 
-Thanks, closed.
+Been trying to reproduce this one since I saw it, and I think it can
+be written off as can't reproduce :-(
 
-Rafael
+Maybe I can contribute a patch that verifies that the return value ==
+strlen(buffer), WARN_ON otherwise? And hope that somebody runs into
+it.
+
+
+Vegard
+
+-- 
+"The animistic metaphor of the bug that maliciously sneaked in while
+the programmer was not looking is intellectually dishonest as it
+disguises that the error is the programmer's own creation."
+	-- E. W. Dijkstra, EWD1036
