@@ -1,28 +1,34 @@
-From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: [Bug #11805] mounting XFS produces a segfault
-Date: Mon, 3 Nov 2008 04:32:28 -0500
-Message-ID: <20081103093228.GA3485@infradead.org>
-References: <Sl8SUNhCbfL.A.O5H.yueDJB@chimera> <4xS1r6m15_B.A.m8.KveDJB@chimera>
+From: Giovanni Pellerano <giovanni.pellerano-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11664] acpi errors and random freeze on sony vaio sr
+Date: Mon, 03 Nov 2008 11:14:21 +0100
+Message-ID: <490ECEFD.8000409@gmail.com>
+References: <Sl8SUNhCbfL.A.O5H.yueDJB@chimera> <4xS1r6m15_B.A.xNB.iveDJB@chimera> <490DF64C.1090104@gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <4xS1r6m15_B.A.m8.KveDJB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :x-enigmail-version:content-type:content-transfer-encoding:sender;
+        bh=2Jq8klt0DGs6rIwimAiRbk1K3TMNSJSFZ3qzUovsPtc=;
+        b=D975kzjeQEGp1wFHTtUK/OVOBjnD/ny03wnbhRgA0dh2pMwVemD0BydQ4KnQAZN43U
+         Vu4dA8LPcPRZkCURa3BoHP0cFonw5BoWQO3plTo2eUcg2X6OKpTLtFKWCzzXxexMf+CS
+         pQ8v9XtMedjiaptt5ooXLmSw9nf1mPcrjmcRQ=
+In-Reply-To: <490DF64C.1090104-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Chinner <dgc-sJ/iWh9BUns@public.gmane.org>, Tiago Maluta <maluta_tiago-/E1597aS9LRfJ/NunPodnw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sun, Nov 02, 2008 at 05:49:36PM +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.26 and 2.6.27.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.26 and 2.6.27.  Please verify if it still should
-> be listed and let me know (either way).
+With a random factor i also get this:
 
-The patch is in the XFS development tree.  Given that the maintainers
-didn't manage to get it into the merge window it might make sense to
-submit this fix individually.  Dave, what do you think about sending
-this patch out directly to Linus?
+ACPI Error (evevent-0303): No installed handler for fixed event
+[00000002] [20080926]
+
+
+
+and the acpi stop handling all events, like powerbutton and other;
+
+any assumptions?
