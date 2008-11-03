@@ -1,48 +1,59 @@
-From: Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #11543] kernel panic: softlockup in tick_periodic() ???
-Date: Mon, 3 Nov 2008 10:22:51 +0300
-Message-ID: <20081103072251.GA16459@localhost>
-References: <Sl8SUNhCbfL.A.O5H.yueDJB@chimera> <4xS1r6m15_B.A.93B.LweDJB@chimera>
+From: "Tomas Winkler" <tomasw-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11845] Suspend regression on Lenovo x60
+Date: Mon, 3 Nov 2008 11:04:29 +0200
+Message-ID: <1ba2fa240811030104w3ebc3acfs2e1a135457a1bade@mail.gmail.com>
+References: <603i_OdVYPF.A.7_D.mjeDJB@chimera>
+	 <wOAXuecskPD.A.3LH.0keDJB@chimera>
+	 <20081102220758.GA14374@localhost.aei.mpg.de>
+	 <200811030055.22645.rjw@sisk.pl>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:received:date:from:to:cc
-         :subject:message-id:references:mime-version:content-type
-         :content-disposition:in-reply-to:user-agent;
-        bh=Am8YQOl2DOtVEs3bAWAc/YWAYcCsukK6PVeVq/nU4KU=;
-        b=IeXIohnJTujkNNnAiyo8F8heP7H7R1tn2IcR39OzI6h6mTA2NhXPQhQ9qRJbGlwx+W
-         jKe85QwUd2j/ZQdNc9+A86b8xIphHFSC8WahNGhOrwjRlPin1WZf4/V2WpywfniYDVpB
-         i7/Mjw74g9WSvbLvj/zIvXWW3ftPxe8+0UkXg=
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=Fd9u/ZWbm4xuOqmeqCwFufMm4C5bxvOqFApA9fVhD5c=;
+        b=w9FiodIKwId2M1WDpvvJ8Z7cjVJ+H/ub/ILgNv0npALiJb5E278CRlAwE6rgmOYVcr
+         +TMTDND95YRkfH3r2PuAp55NuSl64wR4r/HqQZKf4hSGvh9X5sUm1WW9Cnz5j/QDno8w
+         at0X5R0VZC8Gu1CMvSbzrm5TfsTSba72AXomI=
+In-Reply-To: <200811030055.22645.rjw-KKrjLPT3xs0@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <4xS1r6m15_B.A.93B.LweDJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Cc: "Carlos R. Mafra" <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
-[Rafael J. Wysocki - Sun, Nov 02, 2008 at 05:49:34PM +0100]
-| This message has been generated automatically as a part of a report
-| of regressions introduced between 2.6.26 and 2.6.27.
-| 
-| The following bug entry is on the current list of known regressions
-| introduced between 2.6.26 and 2.6.27.  Please verify if it still should
-| be listed and let me know (either way).
-| 
-| 
-| Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11543
-| Subject		: kernel panic: softlockup in tick_periodic() ???
-| Submitter	: Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>
-| Date		: 2008-09-11 16:46 (53 days old)
-| References	: http://marc.info/?l=linux-kernel&m=122117786124326&w=4
-| Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-| 		  Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-| 		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-| 
-| 
+On Mon, Nov 3, 2008 at 1:55 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> On Sunday, 2 of November 2008, Carlos R. Mafra wrote:
+>> On Sun  2.Nov'08 at 17:07:01 +0100, Rafael J. Wysocki wrote:
+>> > This message has been generated automatically as a part of a report
+>> > of recent regressions.
+>> >
+>> > The following bug entry is on the current list of known regressions
+>> > from 2.6.27.  Please verify if it still should be listed and let me know
+>> > (either way).
+>> >
+>> >
+>> > Bug-Entry   : http://bugzilla.kernel.org/show_bug.cgi?id=11845
+>> > Subject             : Suspend regression on Lenovo x60
+>> > Submitter   : Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+>> > Date                : 2008-10-24 18:02 (10 days old)
+>> > References  : http://marc.info/?l=linux-next&m=122487159829507&w=4
+>> >               http://marc.info/?l=linux-kernel&m=122512449714310&w=4
+>> > Handled-By  : Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+>> >               Tomas Winkler <tomasw-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> > Patch               : http://marc.info/?l=linux-kernel&m=122513311900482&w=4
+>> >               http://marc.info/?l=linux-wireless&m=122518625308673&w=4
+>>
+>> It is fixed by commit 10d0bd56966571d0324dfd9bbb8aa913a60bef5f which
+>> is now in Linus' tree.
+>
+> Thanks, closed.
 
-Still in progress
-
-		- Cyrill -
+Is this queued  also for 2.6.27 stable ? My email was bounced back
+I've used linux-stable-4mT8j8lBKmdzeIdxy0IIJw@public.gmane.org
+Thanks
+Tomas
