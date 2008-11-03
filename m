@@ -1,34 +1,40 @@
-From: Giovanni Pellerano <giovanni.pellerano-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #11664] acpi errors and random freeze on sony vaio sr
-Date: Mon, 03 Nov 2008 11:14:21 +0100
-Message-ID: <490ECEFD.8000409@gmail.com>
-References: <Sl8SUNhCbfL.A.O5H.yueDJB@chimera> <4xS1r6m15_B.A.xNB.iveDJB@chimera> <490DF64C.1090104@gmail.com>
+From: Ben Hutchings <bhutchings@solarflare.com>
+Subject: Re: [Bug #11894] 2.6.28-rc2 / hso driver oops
+Date: Mon, 03 Nov 2008 12:25:53 +0000
+Message-ID: <1225715153.7983.4.camel@achroite>
+References: <603i_OdVYPF.A.7_D.mjeDJB@chimera>
+	 <wOAXuecskPD.A.KvF.RkeDJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :x-enigmail-version:content-type:content-transfer-encoding:sender;
-        bh=2Jq8klt0DGs6rIwimAiRbk1K3TMNSJSFZ3qzUovsPtc=;
-        b=D975kzjeQEGp1wFHTtUK/OVOBjnD/ny03wnbhRgA0dh2pMwVemD0BydQ4KnQAZN43U
-         Vu4dA8LPcPRZkCURa3BoHP0cFonw5BoWQO3plTo2eUcg2X6OKpTLtFKWCzzXxexMf+CS
-         pQ8v9XtMedjiaptt5ooXLmSw9nf1mPcrjmcRQ=
-In-Reply-To: <490DF64C.1090104-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755317AbYKCM0U@vger.kernel.org>
+In-Reply-To: <wOAXuecskPD.A.KvF.RkeDJB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jonathan McDowell <noodles@earth.li>
 
-With a random factor i also get this:
+On Sun, 2008-11-02 at 17:07 +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.27.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11894
+> Subject		: 2.6.28-rc2 / hso driver oops
+> Submitter	: Jonathan McDowell <noodles@earth.li>
+> Date		: 2008-10-29 16:40 (5 days old)
+> References	: http://marc.info/?l=linux-kernel&m=122529846811013&w=4
+> Handled-By	: Ben Hutchings <bhutchings@solarflare.com>
 
-ACPI Error (evevent-0303): No installed handler for fixed event
-[00000002] [20080926]
+I decoded the oops.  Jonathan has been fixing it himself.
 
+Ben.
 
-
-and the acpi stop handling all events, like powerbutton and other;
-
-any assumptions?
+-- 
+Ben Hutchings, Senior Software Engineer, Solarflare Communications
+Not speaking for my employer; that's the marketing department's job.
+They asked us to note that Solarflare product names are trademarked.
