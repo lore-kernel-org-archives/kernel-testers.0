@@ -1,51 +1,40 @@
-From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Subject: Re: why differnet wlan drivers need different settings?
-Date: Mon, 03 Nov 2008 23:28:06 +0100
-Message-ID: <1225751286.8131.9.camel@zwerg>
-References: <200810251153.25533.bug-track@fisher-privat.net>
-	 <200810251303.35295.rjw@sisk.pl> <20081025135512.GG19057@tuxdriver.com>
-	 <200810252245.30279.bug-track@fisher-privat.net>
-	 <1225124023.13499.40.camel@localhost.localdomain>
-	 <1225747524.21347.2.camel@localhost.localdomain>
+From: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Subject: Re: [Bug #11876] RCU hang on cpu re-hotplug with 2.6.27rc8
+Date: Tue, 4 Nov 2008 08:40:52 -0800
+Message-ID: <20081104164052.GA8499@linux.vnet.ibm.com>
+References: <Sl8SUNhCbfL.A.O5H.yueDJB@chimera> <4xS1r6m15_B.A.dU.7ueDJB@chimera>
+Reply-To: paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1225747524.21347.2.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <4xS1r6m15_B.A.dU.7ueDJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Dan Williams <dcbw-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 
-Am Montag, den 03.11.2008, 16:25 -0500 schrieb Dan Williams:
-
-> Ping; could you submit the patch with the proper signed-off-by
-> statement?
+On Sun, Nov 02, 2008 at 05:49:38PM +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.26 and 2.6.27.
 > 
-> Thanks!
-> Dan
-Sorry didn't thought it was to me.
-i did't had a time to find how to supply patch with git .. i think it
-should be some thing with git-diff and git-formate-mail.. is it?
-Can you please write how to do it correctly, i really do not haw time to
-find it out now. 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11876
+> Subject		: RCU hang on cpu re-hotplug with 2.6.27rc8
+> Submitter	: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+> Date		: 2008-10-06 23:28 (28 days old)
+> References	: http://marc.info/?l=linux-kernel&m=122333610602399&w=2
+> Handled-By	: Paul E. McKenney <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 
-signed-off-by: Alexey Fisher
+Hallo, Andi,
 
-diff --git a/drivers/net/wireless/ipw2200.c
-b/drivers/net/wireless/ipw2200.c
-index dcce354..d26beed 100644
---- a/drivers/net/wireless/ipw2200.c
-+++ b/drivers/net/wireless/ipw2200.c
-@@ -7581,8 +7581,7 @@ static int ipw_associate(void *data)
- 	}
- 
- 	if (!(priv->config & CFG_ASSOCIATE) &&
--	    !(priv->config & (CFG_STATIC_ESSID |
--			      CFG_STATIC_CHANNEL | CFG_STATIC_BSSID))) {
-+	    !(priv->config & (CFG_STATIC_ESSID | CFG_STATIC_BSSID))) {
- 		IPW_DEBUG_ASSOC("Not attempting association (associate=0)\n");
- 		return 0;
- 	}
+Last I heard, the act of enabling CONFIG_RCU_CPU_STALL_DETECTOR
+reduced the problem from a hang to a 3-second grace period.  How
+are things going with this now?
 
-
+						Thanx, Paul
