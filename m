@@ -1,73 +1,37 @@
-From: Andreas Mohr <andi@lisas.de>
-Subject: Re: Bugs on aspire one A150
-Date: Sun, 9 Nov 2008 21:09:29 +0100
-Message-ID: <20081109200929.GA29333@rhlx01.hs-esslingen.de>
-References: <s5h3ai11dpt.wl%tiwai@suse.de>
-	<20081109151323.GA18705@rhlx01.hs-esslingen.de>
-	<s5h7i7c916e.wl%tiwai@suse.de>
+From: "J. Bruce Fields" <bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org>
+Subject: Re: [Bug #11985] 2.6.28-rc3 truncates nfsd results
+Date: Sun, 9 Nov 2008 16:05:56 -0500
+Message-ID: <20081109210556.GF27376@fieldses.org>
+References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <wnN9HICUAgP.A.DUF.W4zFJB@chimera>
 Mime-Version: 1.0
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <wnN9HICUAgP.A.DUF.W4zFJB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <alsa-devel-bounces@alsa-project.org>
-Content-Disposition: inline
-In-Reply-To: <s5h7i7c916e.wl%tiwai@suse.de>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <http://mailman.alsa-project.org/mailman/listinfo/alsa-devel>, 
-	<mailto:alsa-devel-request@alsa-project.org?subject=unsubscribe>
-List-Archive: <http://mailman.alsa-project.org/pipermail/alsa-devel>
-List-Post: <mailto:alsa-devel@alsa-project.org>
-List-Help: <mailto:alsa-devel-request@alsa-project.org?subject=help>
-List-Subscribe: <http://mailman.alsa-project.org/mailman/listinfo/alsa-devel>, 
-	<mailto:alsa-devel-request@alsa-project.org?subject=subscribe>
-Sender: alsa-devel-bounces@alsa-project.org
-Errors-To: alsa-devel-bounces@alsa-project.org
-To: Takashi Iwai <tiwai@suse.de>
-Cc: alsa-devel@alsa-project.org, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-kernel@vger.kernel.org, Andreas Mohr <andi@lisas.de>, Maxim Levitsky <maximlevitsky@gmail.com>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Doug Nazar <nazard-9NxrcwDPlTov2OKnPYDugg@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
 
-On Sun, Nov 09, 2008 at 07:58:17PM +0100, Takashi Iwai wrote:
-> At Sun, 9 Nov 2008 16:13:23 +0100,
-> Andreas Mohr wrote:
-> > OK, _THIS_ time I actually did get the correct model (last time I tried
-> > modprobe with model=acer-aspire, but apparently it then used the
-> > /etc/modprobe.d/ model=toshiba setting, since this time gamix showed
-> > entirely different controls with i-Mic etc.) - all the more reason to
-> > log the model name chosen/selected by the driver!!
+On Sun, Nov 09, 2008 at 06:59:15PM +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
-> Build with the debug option (why turned off even if you *are*
-> debugging?).  Then the driver will show you details.
-
-Hmm, right, that would have been an (very useful) option, but not for the
-majority of users OTOH.
-Especially since this is a user-visible module parameter which should thus
-be confirmed in mainstream user code, via logging.
-Admittedly not many modules log their settings during startup,
-but for snd_hda_intel with its two myriads of codec/machine variants
-and a resulting quarter myriad of issues that would be very useful.
-
-> > --> I have to admit that usability sucks^Hcould be a lot better.
+> The following bug entry is on the current list of known regressions
+> from 2.6.27.  Please verify if it still should be listed and let me know
+> (either way).
 > 
-> One would call it rather debuggability than usability.
-> These are completely different things.
-
-See above ;)
-
-> > i-Mic on Ekiga with lotsa mixer fiddling didn't work either this time.
 > 
-> OK, then something is missing.  But you should test by arecord first
-> than any complicated applications as a primary test.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11985
+> Subject		: 2.6.28-rc3 truncates nfsd results
+> Submitter	: Doug Nazar <nazard-9NxrcwDPlTov2OKnPYDugg@public.gmane.org>
+> Date		: 2008-11-04 18:27 (6 days old)
+> References	: http://marc.info/?l=linux-kernel&m=122582366509153&w=4
+> Handled-By	: Doug Nazar <nazard-9NxrcwDPlTov2OKnPYDugg@public.gmane.org>
+> 		  J. Bruce Fields <bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org>
+> Patch		: http://marc.info/?l=linux-kernel&m=122592648119790&w=4
 
-Good point, will do.
+The above patch has just been submitted to Linus.
 
-Oh, and is there a way to manually alter codec registers?
-
-> Anyway, the acer-aspire support code was written by Realtek guys, so
-> it'd be best to ask them...
-
-Indeed, and far too late (they have submitted it in September I think)
-for guaranteeing non-problematic hardware behaviour...
-(I'd guesstimate the Realtek submission to be based on Acer activity)
-Anyway, still very nice to see that companies do submit patches after all.
-
-Thanks,
-
-Andreas
+--b.
