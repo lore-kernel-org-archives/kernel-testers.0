@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11264] Invalid op opcode in kernel/workqueue
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #11215] INFO: possible recursive locking detected ps2_command
 Date: Sun,  9 Nov 2008 20:43:17 +0100 (CET)
-Message-ID: <4B0Eqx89uNG.A.PPE.Ud1FJB@chimera>
+Message-ID: <4B0Eqx89uNG.A.vaE.5d1FJB@chimera>
 References: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757174AbYKIVjp@vger.kernel.org>
 In-Reply-To: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alistair Strachan <alistair-T7eSMZptz7IqdlJmJB21zg@public.gmane.org>, Jean-Luc Coulon <jean.luc.coulon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Zdenek Kabelac <zdenek.kabelac@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,8 +22,9 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11264
-Subject		: Invalid op opcode in kernel/workqueue
-Submitter	: Jean-Luc Coulon <jean.luc.coulon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-08-07 04:18 (95 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11215
+Subject		: INFO: possible recursive locking detected ps2_command
+Submitter	: Zdenek Kabelac <zdenek.kabelac@gmail.com>
+Date		: 2008-07-31 9:41 (102 days old)
+References	: http://marc.info/?l=linux-kernel&m=121749737011637&w=4
 
