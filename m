@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11543] kernel panic: softlockup in tick_periodic() ???
-Date: Sun,  9 Nov 2008 20:43:19 +0100 (CET)
-Message-ID: <4B0Eqx89uNG.A.ZND.0a1FJB@chimera>
+Subject: [Bug #11608] 2.6.27-rc6 BUG: unable to handle kernel paging request
+Date: Sun,  9 Nov 2008 20:43:20 +0100 (CET)
+Message-ID: <4B0Eqx89uNG.A.62C.Za1FJB@chimera>
 References: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, John Daiker <daikerjohn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,13 +22,9 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11543
-Subject		: kernel panic: softlockup in tick_periodic() ???
-Submitter	: Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>
-Date		: 2008-09-11 16:46 (60 days old)
-References	: http://marc.info/?l=linux-kernel&m=122117786124326&w=4
-Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-		  Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-		  Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11608
+Subject		: 2.6.27-rc6 BUG: unable to handle kernel paging request
+Submitter	: John Daiker <daikerjohn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-09-16 23:00 (55 days old)
+References	: http://marc.info/?l=linux-kernel&m=122160611517267&w=4
 
