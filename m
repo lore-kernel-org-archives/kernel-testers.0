@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11917] Asus Eee PC hotkeys stop working after prolonged usage
-Date: Sun,  9 Nov 2008 18:59:11 +0100 (CET)
-Message-ID: <wnN9HICUAgP.A.sgG.24zFJB@chimera>
+Subject: [Bug #11928] ath5k gets lost with eeepc-laptop removal
+Date: Sun,  9 Nov 2008 18:59:12 +0100 (CET)
+Message-ID: <wnN9HICUAgP.A.tSG.w4zFJB@chimera>
 References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, "Luiz Fernando N. Capitulino" <lcapitulino-4qZELD6Fgxg39yzSjRtAkw@public.gmane.org>, Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>, Nick Kossifidis <mickflemm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11917
-Subject		: Asus Eee PC hotkeys stop working after prolonged usage
-Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Date		: 2008-10-31 03:21 (10 days old)
-Handled-By	: Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>
-Patch		: http://marc.info/?l=linux-acpi&m=122603281422097&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11928
+Subject		: ath5k gets lost with eeepc-laptop removal
+Submitter	: Luiz Fernando N. Capitulino <lcapitulino-4qZELD6Fgxg39yzSjRtAkw@public.gmane.org>
+Date		: 2008-10-31 13:05 (10 days old)
+References	: http://marc.info/?l=linux-kernel&m=122545827204957&w=4
+Handled-By	: Nick Kossifidis <mickflemm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
