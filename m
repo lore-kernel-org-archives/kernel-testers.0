@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11913] USB/INPUT: slab error in cache_alloc_debugcheck_after(): double free?
-Date: Sun,  9 Nov 2008 18:59:11 +0100 (CET)
-Message-ID: <wnN9HICUAgP.A.DvG.54zFJB@chimera>
+Subject: [Bug #11873] unable to mount ext3 root filesystem due to htree_dirblock_to_tree
+Date: Sun,  9 Nov 2008 18:59:08 +0100 (CET)
+Message-ID: <wnN9HICUAgP.A.Wm.i5zFJB@chimera>
 References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Helge Deller <deller-Mmb7MZpHnFY@public.gmane.org>, Jeroen Roovers <jer-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Jimmy.Jazz-hi6Y0CQ0nG0@public.gmane.org"@ogre.sisk.pl, Neil Brown <neilb-l3A5Bk7waGM@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,15 +22,11 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11913
-Subject		: USB/INPUT: slab error in cache_alloc_debugcheck_after(): double free?
-Submitter	: Helge Deller <deller-Mmb7MZpHnFY@public.gmane.org>
-Date		: 2008-10-30 23:11 (11 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=cb8f488c33539f096580e202f5438a809195008f
-References	: http://marc.info/?l=linux-kernel&m=122540833301394&w=4
-Handled-By	: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-		  Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-		  Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-		  Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-		  Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11873
+Subject		: unable to mount ext3 root filesystem due to htree_dirblock_to_tree
+Submitter	: Jimmy.Jazz-hi6Y0CQ0nG0@public.gmane.org
+Date		: 2008-10-28 05:09 (13 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=4c46501d1659475dc6c89554af6ce7fe6ecf615c
+Handled-By	: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+		  Neil Brown <neilb-l3A5Bk7waGM@public.gmane.org>
 
