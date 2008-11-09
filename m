@@ -1,33 +1,32 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11841] plenty of line "ACPI: EC: non-query interrupt received, switching to interrupt mode" in dmesg and system not powering down
+Subject: [Bug #11849] default IRQ affinity change in v2.6.27 (breaking several SMP PPC based systems)
 Date: Sun,  9 Nov 2008 18:59:07 +0100 (CET)
-Message-ID: <wnN9HICUAgP.A.14.15zFJB@chimera>
+Message-ID: <wnN9HICUAgP.A.C0.s5zFJB@chimera>
 References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="macroman"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, =?utf-8?q?Fran=C3=A7ois=20Valenduc?= <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Snook <csnook-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Kumar Gala <galak-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, Scott Wood <scottwood-KZfg59tc24xl57MIdRCFDg@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.27.  Please verify if it still should be listed and let me kno=
-w
+from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11841
-Subject		: plenty of line "ACPI: EC: non-query interrupt received, swit=
-ching to interrupt mode" in dmesg and system not powering down
-Submitter	: Fran=C3=A7ois Valenduc <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
-Date		: 2008-10-25 10:29 (16 days old)
-Handled-By	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Patch		: http://marc.info/?l=3Dlinux-acpi&m=3D122603281922125&w=3D4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11849
+Subject		: default IRQ affinity change in v2.6.27 (breaking several SMP PPC based systems)
+Submitter	: Kumar Gala <galak-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Date		: 2008-10-24 12:45 (17 days old)
+References	: http://marc.info/?l=linux-kernel&m=122485245924125&w=4
+Handled-By	: Chris Snook <csnook-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+		  Scott Wood <scottwood-KZfg59tc24xl57MIdRCFDg@public.gmane.org>
 
