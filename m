@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11937] ext3 __log_wait_for_space: no transactions
-Date: Sun,  9 Nov 2008 18:59:12 +0100 (CET)
-Message-ID: <wnN9HICUAgP.A.DJG.u4zFJB@chimera>
+Subject: [Bug #11965] regression introduced by - timers: fix itimer/many thread hang
+Date: Sun,  9 Nov 2008 18:59:14 +0100 (CET)
+Message-ID: <wnN9HICUAgP.A.lvF.f4zFJB@chimera>
 References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>, Simon Arlott <simon-A6De1vDTPLDsq35pWSNszA@public.gmane.org>, Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Doug Chapman <doug.chapman-VXdhtT5mjnY@public.gmane.org>, Frank Mayhar <fmayhar-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,13 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11937
-Subject		: ext3 __log_wait_for_space: no transactions
-Submitter	: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
-Date		: 2008-10-30 9:49 (11 days old)
-References	: http://marc.info/?l=linux-kernel&m=122536026105643&w=4
-Handled-By	: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
-Patch		: http://lkml.org/lkml/2008/11/1/61
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11965
+Subject		: regression introduced by - timers: fix itimer/many thread hang
+Submitter	: Doug Chapman <doug.chapman-VXdhtT5mjnY@public.gmane.org>
+Date		: 2008-11-06 11:03 (4 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=f06febc96ba8e0af80bcc3eaec0a109e88275fac
+References	: http://marc.info/?l=linux-kernel&m=122596943416648&w=4
+Handled-By	: Frank Mayhar <fmayhar-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+		  Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
