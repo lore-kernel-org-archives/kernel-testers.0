@@ -1,31 +1,33 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11834] iwl3945: if I leave my machine running overnight, wifi will not work in the morning
+Subject: [Bug #11841] plenty of line "ACPI: EC: non-query interrupt received, switching to interrupt mode" in dmesg and system not powering down
 Date: Sun,  9 Nov 2008 18:59:07 +0100 (CET)
-Message-ID: <wnN9HICUAgP.A.e_.85zFJB@chimera>
+Message-ID: <wnN9HICUAgP.A.14.15zFJB@chimera>
 References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="macroman"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Machek <pavel-AlSwsSmVLrQ@public.gmane.org>, reinette chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, =?utf-8?q?Fran=C3=A7ois=20Valenduc?= <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.27.  Please verify if it still should be listed and let me know
+from 2.6.27.  Please verify if it still should be listed and let me kno=
+w
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11834
-Subject		: iwl3945: if I leave my machine running overnight, wifi will not work in the morning
-Submitter	: Pavel Machek <pavel-AlSwsSmVLrQ@public.gmane.org>
-Date		: 2008-10-19 21:40 (22 days old)
-References	: http://marc.info/?l=linux-kernel&m=122445440206101&w=4
-Handled-By	: reinette chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11841
+Subject		: plenty of line "ACPI: EC: non-query interrupt received, swit=
+ching to interrupt mode" in dmesg and system not powering down
+Submitter	: Fran=C3=A7ois Valenduc <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
+Date		: 2008-10-25 10:29 (16 days old)
+Handled-By	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Patch		: http://marc.info/?l=3Dlinux-acpi&m=3D122603281922125&w=3D4
 
