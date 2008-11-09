@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #11207] VolanoMark regression with 2.6.27-rc1
-Date: Sun,  9 Nov 2008 20:40:33 +0100 (CET)
-Message-ID: <4B0Eqx89uNG.A.w2E.Ee1FJB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #11308] tbench regression on each kernel release from  2.6.22 -&gt; 2.6.28
+Date: Sun,  9 Nov 2008 20:43:17 +0100 (CET)
+Message-ID: <4B0Eqx89uNG.A.iIE.oc1FJB@chimera>
 References: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756670AbYKIVhI@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Dhaval Giani <dhaval@linux.vnet.ibm.com>, Miao Xie <miaox@cn.fujitsu.com>, Peter Zijlstra <a.p.zijlstra@chello.nl>, "Zhang, Yanmin" <yanmin_zhang@linux.intel.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,13 +22,10 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11207
-Subject		: VolanoMark regression with 2.6.27-rc1
-Submitter	: Zhang, Yanmin <yanmin_zhang@linux.intel.com>
-Date		: 2008-07-31 3:20 (102 days old)
-References	: http://marc.info/?l=linux-kernel&m=121747464114335&w=4
-Handled-By	: Zhang, Yanmin <yanmin_zhang@linux.intel.com>
-		  Peter Zijlstra <a.p.zijlstra@chello.nl>
-		  Dhaval Giani <dhaval@linux.vnet.ibm.com>
-		  Miao Xie <miaox@cn.fujitsu.com>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11308
+Subject		: tbench regression on each kernel release from  2.6.22 -&gt; 2.6.28
+Submitter	: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Date		: 2008-08-11 18:36 (91 days old)
+References	: http://marc.info/?l=linux-kernel&m=121847986119495&w=4
+		  http://marc.info/?l=linux-kernel&m=122125737421332&w=4
 
