@@ -1,57 +1,49 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to chanes in stop_machine
-Date: Mon, 10 Nov 2008 15:47:20 +0100
-Message-ID: <200811101547.21325.rjw@sisk.pl>
-References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <wnN9HICUAgP.A.00E.N4zFJB@chimera> <20081110120401.GA15518@osiris.boeblingen.de.ibm.com>
+From: Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11543] kernel panic: softlockup in tick_periodic() ???
+Date: Mon, 10 Nov 2008 19:18:16 +0300
+Message-ID: <20081110161816.GC16522@localhost>
+References: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera> <4B0Eqx89uNG.A.ZND.0a1FJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755487AbYKJOm4@vger.kernel.org>
-In-Reply-To: <20081110120401.GA15518@osiris.boeblingen.de.ibm.com>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:cc
+         :subject:message-id:references:mime-version:content-type
+         :content-disposition:in-reply-to:user-agent;
+        bh=tOvroCE5ptJYJeJPqi4agwfo845Vrvecpkd6LFp19KA=;
+        b=WyxpUCjCGb8Ghuah0kgLpSjEQlO9mjAZ2rYC8mTNQHDXQBlDKmHmw/Q0viwvFz934s
+         38VHrKciwts2H3zDqGr9cjbT3H3tco3xuI+sRAeo0xlwAzYajex4FYBZNIq4UsI+vaoL
+         nGwjDS1iZJbvvwHrDisYWIG3EJlzEazul+Bs0=
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+In-Reply-To: <4B0Eqx89uNG.A.ZND.0a1FJB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Heiko Carstens <heiko.carstens@de.ibm.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Rusty Russell <rusty@rustcorp.com.au>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
-On Monday, 10 of November 2008, Heiko Carstens wrote:
-> On Sun, Nov 09, 2008 at 06:59:16PM +0100, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.27.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11989
-> > Subject		: Suspend failure on NForce4-based boards due to chanes in stop_machine
-> > Submitter	: Rafael J. Wysocki <rjw@sisk.pl>
-> > Date		: 2008-11-03 0:28 (7 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=c9583e55fa2b08a230c549bd1e3c0bde6c50d9cc
-> > References	: http://marc.info/?l=linux-kernel&m=122567187604356&w=4
-> 
-> Hi Rafael,
+[Rafael J. Wysocki - Sun, Nov 09, 2008 at 08:43:19PM +0100]
+| This message has been generated automatically as a part of a report
+| of regressions introduced between 2.6.26 and 2.6.27.
+| 
+| The following bug entry is on the current list of known regressions
+| introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+| be listed and let me know (either way).
+| 
+| 
+| Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11543
+| Subject		: kernel panic: softlockup in tick_periodic() ???
+| Submitter	: Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>
+| Date		: 2008-09-11 16:46 (60 days old)
+| References	: http://marc.info/?l=linux-kernel&m=122117786124326&w=4
+| Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+| 		  Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+| 		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+| 		  Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+| 
+| 
 
-Hi,
+Waiting for info from Joshua
 
-> could you provide more informations for this, please?
-> 
-> What is your kernel configuration?
-
-Available at: http://www.sisk.pl/kernel/debug/mainline/2.6.28-rc3/kitty-config
-
-> Do you have any binary only modules (nvidia?) loaded?
-
-No, I don't.
-
-> Is it possible to recreate the bug by e.g. just doing something like
-> 
-> echo 0 > /sys/devices/system/cpu/cpu1/online
-
-I haven't checked (yet), I'll do that later today and let you know.
-
-> (or any other online cpu)? Or does it trigger any lockdep warnings?
-
-Thanks,
-Rafael
+		- Cyrill -
