@@ -1,57 +1,57 @@
-From: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #11380] lockdep warning: cpu_add_remove_lock
-	at:cpu_maps_update_begin+0x14/0x16
-Date: Mon, 10 Nov 2008 14:22:08 +0100
-Message-ID: <20081110132208.GB10294@redhat.com>
-References: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera> <4B0Eqx89uNG.A.J5D.9b1FJB@chimera> <20081110073047.GA28578@elte.hu>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to chanes in stop_machine
+Date: Mon, 10 Nov 2008 15:47:20 +0100
+Message-ID: <200811101547.21325.rjw@sisk.pl>
+References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <wnN9HICUAgP.A.00E.N4zFJB@chimera> <20081110120401.GA15518@osiris.boeblingen.de.ibm.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755487AbYKJOm4@vger.kernel.org>
+In-Reply-To: <20081110120401.GA15518@osiris.boeblingen.de.ibm.com>
 Content-Disposition: inline
-In-Reply-To: <20081110073047.GA28578-X9Un+BFzKDI@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Max Krasnyansky <maxk-zC7DfRvBq/JWk0Htik3J/w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Heiko Carstens <heiko.carstens@de.ibm.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Rusty Russell <rusty@rustcorp.com.au>
 
-On 11/10, Ingo Molnar wrote:
-> 
-> * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
+On Monday, 10 of November 2008, Heiko Carstens wrote:
+> On Sun, Nov 09, 2008 at 06:59:16PM +0100, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.26 and 2.6.27.
+> > of recent regressions.
 > > 
 > > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.26 and 2.6.27.  Please verify if it still should
-> > be listed and let me know (either way).
+> > from 2.6.27.  Please verify if it still should be listed and let me know
+> > (either way).
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11380
-> > Subject		: lockdep warning: cpu_add_remove_lock at:cpu_maps_update_begin+0x14/0x16
-> > Submitter	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-> > Date		: 2008-08-20 6:44 (82 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=121921480931970&w=4
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11989
+> > Subject		: Suspend failure on NForce4-based boards due to chanes in stop_machine
+> > Submitter	: Rafael J. Wysocki <rjw@sisk.pl>
+> > Date		: 2008-11-03 0:28 (7 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=c9583e55fa2b08a230c549bd1e3c0bde6c50d9cc
+> > References	: http://marc.info/?l=linux-kernel&m=122567187604356&w=4
 > 
-> had a quick look again: i believe this one still triggers, and it's 
-> caused by some interaction between input code and workqueue code. I 
-> think it started triggering when Oleg's workqueue annotation patches 
-> went upstream:
+> Hi Rafael,
+
+Hi,
+
+> could you provide more informations for this, please?
 > 
-> 6af8bf3: workqueues: add comments to __create_workqueue_key()
-> 8448502: workqueues: do CPU_UP_CANCELED if CPU_UP_PREPARE fails
-> 8de6d30: workqueues: schedule_on_each_cpu() can use schedule_work_on()
-> ef1ca23: workqueues: queue_work() can use queue_work_on()
-> a67da70: workqueues: lockdep annotations for flush_work()
-> 3da1c84: workqueues: make get_online_cpus() useable for work->func()
-> 8616a89: workqueues: schedule_on_each_cpu: use flush_work()
-> db70089: workqueues: implement flush_work()
-> 1a4d9b0: workqueues: insert_work: use "list_head *" instead of "int tail"
+> What is your kernel configuration?
 
-"make get_online_cpus() useable for work->func()" changed the locking.
-destroy_workqueue() was changed to take cpu_maps_update_begin() instead
-of get_online_cpus(). Other patches can't make any difference afaics.
+Available at: http://www.sisk.pl/kernel/debug/mainline/2.6.28-rc3/kitty-config
 
-Currently I don't understand why lockdep complains, will try to do
-more grepping later.
+> Do you have any binary only modules (nvidia?) loaded?
 
-Oleg.
+No, I don't.
+
+> Is it possible to recreate the bug by e.g. just doing something like
+> 
+> echo 0 > /sys/devices/system/cpu/cpu1/online
+
+I haven't checked (yet), I'll do that later today and let you know.
+
+> (or any other online cpu)? Or does it trigger any lockdep warnings?
+
+Thanks,
+Rafael
