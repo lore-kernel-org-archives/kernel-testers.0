@@ -1,49 +1,48 @@
-From: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
+From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
 Subject: Re: [Bug #11875] radeonfb lockup in .28-rc (bisected)
-Date: Tue, 11 Nov 2008 00:20:27 +0100
-Message-ID: <jefxlzi2x0.fsf@sykes.suse.de>
+Date: Tue, 11 Nov 2008 10:34:54 +1100
+Message-ID: <1226360094.7530.18.camel@pasglop>
 References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
-	<wnN9HICUAgP.A._d.f5zFJB@chimera> <1226295985.7731.7.camel@pasglop>
-	<jetzafiad4.fsf@sykes.suse.de> <1226353979.7530.8.camel@pasglop>
+	 <wnN9HICUAgP.A._d.f5zFJB@chimera> <1226295985.7731.7.camel@pasglop>
+	 <jetzafiad4.fsf@sykes.suse.de> <1226353979.7530.8.camel@pasglop>
+	 <jefxlzi2x0.fsf@sykes.suse.de>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1226353979.7530.8.camel@pasglop> (Benjamin Herrenschmidt's
-	message of "Tue, 11 Nov 2008 08:52:59 +1100")
+In-Reply-To: <jefxlzi2x0.fsf-+JVCjXrnBTholqkO4TVVkw@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
 Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>, Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org> writes:
 
-> On Mon, 2008-11-10 at 21:39 +0100, Andreas Schwab wrote:
->> Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org> writes:
->>=20
->> > radeonfb: Fix accel problems with new imageblit hook
->> >
->> > Some radeon chips have issues with color expansion of pixmaps that
->> > aren't a multiple of 32 pixels wide. This works around it the same
->> > way X does by requesting the right pitch alignment from fbcon and
->> > then using the chip scissors to do clipping to the requested size.
->>=20
->> Unfortunately this does not fix the suspend regression on PowerBook6=
-,7.
->> Instead I have to use the workaround in
->> <http://marc.info/?l=3Dlinux-kernel&m=3D122515268301239&w=3D2>.
->
-> Strange. The suspend problem happens also when X hasn't been launched=
- at all ?
+> There seems to be some race involved here.  I cannot reproduce the
+> problem ATM.
 
-There seems to be some race involved here.  I cannot reproduce the
-problem ATM.
+I wonder if it's related to the new acceleration at all then.
 
-Andreas.
+I've tried various suspend/resume cycles in straight console mode using
+directly snooze -f (kernel ioctl) and from X using ubuntu intrepid and
+gnome power manager and it worked fine on a 5,6 which should be fairly
+similar to your 6,7 I think.
 
---=20
-Andreas Schwab, SuSE Labs, schwab-l3A5Bk7waGM@public.gmane.org
-SuSE Linux Products GmbH, Maxfeldstra=DFe 5, 90409 N=FCrnberg, Germany
-PGP key fingerprint =3D 58CA 54C7 6D53 942B 1756  01D3 44D5 214B 8276 4=
-ED5
-"And now for something completely different."
+It's possible that there's yet another X related race though. I've seen
+cases of X whacking the chip -after- it has religuished the console back
+to the kernel (back to KD_TEXT) in the past which is very wrong, though
+I didn't spot that during my testing, there could be some race lurking
+there.
+
+Can you describe your problem more precisely ? I didn't see (or forgot)
+your initial report. Did it crash on suspend or wakeup ? what symptoms ?
+
+Note also that on PowerBooks, there's a platform hook that allows
+radeonfb to wake up the video chip _very_ early, thus allowing easier
+debugging of the boot process, so even races like that on wakeup would
+surprise me since we do wakup up the chip before we even get a chance to
+schedule userspace again (in fact before we even bring back the L2
+cache !)  
+
+Cheers,
+Ben.
+
