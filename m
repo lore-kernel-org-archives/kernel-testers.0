@@ -1,36 +1,30 @@
-From: Romano Giannetti <romano.giannetti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #11947] 2.6.28-rc VC switching with Intel graphics broken
-Date: Tue, 11 Nov 2008 10:28:38 +0100
-Message-ID: <49195046.2050306@gmail.com>
-References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <wnN9HICUAgP.A.00F.o4zFJB@chimera>
+From: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
+Subject: Re: [Bug #11875] radeonfb lockup in .28-rc (bisected)
+Date: Tue, 11 Nov 2008 10:31:26 +0100
+Message-ID: <jeskpy7gnl.fsf@sykes.suse.de>
+References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
+	<wnN9HICUAgP.A._d.f5zFJB@chimera> <1226295985.7731.7.camel@pasglop>
+	<jetzafiad4.fsf@sykes.suse.de> <1226353979.7530.8.camel@pasglop>
+	<jefxlzi2x0.fsf@sykes.suse.de> <1226360094.7530.18.camel@pasglop>
+	<je1vxji1br.fsf@sykes.suse.de> <1226368174.7530.47.camel@pasglop>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=SEshfG493sZ8DZjiybOhRsmQXy+FScmA1iTJuSJnP7U=;
-        b=e0LqbWue2zGwaWeQR98Dr2NKUfbtLWHaKywm+ymz7jubsk6MgjgqitZQIQwoj6LKSN
-         ZCUZtGspoEtMTE1ZZrhnN8U6hiHcrkB4uhKukKS78n/U42MhsNhPdF3OBh/OKZzPc6ol
-         BodB0Dcj7LLitMFpLdxluteh48iI7E0ysO5GU=
-In-Reply-To: <wnN9HICUAgP.A.00F.o4zFJB@chimera>
+In-Reply-To: <1226368174.7530.47.camel@pasglop> (Benjamin Herrenschmidt's
+	message of "Tue, 11 Nov 2008 12:49:34 +1100")
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>, Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11947
-> Subject		: 2.6.28-rc VC switching with Intel graphics broken
-> Submitter	: Romano Giannetti <romano.giannetti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2008-11-03 12:10 (7 days old)
-> Handled-By	: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+It looks like you are observing the same failure mode that I do.
 
-Still here in 2.6.28-rc4. Complete lock switching back from a VC to X.
+Andreas.
 
-Romano
-
+--=20
+Andreas Schwab, SuSE Labs, schwab-l3A5Bk7waGM@public.gmane.org
+SuSE Linux Products GmbH, Maxfeldstra=DFe 5, 90409 N=FCrnberg, Germany
+PGP key fingerprint =3D 58CA 54C7 6D53 942B 1756  01D3 44D5 214B 8276 4=
+ED5
+"And now for something completely different."
