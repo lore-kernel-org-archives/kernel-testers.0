@@ -1,101 +1,40 @@
-From: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [Bug #11380] lockdep warning: cpu_add_remove_lock at:cpu_maps_update_begin+0x14/0x16
-Date: Tue, 11 Nov 2008 11:10:33 +0900 (JST)
-Message-ID: <20081111105706.6174.KOSAKI.MOTOHIRO@jp.fujitsu.com>
-References: <20081110073047.GA28578@elte.hu> <20081110132208.GB10294@redhat.com>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #11875] radeonfb lockup in .28-rc (bisected)
+Date: Mon, 10 Nov 2008 18:47:23 -0800 (PST)
+Message-ID: <alpine.LFD.2.00.0811101822350.3468@nehalem.linux-foundation.org>
+References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>  <wnN9HICUAgP.A._d.f5zFJB@chimera> <1226295985.7731.7.camel@pasglop>  <jetzafiad4.fsf@sykes.suse.de> <1226353979.7530.8.camel@pasglop>  <jefxlzi2x0.fsf@sykes.suse.de> <1226360094.7530.18.camel@pasglop> 
+ <je1vxji1br.fsf@sykes.suse.de> <1226368174.7530.47.camel@pasglop>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081110132208.GB10294-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <1226368174.7530.47.camel@pasglop>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Max Krasnyansky <maxk-zC7DfRvBq/JWk0Htik3J/w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Cc: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>, Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
 
-> On 11/10, Ingo Molnar wrote:
-> > 
-> > * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > 
-> > > This message has been generated automatically as a part of a report
-> > > of regressions introduced between 2.6.26 and 2.6.27.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > introduced between 2.6.26 and 2.6.27.  Please verify if it still should
-> > > be listed and let me know (either way).
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11380
-> > > Subject		: lockdep warning: cpu_add_remove_lock at:cpu_maps_update_begin+0x14/0x16
-> > > Submitter	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-> > > Date		: 2008-08-20 6:44 (82 days old)
-> > > References	: http://marc.info/?l=linux-kernel&m=121921480931970&w=4
-> > 
-> > had a quick look again: i believe this one still triggers, and it's 
-> > caused by some interaction between input code and workqueue code. I 
-> > think it started triggering when Oleg's workqueue annotation patches 
-> > went upstream:
-> > 
-> > 6af8bf3: workqueues: add comments to __create_workqueue_key()
-> > 8448502: workqueues: do CPU_UP_CANCELED if CPU_UP_PREPARE fails
-> > 8de6d30: workqueues: schedule_on_each_cpu() can use schedule_work_on()
-> > ef1ca23: workqueues: queue_work() can use queue_work_on()
-> > a67da70: workqueues: lockdep annotations for flush_work()
-> > 3da1c84: workqueues: make get_online_cpus() useable for work->func()
-> > 8616a89: workqueues: schedule_on_each_cpu: use flush_work()
-> > db70089: workqueues: implement flush_work()
-> > 1a4d9b0: workqueues: insert_work: use "list_head *" instead of "int tail"
+
+
+On Tue, 11 Nov 2008, Benjamin Herrenschmidt wrote:
 > 
-> "make get_online_cpus() useable for work->func()" changed the locking.
-> destroy_workqueue() was changed to take cpu_maps_update_begin() instead
-> of get_online_cpus(). Other patches can't make any difference afaics.
-> 
-> Currently I don't understand why lockdep complains, will try to do
-> more grepping later.
+> In any case, I doesn't seem to be directly related to those radeonfb
+> changes, though a clash with X like that is indeed more likely to
+> actually happen if radeonfb relies more heavily on acceleration.
 
-I check original report.
-Is this really cpu hotplug related warnings?
+Just a silly question, without actually looking at the code - since you 
+now do acceleration in radeonfb, do you wait for everything to drain 
+before you switch consoles? 
 
-it seem simple ABBA lock, right?
+There could be races that depend on timing, where perhaps X is unhappy 
+about being entered with the acceleration engine busy, or conversely the 
+radeonfb code is unhappy about perhaps some still-in-progress X thing that 
+hasn't been synchronously waited for..
 
+Before, radeonfb_imageblit() would always end up doing a 
+"radeon_engine_idle()", so in practice, I think just about any fbcon 
+access ended up idling the engine. Now, we can probably do a lot more 
+without syncronizing - maybe there's insufficient synchronization at the 
+switch-over from X to text-mode or vice versa?
 
--> #4 (&dev->mutex){--..}:
-       [<c0160f87>] validate_chain+0x831/0xaa2
-       [<c0161872>] __lock_acquire+0x67a/0x6e0
-       [<c0161933>] lock_acquire+0x5b/0x81
-       [<c0a660e4>] mutex_lock_interruptible_nested+0xde/0x2f8
-       [<c0782d02>] input_register_handle+0x26/0x7a			dev->mutex
-       [<c04a62c9>] kbd_connect+0x64/0x8d
-       [<c0782842>] input_attach_handler+0x38/0x6b
-       [<c0784216>] input_register_handler+0x74/0xc3			input_mutex
-       [<c0f54e4b>] kbd_init+0x66/0x91
-       [<c0f54f7b>] vty_init+0xce/0xd7
-       [<c0f54952>] tty_init+0x193/0x197
-       [<c010112a>] do_one_initcall+0x42/0x133
-       [<c0f2d5cb>] kernel_init+0x16e/0x1d5
-       [<c0117c03>] kernel_thread_helper+0x7/0x10
-       [<ffffffff>] 0xffffffff
-
--> #3 (input_mutex){--..}:
-       [<c0160f87>] validate_chain+0x831/0xaa2
-       [<c0161872>] __lock_acquire+0x67a/0x6e0
-       [<c0161933>] lock_acquire+0x5b/0x81
-       [<c0a660e4>] mutex_lock_interruptible_nested+0xde/0x2f8
-       [<c0783fbe>] input_register_device+0xff/0x17f		input_mutex
-       [<c048a889>] acpi_button_add+0x31e/0x429
-       [<c04889f4>] acpi_device_probe+0x43/0xde
-       [<c052c67f>] driver_probe_device+0xa5/0x120
-       [<c052c73c>] __driver_attach+0x42/0x64			dev->sem
-       [<c052be91>] bus_for_each_dev+0x43/0x65
-       [<c052c507>] driver_attach+0x19/0x1b
-       [<c052c251>] bus_add_driver+0x9e/0x1a1
-       [<c052c8de>] driver_register+0x76/0xd2
-       [<c0488dc3>] acpi_bus_register_driver+0x3f/0x41
-       [<c0f51bf2>] acpi_button_init+0x32/0x51
-       [<c010112a>] do_one_initcall+0x42/0x133
-       [<c0f2d201>] do_async_initcalls+0x1a/0x2a
-       [<c0150eec>] run_workqueue+0xc3/0x193			
-       [<c015195d>] worker_thread+0xbb/0xc7
-       [<c0153e2a>] kthread+0x40/0x66
-       [<c0117c03>] kernel_thread_helper+0x7/0x10
-       [<ffffffff>] 0xffffffff
-
+		Linus
