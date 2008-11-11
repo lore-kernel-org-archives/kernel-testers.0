@@ -1,41 +1,36 @@
-From: Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #11829] Kernel 2.6.26.5 -&gt; 2.6.27.2 [USB REGRESSION]
-	(USB -&gt; D_STATE)
-Date: Mon, 10 Nov 2008 23:13:01 -0800
-Message-ID: <20081111071301.GB13596@kroah.com>
-References: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera> <4B0Eqx89uNG.A.kYC.vZ1FJB@chimera>
+From: Romano Giannetti <romano.giannetti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11947] 2.6.28-rc VC switching with Intel graphics broken
+Date: Tue, 11 Nov 2008 10:28:38 +0100
+Message-ID: <49195046.2050306@gmail.com>
+References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <wnN9HICUAgP.A.00F.o4zFJB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <4B0Eqx89uNG.A.kYC.vZ1FJB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=SEshfG493sZ8DZjiybOhRsmQXy+FScmA1iTJuSJnP7U=;
+        b=e0LqbWue2zGwaWeQR98Dr2NKUfbtLWHaKywm+ymz7jubsk6MgjgqitZQIQwoj6LKSN
+         ZCUZtGspoEtMTE1ZZrhnN8U6hiHcrkB4uhKukKS78n/U42MhsNhPdF3OBh/OKZzPc6ol
+         BodB0Dcj7LLitMFpLdxluteh48iI7E0ysO5GU=
+In-Reply-To: <wnN9HICUAgP.A.00F.o4zFJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>, Mike Isely <isely-2vzrQ03IO+5eoWH0uzbU5w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 
-On Sun, Nov 09, 2008 at 08:43:22PM +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.26 and 2.6.27.
+Rafael J. Wysocki wrote:
 > 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.26 and 2.6.27.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11829
-> Subject		: Kernel 2.6.26.5 -&gt; 2.6.27.2 [USB REGRESSION] (USB -&gt; D_STATE)
-> Submitter	: Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>
-> Date		: 2008-10-19 11:26 (22 days old)
-> References	: http://marc.info/?l=linux-kernel&m=122441560120027&w=4
-> Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-> 		  Mike Isely <isely-2vzrQ03IO+5eoWH0uzbU5w@public.gmane.org>
-> Patch		: http://linuxtv.org/hg/~mcisely/pvrusb2/rev/0bb411d8d2e4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11947
+> Subject		: 2.6.28-rc VC switching with Intel graphics broken
+> Submitter	: Romano Giannetti <romano.giannetti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2008-11-03 12:10 (7 days old)
+> Handled-By	: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 
-This has been fixed already in .27 and in mainline with a patch from
-Alan.
+Still here in 2.6.28-rc4. Complete lock switching back from a VC to X.
 
-thanks,
+Romano
 
-greg k-h
