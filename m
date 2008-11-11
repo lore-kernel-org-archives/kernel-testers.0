@@ -1,57 +1,61 @@
-From: Mike Isely <isely@isely.net>
-Subject: Re: [Bug #11829] Kernel 2.6.26.5 -&gt; 2.6.27.2 [USB REGRESSION]
- (USB -&gt; D_STATE)
-Date: Tue, 11 Nov 2008 09:41:54 -0600 (CST)
-Message-ID: <Pine.LNX.4.64.0811110938500.22093@cnc.isely.net>
-References: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera> <4B0Eqx89uNG.A.kYC.vZ1FJB@chimera>
- <20081111071301.GB13596@kroah.com> <200811111453.34386.rjw@sisk.pl>
-Reply-To: Mike Isely <isely@pobox.com>
+From: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Q: force_quiescent_state && cpu_online_map
+Date: Tue, 11 Nov 2008 18:03:27 +0100
+Message-ID: <20081111170327.GB18214@redhat.com>
+References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <20081110120401.GA15518@osiris.boeblingen.de.ibm.com> <200811101547.21325.rjw@sisk.pl> <200811102355.42389.rjw@sisk.pl> <20081111105214.GA15645@elte.hu> <20081111113134.GA5653@osiris.boeblingen.de.ibm.com> <20081111124201.GA9459@osiris.boeblingen.de.ibm.com> <20081111143505.GA6923@linux.vnet.ibm.com> <20081111150225.GA10743@linux.vnet.ibm.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752446AbYKKPmP@vger.kernel.org>
-In-Reply-To: <200811111453.34386.rjw@sisk.pl>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20081111150225.GA10743-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Greg KH <greg@kroah.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Justin Piszcz <jpiszcz@lucidpixels.com>, Mike Isely at pobox <isely@pobox.com>
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Steven Rostedt <srostedt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-On Tue, 11 Nov 2008, Rafael J. Wysocki wrote:
+I don't think this matters, but still...
 
-> On Tuesday, 11 of November 2008, Greg KH wrote:
-> > On Sun, Nov 09, 2008 at 08:43:22PM +0100, Rafael J. Wysocki wrote:
-> > > This message has been generated automatically as a part of a report
-> > > of regressions introduced between 2.6.26 and 2.6.27.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > introduced between 2.6.26 and 2.6.27.  Please verify if it still should
-> > > be listed and let me know (either way).
-> > > 
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11829
-> > > Subject		: Kernel 2.6.26.5 -&gt; 2.6.27.2 [USB REGRESSION] (USB -&gt; D_STATE)
-> > > Submitter	: Justin Piszcz <jpiszcz@lucidpixels.com>
-> > > Date		: 2008-10-19 11:26 (22 days old)
-> > > References	: http://marc.info/?l=linux-kernel&m=122441560120027&w=4
-> > > Handled-By	: Alan Stern <stern@rowland.harvard.edu>
-> > > 		  Mike Isely <isely@isely.net>
-> > > Patch		: http://linuxtv.org/hg/~mcisely/pvrusb2/rev/0bb411d8d2e4
-> > 
-> > This has been fixed already in .27 and in mainline with a patch from
-> > Alan.
-> 
-> OK, closed it.
-> 
-> Do you remember which of the Alan's patches is that?
+	force_quiescent_state:
 
-It wasn't a patch from Alan.  It was from me.  The commit ID is 
-c82732a42896364296599b0f73f01c5e3fd781ae
+			 * cpu_online_map is updated by the _cpu_down()
+			 * using __stop_machine(). Since we're in irqs disabled
+			 * section, __stop_machine() is not exectuting, hence
+			 * the cpu_online_map is stable.
+			 *
+			 * However,  a cpu might have been offlined _just_ before
+			 * we disabled irqs while entering here.
+			 * And rcu subsystem might not yet have handled the CPU_DEAD
+			 * notification, leading to the offlined cpu's bit
+			 * being set in the rcp->cpumask.
+			 *
+			 * Hence cpumask = (rcp->cpumask & cpu_online_map) to prevent
+			 * sending smp_reschedule() to an offlined CPU.
+			 */
+			cpus_and(cpumask, rcp->cpumask, cpu_online_map);
+			cpu_clear(rdp->cpu, cpumask);
+			for_each_cpu_mask_nr(cpu, cpumask)
+				smp_send_reschedule(cpu);
 
-  -Mike
+However,
 
+	// called by __stop_machine take_cpu_down()
+	arch/x86/kernel/smpboot.c:cpu_disable_common()
 
--- 
+		/*
+		 * HACK:
+		 * Allow any queued timer interrupts to get serviced
+		 * This is only a temporary solution until we cleanup
+		 * fixup_irqs as we do for IA64.
+		 */
+		local_irq_enable();
+		mdelay(1);
+		local_irq_disable();
+		...
+		remove_cpu_from_maps(cpu);
 
-Mike Isely
-isely @ pobox (dot) com
-PGP: 03 54 43 4D 75 E5 CC 92 71 16 01 E2 B5 F5 C1 E8
+So it is possible to send the ipi to the dying CPU. I know nothing
+about this low-level irq code, most probably this is harmless. We
+already did clear_local_APIC(), but I don't understand what it does.
+
+Oleg.
