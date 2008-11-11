@@ -1,43 +1,60 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11829] Kernel 2.6.26.5 -&gt; 2.6.27.2 [USB REGRESSION] (USB -&gt; D_STATE)
-Date: Tue, 11 Nov 2008 14:53:33 +0100
-Message-ID: <200811111453.34386.rjw@sisk.pl>
-References: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera> <4B0Eqx89uNG.A.kYC.vZ1FJB@chimera> <20081111071301.GB13596@kroah.com>
+From: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to
+ chanes in stop_machine
+Date: Tue, 11 Nov 2008 14:49:01 +0100
+Message-ID: <1226411341.7685.1779.camel@twins>
+References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
+	 <20081110120401.GA15518@osiris.boeblingen.de.ibm.com>
+	 <200811101547.21325.rjw@sisk.pl> <200811102355.42389.rjw@sisk.pl>
+	 <20081111105214.GA15645@elte.hu>
+	 <19f34abd0811110536i71994436q4aa78a99d201c478@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081111071301.GB13596-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <19f34abd0811110536i71994436q4aa78a99d201c478-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>, Mike Isely <isely-2vzrQ03IO+5eoWH0uzbU5w@public.gmane.org>
+To: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Tuesday, 11 of November 2008, Greg KH wrote:
-> On Sun, Nov 09, 2008 at 08:43:22PM +0100, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.26 and 2.6.27.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.26 and 2.6.27.  Please verify if it still should
-> > be listed and let me know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11829
-> > Subject		: Kernel 2.6.26.5 -&gt; 2.6.27.2 [USB REGRESSION] (USB -&gt; D_STATE)
-> > Submitter	: Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>
-> > Date		: 2008-10-19 11:26 (22 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=122441560120027&w=4
-> > Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-> > 		  Mike Isely <isely-2vzrQ03IO+5eoWH0uzbU5w@public.gmane.org>
-> > Patch		: http://linuxtv.org/hg/~mcisely/pvrusb2/rev/0bb411d8d2e4
+On Tue, 2008-11-11 at 14:36 +0100, Vegard Nossum wrote:
+> On Tue, Nov 11, 2008 at 11:52 AM, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
+> > [ Cc:-ed workqueue/locking/suspend-race-condition experts. ]
 > 
-> This has been fixed already in .27 and in mainline with a patch from
-> Alan.
+> Heh. I am not expert, but I looked at the code. The obvious suspicious
+> thing to see is the use of unpaired barriers? Maybe like this:
+> 
+>  47 static void set_state(enum stopmachine_state newstate)
+> 48 {
+> 49         /* Reset ack counter. */
+> 50         atomic_set(&thread_ack, num_threads);
+> 51         smp_wmb();
+> 
+> + /* force ordering between thread_ack/state */
+> 
+> 52         state = newstate;
+> 53 }
+> 54
+> 55 /* Last one to ack a state moves to the next state. */
+> 56 static void ack_state(void)
+> 57 {
+> 58         if (atomic_dec_and_test(&thread_ack))
+> 
+> Maybe
+> + /* force ordering between thread_ack/state */
+> + smp_rmb();
+> here?
 
-OK, closed it.
+all atomic ops that have return values imply a full barrier, iirc
 
-Do you remember which of the Alan's patches is that?
-
-Rafael
+> 59                 set_state(state + 1);
+> 60 }
+> 61
+> 
+> Or maybe I am wrong. But Documentation/memory-barriers.txt is rather
+> explicit on this point.
+> 
+> 
+> Vegard
+> 
