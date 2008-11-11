@@ -1,48 +1,57 @@
-From: Oleg Nesterov <oleg@redhat.com>
-Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to
-	chanes in stop_machine
-Date: Tue, 11 Nov 2008 17:31:18 +0100
-Message-ID: <20081111163118.GA18214@redhat.com>
-References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <20081110120401.GA15518@osiris.boeblingen.de.ibm.com> <200811101547.21325.rjw@sisk.pl> <200811102355.42389.rjw@sisk.pl> <20081111105214.GA15645@elte.hu> <19f34abd0811110647y2a00cfbfr2b219a5aa1b3ac9f@mail.gmail.com>
+From: Mike Isely <isely@isely.net>
+Subject: Re: [Bug #11829] Kernel 2.6.26.5 -&gt; 2.6.27.2 [USB REGRESSION]
+ (USB -&gt; D_STATE)
+Date: Tue, 11 Nov 2008 09:41:54 -0600 (CST)
+Message-ID: <Pine.LNX.4.64.0811110938500.22093@cnc.isely.net>
+References: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera> <4B0Eqx89uNG.A.kYC.vZ1FJB@chimera>
+ <20081111071301.GB13596@kroah.com> <200811111453.34386.rjw@sisk.pl>
+Reply-To: Mike Isely <isely@pobox.com>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756025AbYKKPdk@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <19f34abd0811110647y2a00cfbfr2b219a5aa1b3ac9f@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752446AbYKKPmP@vger.kernel.org>
+In-Reply-To: <200811111453.34386.rjw@sisk.pl>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Vegard Nossum <vegard.nossum@gmail.com>
-Cc: Ingo Molnar <mingo@elte.hu>, "Rafael J. Wysocki" <rjw@sisk.pl>, Heiko Carstens <heiko.carstens@de.ibm.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Rusty Russell <rusty@rustcorp.com.au>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Dmitry Adamushko <dmitry.adamushko@gmail.com>, Andrew Morton <akpm@linux-foundation.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Greg KH <greg@kroah.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Justin Piszcz <jpiszcz@lucidpixels.com>, Mike Isely at pobox <isely@pobox.com>
 
-On 11/11, Vegard Nossum wrote:
->
-> I think that the test for stop_machine_data in stop_cpu() should not
-> have been moved from __stop_machine(). Because now cpu_online_map may
-> change in-between calls to stop_cpu() (if the callback tries to
-> online/offline CPUs), and the end result may be different.
+On Tue, 11 Nov 2008, Rafael J. Wysocki wrote:
 
-I don't think this is possible, the callback must not be called unless
-all threads ack (at least) the STOPMACHINE_PREPARE state.
+> On Tuesday, 11 of November 2008, Greg KH wrote:
+> > On Sun, Nov 09, 2008 at 08:43:22PM +0100, Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of regressions introduced between 2.6.26 and 2.6.27.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+> > > be listed and let me know (either way).
+> > > 
+> > > 
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11829
+> > > Subject		: Kernel 2.6.26.5 -&gt; 2.6.27.2 [USB REGRESSION] (USB -&gt; D_STATE)
+> > > Submitter	: Justin Piszcz <jpiszcz@lucidpixels.com>
+> > > Date		: 2008-10-19 11:26 (22 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=122441560120027&w=4
+> > > Handled-By	: Alan Stern <stern@rowland.harvard.edu>
+> > > 		  Mike Isely <isely@isely.net>
+> > > Patch		: http://linuxtv.org/hg/~mcisely/pvrusb2/rev/0bb411d8d2e4
+> > 
+> > This has been fixed already in .27 and in mainline with a patch from
+> > Alan.
+> 
+> OK, closed it.
+> 
+> Do you remember which of the Alan's patches is that?
+
+It wasn't a patch from Alan.  It was from me.  The commit ID is 
+c82732a42896364296599b0f73f01c5e3fd781ae
+
+  -Mike
 
 
-Off-topic question, __stop_machine() does:
-	
-	/* Schedule the stop_cpu work on all cpus: hold this CPU so one
-	 * doesn't hit this CPU until we're ready. */
-	get_cpu();
-	for_each_online_cpu(i) {
-		sm_work = percpu_ptr(stop_machine_work, i);
-		INIT_WORK(sm_work, stop_cpu);
-		queue_work_on(i, stop_machine_wq, sm_work);
-	}
-	/* This will release the thread on our CPU. */
-	put_cpu();
+-- 
 
-Don't we actually need preempt_disable/preempt_enable instead of
-get/put cpu? (yes, there the same currently). We don't care about
-the CPU we are running on, and it can't go away until we queue all
-works. But we must ensure that stop_cpu() on the same CPU can't
-preempt us, right?
-
-Oleg.
+Mike Isely
+isely @ pobox (dot) com
+PGP: 03 54 43 4D 75 E5 CC 92 71 16 01 E2 B5 F5 C1 E8
