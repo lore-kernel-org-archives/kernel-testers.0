@@ -1,93 +1,53 @@
-From: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to
-	chanes in stop_machine
-Date: Tue, 11 Nov 2008 08:17:39 -0800
-Message-ID: <20081111161739.GA6736@linux.vnet.ibm.com>
-References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <20081110120401.GA15518@osiris.boeblingen.de.ibm.com> <200811101547.21325.rjw@sisk.pl> <200811102355.42389.rjw@sisk.pl> <20081111105214.GA15645@elte.hu> <20081111113134.GA5653@osiris.boeblingen.de.ibm.com> <20081111124201.GA9459@osiris.boeblingen.de.ibm.com> <20081111143505.GA6923@linux.vnet.ibm.com> <20081111150132.GB9459@osiris.boeblingen.de.ibm.com>
-Reply-To: paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #11829] Kernel 2.6.26.5 -&gt; 2.6.27.2 [USB REGRESSION] (USB -&gt; D_STATE)
+Date: Tue, 11 Nov 2008 17:38:20 +0100
+Message-ID: <200811111738.20759.rjw@sisk.pl>
+References: <A3oCZU7cpuO.A.ChB.ZZ1FJB@chimera> <200811111453.34386.rjw@sisk.pl> <Pine.LNX.4.64.0811110938500.22093@cnc.isely.net>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <Pine.LNX.4.64.0811110938500.22093-Ea2Jjc6YRc5If6P1QZMOBw@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20081111150132.GB9459-Pmgahw53EmNLmI7Nx2oIsGnsbthNF6/HVpNB7YpNyf8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Steven Rostedt <srostedt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Mike Isely <isely-e+AXbWqSrlAAvxtiuMwx3w@public.gmane.org>
+Cc: Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>
 
-On Tue, Nov 11, 2008 at 04:01:32PM +0100, Heiko Carstens wrote:
-> On Tue, Nov 11, 2008 at 06:35:05AM -0800, Paul E. McKenney wrote:
-> > > > A process that would do nothing but onlining/offlining cpus would get
-> > > > stuck after a while:
-> > > > 
-> > > >  0 schedule+842 [0x342522]
-> > > >  1 schedule_timeout+200 [0x342ec4]
-> > > >  2 wait_for_common+362 [0x341fd6]
-> > > >  3 wait_for_completion+54 [0x342146]
-> > > >  4 __synchronize_sched+80 [0x81670]
-> > > >  5 cpu_down+172 [0x33c030]
-> > > >  6 store_online+96 [0x33c488]
-> > > >  7 sysdev_store+52 [0x1bda84]
-> > > >  8 sysfs_write_file+242 [0x1350ba]
-> > > >  9 vfs_write+176 [0xd2028]
-> > > > 10 sys_write+82 [0xd21ea]
-> > > > 11 sysc_noemu+16 [0x269d8]
-> > > > 
-> > > > All cpus are in cpu_idle and no other task in state TASK_INTERRUPTIBLE
-> > > > or TASK_UNINTERRUPTIBLE. However it would continue to work as soon as
-> > > > I login into the system or generate a console interrupt.
-> > > > I'm going to look into the dump and see if I can figure out what is
-> > > > broken here.
-> > > > Dunno if it is the same bug or something else.
-> > > 
-> > > [Cc:-ed Steven and Paul, since this backtrace seems to be RCU specific]
-> > > 
-> > > Steven, Paul, any idea what could cause the hang? I think I would
-> > > get lost in the RCU code...
-> > 
-> > Hello, Heiko,
-> > 
-> > Could you please apply the following debug patch (due to Jiangshan and
-> > myself)?  Then you should be able to build with CONFIG_RCU_TRACE,
-> > then mount debugfs after boot, for example, on /debug.  This will
-> > create a /debug/rcu directory with three files, "rcucb", "rcu_data",
-> > and "rcu_bh_data".  Since you are still able to log in, could you
-> > please send the contents of these three files?
+On Tuesday, 11 of November 2008, Mike Isely wrote:
+> On Tue, 11 Nov 2008, Rafael J. Wysocki wrote:
 > 
-> Hi Paul,
+> > On Tuesday, 11 of November 2008, Greg KH wrote:
+> > > On Sun, Nov 09, 2008 at 08:43:22PM +0100, Rafael J. Wysocki wrote:
+> > > > This message has been generated automatically as a part of a report
+> > > > of regressions introduced between 2.6.26 and 2.6.27.
+> > > > 
+> > > > The following bug entry is on the current list of known regressions
+> > > > introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+> > > > be listed and let me know (either way).
+> > > > 
+> > > > 
+> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11829
+> > > > Subject		: Kernel 2.6.26.5 -&gt; 2.6.27.2 [USB REGRESSION] (USB -&gt; D_STATE)
+> > > > Submitter	: Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>
+> > > > Date		: 2008-10-19 11:26 (22 days old)
+> > > > References	: http://marc.info/?l=linux-kernel&m=122441560120027&w=4
+> > > > Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+> > > > 		  Mike Isely <isely-2vzrQ03IO+5eoWH0uzbU5w@public.gmane.org>
+> > > > Patch		: http://linuxtv.org/hg/~mcisely/pvrusb2/rev/0bb411d8d2e4
+> > > 
+> > > This has been fixed already in .27 and in mainline with a patch from
+> > > Alan.
+> > 
+> > OK, closed it.
+> > 
+> > Do you remember which of the Alan's patches is that?
 > 
-> could you attach the patch please? :)
+> It wasn't a patch from Alan.  It was from me.  The commit ID is 
+> c82732a42896364296599b0f73f01c5e3fd781ae
 
-Peter Z. beat you to it.  ;-)
+OK, thanks.
 
-See previous email.
+I added the "Fixed by" information to the bug entry, for the record.
 
-> Does the patch also make sense if the system continues to work? That
-> is the machine isn't stalled anymore as soon as I log in.
-> On the other hand I do have a dump of the system and can look in
-> whatever data structures you want. If that helps.
-
-Ah!
-
-I would like to see the value of rcu_ctrlblk.cpumask and also the value
-of cpu_online_map.  One guess would be that rcu_ctrlblk.cpumask has a
-bit set that is -not- set in cpu_online_map, which would indicate that
-RCU was incorrectly waiting on an offline CPU.
-
-On the other hand, if all the bits set in rcu_ctrlblk.cpumask are also
-set in cpu_online_map, then could you please dump out the instances of
-the rcu_data per-CPU variable that correspond to the bits set in
-rcu_ctrlblk.cpumask?
-
-Finally, if no bits are set in rcu_ctrlblk.cpumask, the question would
-be "why isn't the synchronize_sched() waking up?"
-
-BTW, I am assuming that you have the same config as Raphael, in other
-words, that you are running Classic RCU rather than preemptable RCU.
-
-The point of the patch is that it allows you to see this info by catting
-out the /debug/rcu files, at least assuming that the system is healthy
-enough to allow you to cat files.  But if you already have a crash dump...
-
-							Thanx, Paul
+Rafael
