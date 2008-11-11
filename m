@@ -1,70 +1,79 @@
-From: "Vegard Nossum" <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to chanes in stop_machine
-Date: Tue, 11 Nov 2008 14:36:19 +0100
-Message-ID: <19f34abd0811110536i71994436q4aa78a99d201c478@mail.gmail.com>
-References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
-	 <20081110120401.GA15518@osiris.boeblingen.de.ibm.com>
-	 <200811101547.21325.rjw@sisk.pl> <200811102355.42389.rjw@sisk.pl>
-	 <20081111105214.GA15645@elte.hu>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #11380] lockdep warning: cpu_add_remove_lock at:cpu_maps_update_begin+0x14/0x16
+Date: Tue, 11 Nov 2008 14:47:36 +0100
+Message-ID: <200811111447.37858.rjw@sisk.pl>
+References: <20081110073047.GA28578@elte.hu> <20081111120111.GA3503@redhat.com> <20081111110708.GE15645@elte.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=FsQpZrIyW5EYuBtjc4DsWjXHtSmLhhFNcpBdewybujI=;
-        b=CRGZlBpanwBuQlBTFZR45/1cdJ/PZzSkjEO4tcyx4BGsp/o5zuCO8t97emSgTbyE3X
-         j8nD9bJmQ4i4lwwkXyPlff224G9YGhcoAVLBM8nymbq5GCdWfNUwuY0a/62me8a93jt5
-         zADMycP9kBpI+7yfxp9h/sUolBUCjH28TzSr8=
-In-Reply-To: <20081111105214.GA15645-X9Un+BFzKDI@public.gmane.org>
+In-Reply-To: <20081111110708.GE15645-X9Un+BFzKDI@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Max Krasnyansky <maxk-zC7DfRvBq/JWk0Htik3J/w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tue, Nov 11, 2008 at 11:52 AM, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
-> [ Cc:-ed workqueue/locking/suspend-race-condition experts. ]
+On Tuesday, 11 of November 2008, Ingo Molnar wrote:
+> 
+> * Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> 
+> > On 11/11, KOSAKI Motohiro wrote:
+> > >
+> > > it seem simple ABBA lock, right?
+> > >
+> > > -> #4 (&dev->mutex){--..}:
+> > >        [<c0160f87>] validate_chain+0x831/0xaa2
+> > >        [<c0161872>] __lock_acquire+0x67a/0x6e0
+> > >        [<c0161933>] lock_acquire+0x5b/0x81
+> > >        [<c0a660e4>] mutex_lock_interruptible_nested+0xde/0x2f8
+> > >        [<c0782d02>] input_register_handle+0x26/0x7a			dev->mutex
+> >                                                                         ^^^^^^^^^^
+> > >        [<c04a62c9>] kbd_connect+0x64/0x8d
+> > >        [<c0782842>] input_attach_handler+0x38/0x6b
+> > >        [<c0784216>] input_register_handler+0x74/0xc3			input_mutex
+> > >        [<c0f54e4b>] kbd_init+0x66/0x91
+> > >        [<c0f54f7b>] vty_init+0xce/0xd7
+> > >        [<c0f54952>] tty_init+0x193/0x197
+> > >        [<c010112a>] do_one_initcall+0x42/0x133
+> > >        [<c0f2d5cb>] kernel_init+0x16e/0x1d5
+> > >        [<c0117c03>] kernel_thread_helper+0x7/0x10
+> > >        [<ffffffff>] 0xffffffff
+> > >
+> > > -> #3 (input_mutex){--..}:
+> > >        [<c0160f87>] validate_chain+0x831/0xaa2
+> > >        [<c0161872>] __lock_acquire+0x67a/0x6e0
+> > >        [<c0161933>] lock_acquire+0x5b/0x81
+> > >        [<c0a660e4>] mutex_lock_interruptible_nested+0xde/0x2f8
+> > >        [<c0783fbe>] input_register_device+0xff/0x17f		input_mutex
+> > >        [<c048a889>] acpi_button_add+0x31e/0x429
+> > >        [<c04889f4>] acpi_device_probe+0x43/0xde
+> > >        [<c052c67f>] driver_probe_device+0xa5/0x120
+> > >        [<c052c73c>] __driver_attach+0x42/0x64			dev->sem
+> >                                                                 ^^^^^^^^
+> > input_dev->mutex != device->sem
+> > 
+> > > ...
+> > >        [<c0f2d201>] do_async_initcalls+0x1a/0x2a
+> > >        [<c0150eec>] run_workqueue+0xc3/0x193			
+> > >        [<c015195d>] worker_thread+0xbb/0xc7
+> > >        [<c0153e2a>] kthread+0x40/0x66
+> > 
+> > What is the kernel version, btw? I can't find do_async_initcalls
+> > in 2.6.27 or 2.6.28.
+> 
+> i suspect it's an older version of tip/master that still had async 
+> initcalls.
+> 
+> > Anyway, this really looks like lockdep bug to me. Even if we really 
+> > have the circular dependency (will try to grep more) I can't 
+> > understand why lockdep claims that polldev_mutex depends on 
+> > cpu_add_remove_lock.
+> 
+> ok, will re-report if i can trigger it again with latest kernels. 
+> Rafael, please close this bug as cannot-reproduce for now.
 
-Heh. I am not expert, but I looked at the code. The obvious suspicious
-thing to see is the use of unpaired barriers? Maybe like this:
+Done.
 
- 47 static void set_state(enum stopmachine_state newstate)
-48 {
-49         /* Reset ack counter. */
-50         atomic_set(&thread_ack, num_threads);
-51         smp_wmb();
-
-+ /* force ordering between thread_ack/state */
-
-52         state = newstate;
-53 }
-54
-55 /* Last one to ack a state moves to the next state. */
-56 static void ack_state(void)
-57 {
-58         if (atomic_dec_and_test(&thread_ack))
-
-Maybe
-+ /* force ordering between thread_ack/state */
-+ smp_rmb();
-here?
-
-59                 set_state(state + 1);
-60 }
-61
-
-Or maybe I am wrong. But Documentation/memory-barriers.txt is rather
-explicit on this point.
-
-
-Vegard
-
--- 
-"The animistic metaphor of the bug that maliciously sneaked in while
-the programmer was not looking is intellectually dishonest as it
-disguises that the error is the programmer's own creation."
-	-- E. W. Dijkstra, EWD1036
+Thanks,
+Rafael
