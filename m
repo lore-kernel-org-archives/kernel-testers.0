@@ -1,76 +1,27 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #11380] lockdep warning: cpu_add_remove_lock
-	at:cpu_maps_update_begin+0x14/0x16
-Date: Tue, 11 Nov 2008 12:07:08 +0100
-Message-ID: <20081111110708.GE15645@elte.hu>
-References: <20081110073047.GA28578@elte.hu> <20081110132208.GB10294@redhat.com> <20081111105706.6174.KOSAKI.MOTOHIRO@jp.fujitsu.com> <20081111120111.GA3503@redhat.com>
+From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Subject: Re: [Bug #11875] radeonfb lockup in .28-rc (bisected)
+Date: Tue, 11 Nov 2008 22:30:09 +1100
+Message-ID: <1226403009.7530.158.camel@pasglop>
+References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
+	 <wnN9HICUAgP.A._d.f5zFJB@chimera> <1226295985.7731.7.camel@pasglop>
+	 <jetzafiad4.fsf@sykes.suse.de> <1226353979.7530.8.camel@pasglop>
+	 <jefxlzi2x0.fsf@sykes.suse.de> <1226360094.7530.18.camel@pasglop>
+	 <je1vxji1br.fsf@sykes.suse.de> <1226368174.7530.47.camel@pasglop>
+	 <jeskpy7gnl.fsf@sykes.suse.de>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20081111120111.GA3503-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <jeskpy7gnl.fsf-+JVCjXrnBTholqkO4TVVkw@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Max Krasnyansky <maxk-zC7DfRvBq/JWk0Htik3J/w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>, Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
+On Tue, 2008-11-11 at 10:31 +0100, Andreas Schwab wrote:
+> It looks like you are observing the same failure mode that I do.
 
-* Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+Yup, once, haven't reproduced it ever since though :-(
 
-> On 11/11, KOSAKI Motohiro wrote:
-> >
-> > it seem simple ABBA lock, right?
-> >
-> > -> #4 (&dev->mutex){--..}:
-> >        [<c0160f87>] validate_chain+0x831/0xaa2
-> >        [<c0161872>] __lock_acquire+0x67a/0x6e0
-> >        [<c0161933>] lock_acquire+0x5b/0x81
-> >        [<c0a660e4>] mutex_lock_interruptible_nested+0xde/0x2f8
-> >        [<c0782d02>] input_register_handle+0x26/0x7a			dev->mutex
->                                                                         ^^^^^^^^^^
-> >        [<c04a62c9>] kbd_connect+0x64/0x8d
-> >        [<c0782842>] input_attach_handler+0x38/0x6b
-> >        [<c0784216>] input_register_handler+0x74/0xc3			input_mutex
-> >        [<c0f54e4b>] kbd_init+0x66/0x91
-> >        [<c0f54f7b>] vty_init+0xce/0xd7
-> >        [<c0f54952>] tty_init+0x193/0x197
-> >        [<c010112a>] do_one_initcall+0x42/0x133
-> >        [<c0f2d5cb>] kernel_init+0x16e/0x1d5
-> >        [<c0117c03>] kernel_thread_helper+0x7/0x10
-> >        [<ffffffff>] 0xffffffff
-> >
-> > -> #3 (input_mutex){--..}:
-> >        [<c0160f87>] validate_chain+0x831/0xaa2
-> >        [<c0161872>] __lock_acquire+0x67a/0x6e0
-> >        [<c0161933>] lock_acquire+0x5b/0x81
-> >        [<c0a660e4>] mutex_lock_interruptible_nested+0xde/0x2f8
-> >        [<c0783fbe>] input_register_device+0xff/0x17f		input_mutex
-> >        [<c048a889>] acpi_button_add+0x31e/0x429
-> >        [<c04889f4>] acpi_device_probe+0x43/0xde
-> >        [<c052c67f>] driver_probe_device+0xa5/0x120
-> >        [<c052c73c>] __driver_attach+0x42/0x64			dev->sem
->                                                                 ^^^^^^^^
-> input_dev->mutex != device->sem
-> 
-> > ...
-> >        [<c0f2d201>] do_async_initcalls+0x1a/0x2a
-> >        [<c0150eec>] run_workqueue+0xc3/0x193			
-> >        [<c015195d>] worker_thread+0xbb/0xc7
-> >        [<c0153e2a>] kthread+0x40/0x66
-> 
-> What is the kernel version, btw? I can't find do_async_initcalls
-> in 2.6.27 or 2.6.28.
+Ben.
 
-i suspect it's an older version of tip/master that still had async 
-initcalls.
-
-> Anyway, this really looks like lockdep bug to me. Even if we really 
-> have the circular dependency (will try to grep more) I can't 
-> understand why lockdep claims that polldev_mutex depends on 
-> cpu_add_remove_lock.
-
-ok, will re-report if i can trigger it again with latest kernels. 
-Rafael, please close this bug as cannot-reproduce for now.
-
-	Ingo
