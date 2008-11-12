@@ -1,168 +1,60 @@
-From: Maxim Levitsky <maximlevitsky@gmail.com>
-Subject: Re: Bugs on aspire one A150
-Date: Wed, 12 Nov 2008 19:48:41 +0200
-Message-ID: <491B16F9.8030608@gmail.com>
-References: <491506DB.1070000@gmail.com> <49157E97.60503@tuffmail.co.uk> <49163435.20301@gmail.com> <4916BED0.4090700@tuffmail.co.uk>
+From: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
+Subject: Re: [alsa-devel] Bugs on aspire one A150
+Date: Wed, 12 Nov 2008 19:05:19 +0100
+Message-ID: <20081112180519.GA21919@rhlx01.hs-esslingen.de>
+References: <s5h3ai11dpt.wl%tiwai@suse.de> <20081109151323.GA18705@rhlx01.hs-esslingen.de> <s5h7i7c916e.wl%tiwai@suse.de> <20081109200929.GA29333@rhlx01.hs-esslingen.de> <s5hiqqtkxqr.wl%tiwai@suse.de> <491B0D38.1050207@gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=rl4/IXUuBfCZw0sEtrTbfhYgzpuEDahmg+XiVo34jE0=;
-        b=csqU6xA4j3aXBtHG9F2eWVrD+lLoOg8lz3I/NQupLghoNAV6TDgKZX9YhqmbMNBN4Q
-         /0Tfrzrzd/olWoDgkE9/wZ+BbCKC9PYKN4bCS1eDxl75Ha7jRGPK1nKDKBsmPiTdLfEf
-         sXZTcT6NQj9k4XoXfzhIbn4WWFAKkX26no7e8=
-In-Reply-To: <4916BED0.4090700@tuffmail.co.uk>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <491B0D38.1050207-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
-Cc: linux-kernel@vger.kernel.org, linux-pm@lists.linux-foundation.org, Kernel Testers List <kernel-testers@vger.kernel.org>, linux acpi <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Alan Jenkins wrote:
-> Maxim Levitsky wrote:
->> Alan Jenkins wrote:
->>> Maxim Levitsky wrote:
->>>> I have just bought an Aspire one A150, XP version,
->>>> as it was the only available here, and installed ubuntu on it.
->>>>
->>>> Bugs I discovered so far:
->>>>
->>>>
->>>> ** 1 - embedded controler works in polling mode, due to this:
->>>>
->>>> [    0.708571] ACPI: EC: non-query interrupt received, switching to
->>>> interrupt mode
->>>> [    1.224043] ACPI: EC: missing confirmations, switch off interrupt
->>>> mode.
->>>>
->>>>
->>>> Maybe this is the reason for the fact that gnome power manager
->>>> freezes when I unplug
->>>> the AC, and freezes often when I try to see battery status.
->>>>
->>>>
->>>> (Note: same is seen on my acer aspire 5720)
->>> That sounds like a known issue.  It has been resolved by "ACPI: EC:
->>> revert msleep patch".  Happily Len submitted it for mainline this
->>> week.  You will also find it if you try the acpi-test git tree. 
->>> We're all hoping 2.6.28 will be much improved in terms of reliable
->>> operation of different ECs :).
->>>
->> Yes, this almost fixes all issues with that.
->> Almost because, it looks like the EC changes screen brightness on his
->> own when battery is plugged/unplugged,
->> but so does the gnome-power-manager, and thus it still hangs as before
->> on battery removal (but doesn't hang otherwise)
->> I disabled that behaver in gnome-power-manager and now no more hangs.
->>
-> 
-> Please do report it as an ACPI EC bug.  It's popular hardware, and if
-> nothing else it is important that upstream be aware of the workarounds
-> people are having to use.
-> 
->> I see that this fix fixes the polled mode. Any chance to make irq mode
->> work?
->>
-> 
-> Probably not.  It doesn't seem important, it may not be possible, and
-> even if you could fix the EC driver for your hardware, there's the risk
-> of breaking other peoples hardware.
-> 
-> The presumption is that you have weird hardware and it genuinely needs a
-> polling workaround.  It's not too bad, now it uses udelay() it should
-> not impose any wakeups or significant latency, just some extra cpu time
-> in a busy loop.  EC events such as acpi hotkeys are still received as
-> interrupts (although we then have to query the type of event using a
-> polled transaction).
-> 
-> 
-> I assume you get something like (text not exact):
-> 
-> "EC: started in polling mode"
-> ...
-> "EC: non-query interrupt received, switching to interrupt mode"
-> ...
-> "EC: missing confirmations, switching to polling mode"
-> 
-> all during boot.
-Yes, this is what I see.
+Hi,
 
-> 
-> 
-> There's one outstanding issue on a different machine, where the
-> occasional EC read fails and triggers polling mode sometime _after_
-> boot.  It can be fixed by retrying the transaction
-> 
->     http://bugzilla.kernel.org/show_bug.cgi?id=11896
-> 
-> but I don't really expect your machine has the same problem.
-> 
-> <snip non-acpi problems>
-> 
->> Also noticed another bug:
->>
->>
->> If I suspend/resume with compiz running, on resume I see wallpaper and
->> mouse cursor, everything hangs for minute or two, and sometimes forever.
->>
->> 2.6.27 worked fine.
-> 
-> Weird.
-> 
-> Did you try sysrq-W during the hang?  That's supposed to dump a list of
-> blocked tasks to dmesg.
-Well, I see the wallpaper and can move the mouse, I will try to suspend from console
-I think this is graphics bug.
-nether ctrl+alt+bks nor SAK kill X.
+On Wed, Nov 12, 2008 at 07:07:04PM +0200, Maxim Levitsky wrote:
+> I pretty much studied the datasheet and driver, and this is what I found:
+> btw, my acer 5720 and aspire one share same ALC268.
+> Some stuff is trivially fixable, some seems to be unfixable at all:
 
-After 2 minute wait, kernel log doesn't show anything unusual.
-printk times, jump that 2 minutes around wireless association, but I tested it without ath5k loaded
-and still the same happens.
+Wow, what an extremely in-depth analysis!
+I just intended to dive into getting mic routing corrected myself,
+thus you saved me a lot of time!
 
-Also if I disable compiz, everything resumes correctly, and instantly.
+> model=acer is used on my regular laptop.
+> model-acer-aspire is used on aspire one laptop, and it needs to be renamed, as both are aspire.
 
-> 
->> Also hibernate doesn't work on my main notebook, but it is probably
->> fixed, I update kernel to really latest -git
->> and tell you.
->>
-> 
-> But suspend to ram works?  Usually it is the other way round :).  If you
-> haven't already, you might read
-> 
->     Documentation/power/basic-pm-debugging.txt
-> 
-Well, this is long story
-details at http://lkml.org/lkml/2008/9/20/75
-speaking shortly, bios doesn't pass control to kernel on second resume.
-Thus I don't test it, but I see how it works now.
++1 (your analysis of both being rather different - as already pondered -
+confirms this necessity)
 
-Suspend to disk still doesn't work.
-First of all system hangs in the end of image writeout.
-If I power it down manually, and boot, system resumes from disk, and then hangs.
-2.6.27 works fine.
+> And now for unfixable problems:
+>
+> 1) There is strong DC offset on all inputs.
+> it is even different on left/right and depends on capture volume.
+> I tried to change the VREF only param that could help, but it doesn't.
+> I feel that this is hardware flaw.
+> (It is possible that voltage on inputs is created by circuit made by acer, and then ALC268 amplifies it.)
 
-(This is about my main notebook)
+Sounds like really bad circuit design then.
+One would think that the Intel HDA architecture might have builtin
+measures to compensate for this if needed? DC offset issues on
+soundcards aren't exactly a new phenomenon after all...
 
+> Lastly I noticed that datasheet mentions so called 'coefficients':
+> the codecs exposes lots of internal and undocumented registers using set address/ get/set value scheme.
+> maybe some of above bugs are fixable there, but ether realtek has to provide data for that or reverse engineering of
+> windows driver is required.
 
-> it suggests some tests to narrow down the problem.
-> 
->> Big thanks for bugfixes, you saved me a lot of work and bisecting.
->>
-> 
-> I can't take credit for actual fixes.  But I'm very happy to help people
-> avoid bisecting for known problems.  I hope you have time to crack the
-> unknown ones :).
-> 
-> Alan
+I've actually had a peek at the .inf files since I thought that it would
+already contain register values in those registry keys that it creates on
+install, but yeah, that's all in-driver it seems.
+Probably time to ask Acer about specifics, especially since I didn't spot
+any hda-intel changes in their linux-2.6.23.9lw source.
 
+Thank you very much,
 
-Best regards,
-	Maxim Levitsky
-
-
-PS: sorry for late reply
+Andreas Mohr
