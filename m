@@ -1,66 +1,41 @@
-From: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
-Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to chanes in stop_machine
-Date: Wed, 12 Nov 2008 14:09:49 +1030
-Message-ID: <200811112256.58467.rusty@rustcorp.com.au>
-References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <200811102355.42389.rjw@sisk.pl> <20081111105214.GA15645@elte.hu>
+From: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to
+	chanes in stop_machine
+Date: Wed, 12 Nov 2008 10:05:08 +0100
+Message-ID: <20081112090508.GA14329@osiris.boeblingen.de.ibm.com>
+References: <200811101547.21325.rjw@sisk.pl> <200811102355.42389.rjw@sisk.pl> <20081111105214.GA15645@elte.hu> <20081111113134.GA5653@osiris.boeblingen.de.ibm.com> <20081111124201.GA9459@osiris.boeblingen.de.ibm.com> <20081111143505.GA6923@linux.vnet.ibm.com> <20081111150225.GA10743@linux.vnet.ibm.com> <20081111161401.GC9459@osiris.boeblingen.de.ibm.com> <20081111164523.GB6736@linux.vnet.ibm.com> <20081111173451.GA24720@linux.vnet.ibm.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: base64
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081111105214.GA15645-X9Un+BFzKDI@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <20081111173451.GA24720-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Steven Rostedt <srostedt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-T24gVHVlc2RheSAxMSBOb3ZlbWJlciAyMDA4IDIxOjIyOjE0IEluZ28gTW9sbmFyIHdyb3RlOgo+
-ICogUmFmYWVsIEouIFd5c29ja2kgPHJqd0BzaXNrLnBsPiB3cm90ZToKPiA+IFNvLCBpdCBldmlk
-ZW50bHkgZmFpbHMgd2hpbGUgcmUtZW5hYmxpbmcgdGhlIG5vbi1ib290IENQVSBhbmQgbm90Cj4g
-PiBkdXJpbmcgZGlzYWJsaW5nIGl0IGFzIEkgdGhvdWdodCBiZWZvcmUuCgooUmVzZW5kLCBkdWUg
-dG8gSFRNTCB2ZXJzaW9uIHByZXZpb3VzbHkpCgpCdXQgd2hhdCBpcyBjYWxsaW5nIHN0b3BfbWFj
-aGluZSBpbiB0aGF0IHBhdGg/CgpUaGVyZSAqaXMqIGEgcmFjZSwgYnV0IEkgZG9uJ3QgdGhpbmsg
-aXQgY291bGQgY2F1c2UgdGhpcyAod2Ugc2hvdWxkIG1ha2UgYQpjb3B5IG9mIGFjdGl2ZS5mbnJl
-dCBpbnNpZGUgdGhlIGxvY2sgYmVmb3JlIHJldHVybmluZyBpdCkuCgpUd28gcGF0Y2hlczogb25l
-IGZpeGVzIHRoYXQgcmFjZSwgdGhlIG5leHQgYWRkcyBkZWJ1Z2dpbmcgc3Bldy4KCnN0b3BfbWFj
-aGluZTogZml4IHJhY2Ugd2l0aCByZXR1cm4gdmFsdWUKCldlIHNob3VsZCBub3QgYWNjZXNzIGFj
-dGl2ZS5mbnJldCBvdXRzaWRlIHRoZSBsb2NrOyBpbiB0aGVvcnkgdGhlIG5leHQKc3RvcF9tYWNo
-aW5lIGNvdWxkIG92ZXJ3cml0ZSBpdC4KClNpZ25lZC1vZmYtYnk6IFJ1c3R5IFJ1c3NlbGwgPHJ1
-c3R5QHJ1c3Rjb3JwLmNvbS5hdT4KLS0tCiBrZXJuZWwvc3RvcF9tYWNoaW5lLmMgfCAgICA1ICsr
-Ky0tCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlm
-ZiAtciBkN2M5YTE1ZGE2MTUga2VybmVsL3N0b3BfbWFjaGluZS5jCi0tLSBhL2tlcm5lbC9zdG9w
-X21hY2hpbmUuYwlNb24gTm92IDEwIDA5OjQ3OjQ1IDIwMDggKzExMDAKKysrIGIva2VybmVsL3N0
-b3BfbWFjaGluZS5jCVR1ZSBOb3YgMTEgMjM6MTk6NDcgMjAwOCArMTAzMApAQCAtMTEyLDcgKzEx
-Miw3IEBACiBpbnQgX19zdG9wX21hY2hpbmUoaW50ICgqZm4pKHZvaWQgKiksIHZvaWQgKmRhdGEs
-IGNvbnN0IGNwdW1hc2tfdCAqY3B1cykKIHsKIAlzdHJ1Y3Qgd29ya19zdHJ1Y3QgKnNtX3dvcms7
-Ci0JaW50IGk7CisJaW50IGksIHJldDsKIAogCS8qIFNldCB1cCBpbml0aWFsIHN0YXRlLiAqLwog
-CW11dGV4X2xvY2soJmxvY2spOwpAQCAtMTM3LDggKzEzNyw5IEBACiAJLyogVGhpcyB3aWxsIHJl
-bGVhc2UgdGhlIHRocmVhZCBvbiBvdXIgQ1BVLiAqLwogCXB1dF9jcHUoKTsKIAlmbHVzaF93b3Jr
-cXVldWUoc3RvcF9tYWNoaW5lX3dxKTsKKwlyZXQgPSBhY3RpdmUuZm5yZXQ7CiAJbXV0ZXhfdW5s
-b2NrKCZsb2NrKTsKLQlyZXR1cm4gYWN0aXZlLmZucmV0OworCXJldHVybiByZXQ7CiB9CiAKIGlu
-dCBzdG9wX21hY2hpbmUoaW50ICgqZm4pKHZvaWQgKiksIHZvaWQgKmRhdGEsIGNvbnN0IGNwdW1h
-c2tfdCAqY3B1cykKPT09CmRpZmYgLXIgZmU3ZGQzOWIxY2ZmIGtlcm5lbC9zdG9wX21hY2hpbmUu
-YwotLS0gYS9rZXJuZWwvc3RvcF9tYWNoaW5lLmMJV2VkIE5vdiAxMiAxNDowNzoxOCAyMDA4ICsx
-MDMwCisrKyBiL2tlcm5lbC9zdG9wX21hY2hpbmUuYwlXZWQgTm92IDEyIDE0OjA5OjA4IDIwMDgg
-KzEwMzAKQEAgLTg5LDYgKzg5LDggQEAKIAkJCWNhc2UgU1RPUE1BQ0hJTkVfUlVOOgogCQkJCS8q
-IE9uIG11bHRpcGxlIENQVXMgb25seSBhIHNpbmdsZSBlcnJvciBjb2RlCiAJCQkJICogaXMgbmVl
-ZGVkIHRvIHRlbGwgdGhhdCBzb21ldGhpbmcgZmFpbGVkLiAqLworCQkJCXByaW50aygic3RvcF9t
-YWNoaW5lOiAlaSBydW5uaW5nICVwXG4iLAorCQkJCSAgICAgICBzbXBfcHJvY2Vzc29yX2lkKCks
-IHNtZGF0YS0+Zm4pOwogCQkJCWVyciA9IHNtZGF0YS0+Zm4oc21kYXRhLT5kYXRhKTsKIAkJCQlp
-ZiAoZXJyKQogCQkJCQlzbWRhdGEtPmZucmV0ID0gZXJyOwpAQCAtMTA2LDYgKzEwOCw3IEBACiAv
-KiBDYWxsYmFjayBmb3IgQ1BVcyB3aGljaCBhcmVuJ3Qgc3VwcG9zZWQgdG8gZG8gYW55dGhpbmcu
-ICovCiBzdGF0aWMgaW50IGNoaWxsKHZvaWQgKnVudXNlZCkKIHsKKwlwcmludGsoInN0b3BfbWFj
-aGluZTogJWkgY2hpbGxpbmdcbiIsIHNtcF9wcm9jZXNzb3JfaWQoKSk7CiAJcmV0dXJuIDA7CiB9
-CiAKQEAgLTEyNiwxNyArMTI5LDIzIEBACiAKIAlzZXRfc3RhdGUoU1RPUE1BQ0hJTkVfUFJFUEFS
-RSk7CiAKKwlwcmludGsoInN0b3BfbWFjaGluZTogcnVubmluZyBvbiAlaSBjcHVzOlxuIiwgbnVt
-X3RocmVhZHMpOworCWR1bXBfc3RhY2soKTsKKwogCS8qIFNjaGVkdWxlIHRoZSBzdG9wX2NwdSB3
-b3JrIG9uIGFsbCBjcHVzOiBob2xkIHRoaXMgQ1BVIHNvIG9uZQogCSAqIGRvZXNuJ3QgaGl0IHRo
-aXMgQ1BVIHVudGlsIHdlJ3JlIHJlYWR5LiAqLwogCWdldF9jcHUoKTsKIAlmb3JfZWFjaF9vbmxp
-bmVfY3B1KGkpIHsKKwkJcHJpbnRrKCJzdG9wX21hY2hpbmU6IHNldHRpbmcgdXAgY3B1ICVpXG4i
-LCBpKTsKIAkJc21fd29yayA9IHBlcmNwdV9wdHIoc3RvcF9tYWNoaW5lX3dvcmssIGkpOwogCQlJ
-TklUX1dPUksoc21fd29yaywgc3RvcF9jcHUpOwogCQlxdWV1ZV93b3JrX29uKGksIHN0b3BfbWFj
-aGluZV93cSwgc21fd29yayk7CiAJfQogCS8qIFRoaXMgd2lsbCByZWxlYXNlIHRoZSB0aHJlYWQg
-b24gb3VyIENQVS4gKi8KKwlwcmludGsoInN0b3BfbWFjaGluZTogcmVsZWFzaW5nIENQVSAlaVxu
-Iiwgc21wX3Byb2Nlc3Nvcl9pZCgpKTsKIAlwdXRfY3B1KCk7CiAJZmx1c2hfd29ya3F1ZXVlKHN0
-b3BfbWFjaGluZV93cSk7CisJcHJpbnRrKCJzdG9wX21hY2hpbmU6IGRvbmVcbiIpOwogCXJldCA9
-IGFjdGl2ZS5mbnJldDsKIAltdXRleF91bmxvY2soJmxvY2spOwogCXJldHVybiByZXQ7CgAK
+On Tue, Nov 11, 2008 at 09:34:51AM -0800, Paul E. McKenney wrote:
+> On Tue, Nov 11, 2008 at 08:45:23AM -0800, Paul E. McKenney wrote:
+> > On Tue, Nov 11, 2008 at 05:14:01PM +0100, Heiko Carstens wrote:
+> > > > > Could you please apply the following debug patch (due to Jiangshan and
+> > > > > myself)?  Then you should be able to build with CONFIG_RCU_TRACE,
+> > > > > then mount debugfs after boot, for example, on /debug.  This will
+> > > > > create a /debug/rcu directory with three files, "rcucb", "rcu_data",
+> > > > > and "rcu_bh_data".  Since you are still able to log in, could you
+> > > > > please send the contents of these three files?
+> > > > > 
+> > > > > 							Thanx, Paul
+> > > > 
+> > > > This time with the patch actually attached...  Thanks to Peter Z.
+> > > > for alerting me to my omission.
+> > > 
+> > > Well, your patch doesn't apply on git head. However I used preemptible
+> > > RCU instead and had tracing enabled.
+> > 
+> > Were you using preemptible RCU earlier as well?  Raphael was using
+> > classic RCU.  Don't get me wrong, all problems need fixing, just trying
+> > to make sure I understand where the problems are occurring.
+
+Indeed, my fault. I just try to reproduce a cpu hotplug bug with classic RCU
+and cpu hotplug stress test, but no luck so far.
