@@ -1,46 +1,51 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Subject: Re: 2.6.28-rc4: BUG: spinlock lockup on CPU#0
-Date: Tue, 11 Nov 2008 16:15:09 -0800 (PST)
-Message-ID: <20081111.161509.104851175.davem@davemloft.net>
-References: <20081111233230.GC12456@orion>
-	<20081111.154902.11426409.davem@davemloft.net>
-	<a4423d670811111609l37dcfe6bme277692b5206b5ec@mail.gmail.com>
+From: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to chanes in stop_machine
+Date: Wed, 12 Nov 2008 14:00:03 +1030
+Message-ID: <200811121400.04278.rusty@rustcorp.com.au>
+References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <19f34abd0811110647y2a00cfbfr2b219a5aa1b3ac9f@mail.gmail.com> <20081111163118.GA18214@redhat.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <a4423d670811111609l37dcfe6bme277692b5206b5ec-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20081111163118.GA18214-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, sparclinux-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-From: "Alexander Beregalov" <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date: Wed, 12 Nov 2008 03:09:54 +0300
+On Wednesday 12 November 2008 03:01:18 Oleg Nesterov wrote:
+> On 11/11, Vegard Nossum wrote:
+> > I think that the test for stop_machine_data in stop_cpu() should not
+> > have been moved from __stop_machine(). Because now cpu_online_map may
+> > change in-between calls to stop_cpu() (if the callback tries to
+> > online/offline CPUs), and the end result may be different.
+>
+> I don't think this is possible, the callback must not be called unless
+> all threads ack (at least) the STOPMACHINE_PREPARE state.
+>
+>
+> Off-topic question, __stop_machine() does:
+>
+> 	/* Schedule the stop_cpu work on all cpus: hold this CPU so one
+> 	 * doesn't hit this CPU until we're ready. */
+> 	get_cpu();
+> 	for_each_online_cpu(i) {
+> 		sm_work = percpu_ptr(stop_machine_work, i);
+> 		INIT_WORK(sm_work, stop_cpu);
+> 		queue_work_on(i, stop_machine_wq, sm_work);
+> 	}
+> 	/* This will release the thread on our CPU. */
+> 	put_cpu();
+>
+> Don't we actually need preempt_disable/preempt_enable instead of
+> get/put cpu? (yes, there the same currently). We don't care about
+> the CPU we are running on, and it can't go away until we queue all
+> works. But we must ensure that stop_cpu() on the same CPU can't
+> preempt us, right?
 
-> 2008/11/12 David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>:
-> > From: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date: Wed, 12 Nov 2008 02:32:30 +0300
-> >
-> >> It is on sparc64 (Ultra 10). 2.6.28-rc4-00011-g3ad4f59
-> >>
-> >> BUG: spinlock lockup on CPU#0, metalog/1322, 00000000007f1430
-> >> Kernel panic - not syncing: Aiee, killing interrupt handler!
-> >>
-> >> It seems Sysrq does not work.
-> >>
-> >> David, how can I provide more info before I reboot it ?
-> >>
-> >> Full dmesg:
-> >
-> > Hmm, this BUG message should have given you a register dump and a
-> > backtrace.
-> >
-> > Can you give it a "Alt-SysRQ-p" and show the output?
-> No, sysrq does not work, even Stop-A does not work now.
-> How could it be.
+A subtle distinction, but yes.  It used to be true before the recent changes, 
+where we manually did "this" cpu.
 
-The cpu stuck on the spinlock has interrupts disabled, but this
-is the cpu that services console interrupts.
-
-That's how it could be.
+Cheers,
+Rusty.
