@@ -1,48 +1,151 @@
-From: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to
-	chanes in stop_machine
-Date: Wed, 12 Nov 2008 17:51:18 +0100
-Message-ID: <20081112165118.GA30743@osiris.boeblingen.de.ibm.com>
-References: <20081111105214.GA15645@elte.hu> <20081111113134.GA5653@osiris.boeblingen.de.ibm.com> <20081111124201.GA9459@osiris.boeblingen.de.ibm.com> <20081111143505.GA6923@linux.vnet.ibm.com> <20081111150225.GA10743@linux.vnet.ibm.com> <20081111161401.GC9459@osiris.boeblingen.de.ibm.com> <20081111164523.GB6736@linux.vnet.ibm.com> <20081111173451.GA24720@linux.vnet.ibm.com> <20081112090508.GA14329@osiris.boeblingen.de.ibm.com> <20081112160349.GA6667@linux.vnet.ibm.com>
+From: Maxim Levitsky <maximlevitsky@gmail.com>
+Subject: Re: Bugs on aspire one A150
+Date: Wed, 12 Nov 2008 19:07:04 +0200
+Message-ID: <491B0D38.1050207@gmail.com>
+References: <s5h3ai11dpt.wl%tiwai@suse.de>	<20081109151323.GA18705@rhlx01.hs-esslingen.de>	<s5h7i7c916e.wl%tiwai@suse.de>	<20081109200929.GA29333@rhlx01.hs-esslingen.de>
+	<s5hiqqtkxqr.wl%tiwai@suse.de>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20081112160349.GA6667-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Steven Rostedt <srostedt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, manfred-nhLOkwUX5cPe2c5cEj3t2g@public.gmane.org
+Return-path: <alsa-devel-bounces@alsa-project.org>
+In-Reply-To: <s5hiqqtkxqr.wl%tiwai@suse.de>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <http://mailman.alsa-project.org/mailman/listinfo/alsa-devel>, 
+	<mailto:alsa-devel-request@alsa-project.org?subject=unsubscribe>
+List-Archive: <http://mailman.alsa-project.org/pipermail/alsa-devel>
+List-Post: <mailto:alsa-devel@alsa-project.org>
+List-Help: <mailto:alsa-devel-request@alsa-project.org?subject=help>
+List-Subscribe: <http://mailman.alsa-project.org/mailman/listinfo/alsa-devel>, 
+	<mailto:alsa-devel-request@alsa-project.org?subject=subscribe>
+Sender: alsa-devel-bounces@alsa-project.org
+Errors-To: alsa-devel-bounces@alsa-project.org
+To: Takashi Iwai <tiwai@suse.de>
+Cc: alsa-devel@alsa-project.org, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-kernel@vger.kernel.org, Andreas Mohr <andi@lisas.de>
 
-On Wed, Nov 12, 2008 at 08:03:49AM -0800, Paul E. McKenney wrote:
-> On Wed, Nov 12, 2008 at 10:05:08AM +0100, Heiko Carstens wrote:
-> > On Tue, Nov 11, 2008 at 09:34:51AM -0800, Paul E. McKenney wrote:
-> > > > Were you using preemptible RCU earlier as well?  Raphael was using
-> > > > classic RCU.  Don't get me wrong, all problems need fixing, just trying
-> > > > to make sure I understand where the problems are occurring.
-> > 
-> > Indeed, my fault. I just try to reproduce a cpu hotplug bug with classic RCU
-> > and cpu hotplug stress test, but no luck so far.
+Takashi Iwai wrote:
+> At Sun, 9 Nov 2008 21:09:29 +0100,
+> Andreas Mohr wrote:
+>> On Sun, Nov 09, 2008 at 07:58:17PM +0100, Takashi Iwai wrote:
+>>> At Sun, 9 Nov 2008 16:13:23 +0100,
+>>> Andreas Mohr wrote:
+>>>> OK, _THIS_ time I actually did get the correct model (last time I tried
+>>>> modprobe with model=acer-aspire, but apparently it then used the
+>>>> /etc/modprobe.d/ model=toshiba setting, since this time gamix showed
+>>>> entirely different controls with i-Mic etc.) - all the more reason to
+>>>> log the model name chosen/selected by the driver!!
+>>> Build with the debug option (why turned off even if you *are*
+>>> debugging?).  Then the driver will show you details.
+>> Hmm, right, that would have been an (very useful) option, but not for the
+>> majority of users OTOH.
 > 
-> OK, then my next step will be to send Rafael an updated version of
-> my hierarchical RCU, which is more robust than classic RCU against
-> online/offline stress tests.  On the machines I have access to, anyway.  ;-)
+> I thought many ditros set this option...
 > 
-> Then I will look at preemptable RCU, which undoubtably needs some of the
-> same help that I have been giving to hierarchical RCU.  Manfred thus
-> wins the clairvoyance award!
+>> Especially since this is a user-visible module parameter which should thus
+>> be confirmed in mainstream user code, via logging.
+> 
+> You can check via /sys/modules/snd_hda_intel/parameters/model whether
+> you passed correctly or not, at least :)
+> 
+>> Admittedly not many modules log their settings during startup,
+>> but for snd_hda_intel with its two myriads of codec/machine variants
+>> and a resulting quarter myriad of issues that would be very useful.
+> 
+> Passing the model option is already a kind of debugging work, IMO.
+> You shouldn't do it unless you need it, indeed.
+> 
+>>>> --> I have to admit that usability sucks^Hcould be a lot better.
+>>> One would call it rather debuggability than usability.
+>>> These are completely different things.
+>> See above ;)
+>>
+>>>> i-Mic on Ekiga with lotsa mixer fiddling didn't work either this time.
+>>> OK, then something is missing.  But you should test by arecord first
+>>> than any complicated applications as a primary test.
+>> Good point, will do.
+>>
+>> Oh, and is there a way to manually alter codec registers?
+> 
+> Try hda-verb program.  Build your kernel with CONFIG_SND_HDA_HWDEP=y
+> and access via the hwdep device.
+> 	ftp://ftp.suse.com/pub/people/tiwai/misc/hda-verb-0.2.tar.bz2
+> 
+> 
+> Takashi
 
-Well, I tried all day long to reproduce a cpu hotplug/stop_machine hang
-with classic RCU and a kernel configuration that is as close as possible
-to Raphael's configuration, but it just continues to work without a bug.
 
-One of the machines is a virtual machine with 8 virtual cpus mapped on
-two real cpus. The real cpus are again shared with other guests. So I end
-up with cpu steal times of 50-90%. That should have revealed races in the
-stop_machine code, considering that thousands of cpu hotplug operations
-happened.
+Hi,
 
-I let these test machines running over night. Maybe something happens...
-but at a first glance it looks more like the reworked stop_machine code
-triggers a different bug that already is present. Hmmm...
+I pretty much studied the datasheet and driver, and this is what I found:
+btw, my acer 5720 and aspire one share same ALC268.
+Some stuff is trivially fixable, some seems to be unfixable at all:
+
+model=acer is used on my regular laptop.
+model-acer-aspire is used on aspire one laptop, and it needs to be renamed, as both are aspire.
+
+
+1) internal beep volume/mute isn't preserved on resume on acer (I call the big laptop this way).
+2) aspire one, has same beep routing, but it isn't supported by this model, it should be added I think.
+
+3) on acer internal mic is mapped wrongly, it assumes that it is a digital mic, while in fact this is
+analog mic, and pin configs are set correctly, but they are ignored. fix is trivial, but might break other laptops.
+Maybe add this as a new input, like analog mic, at least it can be added for aspire 5720.
+
+
+4) There is really no internal mic boost on aspire, it is digital, not a bug.
+
+5) Codec supports two ADCs, and so does the driver, but for some models second ADC is ignored.
+alc268_capture_alt_mixer is used instead of alc268_capture_mixer.
+
+Here on acer both ADCs are present, and it might be worth to use them both (record from line in and mic)
+on aspire one there is only external and internal mic, probably doesn't worth it.
+
+6) Codec supports two DACs too, so it is in theory possible to play different streams on speakers and headphones.
+2nd DAC is connected only to headphones, while 1st DAC is connected to all. But here on acer they reversed the connections
+and connected speakers to headphones output and headphones to speakers, so probably useless, and besides this doesn't worth the trouble probably.
+
+7) SPDIF is supported on my notebook, but no by the driver, don't yet have a device to test it againt thought, but adding support should be easy.
+it is shared with headphones output.
+How we can detect that digital headphones are connected, don't know, probably impossible in hardware.
+
+
+8) The issue of capture volume on aspire one:
+when I try to increase internal mic's volume I have to increase ether left
+or right channel but not both.
+
+Well, first of all, aspire one mic is really digital.
+then, digital mic inputs are supposed to be connected by two mics each resulting in total
+of 4 mics.
+
+ADC multiplexers hide difference between analog and digital pins, but of course digital pins
+aren't really processed by ADC in analog sense, their input is probably sampled, and digitaly amplified.
+Maybe we really need to use only left or right channel there.
+I'll test this more carefully.
+
+
+
+And now for unfixable problems:
+
+1) There is strong DC offset on all inputs.
+it is even different on left/right and depends on capture volume.
+I tried to change the VREF only param that could help, but it doesn't.
+I feel that this is hardware flaw.
+(It is possible that voltage on inputs is created by circuit made by acer, and then ALC268 amplifies it.)
+
+
+
+2) That 'analog loopback' when setting any 'boost' setting to high.
+The is no mention of that in datasheets, and thus I strongly suspect that this should be called crosstalk.
+I understand the block diagram of the chip and there is no loopback, so this isn't alsa bug.
+
+
+Lastly I noticed that datasheet mentions so called 'coefficients':
+the codecs exposes lots of internal and undocumented registers using set address/ get/set value scheme.
+maybe some of above bugs are fixable there, but ether realtek has to provide data for that or reverse engineering of
+windows driver is required.
+
+(I will test whenever the above happens in windows, at least the #2)
+
+And I hope those registers are for debuging only.
+
+Best regards,
+	Maxim Levitsky
