@@ -1,55 +1,40 @@
-From: Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [Bug #11996] Tracing framework regression in 2.6.28-rc3
-Date: Sun, 16 Nov 2008 17:44:39 -0500 (EST)
-Message-ID: <alpine.DEB.1.10.0811161741050.2919@gandalf.stny.rr.com>
-References: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera> <Q7OAnAv0V3D.A.GwE.gAGIJB@chimera> <20081117003531.4c8b5679@daedalus.pq.iki.fi>
+From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Subject: Re: [Bug #11875] radeonfb lockup in .28-rc (bisected)
+Date: Thu, 13 Nov 2008 15:11:16 -0800 (PST)
+Message-ID: <20081113.151116.139760511.davem@davemloft.net>
+References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
+	<wnN9HICUAgP.A._d.f5zFJB@chimera>
+	<1226295985.7731.7.camel@pasglop>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754665AbYKPWo6@vger.kernel.org>
-In-Reply-To: <20081117003531.4c8b5679@daedalus.pq.iki.fi>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Pekka Paalanen <pq@iki.fi>
-Cc: Ingo Molnar <mingo@elte.hu>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1226295985.7731.7.camel@pasglop>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org
+Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org, paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
 
+From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Date: Mon, 10 Nov 2008 16:46:25 +1100
 
-On Mon, 17 Nov 2008, Pekka Paalanen wrote:
+> David, would you mind testing on your machine ? It's the one that shows
+> the biggest performance improvement, and I would like to know how much
+> it is affected by that patch. As long as the "worst case" performance
+> is still reasonable, I'm ok to take the hit if the improvement for you
+> is still significant.
 
-> On Sun, 16 Nov 2008 17:35:18 +0100 (CET)
-> "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
-> 
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.27.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11996
-> > Subject		: Tracing framework regression in 2.6.28-rc3
-> > Submitter	: Pekka Paalanen <pq@iki.fi>
-> > Date		: 2008-11-09 10:13 (8 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=122624392229317&w=4
-> > Handled-By	: Steven Rostedt <rostedt@goodmis.org>
-> 
-> Steve, Ingo, did you get into an agreement on the patch?
-> What should I test?
-> 
-> I see -rc5 is out, but I didn't spot the fix in the changelog.
-> 
-> (The ring buffer NULL dereference on resize / unallocated max tracer.)
+Finally got around to this, we lose about a full second in the
+"cat rfc3261.txt" benchmark:
 
-Ingo's solution was to have the ring_buffer_resize return success on NULL 
-buffer being passed in. Although I agree that it should not crash when 
-passed a NULL pointer, I feel that a NULL pointer should return a -1 
-(failure). The caller of the code (one place in kernel/trace/trace.c) 
-could simply check if the buffer was allocated, and if not, simply ignore 
-it.
+2.6.28-rc4 vanilla:
 
-I agree with Ingo that my original solution was too much churn. But the 
-simple if statement and "indent" change is what I feel to be the solution, 
-not letting the ring buffer return success on NULL pointer.
+7.634
+7.704
+7.688
 
--- Steve
+2.6.28rc4+patch:
+
+8.712
+8.685
+8.702
