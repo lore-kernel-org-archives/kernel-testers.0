@@ -1,8 +1,8 @@
 From: Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [alsa-devel] Bugs on aspire one A150
-Date: Fri, 14 Nov 2008 20:05:30 +0200
-Message-ID: <491DBDEA.9010104@gmail.com>
-References: <s5h3ai11dpt.wl%tiwai@suse.de> <20081109151323.GA18705@rhlx01.hs-esslingen.de> <s5h7i7c916e.wl%tiwai@suse.de> <20081109200929.GA29333@rhlx01.hs-esslingen.de> <s5hiqqtkxqr.wl%tiwai@suse.de> <491B0D38.1050207@gmail.com> <20081112180519.GA21919@rhlx01.hs-esslingen.de>
+Subject: Re: Bugs on aspire one A150
+Date: Fri, 14 Nov 2008 21:06:09 +0200
+Message-ID: <491DCC21.6060705@gmail.com>
+References: <491506DB.1070000@gmail.com> <49157E97.60503@tuffmail.co.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,73 +11,113 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:received:received:message-id:date:from
          :user-agent:mime-version:to:cc:subject:references:in-reply-to
          :content-type:content-transfer-encoding;
-        bh=BRwnAbHBH1Onw+hQoeDMKKUz9PBcr0LingOYPWi/JrM=;
-        b=A6dInTyheDJ7wjWLA3QAgWP9rKM+0+Mk4ovtUUFDZR1VdrhN5Rf26/wx/VLgZCwbhx
-         w/6MgSGnV/Md9Mt5O3vp/Ubgrm7fG/hZjfIJ7AtAcljvlb+cbEvuejen9Gjj2Nc9ZQaU
-         vg9nJjGvUoOR1az0h+tBFTycrj9bKaXOXp5Lw=
-In-Reply-To: <20081112180519.GA21919-p/qQFhXj4MHA4IYVXhSI5GHfThorsUsI@public.gmane.org>
+        bh=OWtuG9AXt2gTQ073Ft/qb+ZYFIDrE04v+ZXo+7IVHKk=;
+        b=TRUsDudoMijidwQxjlRq9TU5cXezBVsYRtVT0L9A3amwJNcHd1c2mLaNEGUawbLNHq
+         94F84wubJDktMs4SCbpIAFYtZ78bAuzd2G2RzSKya8iVGhLR5mZYcaS/bOIcpvfptC4x
+         WGVPqd/e0AGbzs9Z0vt8nCB44cyBDALTqq64o=
+In-Reply-To: <49157E97.60503-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
-Cc: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, ath5k-devel-xDcbHBWguxEUs3QNXV6qNA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Andreas Mohr wrote:
-> Hi,
-> 
-> On Wed, Nov 12, 2008 at 07:07:04PM +0200, Maxim Levitsky wrote:
->> I pretty much studied the datasheet and driver, and this is what I found:
->> btw, my acer 5720 and aspire one share same ALC268.
->> Some stuff is trivially fixable, some seems to be unfixable at all:
-> 
-> Wow, what an extremely in-depth analysis!
-> I just intended to dive into getting mic routing corrected myself,
-> thus you saved me a lot of time!
-> 
->> model=acer is used on my regular laptop.
->> model-acer-aspire is used on aspire one laptop, and it needs to be renamed, as both are aspire.
-> 
-> +1 (your analysis of both being rather different - as already pondered -
-> confirms this necessity)
-> 
->> And now for unfixable problems:
+Alan Jenkins wrote:
+> Maxim Levitsky wrote:
+>> I have just bought an Aspire one A150, XP version,
+>> as it was the only available here, and installed ubuntu on it.
 >>
->> 1) There is strong DC offset on all inputs.
->> it is even different on left/right and depends on capture volume.
->> I tried to change the VREF only param that could help, but it doesn't.
->> I feel that this is hardware flaw.
->> (It is possible that voltage on inputs is created by circuit made by acer, and then ALC268 amplifies it.)
+>> Bugs I discovered so far:
+>>
+>>
+>> ** 1 - embedded controler works in polling mode, due to this:
+>>
+>> [    0.708571] ACPI: EC: non-query interrupt received, switching to interrupt mode
+>> [    1.224043] ACPI: EC: missing confirmations, switch off interrupt mode.
+>>
+>>
+>> Maybe this is the reason for the fact that gnome power manager freezes when I unplug
+>> the AC, and freezes often when I try to see battery status.
+>>
+>>
+>> (Note: same is seen on my acer aspire 5720)
 > 
-> Sounds like really bad circuit design then.
-> One would think that the Intel HDA architecture might have builtin
-> measures to compensate for this if needed? DC offset issues on
-> soundcards aren't exactly a new phenomenon after all...
+> That sounds like a known issue.  It has been resolved by "ACPI: EC: revert msleep patch".  Happily Len submitted it for mainline this week.  You will also find it if you try the acpi-test git tree.  We're all hoping 2.6.28 will be much improved in terms of reliable operation of different ECs :).
 > 
->> Lastly I noticed that datasheet mentions so called 'coefficients':
->> the codecs exposes lots of internal and undocumented registers using set address/ get/set value scheme.
->> maybe some of above bugs are fixable there, but ether realtek has to provide data for that or reverse engineering of
->> windows driver is required.
+>> ** 2 - wireless: not to mention the fact that ath5k wasn't installed by default in ubuntu...
+>> wireless more or less works, but kernel log is full of backtraces.
 > 
-> I've actually had a peek at the .inf files since I thought that it would
-> already contain register values in those registry keys that it creates on
-> install, but yeah, that's all in-driver it seems.
-> Probably time to ask Acer about specifics, especially since I didn't spot
-> any hda-intel changes in their linux-2.6.23.9lw source.
+> Well, that doesn't tell us much.  Did they still happen after upgrading to 2.6.28-rc3?  Can we see them?
 > 
-> Thank you very much,
-> 
-> Andreas Mohr
+>> Was able to connect to my WPA2 access point.
+>> Sometimes wireless fails completely, especially after suspend to ram.
+>> Advanced features like monitor/injection work, but when I changed the card's
+>> mac address it stopped working.
+>> I also noticed that if I then start airodump, then wireless works with new mac.
+>>
+>>
+>>
+>> ** 3 - internal mic doesn't work.
+>> tried model=acer, model=auto.
+>> Overall it seems that alsa misprograms O/B realteck
+>> codec.
+>> I talk about this later.
+>> Have same issue on my acer 5720
+>>
+>>
+>>
+>> ** 4 - wireless led doesn't work.
+>> ath5k devs, can you fix this?
+>>
+>>
+>> ** 5 - coretemp doesn't show cpu temperature,
+>> I have seen somewhere that atom support same thermal diode as core2
+>> and only patch to detect it is needed.
+>> Please include such path in 2.6.28 if exists.
+Patch for that does exits, but doesn't apply to latest git,
+I will apply in manually.
+This should go to .28 I think, this is trivial thing.
 
-Small update:
 
-1) The dc offset isn't present on aspire one, really is a circuit design bug I guess 
-2) Internal mic works perfectly on aspire one, can reproduce the strange behaver at all,
-Probably this was mixer bug.
+>>
+>>
+>> ** 6 - both card readers are missing from lspci, is this normal?
+> 
+> A similar bug has been reported as a regression:
+> 
+> <http://bugzilla.kernel.org/show_bug.cgi?id=11828>
+> 
+> so one assumes that it worked on the machines with linux pre-installed.  Hopefully without requiring any hacks.
+> 
+> It seems that for now a workaround may be to pass the option debug_quirks=1 to the sdhci module...
+> 
+> <http://marc.info/?l=linux-kernel&m=122509648027303&w=2>
+> 
+> ...or that it may help if you insert an SD card before booting.
+> 
+> Apparently the reporter also investigated pcie hotplug.  Probably the BIOS doesn't provide the normal support.  You can try "modprobe pciehp pciehp_force=1", maybe it helps the kernel discover the devices.  It worked for something else on my EeePC.  But then it will reportedly disappear the ethernet controller.
+> 
+> However, at the moment pciehp can cause delays of 10s of seconds during resume.
+Got, a SD card, and with help of pciehp it works almost perfectly in both slots.
+Almost, due to the fact that R/O switch is ignored.
+(Just as I expected, a s/w switch, couldn't they think more, and include a hardware switch?)
+On my main acer R/O switch works.
 
-So aspire one support is almost, only need to add support to restore beep volume
-after resume.
+However I have to use pciehp_force=1, I understand that probably acpi tables are broken,
+but could you add a workaround (dmi quirk?)
+
+Also, there is a acpiphp driver, which doesn't work here.
+pciehp is supposed to support so called native mode, don't yet know what it is,
+but here it still uses acpi.
+
+
+>  
+>> ** 7 - opengl is broken, I tried running neverball in fullscreen, but it shows wrong/corrupted
+>> textures (compiz is running, and working well thought)
+I almost sure why this happens, opengl application is out of textures,
+I need to install gem enabled intel driver here, and see how it works.
+
 
 
 Best regards,
 	Maxim Levitsky
-
