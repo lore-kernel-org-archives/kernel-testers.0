@@ -1,55 +1,51 @@
-From: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to
-	chanes in stop_machine
-Date: Wed, 12 Nov 2008 11:43:46 -0800
-Message-ID: <20081112194346.GF6667@linux.vnet.ibm.com>
-References: <20081111113134.GA5653@osiris.boeblingen.de.ibm.com> <20081111124201.GA9459@osiris.boeblingen.de.ibm.com> <20081111143505.GA6923@linux.vnet.ibm.com> <20081111150225.GA10743@linux.vnet.ibm.com> <20081111161401.GC9459@osiris.boeblingen.de.ibm.com> <20081111164523.GB6736@linux.vnet.ibm.com> <20081111173451.GA24720@linux.vnet.ibm.com> <20081112090508.GA14329@osiris.boeblingen.de.ibm.com> <20081112160349.GA6667@linux.vnet.ibm.com> <20081112165118.GA30743@osiris.boeblingen.de.ibm.com>
-Reply-To: paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
+From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Subject: Re: [Bug #11875] radeonfb lockup in .28-rc (bisected)
+Date: Fri, 14 Nov 2008 11:54:20 +1100
+Message-ID: <1226624060.7178.100.camel@pasglop>
+References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
+	 <wnN9HICUAgP.A._d.f5zFJB@chimera> <1226295985.7731.7.camel@pasglop>
+	 <20081113.151116.139760511.davem@davemloft.net>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20081112165118.GA30743-Pmgahw53EmNLmI7Nx2oIsGnsbthNF6/HVpNB7YpNyf8@public.gmane.org>
+In-Reply-To: <20081113.151116.139760511.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Steven Rostedt <srostedt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, manfred-nhLOkwUX5cPe2c5cEj3t2g@public.gmane.org
+To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org, paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
 
-On Wed, Nov 12, 2008 at 05:51:18PM +0100, Heiko Carstens wrote:
-> On Wed, Nov 12, 2008 at 08:03:49AM -0800, Paul E. McKenney wrote:
-> > On Wed, Nov 12, 2008 at 10:05:08AM +0100, Heiko Carstens wrote:
-> > > On Tue, Nov 11, 2008 at 09:34:51AM -0800, Paul E. McKenney wrote:
-> > > > > Were you using preemptible RCU earlier as well?  Raphael was using
-> > > > > classic RCU.  Don't get me wrong, all problems need fixing, just trying
-> > > > > to make sure I understand where the problems are occurring.
-> > > 
-> > > Indeed, my fault. I just try to reproduce a cpu hotplug bug with classic RCU
-> > > and cpu hotplug stress test, but no luck so far.
-> > 
-> > OK, then my next step will be to send Rafael an updated version of
-> > my hierarchical RCU, which is more robust than classic RCU against
-> > online/offline stress tests.  On the machines I have access to, anyway.  ;-)
-> > 
-> > Then I will look at preemptable RCU, which undoubtably needs some of the
-> > same help that I have been giving to hierarchical RCU.  Manfred thus
-> > wins the clairvoyance award!
+On Thu, 2008-11-13 at 15:11 -0800, David Miller wrote:
+> From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+> Date: Mon, 10 Nov 2008 16:46:25 +1100
 > 
-> Well, I tried all day long to reproduce a cpu hotplug/stop_machine hang
-> with classic RCU and a kernel configuration that is as close as possible
-> to Raphael's configuration, but it just continues to work without a bug.
+> > David, would you mind testing on your machine ? It's the one that shows
+> > the biggest performance improvement, and I would like to know how much
+> > it is affected by that patch. As long as the "worst case" performance
+> > is still reasonable, I'm ok to take the hit if the improvement for you
+> > is still significant.
 > 
-> One of the machines is a virtual machine with 8 virtual cpus mapped on
-> two real cpus. The real cpus are again shared with other guests. So I end
-> up with cpu steal times of 50-90%. That should have revealed races in the
-> stop_machine code, considering that thousands of cpu hotplug operations
-> happened.
+> Finally got around to this, we lose about a full second in the
+> "cat rfc3261.txt" benchmark:
 > 
-> I let these test machines running over night. Maybe something happens...
-> but at a first glance it looks more like the reworked stop_machine code
-> triggers a different bug that already is present. Hmmm...
+> 2.6.28-rc4 vanilla:
+> 
+> 7.634
+> 7.704
+> 7.688
+> 
+> 2.6.28rc4+patch:
+> 
+> 8.712
+> 8.685
+> 8.702
 
-I can make Classic RCU break in 2.6.28-rc3, but I need a 128-CPU machine to
-break it.  ;-)
+How does it compare with not having the acceleration ? ie. I don't think
+I can do anything about it, except maybe optimize for the case where the
+pixmap is already aligned (and thus doesn't need scissors), the main
+question is is the acceleration still worth it or not at all since it's
+generally not worth it on other architectures.
 
-							Thanx, Paul
+Cheers,
+Ben.
+
