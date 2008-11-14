@@ -1,90 +1,83 @@
-From: Geert Uytterhoeven <Geert.Uytterhoeven-osDt5Q4Chk1BDgjK7y7TUQ@public.gmane.org>
-Subject: Re: [Bug #11988] Eliminate recursive mutex in compat fb ioctl path
-Date: Fri, 14 Nov 2008 15:51:45 +0100 (CET)
-Message-ID: <Pine.LNX.4.64.0811141549140.5955@vixen.sonytel.be>
-References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <wnN9HICUAgP.A.Z-E.Q4zFJB@chimera>
+From: Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [alsa-devel] Bugs on aspire one A150
+Date: Fri, 14 Nov 2008 20:05:30 +0200
+Message-ID: <491DBDEA.9010104@gmail.com>
+References: <s5h3ai11dpt.wl%tiwai@suse.de> <20081109151323.GA18705@rhlx01.hs-esslingen.de> <s5h7i7c916e.wl%tiwai@suse.de> <20081109200929.GA29333@rhlx01.hs-esslingen.de> <s5hiqqtkxqr.wl%tiwai@suse.de> <491B0D38.1050207@gmail.com> <20081112180519.GA21919@rhlx01.hs-esslingen.de>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <wnN9HICUAgP.A.Z-E.Q4zFJB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=BRwnAbHBH1Onw+hQoeDMKKUz9PBcr0LingOYPWi/JrM=;
+        b=A6dInTyheDJ7wjWLA3QAgWP9rKM+0+Mk4ovtUUFDZR1VdrhN5Rf26/wx/VLgZCwbhx
+         w/6MgSGnV/Md9Mt5O3vp/Ubgrm7fG/hZjfIJ7AtAcljvlb+cbEvuejen9Gjj2Nc9ZQaU
+         vg9nJjGvUoOR1az0h+tBFTycrj9bKaXOXp5Lw=
+In-Reply-To: <20081112180519.GA21919-p/qQFhXj4MHA4IYVXhSI5GHfThorsUsI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
+Cc: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sun, 9 Nov 2008, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->=20
-> The following bug entry is on the current list of known regressions
-> from 2.6.27.  Please verify if it still should be listed and let me k=
-now
-> (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11988
-> Subject		: Eliminate recursive mutex in compat fb ioctl path
-> Submitter	: Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
-> Date		: 2008-11-03 7:06 (7 days old)
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D122569604828448&w=
-=3D4
-> Handled-By	: Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
-> 		  Geert Uytterhoeven <Geert.Uytterhoeven-osDt5Q4Chk1BDgjK7y7TUQ@public.gmane.org>
-> Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D122569604828448&w=3D4
-> 		  http://lkml.org/lkml/2008/10/31/162
+Andreas Mohr wrote:
+> Hi,
+> 
+> On Wed, Nov 12, 2008 at 07:07:04PM +0200, Maxim Levitsky wrote:
+>> I pretty much studied the datasheet and driver, and this is what I found:
+>> btw, my acer 5720 and aspire one share same ALC268.
+>> Some stuff is trivially fixable, some seems to be unfixable at all:
+> 
+> Wow, what an extremely in-depth analysis!
+> I just intended to dive into getting mic routing corrected myself,
+> thus you saved me a lot of time!
+> 
+>> model=acer is used on my regular laptop.
+>> model-acer-aspire is used on aspire one laptop, and it needs to be renamed, as both are aspire.
+> 
+> +1 (your analysis of both being rather different - as already pondered -
+> confirms this necessity)
+> 
+>> And now for unfixable problems:
+>>
+>> 1) There is strong DC offset on all inputs.
+>> it is even different on left/right and depends on capture volume.
+>> I tried to change the VREF only param that could help, but it doesn't.
+>> I feel that this is hardware flaw.
+>> (It is possible that voltage on inputs is created by circuit made by acer, and then ALC268 amplifies it.)
+> 
+> Sounds like really bad circuit design then.
+> One would think that the Intel HDA architecture might have builtin
+> measures to compensate for this if needed? DC offset issues on
+> soundcards aren't exactly a new phenomenon after all...
+> 
+>> Lastly I noticed that datasheet mentions so called 'coefficients':
+>> the codecs exposes lots of internal and undocumented registers using set address/ get/set value scheme.
+>> maybe some of above bugs are fixable there, but ether realtek has to provide data for that or reverse engineering of
+>> windows driver is required.
+> 
+> I've actually had a peek at the .inf files since I thought that it would
+> already contain register values in those registry keys that it creates on
+> install, but yeah, that's all in-driver it seems.
+> Probably time to ask Acer about specifics, especially since I didn't spot
+> any hda-intel changes in their linux-2.6.23.9lw source.
+> 
+> Thank you very much,
+> 
+> Andreas Mohr
 
-=46ixed in mainline.
+Small update:
 
-commit a684e7d33096892093456dd56a582cfc3bfad648
-Author: Geert Uytterhoeven <Geert.Uytterhoeven-osDt5Q4Chk1BDgjK7y7TUQ@public.gmane.org>
-Date:   Thu Nov 6 12:53:37 2008 -0800
+1) The dc offset isn't present on aspire one, really is a circuit design bug I guess 
+2) Internal mic works perfectly on aspire one, can reproduce the strange behaver at all,
+Probably this was mixer bug.
 
-    fbdev: fix fb_compat_ioctl() deadlocks
+So aspire one support is almost, only need to add support to restore beep volume
+after resume.
 
-    commit 3e680aae4e53ab54cdbb0c29257dae0cbb158e1c ("fb: convert
-    lock/unlock_kernel() into local fb mutex") introduced several deadl=
-ocks
-    in the fb_compat_ioctl() path, as mutex_lock() doesn't allow recurs=
-ion,
-    unlike lock_kernel().  This broke frame buffer applications on 64-b=
-it
-    systems with a 32-bit userland.
-   =20
-    commit 120a37470c2831fea49fdebaceb5a7039f700ce6 ("framebuffer compa=
-t_ioctl
-    deadlock") fixed one of the deadlocks.
-   =20
-    This patch fixes the remaining deadlocks:
-      - Revert commit 120a37470c2831fea49fdebaceb5a7039f700ce6,
-      - Extract the core logic of fb_ioctl() into a new function do_fb_=
-ioctl(),
-      - Change all callsites of fb_ioctl() where info->lock is already =
-held to
-        call do_fb_ioctl() instead,
-      - Add sparse annotations to all routines that take info->lock.
-   =20
-    Signed-off-by: Geert Uytterhoeven <Geert.Uytterhoeven-osDt5Q4Chk1BDgjK7y7TUQ@public.gmane.org>
-    Cc: Mikulas Patocka <mpatocka-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-    Cc: Krzysztof Helt <krzysztof.h1-5tc4TXWwyLM@public.gmane.org>
-    Cc: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
-    Signed-off-by: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-    Signed-off-by: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-With kind regards,
+Best regards,
+	Maxim Levitsky
 
-Geert Uytterhoeven
-Software Architect
-
-Sony Techsoft Centre Europe
-The Corporate Village =C2=B7 Da Vincilaan 7-D1 =C2=B7 B-1935 Zaventem =C2=
-=B7 Belgium
-
-Phone:    +32 (0)2 700 8453
-=46ax:      +32 (0)2 700 8622
-E-mail:   Geert.Uytterhoeven-osDt5Q4Chk1BDgjK7y7TUQ@public.gmane.org
-Internet: http://www.sony-europe.com/
-
-A division of Sony Europe (Belgium) N.V.
-VAT BE 0413.825.160 =C2=B7 RPR Brussels
-=46ortis =C2=B7 BIC GEBABEBB =C2=B7 IBAN BE41293037680010
