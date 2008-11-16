@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11958] [2.6.27.x =&gt; 2.6.28-rc3] Xorg crash with xf86MapVidMem error
+Subject: [Bug #11970] gettimeofday return a old time in mmbench
 Date: Sun, 16 Nov 2008 17:35:17 +0100 (CET)
-Message-ID: <Q7OAnAv0V3D.A.FXF.6AGIJB@chimera>
+Message-ID: <Q7OAnAv0V3D.A.7IF.yAGIJB@chimera>
 References: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Tomasz Chmielewski <tch-Nem3ZqsbT/g@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, alexs <alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,11 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11958
-Subject		: [2.6.27.x =&gt; 2.6.28-rc3] Xorg crash with xf86MapVidMem error
-Submitter	: Tomasz Chmielewski <tch-Nem3ZqsbT/g@public.gmane.org>
-Date		: 2008-11-05 05:37 (12 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11970
+Subject		: gettimeofday return a old time in mmbench
+Submitter	: alexs <alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2008-11-06 23:57 (11 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=99ebcf8285df28f32fd2d1c19a7166e70f00309c
+Handled-By	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+		  Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
