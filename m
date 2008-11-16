@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11805] mounting XFS produces a segfault
-Date: Sun, 16 Nov 2008 18:40:58 +0100 (CET)
-Message-ID: <NjF0-fuClJC.A.h4.kIHIJB@chimera>
+Subject: [Bug #11865] WOL for E100 Doesn't Work Anymore
+Date: Sun, 16 Nov 2008 18:40:59 +0100 (CET)
+Message-ID: <NjF0-fuClJC.A.Gk.WIHIJB@chimera>
 References: <1ScKicKnTUE.A.VxH.DIHIJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Chinner <dgc-sJ/iWh9BUns@public.gmane.org>, Tiago Maluta <maluta_tiago-/E1597aS9LRfJ/NunPodnw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, roger <rogerx-VThn6mlTRQFChFL4AGkBsw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,10 +22,10 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11805
-Subject		: mounting XFS produces a segfault
-Submitter	: Tiago Maluta <maluta_tiago-/E1597aS9LRfJ/NunPodnw@public.gmane.org>
-Date		: 2008-10-21 18:00 (27 days old)
-Handled-By	: Dave Chinner <dgc-sJ/iWh9BUns@public.gmane.org>
-Patch		: http://bugzilla.kernel.org/attachment.cgi?id=18397&action=view
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11865
+Subject		: WOL for E100 Doesn't Work Anymore
+Submitter	: roger <rogerx-VThn6mlTRQFChFL4AGkBsw@public.gmane.org>
+Date		: 2008-10-26 21:56 (22 days old)
+Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+Patch		: http://bugzilla.kernel.org/attachment.cgi?id=18646&action=view
 
