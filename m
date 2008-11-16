@@ -1,77 +1,53 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11989] Suspend failure on NForce4-based boards due to chanes in stop_machine
-Date: Sat, 15 Nov 2008 14:37:45 +0100
-Message-ID: <200811151437.46270.rjw@sisk.pl>
-References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera> <20081111105214.GA15645@elte.hu> <200811112256.58467.rusty@rustcorp.com.au>
+From: "Gioacchino Mendola" <gioacchino.mendola-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Fwd: Problem with kernel 2.6.27.5
+Date: Sun, 16 Nov 2008 16:26:42 +0100
+Message-ID: <42c6aeaf0811160726j7e17d6e4u589ce8d945962108@mail.gmail.com>
+References: <42c6aeaf0811160721t7ef23e66i21448fe5f49afa1b@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200811112256.58467.rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=x7hJ4DC5RMTKn5whCERWUAXJyDC+678qrOxG2f9ej4g=;
+        b=ExCh8l3AcFK2LLD/5p1xAwECUvQ8B1w4Zp3JtOlfi4MQjj6NXP12zEjknBjXbQN+RL
+         r2y8o5YB3EX4URw8GUflVbrL4kgWnbEL9+r9D/IXCDQgrWbcfzWE8yh3gp9VlxGb7+1m
+         cfewsv+1EYDrB+1HizxIC65u5LBf5PIkMw1w8=
+In-Reply-To: <42c6aeaf0811160721t7ef23e66i21448fe5f49afa1b-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Wednesday, 12 of November 2008, Rusty Russell wrote:
-> On Tuesday 11 November 2008 21:22:14 Ingo Molnar wrote:
-> > * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > > So, it evidently fails while re-enabling the non-boot CPU and not
-> > > during disabling it as I thought before.
-> 
-> (Resend, due to HTML version previously)
-> 
-> But what is calling stop_machine in that path?
-> 
-> There *is* a race, but I don't think it could cause this (we should make a
-> copy of active.fnret inside the lock before returning it).
+---------- Forwarded message ----------
+From: Gioacchino Mendola <gioacchino.mendola-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date: 2008/11/16
+Subject: Problem with kernel 2.6.27.5
+To: majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Still, that seems to be the case.
 
-> Two patches: one fixes that race, the next adds debugging spew.
-> 
-> stop_machine: fix race with return value
+Hello everyone,
+This is my first mail and I hope my questions will not be too trivial!
+I'm trying to develop a  lodable kernel module but I have a problems
+with certain system functions that have been deprecated.
+With the previuos kernel(2.6.26), I used the following functions
 
-With this patch applied (reproduced below for clarity) the problem is not
-reproducible any more.
+kill_proc(pid_t pid, int sig, int priv)
 
-Care to push it upstream ASAP?
+find_task_by_pid(int pid)
 
-Thanks,
-Rafael
+Now i use the linux kernel 2.6.27.5
 
----
-stop_machine: fix race with return value
+Instead of kill_proc I tried to use kill_pid.
+Kill_pid() requires as a first argument  a struct pid  and not a pid_t pid.
 
-We should not access active.fnret outside the lock; in theory the next
-stop_machine could overwrite it.
+kill_pid(struct pid *pid, int sig, int priv)
 
-Signed-off-by: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
----
- kernel/stop_machine.c |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+how can I get "struct pid" by "pid_t pid"?
 
-diff -r d7c9a15da615 kernel/stop_machine.c
---- a/kernel/stop_machine.c	Mon Nov 10 09:47:45 2008 +1100
-+++ b/kernel/stop_machine.c	Tue Nov 11 23:19:47 2008 +1030
-@@ -112,7 +112,7 @@
- int __stop_machine(int (*fn)(void *), void *data, const cpumask_t *cpus)
- {
- 	struct work_struct *sm_work;
--	int i;
-+	int i, ret;
- 
- 	/* Set up initial state. */
- 	mutex_lock(&lock);
-@@ -137,8 +137,9 @@
- 	/* This will release the thread on our CPU. */
- 	put_cpu();
- 	flush_workqueue(stop_machine_wq);
-+	ret = active.fnret;
- 	mutex_unlock(&lock);
--	return active.fnret;
-+	return ret;
- }
- 
- int stop_machine(int (*fn)(void *), void *data, const cpumask_t *cpus)
+how can I get the "task_struct" by the pid?
+
+Thanks in advance
