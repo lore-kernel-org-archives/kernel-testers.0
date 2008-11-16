@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12034] snd-hda-intel on Realtek ALC268 chip shows only Master volume (for playback)
-Date: Sun, 16 Nov 2008 17:35:21 +0100 (CET)
-Message-ID: <Q7OAnAv0V3D.A.vXE.NAGIJB@chimera>
+Subject: [Bug #11989] Suspend failure on NForce4-based boards due to chanes in stop_machine
+Date: Sun, 16 Nov 2008 17:35:18 +0100 (CET)
+Message-ID: <Q7OAnAv0V3D.A.g7E.mAGIJB@chimera>
 References: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Sergey <azure-IGUVrPOATOfsG83rWm+8vg@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,12 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12034
-Subject		: snd-hda-intel on Realtek ALC268 chip shows only Master volume (for playback)
-Submitter	: Sergey <azure-IGUVrPOATOfsG83rWm+8vg@public.gmane.org>
-Date		: 2008-11-15 04:20 (2 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11989
+Subject		: Suspend failure on NForce4-based boards due to chanes in stop_machine
+Submitter	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+Date		: 2008-11-03 0:28 (14 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=c9583e55fa2b08a230c549bd1e3c0bde6c50d9cc
+References	: http://marc.info/?l=linux-kernel&m=122567187604356&w=4
+Handled-By	: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Patch		: http://lkml.org/lkml/2008/11/15/69
 
