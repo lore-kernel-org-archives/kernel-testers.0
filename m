@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11905] lots of extra timer interrupts costing 2W
-Date: Sun, 16 Nov 2008 17:35:15 +0100 (CET)
-Message-ID: <Q7OAnAv0V3D.A.VRG.eBGIJB@chimera>
+Subject: [Bug #11954] sysprof tracer ABI regression in 2.6.28rc1
+Date: Sun, 16 Nov 2008 17:35:16 +0100 (CET)
+Message-ID: <Q7OAnAv0V3D.A.MbF.8AGIJB@chimera>
 References: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>, Lukas Hejtmanek <xhejtman-0hYGf3jDe+XrBKCeMvbIDA@public.gmane.org>, =?utf-8?q?=C5=81ukasz=20Siudut?= <lsiudut-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Venki Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,10 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11905
-Subject		: lots of extra timer interrupts costing 2W
-Submitter	: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
-Date		: 2008-10-30 2:18 (18 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=fb02fbc14d17837b4b7b02dbb36142c16a7bf208
-References	: http://marc.info/?l=linux-kernel&m=122533314305315&w=4
-		  http://marc.info/?l=linux-kernel&m=122541849114444&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11954
+Subject		: sysprof tracer ABI regression in 2.6.28rc1
+Submitter	: Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+Date		: 2008-11-04 22:14 (13 days old)
+Handled-By	: Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+Patch		: http://bugzilla.kernel.org/attachment.cgi?id=18683&action=view
 
