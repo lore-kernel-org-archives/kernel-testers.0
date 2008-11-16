@@ -1,53 +1,55 @@
-From: Pekka Paalanen <pq-X3B1VOXEql0@public.gmane.org>
+From: Steven Rostedt <rostedt@goodmis.org>
 Subject: Re: [Bug #11996] Tracing framework regression in 2.6.28-rc3
-Date: Mon, 17 Nov 2008 00:35:31 +0200
-Message-ID: <20081117003531.4c8b5679@daedalus.pq.iki.fi>
-References: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera>
-	<Q7OAnAv0V3D.A.GwE.gAGIJB@chimera>
+Date: Sun, 16 Nov 2008 17:44:39 -0500 (EST)
+Message-ID: <alpine.DEB.1.10.0811161741050.2919@gandalf.stny.rr.com>
+References: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera> <Q7OAnAv0V3D.A.GwE.gAGIJB@chimera> <20081117003531.4c8b5679@daedalus.pq.iki.fi>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:in-reply-to:references:x-mailer:mime-version
-         :content-type:content-transfer-encoding:sender;
-        bh=84Q//MtfR7CbJuOMACGnmZoz8pvXwp95jnhisaPHcSw=;
-        b=pX9+/DkVkZ+2x1bqgsqvx597vcFD9Z3n2Fxakmjv6WSInbb2vcumAmNE+4dx68Y+Nu
-         J1gqnc/GDuCgruqAfECWrBmLWtj9qvebDiEMTh46438FCyGi7XqX30v4Q5w6LVjOsUSx
-         kiYQ3J/5OoznL1SASLYSiW66i9sA9eQDFQsRo=
-In-Reply-To: <Q7OAnAv0V3D.A.GwE.gAGIJB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754665AbYKPWo6@vger.kernel.org>
+In-Reply-To: <20081117003531.4c8b5679@daedalus.pq.iki.fi>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Pekka Paalanen <pq@iki.fi>
+Cc: Ingo Molnar <mingo@elte.hu>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>
 
-On Sun, 16 Nov 2008 17:35:18 +0100 (CET)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+On Mon, 17 Nov 2008, Pekka Paalanen wrote:
+
+> On Sun, 16 Nov 2008 17:35:18 +0100 (CET)
+> "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.27.  Please verify if it still should be listed and let me know
-> (either way).
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.27.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11996
+> > Subject		: Tracing framework regression in 2.6.28-rc3
+> > Submitter	: Pekka Paalanen <pq@iki.fi>
+> > Date		: 2008-11-09 10:13 (8 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=122624392229317&w=4
+> > Handled-By	: Steven Rostedt <rostedt@goodmis.org>
 > 
+> Steve, Ingo, did you get into an agreement on the patch?
+> What should I test?
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11996
-> Subject		: Tracing framework regression in 2.6.28-rc3
-> Submitter	: Pekka Paalanen <pq-X3B1VOXEql0@public.gmane.org>
-> Date		: 2008-11-09 10:13 (8 days old)
-> References	: http://marc.info/?l=linux-kernel&m=122624392229317&w=4
-> Handled-By	: Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>
+> I see -rc5 is out, but I didn't spot the fix in the changelog.
+> 
+> (The ring buffer NULL dereference on resize / unallocated max tracer.)
 
-Steve, Ingo, did you get into an agreement on the patch?
-What should I test?
+Ingo's solution was to have the ring_buffer_resize return success on NULL 
+buffer being passed in. Although I agree that it should not crash when 
+passed a NULL pointer, I feel that a NULL pointer should return a -1 
+(failure). The caller of the code (one place in kernel/trace/trace.c) 
+could simply check if the buffer was allocated, and if not, simply ignore 
+it.
 
-I see -rc5 is out, but I didn't spot the fix in the changelog.
+I agree with Ingo that my original solution was too much churn. But the 
+simple if statement and "indent" change is what I feel to be the solution, 
+not letting the ring buffer return success on NULL pointer.
 
-(The ring buffer NULL dereference on resize / unallocated max tracer.)
-
--- 
-Pekka Paalanen
-http://www.iki.fi/pq/
+-- Steve
