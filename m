@@ -1,44 +1,31 @@
-From: Luciano Rocha <luciano@eurotux.com>
-Subject: Re: [Bug #11843] usb hdd problems with 2.6.27.2
-Date: Sun, 16 Nov 2008 21:37:36 +0000
-Message-ID: <20081116213736.GA19914@bit.office.eurotux.com>
-References: <1ScKicKnTUE.A.VxH.DIHIJB@chimera> <NjF0-fuClJC.A.ut.ZIHIJB@chimera>
+From: Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: 2.6.28-rc5: Reported regressions from 2.6.27
+Date: Sun, 16 Nov 2008 23:40:54 +0200
+Message-ID: <49209366.3060500@gmail.com>
+References: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755283AbYKPVhy@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <NjF0-fuClJC.A.ut.ZIHIJB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=cGALKmtvFjYxdMbSRtYdNxYZjLqGI/b1kURcZW0AU1w=;
+        b=M9v2aPOXvGraTnAXfi3vI/+NpmsC8Q+oxRDkUl/ySxBEyMWsBgaJg/OVsyB28hSKmL
+         yrVIUXEYXqnKfF5FAbBwpY7DIcA5g6cSW9qRrD7J4SBP37jgosniPx8y4DKXysrXLqJ6
+         s9MVqgv4a2wdfrJT4rAPMcOgkvv0l3AD1Gieg=
+In-Reply-To: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Tim Wright <timw@splhi.com>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sun, Nov 16, 2008 at 06:40:59PM +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.26 and 2.6.27.
->=20
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.26 and 2.6.27.  Please verify if it still shou=
-ld
-> be listed and let me know (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11843
-> Subject		: usb hdd problems with 2.6.27.2
-> Submitter	: Luciano Rocha <luciano@eurotux.com>
-> Date		: 2008-10-22 16:22 (26 days old)
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D122469318102679&w=
-=3D4
-> Handled-By	: Luciano Rocha <luciano@eurotux.com>
-> Patch		: http://bugzilla.kernel.org/show_bug.cgi?id=3D11843#c26
+Just to note, here on acer aspire one suspend to disk is broken too.
+System suspends, and then hangs.
 
-What does "Handled-By" mean? The patches were created by Alan Stern
-<stern@rowland.harvard.edu>, I just tested them.
+If I shutdown the system, and then attempt resume, it resumes, and then hangs.
 
-Regards,
-Luciano Rocha
-
---=20
-Luciano Rocha <luciano@eurotux.com>
-Eurotux Inform=E1tica, S.A. <http://www.eurotux.com/>
+Best regards,
+	Maxim Levitsky
