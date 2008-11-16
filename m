@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12020] scsi_times_out NULL pointer dereference
-Date: Sun, 16 Nov 2008 17:35:20 +0100 (CET)
-Message-ID: <Q7OAnAv0V3D.A.flE.XAGIJB@chimera>
+Subject: [Bug #12040] iwlagn driver segfault in 2.6.28-rc3
+Date: Sun, 16 Nov 2008 17:35:21 +0100 (CET)
+Message-ID: <Q7OAnAv0V3D.A.cME.JAGIJB@chimera>
 References: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bernd Schubert <bs-PKu+Ek1N2UGzQB+pC5nmwQ@public.gmane.org>, James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>, reinette chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12020
-Subject		: scsi_times_out NULL pointer dereference
-Submitter	: Bernd Schubert <bs-PKu+Ek1N2UGzQB+pC5nmwQ@public.gmane.org>
-Date		: 2008-11-13 10:30 (4 days old)
-Handled-By	: James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
-Patch		: http://bugzilla.kernel.org/show_bug.cgi?id=12020#c4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12040
+Subject		: iwlagn driver segfault in 2.6.28-rc3
+Submitter	: Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
+Date		: 2008-11-11 14:34 (6 days old)
+References	: http://marc.info/?l=linux-kernel&m=122641417331593&w=4
+Handled-By	: reinette chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
