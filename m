@@ -1,125 +1,40 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #11308] tbench regression on each kernel release from
-	2.6.22 -&gt; 2.6.28
-Date: Mon, 17 Nov 2008 19:23:20 +0100
-Message-ID: <20081117182320.GA26844@elte.hu>
-References: <20081117090648.GG28786@elte.hu> <20081117.011403.06989342.davem@davemloft.net> <20081117110119.GL28786@elte.hu> <4921539B.2000002@cosmosbay.com> <20081117161135.GE12081@elte.hu> <49219D36.5020801@cosmosbay.com> <20081117170844.GJ12081@elte.hu> <20081117172549.GA27974@elte.hu> <4921AAD6.3010603@cosmosbay.com> <alpine.LFD.2.00.0811170937540.3468@nehalem.linux-foundation.org>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #11308] tbench regression on each kernel release from 2.6.22
+ -&gt; 2.6.28
+Date: Mon, 17 Nov 2008 10:33:19 -0800 (PST)
+Message-ID: <alpine.LFD.2.00.0811171030180.3468@nehalem.linux-foundation.org>
+References: <20081117090648.GG28786@elte.hu> <20081117.011403.06989342.davem@davemloft.net> <20081117110119.GL28786@elte.hu> <4921539B.2000002@cosmosbay.com> <20081117161135.GE12081@elte.hu> <49219D36.5020801@cosmosbay.com> <20081117170844.GJ12081@elte.hu>
+ <20081117172549.GA27974@elte.hu> <4921AAD6.3010603@cosmosbay.com> <alpine.LFD.2.00.0811170937540.3468@nehalem.linux-foundation.org> <20081117182320.GA26844@elte.hu>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.LFD.2.00.0811170937540.3468-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
+In-Reply-To: <20081117182320.GA26844-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 Cc: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, efault-Mmb7MZpHnFY@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
 
 
-* Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
 
-> On Mon, 17 Nov 2008, Eric Dumazet wrote:
->=20
-> > Ingo Molnar a =E9crit :
->=20
-> > > it gives a small speedup of ~1% on my box:
-> > >=20
-> > >    before:      Throughput 3437.65 MB/sec 64 procs
-> > >    after:       Throughput 3473.99 MB/sec 64 procs
-> >=20
-> > Strange, I get 2350 MB/sec on my 8 cpus box. "tbench 8"
->=20
-> I think Ingo may have a Nehalem. Let's just say that those things=20
-> rock, and have rather good memory throughput.
+On Mon, 17 Nov 2008, Ingo Molnar wrote:
+> 
+> hm, i'm not sure whether i can post benchmarks from the Nehalem box - 
+> but i can confirm it in general terms that it's rather nice ;-)
 
-hm, i'm not sure whether i can post benchmarks from the Nehalem box -=20
-but i can confirm it in general terms that it's rather nice ;-)
+Intel released the NDA from various web sites a week or two ago, and Intel 
+is now selling it in the US (I think today was in fact the official 
+launch), so I think benchmarks are safe - you can buy the dang things on 
+the street.
 
-This was run on another testbox (4x4 Barcelona) that rocks similarly=20
-well in terms of memory subsystem latencies: which seems to be=20
-tbench's main current critical path.
+I don't know what availability is, of course. But I doubt that Intel would 
+mind Nehalem benchmarks even if it were a paper launch - at least from my 
+personal experience, I've not seen any bad behavior (and plenty of good).
 
-=46or the tbench bragging rights i'd probably turn off CONFIG_SECURITY=20
-and a few other options. Plus i'd run with 16 threads only - in this=20
-test i ran with 4x overload (64 tbench threads, not 16) to stress the=20
-scheduler harder.
+> This was run on another testbox (4x4 Barcelona) that rocks similarly 
+> well in terms of memory subsystem latencies: which seems to be 
+> tbench's main current critical path.
 
-Although we degrade very gently with overload so the numbers arent all=20
-that much different:
+Ahh, ok.
 
-   16 threads: Throughput 3463.14 MB/sec 16 procs
-   64 threads: Throughput 3473.99 MB/sec 64 procs
-  256 threads: Throughput 3457.67 MB/sec 256 procs
- 1024 threads: Throughput 3448.85 MB/sec 1024 procs
-
- [ so it's the same within noise range. ]
-
-1024 threads is already a massive 64x overload so beyond any=20
-reasonable limit of workload sanity.
-
-Which suggests that the main limitation factor is cacheline ping-pong=20
-that is already in full effect at 16 threads.
-
-Which is supported by the "most expensive instructions" top-10 sorted=20
-list:
-
-            RIP     #hits
-=2E.........................                          =20
-
-                           [ usercopy ]
-ffffffff80350fcd:  1373300 	f3 48 a5             	rep movsq %ds:(%rsi),=
-%es:(%rdi)
-
-ffffffff804a2f33:          <sock_rfree>:
-ffffffff804a2f34:   985253 	48 89 e5             	mov    %rsp,%rbp
-
-
-ffffffff804d2eb7:          <ip_local_deliver>:
-ffffffff804d2eb8:   432659 	48 89 e5             	mov    %rsp,%rbp
-
-ffffffff804aa23c:          <constant_test_bit>: [ =3D> napi_disable_pen=
-ding() ]
-ffffffff804aa24c:   374052 	89 d1                	mov    %edx,%ecx
-
-ffffffff804d5076:          <ip_dont_fragment>:
-ffffffff804d5076:   310051 	8a 97 56 02 00 00    	mov    0x256(%rdi),%d=
-l
-
-ffffffff804d9b17:          <__inet_lookup_established>:
-ffffffff804d9bdf:   247224 	eb ba                	jmp    ffffffff804d9b=
-9b <__inet_lookup_established+0x84>
-
-ffffffff80321529:          <selinux_ip_postroute>:
-ffffffff8032152a:   183700 	48 89 e5             	mov    %rsp,%rbp
-
-ffffffff8020c020:          <system_call>:
-ffffffff8020c020:   183600 	0f 01 f8             	swapgs=20
-
-ffffffff8051884a:          <netlbl_enabled>:
-ffffffff8051884a:   179538 	55                   	push   %rbp
-
-The usual profiling caveat applies: it's not _these_ instructions that=20
-matter, but the surrounding code that calls them. Profiling overhead=20
-is delayed by a couple of instructions - the more out-of-order a CPU=20
-is, the larger this delay can be. But even a quick look to the list=20
-above shows that all of the heavy cachemisses are generated by=20
-networking.
-
-Beyond the usual suspects of syscall entry and memcpy, it's only=20
-networking. We dont even have the mov %cr3 TLB flush overhead in this=20
-list, load_cr3() is a distant #30:
-
-ffffffff8023049f:        0      0f 22 d8                mov    %rax,%cr=
-3
-ffffffff802304a2:   126303      c9                      leaveq
-
-The place for the sock_rfree() hit looks a bit weird, and i'll=20
-investigate it now a bit more to place the real overhead point=20
-properly. (i already mapped the test-bit overhead: that comes from=20
-napi_disable_pending())
-=20
-The first entry is 10x the cost of the last entry in the list so=20
-clearly we've got 1-2 brutal cacheline ping-pongs that dominate the=20
-overhead of this workload.
-
-	Ingo
+			Linus
