@@ -1,13 +1,13 @@
 From: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
-Subject: Re: [Bug #11308] tbench regression on each kernel release from	2.6.22
- -&gt; 2.6.28
-Date: Mon, 17 Nov 2008 21:56:22 +0100
-Message-ID: <4921DA76.9050206@cosmosbay.com>
-References: <20081117110119.GL28786@elte.hu> <4921539B.2000002@cosmosbay.com> <20081117161135.GE12081@elte.hu> <49219D36.5020801@cosmosbay.com> <20081117170844.GJ12081@elte.hu> <20081117172549.GA27974@elte.hu> <4921AAD6.3010603@cosmosbay.com> <alpine.LFD.2.00.0811170937540.3468@nehalem.linux-foundation.org> <20081117182320.GA26844@elte.hu> <20081117184951.GA5585@elte.hu> <20081117204743.GD12020@elte.hu>
+Subject: Re: ip_queue_xmit(): Re: [Bug #11308] tbench regression on each kernel
+ release from 2.6.22 -&gt; 2.6.28
+Date: Mon, 17 Nov 2008 21:57:44 +0100
+Message-ID: <4921DAC8.6050600@cosmosbay.com>
+References: <20081117110119.GL28786@elte.hu> <4921539B.2000002@cosmosbay.com> <20081117161135.GE12081@elte.hu> <49219D36.5020801@cosmosbay.com> <20081117170844.GJ12081@elte.hu> <20081117172549.GA27974@elte.hu> <4921AAD6.3010603@cosmosbay.com> <alpine.LFD.2.00.0811170937540.3468@nehalem.linux-foundation.org> <20081117182320.GA26844@elte.hu> <20081117184951.GA5585@elte.hu> <20081117203219.GC12020@elte.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081117204743.GD12020-X9Un+BFzKDI@public.gmane.org>
+In-Reply-To: <20081117203219.GC12020-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="iso-8859-1"; format="flowed"
@@ -19,219 +19,420 @@ Ingo Molnar a =E9crit :
 >=20
 >> 100.000000 total
 >> ................
->>   3.038025 skb_release_data
+>>   3.356152 ip_queue_xmit
 >=20
->                       hits (303802 total)
+>                       hits (335615 total)
 >                  .........
-> ffffffff80488c7e:      780 <skb_release_data>:
-> ffffffff80488c7e:      780 	55                   	push   %rbp
-> ffffffff80488c7f:   267141 	53                   	push   %rbx
-> ffffffff80488c80:        0 	48 89 fb             	mov    %rdi,%rbx
-> ffffffff80488c83:     3552 	48 83 ec 08          	sub    $0x8,%rsp
-> ffffffff80488c87:      604 	8a 47 7c             	mov    0x7c(%rdi),%=
-al
-> ffffffff80488c8a:     2644 	a8 02                	test   $0x2,%al
-> ffffffff80488c8c:       49 	74 2a                	je     ffffffff8048=
-8cb8 <skb_release_data+0x3a>
-> ffffffff80488c8e:        0 	83 e0 10             	and    $0x10,%eax
-> ffffffff80488c91:     2079 	8b 97 c8 00 00 00    	mov    0xc8(%rdi),%=
-edx
-> ffffffff80488c97:       53 	3c 01                	cmp    $0x1,%al
-> ffffffff80488c99:        0 	19 c0                	sbb    %eax,%eax
-> ffffffff80488c9b:      870 	48 03 97 d0 00 00 00 	add    0xd0(%rdi),%=
-rdx
-> ffffffff80488ca2:       65 	66 31 c0             	xor    %ax,%ax
-> ffffffff80488ca5:        0 	05 01 00 01 00       	add    $0x10001,%ea=
-x
-> ffffffff80488caa:      888 	f7 d8                	neg    %eax
-> ffffffff80488cac:       49 	89 c1                	mov    %eax,%ecx
-> ffffffff80488cae:        0 	f0 0f c1 0a          	lock xadd %ecx,(%rd=
-x)
-> ffffffff80488cb2:     1909 	01 c8                	add    %ecx,%eax
-> ffffffff80488cb4:     1040 	85 c0                	test   %eax,%eax
-> ffffffff80488cb6:        0 	75 6d                	jne    ffffffff8048=
-8d25 <skb_release_data+0xa7>
-> ffffffff80488cb8:        0 	8b 93 c8 00 00 00    	mov    0xc8(%rbx),%=
-edx
-> ffffffff80488cbe:     4199 	48 8b 83 d0 00 00 00 	mov    0xd0(%rbx),%=
+> ffffffff804b7045:     1001 <ip_queue_xmit>:
+> ffffffff804b7045:     1001 	41 57                	push   %r15
+> ffffffff804b7047:    36698 	41 56                	push   %r14
+> ffffffff804b7049:        0 	49 89 fe             	mov    %rdi,%r14
+> ffffffff804b704c:        0 	41 55                	push   %r13
+> ffffffff804b704e:      447 	41 54                	push   %r12
+> ffffffff804b7050:        0 	55                   	push   %rbp
+> ffffffff804b7051:        4 	53                   	push   %rbx
+> ffffffff804b7052:      465 	48 83 ec 68          	sub    $0x68,%rsp
+> ffffffff804b7056:        1 	89 74 24 08          	mov    %esi,0x8(%rs=
+p)
+> ffffffff804b705a:      486 	48 8b 47 28          	mov    0x28(%rdi),%=
 rax
-> ffffffff80488cc5:     4995 	31 ed                	xor    %ebp,%ebp
-> ffffffff80488cc7:        0 	66 83 7c 10 04 00    	cmpw   $0x0,0x4(%ra=
-x,%rdx,1)
-> ffffffff80488ccd:      983 	75 15                	jne    ffffffff8048=
-8ce4 <skb_release_data+0x66>
-> ffffffff80488ccf:       15 	eb 28                	jmp    ffffffff8048=
-8cf9 <skb_release_data+0x7b>
-> ffffffff80488cd1:      665 	48 63 c5             	movslq %ebp,%rax
-> ffffffff80488cd4:      546 	ff c5                	inc    %ebp
-> ffffffff80488cd6:      328 	48 c1 e0 04          	shl    $0x4,%rax
-> ffffffff80488cda:      356 	48 8b 7c 02 20       	mov    0x20(%rdx,%r=
-ax,1),%rdi
-> ffffffff80488cdf:       95 	e8 be 87 de ff       	callq  ffffffff8027=
-14a2 <put_page>
-> ffffffff80488ce4:       66 	8b 93 c8 00 00 00    	mov    0xc8(%rbx),%=
-edx
-> ffffffff80488cea:     1321 	48 03 93 d0 00 00 00 	add    0xd0(%rbx),%=
-rdx
-> ffffffff80488cf1:      439 	0f b7 42 04          	movzwl 0x4(%rdx),%e=
-ax
-> ffffffff80488cf5:        0 	39 c5                	cmp    %eax,%ebp
-> ffffffff80488cf7:     1887 	7c d8                	jl     ffffffff8048=
-8cd1 <skb_release_data+0x53>
-> ffffffff80488cf9:     2187 	8b 93 c8 00 00 00    	mov    0xc8(%rbx),%=
-edx
-> ffffffff80488cff:     1784 	48 8b 83 d0 00 00 00 	mov    0xd0(%rbx),%=
-rax
-> ffffffff80488d06:      422 	48 83 7c 10 18 00    	cmpq   $0x0,0x18(%r=
-ax,%rdx,1)
-> ffffffff80488d0c:      110 	74 08                	je     ffffffff8048=
-8d16 <skb_release_data+0x98>
-> ffffffff80488d0e:        0 	48 89 df             	mov    %rbx,%rdi
-> ffffffff80488d11:        0 	e8 52 ff ff ff       	callq  ffffffff8048=
-8c68 <skb_drop_fraglist>
-> ffffffff80488d16:       14 	48 8b bb d0 00 00 00 	mov    0xd0(%rbx),%=
+> ffffffff804b705e:        0 	48 8b 6f 10          	mov    0x10(%rdi),%=
+rbp
+> ffffffff804b7062:        7 	48 85 c0             	test   %rax,%rax
+> ffffffff804b7065:      480 	48 89 44 24 58       	mov    %rax,0x58(%r=
+sp)
+> ffffffff804b706a:        0 	4c 8b bd 48 02 00 00 	mov    0x248(%rbp),=
+%r15
+> ffffffff804b7071:        7 	0f 85 0d 01 00 00    	jne    ffffffff804b=
+7184 <ip_queue_xmit+0x13f>
+> ffffffff804b7077:      452 	31 f6                	xor    %esi,%esi
+> ffffffff804b7079:        0 	48 89 ef             	mov    %rbp,%rdi
+> ffffffff804b707c:        5 	e8 c1 eb fc ff       	callq  ffffffff8048=
+5c42 <__sk_dst_check>
+> ffffffff804b7081:      434 	48 85 c0             	test   %rax,%rax
+> ffffffff804b7084:       54 	48 89 44 24 58       	mov    %rax,0x58(%r=
+sp)
+> ffffffff804b7089:        0 	0f 85 e0 00 00 00    	jne    ffffffff804b=
+716f <ip_queue_xmit+0x12a>
+> ffffffff804b708f:        0 	4d 85 ff             	test   %r15,%r15
+> ffffffff804b7092:        0 	44 8b ad 30 02 00 00 	mov    0x230(%rbp),=
+%r13d
+> ffffffff804b7099:        0 	74 0a                	je     ffffffff804b=
+70a5 <ip_queue_xmit+0x60>
+> ffffffff804b709b:        0 	41 80 7f 05 00       	cmpb   $0x0,0x5(%r1=
+5)
+> ffffffff804b70a0:        0 	74 03                	je     ffffffff804b=
+70a5 <ip_queue_xmit+0x60>
+> ffffffff804b70a2:        0 	45 8b 2f             	mov    (%r15),%r13d
+> ffffffff804b70a5:        0 	8b 85 3c 02 00 00    	mov    0x23c(%rbp),=
+%eax
+> ffffffff804b70ab:        0 	48 8d b5 10 01 00 00 	lea    0x110(%rbp),=
+%rsi
+> ffffffff804b70b2:        0 	44 8b 65 04          	mov    0x4(%rbp),%r=
+12d
+> ffffffff804b70b6:        0 	bf 0d 00 00 00       	mov    $0xd,%edi
+> ffffffff804b70bb:        0 	89 44 24 0c          	mov    %eax,0xc(%rs=
+p)
+> ffffffff804b70bf:        0 	8a 9d 54 02 00 00    	mov    0x254(%rbp),=
+%bl
+> ffffffff804b70c5:        0 	e8 9a df ff ff       	callq  ffffffff804b=
+5064 <constant_test_bit>
+> ffffffff804b70ca:        0 	31 d2                	xor    %edx,%edx
+> ffffffff804b70cc:        0 	48 8d 7c 24 10       	lea    0x10(%rsp),%=
 rdi
-> ffffffff80488d1d:      715 	5e                   	pop    %rsi
-> ffffffff80488d1e:      109 	5b                   	pop    %rbx
-> ffffffff80488d1f:       20 	5d                   	pop    %rbp
-> ffffffff80488d20:      980 	e9 b7 66 e0 ff       	jmpq   ffffffff8028=
-f3dc <kfree>
-> ffffffff80488d25:        0 	59                   	pop    %rcx
-> ffffffff80488d26:     1948 	5b                   	pop    %rbx
-> ffffffff80488d27:        0 	5d                   	pop    %rbp
-> ffffffff80488d28:        0 	c3                   	retq  =20
->=20
-> this is a short function, and 90% of the overhead is false leaked-in=20
-> overhead from callsites:
->=20
-> ffffffff80488c7f:   267141 	53                   	push   %rbx
->=20
-> unfortunately i have a hard time mapping its callsites.=20
-> pskb_expand_head() is the only static callsite, but it's not active i=
-n=20
-> the profile.
->=20
-> The _usual_ callsite is normally skb_release_all(), which does have=20
-> overhead:
->=20
-> ffffffff80489449:      925 <skb_release_all>:
-> ffffffff80489449:      925 	53                   	push   %rbx
-> ffffffff8048944a:     5249 	48 89 fb             	mov    %rdi,%rbx
-> ffffffff8048944d:        4 	e8 3c ff ff ff       	callq  ffffffff8048=
-938e <skb_release_head_state>
-> ffffffff80489452:     1149 	48 89 df             	mov    %rbx,%rdi
-> ffffffff80489455:    13163 	5b                   	pop    %rbx
-> ffffffff80489456:        0 	e9 23 f8 ff ff       	jmpq   ffffffff8048=
-8c7e <skb_release_data>
->=20
-> it is also tail-optimized, which explains why i found little=20
-> callsites. The main callsite of skb_release_all() is:
->=20
-> ffffffff80488b86:       26 	e8 be 08 00 00       	callq  ffffffff8048=
-9449 <skb_release_all>
->=20
-> which is __kfree_skb(). That is a frequently referenced function, and=
-=20
-> in my profile there's a single callsite active:
->=20
-> ffffffff804c1027:      432 	e8 56 7b fc ff       	callq  ffffffff8048=
-8b82 <__kfree_skb>
->=20
-> which is tcp_ack() - subject of a later email. The wider context is:
->=20
-> ffffffff804c0ffc:      433 	41 2b 85 e0 00 00 00 	sub    0xe0(%r13),%=
-eax
-> ffffffff804c1003:     4843 	89 85 f0 00 00 00    	mov    %eax,0xf0(%r=
-bp)
-> ffffffff804c1009:     1730 	48 8b 45 30          	mov    0x30(%rbp),%=
+> ffffffff804b70d1:        0 	41 89 c3             	mov    %eax,%r11d
+> ffffffff804b70d4:        0 	fc                   	cld   =20
+> ffffffff804b70d5:        0 	89 d0                	mov    %edx,%eax
+> ffffffff804b70d7:        0 	b9 10 00 00 00       	mov    $0x10,%ecx
+> ffffffff804b70dc:        0 	44 8a 45 39          	mov    0x39(%rbp),%=
+r8b
+> ffffffff804b70e0:        0 	40 8a b5 57 02 00 00 	mov    0x257(%rbp),=
+%sil
+> ffffffff804b70e7:        0 	44 8b 8d 50 02 00 00 	mov    0x250(%rbp),=
+%r9d
+> ffffffff804b70ee:        0 	83 e3 1e             	and    $0x1e,%ebx
+> ffffffff804b70f1:        0 	44 8b 95 38 02 00 00 	mov    0x238(%rbp),=
+%r10d
+> ffffffff804b70f8:        0 	44 09 db             	or     %r11d,%ebx
+> ffffffff804b70fb:        0 	f3 ab                	rep stos %eax,%es:(=
+%rdi)
+> ffffffff804b70fd:        0 	40 c0 ee 05          	shr    $0x5,%sil
+> ffffffff804b7101:        0 	88 5c 24 24          	mov    %bl,0x24(%rs=
+p)
+> ffffffff804b7105:        0 	48 8d 5c 24 10       	lea    0x10(%rsp),%=
+rbx
+> ffffffff804b710a:        0 	83 e6 01             	and    $0x1,%esi
+> ffffffff804b710d:        0 	48 89 ef             	mov    %rbp,%rdi
+> ffffffff804b7110:        0 	44 88 44 24 40       	mov    %r8b,0x40(%r=
+sp)
+> ffffffff804b7115:        0 	8b 44 24 0c          	mov    0xc(%rsp),%e=
+ax
+> ffffffff804b7119:        0 	40 88 74 24 41       	mov    %sil,0x41(%r=
+sp)
+> ffffffff804b711e:        0 	48 89 de             	mov    %rbx,%rsi
+> ffffffff804b7121:        0 	66 44 89 4c 24 44    	mov    %r9w,0x44(%r=
+sp)
+> ffffffff804b7127:        0 	66 44 89 54 24 46    	mov    %r10w,0x46(%=
+rsp)
+> ffffffff804b712d:        0 	44 89 64 24 10       	mov    %r12d,0x10(%=
+rsp)
+> ffffffff804b7132:        0 	44 89 6c 24 1c       	mov    %r13d,0x1c(%=
+rsp)
+> ffffffff804b7137:        0 	89 44 24 20          	mov    %eax,0x20(%r=
+sp)
+> ffffffff804b713b:        0 	e8 2d 9f e5 ff       	callq  ffffffff8031=
+106d <security_sk_classify_flow>
+> ffffffff804b7140:        0 	48 8d 74 24 58       	lea    0x58(%rsp),%=
+rsi
+> ffffffff804b7145:        0 	45 31 c0             	xor    %r8d,%r8d
+> ffffffff804b7148:        0 	48 89 e9             	mov    %rbp,%rcx
+> ffffffff804b714b:        0 	48 89 da             	mov    %rbx,%rdx
+> ffffffff804b714e:        0 	48 c7 c7 d0 15 ab 80 	mov    $0xffffffff8=
+0ab15d0,%rdi
+> ffffffff804b7155:        0 	e8 1a 91 ff ff       	callq  ffffffff804b=
+0274 <ip_route_output_flow>
+> ffffffff804b715a:        0 	85 c0                	test   %eax,%eax
+> ffffffff804b715c:        0 	0f 85 9f 01 00 00    	jne    ffffffff804b=
+7301 <ip_queue_xmit+0x2bc>
+> ffffffff804b7162:        0 	48 8b 74 24 58       	mov    0x58(%rsp),%=
+rsi
+> ffffffff804b7167:        0 	48 89 ef             	mov    %rbp,%rdi
+> ffffffff804b716a:        0 	e8 a8 eb fc ff       	callq  ffffffff8048=
+5d17 <sk_setup_caps>
+> ffffffff804b716f:      441 	48 8b 44 24 58       	mov    0x58(%rsp),%=
 rax
-> ffffffff804c100d:      311 	41 8b 95 e0 00 00 00 	mov    0xe0(%r13),%=
+> ffffffff804b7174:     1388 	48 85 c0             	test   %rax,%rax
+> ffffffff804b7177:        0 	74 07                	je     ffffffff804b=
+7180 <ip_queue_xmit+0x13b>
+> ffffffff804b7179:        0 	f0 ff 80 b0 00 00 00 	lock incl 0xb0(%rax=
+)
+> ffffffff804b7180:      556 	49 89 46 28          	mov    %rax,0x28(%r=
+14)
+> ffffffff804b7184:     8351 	4d 85 ff             	test   %r15,%r15
+> ffffffff804b7187:        0 	be 14 00 00 00       	mov    $0x14,%esi
+> ffffffff804b718c:      461 	74 26                	je     ffffffff804b=
+71b4 <ip_queue_xmit+0x16f>
+> ffffffff804b718e:        0 	41 f6 47 08 01       	testb  $0x1,0x8(%r1=
+5)
+> ffffffff804b7193:        0 	74 17                	je     ffffffff804b=
+71ac <ip_queue_xmit+0x167>
+> ffffffff804b7195:        0 	48 8b 54 24 58       	mov    0x58(%rsp),%=
+rdx
+> ffffffff804b719a:        0 	8b 82 28 01 00 00    	mov    0x128(%rdx),=
+%eax
+> ffffffff804b71a0:        0 	39 82 1c 01 00 00    	cmp    %eax,0x11c(%=
+rdx)
+> ffffffff804b71a6:        0 	0f 85 55 01 00 00    	jne    ffffffff804b=
+7301 <ip_queue_xmit+0x2bc>
+> ffffffff804b71ac:        0 	41 0f b6 47 04       	movzbl 0x4(%r15),%e=
+ax
+> ffffffff804b71b1:        0 	8d 70 14             	lea    0x14(%rax),%=
+esi
+> ffffffff804b71b4:       39 	4c 89 f7             	mov    %r14,%rdi
+> ffffffff804b71b7:      493 	e8 f8 18 fd ff       	callq  ffffffff8048=
+8ab4 <skb_push>
+> ffffffff804b71bc:        0 	4c 89 f7             	mov    %r14,%rdi
+> ffffffff804b71bf:     1701 	e8 99 df ff ff       	callq  ffffffff804b=
+515d <skb_reset_network_header>
+> ffffffff804b71c4:      481 	0f b6 85 54 02 00 00 	movzbl 0x254(%rbp),=
+%eax
+> ffffffff804b71cb:     4202 	41 8b 9e bc 00 00 00 	mov    0xbc(%r14),%=
+ebx
+> ffffffff804b71d2:        3 	48 89 ef             	mov    %rbp,%rdi
+> ffffffff804b71d5:        0 	49 03 9e d0 00 00 00 	add    0xd0(%r14),%=
+rbx
+> ffffffff804b71dc:      466 	80 cc 45             	or     $0x45,%ah
+> ffffffff804b71df:        7 	66 c1 c0 08          	rol    $0x8,%ax
+> ffffffff804b71e3:        0 	66 89 03             	mov    %ax,(%rbx)
+> ffffffff804b71e6:      492 	48 8b 74 24 58       	mov    0x58(%rsp),%=
+rsi
+> ffffffff804b71eb:        3 	e8 a0 df ff ff       	callq  ffffffff804b=
+5190 <ip_dont_fragment>
+> ffffffff804b71f0:     1405 	85 c0                	test   %eax,%eax
+> ffffffff804b71f2:     4391 	74 0f                	je     ffffffff804b=
+7203 <ip_queue_xmit+0x1be>
+> ffffffff804b71f4:        0 	83 7c 24 08 00       	cmpl   $0x0,0x8(%rs=
+p)
+> ffffffff804b71f9:      417 	75 08                	jne    ffffffff804b=
+7203 <ip_queue_xmit+0x1be>
+> ffffffff804b71fb:      503 	66 c7 43 06 40 00    	movw   $0x40,0x6(%r=
+bx)
+> ffffffff804b7201:     6743 	eb 06                	jmp    ffffffff804b=
+7209 <ip_queue_xmit+0x1c4>
+> ffffffff804b7203:        0 	66 c7 43 06 00 00    	movw   $0x0,0x6(%rb=
+x)
+> ffffffff804b7209:      118 	0f bf 85 40 02 00 00 	movswl 0x240(%rbp),=
+%eax
+> ffffffff804b7210:    10867 	48 8b 54 24 58       	mov    0x58(%rsp),%=
+rdx
+> ffffffff804b7215:      340 	85 c0                	test   %eax,%eax
+> ffffffff804b7217:        0 	79 06                	jns    ffffffff804b=
+721f <ip_queue_xmit+0x1da>
+> ffffffff804b7219:   107464 	8b 82 9c 00 00 00    	mov    0x9c(%rdx),%=
+eax
+> ffffffff804b721f:     4963 	88 43 08             	mov    %al,0x8(%rbx=
+)
+> ffffffff804b7222:    26297 	8a 45 39             	mov    0x39(%rbp),%=
+al
+> ffffffff804b7225:    76658 	4d 85 ff             	test   %r15,%r15
+> ffffffff804b7228:     1712 	88 43 09             	mov    %al,0x9(%rbx=
+)
+> ffffffff804b722b:      148 	48 8b 44 24 58       	mov    0x58(%rsp),%=
+rax
+> ffffffff804b7230:     2971 	8b 80 20 01 00 00    	mov    0x120(%rax),=
+%eax
+> ffffffff804b7236:    14849 	89 43 0c             	mov    %eax,0xc(%rb=
+x)
+> ffffffff804b7239:       84 	48 8b 44 24 58       	mov    0x58(%rsp),%=
+rax
+> ffffffff804b723e:      360 	8b 80 1c 01 00 00    	mov    0x11c(%rax),=
+%eax
+> ffffffff804b7244:      174 	89 43 10             	mov    %eax,0x10(%r=
+bx)
+> ffffffff804b7247:       96 	74 32                	je     ffffffff804b=
+727b <ip_queue_xmit+0x236>
+> ffffffff804b7249:        0 	41 8a 57 04          	mov    0x4(%r15),%d=
+l
+> ffffffff804b724d:        0 	84 d2                	test   %dl,%dl
+> ffffffff804b724f:        0 	74 2a                	je     ffffffff804b=
+727b <ip_queue_xmit+0x236>
+> ffffffff804b7251:        0 	c0 ea 02             	shr    $0x2,%dl
+> ffffffff804b7254:        0 	03 13                	add    (%rbx),%edx
+> ffffffff804b7256:        0 	8a 03                	mov    (%rbx),%al
+> ffffffff804b7258:        0 	45 31 c0             	xor    %r8d,%r8d
+> ffffffff804b725b:        0 	4c 89 fe             	mov    %r15,%rsi
+> ffffffff804b725e:        0 	4c 89 f7             	mov    %r14,%rdi
+> ffffffff804b7261:        0 	83 e0 f0             	and    $0xfffffffff=
+ffffff0,%eax
+> ffffffff804b7264:        0 	83 e2 0f             	and    $0xf,%edx
+> ffffffff804b7267:        0 	09 d0                	or     %edx,%eax
+> ffffffff804b7269:        0 	88 03                	mov    %al,(%rbx)
+> ffffffff804b726b:        0 	48 8b 4c 24 58       	mov    0x58(%rsp),%=
+rcx
+> ffffffff804b7270:        0 	8b 95 30 02 00 00    	mov    0x230(%rbp),=
+%edx
+> ffffffff804b7276:        0 	e8 e4 d8 ff ff       	callq  ffffffff804b=
+4b5f <ip_options_build>
+> ffffffff804b727b:      541 	41 8b 86 c8 00 00 00 	mov    0xc8(%r14),%=
+eax
+> ffffffff804b7282:      570 	31 d2                	xor    %edx,%edx
+> ffffffff804b7284:        0 	49 03 86 d0 00 00 00 	add    0xd0(%r14),%=
+rax
+> ffffffff804b728b:       34 	8b 40 08             	mov    0x8(%rax),%e=
+ax
+> ffffffff804b728e:      496 	66 85 c0             	test   %ax,%ax
+> ffffffff804b7291:       11 	74 06                	je     ffffffff804b=
+7299 <ip_queue_xmit+0x254>
+> ffffffff804b7293:        9 	0f b7 c0             	movzwl %ax,%eax
+> ffffffff804b7296:      495 	8d 50 ff             	lea    -0x1(%rax),%=
 edx
-> ffffffff804c1014:        0 	48 83 b8 b0 00 00 00 	cmpq   $0x0,0xb0(%r=
-ax)
-> ffffffff804c101b:        0 	00=20
-> ffffffff804c101c:      418 	74 06                	je     ffffffff804c=
-1024 <tcp_ack+0x50d>
-> ffffffff804c101e:       37 	01 95 f4 00 00 00    	add    %edx,0xf4(%r=
+> ffffffff804b7299:        2 	f6 43 06 40          	testb  $0x40,0x6(%r=
+bx)
+> ffffffff804b729d:        9 	48 8b 74 24 58       	mov    0x58(%rsp),%=
+rsi
+> ffffffff804b72a2:      497 	74 34                	je     ffffffff804b=
+72d8 <ip_queue_xmit+0x293>
+> ffffffff804b72a4:        8 	83 bd 30 02 00 00 00 	cmpl   $0x0,0x230(%=
+rbp)
+> ffffffff804b72ab:       10 	74 23                	je     ffffffff804b=
+72d0 <ip_queue_xmit+0x28b>
+> ffffffff804b72ad:     1044 	66 8b 85 52 02 00 00 	mov    0x252(%rbp),=
+%ax
+> ffffffff804b72b4:        7 	66 c1 c0 08          	rol    $0x8,%ax
+> ffffffff804b72b8:        8 	66 89 43 04          	mov    %ax,0x4(%rbx=
+)
+> ffffffff804b72bc:      432 	66 8b 85 52 02 00 00 	mov    0x252(%rbp),=
+%ax
+> ffffffff804b72c3:        9 	ff c0                	inc    %eax
+> ffffffff804b72c5:       14 	01 d0                	add    %edx,%eax
+> ffffffff804b72c7:     1141 	66 89 85 52 02 00 00 	mov    %ax,0x252(%r=
 bp)
-> ffffffff804c1024:        2 	4c 89 ef             	mov    %r13,%rdi
-> ffffffff804c1027:      432 	e8 56 7b fc ff       	callq  ffffffff8048=
-8b82 <__kfree_skb>
+> ffffffff804b72ce:        7 	eb 10                	jmp    ffffffff804b=
+72e0 <ip_queue_xmit+0x29b>
+> ffffffff804b72d0:        0 	66 c7 43 04 00 00    	movw   $0x0,0x4(%rb=
+x)
+> ffffffff804b72d6:        0 	eb 08                	jmp    ffffffff804b=
+72e0 <ip_queue_xmit+0x29b>
+> ffffffff804b72d8:        0 	48 89 df             	mov    %rbx,%rdi
+> ffffffff804b72db:        0 	e8 b7 9d ff ff       	callq  ffffffff804b=
+1097 <__ip_select_ident>
+> ffffffff804b72e0:        6 	8b 85 54 01 00 00    	mov    0x154(%rbp),=
+%eax
+> ffffffff804b72e6:      458 	4c 89 f7             	mov    %r14,%rdi
+> ffffffff804b72e9:        2 	41 89 46 78          	mov    %eax,0x78(%r=
+14)
+> ffffffff804b72ed:        4 	8b 85 f0 01 00 00    	mov    0x1f0(%rbp),=
+%eax
+> ffffffff804b72f3:      841 	41 89 86 b0 00 00 00 	mov    %eax,0xb0(%r=
+14)
+> ffffffff804b72fa:       11 	e8 30 f2 ff ff       	callq  ffffffff804b=
+652f <ip_local_out>
+> ffffffff804b72ff:        0 	eb 44                	jmp    ffffffff804b=
+7345 <ip_queue_xmit+0x300>
+> ffffffff804b7301:        0 	65 48 8b 04 25 10 00 	mov    %gs:0x10,%ra=
+x
+> ffffffff804b7308:        0 	00 00=20
+> ffffffff804b730a:        0 	8b 80 48 e0 ff ff    	mov    -0x1fb8(%rax=
+),%eax
+> ffffffff804b7310:        0 	4c 89 f7             	mov    %r14,%rdi
+> ffffffff804b7313:        0 	30 c0                	xor    %al,%al
+> ffffffff804b7315:        0 	66 83 f8 01          	cmp    $0x1,%ax
+> ffffffff804b7319:        0 	48 19 c0             	sbb    %rax,%rax
+> ffffffff804b731c:        0 	83 e0 08             	and    $0x8,%eax
+> ffffffff804b731f:        0 	48 8b 90 a8 16 ab 80 	mov    -0x7f54e958(=
+%rax),%rdx
+> ffffffff804b7326:        0 	65 8b 04 25 24 00 00 	mov    %gs:0x24,%ea=
+x
+> ffffffff804b732d:        0 	00=20
+> ffffffff804b732e:        0 	89 c0                	mov    %eax,%eax
+> ffffffff804b7330:        0 	48 f7 d2             	not    %rdx
+> ffffffff804b7333:        0 	48 8b 04 c2          	mov    (%rdx,%rax,8=
+),%rax
+> ffffffff804b7337:        0 	48 ff 40 68          	incq   0x68(%rax)
+> ffffffff804b733b:        0 	e8 b1 18 fd ff       	callq  ffffffff8048=
+8bf1 <kfree_skb>
+> ffffffff804b7340:        0 	b8 8f ff ff ff       	mov    $0xffffff8f,=
+%eax
+> ffffffff804b7345:     9196 	48 83 c4 68          	add    $0x68,%rsp
+> ffffffff804b7349:      892 	5b                   	pop    %rbx
+> ffffffff804b734a:        0 	5d                   	pop    %rbp
+> ffffffff804b734b:      488 	41 5c                	pop    %r12
+> ffffffff804b734d:        0 	41 5d                	pop    %r13
+> ffffffff804b734f:        0 	41 5e                	pop    %r14
+> ffffffff804b7351:      513 	41 5f                	pop    %r15
+> ffffffff804b7353:        0 	c3                   	retq  =20
 >=20
-> this is a good, top-of-the-line x86 CPU with a really good BTB=20
-> implementation that seems to be able to fall through calls and tail=20
-> optimizations as if they werent there.
+> about 10% of this function's cost is artificial:
 >=20
-> some guesses are:
+> ffffffff804b7045:     1001 <ip_queue_xmit>:
+> ffffffff804b7045:     1001 	41 57                	push   %r15
+> ffffffff804b7047:    36698 	41 56                	push   %r14
 >=20
-> (gdb) list *0xffffffff804c1003
-> 0xffffffff804c1003 is in tcp_ack (include/net/sock.h:789).
-> 784=09
-> 785	static inline void sk_wmem_free_skb(struct sock *sk, struct sk_bu=
-ff *skb)
-> 786	{
-> 787		skb_truesize_check(skb);
-> 788		sock_set_flag(sk, SOCK_QUEUE_SHRUNK);
-> 789		sk->sk_wmem_queued -=3D skb->truesize;
-> 790		sk_mem_uncharge(sk, skb->truesize);
-> 791		__kfree_skb(skb);
-> 792	}
-> 793=09
+> there are profiler hits that leaked in via out-of-order execution fro=
+m=20
+> the callsites. The callsites are hard to map unfortunately, as this=20
+> function is called via function pointers.
 >=20
-> both sk and skb should be cache-hot here so this seems unlikely.
+> the most likely callsite is tcp_transmit_skb().
 >=20
-> (gdb) list *0xffffffff804c10090xffffffff804c1009 is in tcp_ack (inclu=
-de/net/sock.h:736).
-> 731	}
-> 732=09
-> 733	static inline int sk_has_account(struct sock *sk)
-> 734	{
-> 735		/* return true if protocol supports memory accounting */
-> 736		return !!sk->sk_prot->memory_allocated;
-> 737	}
-> 738=09
-> 739	static inline int sk_wmem_schedule(struct sock *sk, int size)
-> 740	{
+> 30% of the overhead of this function comes from:
 >=20
-> this cannot be it - unless sk_prot somehow ends up being dirtied or=20
-> false-shared?
+> ffffffff804b7203:        0 	66 c7 43 06 00 00    	movw   $0x0,0x6(%rb=
+x)
+> ffffffff804b7209:      118 	0f bf 85 40 02 00 00 	movswl 0x240(%rbp),=
+%eax
+> ffffffff804b7210:    10867 	48 8b 54 24 58       	mov    0x58(%rsp),%=
+rdx
+> ffffffff804b7215:      340 	85 c0                	test   %eax,%eax
+> ffffffff804b7217:        0 	79 06                	jns    ffffffff804b=
+721f <ip_queue_xmit+0x1da>
+> ffffffff804b7219:   107464 	8b 82 9c 00 00 00    	mov    0x9c(%rdx),%=
+eax
+> ffffffff804b721f:     4963 	88 43 08             	mov    %al,0x8(%rbx=
+)
 >=20
-> Still, my guess would be on ffffffff804c1009 and a=20
-> sk_prot->memory_allocated cachemiss: look at how this instruction use=
-s=20
-> %ebp, and the one that shows the many hits in skb_release_data()=20
-> pushes %ebp to the stack - that's where the CPU's OOO trick ends: it=20
-> has to compute the result and serialize on the cachemiss.
+> the 16-bit movw looks a bit weird. It comes from line 372:
+>=20
+>  0xffffffff804b7203 is in ip_queue_xmit (net/ipv4/ip_output.c:372).
+>  367		iph =3D ip_hdr(skb);
+>  368		*((__be16 *)iph) =3D htons((4 << 12) | (5 << 8) | (inet->tos & =
+0xff));
+>  369		if (ip_dont_fragment(sk, &rt->u.dst) && !ipfragok)
+>  370			iph->frag_off =3D htons(IP_DF);
+>  371		else
+>  372			iph->frag_off =3D 0;
+>  373		iph->ttl      =3D ip_select_ttl(inet, &rt->u.dst);
+>  374		iph->protocol =3D sk->sk_protocol;
+>  375		iph->saddr    =3D rt->rt_src;
+>  376		iph->daddr    =3D rt->rt_dst;
+>=20
+> the ip-header fragment flag setting to zero.
+>=20
+> 16-bit ops are an on-off love/hate affair on x86 CPUs. The trend is=20
+> towards eliminating them as much as possible.
+>=20
+> _But_, the real overhead probably comes from:
+>=20
+>  ffffffff804b7210:    10867 	48 8b 54 24 58       	mov    0x58(%rsp),=
+%rdx
+>=20
+> which is the next line, the ttl field:
+>=20
+>  373             iph->ttl      =3D ip_select_ttl(inet, &rt->u.dst);
+>=20
+> this shows that we are doing a hard cachemiss on the net-localhost=20
+> route dst structure cacheline. We do a plain load instruction from it=
+=20
+> here and get a hefty cachemiss. (because 16 CPUs are banging on that=20
+> single route)
+>=20
+> And let make sure we see this in perspective as well: that single=20
+> cachemiss is _1.0 percent_ of the total tbench cost. (!) We could mak=
+e=20
+> the scheduler 10% slower straight away and it would have less of a=20
+> real-life effect than this single iph->ttl field setting.
 >=20
 
-I did some investigation on this part (memory_allocated) and discovered=
- UDP had a problem,
-not TCP (and tbench)
+If you applied my patch against dst_entry, then you should not have any=
+ cache
+line miss accessing the first and second cache line of dst_entry, that =
+are mostly
+read (and contains all metrics, like ttl at offset 0x58 ). Or something=
+ is
+really wrong...
 
-commit 270acefafeb74ce2fe93d35b75733870bf1e11e7
+Now if your cpu cache is blown away because of the huge send()/receive(=
+) done
+by tbench, we are stuck of course.
 
-net: sk_free_datagram() should use sk_mem_reclaim_partial()
+I dont know what you want to prove here. We already have one dst_entry =
+per route in
+the rt cache, and it already can consume *lot* of ram if you have 1 mil=
+lion entries
+in rt cache.
 
-I noticed a contention on udp_memory_allocated on regular UDP applicati=
-ons.
+tbench is mostly a network benchmark (and one using loopback device), t=
+hats not a=20
+suprise it can stress network part or the kernel :)
 
-While tcp_memory_allocated is seldom used, it appears each incoming UDP=
- frame
-is currently touching udp_memory_allocated when queued, and when receiv=
-ed by
-application.
-
-One possible solution is to use sk_mem_reclaim_partial() instead of
-sk_mem_reclaim(), so that we keep a small reserve (less than one page)
-of memory for each UDP socket.
-
-We did something very similar on TCP side in commit
-9993e7d313e80bdc005d09c7def91903e0068f07
-([TCP]: Do not purge sk_forward_alloc entirely in tcp_delack_timer())
-
-A more complex solution would need to convert prot->memory_allocated to
-use a percpu_counter with batches of 64 or 128 pages.
-
-Signed-off-by: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
-Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 
