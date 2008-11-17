@@ -1,37 +1,46 @@
 From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Subject: Re: [Bug #11308] tbench regression on each kernel release from
  2.6.22 -&gt; 2.6.28
-Date: Mon, 17 Nov 2008 11:36:37 -0800 (PST)
-Message-ID: <20081117.113637.72930858.davem@davemloft.net>
-References: <20081117161135.GE12081@elte.hu>
-	<49219D36.5020801@cosmosbay.com>
-	<20081117170844.GJ12081@elte.hu>
+Date: Mon, 17 Nov 2008 11:39:36 -0800 (PST)
+Message-ID: <20081117.113936.81699150.davem@davemloft.net>
+References: <alpine.LFD.2.00.0811170937540.3468@nehalem.linux-foundation.org>
+	<20081117182320.GA26844@elte.hu>
+	<20081117184951.GA5585@elte.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081117170844.GJ12081-X9Un+BFzKDI@public.gmane.org>
+In-Reply-To: <20081117184951.GA5585-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
 To: mingo-X9Un+BFzKDI@public.gmane.org
-Cc: dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, efault-Mmb7MZpHnFY@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org
+Cc: torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, efault-Mmb7MZpHnFY@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org
 
 From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Date: Mon, 17 Nov 2008 18:08:44 +0100
+Date: Mon, 17 Nov 2008 19:49:51 +0100
 
-> Mike Galbraith has been spending months trying to pin down all the 
-> issues.
+> 
+> * Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
+> 
+> 4> The place for the sock_rfree() hit looks a bit weird, and i'll 
+> > investigate it now a bit more to place the real overhead point 
+> > properly. (i already mapped the test-bit overhead: that comes from 
+> > napi_disable_pending())
+> 
+> ok, here's a new set of profiles. (again for tbench 64-thread on a 
+> 16-way box, with v2.6.28-rc5-19-ge14c8bf and with the kernel config i 
+> posted before.)
 
-Yes Mike has been doing tireless good work.
+Again, do a non-NMI profile and the top (at least for me)
+looks like this:
 
-Another thing I noticed is that because all of the scheduler
-core operations are now function pointer callbacks, the
-call chain is deeper for core operations like wake_up().
+samples  %        app name                 symbol name
+473       6.3928  vmlinux                  finish_task_switch
+349       4.7169  vmlinux                  tcp_v4_rcv
+327       4.4195  vmlinux                  U3copy_from_user
+322       4.3519  vmlinux                  tl0_linux32
+178       2.4057  vmlinux                  tcp_ack
+170       2.2976  vmlinux                  tcp_sendmsg
+167       2.2571  vmlinux                  U3copy_to_user
 
-Much of it used to be completely inlined into try_to_wake_up()
-
-With the addition of the RB tree stuff, that adds yet another
-unavoidable depth of function call.
-
-wake_up() is usually at the deepest part of the call chain,
-so this is a big deal
+That tcp_v4_rcv() hit is %98 on the wake_up() call it does.
