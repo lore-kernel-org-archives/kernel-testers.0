@@ -1,45 +1,38 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #11308] tbench regression on each kernel release from
-	2.6.22 -&gt; 2.6.28
-Date: Mon, 17 Nov 2008 17:11:35 +0100
-Message-ID: <20081117161135.GE12081@elte.hu>
-References: <1ScKicKnTUE.A.VxH.DIHIJB@chimera> <NjF0-fuClJC.A.73B.cLHIJB@chimera> <20081117090648.GG28786@elte.hu> <20081117.011403.06989342.davem@davemloft.net> <20081117110119.GL28786@elte.hu> <4921539B.2000002@cosmosbay.com>
+From: Randy Dunlap <randy.dunlap@oracle.com>
+Subject: Re: [Bug #11404] BUG: in 2.6.23-rc3-git7 in do_cciss_intr
+Date: Mon, 17 Nov 2008 08:19:54 -0800
+Message-ID: <492199AA.2090801@oracle.com>
+References: <1ScKicKnTUE.A.VxH.DIHIJB@chimera> <NjF0-fuClJC.A.hsB.gKHIJB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <4921539B.2000002-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753505AbYKQQUf@vger.kernel.org>
+In-Reply-To: <NjF0-fuClJC.A.hsB.gKHIJB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
-Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, efault-Mmb7MZpHnFY@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, James Bottomley <James.Bottomley@hansenpartnership.com>, "Miller, Mike (OS Dev)" <Mike.Miller@hp.com>
 
+Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.26 and 2.6.27.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+> be listed and let me know (either way).
+> 
 
-* Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org> wrote:
+Nothing has changed.  IMO that means leave the bug as is (alive).
 
->> It all looks like pure old-fashioned straight overhead in the 
->> networking layer to me. Do we still touch the same global cacheline 
->> for every localhost packet we process? Anything like that would 
->> show up big time.
->
-> Yes we do, I find strange we dont see dst_release() in your NMI 
-> profile
->
-> I posted a patch ( commit 5635c10d976716ef47ae441998aeae144c7e7387 
-> net: make sure struct dst_entry refcount is aligned on 64 bytes) (in 
-> net-next-2.6 tree) to properly align struct dst_entry refcounter and 
-> got 4% speedup on tbench on my machine.
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11404
+> Subject		: BUG: in 2.6.23-rc3-git7 in do_cciss_intr
+> Submitter	: rdunlap <randy.dunlap@oracle.com>
+> Date		: 2008-08-21 5:52 (88 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121929819616273&w=4
+> 		  http://marc.info/?l=linux-kernel&m=121932889105368&w=4
+> Handled-By	: Miller, Mike (OS Dev) <Mike.Miller@hp.com>
+> 		  James Bottomley <James.Bottomley@hansenpartnership.com>
 
-Ouch, +4% from a oneliner networking change? That's a _huge_ speedup 
-compared to the things we were after in scheduler land. A lot of 
-scheduler folks worked hard to squeeze the last 1-2% out of the 
-scheduler fastpath (which was not trivial at all). The _full_ 
-scheduler accounts for only about 7% of the total system overhead here 
-on a 16-way box...
-
-So why should we be handling this anything but a plain networking 
-performance regression/weakness? The localhost scalability bottleneck 
-has been reported a _long_ time ago.
-
-	Ingo
+-- 
+~Randy
