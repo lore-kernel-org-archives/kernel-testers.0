@@ -1,40 +1,47 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Subject: Re: [Bug #11875] radeonfb lockup in .28-rc (bisected)
-Date: Thu, 13 Nov 2008 15:11:16 -0800 (PST)
-Message-ID: <20081113.151116.139760511.davem@davemloft.net>
-References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
-	<wnN9HICUAgP.A._d.f5zFJB@chimera>
-	<1226295985.7731.7.camel@pasglop>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #11308] tbench regression on each kernel release from
+	2.6.22 -&gt; 2.6.28
+Date: Mon, 17 Nov 2008 10:06:48 +0100
+Message-ID: <20081117090648.GG28786@elte.hu>
+References: <1ScKicKnTUE.A.VxH.DIHIJB@chimera> <NjF0-fuClJC.A.73B.cLHIJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1226295985.7731.7.camel@pasglop>
+Content-Disposition: inline
+In-Reply-To: <NjF0-fuClJC.A.73B.cLHIJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org
-Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org, paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
-Date: Mon, 10 Nov 2008 16:46:25 +1100
 
-> David, would you mind testing on your machine ? It's the one that shows
-> the biggest performance improvement, and I would like to know how much
-> it is affected by that patch. As long as the "worst case" performance
-> is still reasonable, I'm ok to take the hit if the improvement for you
-> is still significant.
+* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-Finally got around to this, we lose about a full second in the
-"cat rfc3261.txt" benchmark:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.26 and 2.6.27.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11308
+> Subject		: tbench regression on each kernel release from  2.6.22 -&gt; 2.6.28
+> Submitter	: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+> Date		: 2008-08-11 18:36 (98 days old)
+> References	: http://marc.info/?l=linux-kernel&m=121847986119495&w=4
+> 		  http://marc.info/?l=linux-kernel&m=122125737421332&w=4
 
-2.6.28-rc4 vanilla:
+Christoph, as per the recent analysis of Mike:
 
-7.634
-7.704
-7.688
+ http://fixunix.com/kernel/556867-regression-benchmark-throughput-loss-a622cf6-f7160c7-pull.html
 
-2.6.28rc4+patch:
+all scheduler components of this regression have been eliminated.
 
-8.712
-8.685
-8.702
+In fact his numbers show that scheduler speedups since 2.6.22 have 
+offset and hidden most other sources of tbench regression. (i.e. the 
+scheduler portion got 5% faster, hence it was able to offset a 
+slowdown of 5% in other areas of the kernel that tbench triggers)
+
+	Ingo
