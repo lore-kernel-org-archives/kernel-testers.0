@@ -1,40 +1,33 @@
-From: Soeren Sandmann <sandmann-SSQ8kajmRZpknbxzx/v8hQ@public.gmane.org>
-Subject: Re: [Bug #11954] sysprof tracer ABI regression in 2.6.28rc1
-Date: 17 Nov 2008 13:07:04 +0100
-Message-ID: <ye8k5b2eetz.fsf@camel11.daimi.au.dk>
-References: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera>
-	<Q7OAnAv0V3D.A.MbF.8AGIJB@chimera>
+From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [Bug #11805] mounting XFS produces a segfault
+Date: Mon, 17 Nov 2008 09:44:53 -0500
+Message-ID: <20081117144452.GA5111@infradead.org>
+References: <1ScKicKnTUE.A.VxH.DIHIJB@chimera> <NjF0-fuClJC.A.h4.kIHIJB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Q7OAnAv0V3D.A.MbF.8AGIJB@chimera>
+Content-Disposition: inline
+In-Reply-To: <NjF0-fuClJC.A.h4.kIHIJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Chinner <dgc-sJ/iWh9BUns@public.gmane.org>, Tiago Maluta <maluta_tiago-/E1597aS9LRfJ/NunPodnw@public.gmane.org>
 
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
-
+On Sun, Nov 16, 2008 at 06:40:58PM +0100, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
-> of recent regressions.
+> of regressions introduced between 2.6.26 and 2.6.27.
 > 
 > The following bug entry is on the current list of known regressions
-> from 2.6.27.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11954
-> Subject		: sysprof tracer ABI regression in 2.6.28rc1
-> Submitter	: Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
-> Date		: 2008-11-04 22:14 (13 days old)
-> Handled-By	: Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
-> Patch		: http://bugzilla.kernel.org/attachment.cgi?id=18683&action=view
+> introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+> be listed and let me know (either way).
 
-There are no ABI guarantees for the sysprof tracer at this point,
-given that it is in debugfs and that there is no working userspace
-code using it.
+The patch for this is both in mainline and -stable
 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11805
+> Subject		: mounting XFS produces a segfault
+> Submitter	: Tiago Maluta <maluta_tiago-/E1597aS9LRfJ/NunPodnw@public.gmane.org>
+> Date		: 2008-10-21 18:00 (27 days old)
+> Handled-By	: Dave Chinner <dgc-sJ/iWh9BUns@public.gmane.org>
 
-
-Soren
+And that email address for Dave is severly outdated.
