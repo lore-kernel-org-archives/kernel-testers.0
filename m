@@ -1,24 +1,29 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Subject: Re: skb_release_head_state(): Re: [Bug #11308] tbench regression
- on each kernel release from 2.6.22 -&gt; 2.6.28
-Date: Mon, 17 Nov 2008 13:01:36 -0800 (PST)
-Message-ID: <20081117.130136.52188937.davem@davemloft.net>
-References: <20081117182320.GA26844@elte.hu>
-	<20081117184951.GA5585@elte.hu>
-	<20081117205530.GE12020@elte.hu>
+From: Tino Keitel <tino.keitel-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [Bug #11982] Fan level 7 after resume wit 2.6.28-rc3
+Date: Mon, 17 Nov 2008 22:03:37 +0100
+Message-ID: <20081117210337.GA21036@dose.home.local>
+References: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera> <Q7OAnAv0V3D.A.jDF.wAGIJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081117205530.GE12020-X9Un+BFzKDI@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <Q7OAnAv0V3D.A.jDF.wAGIJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: mingo-X9Un+BFzKDI@public.gmane.org
-Cc: torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, efault-Mmb7MZpHnFY@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
 
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Date: Mon, 17 Nov 2008 21:55:30 +0100
+On Sun, Nov 16, 2008 at 17:35:18 +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.27.  Please verify if it still should be listed and let me know
+> (either way).
 
-> and ouch does that global dec on &nf_bridge->use hurt!
+The fix seems to be still missing from HEAD, but I tested it and it
+fixed the regression that I noticed.
 
-nf_bridge should always be NULL on your system
+Regards,
+Tino
