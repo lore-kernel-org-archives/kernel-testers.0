@@ -1,37 +1,40 @@
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-Subject: Re: 2.6.28-rc5: Reported regressions from 2.6.27
-Date: Mon, 17 Nov 2008 20:36:46 +0900
-Message-ID: <1226921806.8582.6.camel@localhost.localdomain>
+From: Soeren Sandmann <sandmann-SSQ8kajmRZpknbxzx/v8hQ@public.gmane.org>
+Subject: Re: [Bug #11954] sysprof tracer ABI regression in 2.6.28rc1
+Date: 17 Nov 2008 13:07:04 +0100
+Message-ID: <ye8k5b2eetz.fsf@camel11.daimi.au.dk>
 References: <VwdsQNEjR_C.A.CiD.9_FIJB@chimera>
-	 <20081116182953.6231ae8c@lxorguk.ukuu.org.uk>
+	<Q7OAnAv0V3D.A.MbF.8AGIJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-scsi-owner@vger.kernel.org>
-In-Reply-To: <20081116182953.6231ae8c@lxorguk.ukuu.org.uk>
-Sender: linux-scsi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <Q7OAnAv0V3D.A.MbF.8AGIJB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alan Cox <alan@lxorguk.ukuu.org.uk>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
 
-On Sun, 2008-11-16 at 18:29 +0000, Alan Cox wrote:
-> >      the majority of these patches have not been merged for over two weeks
-> >      (for almost three weeks in many cases and for over a _month_ in one case).
-> >      IMO, this is insane.]
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
-> Some of them are quite serious too - some stuff is basically unusable in
-> 2.6.28rc due to the vmalloc bug.
+> The following bug entry is on the current list of known regressions
+> from 2.6.27.  Please verify if it still should be listed and let me know
+> (either way).
 > 
-> Is there any reason why someone (Rafael ?) shouldn't simply submit all of
-> those patches that look sensible, are reported to fix regressions and
-> whose maintainer has not provided a reason to NOT apply them into the
-> tree ?
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11954
+> Subject		: sysprof tracer ABI regression in 2.6.28rc1
+> Submitter	: Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+> Date		: 2008-11-04 22:14 (13 days old)
+> Handled-By	: Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+> Patch		: http://bugzilla.kernel.org/attachment.cgi?id=18683&action=view
 
-There is for SCSI.  Our two bugzilla entries each have several patches
-(one has two, the other has four).  The patches listed in the
-regressions aren't necessarily going to be the ones applied (depending
-on how the arguing and testing goes).
-
-James
+There are no ABI guarantees for the sysprof tracer at this point,
+given that it is in debugfs and that there is no working userspace
+code using it.
 
 
+
+Soren
