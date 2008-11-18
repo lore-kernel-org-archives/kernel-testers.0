@@ -1,62 +1,69 @@
-From: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
-Subject: Re: eth_type_trans(): Re: [Bug #11308] tbench regression on each
- kernel release from 2.6.22 -&gt; 2.6.28
-Date: Tue, 18 Nov 2008 09:49:15 +0100
-Message-ID: <4922818B.1020303@cosmosbay.com>
-References: <20081117182320.GA26844@elte.hu> <20081117184951.GA5585@elte.hu> <20081117212657.GH12020@elte.hu> <20081117.211645.193706814.davem@davemloft.net> <20081118083018.GI17838@elte.hu>
+From: Nick Piggin <nickpiggin@yahoo.com.au>
+Subject: Re: ip_queue_xmit(): Re: [Bug #11308] tbench regression on each kernel release from 2.6.22 -&gt; 2.6.28
+Date: Tue, 18 Nov 2008 20:12:02 +1100
+Message-ID: <200811182012.03386.nickpiggin@yahoo.com.au>
+References: <20081117110119.GL28786@elte.hu> <20081117184951.GA5585@elte.hu> <20081117203219.GC12020@elte.hu>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081118083018.GI17838-X9Un+BFzKDI@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752566AbYKRJMd@vger.kernel.org>
+In-Reply-To: <20081117203219.GC12020@elte.hu>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"; format="flowed"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, efault-Mmb7MZpHnFY@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Ingo Molnar <mingo@elte.hu>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Eric Dumazet <dada1@cosmosbay.com>, David Miller <davem@davemloft.net>, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, cl@linux-foundation.org, efault@gmx.de, a.p.zijlstra@chello.nl, Stephen Hemminger <shemminger@vyatta.com>
 
-Ingo Molnar a =E9crit :
-> * David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org> wrote:
->=20
->> From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
->> Date: Mon, 17 Nov 2008 22:26:57 +0100
->>
->>> eth->h_proto access.
->> Yes, this is the first time a packet is touched on receive.
->>
->>> Given that this workload does localhost networking, my guess would =
-be=20
->>> that eth->h_proto is bouncing around between 16 CPUs? At minimum th=
-is=20
->>> read-mostly field should be separated from the bouncing bits.
->> It's the packet contents, there is no way to "seperate it".
->>
->> And it should be unlikely bouncing on your system under tbench, the=20
->> senders and receivers should hang out on the same cpu unless the=20
->> something completely stupid is happening.
->>
->> That's why I like running tbench with a num_threads command line=20
->> argument equal to the number of cpus, every cpu gets the two thread=20
->> talking to eachother over the TCP socket.
->=20
-> yeah - and i posted the numbers for that too - it's the same=20
-> throughput, within ~1% of noise.
+On Tuesday 18 November 2008 07:32, Ingo Molnar wrote:
+> * Ingo Molnar <mingo@elte.hu> wrote:
+> > 100.000000 total
+> > ................
+> >   3.356152 ip_queue_xmit
 
-Thinking once again about loopback driver, I recall a previous attempt
-to call netif_receive_skb() instead of netif_rx() and pay the price
-of cache line ping-pongs between cpus.
+> 30% of the overhead of this function comes from:
+>
+> ffffffff804b7203:        0 	66 c7 43 06 00 00    	movw   $0x0,0x6(%rbx)
+> ffffffff804b7209:      118 	0f bf 85 40 02 00 00 	movswl 0x240(%rbp),%eax
+> ffffffff804b7210:    10867 	48 8b 54 24 58       	mov    0x58(%rsp),%rdx
+> ffffffff804b7215:      340 	85 c0                	test   %eax,%eax
+> ffffffff804b7217:        0 	79 06                	jns    ffffffff804b721f
+> <ip_queue_xmit+0x1da> ffffffff804b7219:   107464 	8b 82 9c 00 00 00    	mov
+>    0x9c(%rdx),%eax ffffffff804b721f:     4963 	88 43 08             	mov   
+> %al,0x8(%rbx)
+>
+> the 16-bit movw looks a bit weird. It comes from line 372:
+>
+>  0xffffffff804b7203 is in ip_queue_xmit (net/ipv4/ip_output.c:372).
+>  367		iph = ip_hdr(skb);
+>  368		*((__be16 *)iph) = htons((4 << 12) | (5 << 8) | (inet->tos & 0xff));
+>  369		if (ip_dont_fragment(sk, &rt->u.dst) && !ipfragok)
+>  370			iph->frag_off = htons(IP_DF);
+>  371		else
+>  372			iph->frag_off = 0;
+>  373		iph->ttl      = ip_select_ttl(inet, &rt->u.dst);
+>  374		iph->protocol = sk->sk_protocol;
+>  375		iph->saddr    = rt->rt_src;
+>  376		iph->daddr    = rt->rt_dst;
+>
+> the ip-header fragment flag setting to zero.
+>
+> 16-bit ops are an on-off love/hate affair on x86 CPUs. The trend is
+> towards eliminating them as much as possible.
+>
+> _But_, the real overhead probably comes from:
+>
+>  ffffffff804b7210:    10867 	48 8b 54 24 58       	mov    0x58(%rsp),%rdx
+>
+> which is the next line, the ttl field:
+>
+>  373             iph->ttl      = ip_select_ttl(inet, &rt->u.dst);
+>
+> this shows that we are doing a hard cachemiss on the net-localhost
+> route dst structure cacheline. We do a plain load instruction from it
+> here and get a hefty cachemiss. (because 16 CPUs are banging on that
+> single route)
 
-http://kerneltrap.org/mailarchive/linux-netdev/2008/2/21/939644
-
-Maybe we could do that, with a temporary percpu stack, like we do in so=
-ftirq
-when CONFIG_4KSTACKS=3Dy
-
-(arch/x86/kernel/irq_32.c  : call_on_stack(func, stack)
-
-And do this only if the current cpu doesnt already use its softirq_stac=
-k
-(think about loopback re-entering loopback xmit because of TCP ACK for =
-example)
-
-Oh well... black magic, you are going to kill me :)
-
+Why would that show up right there, though? Instruction like this should
+be non-blocking. Shouldn't the cost should show up at some point where the
+CPU executes an instruction depending on rdx? (and good luck working out
+when that happens!)
