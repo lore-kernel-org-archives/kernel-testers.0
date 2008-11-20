@@ -1,47 +1,38 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Subject: Re: [Bug #11308] tbench regression on each kernel release from
-	2.6.22 -&gt; 2.6.28
-Date: Wed, 19 Nov 2008 21:14:44 +0100
-Message-ID: <20081119201444.GB4765@elte.hu>
-References: <1ScKicKnTUE.A.VxH.DIHIJB@chimera> <NjF0-fuClJC.A.73B.cLHIJB@chimera> <20081117090648.GG28786@elte.hu> <Pine.LNX.4.64.0811191341570.23502@quilx.com>
+ 2.6.22 -&gt; 2.6.28
+Date: Thu, 20 Nov 2008 01:06:06 -0800 (PST)
+Message-ID: <20081120.010606.67799718.davem@davemloft.net>
+References: <alpine.LFD.2.00.0811171218470.18283@nehalem.linux-foundation.org>
+	<20081117.125826.193693115.davem@davemloft.net>
+	<200811182044.11055.nickpiggin@yahoo.com.au>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.64.0811191341570.23502-dRBSpnHQED8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <200811182044.11055.nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org
+Cc: torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, efault-Mmb7MZpHnFY@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org
 
+From: Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>
+Date: Tue, 18 Nov 2008 20:44:10 +1100
 
-* Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
-
-> On Mon, 17 Nov 2008, Ingo Molnar wrote:
-> 
-> > Christoph, as per the recent analysis of Mike:
+> On Tuesday 18 November 2008 07:58, David Miller wrote:
+> > From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+> > Date: Mon, 17 Nov 2008 12:30:00 -0800 (PST)
 > >
-> >  http://fixunix.com/kernel/556867-regression-benchmark-throughput-loss-a622cf6-f7160c7-pull.html
+> > > On Mon, 17 Nov 2008, David Miller wrote:
+> > > > It's on my workstation which is a much simpler 2 processor
+> > > > UltraSPARC-IIIi (1.5Ghz) system.
+> > >
+> > > Ok. It could easily be something like a cache footprint issue. And while
+> > > I don't know my sparc cpu's very well, I think the Ultrasparc-IIIi is
+> > > super- scalar but does no out-of-order and speculation, no?
 > >
-> > all scheduler components of this regression have been eliminated.
-> >
-> > In fact his numbers show that scheduler speedups since 2.6.22 have
-> > offset and hidden most other sources of tbench regression. (i.e. the
-> > scheduler portion got 5% faster, hence it was able to offset a
-> > slowdown of 5% in other areas of the kernel that tbench triggers)
+> > I does only very simple speculation, but you're description is accurate.
 > 
-> Ok will rerun the tests tomorrow. Just got back from SC08 need some 
-> time to catch up.
-> 
-> Looks like a lot of work was done on this issue. Thanks!
+> Surely it would do branch prediction, but maybe not indirect branch?
 
-You might also want to try net-next:
-
- [remote "net-next"]
-        url = git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next-2.6.git
-        fetch = +refs/heads/*:refs/remotes/net-next/*
-
-Some good stuff is in there too, impacting this workload.
-
-	Ingo
+Right.
