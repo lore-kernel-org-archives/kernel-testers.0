@@ -1,35 +1,35 @@
-From: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH] fs: pipe/sockets/anon dentries should not have a parent
-Date: Fri, 21 Nov 2008 10:36:26 -0500
-Message-ID: <20081121153626.GA9281@infradead.org>
-References: <Pine.LNX.4.64.0811201727070.9089@quilx.com> <20081121083044.GL16242@elte.hu> <49267694.1030506@cosmosbay.com> <20081121.010508.40225532.davem@davemloft.net> <4926AEDB.10007@cosmosbay.com> <4926D022.5060008@cosmosbay.com>
+From: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #11308] tbench regression on each kernel release from 2.6.22
+ -&gt; 2.6.28
+Date: Fri, 21 Nov 2008 10:11:49 -0600 (CST)
+Message-ID: <Pine.LNX.4.64.0811210936580.25354@quilx.com>
+References: <1ScKicKnTUE.A.VxH.DIHIJB@chimera> <NjF0-fuClJC.A.73B.cLHIJB@chimera>
+ <20081117090648.GG28786@elte.hu> <Pine.LNX.4.64.0811191341570.23502@quilx.com>
+ <Pine.LNX.4.64.0811201727070.9089@quilx.com> <20081121083044.GL16242@elte.hu>
 Mime-Version: 1.0
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <4926D022.5060008@cosmosbay.com>
-Sender: linux-fsdevel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20081121083044.GL16242-X9Un+BFzKDI@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Eric Dumazet <dada1@cosmosbay.com>
-Cc: David Miller <davem@davemloft.net>, mingo@elte.hu, cl@linux-foundation.org, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, efault@gmx.de, a.p.zijlstra@chello.nl, Linux Netdev List <netdev@vger.kernel.org>, viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 
-On Fri, Nov 21, 2008 at 04:13:38PM +0100, Eric Dumazet wrote:
-> [PATCH] fs: pipe/sockets/anon dentries should not have a parent
->
-> Linking pipe/sockets/anon dentries to one root 'parent' has no functional
-> impact at all, but a scalability one.
->
-> We can avoid touching a cache line at allocation stage (inside d_alloc(), no need
-> to touch root->d_count), but also at freeing time (in d_kill, decrementing d_count)
-> We avoid an expensive atomic_dec_and_lock() call on the root dentry.
->
-> If we correct dnotify_parent() and inotify_d_instantiate() to take into account
-> a NULL d_parent, we can call d_alloc() with a NULL parent instead of root dentry.
+On Fri, 21 Nov 2008, Ingo Molnar wrote:
 
-Sorry folks, but a NULL d_parent is a no-go from the VFS perspective,
-but you can set d_parent to the dentry itself which is the magic used
-for root of tree dentries.  They should also be marked
-DCACHE_DISCONNECTED to make sure this is not unexpected.
+> > 2.6.22:
+> > Throughput 2526.15 MB/sec 8 procs
+> > 2.6.28-rc5:
+> > Throughput 2486.2 MB/sec 8 procs
+> >
+> > 8p Dell 1950 and the number of processors specified on the tbench
+> > command line.
+>
+> ... so might be worth a test. Just to satisfy our curiosity and to
+> possibly close the entry :-)
 
-And this kind of stuff really needs to go through -fsdevel.
+Ahh.. Wow.... net-next gets us:
+
+Throughput 2685.17 MB/sec 8 procs
+
