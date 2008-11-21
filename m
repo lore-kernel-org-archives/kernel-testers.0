@@ -1,7 +1,7 @@
 From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
 Subject: Re: [Bug #11875] radeonfb lockup in .28-rc (bisected)
-Date: Fri, 21 Nov 2008 13:55:11 +1100
-Message-ID: <1227236111.7185.216.camel@pasglop>
+Date: Fri, 21 Nov 2008 14:02:42 +1100
+Message-ID: <1227236562.7185.217.camel@pasglop>
 References: <YrUCLn0F-xH.A.fhE.E4zFJB@chimera>
 	 <wnN9HICUAgP.A._d.f5zFJB@chimera> <1226295985.7731.7.camel@pasglop>
 	 <jetzafiad4.fsf@sykes.suse.de> <1226353979.7530.8.camel@pasglop>
@@ -21,10 +21,9 @@ Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing
 On Tue, 2008-11-11 at 10:31 +0100, Andreas Schwab wrote:
 > It looks like you are observing the same failure mode that I do.
 
-The lockup when shutting down isn't happening for me anymore with recent
-X (ubuntu intrepid) btw.
-
-I haven't quite figured out what's up yet.
+BTW> I've been running a torture scripts that does an ls -lR / in a
+console and constantly chvt between that console and X and so far
+haven't got it to crash...
 
 Cheers,
 Ben.
