@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12020] scsi_times_out NULL pointer dereference
-Date: Sat, 22 Nov 2008 21:28:17 +0100 (CET)
-Message-ID: <vyitTh0pP2N.A.ibC.m7HKJB@chimera>
+Subject: [Bug #11913] USB/INPUT: slab error in cache_alloc_debugcheck_after(): double free?
+Date: Sat, 22 Nov 2008 21:28:15 +0100 (CET)
+Message-ID: <vyitTh0pP2N.A.EdD.e8HKJB@chimera>
 References: <sBqd4qMeLzC.A.mgB.B7HKJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bernd Schubert <bs-PKu+Ek1N2UGzQB+pC5nmwQ@public.gmane.org>, James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Helge Deller <deller-Mmb7MZpHnFY@public.gmane.org>, Jeroen Roovers <jer-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,15 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12020
-Subject		: scsi_times_out NULL pointer dereference
-Submitter	: Bernd Schubert <bs-PKu+Ek1N2UGzQB+pC5nmwQ@public.gmane.org>
-Date		: 2008-11-13 10:30 (10 days old)
-Handled-By	: James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
-Patch		: http://bugzilla.kernel.org/show_bug.cgi?id=12020#c4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11913
+Subject		: USB/INPUT: slab error in cache_alloc_debugcheck_after(): double free?
+Submitter	: Helge Deller <deller-Mmb7MZpHnFY@public.gmane.org>
+Date		: 2008-10-30 23:11 (24 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=cb8f488c33539f096580e202f5438a809195008f
+References	: http://marc.info/?l=linux-kernel&m=122540833301394&w=4
+Handled-By	: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+		  Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+		  Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+		  Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+		  Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 
