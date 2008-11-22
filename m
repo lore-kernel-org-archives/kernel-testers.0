@@ -1,110 +1,64 @@
-From: Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [alsa-devel] Bugs on aspire one A150
-Date: Sat, 22 Nov 2008 21:00:18 +0200
-Message-ID: <492856C2.8000707@gmail.com>
-References: <s5h3ai11dpt.wl%tiwai@suse.de> <20081109151323.GA18705@rhlx01.hs-esslingen.de> <s5h7i7c916e.wl%tiwai@suse.de> <20081109200929.GA29333@rhlx01.hs-esslingen.de> <s5hiqqtkxqr.wl%tiwai@suse.de> <491B0D38.1050207@gmail.com> <20081112180519.GA21919@rhlx01.hs-esslingen.de> <491DBDEA.9010104@gmail.com>
+From: Andreas Mohr <andi@lisas.de>
+Subject: Re: Bugs on aspire one A150
+Date: Sat, 22 Nov 2008 20:43:59 +0100
+Message-ID: <20081122194359.GA29278@rhlx01.hs-esslingen.de>
+References: <s5h3ai11dpt.wl%tiwai@suse.de>
+	<20081109151323.GA18705@rhlx01.hs-esslingen.de>
+	<s5h7i7c916e.wl%tiwai@suse.de>
+	<20081109200929.GA29333@rhlx01.hs-esslingen.de>
+	<s5hiqqtkxqr.wl%tiwai@suse.de> <491B0D38.1050207@gmail.com>
+	<20081112180519.GA21919@rhlx01.hs-esslingen.de>
+	<491DBDEA.9010104@gmail.com> <492856C2.8000707@gmail.com>
 Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=lpDg0DLYGLfKM60EU2BqdmNiWkQg1wSfqwrA2Qv53l0=;
-        b=MurBzu3XTi+EKa9MHBUweFnDz50m38p3IHOHMDlGOAE6MUezT9MBrrYvZctCA7KqKM
-         hObifPyNIRxUDBI97C/6rmA6HKGVaBTCC+1XgbsYxpVydzKP0bjCGTjD4/V4VWor25by
-         DkDLkg3lNt/NOzoBOmAJkY9CdTeAXmVws8Yok=
-In-Reply-To: <491DBDEA.9010104-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
-Cc: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <alsa-devel-bounces@alsa-project.org>
+Content-Disposition: inline
+In-Reply-To: <492856C2.8000707@gmail.com>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <http://mailman.alsa-project.org/mailman/listinfo/alsa-devel>, 
+	<mailto:alsa-devel-request@alsa-project.org?subject=unsubscribe>
+List-Archive: <http://mailman.alsa-project.org/pipermail/alsa-devel>
+List-Post: <mailto:alsa-devel@alsa-project.org>
+List-Help: <mailto:alsa-devel-request@alsa-project.org?subject=help>
+List-Subscribe: <http://mailman.alsa-project.org/mailman/listinfo/alsa-devel>, 
+	<mailto:alsa-devel-request@alsa-project.org?subject=subscribe>
+Sender: alsa-devel-bounces@alsa-project.org
+Errors-To: alsa-devel-bounces@alsa-project.org
+To: Maxim Levitsky <maximlevitsky@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>, alsa-devel@alsa-project.org, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-kernel@vger.kernel.org, Andreas Mohr <andi@lisas.de>
 
-Maxim Levitsky wrote:
-> Andreas Mohr wrote:
->> Hi,
->>
->> On Wed, Nov 12, 2008 at 07:07:04PM +0200, Maxim Levitsky wrote:
->>> I pretty much studied the datasheet and driver, and this is what I 
->>> found:
->>> btw, my acer 5720 and aspire one share same ALC268.
->>> Some stuff is trivially fixable, some seems to be unfixable at all:
->>
->> Wow, what an extremely in-depth analysis!
->> I just intended to dive into getting mic routing corrected myself,
->> thus you saved me a lot of time!
->>
->>> model=acer is used on my regular laptop.
->>> model-acer-aspire is used on aspire one laptop, and it needs to be 
->>> renamed, as both are aspire.
->>
->> +1 (your analysis of both being rather different - as already pondered -
->> confirms this necessity)
->>
->>> And now for unfixable problems:
->>>
->>> 1) There is strong DC offset on all inputs.
->>> it is even different on left/right and depends on capture volume.
->>> I tried to change the VREF only param that could help, but it doesn't.
->>> I feel that this is hardware flaw.
->>> (It is possible that voltage on inputs is created by circuit made by 
->>> acer, and then ALC268 amplifies it.)
->>
->> Sounds like really bad circuit design then.
->> One would think that the Intel HDA architecture might have builtin
->> measures to compensate for this if needed? DC offset issues on
->> soundcards aren't exactly a new phenomenon after all...
->>
->>> Lastly I noticed that datasheet mentions so called 'coefficients':
->>> the codecs exposes lots of internal and undocumented registers using 
->>> set address/ get/set value scheme.
->>> maybe some of above bugs are fixable there, but ether realtek has to 
->>> provide data for that or reverse engineering of
->>> windows driver is required.
->>
->> I've actually had a peek at the .inf files since I thought that it would
->> already contain register values in those registry keys that it creates on
->> install, but yeah, that's all in-driver it seems.
->> Probably time to ask Acer about specifics, especially since I didn't spot
->> any hda-intel changes in their linux-2.6.23.9lw source.
->>
->> Thank you very much,
->>
->> Andreas Mohr
-> 
-> Small update:
-> 
-> 1) The dc offset isn't present on aspire one, really is a circuit design 
-> bug I guess 2) Internal mic works perfectly on aspire one, can reproduce 
-> the strange behaver at all,
-> Probably this was mixer bug.
-Finally, I found how to reproduce that bug,
-I mean to get normal volume on internal mic, I have to increase volume
-only on left or right channel.
+Hi,
 
-So, this happens always, and _only_ when recording _mono_ sound from internal
-mic.
+On Sat, Nov 22, 2008 at 09:00:18PM +0200, Maxim Levitsky wrote:
+> Maxim Levitsky wrote:
+>> 1) The dc offset isn't present on aspire one, really is a circuit 
+>> design bug I guess 2) Internal mic works perfectly on aspire one, can 
+>> reproduce the strange behaver at all,
+>> Probably this was mixer bug.
+> Finally, I found how to reproduce that bug,
+> I mean to get normal volume on internal mic, I have to increase volume
+> only on left or right channel.
+>
+> So, this happens always, and _only_ when recording _mono_ sound from internal
+> mic.
+>
+> Since hardware doesn't support hardware mono input, tested with -D hw:0
+> I suspect this to be alsa-lib bug, any ideas?
+> Happens with arecord -D plughw:0 -c1 .
 
-Since hardware doesn't support hardware mono input, tested with -D hw:0
-I suspect this to be alsa-lib bug, any ideas?
-Happens with arecord -D plughw:0 -c1 .
+Wow, nice analysis!
+I had already intended to report that you're #2 who told me that Mic does work
+(and I was starting to feel weird since I'm the only one who cannot
+get it to work!)
+Given your analysis, things start to make a lot more sense now.
 
-Best regards,
-	Maxim Levitsky
+That probably means that Ekiga Wizard uses mono input (since it does not work
+for me), whereas many other apps use stereo input as (natively!) supported
+by this hardware setup?
 
+--> alsa lib bug sounds like a good guess.
 
+Thanks,
 
-
-
-> 
-> So aspire one support is almost, only need to add support to restore 
-> beep volume
-> after resume.
-> 
-> 
-> Best regards,
->     Maxim Levitsky
-> 
-> 
+Andreas Mohr
