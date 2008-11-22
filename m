@@ -1,75 +1,110 @@
-From: Matthew Wilcox <matthew-Ztpu424NOJ8@public.gmane.org>
-Subject: Re: [PATCH] fs: pipe/sockets/anon dentries should have themselves as parent
-Date: Fri, 21 Nov 2008 11:43:45 -0700
-Message-ID: <20081121184344.GC5707@parisc-linux.org>
-References: <Pine.LNX.4.64.0811201727070.9089@quilx.com> <20081121083044.GL16242@elte.hu> <49267694.1030506@cosmosbay.com> <20081121.010508.40225532.davem@davemloft.net> <4926AEDB.10007@cosmosbay.com> <4926D022.5060008@cosmosbay.com> <20081121153626.GA9281@infradead.org> <4926F6C5.9030108@cosmosbay.com>
+From: Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [alsa-devel] Bugs on aspire one A150
+Date: Sat, 22 Nov 2008 21:00:18 +0200
+Message-ID: <492856C2.8000707@gmail.com>
+References: <s5h3ai11dpt.wl%tiwai@suse.de> <20081109151323.GA18705@rhlx01.hs-esslingen.de> <s5h7i7c916e.wl%tiwai@suse.de> <20081109200929.GA29333@rhlx01.hs-esslingen.de> <s5hiqqtkxqr.wl%tiwai@suse.de> <491B0D38.1050207@gmail.com> <20081112180519.GA21919@rhlx01.hs-esslingen.de> <491DBDEA.9010104@gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <4926F6C5.9030108-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=lpDg0DLYGLfKM60EU2BqdmNiWkQg1wSfqwrA2Qv53l0=;
+        b=MurBzu3XTi+EKa9MHBUweFnDz50m38p3IHOHMDlGOAE6MUezT9MBrrYvZctCA7KqKM
+         hObifPyNIRxUDBI97C/6rmA6HKGVaBTCC+1XgbsYxpVydzKP0bjCGTjD4/V4VWor25by
+         DkDLkg3lNt/NOzoBOmAJkY9CdTeAXmVws8Yok=
+In-Reply-To: <491DBDEA.9010104-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
-Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, mingo-X9Un+BFzKDI@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, efault-Mmb7MZpHnFY@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, Linux Netdev List <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
+Cc: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Fri, Nov 21, 2008 at 06:58:29PM +0100, Eric Dumazet wrote:
-> +/**
-> + * d_alloc_unhashed - allocate unhashed dentry
-> + * @inode: inode to allocate the dentry for
-> + * @name: dentry name
+Maxim Levitsky wrote:
+> Andreas Mohr wrote:
+>> Hi,
+>>
+>> On Wed, Nov 12, 2008 at 07:07:04PM +0200, Maxim Levitsky wrote:
+>>> I pretty much studied the datasheet and driver, and this is what I 
+>>> found:
+>>> btw, my acer 5720 and aspire one share same ALC268.
+>>> Some stuff is trivially fixable, some seems to be unfixable at all:
+>>
+>> Wow, what an extremely in-depth analysis!
+>> I just intended to dive into getting mic routing corrected myself,
+>> thus you saved me a lot of time!
+>>
+>>> model=acer is used on my regular laptop.
+>>> model-acer-aspire is used on aspire one laptop, and it needs to be 
+>>> renamed, as both are aspire.
+>>
+>> +1 (your analysis of both being rather different - as already pondered -
+>> confirms this necessity)
+>>
+>>> And now for unfixable problems:
+>>>
+>>> 1) There is strong DC offset on all inputs.
+>>> it is even different on left/right and depends on capture volume.
+>>> I tried to change the VREF only param that could help, but it doesn't.
+>>> I feel that this is hardware flaw.
+>>> (It is possible that voltage on inputs is created by circuit made by 
+>>> acer, and then ALC268 amplifies it.)
+>>
+>> Sounds like really bad circuit design then.
+>> One would think that the Intel HDA architecture might have builtin
+>> measures to compensate for this if needed? DC offset issues on
+>> soundcards aren't exactly a new phenomenon after all...
+>>
+>>> Lastly I noticed that datasheet mentions so called 'coefficients':
+>>> the codecs exposes lots of internal and undocumented registers using 
+>>> set address/ get/set value scheme.
+>>> maybe some of above bugs are fixable there, but ether realtek has to 
+>>> provide data for that or reverse engineering of
+>>> windows driver is required.
+>>
+>> I've actually had a peek at the .inf files since I thought that it would
+>> already contain register values in those registry keys that it creates on
+>> install, but yeah, that's all in-driver it seems.
+>> Probably time to ask Acer about specifics, especially since I didn't spot
+>> any hda-intel changes in their linux-2.6.23.9lw source.
+>>
+>> Thank you very much,
+>>
+>> Andreas Mohr
+> 
+> Small update:
+> 
+> 1) The dc offset isn't present on aspire one, really is a circuit design 
+> bug I guess 2) Internal mic works perfectly on aspire one, can reproduce 
+> the strange behaver at all,
+> Probably this was mixer bug.
+Finally, I found how to reproduce that bug,
+I mean to get normal volume on internal mic, I have to increase volume
+only on left or right channel.
 
-It's normal to list the parameters in the order they're passed to the
-function.  Not sure if we have a tool that checks for this or not --
-Randy?
+So, this happens always, and _only_ when recording _mono_ sound from internal
+mic.
 
-> + *
-> + * Allocate an unhashed dentry for the inode given. The inode is
-> + * instantiated and returned. %NULL is returned if there is insufficient
-> + * memory. Unhashed dentries have themselves as a parent.
-> + */
-> + 
-> +struct dentry * d_alloc_unhashed(const char *name, struct inode *inode)
-> +{
-> +	struct qstr q = { .name = name, .len = strlen(name) };
-> +	struct dentry *res;
-> +
-> +	res = d_alloc(NULL, &q);
-> +	if (res) {
-> +		res->d_sb = inode->i_sb;
-> +		res->d_parent = res;
-> +		/*
-> +		 * We dont want to push this dentry into global dentry hash table.
-> +		 * We pretend dentry is already hashed, by unsetting DCACHE_UNHASHED
-> +		 * This permits a working /proc/$pid/fd/XXX on sockets,pipes,anon
-> +		 */
+Since hardware doesn't support hardware mono input, tested with -D hw:0
+I suspect this to be alsa-lib bug, any ideas?
+Happens with arecord -D plughw:0 -c1 .
 
-Line length ... as checkpatch would have warned you ;-)
+Best regards,
+	Maxim Levitsky
 
-And there are several other grammatical nitpicks with this comment.  Try
-this:
 
-		/*
-		 * We don't want to put this dentry in the global dentry
-		 * hash table, so we pretend the dentry is already hashed
-		 * by unsetting DCACHE_UNHASHED.  This permits 
-		 * /proc/$pid/fd/XXX t work for sockets, pipes and
-		 * anonymous files (signalfd, timerfd, etc).
-		 */
 
-> +		res->d_flags &= ~DCACHE_UNHASHED;
-> +		res->d_flags |= DCACHE_DISCONNECTED;
 
-Is this really better than:
 
-		res->d_flags = res->d_flags & ~DCACHE_UNHASHED |
-						DCACHE_DISCONNECTED;
-
-Anyway, nice cleanup.
-
--- 
-Matthew Wilcox				Intel Open Source Technology Centre
-"Bill, look, we understand that you're interested in selling us this
-operating system, but compare it to ours.  We can't possibly take such
-a retrograde step."
+> 
+> So aspire one support is almost, only need to add support to restore 
+> beep volume
+> after resume.
+> 
+> 
+> Best regards,
+>     Maxim Levitsky
+> 
+> 
