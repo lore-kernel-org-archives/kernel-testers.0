@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11664] acpi errors and random freeze on sony vaio sr
+Subject: [Bug #11795] ks959-sir dongle no longer works under 2.6.27 (REGRESSION)
 Date: Sat, 22 Nov 2008 21:59:19 +0100 (CET)
-Message-ID: <V2w_GS-X2aE.A.jiH.8wIKJB@chimera>
+Message-ID: <V2w_GS-X2aE.A.DWH.nwIKJB@chimera>
 References: <0kQZaQnNVIL.A.BhG.FwIKJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Giovanni Pellerano <giovanni.pellerano-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, ykzhao <yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>, Samuel Ortiz <samuel-jcdQHdrhKHMdnm+yROfE0A@public.gmane.org>, Vasily <anarsoul-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,9 +22,9 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11664
-Subject		: acpi errors and random freeze on sony vaio sr
-Submitter	: Giovanni Pellerano <giovanni.pellerano-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-09-28 03:48 (56 days old)
-Patch		:  &lt;<a href="http://marc.info/?l=linux-acpi&m=122514341319748&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11795
+Subject		: ks959-sir dongle no longer works under 2.6.27 (REGRESSION)
+Submitter	: Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>
+Date		: 2008-10-20 10:49 (34 days old)
+Handled-By	: Samuel Ortiz <samuel-jcdQHdrhKHMdnm+yROfE0A@public.gmane.org>
 
