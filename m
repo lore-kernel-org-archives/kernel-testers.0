@@ -1,49 +1,34 @@
-From: Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #11543] kernel panic: softlockup in tick_periodic() ???
-Date: Sun, 23 Nov 2008 11:06:02 +0300
-Message-ID: <20081123080602.GA7855@localhost>
-References: <0kQZaQnNVIL.A.BhG.FwIKJB@chimera> <V2w_GS-X2aE.A.PwH.jxIKJB@chimera>
+From: Daniel Smolik <marvin@mydatex.cz>
+Subject: Re: [Bug #11886] without serial console system doesn't  poweroff
+Date: Sun, 23 Nov 2008 09:09:17 +0100
+Message-ID: <49290FAD.7060601@mydatex.cz>
+References: <0kQZaQnNVIL.A.BhG.FwIKJB@chimera> <V2w_GS-X2aE.A.rFH.VwIKJB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:received:date:from:to:cc
-         :subject:message-id:references:mime-version:content-type
-         :content-disposition:in-reply-to:user-agent;
-        bh=9hxp2m7rlNaH56bO+W9kMrdLQyKIcoEvziZx7QPOp9A=;
-        b=kEG6UDPock/8Yr0/0nYXZsHLdDozlWttL1SAOsUtw67OTNniEckjhNAARYnpniZ6SV
-         XT5xue+OR+ZRj23/G9w+ioQMLVwYmxbdhHNWNGxU0d2aFQ5ZoIAPSfZOxmKoor6DZrBZ
-         ZIBzlybLp1f7fKTnMSRncWg1tdxPIUCXGva4U=
-Content-Disposition: inline
-In-Reply-To: <V2w_GS-X2aE.A.PwH.jxIKJB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757526AbYKWIJf@vger.kernel.org>
+In-Reply-To: <V2w_GS-X2aE.A.rFH.VwIKJB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-[Rafael J. Wysocki - Sat, Nov 22, 2008 at 09:59:19PM +0100]
-| This message has been generated automatically as a part of a report
-| of regressions introduced between 2.6.26 and 2.6.27.
-| 
-| The following bug entry is on the current list of known regressions
-| introduced between 2.6.26 and 2.6.27.  Please verify if it still should
-| be listed and let me know (either way).
-| 
-| 
-| Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11543
-| Subject		: kernel panic: softlockup in tick_periodic() ???
-| Submitter	: Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>
-| Date		: 2008-09-11 16:46 (73 days old)
-| References	: http://marc.info/?l=linux-kernel&m=122117786124326&w=4
-| Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-| 		  Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-| 		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-| 		  Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-| 
-| 
+Rafael J. Wysocki napsal(a):
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.26 and 2.6.27.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11886
+> Subject		: without serial console system doesn't  poweroff
+> Submitter	: Daniel Smolik <marvin@mydatex.cz>
+> Date		: 2008-10-29 04:06 (25 days old)
+> 
+> 
+Yes this problem still exists. Lates I test 2.6.27.5. I am in bisecting of patch.
 
-Hi Rafael, it's still there. Joshua is collecting data.
+			Dan
 
-		- Cyrill -
