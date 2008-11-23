@@ -1,47 +1,49 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #11965] regression introduced by - timers: fix
-	itimer/many thread hang
-Date: Sun, 23 Nov 2008 08:39:29 +0100
-Message-ID: <20081123073929.GA23229@elte.hu>
-References: <sBqd4qMeLzC.A.mgB.B7HKJB@chimera> <vyitTh0pP2N.A.t7C.D8HKJB@chimera>
+From: Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #11543] kernel panic: softlockup in tick_periodic() ???
+Date: Sun, 23 Nov 2008 11:06:02 +0300
+Message-ID: <20081123080602.GA7855@localhost>
+References: <0kQZaQnNVIL.A.BhG.FwIKJB@chimera> <V2w_GS-X2aE.A.PwH.jxIKJB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:cc
+         :subject:message-id:references:mime-version:content-type
+         :content-disposition:in-reply-to:user-agent;
+        bh=9hxp2m7rlNaH56bO+W9kMrdLQyKIcoEvziZx7QPOp9A=;
+        b=kEG6UDPock/8Yr0/0nYXZsHLdDozlWttL1SAOsUtw67OTNniEckjhNAARYnpniZ6SV
+         XT5xue+OR+ZRj23/G9w+ioQMLVwYmxbdhHNWNGxU0d2aFQ5ZoIAPSfZOxmKoor6DZrBZ
+         ZIBzlybLp1f7fKTnMSRncWg1tdxPIUCXGva4U=
 Content-Disposition: inline
-In-Reply-To: <vyitTh0pP2N.A.t7C.D8HKJB@chimera>
+In-Reply-To: <V2w_GS-X2aE.A.PwH.jxIKJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Doug Chapman <doug.chapman-VXdhtT5mjnY@public.gmane.org>, Frank Mayhar <fmayhar-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
+[Rafael J. Wysocki - Sat, Nov 22, 2008 at 09:59:19PM +0100]
+| This message has been generated automatically as a part of a report
+| of regressions introduced between 2.6.26 and 2.6.27.
+| 
+| The following bug entry is on the current list of known regressions
+| introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+| be listed and let me know (either way).
+| 
+| 
+| Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11543
+| Subject		: kernel panic: softlockup in tick_periodic() ???
+| Submitter	: Joshua Hoblitt <j_kernel-amK9oZtvyLhBDgjK7y7TUQ@public.gmane.org>
+| Date		: 2008-09-11 16:46 (73 days old)
+| References	: http://marc.info/?l=linux-kernel&m=122117786124326&w=4
+| Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+| 		  Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+| 		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+| 		  Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+| 
+| 
 
-* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+Hi Rafael, it's still there. Joshua is collecting data.
 
-> This message has been generated automatically as a part of a report 
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions 
-> from 2.6.27.  Please verify if it still should be listed and let me 
-> know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11965
-> Subject		: regression introduced by - timers: fix itimer/many thread hang
-> Submitter	: Doug Chapman <doug.chapman-VXdhtT5mjnY@public.gmane.org>
-> Date		: 2008-11-06 11:03 (17 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=f06febc96ba8e0af80bcc3eaec0a109e88275fac
-> References	: http://marc.info/?l=linux-kernel&m=122596943416648&w=4
-> Handled-By	: Frank Mayhar <fmayhar-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-> 		  Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> 		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-
-the hang is fixed by:
-
-  commit ad474caca3e2a0550b7ce0706527ad5ab389a4d4
-  Author: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-  Date:   Mon Nov 10 15:39:30 2008 +0100
-
-    fix for account_group_exec_runtime(), make sure ->signal can't be freed under rq->lock
-
-	Ingo
+		- Cyrill -
