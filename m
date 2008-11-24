@@ -1,34 +1,39 @@
-From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Subject: Re: 2.6.28-rc6: hpet: object is on stack, but not annotated
-Date: Mon, 24 Nov 2008 19:17:44 +0100 (CET)
-Message-ID: <alpine.LFD.2.00.0811241916560.3301@localhost.localdomain>
-References: <a4423d670811240839q54e6b7afxfc49d28b3ea127cb@mail.gmail.com> <a4423d670811241014n2b2192beh931d374bf063894f@mail.gmail.com>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
+Subject: Re: [Bug #11947] 2.6.28-rc VC switching with Intel graphics broken
+Date: Mon, 24 Nov 2008 11:01:54 -0800
+Message-ID: <200811241101.55121.jbarnes@virtuousgeek.org>
+References: <sBqd4qMeLzC.A.mgB.B7HKJB@chimera> <vyitTh0pP2N.A.IHD.O8HKJB@chimera> <492A6A20.4080106@upcomillas.es>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <a4423d670811241014n2b2192beh931d374bf063894f-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, mingo-X9Un+BFzKDI@public.gmane.org, venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753438AbYKXTCW@vger.kernel.org>
+In-Reply-To: <492A6A20.4080106@upcomillas.es>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Romano Giannetti (lists)" <romanol@upcomillas.es>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andreas Mohr <andi@lisas.de>, Bernhard Schmidt <berni@birkenwald.de>, devsk <kernel-bugs.dev1world@spamgourmet.com>, Johan Bilien <jobi@via.ecp.fr>
 
-On Mon, 24 Nov 2008, Alexander Beregalov wrote:
+On Monday, November 24, 2008 12:47 am Romano Giannetti (lists) wrote:
+> Rafael J. Wysocki wrote:
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11947
+> > Subject		: 2.6.28-rc VC switching with Intel graphics broken
+> > Submitter	: Romano Giannetti <romano.giannetti@gmail.com>
+> > Date		: 2008-11-03 12:10 (20 days old)
+> > Handled-By	: Jesse Barnes <jbarnes@virtuousgeek.org>
+>
+> Still with us on -rc6, nasty, reproducible, no clues on what can be.
+>
+> VC switch locks or delay the systems minutes, resuming from suspend locks
+> hard the machine.
+>
+> 2.6.28-rc is unusable here.
+>
+> Jesse, any hints? My suspicion that it can be the same thing happened with
+> bug 10620 is wrong? (It was a very similar error about vblank...)
 
-> 2008/11/24 Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
-> > hpet0: at MMIO 0xfed00000, IRQs 2, 8, 0
-> > hpet0: 3 comparators, 64-bit 14.318180 MHz counter
-> > ODEBUG: object is on stack, but not annotated
-> > ------------[ cut here ]------------
-> > WARNING: at lib/debugobjects.c:251 __debug_object_init+0x2a4/0x352()
-> 
-> Bisected down to 26afe5f2fbf06ea0765aaa316640c4dd472310c0
-> (x86: HPET_MSI Initialise per-cpu HPET timers)
-> 
-> Revert helps
+Just added to the bug, it looks like a DUP of an issue Keith just fixed last 
+week (now to make sure the patch makes it upstream quickly).
 
-That's just a warning about a missing annotation. The commit is fine.
-
-Thanks,
-
-	tglx
+-- 
+Jesse Barnes, Intel Open Source Technology Center
