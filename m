@@ -1,45 +1,35 @@
-From: Jesse Barnes <jbarnes@virtuousgeek.org>
-Subject: Re: [Bug #12031] DRM enabled kernel hangs hard on resume on x60
-Date: Mon, 24 Nov 2008 09:50:31 -0800
-Message-ID: <200811240950.31829.jbarnes@virtuousgeek.org>
-References: <sBqd4qMeLzC.A.mgB.B7HKJB@chimera> <vyitTh0pP2N.A.ATC.i7HKJB@chimera> <200811241436.21457.rjw@sisk.pl>
+From: "Alexander Beregalov" <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: 2.6.28-rc6: hpet: object is on stack, but not annotated
+Date: Mon, 24 Nov 2008 21:14:01 +0300
+Message-ID: <a4423d670811241014n2b2192beh931d374bf063894f@mail.gmail.com>
+References: <a4423d670811240839q54e6b7afxfc49d28b3ea127cb@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754017AbYKXRu6@vger.kernel.org>
-In-Reply-To: <200811241436.21457.rjw@sisk.pl>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=+9R3hPmZ7bKVLWdHZpeBhwlIOGeCq/ogNL0hymBE6/0=;
+        b=VTOMzkzNJaqdabhcYwAhRZdahv816U6yN423lf+coJBgfF8hhOf2lcnn8kwWSK14pa
+         hlocY+x4TNMUrkWPhQmbsBDwEhHMLkGt1P0WZQ+1O+01/LyB6J3toN8jJ2sga4bnfvpe
+         UNUlq0xm0AaNoD6QFVlmIbg8YUic5BtuvemSc=
+In-Reply-To: <a4423d670811240839q54e6b7afxfc49d28b3ea127cb-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jens Axboe <jens.axboe@oracle.com>, Dave Airlie <airlied@linux.ie>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>
+To: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 
-On Monday, November 24, 2008 5:36 am Rafael J. Wysocki wrote:
-> On Saturday, 22 of November 2008, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.27.  Please verify if it still should be listed and let me know
-> > (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12031
-> > Subject		: DRM enabled kernel hangs hard on resume on x60
-> > Submitter	: Jens Axboe <jens.axboe@oracle.com>
-> > Date		: 2008-11-12 18:42 (11 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=122651551216820&w=4
-> > Handled-By	: Jesse Barnes <jbarnes@virtuousgeek.org>
->
-> I can reproduce this problem on Toshiba Portege R500, with the same
-> symptoms (please see the bug entry for details).
->
-> Well, we have at lease three DRM-related regressions in 2.6.28-rc and no
-> visible reaction from the developers/maintainers of the code in question.
-> :-(
+2008/11/24 Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> hpet0: at MMIO 0xfed00000, IRQs 2, 8, 0
+> hpet0: 3 comparators, 64-bit 14.318180 MHz counter
+> ODEBUG: object is on stack, but not annotated
+> ------------[ cut here ]------------
+> WARNING: at lib/debugobjects.c:251 __debug_object_init+0x2a4/0x352()
 
-Sorry, I've been away for awhile.  I'll dig through the latest info on these 
-regressions today.
+Bisected down to 26afe5f2fbf06ea0765aaa316640c4dd472310c0
+(x86: HPET_MSI Initialise per-cpu HPET timers)
 
--- 
-Jesse Barnes, Intel Open Source Technology Center
+Revert helps
