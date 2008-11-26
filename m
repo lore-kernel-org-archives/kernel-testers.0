@@ -1,223 +1,22 @@
-From: Eric Dumazet <dada1@cosmosbay.com>
-Subject: [PATCH 0/6] fs: Scalability of sockets/pipes allocation/deallocation
- on SMP
-Date: Thu, 27 Nov 2008 00:27:38 +0100
-Message-ID: <492DDB6A.8090806@cosmosbay.com>
+From: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
+Subject: [PATCH 1/6] fs: Introduce a per_cpu nr_dentry
+Date: Thu, 27 Nov 2008 00:30:19 +0100
+Message-ID: <492DDC0B.8060804@cosmosbay.com>
 References: <Pine.LNX.4.64.0811201727070.9089@quilx.com> <20081121083044.GL16242@elte.hu> <49267694.1030506@cosmosbay.com> <20081121.010508.40225532.davem@davemloft.net> <4926AEDB.10007@cosmosbay.com> <4926D022.5060008@cosmosbay.com> <20081121152148.GA20388@elte.hu> <4926D39D.9050603@cosmosbay.com> <20081121153453.GA23713@elte.hu>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <20081121153453.GA23713@elte.hu>
-Sender: netdev-owner@vger.kernel.org
+Content-Type: multipart/mixed;
+ boundary="------------080405000100050008020707"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20081121153453.GA23713-X9Un+BFzKDI@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Ingo Molnar <mingo@elte.hu>
-Cc: David Miller <davem@davemloft.net>, "Rafael J. Wysocki" <rjw@sisk.pl>, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, Mike Galbraith <efault@gmx.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Linux Netdev List <netdev@vger.kernel.org>, Christoph Lameter <cl@linux-foundation.org>, Christoph Hellwig <hch@infradead.org>
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Linux Netdev List <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 
-Hi all
-
-Short summary : Nice speedups for allocation/deallocation of sockets/pipes
-(From 27.5 seconds to 1.6 second)
-
-Long version :
-
-To allocate a socket or a pipe we :
-
-0) Do the usual file table manipulation (pretty scalable these days,
- but would be faster if 'struct files' were using SLAB_DESTROY_BY_RCU
- and avoid call_rcu() cache killer)
-
-1) allocate an inode with new_inode()
- This function :
-  - locks inode_lock,
-  - dirties nr_inodes counter
-  - dirties inode_in_use list  (for sockets/pipes, this is useless)
-  - dirties superblock s_inodes. 
-  - dirties last_ino counter
-All these are in different cache lines unfortunatly.
-
-2) allocate a dentry
-d_alloc() takes dcache_lock,
-insert dentry on its parent list (dirtying sock_mnt->mnt_sb->s_root)
-dirties nr_dentry
-
-3) d_instantiate() dentry  (dcache_lock taken again)
-
-4) init_file() -> atomic_inc() on sock_mnt->refcount
-
-
-At close() time, we must undo the things. Its even more expensive because
-of the _atomic_dec_and_lock() that stress a lot, and because of two cache
-lines that are touched when an element is deleted from a list
-(previous and next items)
-
-This is really bad, since sockets/pipes dont need to be visible in dcache
-or an inode list per super block.
-
-This patch series get rid of all contended cache lines for sockets, pipes
-and anonymous fd  (signalfd, timerfd, ...)
-
-Sample program :
-
-for (i = 0; i < 1000000; i++)
-  close(socket(AF_INET, SOCK_STREAM, 0));
-
-Cost if one cpu runs the program :
-
-real    1.561s
-user    0.092s
-sys     1.469s
-
-Cost if 8 processes are launched on a 8 CPU machine
-(benchmark named socket8) :
-
-real    27.496s   <<<< !!!! >>>>
-user    0.657s
-sys     3m39.092s
-
-Oprofile results (for the 8 process run, 3 times):
-
-CPU: Core 2, speed 3000.03 MHz (estimated)
-Counted CPU_CLK_UNHALTED events (Clock cycles when not halted) with a unit
-mask of 0x00 (Unhalted core cycles) count 100000
-samples  cum. samples  %        cum. %     symbol name
-3347352  3347352       28.0232  28.0232    _atomic_dec_and_lock
-3301428  6648780       27.6388  55.6620    d_instantiate
-2971130  9619910       24.8736  80.5355    d_alloc
-241318   9861228        2.0203  82.5558    init_file
-146190   10007418       1.2239  83.7797    __slab_free
-144149   10151567       1.2068  84.9864    inotify_d_instantiate
-143971   10295538       1.2053  86.1917    inet_create
-137168   10432706       1.1483  87.3401    new_inode
-117549   10550255       0.9841  88.3242    add_partial
-110795   10661050       0.9275  89.2517    generic_drop_inode
-107137   10768187       0.8969  90.1486    kmem_cache_alloc
-94029    10862216       0.7872  90.9358    tcp_close
-82837    10945053       0.6935  91.6293    dput
-67486    11012539       0.5650  92.1943    dentry_iput
-57751    11070290       0.4835  92.6778    iput
-54327    11124617       0.4548  93.1326    tcp_v4_init_sock
-49921    11174538       0.4179  93.5505    sysenter_past_esp
-47616    11222154       0.3986  93.9491    kmem_cache_free
-30792    11252946       0.2578  94.2069    clear_inode
-27540    11280486       0.2306  94.4375    copy_from_user
-26509    11306995       0.2219  94.6594    init_timer
-26363    11333358       0.2207  94.8801    discard_slab
-25284    11358642       0.2117  95.0918    __fput
-22482    11381124       0.1882  95.2800    __percpu_counter_add
-20369    11401493       0.1705  95.4505    sock_alloc
-18501    11419994       0.1549  95.6054    inet_csk_destroy_sock
-17923    11437917       0.1500  95.7555    sys_close
-
-
-This patch serie avoids all contented cache lines and makes this "bench"
-pretty fast.
-
-
-New cost if run on one cpu :
-
-real    1.325s   (instead of 1.561s)
-user    0.091s
-sys     1.234s
-
-
-If run on 8 CPUS :
-
-real    2.229s     <<<< instead of 27.496s >>>
-user    0.695s
-sys     16.903s
-
-Oprofile results (for the 8 process run, 3 times):
-CPU: Core 2, speed 2999.74 MHz (estimated)
-Counted CPU_CLK_UNHALTED events (Clock cycles when not halted) with a unit
-mask of 0x00 (Unhalted core cycles) count 100000
-samples  cum. samples  %        cum. %     symbol name
-143791   143791        11.7849  11.7849    __slab_free
-128404   272195        10.5238  22.3087    add_partial
-99150    371345         8.1262  30.4349    kmem_cache_alloc
-52031    423376         4.2644  34.6993    sysenter_past_esp
-47752    471128         3.9137  38.6130    kmem_cache_free
-47429    518557         3.8872  42.5002    tcp_close
-34376    552933         2.8174  45.3176    __percpu_counter_add
-29046    581979         2.3806  47.6982    copy_from_user
-28249    610228         2.3152  50.0134    init_timer
-26220    636448         2.1490  52.1624    __slab_alloc
-23402    659850         1.9180  54.0803    discard_slab
-20560    680410         1.6851  55.7654    __call_rcu
-18288    698698         1.4989  57.2643    d_alloc
-16425    715123         1.3462  58.6104    get_empty_filp
-16237    731360         1.3308  59.9412    __fput
-15729    747089         1.2891  61.2303    alloc_fd
-15021    762110         1.2311  62.4614    alloc_inode
-14690    776800         1.2040  63.6654    sys_close
-14666    791466         1.2020  64.8674    inet_create
-13638    805104         1.1178  65.9852    dput
-12503    817607         1.0247  67.0099    iput_special
-12231    829838         1.0024  68.0123    lock_sock_nested
-12210    842048         1.0007  69.0130    fd_install
-12137    854185         0.9947  70.0078    d_alloc_special
-12058    866243         0.9883  70.9960    sock_init_data
-11200    877443         0.9179  71.9140    release_sock
-11114    888557         0.9109  72.8248    inotify_d_instantiate
-
-The last point is about SLUB being hit hard, unless we
-use slub_min_order=3 at boot, or we use Christoph Lameter
-patch (struct file RCU optimizations)
-http://thread.gmane.org/gmane.linux.kernel/418615
-
-If we boot machine with slub_min_order=3, SLUB overhead disappears.
-
-New cost if run on one cpu :
-
-real    1.307s
-user    0.094s
-sys     1.214s
-
-If run on 8 CPUS :
-
-real    1.625s     <<<< instead of 27.496s or 2.229s >>>
-user    0.771s
-sys     12.061s
-
-Oprofile results (for the 8 process run, 3 times):
-CPU: Core 2, speed 3000.05 MHz (estimated)
-Counted CPU_CLK_UNHALTED events (Clock cycles when not halted) with a unit
-mask of 0x00 (Unhalted core cycles) count 100000
-samples  cum. samples  %        cum. %     symbol name
-108005   108005        11.0758  11.0758    kmem_cache_alloc
-52023    160028         5.3349  16.4107    sysenter_past_esp
-47363    207391         4.8570  21.2678    tcp_close
-45430    252821         4.6588  25.9266    kmem_cache_free
-36566    289387         3.7498  29.6764    __percpu_counter_add
-36085    325472         3.7005  33.3769    __slab_free
-29185    354657         2.9929  36.3698    copy_from_user
-28210    382867         2.8929  39.2627    init_timer
-25663    408530         2.6317  41.8944    d_alloc_special
-22360    430890         2.2930  44.1874    cap_file_alloc_security
-19237    450127         1.9727  46.1601    __call_rcu
-19097    469224         1.9584  48.1185    d_alloc
-16962    486186         1.7394  49.8580    alloc_fd
-16315    502501         1.6731  51.5311    __fput
-16102    518603         1.6512  53.1823    get_empty_filp
-14954    533557         1.5335  54.7158    inet_create
-14468    548025         1.4837  56.1995    alloc_inode
-14198    562223         1.4560  57.6555    sys_close
-13905    576128         1.4259  59.0814    dput
-12262    588390         1.2575  60.3389    lock_sock_nested
-12203    600593         1.2514  61.5903    sock_attach_fd
-12147    612740         1.2457  62.8360    iput_special
-12049    624789         1.2356  64.0716    fd_install
-12033    636822         1.2340  65.3056    sock_init_data
-11999    648821         1.2305  66.5361    release_sock
-11231    660052         1.1517  67.6878    inotify_d_instantiate
-11068    671120         1.1350  68.8228    inet_csk_destroy_sock
-
-
-This patch serie contains 6 patches, against net-next-2.6 tree
-(because this tree already contains network improvement on this
-subject, but should apply on other trees)
-
-[PATCH 1/6] fs: Introduce a per_cpu nr_dentry
+This is a multi-part message in MIME format.
+--------------080405000100050008020707
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
 Adding a per_cpu nr_dentry avoids cache line ping pongs between
 cpus to maintain this metric.
@@ -227,109 +26,184 @@ and increments in d_alloc().
 
 d_alloc() can avoid taking dcache_lock if parent is NULL
 
-
-[PATCH 2/6] fs: Introduce special dentries for pipes, socket, anon fd
-
-Sockets, pipes and anonymous fds have interesting properties.
-
-Like other files, they use a dentry and an inode.
-
-But dentries for these kind of files are not hashed into dcache,
-since there is no way someone can lookup such a file in the vfs tree.
-(/proc/{pid}/fd/{number} uses a different mechanism)
-
-Still, allocating and freeing such dentries are expensive processes,
-because we currently take dcache_lock inside d_alloc(), d_instantiate(),
-and dput(). This lock is very contended on SMP machines.
-
-This patch defines a new DCACHE_SPECIAL flag, to mark a dentry as
-a special one (for sockets, pipes, anonymous fd), and a new
-d_alloc_special(const struct qstr *name, struct inode *inode)
-method, called by the three subsystems.
-
-Internally, dput() can take a fast path to dput_special() for
-special dentries.
-
-Differences betwen a special dentry and a normal one are :
-
-1) Special dentry has the DCACHE_SPECIAL flag
-2) Special dentry's parent are themselves
-  This to avoid taking a reference on 'root' dentry, shared
-  by too many dentries.
-3) They are not hashed into global hash table
-4) Their d_alias list is empty
-
-Internally, dput() can avoid an expensive atomic_dec_and_lock()
-for special dentries.
-
-
-(socket8 bench result : from 27.5s to 25.5s) 
-
-[PATCH 3/6] fs: Introduce a per_cpu last_ino allocator
-
-new_inode() dirties a contended cache line to get inode numbers.
-
-Solve this problem by providing to each cpu a per_cpu variable,
-feeded by the shared last_ino, but once every 1024 allocations.
-
-This reduce contention on the shared last_ino.
-
-Note : last_ino_get() method must be called with preemption disabled.
-
-(socket8 bench result : 25.5s to 25s almost no differences, but 
-this is because inode_lock cost is too heavy for the moment)
-
-[PATCH 4/6] fs: Introduce a per_cpu nr_inodes
-
-Avoids cache line ping pongs between cpus and prepare next patch,
-because updates of nr_inodes dont need inode_lock anymore.
-
-(socket8 bench result : 25s to 20.5s)
-
-[PATCH 5/6] fs: Introduce special inodes
-
- Goal of this patch is to not touch inode_lock for socket/pipes/anonfd
- inodes allocation/freeing.
-
- In new_inode(), we test if super block has MS_SPECIAL flag set.
- If yes, we dont put inode in "inode_in_use" list nor "sb->s_inodes" list
- As inode_lock was taken only to protect these lists, we avoid it as well
-
- Using iput_special() from dput_special() avoids taking inode_lock
- at freeing time.
-
- This patch has a very noticeable effect, because we avoid dirtying 
- of three contended cache lines in new_inode(), and five cache lines
- in iput()
-
-Note: Not sure if we can use MS_SPECIAL=MS_NOUSER, or if we
-really need a different flag.
-
-(socket8 bench result : from 20.5s to 2.94s) 
-
-[PATCH 6/6] fs: Introduce kern_mount_special() to mount special vfs
-
-This function arms a flag (MNT_SPECIAL) on the vfs, to avoid
-refcounting on permanent system vfs.
-Use this function for sockets, pipes, anonymous fds.
-
-(socket8 bench result : from 2.94s to 2.23s)
-
-Signed-off-by: Eric Dumazet <dada1@cosmosbay.com>
+Signed-off-by: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
 ---
-Overall diffstat :
+ fs/dcache.c        |   55 ++++++++++++++++++++++++++++---------------
+ include/linux/fs.h |    2 +
+ kernel/sysctl.c    |    2 -
+ 3 files changed, 40 insertions(+), 19 deletions(-)
 
- fs/anon_inodes.c       |   19 +-----
- fs/dcache.c            |  106 ++++++++++++++++++++++++++++++++-------
- fs/fs-writeback.c      |    2
- fs/inode.c             |  101 +++++++++++++++++++++++++++++++------
- fs/pipe.c              |   28 +---------
- fs/super.c             |    9 +++
- include/linux/dcache.h |    2
- include/linux/fs.h     |    8 ++
- include/linux/mount.h  |    5 +
- kernel/sysctl.c        |    6 +-
- mm/page-writeback.c    |    2
- net/socket.c           |   27 +--------
- 12 files changed, 212 insertions(+), 103 deletions(-)
+--------------080405000100050008020707
+Content-Type: text/plain;
+ name="per_cpu_nr_dentry.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename="per_cpu_nr_dentry.patch"
 
+diff --git a/fs/dcache.c b/fs/dcache.c
+index a1d86c7..42ed9fc 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -61,12 +61,38 @@ static struct kmem_cache *dentry_cache __read_mostly;
+ static unsigned int d_hash_mask __read_mostly;
+ static unsigned int d_hash_shift __read_mostly;
+ static struct hlist_head *dentry_hashtable __read_mostly;
++static DEFINE_PER_CPU(int, nr_dentry);
+ 
+ /* Statistics gathering. */
+ struct dentry_stat_t dentry_stat = {
+ 	.age_limit = 45,
+ };
+ 
++/*
++ * Handle nr_dentry sysctl
++ */
++#if defined(CONFIG_SYSCTL) && defined(CONFIG_PROC_FS)
++int proc_nr_dentry(ctl_table *table, int write, struct file *filp,
++		   void __user *buffer, size_t *lenp, loff_t *ppos)
++{
++	int cpu;
++	int counter = 0;
++
++	for_each_possible_cpu(cpu)
++	    counter += per_cpu(nr_dentry, cpu);
++	if (counter < 0)
++		counter = 0;
++	dentry_stat.nr_dentry = counter;
++	return proc_dointvec(table, write, filp, buffer, lenp, ppos);
++}
++#else
++int proc_nr_dentry(ctl_table *table, int write, struct file *filp,
++		   void __user *buffer, size_t *lenp, loff_t *ppos)
++{
++	return -ENOSYS;
++}
++#endif
++
+ static void __d_free(struct dentry *dentry)
+ {
+ 	WARN_ON(!list_empty(&dentry->d_alias));
+@@ -82,8 +108,7 @@ static void d_callback(struct rcu_head *head)
+ }
+ 
+ /*
+- * no dcache_lock, please.  The caller must decrement dentry_stat.nr_dentry
+- * inside dcache_lock.
++ * no dcache_lock, please.
+  */
+ static void d_free(struct dentry *dentry)
+ {
+@@ -94,6 +119,8 @@ static void d_free(struct dentry *dentry)
+ 		__d_free(dentry);
+ 	else
+ 		call_rcu(&dentry->d_u.d_rcu, d_callback);
++	get_cpu_var(nr_dentry)--;
++	put_cpu_var(nr_dentry);
+ }
+ 
+ /*
+@@ -172,7 +199,6 @@ static struct dentry *d_kill(struct dentry *dentry)
+ 	struct dentry *parent;
+ 
+ 	list_del(&dentry->d_u.d_child);
+-	dentry_stat.nr_dentry--;	/* For d_free, below */
+ 	/*drops the locks, at that point nobody can reach this dentry */
+ 	dentry_iput(dentry);
+ 	if (IS_ROOT(dentry))
+@@ -619,7 +645,6 @@ void shrink_dcache_sb(struct super_block * sb)
+ static void shrink_dcache_for_umount_subtree(struct dentry *dentry)
+ {
+ 	struct dentry *parent;
+-	unsigned detached = 0;
+ 
+ 	BUG_ON(!IS_ROOT(dentry));
+ 
+@@ -678,7 +703,6 @@ static void shrink_dcache_for_umount_subtree(struct dentry *dentry)
+ 			}
+ 
+ 			list_del(&dentry->d_u.d_child);
+-			detached++;
+ 
+ 			inode = dentry->d_inode;
+ 			if (inode) {
+@@ -696,7 +720,7 @@ static void shrink_dcache_for_umount_subtree(struct dentry *dentry)
+ 			 * otherwise we ascend to the parent and move to the
+ 			 * next sibling if there is one */
+ 			if (!parent)
+-				goto out;
++				return;
+ 
+ 			dentry = parent;
+ 
+@@ -705,11 +729,6 @@ static void shrink_dcache_for_umount_subtree(struct dentry *dentry)
+ 		dentry = list_entry(dentry->d_subdirs.next,
+ 				    struct dentry, d_u.d_child);
+ 	}
+-out:
+-	/* several dentries were freed, need to correct nr_dentry */
+-	spin_lock(&dcache_lock);
+-	dentry_stat.nr_dentry -= detached;
+-	spin_unlock(&dcache_lock);
+ }
+ 
+ /*
+@@ -943,8 +962,6 @@ struct dentry *d_alloc(struct dentry * parent, const struct qstr *name)
+ 	dentry->d_flags = DCACHE_UNHASHED;
+ 	spin_lock_init(&dentry->d_lock);
+ 	dentry->d_inode = NULL;
+-	dentry->d_parent = NULL;
+-	dentry->d_sb = NULL;
+ 	dentry->d_op = NULL;
+ 	dentry->d_fsdata = NULL;
+ 	dentry->d_mounted = 0;
+@@ -959,15 +976,17 @@ struct dentry *d_alloc(struct dentry * parent, const struct qstr *name)
+ 	if (parent) {
+ 		dentry->d_parent = dget(parent);
+ 		dentry->d_sb = parent->d_sb;
++		spin_lock(&dcache_lock);
++		list_add(&dentry->d_u.d_child, &parent->d_subdirs);
++		spin_unlock(&dcache_lock);
+ 	} else {
++		dentry->d_parent = NULL;
++		dentry->d_sb = NULL;
+ 		INIT_LIST_HEAD(&dentry->d_u.d_child);
+ 	}
+ 
+-	spin_lock(&dcache_lock);
+-	if (parent)
+-		list_add(&dentry->d_u.d_child, &parent->d_subdirs);
+-	dentry_stat.nr_dentry++;
+-	spin_unlock(&dcache_lock);
++	get_cpu_var(nr_dentry)++;
++	put_cpu_var(nr_dentry);
+ 
+ 	return dentry;
+ }
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 0dcdd94..c5e7aa5 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2216,6 +2216,8 @@ static inline void free_secdata(void *secdata)
+ struct ctl_table;
+ int proc_nr_files(struct ctl_table *table, int write, struct file *filp,
+ 		  void __user *buffer, size_t *lenp, loff_t *ppos);
++int proc_nr_dentry(struct ctl_table *table, int write, struct file *filp,
++		   void __user *buffer, size_t *lenp, loff_t *ppos);
+ 
+ int get_filesystem_list(char * buf);
+ 
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index 9d048fa..eebddef 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1243,7 +1243,7 @@ static struct ctl_table fs_table[] = {
+ 		.data		= &dentry_stat,
+ 		.maxlen		= 6*sizeof(int),
+ 		.mode		= 0444,
+-		.proc_handler	= &proc_dointvec,
++		.proc_handler	= &proc_nr_dentry,
+ 	},
+ 	{
+ 		.ctl_name	= FS_OVERFLOWUID,
+
+--------------080405000100050008020707--
