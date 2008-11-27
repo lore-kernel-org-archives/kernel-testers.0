@@ -1,33 +1,51 @@
-From: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH 6/6] fs: Introduce kern_mount_special() to mount
-	special vfs
-Date: Thu, 27 Nov 2008 04:53:21 -0500
-Message-ID: <20081127095321.GE13860@infradead.org>
-References: <Pine.LNX.4.64.0811201727070.9089@quilx.com> <20081121083044.GL16242@elte.hu> <49267694.1030506@cosmosbay.com> <20081121.010508.40225532.davem@davemloft.net> <4926AEDB.10007@cosmosbay.com> <4926D022.5060008@cosmosbay.com> <20081121152148.GA20388@elte.hu> <4926D39D.9050603@cosmosbay.com> <20081121153453.GA23713@elte.hu> <492DDCAB.1070204@cosmosbay.com>
+From: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
+Subject: Re: [PATCH 4/6] fs: Introduce a per_cpu nr_inodes
+Date: Thu, 27 Nov 2008 11:01:14 +0100
+Message-ID: <492E6FEA.70307@cosmosbay.com>
+References: <Pine.LNX.4.64.0811201727070.9089@quilx.com>	 <20081121083044.GL16242@elte.hu> <49267694.1030506@cosmosbay.com>	 <20081121.010508.40225532.davem@davemloft.net>	 <4926AEDB.10007@cosmosbay.com> <4926D022.5060008@cosmosbay.com>	 <20081121152148.GA20388@elte.hu> <4926D39D.9050603@cosmosbay.com>	 <20081121153453.GA23713@elte.hu>  <492DDC91.3020503@cosmosbay.com> <1227778377.4454.1299.camel@twins>
 Mime-Version: 1.0
-Return-path: <netdev-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <492DDCAB.1070204@cosmosbay.com>
-Sender: netdev-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1227778377.4454.1299.camel@twins>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Eric Dumazet <dada1@cosmosbay.com>
-Cc: Ingo Molnar <mingo@elte.hu>, David Miller <davem@davemloft.net>, "Rafael J. Wysocki" <rjw@sisk.pl>, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, Mike Galbraith <efault@gmx.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Linux Netdev List <netdev@vger.kernel.org>, Christoph Lameter <cl@linux-foundation.org>, Christoph Hellwig <hch@infradead.org>
+Content-Type: text/plain; charset="iso-8859-1"; format="flowed"
+To: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Linux Netdev List <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, travis <travis-sJ/iWh9BUns@public.gmane.org>
 
-On Thu, Nov 27, 2008 at 12:32:59AM +0100, Eric Dumazet wrote:
-> This function arms a flag (MNT_SPECIAL) on the vfs, to avoid
-> refcounting on permanent system vfs.
-> Use this function for sockets, pipes, anonymous fds.
+Peter Zijlstra a =E9crit :
+> On Thu, 2008-11-27 at 00:32 +0100, Eric Dumazet wrote:
+>> Avoids cache line ping pongs between cpus and prepare next patch,
+>> because updates of nr_inodes metric dont need inode_lock anymore.
+>>
+>> (socket8 bench result : 25s to 20.5s)
+>>
+>> Signed-off-by: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
+>> ---
+>=20
+>> @@ -96,9 +96,40 @@ static DEFINE_MUTEX(iprune_mutex);
+>>   * Statistics gathering..
+>>   */
+>>  struct inodes_stat_t inodes_stat;
+>> +static DEFINE_PER_CPU(int, nr_inodes);
+>> =20
+>>  static struct kmem_cache * inode_cachep __read_mostly;
+>> =20
+>> +int get_nr_inodes(void)
+>> +{
+>> +	int cpu;
+>> +	int counter =3D 0;
+>> +
+>> +	for_each_possible_cpu(cpu)
+>> +	    counter +=3D per_cpu(nr_inodes, cpu);
+>> +	if (counter < 0)
+>> +		counter =3D 0;
+>> +	return counter;
+>> +}
+>=20
+> It would be good to get a cpu hotplug handler here and move to
+> for_each_online_cpu(). People are wanting distro's to be build with
+> NR_CPUS=3D4096.
 
-special is not a useful name for a flag, by definition everything that
-needs a flag is special compared to the version that doesn't need a
-flag.
-
-The general idea of skippign the writer counts makes sense, but please
-give it a descriptive name that explains the not unmountable thing.
-And please kill your kern_mount wrapper and just set the flag manually.
-
-Also I think it should be a superblock flag, not a mount flag as you
-don't want thse to differ for multiple mounts of the same filesystem.
+Hum, I guess we can use regular percpu_counter for this...
 
