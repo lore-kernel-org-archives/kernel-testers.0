@@ -1,45 +1,29 @@
-From: Andi Kleen <andi@firstfloor.org>
-Subject: Re: [PATCH 4/6] fs: Introduce a per_cpu nr_inodes
-Date: Thu, 27 Nov 2008 11:07:01 +0100
-Message-ID: <87zljl32ka.fsf@basil.nowhere.org>
-References: <Pine.LNX.4.64.0811201727070.9089@quilx.com>
-	<20081121083044.GL16242@elte.hu> <49267694.1030506@cosmosbay.com>
-	<20081121.010508.40225532.davem@davemloft.net>
-	<4926AEDB.10007@cosmosbay.com> <4926D022.5060008@cosmosbay.com>
-	<20081121152148.GA20388@elte.hu> <4926D39D.9050603@cosmosbay.com>
-	<20081121153453.GA23713@elte.hu> <492DDC91.3020503@cosmosbay.com>
-	<1227778377.4454.1299.camel@twins>
+From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [PATCH 6/6] fs: Introduce kern_mount_special() to mount
+	special vfs
+Date: Thu, 27 Nov 2008 05:10:23 -0500
+Message-ID: <20081127101023.GA1454@infradead.org>
+References: <49267694.1030506@cosmosbay.com> <20081121.010508.40225532.davem@davemloft.net> <4926AEDB.10007@cosmosbay.com> <4926D022.5060008@cosmosbay.com> <20081121152148.GA20388@elte.hu> <4926D39D.9050603@cosmosbay.com> <20081121153453.GA23713@elte.hu> <492DDCAB.1070204@cosmosbay.com> <20081127095321.GE13860@infradead.org> <492E70B6.70108@cosmosbay.com>
 Mime-Version: 1.0
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <1227778377.4454.1299.camel@twins> (Peter Zijlstra's message of "Thu, 27 Nov 2008 10:32:57 +0100")
-Sender: netdev-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <492E70B6.70108-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Peter Zijlstra <a.p.zijlstra@chello.nl>
-Cc: Eric Dumazet <dada1@cosmosbay.com>, Ingo Molnar <mingo@elte.hu>, David Miller <davem@davemloft.net>, "Rafael J. Wysocki" <rjw@sisk.pl>, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, Mike Galbraith <efault@gmx.de>, Linux Netdev List <netdev@vger.kernel.org>, Christoph Lameter <cl@linux-foundation.org>, Christoph Hellwig <hch@infradead.org>, travis <travis@sgi.com>
+To: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
+Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Linux Netdev List <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-Peter Zijlstra <a.p.zijlstra@chello.nl> writes:
->>  
->> +int get_nr_inodes(void)
->> +{
->> +	int cpu;
->> +	int counter = 0;
->> +
->> +	for_each_possible_cpu(cpu)
->> +	    counter += per_cpu(nr_inodes, cpu);
->> +	if (counter < 0)
->> +		counter = 0;
->> +	return counter;
->> +}
+On Thu, Nov 27, 2008 at 11:04:38AM +0100, Eric Dumazet wrote:
+> Hum.. we have a superblock flag already, but testing it in mntput()/mntget()
+> is going to be a litle bit expensive if we add a derefence ?
 >
-> It would be good to get a cpu hotplug handler here and move to
-> for_each_online_cpu(). People are wanting distro's to be build with
-> NR_CPUS=4096.
+> if (mnt && mnt->mnt_sb->s_flags & MS_SPECIAL) {
+>   ...
+> }
 
-Doesn't matter, possible cpus is always only set to what the
-machine supports.
-
--Andi
--- 
-ak@linux.intel.com
+Well, run a benchmark to see if it makes any difference.  And when it
+does please always set the mount flag from the common mount code when
+it's set on the superblock, and document that this is the only valid way
+to set it.
