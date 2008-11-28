@@ -1,8 +1,8 @@
-From: Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 Subject: Re: [PATCH 6/6] fs: Introduce kern_mount_special() to mount
 	special vfs
-Date: Fri, 28 Nov 2008 09:34:19 +0000
-Message-ID: <20081128093419.GM28946@ZenIV.linux.org.uk>
+Date: Fri, 28 Nov 2008 19:02:20 +0100
+Message-ID: <20081128180220.GK10487@elte.hu>
 References: <20081121083044.GL16242@elte.hu> <49267694.1030506@cosmosbay.com> <20081121.010508.40225532.davem@davemloft.net> <4926AEDB.10007@cosmosbay.com> <4926D022.5060008@cosmosbay.com> <20081121152148.GA20388@elte.hu> <4926D39D.9050603@cosmosbay.com> <20081121153453.GA23713@elte.hu> <492DDCAB.1070204@cosmosbay.com> <20081128092604.GL28946@ZenIV.linux.org.uk>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,55 +12,155 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Linux Netdev List <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, rth-hL46jP5Bxq7R7s880joybQ@public.gmane.org, ink-biIs/Y0ymYJMZLIVYojuPNP0rXTJTi09@public.gmane.org
+To: Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Cc: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Linux Netdev List <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, rth-hL46jP5Bxq7R7s880joybQ@public.gmane.org, ink-biIs/Y0ymYJMZLIVYojuPNP0rXTJTi09@public.gmane.org
 
-On Fri, Nov 28, 2008 at 09:26:04AM +0000, Al Viro wrote:
 
-gyah...  That would be
+* Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org> wrote:
 
-> static __inline__ int atomic_add_unless(atomic_t *v, int a, int u)
-> {
-> 	unsigned long temp, res;
-> 	__asm__ __volatile__(
-> 	"1:     ldl_l %0,%1\n"
-> 	"       cmpne %0,%4,%2\n"
- 	"       beq %2,3f\n"
- 	"       addl %0,%3,%2\n"
-> 	"       stl_c %2,%1\n"
-> 	"       beq %2,2f\n"
-> 	"3:\n"
->         ".subsection 2\n"
->         "2:     br 1b\n"
->         ".previous"
->         :"=&r" (temp), "=m" (v->counter), "=&r" (res)
->         :"Ir" (a), "Ir" (u), "m" (v->counter) : "memory");
-> 	smp_mb();
-> 	return res;
-> }
+> On Thu, Nov 27, 2008 at 12:32:59AM +0100, Eric Dumazet wrote:
+> > This function arms a flag (MNT_SPECIAL) on the vfs, to avoid
+> > refcounting on permanent system vfs.
+> > Use this function for sockets, pipes, anonymous fds.
 > 
-> static __inline__ int atomic64_add_unless(atomic64_t *v, long a, long u)
-> {
-> 	unsigned long temp, res;
-> 	__asm__ __volatile__(
-> 	"1:     ldq_l %0,%1\n"
-> 	"       cmpne %0,%4,%2\n"
- 	"       beq %2,3f\n"
- 	"       addq %0,%3,%2\n"
-> 	"       stq_c %2,%1\n"
-> 	"       beq %2,2f\n"
-> 	"3:\n"
->         ".subsection 2\n"
->         "2:     br 1b\n"
->         ".previous"
->         :"=&r" (temp), "=m" (v->counter), "=&r" (res)
->         :"Ir" (a), "Ir" (u), "m" (v->counter) : "memory");
-> 	smp_mb();
-> 	return res;
-> }
-> 
-> Comments?
-> --
-> To unsubscribe from this list: send the line "unsubscribe netdev" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> IMO that's pushing it past the point of usefulness; unless you can show
+> that this really gives considerable win on pipes et.al. *AND* that it
+> doesn't hurt other loads...
+
+The numbers look pretty convincing:
+
+> >  (socket8 bench result : from 2.94s to 2.23s)
+
+And i wouldnt expect it to hurt real-filesystem workloads.
+
+Here's the contemporary trace of a typical ext3- sys_open():
+
+ 0)               |  sys_open() {
+ 0)               |    do_sys_open() {
+ 0)               |      getname() {
+ 0)      0.367 us |        kmem_cache_alloc();
+ 0)               |        strncpy_from_user(); {
+ 0)               |          _cond_resched() {
+ 0)               |            need_resched() {
+ 0)      0.363 us |              constant_test_bit();
+ 0)      1. 47 us |            }
+ 0)      1.815 us |          }
+ 0)      2.587 us |        }
+ 0)      4. 22 us |      }
+ 0)               |      alloc_fd() {
+ 0)      0.480 us |        _spin_lock();
+ 0)      0.487 us |        expand_files();
+ 0)      2.356 us |      }
+ 0)               |      do_filp_open() {
+ 0)               |        path_lookup_open() {
+ 0)               |          get_empty_filp() {
+ 0)      0.439 us |            kmem_cache_alloc();
+ 0)               |            security_file_alloc() {
+ 0)      0.316 us |              cap_file_alloc_security();
+ 0)      1. 87 us |            }
+ 0)      3.189 us |          }
+ 0)               |          do_path_lookup() {
+ 0)      0.366 us |            _read_lock();
+ 0)               |            path_walk() {
+ 0)               |              __link_path_walk() {
+ 0)               |                inode_permission() {
+ 0)               |                  ext3_permission() {
+ 0)      0.441 us |                    generic_permission();
+ 0)      1.247 us |                  }
+ 0)               |                  security_inode_permission() {
+ 0)      0.411 us |                    cap_inode_permission();
+ 0)      1.186 us |                  }
+ 0)      3.555 us |                }
+ 0)               |                do_lookup() {
+ 0)               |                  __d_lookup() {
+ 0)      0.486 us |                    _spin_lock();
+ 0)      1.369 us |                  }
+ 0)      0.442 us |                  __follow_mount();
+ 0)      3. 14 us |                }
+ 0)               |                path_to_nameidata() {
+ 0)      0.476 us |                  dput();
+ 0)      1.235 us |                }
+ 0)               |                inode_permission() {
+ 0)               |                  ext3_permission() {
+ 0)               |                    generic_permission() {
+ 0)               |                      in_group_p() {
+ 0)      0.410 us |                        groups_search();
+ 0)      1.172 us |                      }
+ 0)      1.994 us |                    }
+ 0)      2.789 us |                  }
+ 0)               |                  security_inode_permission() {
+ 0)      0.454 us |                    cap_inode_permission();
+ 0)      1.238 us |                  }
+ 0)      5.262 us |                }
+ 0)               |                do_lookup() {
+ 0)               |                  __d_lookup() {
+ 0)      0.480 us |                    _spin_lock();
+ 0)      1.621 us |                  }
+ 0)      0.456 us |                  __follow_mount();
+ 0)      3.215 us |                }
+ 0)               |                path_to_nameidata() {
+ 0)      0.420 us |                  dput();
+ 0)      1.193 us |                }
+ 0) +   23.551 us |              }
+ 0)               |              path_put() {
+ 0)      0.420 us |                dput();
+ 0)               |                mntput() {
+ 0)      0.359 us |                  mntput_no_expire();
+ 0)      1. 50 us |                }
+ 0)      2.544 us |              }
+ 0) +   27.253 us |            }
+ 0) +   28.850 us |          }
+ 0) +   33.217 us |        }
+ 0)               |        may_open() {
+ 0)               |          inode_permission() {
+ 0)               |            ext3_permission() {
+ 0)      0.480 us |              generic_permission();
+ 0)      1.229 us |            }
+ 0)               |            security_inode_permission() {
+ 0)      0.405 us |              cap_inode_permission();
+ 0)      1.196 us |            }
+ 0)      3.589 us |          }
+ 0)      4.600 us |        }
+ 0)               |        nameidata_to_filp() {
+ 0)               |          __dentry_open() {
+ 0)               |            file_move() {
+ 0)      0.470 us |              _spin_lock();
+ 0)      1.243 us |            }
+ 0)               |            security_dentry_open() {
+ 0)      0.344 us |              cap_dentry_open();
+ 0)      1.139 us |            }
+ 0)      0.412 us |            generic_file_open();
+ 0)      0.561 us |            file_ra_state_init();
+ 0)      5.714 us |          }
+ 0)      6.483 us |        }
+ 0) +   46.494 us |      }
+ 0)      0.453 us |      inotify_dentry_parent_queue_event();
+ 0)      0.403 us |      inotify_inode_queue_event();
+ 0)               |      fd_install() {
+ 0)      0.440 us |        _spin_lock();
+ 0)      1.247 us |      }
+ 0)               |      putname() {
+ 0)               |        kmem_cache_free() {
+ 0)               |          virt_to_head_page() {
+ 0)      0.369 us |            constant_test_bit();
+ 0)      1. 23 us |          }
+ 0)      1.738 us |        }
+ 0)      2.422 us |      }
+ 0) +   60.560 us |    }
+ 0) +   61.368 us |  }
+
+and here's a sys_close():
+
+ 0)               |  sys_close() {
+ 0)      0.540 us |    _spin_lock();
+ 0)               |    filp_close() {
+ 0)      0.437 us |      dnotify_flush();
+ 0)      0.401 us |      locks_remove_posix();
+ 0)      0.349 us |      fput();
+ 0)      2.679 us |    }
+ 0)      4.452 us |  }
+
+i'd be surprised to see a flag to show up in that codepath. Eric, does 
+your testing confirm that?
+
+	Ingo
