@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12034] snd-hda-intel on Realtek ALC268 chip shows only Master volume (for playback)
+Subject: [Bug #12047] ACPI toshiba: only register rfkill if bt is enabled
 Date: Wed,  3 Dec 2008 22:58:00 +0100 (CET)
-Message-ID: <bfPM5B8Tx2B.A.sI.XpxNJB@chimera>
+Message-ID: <bfPM5B8Tx2B.A.V_H.OpxNJB@chimera>
 References: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Sergey <azure-IGUVrPOATOfsG83rWm+8vg@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>, Frederik Deweerdt <frederik.deweerdt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,11 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12034
-Subject		: snd-hda-intel on Realtek ALC268 chip shows only Master volume (for playback)
-Submitter	: Sergey <azure-IGUVrPOATOfsG83rWm+8vg@public.gmane.org>
-Date		: 2008-11-15 04:20 (19 days old)
-Handled-By	: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12047
+Subject		: ACPI toshiba: only register rfkill if bt is enabled
+Submitter	: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
+Date		: 2008-10-28 19:10 (37 days old)
+References	: http://marc.info/?l=linux-kernel&m=122522113619025&w=2
+Handled-By	: Frederik Deweerdt <frederik.deweerdt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=122526843117478&w=2
 
