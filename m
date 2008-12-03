@@ -1,50 +1,32 @@
-From: =?utf-8?B?SsO2cm4=?= Engel <joern@logfs.org>
-Subject: Re: [PATCH v2 5/5] fs: new_inode_single() and iput_single()
-Date: Sat, 29 Nov 2008 12:14:53 +0100
-Message-ID: <20081129111452.GB11959@logfs.org>
-References: <20081121083044.GL16242@elte.hu> <49267694.1030506@cosmosbay.com> <20081121.010508.40225532.davem@davemloft.net> <4926AEDB.10007@cosmosbay.com> <4926D022.5060008@cosmosbay.com> <20081121152148.GA20388@elte.hu> <4926D39D.9050603@cosmosbay.com> <20081121153453.GA23713@elte.hu> <492DDB6A.8090806@cosmosbay.com> <49310115.8010306@cosmosbay.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #11828] Linux 2.6.27-git3: no SD card reader
+Date: Wed,  3 Dec 2008 22:49:42 +0100 (CET)
+Message-ID: <bfPM5B8Tx2B.A.hsB.brxNJB@chimera>
+References: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netdev-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera>
 Content-Disposition: inline
-In-Reply-To: <49310115.8010306@cosmosbay.com>
-Sender: netdev-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Eric Dumazet <dada1@cosmosbay.com>
-Cc: Ingo Molnar <mingo@elte.hu>, Christoph Hellwig <hch@infradead.org>, David Miller <davem@davemloft.net>, "Rafael J. Wysocki" <rjw@sisk.pl>, linux-kernel@vger.kernel.org, "kernel-testers@vger.kernel.org >> Kernel Testers List" <kernel-testers@vger.kernel.org>, Mike Galbraith <efault@gmx.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Linux Netdev List <netdev@vger.kernel.org>, Christoph Lameter <cl@linux-foundation.org>, linux-fsdevel@vger.kernel.org, Al Viro <viro@ZenIV.linux.org.uk>
+Content-Type: text/plain; charset="macroman"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "=?utf-8?q?J.A.=20Magall=C3=B3n?=" <jamagallon-sh/6fXdz2Rs@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-On Sat, 29 November 2008 09:45:09 +0100, Eric Dumazet wrote:
-> =20
-> +void iput_single(struct inode *inode)
-> +{
-> +	if (atomic_dec_and_test(&inode->i_count)) {
-> +		destroy_inode(inode);
-> +		percpu_counter_dec(&nr_inodes);
-> +	}
-> +}
+This message has been generated automatically as a part of a report
+of recent regressions.
 
-I wonder if it is possible to avoid the atomic_dec_and_test() here, at
-least in the common case, and combine it with the atomic_dec_and_test()
-of the dentry.  A quick look at fs/inode.c indicates that inode->i_coun=
-t
-may never get changed for a SINGLE inode, except during creation or
-deletion.
+The following bug entry is on the current list of known regressions
+from 2.6.27.  Please verify if it still should be listed and let me kno=
+w
+(either way).
 
-It might be worth to
-- remove the conditional from iput_single() and measure that it makes a
-  difference,
-- poison SINGLE inodes with some value and
-- put a BUG_ON() in __iget() that checks for the poison value.
 
-I _think_ the BUG_ON() is unnecessary, but at least my brain is not
-sufficient to convince me.  Can inotify somehow get a hold of a socket?
-Or dquot (how insane would that be?)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11828
+Subject		: Linux 2.6.27-git3: no SD card reader
+Submitter	: J.A. Magall=C3=B3n <jamagallon-sh/6fXdz2Rs@public.gmane.org>
+Date		: 2008-10-14 0:54 (51 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122394573904699&w=3D=
+4
 
-J=C3=B6rn
-
---=20
-Mac is for working,
-Linux is for Networking,
-Windows is for Solitaire!
--- stolen from dc
