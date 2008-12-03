@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11215] INFO: possible recursive locking detected ps2_command
+Subject: [Bug #11569] Panic stop CPUs regression
 Date: Wed,  3 Dec 2008 23:40:29 +0100 (CET)
-Message-ID: <TpbYvO5GPt.A.yBG.zKyNJB@chimera>
+Message-ID: <TpbYvO5GPt.A.fgF.UHyNJB@chimera>
 References: <49ZBswjGjrL.A.ECE.BGyNJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,9 +22,9 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11215
-Subject		: INFO: possible recursive locking detected ps2_command
-Submitter	: Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-07-31 9:41 (126 days old)
-References	: http://marc.info/?l=linux-kernel&m=121749737011637&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11569
+Subject		: Panic stop CPUs regression
+Submitter	: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Date		: 2008-09-02 13:49 (93 days old)
+References	: http://marc.info/?l=linux-kernel&m=122036356127282&w=4
 
