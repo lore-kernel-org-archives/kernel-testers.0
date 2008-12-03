@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #11925] cdrom: missing compat ioctls
+Subject: [Bug #11898] mke2fs hang on AIC79 device.
 Date: Wed,  3 Dec 2008 22:57:58 +0100 (CET)
-Message-ID: <bfPM5B8Tx2B.A.Z1.TqxNJB@chimera>
+Message-ID: <bfPM5B8Tx2B.A.ZMB.tqxNJB@chimera>
 References: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, alexs <alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>, Mike Christie <michaelc-hcNo3dDEHLuVc3sceRu5cw@public.gmane.org>, Yanmin Zhang <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,13 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11925
-Subject		: cdrom: missing compat ioctls
-Submitter	: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
-Date		: 2008-10-31 14:02 (34 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=33c2dca4957bd0da3e1af7b96d0758d97e708ef6
-Handled-By	: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
-Patch		: http://marc.info/?l=linux-kernel&m=122548923531545&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11898
+Subject		: mke2fs hang on AIC79 device.
+Submitter	: alexs <alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2008-10-30 01:17 (35 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=f0c0a376d0fcd4c5579ecf5e95f88387cba85211
+Handled-By	: James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+		  Mike Christie <michaelc-hcNo3dDEHLuVc3sceRu5cw@public.gmane.org>
+Patch		: http://bugzilla.kernel.org/show_bug.cgi?id=11898#c28
+		  http://bugzilla.kernel.org/show_bug.cgi?id=11898#c36
 
