@@ -1,89 +1,50 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12162] Commit 7cd5b08be3 breaks startup on Toshiba Portege R500
-Date: Thu, 4 Dec 2008 02:12:59 +0100
-Message-ID: <200812040213.00374.rjw@sisk.pl>
-References: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera> <bfPM5B8Tx2B.A.bmG.moxNJB@chimera> <alpine.LFD.2.00.0812031632420.3256@nehalem.linux-foundation.org>
+From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: Re: [Bug #12158] commit b1ee26b freezes system on switching from X
+ to text console
+Date: Thu, 04 Dec 2008 12:31:26 +1100
+Message-ID: <1228354286.7356.275.camel@pasglop>
+References: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera>
+	 <bfPM5B8Tx2B.A.8DH.voxNJB@chimera>
+	 <alpine.LFD.2.00.0812031642280.3256@nehalem.linux-foundation.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.00.0812031632420.3256-nfNrOhbfy2R17+2ddN/4kux8cNe9sq/dYPYVAmT7z5s@public.gmane.org>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758060AbYLDBcw@vger.kernel.org>
+In-Reply-To: <alpine.LFD.2.00.0812031642280.3256@nehalem.linux-foundation.org>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, "David S. Miller" <davem@davemloft.net>, Gaudenz Steinlin <gaudenz@debian.org>
 
-On Thursday, 4 of December 2008, Linus Torvalds wrote:
+On Wed, 2008-12-03 at 16:44 -0800, Linus Torvalds wrote:
 > 
-> Rafael, I'm assuming my one-liner patch fixes your problem too, since you 
-> attached the patch to the bugzilla entry. So I committed it as such. But 
-> if it doesn't, we'll need to do something else.
+> On Wed, 3 Dec 2008, Rafael J. Wysocki wrote:
+> >
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.27.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12158
+> > Subject		: commit b1ee26b freezes system on switching from X to text console
+> > Submitter	: Gaudenz Steinlin <gaudenz@debian.org>
+> > Date		: 2008-11-25 19:44 (9 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b1ee26bab14886350ba12a5c10cbc0696ac679bf
+> > References	: http://marc.info/?l=linux-kernel&m=122764344231140&w=4
+> > Handled-By	: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 > 
-> The commit ended up being as appended..
+> I think we're assuming that this already got fixed by commit 
+> c4c6fa9891f3d1bcaae4f39fb751d5302965b566 ("radeonfb: fix problem with 
+> color expansion & alignment").
 
-I've just pulled your tree including this commit and it boots correctly, so
-this is the right fix.
+No, this is a different problem I think. That race between VT switch and
+X, which I -suspect- may be an X bug. I haven't managed to pin it down
+yet, so what I may do for .28 is send a patch that disables color
+expansion acceleration unless you explicitely request it via a module
+param. At least until I can find what's going on.
 
-I've already closed the bug.
-
-Thanks,
-Rafael
-
-
-> ---
-> From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-> Date: Wed, 3 Dec 2008 16:20:19 -0800
-> Subject: [PATCH] iTCO_wdt: fix typo when setting TCO_EN bit
-> 
-> The code used '&= 0x00002000' when it tried to set the TCO_EN bit, which
-> obviously didn't set that bit at all, but instead just reset all the
-> other bits in the SMI_EN register.
-> 
-> This bug seemingly caused various random behavior, with Frans Pop
-> reporting that X.org just silently hung at startup and Rafael Wysocki
-> reports the fan spinning with full speed.
-> 
-> See
-> 	http://lkml.org/lkml/2008/12/3/178
-> 	http://bugzilla.kernel.org/show_bug.cgi?id=12162
-> 
-> The problem seems to have been triggered by "[WATCHDOG] iTCO_wdt :
-> problem with rebooting on new ICH9 based motherboards" (commit
-> 7cd5b08be3c489df11b559fef210b81133764ad4), but the bogus code existed
-> before that too (in the "supermicro_old_pre_stop()" function), it just
-> apparently never showed up due to different logic.
-> 
-> In that commit the broken code got moved around and now gets executed
-> much more.
-> 
-> Reported-by: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> Tested-by: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-> Cc: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
-> Signed-off-by: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-> ---
->  drivers/watchdog/iTCO_wdt.c |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
-> 
-> diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
-> index 26173a2..5b395a4 100644
-> --- a/drivers/watchdog/iTCO_wdt.c
-> +++ b/drivers/watchdog/iTCO_wdt.c
-> @@ -392,7 +392,7 @@ static int iTCO_wdt_stop(void)
->  
->  	/* Bit 13: TCO_EN -> 1 = Enables the TCO logic to generate SMI# */
->  	val32 = inl(SMI_EN);
-> -	val32 &= 0x00002000;
-> +	val32 |= 0x00002000;
->  	outl(val32, SMI_EN);
->  
->  	/* Set the NO_REBOOT bit to prevent later reboots, just for sure */
-> 
-> 
-
-
-
--- 
-Everyone knows that debugging is twice as hard as writing a program
-in the first place.  So if you're as clever as you can be when you write it,
-how will you ever debug it? --- Brian Kernighan
+Cheers,
+Ben.
