@@ -1,54 +1,42 @@
-From: "Romano Giannetti (lists)" <romanol-vhWWKbMuD/XAemY8wzKmUg@public.gmane.org>
-Subject: Re: [Bug #11947] 2.6.28-rc VC switching with Intel graphics broken
-Date: Thu, 04 Dec 2008 11:55:07 +0100
-Message-ID: <4937B70B.1000101@upcomillas.es>
-References: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera> <bfPM5B8Tx2B.A.6t.KqxNJB@chimera>
+From: Pavel Machek <pavel-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: 2.6.28-rc6: hpet: object is on stack, but not annotated
+Date: Thu, 4 Dec 2008 12:16:21 +0100
+Message-ID: <20081204111621.GA2466@elf.ucw.cz>
+References: <a4423d670811240839q54e6b7afxfc49d28b3ea127cb@mail.gmail.com> <a4423d670811241014n2b2192beh931d374bf063894f@mail.gmail.com> <alpine.LFD.2.00.0811241916560.3301@localhost.localdomain>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bfPM5B8Tx2B.A.6t.KqxNJB@chimera>
+Content-Disposition: inline
+In-Reply-To: <alpine.LFD.2.00.0811241916560.3301-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>, Bernhard Schmidt <berni-wpePDvIxQxvMZTq/7ZfH4Q@public.gmane.org>, devsk <kernel-bugs.dev1world-w1QkCcy0X+BxKfgMtfWJuA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Johan Bilien <jobi-HxYGxUgKSKlGWvitb5QawA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Cc: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, mingo-X9Un+BFzKDI@public.gmane.org, venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 
+On Mon 2008-11-24 19:17:44, Thomas Gleixner wrote:
+> On Mon, 24 Nov 2008, Alexander Beregalov wrote:
+> 
+> > 2008/11/24 Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> > > hpet0: at MMIO 0xfed00000, IRQs 2, 8, 0
+> > > hpet0: 3 comparators, 64-bit 14.318180 MHz counter
+> > > ODEBUG: object is on stack, but not annotated
+> > > ------------[ cut here ]------------
+> > > WARNING: at lib/debugobjects.c:251 __debug_object_init+0x2a4/0x352()
+> > 
+> > Bisected down to 26afe5f2fbf06ea0765aaa316640c4dd472310c0
+> > (x86: HPET_MSI Initialise per-cpu HPET timers)
+> > 
+> > Revert helps
+> 
+> That's just a warning about a missing annotation. The commit is fine.
 
-Rafael J. Wysocki wrote:
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11947
-> Subject		: 2.6.28-rc VC switching with Intel graphics broken
-> Submitter	: Romano Giannetti <romano.giannetti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2008-11-03 12:10 (31 days old)
-> Handled-By	: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
->=20
+You must be using very different metric of what "fine" means than rest
+of the world.
 
-It is fixed for me in -rc7-105 (to be exact, it seems that commit 52440=
-211dc=20
-fixed it), but there are more people with a very similar problem still =
-unfixed.
+(No, introducing WARN_ON()s is not fine; it spams kerneloops.org at least...)
 
-Romano
-
---=20
-Sorry for the disclaimer --- =C2=A1I cannot stop it!
-
-
---
-La presente comunicaci=C3=B3n tiene car=C3=A1cter confidencial y es par=
-a el exclusivo uso del destinatario indicado en la misma. Si Ud. no es =
-el destinatario indicado, le informamos que cualquier forma de distribu=
-ci=C3=B3n, reproducci=C3=B3n o uso de esta comunicaci=C3=B3n y/o de la =
-informaci=C3=B3n contenida en la misma est=C3=A1n estrictamente prohibi=
-dos por la ley. Si Ud. ha recibido esta comunicaci=C3=B3n por error, po=
-r favor, notif=C3=ADquelo inmediatamente al remitente contestando a est=
-e mensaje y proceda a continuaci=C3=B3n a destruirlo. Gracias por su co=
-laboraci=C3=B3n.
-
-This communication contains confidential information. It is for the exc=
-lusive use of the intended addressee. If you are not the intended addre=
-ssee, please note that any form of distribution, copying or use of this=
- communication or the information in it is strictly prohibited by law. =
-If you have received this communication in error, please immediately no=
-tify the sender by reply e-mail and destroy this message. Thank you for=
- your cooperation.=20
+									Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
