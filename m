@@ -1,53 +1,40 @@
-From: Pekka Paalanen <pq-X3B1VOXEql0@public.gmane.org>
-Subject: Re: [Bug #12154] Mmiotrace regression in 2.6.28-rc6
-Date: Thu, 4 Dec 2008 21:02:34 +0200
-Message-ID: <20081204210234.4c9971aa@daedalus.pq.iki.fi>
-References: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera>
-	<bfPM5B8Tx2B.A.RWH.1oxNJB@chimera>
+From: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [Bug #12162] Commit 7cd5b08be3 breaks startup on Toshiba Portege R500
+Date: Thu, 4 Dec 2008 23:45:47 +0100
+Message-ID: <20081204224547.GA2212@infomag.infomag.iguana.be>
+References: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera> <bfPM5B8Tx2B.A.bmG.moxNJB@chimera> <alpine.LFD.2.00.0812031632420.3256@nehalem.linux-foundation.org> <20081204080537.GI7017@infomag.infomag.iguana.be>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:in-reply-to:references:x-mailer:mime-version
-         :content-type:content-transfer-encoding:sender;
-        bh=NH73z0jIXC15/mJBk5ikmMIAVa9v2httAJVIA7z73RQ=;
-        b=g0xbDoyHwvppjUM7qK6oNDWdPYvp+PHvSbUFX5VRulmbNFGvSh9FAEMjwrMV9Li5RI
-         BIz0AWDyY8iPYBwwmqLjALcCPcHJpPwQ/qomlABgawB1ZjAVprCfDtZF6SUaW5I92/tk
-         klWocOPX0RF08l5XPYU9o7XlWsjcemml+n/dc=
-In-Reply-To: <bfPM5B8Tx2B.A.RWH.1oxNJB@chimera>
+Content-Disposition: inline
+In-Reply-To: <20081204080537.GI7017-flHiHfN8CTx+UeId83wJPCEMzqIPX00as0AfqQuZ5sE@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
 
-On Wed,  3 Dec 2008 22:58:03 +0100 (CET)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+Hi All,
 
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.27.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12154
-> Subject		: Mmiotrace regression in 2.6.28-rc6
-> Submitter	: Pekka Paalanen <pq-X3B1VOXEql0@public.gmane.org>
-> Date		: 2008-11-23 13:41 (11 days old)
-> References	: http://marc.info/?l=linux-kernel&m=122744774317151&w=4
+> I will test the watchdog part tonight on an ICH4 and ICH9 chipset.
+> I indeed moved the code over from the supermicro_old_pre_stop code.
+> And I'm sure this fix indeed needs to go in.
 
-This is fixed:
+Test on ICH4 is OK.
+Test on ICH9 -> the watchdog timer runs but doesn't reboot the system anymore.
+The following bits are active in SMI_EN and thus need to be investigated:
+	13 - TCO_EN (Not relevant since we set/unset this allready)
+	 5 - APMC_EN
+	 4 - SLP_SMI_EN
+	 3 - LEGACY_USB_EN
+	 1 - End Of SMI
+	 0 - GBL_SMI_EN
 
-http://marc.info/?l=linux-kernel&m=122746837006707&w=2
+A first test indicated that if bit 0 is forced to 0, the system reboots again.
+The second test reveals that setting bits 5, 4, 3 and 1 to 0 doesn't help the rebooting of the ICH9 chipset.
+So the real issue with ICH9 and rebooting has to do with the GBL_SMI_EN bit.
 
-http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=7ee1768ddb3075ae3a0801cc2d0ea4195530a7db
+So next step will be to create an additional patch and then test it with Rafael and Frans...
 
-Thanks.
-
--- 
-Pekka Paalanen
-http://www.iki.fi/pq/
+Kind regards,
+Wim.
