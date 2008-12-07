@@ -1,30 +1,34 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12156] v2.6.28-rc2: x86_32 relocation regression?
-Date: Sun,  7 Dec 2008 21:32:55 +0100 (CET)
-Message-ID: <07Xes05z25M.A.hjF.fsEPJB@chimera>
+Subject: [Bug #12178] Xorg crash at first start
+Date: Sun,  7 Dec 2008 21:32:57 +0100 (CET)
+Message-ID: <07Xes05z25M.A.I3E.QsEPJB@chimera>
 References: <6VnlupFpCsN.A.2rE.MsEPJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <6VnlupFpCsN.A.2rE.MsEPJB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="iso-8859-1"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?utf-8?q?C=C3=A9dric=20Godin?= <cedric-x1Cn44Nr1HaZIoH1IeqzKA@public.gmane.org>, Dave Airlie <airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.27.  Please verify if it still should be listed and let me know
+from 2.6.27.  Please verify if it still should be listed and let me kno=
+w
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12156
-Subject		: v2.6.28-rc2: x86_32 relocation regression?
-Submitter	: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-11-24 21:19 (14 days old)
-References	: http://marc.info/?l=linux-kernel&m=122756158220966&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12178
+Subject		: Xorg crash at first start
+Submitter	: C=C3=A9dric Godin <cedric-x1Cn44Nr1HaZIoH1IeqzKA@public.gmane.org>
+Date		: 2008-12-04 14:26 (4 days old)
+=46irst-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
+s/linux-2.6.git;a=3Dcommit;h=3D52440211dcdc52c0b757f8b34d122e11b12cdd50
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122840082828098&w=3D=
+4
 
