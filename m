@@ -1,47 +1,43 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12155] Regression in 2.6.28-rc and 2.6.27-stable - hibernate related
-Date: Sun, 7 Dec 2008 21:08:26 +0100
-Message-ID: <200812072108.26246.rjw@sisk.pl>
-References: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera> <b637ec0b0812061208i9520bd0tfd404f1a9c8a95ba@mail.gmail.com> <b637ec0b0812070539i20684ec2tfc6748f01d99fff9@mail.gmail.com>
+Subject: Re: [Bug #12154] Mmiotrace regression in 2.6.28-rc6
+Date: Sun, 7 Dec 2008 21:09:42 +0100
+Message-ID: <200812072109.42292.rjw@sisk.pl>
+References: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera> <bfPM5B8Tx2B.A.RWH.1oxNJB@chimera> <20081204210234.4c9971aa@daedalus.pq.iki.fi>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b637ec0b0812070539i20684ec2tfc6748f01d99fff9-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20081204210234.4c9971aa-cxYvVS3buNOdIgDiPM52R8c4bpwCjbIv@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Pekka Paalanen <pq-X3B1VOXEql0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>
 
-On Sunday, 7 of December 2008, Fabio Comolli wrote:
-> Hi.
+On Thursday, 4 of December 2008, Pekka Paalanen wrote:
+> On Wed,  3 Dec 2008 22:58:03 +0100 (CET)
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 > 
-> On Sat, Dec 6, 2008 at 9:08 PM, Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> > Hi Rafael.
-> >
-> > On Thu, Dec 4, 2008 at 9:50 AM, Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> >> Hi.
-> >>
-> >> I'll try -rc7-git probably tonight and 2.6.27.8 when -stable team releases it.
-> >>
-> >
-> > 2.6.28-rc7 survived 7 suspend/resume cycles and then showed the bug.
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.27.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12154
+> > Subject		: Mmiotrace regression in 2.6.28-rc6
+> > Submitter	: Pekka Paalanen <pq-X3B1VOXEql0@public.gmane.org>
+> > Date		: 2008-11-23 13:41 (11 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=122744774317151&w=4
 > 
-> 2.6.27.8 got me really scared. After the resume and the usual hang, my
-> hard disk did not recover and my rootfilesystem's journal aborted. Of
-> course I don't have messages to post as the rootfs was at this point
-> mounted readonly. I read those info from dmesg.
+> This is fixed:
 > 
-> I went back to my dear 2.6.27.4 which is stable and never caused me
-> any problems.
+> http://marc.info/?l=linux-kernel&m=122746837006707&w=2
 > 
-> Unless someone jumps in with some ideas, I'm not going to do testings
-> anymore. I can't lose my only machine because of this.
+> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=7ee1768ddb3075ae3a0801cc2d0ea4195530a7db
 
-OK, thanks for the testing so far.
+Thanks, closed now.
 
-Please just ignore the subsequent automatic messages about this regression.
-
-Thanks,
 Rafael
