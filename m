@@ -1,150 +1,245 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #11970] gettimeofday return a old time in mmbench
-Date: Sun, 7 Dec 2008 21:25:36 +0100
-Message-ID: <200812072125.36738.rjw@sisk.pl>
-References: <QFIA5HSHV8B.A.2aG.hoxNJB@chimera> <bfPM5B8Tx2B.A.Qi.7pxNJB@chimera> <20081204074540.GA29151@elte.hu>
+Subject: 2.6.28-rc8-git5: Reported regressions from 2.6.27
+Date: Sun,  7 Dec 2008 21:27:19 +0100 (CET)
+Message-ID: <6VnlupFpCsN.A.2rE.MsEPJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081204074540.GA29151-X9Un+BFzKDI@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, alexs <alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Yanmin Zhang <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, john stultz <johnstul-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Thursday, 4 of December 2008, Ingo Molnar wrote:
-> 
-> * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.27.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11970
-> > Subject		: gettimeofday return a old time in mmbench
-> > Submitter	: alexs <alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> > Date		: 2008-11-06 23:57 (28 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=99ebcf8285df28f32fd2d1c19a7166e70f00309c
-> > Handled-By	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-> > 		  Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-> > 		  Yanmin Zhang <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> 
-> fixed by the patch below from John Stultz, queued up in 
-> tip/timers/urgent.
-> 
-> The bisection-blamed merge commit above likely just causes a random shift 
-> in the timings or compiler optimization conditions of this code - making 
-> the bug more likely to trigger. The bug/race itself is old.
+This message contains a list of some regressions from 2.6.27, for which=
+ there
+are no fixes in the mainline I know of.  If any of them have been fixed=
+ already,
+please let me know.
 
-The patch has been merged, so the bug is closed now.
+If you know of any other unresolved regressions from 2.6.27, please let=
+ me know
+either and I'll add them to the list.  Also, please let me know if any =
+of the
+entries below are invalid.
+
+Each entry from the list will be sent additionally in an automatic repl=
+y to
+this message with CCs to the people involved in reporting and handling =
+the
+issue.
+
+
+Listed regressions statistics:
+
+  Date          Total  Pending  Unresolved
+  ----------------------------------------
+  2008-12-07      106       20          17
+  2008-12-04      106       29          21
+  2008-11-22       93       25          15
+  2008-11-16       89       32          18
+  2008-11-09       73       40          27
+  2008-11-02       55       41          29
+  2008-10-25       26       25          20
+
+
+Unresolved regressions
+----------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12178
+Subject		: Xorg crash at first start
+Submitter	: C=C3=A9dric Godin <cedric-x1Cn44Nr1HaZIoH1IeqzKA@public.gmane.org>
+Date		: 2008-12-04 14:26 (4 days old)
+=46irst-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
+s/linux-2.6.git;a=3Dcommit;h=3D52440211dcdc52c0b757f8b34d122e11b12cdd50
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122840082828098&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12161
+Subject		: [i915 drm] irq 16: nobody cared with latest git kernels
+Submitter	: fredi ml <mailinglists.fredi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-12-02 13:26 (6 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122822444615724&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12160
+Subject		: networking oops after resume from s2ram (2.6.28-rc6)
+Submitter	: Marcin Slusarz <marcin.slusarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-11-28 21:15 (10 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122790701615723&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12159
+Subject		: 2.6.28-rc6-git1 -- No sound produced from Intel HDA ALSA dri=
+ver
+Submitter	: Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-11-27 20:33 (11 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122781805620212&w=3D=
+4
+Handled-By	: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12158
+Subject		: commit b1ee26b freezes system on switching from X to text co=
+nsole
+Submitter	: Gaudenz Steinlin <gaudenz-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Date		: 2008-11-25 19:44 (13 days old)
+=46irst-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
+s/linux-2.6.git;a=3Dcommit;h=3Db1ee26bab14886350ba12a5c10cbc0696ac679bf
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122764344231140&w=3D=
+4
+Handled-By	: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12156
+Subject		: v2.6.28-rc2: x86_32 relocation regression?
+Submitter	: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-11-24 21:19 (14 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122756158220966&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12155
+Subject		: Regression in 2.6.28-rc and 2.6.27-stable - hibernate relate=
+d
+Submitter	: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-11-23 16:17 (15 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122745709926361&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12152
+Subject		: Huge wakeups number from i1915
+Submitter	: Yves-Alexis Perez <corsac-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Date		: 2008-12-02 16:48 (6 days old)
+References	: http://marc.info/?l=3Dlinux-acpi&m=3D122823656702994&w=3D4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12100
+Subject		: resume (S2R) broken by Intel microcode module, on A110L
+Submitter	: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
+Date		: 2008-11-25 08:48 (13 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12061
+Subject		: snd_hda_intel: power_save: sound cracks on powerdown
+Submitter	: Jens Weibler <bugzilla-kernel-6hJTtV8wudIr9FUcG+3rRQ@public.gmane.org>
+Date		: 2008-11-18 12:07 (20 days old)
+Handled-By	: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12034
+Subject		: snd-hda-intel on Realtek ALC268 chip shows only Master volum=
+e (for playback)
+Submitter	: Sergey <azure-IGUVrPOATOfsG83rWm+8vg@public.gmane.org>
+Date		: 2008-11-15 04:20 (23 days old)
+Handled-By	: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12028
+Subject		: i915 DRM is broken in 2.6.28-rc4
+Submitter	: Adam Tkac <vonsch-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-11-14 01:50 (24 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11958
+Subject		: [2.6.27.x =3D&gt; 2.6.28-rc3] Xorg crash with xf86MapVidMem =
+error
+Submitter	: Tomasz Chmielewski <tch-Nem3ZqsbT/g@public.gmane.org>
+Date		: 2008-11-05 05:37 (33 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11947
+Subject		: 2.6.28-rc VC switching with Intel graphics broken
+Submitter	: Romano Giannetti <romano.giannetti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-11-03 12:10 (35 days old)
+Handled-By	: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11906
+Subject		: 2.6.28-rc2 seems to fail at powering down the monitor when i=
+t should
+Submitter	: Gene Heskett <gene.heskett-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-10-30 6:39 (39 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122534879721424&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11858
+Subject		: Timeout regression introduced by 242f9dcb8ba6f68fcd217a119a7=
+648a4f69290e9
+Submitter	: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Date		: 2008-10-26 9:46 (43 days old)
+=46irst-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
+s/linux-2.6.git;a=3Dcommit;h=3D242f9dcb8ba6f68fcd217a119a7648a4f69290e9
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122501447326698&w=3D=
+4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11849
+Subject		: default IRQ affinity change in v2.6.27 (breaking several SMP=
+ PPC based systems)
+Submitter	: Kumar Gala <galak-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Date		: 2008-10-24 12:45 (45 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122485245924125&w=3D=
+4
+
+
+Regressions with patches
+------------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12177
+Subject		: [memcg BUG ?] failed to boot on IA64 with CONFIG_DISCONTIGME=
+M=3Dy
+Submitter	: Li Zefan <lizf-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Date		: 2008-12-05 3:09 (3 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122844668532752&w=3D=
+4
+Handled-By	: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D122844757701505&w=3D4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12047
+Subject		: ACPI toshiba: only register rfkill if bt is enabled
+Submitter	: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
+Date		: 2008-10-28 19:10 (41 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D122522113619025&w=3D=
+2
+Handled-By	: Frederik Deweerdt <frederik.deweerdt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D122526843117478&w=3D2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D11898
+Subject		: mke2fs hang on AIC79 device.
+Submitter	: alexs <alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2008-10-30 01:17 (39 days old)
+=46irst-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
+s/linux-2.6.git;a=3Dcommit;h=3Df0c0a376d0fcd4c5579ecf5e95f88387cba85211
+Handled-By	: James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+		  Mike Christie <michaelc-hcNo3dDEHLuVc3sceRu5cw@public.gmane.org>
+Patch		: http://bugzilla.kernel.org/show_bug.cgi?id=3D11898#c28
+		  http://bugzilla.kernel.org/show_bug.cgi?id=3D11898#c36
+
+
+=46or details, please visit the bug entries and follow the links given =
+in
+references.
+
+As you can see, there is a Bugzilla entry for each of the listed regres=
+sions.
+There also is a Bugzilla entry used for tracking the regressions from 2=
+=2E6.27,
+unresolved as well as resolved, at:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=3D11808
+
+Please let me know if there are any Bugzilla entries that should be add=
+ed to
+the list in there.
 
 Thanks,
 Rafael
-
-
-> ------------------------->
-> From 6c9bacb41c10ba84ff68f238e234d96f35fb64f7 Mon Sep 17 00:00:00 2001
-> From: john stultz <johnstul-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-> Date: Mon, 1 Dec 2008 18:34:41 -0800
-> Subject: [PATCH] time: catch xtime_nsec underflows and fix them
-> 
-> Impact: fix time warp bug
-> 
-> Alex Shi, along with Yanmin Zhang have been noticing occasional time
-> inconsistencies recently. Through their great diagnosis, they found that
-> the xtime_nsec value used in update_wall_time was occasionally going
-> negative. After looking through the code for awhile, I realized we have
-> the possibility for an underflow when three conditions are met in
-> update_wall_time():
-> 
->   1) We have accumulated a second's worth of nanoseconds, so we
->      incremented xtime.tv_sec and appropriately decrement xtime_nsec.
->      (This doesn't cause xtime_nsec to go negative, but it can cause it
->       to be small).
-> 
->   2) The remaining offset value is large, but just slightly less then
->      cycle_interval.
-> 
->   3) clocksource_adjust() is speeding up the clock, causing a
->      corrective amount (compensating for the increase in the multiplier
->      being multiplied against the unaccumulated offset value) to be
->      subtracted from xtime_nsec.
-> 
-> This can cause xtime_nsec to underflow.
-> 
-> Unfortunately, since we notify the NTP subsystem via second_overflow()
-> whenever we accumulate a full second, and this effects the error
-> accumulation that has already occured, we cannot simply revert the
-> accumulated second from xtime nor move the second accumulation to after
-> the clocksource_adjust call without a change in behavior.
-> 
-> This leaves us with (at least) two options:
-> 
-> 1) Simply return from clocksource_adjust() without making a change if we
->    notice the adjustment would cause xtime_nsec to go negative.
-> 
-> This would work, but I'm concerned that if a large adjustment was needed
-> (due to the error being large), it may be possible to get stuck with an
-> ever increasing error that becomes too large to correct (since it may
-> always force xtime_nsec negative). This may just be paranoia on my part.
-> 
-> 2) Catch xtime_nsec if it is negative, then add back the amount its
->    negative to both xtime_nsec and the error.
-> 
-> This second method is consistent with how we've handled earlier rounding
-> issues, and also has the benefit that the error being added is always in
-> the oposite direction also always equal or smaller then the correction
-> being applied. So the risk of a corner case where things get out of
-> control is lessened.
-> 
-> This patch fixes bug 11970, as tested by Yanmin Zhang
-> http://bugzilla.kernel.org/show_bug.cgi?id=11970
-> 
-> Reported-by: alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
-> Signed-off-by: John Stultz <johnstul-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-> Acked-by: "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> Tested-by: "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> Signed-off-by: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-> ---
->  kernel/time/timekeeping.c |   22 ++++++++++++++++++++++
->  1 files changed, 22 insertions(+), 0 deletions(-)
-> 
-> diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
-> index e7acfb4..fa05e88 100644
-> --- a/kernel/time/timekeeping.c
-> +++ b/kernel/time/timekeeping.c
-> @@ -518,6 +518,28 @@ void update_wall_time(void)
->  	/* correct the clock when NTP error is too big */
->  	clocksource_adjust(offset);
->  
-> +	/*
-> +	 * Since in the loop above, we accumulate any amount of time
-> +	 * in xtime_nsec over a second into xtime.tv_sec, its possible for
-> +	 * xtime_nsec to be fairly small after the loop. Further, if we're
-> +	 * slightly speeding the clocksource up in clocksource_adjust(),
-> +	 * its possible the required corrective factor to xtime_nsec could
-> +	 * cause it to underflow.
-> +	 *
-> +	 * Now, we cannot simply roll the accumulated second back, since
-> +	 * the NTP subsystem has been notified via second_overflow. So
-> +	 * instead we push xtime_nsec forward by the amount we underflowed,
-> +	 * and add that amount into the error.
-> +	 *
-> +	 * We'll correct this error next time through this function, when
-> +	 * xtime_nsec is not as small.
-> +	 */
-> +	if (unlikely((s64)clock->xtime_nsec < 0)) {
-> +		s64 neg = -(s64)clock->xtime_nsec;
-> +		clock->xtime_nsec = 0;
-> +		clock->error += neg << (NTP_SCALE_SHIFT - clock->shift);
-> +	}
-> +
->  	/* store full nanoseconds into xtime after rounding it up and
->  	 * add the remainder to the error difference.
->  	 */
