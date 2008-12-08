@@ -1,27 +1,65 @@
-From: Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
-Subject: Re: [Bug #12152] Huge wakeups number from i1915
-Date: Mon, 8 Dec 2008 16:35:05 +0000
-Message-ID: <20081208163505.GB2496@srcf.ucam.org>
-References: <6VnlupFpCsN.A.2rE.MsEPJB@chimera> <20081207151203.46c01a0d@infradead.org> <1228717448.9677.3.camel@hidalgo> <200812080828.07683.rjw@sisk.pl> <20081208125938.GB31976@srcf.ucam.org> <20081208161948.GF16053@corsac.net>
+From: Soeren Sonnenburg <kernel-YxZl4NRrHdw@public.gmane.org>
+Subject: Re: [Bug #11698] 2.6.27-rc7, freezes with &gt; 1 s2ram cycle
+Date: Mon, 08 Dec 2008 17:30:43 +0100
+Message-ID: <1228753843.3935.10.camel@localhost>
+References: <49ZBswjGjrL.A.ECE.BGyNJB@chimera>
+	 <TpbYvO5GPt.A.nTF.2GyNJB@chimera> <1228373948.3927.39.camel@localhost>
+	 <200812072116.08218.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20081208161948.GF16053-vD43ovf/fd+sTnJN9+BGXg@public.gmane.org>
+In-Reply-To: <200812072116.08218.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Yves-Alexis Perez <corsac-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, Dec 08, 2008 at 05:19:49PM +0100, Yves-Alexis Perez wrote:
-> > Doesn't ring any bells for me...
->=20
-> This was the =E2=80=9Cirq spinning=E2=80=9D thread on dri-devel.
+On Sun, 2008-12-07 at 21:16 +0100, Rafael J. Wysocki wrote:
+> On Thursday, 4 of December 2008, Soeren Sonnenburg wrote:
+> > On Wed, 2008-12-03 at 23:40 +0100, Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of regressions introduced between 2.6.26 and 2.6.27.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+> > > be listed and let me know (either way).
+> > > 
+> > > 
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11698
+> > > Subject		: 2.6.27-rc7, freezes with &gt; 1 s2ram cycle
+> > > Submitter	: Soeren Sonnenburg <kernel-YxZl4NRrHdw@public.gmane.org>
+> > > Date		: 2008-09-29 11:29 (66 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=122268780926859&w=4
+> > > Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> > 
+> > well it freezes at any s2ram resume attempt, even without X just from
+> > console.
+> 
+> There are quite some things you can try.
+> 
+> First, it would be helpful to verify if it also fails in the minimal
+> configuration, ie. when booted with init=/bin/bash, as described
+> in Documentation/power/basic-pm-debugging.txt under
+> "Testing minimal configuration".
 
-Looks like the patch was from Keith, not me?
+OK, I've found the problem:
 
-Unrelatedly, I didn't get the Cc:ed copy of this mail. Did you get a=20
-bounce?
---=20
-Matthew Garrett | mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org
+1. it does work with init=/bin/bash
+2. it did not work after doing a binary search in the modules, even
+removing all modules did not help
+3. I figured out that it only happens when I update the CPU's microcode,
+(booting with init=/bin/bash and /etc/init.d/microcode.ctl start
+triggers it)
+
+Even better: s2ram always gave me my display back when s2ram under
+console.
+
+Now I wonder if this is Bug #12100 ?
+Unfortunately I need the microcode update, as I am suffering from
+a) PAT WC disabled due to known CPU erratum.
+b) coretemp coretemp.0: Errata AE18 not fixed, update BIOS or microcode of the CPU!
+
+Anyway I now have a chance to test whether #11698 still occurs.
+
+Soeren
