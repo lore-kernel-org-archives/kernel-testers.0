@@ -1,38 +1,199 @@
-From: Jack Steiner <steiner@sgi.com>
-Subject: [PATCH] - Fix GRU compile error w/o CONFIG_HUGETLB_PAGE
-Date: Tue, 9 Dec 2008 10:51:32 -0600
-Message-ID: <20081209165132.GA26860@sgi.com>
+From: Eric Dumazet <dada1@cosmosbay.com>
+Subject: [PATCH v3 1/7] fs: Use a percpu_counter to track nr_dentry
+Date: Thu, 11 Dec 2008 23:38:56 +0100
+Message-ID: <49419680.8010409@cosmosbay.com>
+References: <Pine.LNX.4.64.0811201727070.9089@quilx.com> <20081121083044.GL16242@elte.hu> <49267694.1030506@cosmosbay.com> <20081121.010508.40225532.davem@davemloft.net> <4926AEDB.10007@cosmosbay.com> <4926D022.5060008@cosmosbay.com> <20081121152148.GA20388@elte.hu> <4926D39D.9050603@cosmosbay.com> <20081121153453.GA23713@elte.hu> <492DDB6A.8090806@cosmosbay.com> <493100B0.6090104@cosmosbay.com>
 Mime-Version: 1.0
-Return-path: <linux-ia64-owner@vger.kernel.org>
-Content-Disposition: inline
-Sender: linux-ia64-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+In-Reply-To: <493100B0.6090104@cosmosbay.com>
+Sender: linux-fsdevel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: linux-kernel@vger.kernel.org, linux-ia64@vger.kernel.org
-Cc: a.beregalov@gmail.com, kernel-testers@vger.kernel.org
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Ingo Molnar <mingo@elte.hu>, Christoph Hellwig <hch@infradead.org>, David Miller <davem@davemloft.net>, "Rafael J. Wysocki" <rjw@sisk.pl>, linux-kernel@vger.kernel.org, "kernel-testers@vger.kernel.org >> Kernel Testers List" <kernel-testers@vger.kernel.org>, Mike Galbraith <efault@gmx.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Linux Netdev List <netdev@vger.kernel.org>, Christoph Lameter <cl@linux-foundation.org>, linux-fsdevel@vger.kernel.org, Al Viro <viro@ZenIV.linux.org.uk>, "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 
-Eliminate compile error when compiling without CONFIG_HUGETLB_PAGE.
+Adding a percpu_counter nr_dentry avoids cache line ping pongs
+between cpus to maintain this metric, and dcache_lock is
+no more needed to protect dentry_stat.nr_dentry
 
-Signed-off-by: Jack Steiner <steiner@sgi.com>
+We centralize nr_dentry updates at the right place :
+- increments in d_alloc()
+- decrements in d_free()
 
+d_alloc() can avoid taking dcache_lock if parent is NULL
+
+("socketallocbench -n8" result : 27.5s to 25s)
+
+Signed-off-by: Eric Dumazet <dada1@cosmosbay.com>
 ---
- drivers/misc/sgi-gru/grufault.c |    4 ++++
- 1 file changed, 4 insertions(+)
+ fs/dcache.c        |   49 +++++++++++++++++++++++++------------------
+ include/linux/fs.h |    2 +
+ kernel/sysctl.c    |    2 -
+ 3 files changed, 32 insertions(+), 21 deletions(-)
 
-Index: linux/drivers/misc/sgi-gru/grufault.c
-===================================================================
---- linux.orig/drivers/misc/sgi-gru/grufault.c	2008-12-08 08:25:57.000000000 -0600
-+++ linux/drivers/misc/sgi-gru/grufault.c	2008-12-09 09:35:02.000000000 -0600
-@@ -254,7 +254,11 @@ static int atomic_pte_lookup(struct vm_a
- 		return 1;
+diff --git a/fs/dcache.c b/fs/dcache.c
+index fa1ba03..f463a81 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -61,12 +61,31 @@ static struct kmem_cache *dentry_cache __read_mostly;
+ static unsigned int d_hash_mask __read_mostly;
+ static unsigned int d_hash_shift __read_mostly;
+ static struct hlist_head *dentry_hashtable __read_mostly;
++static struct percpu_counter nr_dentry;
  
- 	*paddr = pte_pfn(pte) << PAGE_SHIFT;
-+#ifdef CONFIG_HUGETLB_PAGE
- 	*pageshift = is_vm_hugetlb_page(vma) ? HPAGE_SHIFT : PAGE_SHIFT;
+ /* Statistics gathering. */
+ struct dentry_stat_t dentry_stat = {
+ 	.age_limit = 45,
+ };
+ 
++/*
++ * Handle nr_dentry sysctl
++ */
++#if defined(CONFIG_SYSCTL) && defined(CONFIG_PROC_FS)
++int proc_nr_dentry(ctl_table *table, int write, struct file *filp,
++		   void __user *buffer, size_t *lenp, loff_t *ppos)
++{
++	dentry_stat.nr_dentry = percpu_counter_sum_positive(&nr_dentry);
++	return proc_dointvec(table, write, filp, buffer, lenp, ppos);
++}
 +#else
-+	*pageshift = PAGE_SHIFT;
++int proc_nr_dentry(ctl_table *table, int write, struct file *filp,
++		   void __user *buffer, size_t *lenp, loff_t *ppos)
++{
++	return -ENOSYS;
++}
 +#endif
- 	return 0;
++
+ static void __d_free(struct dentry *dentry)
+ {
+ 	WARN_ON(!list_empty(&dentry->d_alias));
+@@ -82,8 +101,7 @@ static void d_callback(struct rcu_head *head)
+ }
  
- err:
+ /*
+- * no dcache_lock, please.  The caller must decrement dentry_stat.nr_dentry
+- * inside dcache_lock.
++ * no dcache_lock, please.
+  */
+ static void d_free(struct dentry *dentry)
+ {
+@@ -94,6 +112,7 @@ static void d_free(struct dentry *dentry)
+ 		__d_free(dentry);
+ 	else
+ 		call_rcu(&dentry->d_u.d_rcu, d_callback);
++	percpu_counter_dec(&nr_dentry);
+ }
+ 
+ /*
+@@ -172,7 +191,6 @@ static struct dentry *d_kill(struct dentry *dentry)
+ 	struct dentry *parent;
+ 
+ 	list_del(&dentry->d_u.d_child);
+-	dentry_stat.nr_dentry--;	/* For d_free, below */
+ 	/*drops the locks, at that point nobody can reach this dentry */
+ 	dentry_iput(dentry);
+ 	if (IS_ROOT(dentry))
+@@ -619,7 +637,6 @@ void shrink_dcache_sb(struct super_block * sb)
+ static void shrink_dcache_for_umount_subtree(struct dentry *dentry)
+ {
+ 	struct dentry *parent;
+-	unsigned detached = 0;
+ 
+ 	BUG_ON(!IS_ROOT(dentry));
+ 
+@@ -678,7 +695,6 @@ static void shrink_dcache_for_umount_subtree(struct dentry *dentry)
+ 			}
+ 
+ 			list_del(&dentry->d_u.d_child);
+-			detached++;
+ 
+ 			inode = dentry->d_inode;
+ 			if (inode) {
+@@ -696,7 +712,7 @@ static void shrink_dcache_for_umount_subtree(struct dentry *dentry)
+ 			 * otherwise we ascend to the parent and move to the
+ 			 * next sibling if there is one */
+ 			if (!parent)
+-				goto out;
++				return;
+ 
+ 			dentry = parent;
+ 
+@@ -705,11 +721,6 @@ static void shrink_dcache_for_umount_subtree(struct dentry *dentry)
+ 		dentry = list_entry(dentry->d_subdirs.next,
+ 				    struct dentry, d_u.d_child);
+ 	}
+-out:
+-	/* several dentries were freed, need to correct nr_dentry */
+-	spin_lock(&dcache_lock);
+-	dentry_stat.nr_dentry -= detached;
+-	spin_unlock(&dcache_lock);
+ }
+ 
+ /*
+@@ -943,8 +954,6 @@ struct dentry *d_alloc(struct dentry * parent, const struct qstr *name)
+ 	dentry->d_flags = DCACHE_UNHASHED;
+ 	spin_lock_init(&dentry->d_lock);
+ 	dentry->d_inode = NULL;
+-	dentry->d_parent = NULL;
+-	dentry->d_sb = NULL;
+ 	dentry->d_op = NULL;
+ 	dentry->d_fsdata = NULL;
+ 	dentry->d_mounted = 0;
+@@ -959,16 +968,15 @@ struct dentry *d_alloc(struct dentry * parent, const struct qstr *name)
+ 	if (parent) {
+ 		dentry->d_parent = dget(parent);
+ 		dentry->d_sb = parent->d_sb;
++		spin_lock(&dcache_lock);
++		list_add(&dentry->d_u.d_child, &parent->d_subdirs);
++		spin_unlock(&dcache_lock);
+ 	} else {
++		dentry->d_parent = NULL;
++		dentry->d_sb = NULL;
+ 		INIT_LIST_HEAD(&dentry->d_u.d_child);
+ 	}
+-
+-	spin_lock(&dcache_lock);
+-	if (parent)
+-		list_add(&dentry->d_u.d_child, &parent->d_subdirs);
+-	dentry_stat.nr_dentry++;
+-	spin_unlock(&dcache_lock);
+-
++	percpu_counter_inc(&nr_dentry);
+ 	return dentry;
+ }
+ 
+@@ -2282,6 +2290,7 @@ static void __init dcache_init(void)
+ {
+ 	int loop;
+ 
++	percpu_counter_init(&nr_dentry, 0);
+ 	/* 
+ 	 * A constructor could be added for stable state like the lists,
+ 	 * but it is probably not worth it because of the cache nature
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 4a853ef..114cb65 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -2217,6 +2217,8 @@ static inline void free_secdata(void *secdata)
+ struct ctl_table;
+ int proc_nr_files(struct ctl_table *table, int write, struct file *filp,
+ 		  void __user *buffer, size_t *lenp, loff_t *ppos);
++int proc_nr_dentry(struct ctl_table *table, int write, struct file *filp,
++		   void __user *buffer, size_t *lenp, loff_t *ppos);
+ 
+ int get_filesystem_list(char * buf);
+ 
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index 3d56fe7..777bee7 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -1246,7 +1246,7 @@ static struct ctl_table fs_table[] = {
+ 		.data		= &dentry_stat,
+ 		.maxlen		= 6*sizeof(int),
+ 		.mode		= 0444,
+-		.proc_handler	= &proc_dointvec,
++		.proc_handler	= &proc_nr_dentry,
+ 	},
+ 	{
+ 		.ctl_name	= FS_OVERFLOWUID,
