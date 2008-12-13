@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12160] networking oops after resume from s2ram (2.6.28-rc6)
+Subject: [Bug #12156] v2.6.28-rc2: x86_32 relocation regression?
 Date: Sat, 13 Dec 2008 17:33:27 +0100 (CET)
-Message-ID: <T1gm2CtAHBF.A.ZTH.t4_QJB@chimera>
+Message-ID: <T1gm2CtAHBF.A.OhH.y4_QJB@chimera>
 References: <u7kfEgp36eE.A.qpG.Y4_QJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Marcin Slusarz <marcin.slusarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12160
-Subject		: networking oops after resume from s2ram (2.6.28-rc6)
-Submitter	: Marcin Slusarz <marcin.slusarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-11-28 21:15 (16 days old)
-References	: http://marc.info/?l=linux-kernel&m=122790701615723&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12156
+Subject		: v2.6.28-rc2: x86_32 relocation regression?
+Submitter	: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-11-24 21:19 (20 days old)
+References	: http://marc.info/?l=linux-kernel&m=122756158220966&w=4
 
