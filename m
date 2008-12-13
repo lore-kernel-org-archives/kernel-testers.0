@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12156] v2.6.28-rc2: x86_32 relocation regression?
-Date: Sat, 13 Dec 2008 17:33:27 +0100 (CET)
-Message-ID: <T1gm2CtAHBF.A.OhH.y4_QJB@chimera>
+Subject: [Bug #12195] "dd" make kernel panic
+Date: Sat, 13 Dec 2008 17:33:28 +0100 (CET)
+Message-ID: <T1gm2CtAHBF.A.gBH.i4_QJB@chimera>
 References: <u7kfEgp36eE.A.qpG.Y4_QJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, alexs <alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Michael Anderson <andmike-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Yanmin Zhang <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12156
-Subject		: v2.6.28-rc2: x86_32 relocation regression?
-Submitter	: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-11-24 21:19 (20 days old)
-References	: http://marc.info/?l=linux-kernel&m=122756158220966&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12195
+Subject		: "dd" make kernel panic
+Submitter	: alexs <alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2008-12-10 18:07 (4 days old)
+Handled-By	: James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
 
