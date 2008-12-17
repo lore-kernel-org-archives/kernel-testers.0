@@ -1,124 +1,65 @@
-From: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [Bug #12208] uml is very slow on 2.6.28 host
-Date: Wed, 17 Dec 2008 07:17:08 +0100
-Message-ID: <1229494628.5280.24.camel@marge.simson.net>
-References: <u7kfEgp36eE.A.qpG.Y4_QJB@chimera>
-	 <T1gm2CtAHBF.A.u6G.g4_QJB@chimera>  <E1LCO85-0000rR-Br@pomaz-ex.szeredi.hu>
-	 <1229397927.5296.48.camel@marge.simson.net>
-	 <E1LCX8h-0001sh-Uo@pomaz-ex.szeredi.hu>
-	 <1229437180.5379.76.camel@marge.simson.net>
-	 <E1LCbpI-0002MN-7R@pomaz-ex.szeredi.hu>
+From: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
+Subject: Re: [PATCH v3 6/7] fs: struct file move from call_rcu() to SLAB_DESTROY_BY_RCU
+Date: Wed, 17 Dec 2008 21:25:20 +0100
+Message-ID: <49496030.9080409@cosmosbay.com>
+References: <Pine.LNX.4.64.0811201727070.9089@quilx.com> <493100B0.6090104@cosmosbay.com> <494196DD.5070600@cosmosbay.com> <200707241113.46834.nickpiggin@yahoo.com.au> <4941EC65.5040903@cosmosbay.com> <494295C6.2020906@cosmosbay.com> <Pine.LNX.4.64.0812121958470.15781@quilx.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="=-wHKTC3VbzE/ipZBAABSR"
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <E1LCbpI-0002MN-7R-8f8m9JG5TPIdUIPVzhDTVZP2KDSNp7ea@public.gmane.org>
+In-Reply-To: <Pine.LNX.4.64.0812121958470.15781-dRBSpnHQED8AvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
-Cc: rjw-KKrjLPT3xs0@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="iso-8859-1"
+To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org >> Kernel Testers List" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Linux Netdev List <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
 
+Christoph Lameter a =E9crit :
+> On Fri, 12 Dec 2008, Eric Dumazet wrote:
+>=20
+>>> a truly allocated file. At this point the file is
+>>> a truly allocated file but not anymore ours.
+>=20
+> Its a valid file. Does ownership matter here?
+>=20
+>> Reading again this mail I realise we call put_filp(file), while this=
+ should
+>> be fput(file) or put_filp(file), we dont know.
+>>
+>> Damned, this patch is wrong as is.
+>>
+>> Christoph, Paul, do you see the problem ?
+>=20
+> Yes.
+>=20
+>> In fget()/fget_light() we dont know if the other thread (the one who=
+ re-allocated the file,
+>> and tried to close it while we got a reference on file) had to call =
+put_filp() or fput()
+>> to release its own reference. So we call atomic_long_dec_and_test() =
+and cannot
+>> take the appropriate action (calling the full __fput() version or th=
+e small one,
+>> that some systems use to 'close' an not really opened file.
+>=20
+> The difference is mainly that fput() does full processing whereas
+> put_filp() is used when we know that the file was not fully operation=
+al.
+> If the checks in __fput are able to handle the put_filp() situation b=
+y not
+> releasing resources that were not allocated then we should be fine.
+>=20
+>> I believe put_filp() is only called on slowpath (error cases).
+>=20
+> Looks like it. It seems to assume that no dentry is associated.
+>=20
+>> Should we just zap it and always call fput() ?
+>=20
+> Only if fput() can handle partially setup files.
 
---=-wHKTC3VbzE/ipZBAABSR
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+It can do that if we add a check for NULL dentry in __fput(), so put_fi=
+lp() can disappear.
 
-On Tue, 2008-12-16 at 16:27 +0100, Miklos Szeredi wrote:
+But there is a remaining point where we do an atomic_long_dec_and_test(=
+&...->f_count),
+in fs/aio.c, function __aio_put_req(). This one is tricky :(
 
-> Is there a way to trace what is happening in the scheduler?
-
-Sure.  Ingo has a script for gathering info (attached), if you run it,
-please gzip up the output and send me a copy offline to eyeball.
-
-There's also ftrace, but I've not tried that yet, so can't offer any
-advice, I use primitive but effective time_after() + printk() with klogd
-wakeup disabled (deadlock).
-
-	-Mike
-
---=-wHKTC3VbzE/ipZBAABSR
-Content-Disposition: attachment; filename=cfs-debug-info.sh
-Content-Type: application/x-shellscript; name=cfs-debug-info.sh
-Content-Transfer-Encoding: 7bit
-
-
-[ -e /proc/sched_debug ]    || echo "not a CFS kernel? continuing anyway."
-[ "`id | grep root`" = "" ] && { echo "please run this as root!"; exit -1; }
-
-FILE=cfs-debug-info-`date +%Y.%m.%d-%H.%M.%S`
-
-echo "sched info dump (of tasks, modules, hw, dmesg, config, fs):"
-
-echo "-- /proc/sched_debug: --"      >  $FILE
-cat /proc/sched_debug                >> $FILE 2>/dev/null
-echo "-- /proc/*/task/*/sched: --"   >> $FILE
-cat /proc/*/task/*/sched             >> $FILE 2>/dev/null
-echo "-- /proc/sys/kernel/sched: --" >> $FILE
-for N in /proc/sys/kernel/sched*; do
-  echo $N:                           >> $FILE 2>/dev/null
-  cat $N                             >> $FILE 2>/dev/null
-done
-echo "-- modules: --"                >> $FILE
-/sbin/lsmod                          >> $FILE 2>/dev/null
-echo "-- hw: --"                     >> $FILE
-/sbin/lspci -vvv                     >> $FILE 2>/dev/null
-echo "-- interrupts: --"             >> $FILE
-cat /proc/interrupts                 >> $FILE 2>/dev/null
-echo "-- cpuinfo: --"                >> $FILE
-cat /proc/cpuinfo                    >> $FILE 2>/dev/null
-echo "-- cpufreq: --"                >> $FILE
-cat /sys/devices/system/cpu/cpu*/cpufreq/* \
-                                     >> $FILE 2>/dev/null
-echo "-- meminfo: --"                >> $FILE
-cat /proc/meminfo                    >> $FILE 2>/dev/null
-echo "-- buddyinfo: --"              >> $FILE
-cat /proc/buddyinfo                  >> $FILE 2>/dev/null
-echo "-- vmstat: --"                 >> $FILE
-cat /proc/vmstat                     >> $FILE 2>/dev/null
-echo "-- zoneinfo: --"               >> $FILE
-cat /proc/zoneinfo                   >> $FILE 2>/dev/null
-echo "-- pagetypeinfo: --"           >> $FILE
-cat /proc/pagetypeinfo               >> $FILE 2>/dev/null
-echo "-- slabinfo: --"               >> $FILE
-cat /proc/slabinfo                   >> $FILE 2>/dev/null
-echo "-- dmesg: --"                  >> $FILE
-dmesg -s 10000000                    >> $FILE 2>/dev/null
-echo "-- /proc/timer_list: --"       >> $FILE
-cat /proc/timer_list                 >> $FILE 2>/dev/null
-echo "-- /proc/timer_info: --"       >> $FILE
-cat /proc/timer_info                 >> $FILE 2>/dev/null
-echo "-- /proc/config.gz: --"        >> $FILE
-zcat /proc/config.gz                 >> $FILE 2>/dev/null
-echo "-- current kernel config: --"  >> $FILE
-KREL=`uname -r | sed 's/smp$//g'`
-( cat "`rpm -ql kernel-$KREL 2>/dev/null | grep /boot/config`"
-  cat "`rpm -ql kernel-smp-$KREL 2>/dev/null | grep /boot/config`"
-  cat "`dpkg -L linux-image-$KREL 2>/dev/null | grep /boot/config`"
-  cat /boot/config-$KREL 2>/dev/null
-) >> $FILE 2>/dev/null
-echo "-- filesystems: --"            >> $FILE
-mount                                >> $FILE 2>/dev/null
-echo "-- uptime: --"                 >> $FILE
-uptime                               >> $FILE 2>/dev/null
-echo "-- uname: --"                  >> $FILE
-uname -a                             >> $FILE 2>/dev/null
-echo "-- /sys/devices/system: --"    >> $FILE
-for N in `find /sys/devices/system/ -type f`; do
-  echo $N:			     >> $FILE
-  cat $N			     >> $FILE 2>/dev/null
-done
-echo "gathering statistics for 15 seconds ..."
-echo "-- top: --"                    >> $FILE
-top -c -b -d 1 -n 5                  >> $FILE 2>/dev/null
-echo "-- vmstat: --"                 >> $FILE
-vmstat -n 1 5                        >> $FILE 2>/dev/null
-for ((i=0; i<5; i++)); do
- echo "-- sched_debug #$i: --"       >> $FILE
- date                                >> $FILE
- cat /proc/sched_debug               >> $FILE 2>/dev/null
- sleep 1
-done
-
-ls -l $FILE
-
-
---=-wHKTC3VbzE/ipZBAABSR--
