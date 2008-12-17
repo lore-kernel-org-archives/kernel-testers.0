@@ -1,198 +1,124 @@
-From: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
-Subject: Re: [PATCH v3 5/7] fs: new_inode_single() and iput_single()
-Date: Tue, 16 Dec 2008 13:41:11 -0800
-Message-ID: <20081216214111.GP6681@linux.vnet.ibm.com>
-References: <49267694.1030506@cosmosbay.com> <20081121.010508.40225532.davem@davemloft.net> <4926AEDB.10007@cosmosbay.com> <4926D022.5060008@cosmosbay.com> <20081121152148.GA20388@elte.hu> <4926D39D.9050603@cosmosbay.com> <20081121153453.GA23713@elte.hu> <492DDB6A.8090806@cosmosbay.com> <493100B0.6090104@cosmosbay.com> <494196C7.2050005@cosmosbay.com>
-Reply-To: paulmck@linux.vnet.ibm.com
+From: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [Bug #12208] uml is very slow on 2.6.28 host
+Date: Wed, 17 Dec 2008 07:17:08 +0100
+Message-ID: <1229494628.5280.24.camel@marge.simson.net>
+References: <u7kfEgp36eE.A.qpG.Y4_QJB@chimera>
+	 <T1gm2CtAHBF.A.u6G.g4_QJB@chimera>  <E1LCO85-0000rR-Br@pomaz-ex.szeredi.hu>
+	 <1229397927.5296.48.camel@marge.simson.net>
+	 <E1LCX8h-0001sh-Uo@pomaz-ex.szeredi.hu>
+	 <1229437180.5379.76.camel@marge.simson.net>
+	 <E1LCbpI-0002MN-7R@pomaz-ex.szeredi.hu>
 Mime-Version: 1.0
-Return-path: <netdev-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <494196C7.2050005@cosmosbay.com>
-Sender: netdev-owner@vger.kernel.org
+Content-Type: multipart/mixed; boundary="=-wHKTC3VbzE/ipZBAABSR"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <E1LCbpI-0002MN-7R-8f8m9JG5TPIdUIPVzhDTVZP2KDSNp7ea@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+To: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
+Cc: rjw-KKrjLPT3xs0@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+
+
+--=-wHKTC3VbzE/ipZBAABSR
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-To: Eric Dumazet <dada1@cosmosbay.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Ingo Molnar <mingo@elte.hu>, Christoph Hellwig <hch@infradead.org>, David Miller <davem@davemloft.net>, "Rafael J. Wysocki" <rjw@sisk.pl>, linux-kernel@vger.kernel.org, "kernel-testers@vger.kernel.org >> Kernel Testers List" <kernel-testers@vger.kernel.org>, Mike Galbraith <efault@gmx.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Linux Netdev List <netdev@vger.kernel.org>, Christoph Lameter <cl@linux-foundation.org>, linux-fsdevel@vger.kernel.org, Al Viro <viro@ZenIV.linux.org.uk>
 
-On Thu, Dec 11, 2008 at 11:40:07PM +0100, Eric Dumazet wrote:
-> Goal of this patch is to not touch inode_lock for socket/pipes/anonfd
-> inodes allocation/freeing.
-> 
-> SINGLE dentries are attached to inodes that dont need to be linked
-> in a list of inodes, being "inode_in_use" or "sb->s_inodes"
-> As inode_lock was taken only to protect these lists, we avoid taking it
-> as well.
-> 
-> Using iput_single() from dput_single() avoids taking inode_lock
-> at freeing time.
-> 
-> This patch has a very noticeable effect, because we avoid dirtying of
-> three contended cache lines in new_inode(), and five cache lines in iput()
-> 
-> ("socketallocbench -n 8" result : from 19.9s to 3.01s)
+On Tue, 2008-12-16 at 16:27 +0100, Miklos Szeredi wrote:
 
-Nice!
+> Is there a way to trace what is happening in the scheduler?
 
-Acked-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+Sure.  Ingo has a script for gathering info (attached), if you run it,
+please gzip up the output and send me a copy offline to eyeball.
 
-> Signed-off-by: Eric Dumazet <dada1@cosmosbay.com>
-> ---
->  fs/anon_inodes.c   |    2 +-
->  fs/dcache.c        |    2 +-
->  fs/inode.c         |   29 ++++++++++++++++++++---------
->  fs/pipe.c          |    2 +-
->  include/linux/fs.h |   12 +++++++++++-
->  net/socket.c       |    2 +-
->  6 files changed, 35 insertions(+), 14 deletions(-)
-> 
-> diff --git a/fs/anon_inodes.c b/fs/anon_inodes.c
-> index 8bf83cb..89fd36d 100644
-> --- a/fs/anon_inodes.c
-> +++ b/fs/anon_inodes.c
-> @@ -125,7 +125,7 @@ EXPORT_SYMBOL_GPL(anon_inode_getfd);
->   */
->  static struct inode *anon_inode_mkinode(void)
->  {
-> -	struct inode *inode = new_inode(anon_inode_mnt->mnt_sb);
-> +	struct inode *inode = new_inode_single(anon_inode_mnt->mnt_sb);
-> 
->  	if (!inode)
->  		return ERR_PTR(-ENOMEM);
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index af3bfb3..3363853 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -231,7 +231,7 @@ static void dput_single(struct dentry *dentry)
->  		return;
->  	inode = dentry->d_inode;
->  	if (inode)
-> -		iput(inode);
-> +		iput_single(inode);
->  	d_free(dentry);
->  }
-> 
-> diff --git a/fs/inode.c b/fs/inode.c
-> index dc8e72a..0fdfe1b 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -221,6 +221,13 @@ void destroy_inode(struct inode *inode)
->  		kmem_cache_free(inode_cachep, (inode));
->  }
-> 
-> +void iput_single(struct inode *inode)
-> +{
-> +	if (atomic_dec_and_test(&inode->i_count)) {
-> +		destroy_inode(inode);
-> +		percpu_counter_dec(&nr_inodes);
-> +	}
-> +}
-> 
->  /*
->   * These are initializations that only need to be done
-> @@ -587,8 +594,9 @@ static int last_ino_get(void)
->  #endif
-> 
->  /**
-> - *	new_inode 	- obtain an inode
-> + *	__new_inode 	- obtain an inode
->   *	@sb: superblock
-> + *  @single: if true, dont link new inode in a list
->   *
->   *	Allocates a new inode for given superblock. The default gfp_mask
->   *	for allocations related to inode->i_mapping is GFP_HIGHUSER_PAGECACHE.
-> @@ -598,7 +606,7 @@ static int last_ino_get(void)
->   *	newly created inode's mapping
->   *
->   */
-> -struct inode *new_inode(struct super_block *sb)
-> +struct inode *__new_inode(struct super_block *sb, int single)
->  {
->  	/*
->  	 * On a 32bit, non LFS stat() call, glibc will generate an EOVERFLOW
-> @@ -607,22 +615,25 @@ struct inode *new_inode(struct super_block *sb)
->  	 */
->  	struct inode * inode;
-> 
-> -	spin_lock_prefetch(&inode_lock);
-> -	
->  	inode = alloc_inode(sb);
->  	if (inode) {
->  		percpu_counter_inc(&nr_inodes);
->  		inode->i_state = 0;
->  		inode->i_ino = last_ino_get();
-> -		spin_lock(&inode_lock);
-> -		list_add(&inode->i_list, &inode_in_use);
-> -		list_add(&inode->i_sb_list, &sb->s_inodes);
-> -		spin_unlock(&inode_lock);
-> + 		if (single) {
-> +  			INIT_LIST_HEAD(&inode->i_list);
-> +  			INIT_LIST_HEAD(&inode->i_sb_list);
-> + 		} else {
-> +			spin_lock(&inode_lock);
-> +			list_add(&inode->i_list, &inode_in_use);
-> +			list_add(&inode->i_sb_list, &sb->s_inodes);
-> +			spin_unlock(&inode_lock);
-> +		}
->  	}
->  	return inode;
->  }
-> 
-> -EXPORT_SYMBOL(new_inode);
-> +EXPORT_SYMBOL(__new_inode);
-> 
->  void unlock_new_inode(struct inode *inode)
->  {
-> diff --git a/fs/pipe.c b/fs/pipe.c
-> index 4de6dd5..8c51a0d 100644
-> --- a/fs/pipe.c
-> +++ b/fs/pipe.c
-> @@ -865,7 +865,7 @@ static struct dentry_operations pipefs_dentry_operations = {
-> 
->  static struct inode * get_pipe_inode(void)
->  {
-> -	struct inode *inode = new_inode(pipe_mnt->mnt_sb);
-> +	struct inode *inode = new_inode_single(pipe_mnt->mnt_sb);
->  	struct pipe_inode_info *pipe;
-> 
->  	if (!inode)
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index a789346..a702d81 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -1899,7 +1899,17 @@ extern void __iget(struct inode * inode);
->  extern void iget_failed(struct inode *);
->  extern void clear_inode(struct inode *);
->  extern void destroy_inode(struct inode *);
-> -extern struct inode *new_inode(struct super_block *);
-> +extern struct inode *__new_inode(struct super_block *, int);
-> +static inline struct inode *new_inode(struct super_block *sb)
-> +{
-> +	return __new_inode(sb, 0);
-> +}
-> +static inline struct inode *new_inode_single(struct super_block *sb)
-> +{
-> +	return __new_inode(sb, 1);
-> +}
-> +extern void iput_single(struct inode *);
-> +
->  extern int should_remove_suid(struct dentry *);
->  extern int file_remove_suid(struct file *);
-> 
-> diff --git a/net/socket.c b/net/socket.c
-> index 353c928..4017409 100644
-> --- a/net/socket.c
-> +++ b/net/socket.c
-> @@ -464,7 +464,7 @@ static struct socket *sock_alloc(void)
->  	struct inode *inode;
->  	struct socket *sock;
-> 
-> -	inode = new_inode(sock_mnt->mnt_sb);
-> +	inode = new_inode_single(sock_mnt->mnt_sb);
->  	if (!inode)
->  		return NULL;
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe netdev" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+There's also ftrace, but I've not tried that yet, so can't offer any
+advice, I use primitive but effective time_after() + printk() with klogd
+wakeup disabled (deadlock).
+
+	-Mike
+
+--=-wHKTC3VbzE/ipZBAABSR
+Content-Disposition: attachment; filename=cfs-debug-info.sh
+Content-Type: application/x-shellscript; name=cfs-debug-info.sh
+Content-Transfer-Encoding: 7bit
+
+
+[ -e /proc/sched_debug ]    || echo "not a CFS kernel? continuing anyway."
+[ "`id | grep root`" = "" ] && { echo "please run this as root!"; exit -1; }
+
+FILE=cfs-debug-info-`date +%Y.%m.%d-%H.%M.%S`
+
+echo "sched info dump (of tasks, modules, hw, dmesg, config, fs):"
+
+echo "-- /proc/sched_debug: --"      >  $FILE
+cat /proc/sched_debug                >> $FILE 2>/dev/null
+echo "-- /proc/*/task/*/sched: --"   >> $FILE
+cat /proc/*/task/*/sched             >> $FILE 2>/dev/null
+echo "-- /proc/sys/kernel/sched: --" >> $FILE
+for N in /proc/sys/kernel/sched*; do
+  echo $N:                           >> $FILE 2>/dev/null
+  cat $N                             >> $FILE 2>/dev/null
+done
+echo "-- modules: --"                >> $FILE
+/sbin/lsmod                          >> $FILE 2>/dev/null
+echo "-- hw: --"                     >> $FILE
+/sbin/lspci -vvv                     >> $FILE 2>/dev/null
+echo "-- interrupts: --"             >> $FILE
+cat /proc/interrupts                 >> $FILE 2>/dev/null
+echo "-- cpuinfo: --"                >> $FILE
+cat /proc/cpuinfo                    >> $FILE 2>/dev/null
+echo "-- cpufreq: --"                >> $FILE
+cat /sys/devices/system/cpu/cpu*/cpufreq/* \
+                                     >> $FILE 2>/dev/null
+echo "-- meminfo: --"                >> $FILE
+cat /proc/meminfo                    >> $FILE 2>/dev/null
+echo "-- buddyinfo: --"              >> $FILE
+cat /proc/buddyinfo                  >> $FILE 2>/dev/null
+echo "-- vmstat: --"                 >> $FILE
+cat /proc/vmstat                     >> $FILE 2>/dev/null
+echo "-- zoneinfo: --"               >> $FILE
+cat /proc/zoneinfo                   >> $FILE 2>/dev/null
+echo "-- pagetypeinfo: --"           >> $FILE
+cat /proc/pagetypeinfo               >> $FILE 2>/dev/null
+echo "-- slabinfo: --"               >> $FILE
+cat /proc/slabinfo                   >> $FILE 2>/dev/null
+echo "-- dmesg: --"                  >> $FILE
+dmesg -s 10000000                    >> $FILE 2>/dev/null
+echo "-- /proc/timer_list: --"       >> $FILE
+cat /proc/timer_list                 >> $FILE 2>/dev/null
+echo "-- /proc/timer_info: --"       >> $FILE
+cat /proc/timer_info                 >> $FILE 2>/dev/null
+echo "-- /proc/config.gz: --"        >> $FILE
+zcat /proc/config.gz                 >> $FILE 2>/dev/null
+echo "-- current kernel config: --"  >> $FILE
+KREL=`uname -r | sed 's/smp$//g'`
+( cat "`rpm -ql kernel-$KREL 2>/dev/null | grep /boot/config`"
+  cat "`rpm -ql kernel-smp-$KREL 2>/dev/null | grep /boot/config`"
+  cat "`dpkg -L linux-image-$KREL 2>/dev/null | grep /boot/config`"
+  cat /boot/config-$KREL 2>/dev/null
+) >> $FILE 2>/dev/null
+echo "-- filesystems: --"            >> $FILE
+mount                                >> $FILE 2>/dev/null
+echo "-- uptime: --"                 >> $FILE
+uptime                               >> $FILE 2>/dev/null
+echo "-- uname: --"                  >> $FILE
+uname -a                             >> $FILE 2>/dev/null
+echo "-- /sys/devices/system: --"    >> $FILE
+for N in `find /sys/devices/system/ -type f`; do
+  echo $N:			     >> $FILE
+  cat $N			     >> $FILE 2>/dev/null
+done
+echo "gathering statistics for 15 seconds ..."
+echo "-- top: --"                    >> $FILE
+top -c -b -d 1 -n 5                  >> $FILE 2>/dev/null
+echo "-- vmstat: --"                 >> $FILE
+vmstat -n 1 5                        >> $FILE 2>/dev/null
+for ((i=0; i<5; i++)); do
+ echo "-- sched_debug #$i: --"       >> $FILE
+ date                                >> $FILE
+ cat /proc/sched_debug               >> $FILE 2>/dev/null
+ sleep 1
+done
+
+ls -l $FILE
+
+
+--=-wHKTC3VbzE/ipZBAABSR--
