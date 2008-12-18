@@ -1,65 +1,41 @@
-From: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
-Subject: Re: [PATCH v3 6/7] fs: struct file move from call_rcu() to SLAB_DESTROY_BY_RCU
-Date: Wed, 17 Dec 2008 21:25:20 +0100
-Message-ID: <49496030.9080409@cosmosbay.com>
-References: <Pine.LNX.4.64.0811201727070.9089@quilx.com> <493100B0.6090104@cosmosbay.com> <494196DD.5070600@cosmosbay.com> <200707241113.46834.nickpiggin@yahoo.com.au> <4941EC65.5040903@cosmosbay.com> <494295C6.2020906@cosmosbay.com> <Pine.LNX.4.64.0812121958470.15781@quilx.com>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #12208] uml is very slow on 2.6.28 host
+Date: Thu, 18 Dec 2008 15:37:52 +0100
+Message-ID: <20081218143752.GB10548@elte.hu>
+References: <u7kfEgp36eE.A.qpG.Y4_QJB@chimera> <T1gm2CtAHBF.A.u6G.g4_QJB@chimera> <E1LCO85-0000rR-Br@pomaz-ex.szeredi.hu> <1229397927.5296.48.camel@marge.simson.net> <E1LCX8h-0001sh-Uo@pomaz-ex.szeredi.hu> <1229437180.5379.76.camel@marge.simson.net> <E1LCbpI-0002MN-7R@pomaz-ex.szeredi.hu> <1229494628.5280.24.camel@marge.simson.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Pine.LNX.4.64.0812121958470.15781-dRBSpnHQED8AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1229494628.5280.24.camel-YqMYhexLQo1vAv1Ojkdn7Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Nick Piggin <nickpiggin-/E1597aS9LT0CCvOHzKKcA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org >> Kernel Testers List" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Linux Netdev List <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+Cc: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Christoph Lameter a =E9crit :
-> On Fri, 12 Dec 2008, Eric Dumazet wrote:
->=20
->>> a truly allocated file. At this point the file is
->>> a truly allocated file but not anymore ours.
->=20
-> Its a valid file. Does ownership matter here?
->=20
->> Reading again this mail I realise we call put_filp(file), while this=
- should
->> be fput(file) or put_filp(file), we dont know.
->>
->> Damned, this patch is wrong as is.
->>
->> Christoph, Paul, do you see the problem ?
->=20
-> Yes.
->=20
->> In fget()/fget_light() we dont know if the other thread (the one who=
- re-allocated the file,
->> and tried to close it while we got a reference on file) had to call =
-put_filp() or fput()
->> to release its own reference. So we call atomic_long_dec_and_test() =
-and cannot
->> take the appropriate action (calling the full __fput() version or th=
-e small one,
->> that some systems use to 'close' an not really opened file.
->=20
-> The difference is mainly that fput() does full processing whereas
-> put_filp() is used when we know that the file was not fully operation=
-al.
-> If the checks in __fput are able to handle the put_filp() situation b=
-y not
-> releasing resources that were not allocated then we should be fine.
->=20
->> I believe put_filp() is only called on slowpath (error cases).
->=20
-> Looks like it. It seems to assume that no dentry is associated.
->=20
->> Should we just zap it and always call fput() ?
->=20
-> Only if fput() can handle partially setup files.
 
-It can do that if we add a check for NULL dentry in __fput(), so put_fi=
-lp() can disappear.
+* Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org> wrote:
 
-But there is a remaining point where we do an atomic_long_dec_and_test(=
-&...->f_count),
-in fs/aio.c, function __aio_put_req(). This one is tricky :(
+> On Tue, 2008-12-16 at 16:27 +0100, Miklos Szeredi wrote:
+> 
+> > Is there a way to trace what is happening in the scheduler?
+> 
+> Sure.  Ingo has a script for gathering info (attached), if you run it, 
+> please gzip up the output and send me a copy offline to eyeball.
+> 
+> There's also ftrace, but I've not tried that yet, so can't offer any 
+> advice, I use primitive but effective time_after() + printk() with klogd 
+> wakeup disabled (deadlock).
 
+btw., there's a recent commit:
+
+  32a7600: printk: make printk more robust by not allowing recursion
+
+since then printk shouldnt deadlock anymore, even if called from within 
+the scheduler.
+
+Btw., ftrace_printk() can be used similarly (and you can capture it 
+nonstop via /debug/tracing/trace_pipe), and should not deadlock either.
+
+	Ingo
