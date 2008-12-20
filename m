@@ -1,46 +1,30 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [patch] Re: [Bug #12100] resume (S2R) broken by Intel
-	microcode module, on A110L
-Date: Sat, 20 Dec 2008 14:30:22 +0100
-Message-ID: <20081220133022.GA11252@elte.hu>
-References: <1229728524.5122.13.camel@earth> <20081220131946.GA31366@rhlx01.hs-esslingen.de>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #11849] default IRQ affinity change in v2.6.27 (breaking several SMP PPC based systems)
+Date: Sat, 20 Dec 2008 22:56:48 +0100 (CET)
+Message-ID: <vy-yJy0f3YP.A.x9B.8cYTJB@chimera>
+References: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera>
 Content-Disposition: inline
-In-Reply-To: <20081220131946.GA31366-p/qQFhXj4MHA4IYVXhSI5GHfThorsUsI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
-Cc: Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Snook <csnook-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Kumar Gala <galak-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, Max Krasnyansky <maxk-zC7DfRvBq/JWk0Htik3J/w@public.gmane.org>, Scott Wood <scottwood-KZfg59tc24xl57MIdRCFDg@public.gmane.org>
+
+This message has been generated automatically as a part of a report
+of recent regressions.
+
+The following bug entry is on the current list of known regressions
+from 2.6.27.  Please verify if it still should be listed and let me know
+(either way).
 
 
-* Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org> wrote:
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11849
+Subject		: default IRQ affinity change in v2.6.27 (breaking several SMP PPC based systems)
+Submitter	: Kumar Gala <galak-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Date		: 2008-10-24 12:45 (58 days old)
+References	: http://marc.info/?l=linux-kernel&m=122485245924125&w=4
 
-> Hi,
-> 
-> On Sat, Dec 20, 2008 at 12:15:24AM +0100, Dmitry Adamushko wrote:
-> > I'd appreciate if someone with an appropriate system might give a try to the
-> > 2nd patch (titled "fix a comparison && deadlock...").
-> > 
-> > 
-> > In any case, the deadlock situation is a must-have fix.
-> 
-> YES, that actually fixed it!!
-> 
-> Built -rc9, booted 3 times and suspended, always deadlock upon resume.
-> Patched -rc9, make modules_install, suspended 3 times, always fine.
-
-great!
-
-> Weird, I thought I had attempted all (most?) of the parts that your 
-> patch references before...
-> 
-> Thanks a lot for your very responsive handling!
-> 
-> I suppose this can get to -urgent now, JIT for the Christmas release?
-
-yeah, i've now moved it over to tip/x86/urgent, thanks Andreas!
-
-	Ingo
