@@ -1,30 +1,30 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12264] i915: switching from kwin in opengl mode to a VT then back to x11, x11 freezes
-Date: Sat, 20 Dec 2008 23:00:08 +0100 (CET)
-Message-ID: <vy-yJy0f3YP.A.3-H.BaYTJB@chimera>
-References: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera>
+Subject: [Bug #11215] INFO: possible recursive locking detected ps2_command
+Date: Sat, 20 Dec 2008 23:07:19 +0100 (CET)
+Message-ID: <CMMRhk39O-L.A.5pD.CpYTJB@chimera>
+References: <_EB9bLpq_z.A.hAC.NkYTJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera>
+In-Reply-To: <_EB9bLpq_z.A.hAC.NkYTJB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Caleb Cushing <xenoterracide-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
-of recent regressions.
+of regressions introduced between 2.6.26 and 2.6.27.
 
 The following bug entry is on the current list of known regressions
-from 2.6.27.  Please verify if it still should be listed and let me know
-(either way).
+introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12264
-Subject		: i915: switching from kwin in opengl mode to a VT then back to x11, x11 freezes
-Submitter	: Caleb Cushing <xenoterracide-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-12-16 11:40 (5 days old)
-References	: http://marc.info/?l=linux-kernel&m=122942777030666&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=11215
+Subject		: INFO: possible recursive locking detected ps2_command
+Submitter	: Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-07-31 9:41 (143 days old)
+References	: http://marc.info/?l=linux-kernel&m=121749737011637&w=4
 
