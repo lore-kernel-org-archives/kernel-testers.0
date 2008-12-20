@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12048] Regression in bonding between 2.6.26.8 and 2.6.27.6
-Date: Sat, 20 Dec 2008 23:16:14 +0100 (CET)
-Message-ID: <CMMRhk39O-L.A.2hC.ZkYTJB@chimera>
+Subject: [Bug #12099] Nokia 5310 storage-mode
+Date: Sat, 20 Dec 2008 23:16:15 +0100 (CET)
+Message-ID: <CMMRhk39O-L.A.xbC.XkYTJB@chimera>
 References: <_EB9bLpq_z.A.hAC.NkYTJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jay Vosburgh <fubar-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Jesper Krogh <jesper-Q2TZfHgGEy4@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Robson Roberto Souza Peixoto <robsonpeixoto-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, SCSI development list <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.26 and 2.6.27.
@@ -22,9 +22,10 @@ introduced between 2.6.26 and 2.6.27.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12048
-Subject		: Regression in bonding between 2.6.26.8 and 2.6.27.6
-Submitter	: Jesper Krogh <jesper-Q2TZfHgGEy4@public.gmane.org>
-Date		: 2008-11-16 9:41 (35 days old)
-References	: http://marc.info/?l=linux-kernel&m=122682977001048&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12099
+Subject		: Nokia 5310 storage-mode
+Submitter	: Robson Roberto Souza Peixoto <robsonpeixoto-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-11-25 01:07 (26 days old)
+Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=122762731503933&w=4
 
