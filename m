@@ -1,34 +1,31 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12178] Xorg crash at first start
-Date: Sat, 20 Dec 2008 23:00:05 +0100 (CET)
-Message-ID: <vy-yJy0f3YP.A.vMB.caYTJB@chimera>
+Subject: [Bug #12252] new oops on resume due to ACPI_PREEMPTION_POINT()
+Date: Sat, 20 Dec 2008 23:00:07 +0100 (CET)
+Message-ID: <vy-yJy0f3YP.A.oX.KaYTJB@chimera>
 References: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?utf-8?q?C=C3=A9dric=20Godin?= <cedric-x1Cn44Nr1HaZIoH1IeqzKA@public.gmane.org>, Dave Airlie <airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.27.  Please verify if it still should be listed and let me kno=
-w
+from 2.6.27.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12178
-Subject		: Xorg crash at first start
-Submitter	: C=C3=A9dric Godin <cedric-x1Cn44Nr1HaZIoH1IeqzKA@public.gmane.org>
-Date		: 2008-12-04 14:26 (17 days old)
-=46irst-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
-s/linux-2.6.git;a=3Dcommit;h=3D52440211dcdc52c0b757f8b34d122e11b12cdd50
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D122840082828098&w=3D=
-4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12252
+Subject		: new oops on resume due to ACPI_PREEMPTION_POINT()
+Submitter	: Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2008-12-18 18:17 (3 days old)
+Handled-By	: Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Patch		: http://bugzilla.kernel.org/attachment.cgi?id=19370&action=view
 
