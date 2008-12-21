@@ -1,42 +1,40 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12156] v2.6.28-rc2: x86_32 relocation regression?
-Date: Sun, 21 Dec 2008 09:14:06 +0100
-Message-ID: <20081221081406.GB4773@elte.hu>
-References: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera> <vy-yJy0f3YP.A.yhB.qaYTJB@chimera>
+From: =?UTF-8?B?RnJhbsOnb2lzIFZhbGVuZHVj?= 
+	<francois.valenduc@tvcablenet.be>
+Subject: Re: [Bug #12216] Error when drm is loaded
+Date: Sun, 21 Dec 2008 09:34:16 +0100
+Message-ID: <494DFF88.9090807@tvcablenet.be>
+References: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera> <vy-yJy0f3YP.A.Jo.QaYTJB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <vy-yJy0f3YP.A.yhB.qaYTJB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752882AbYLUIet@vger.kernel.org>
+In-Reply-To: <vy-yJy0f3YP.A.Jo.QaYTJB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, the arch/x86 maintainers <x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dave Airlie <airlied@redhat.com>, Keith Packard <keithp@keithp.com>
 
-
-* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-
+Rafael J. Wysocki a =C3=A9crit :
 > This message has been generated automatically as a part of a report
 > of recent regressions.
-> 
+>
 > The following bug entry is on the current list of known regressions
-> from 2.6.27.  Please verify if it still should be listed and let me know
+> from 2.6.27.  Please verify if it still should be listed and let me k=
+now
 > (either way).
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12156
-> Subject		: v2.6.28-rc2: x86_32 relocation regression?
-> Submitter	: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2008-11-24 21:19 (27 days old)
-> References	: http://marc.info/?l=linux-kernel&m=122756158220966&w=4
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12216
+> Subject		: Error when drm is loaded
+> Submitter	: Fran=C3=A7ois Valenduc <francois.valenduc@tvcablenet.be>
+> Date		: 2008-12-13 09:59 (8 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
+s/linux-2.6.git;a=3Dcommit;h=3D52440211dcdc52c0b757f8b34d122e11b12cdd50
+>
+>
+>
+>  =20
+This bug still occurs. So, it still needs to be on the regression list.
+I have not yet seen any replies to my bug report.
 
-not really a regression but a long-standing inconvenience/bug of the debug 
-symbols of relocatable kernels. (ever since relocatable kernels were added 
-in '06 or so.) Nevertheless we queued up a revert of the defconfig change 
-for .29, to not expose it in the defconfig:
-
- f269b07: x86: revert CONFIG_RELOCATABLE=y defconfig change
-
-so i think it can be taken off the regressions list.
-
-	Ingo
+=46ran=C3=A7ois Valenduc
