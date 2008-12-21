@@ -1,46 +1,32 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12216] Error when drm is loaded
-Date: Sun, 21 Dec 2008 20:54:49 +0100
-Message-ID: <200812212054.49511.rjw@sisk.pl>
-References: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera> <vy-yJy0f3YP.A.Jo.QaYTJB@chimera> <494DFF88.9090807@tvcablenet.be>
+Subject: Re: 2.6.28-rc9-git1: Reported regressions from 2.6.27
+Date: Sun, 21 Dec 2008 20:56:01 +0100
+Message-ID: <200812212056.02246.rjw@sisk.pl>
+References: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera> <84144f020812210107k4be14431s4fb61f2d31da8621@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <494DFF88.9090807-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
+In-Reply-To: <84144f020812210107k4be14431s4fb61f2d31da8621-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: =?utf-8?q?Fran=C3=A7ois_Valenduc?= <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-On Sunday, 21 of December 2008, Fran=C3=A7ois Valenduc wrote:
-> Rafael J. Wysocki a =C3=A9crit :
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.27.  Please verify if it still should be listed and let me=
- know
-> > (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12216
-> > Subject		: Error when drm is loaded
-> > Submitter	: Fran=C3=A7ois Valenduc <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org=
->
-> > Date		: 2008-12-13 09:59 (8 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torva=
-lds/linux-2.6.git;a=3Dcommit;h=3D52440211dcdc52c0b757f8b34d122e11b12cdd=
-50
-> >
-> >
-> >
-> >  =20
-> This bug still occurs. So, it still needs to be on the regression lis=
-t.
-> I have not yet seen any replies to my bug report.
+On Sunday, 21 of December 2008, Pekka Enberg wrote:
+> On Sat, Dec 20, 2008 at 11:56 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12156
+> > Subject         : v2.6.28-rc2: x86_32 relocation regression?
+> > Submitter       : Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2008-11-24 21:19 (27 days old)
+> > References      : http://marc.info/?l=linux-kernel&m=122756158220966&w=4
+> 
+> I think this one has a fix in x86.git:
+> 
+> http://lkml.org/lkml/2008/12/18/224
 
-Thanks for the update.
+I've dropped it from the list at the Ingo's request.
 
+Thanks,
 Rafael
