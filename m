@@ -1,36 +1,54 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: 2.6.28-rc9-git1: Reported regressions from 2.6.27
-Date: Mon, 22 Dec 2008 08:08:40 +0100
-Message-ID: <20081222070840.GA12115@elte.hu>
-References: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera> <84144f020812210107k4be14431s4fb61f2d31da8621@mail.gmail.com> <200812212056.02246.rjw@sisk.pl>
+From: Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12261] kernel panics with net_rx_action on kernels above
+	2.6.26
+Date: Mon, 22 Dec 2008 07:26:14 +0000
+Message-ID: <20081222072614.GB2631@ff.dom.local>
+References: <_EB9bLpq_z.A.hAC.NkYTJB@chimera> <CMMRhk39O-L.A.tMC.TkYTJB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=e9tU29DqlG0UlnGxguaOPwhpJurTdzMrD2NAFSRp6Sc=;
+        b=wiUSxasyRygt5KfQICvWjbnZdWa2mXPNNCFxuUxYtmv4D91DFtkiMSxNBt08D1PYHQ
+         UXfRRXp8ZZRtFq02dpYWyOcWhpRqV0BkahYfRqgT0GBSnleaH3M+cM25eh76/9IrcTRq
+         C+w4m9TpyESllus3PY9ReVu3TUqrzwf4FP4zI=
 Content-Disposition: inline
-In-Reply-To: <200812212056.02246.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <CMMRhk39O-L.A.tMC.TkYTJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Huemer <alexander.huemer-CeK7gDkSoXheoWH0uzbU5w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-
-* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-
-> On Sunday, 21 of December 2008, Pekka Enberg wrote:
-> > On Sat, Dec 20, 2008 at 11:56 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12156
-> > > Subject         : v2.6.28-rc2: x86_32 relocation regression?
-> > > Submitter       : Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > > Date            : 2008-11-24 21:19 (27 days old)
-> > > References      : http://marc.info/?l=linux-kernel&m=122756158220966&w=4
-> > 
-> > I think this one has a fix in x86.git:
-> > 
-> > http://lkml.org/lkml/2008/12/18/224
+On Sat, Dec 20, 2008 at 11:16:15PM +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.26 and 2.6.27.
 > 
-> I've dropped it from the list at the Ingo's request.
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.26 and 2.6.27.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12261
+> Subject		: kernel panics with net_rx_action on kernels above 2.6.26
+> Submitter	: Alexander Huemer <alexander.huemer-CeK7gDkSoXheoWH0uzbU5w@public.gmane.org>
+> Date		: 2008-12-13 18:43 (8 days old)
+> References	: http://marc.info/?l=linux-kernel&m=122919424932016&w=4
+> Handled-By	: Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Patch		: http://marc.info/?l=linux-net&m=122934825227768&w=4
+> 
+> 
 
-thanks Rafael!
+It's fixed in the mainline:
 
-	Ingo
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=9a3de25544dadab1971847f28f33b1cd0d1770a6
+
+But stables need this too:
+- 2.6.27 - always
+- 2.6.26, 2.6.25 (...?) for CONFIG_ADAPTEC_STARFIRE_NAPI
+
+Jarek P.
