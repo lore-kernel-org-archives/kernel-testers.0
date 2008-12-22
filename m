@@ -1,39 +1,36 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12099] Nokia 5310 storage-mode
-Date: Sun, 21 Dec 2008 20:56:40 +0100
-Message-ID: <200812212056.40950.rjw@sisk.pl>
-References: <Pine.LNX.4.44L0.0812202200010.513-100000@netrider.rowland.org>
+From: "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12156] v2.6.28-rc2: x86_32 relocation regression?
+Date: Sun, 21 Dec 2008 22:31:24 -0800
+Message-ID: <494F343C.1030602@zytor.com>
+References: <vYigq6XkyUN.A.E1H.7ZYTJB@chimera> <vy-yJy0f3YP.A.yhB.qaYTJB@chimera> <20081221081406.GB4773@elte.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Pine.LNX.4.44L0.0812202200010.513-100000-pYrvlCTfrz9XsRXLowluHWD2FQJk+8+b@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <20081221081406.GB4773-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Robson Roberto Souza Peixoto <robsonpeixoto-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, SCSI development list <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, the arch/x86 maintainers <x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
-On Sunday, 21 of December 2008, Alan Stern wrote:
-> On Sat, 20 Dec 2008, Rafael J. Wysocki wrote:
+Ingo Molnar wrote:
 > 
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.26 and 2.6.27.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.26 and 2.6.27.  Please verify if it still should
-> > be listed and let me know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12099
-> > Subject		: Nokia 5310 storage-mode
-> > Submitter	: Robson Roberto Souza Peixoto <robsonpeixoto-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2008-11-25 01:07 (26 days old)
-> > Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-> > Patch		: http://marc.info/?l=linux-kernel&m=122762731503933&w=4
+> not really a regression but a long-standing inconvenience/bug of the debug 
+> symbols of relocatable kernels. (ever since relocatable kernels were added 
+> in '06 or so.) Nevertheless we queued up a revert of the defconfig change 
+> for .29, to not expose it in the defconfig:
 > 
-> This has been fixed by commit a4b188095912eee83d065f000dfe06f25919750b.
+>  f269b07: x86: revert CONFIG_RELOCATABLE=y defconfig change
+> 
+> so i think it can be taken off the regressions list.
+> 
 
-Thanks for the update and for closing the bug.
+It's a bug, yes, not a regression.  It should be fixed if possible, but
+it's not a regression nor a hideously critical issue.
 
-Rafael
+	-hpa
+
+
+-- 
+H. Peter Anvin, Intel Open Source Technology Center
+I work for Intel.  I don't speak on their behalf.
