@@ -1,42 +1,65 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12210] 2.6.28-rc8 big regression in VM
-Date: Thu, 25 Dec 2008 15:11:17 +0100
-Message-ID: <200812251511.18220.rjw@sisk.pl>
-References: <u7kfEgp36eE.A.qpG.Y4_QJB@chimera> <T1gm2CtAHBF.A.2vG.c4_QJB@chimera> <20081225112017.GB16080@localhost>
+From: "Jaswinder Singh Rajput" <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: BUG - 2.4.37 fealnx.c NETDEV WATCHDOG: eth0: transmit timed out
+Date: Fri, 2 Jan 2009 20:10:50 +0530
+Message-ID: <3f9a31f40901020640m4a9a63caq9c96ba84ccd64d88@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081225112017.GB16080@localhost>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:mime-version:content-type:content-transfer-encoding
+         :content-disposition;
+        bh=psLFJ4UT2mhtb4iHkCEvpvtsak/Lc3Xa1IlzKJyOCdk=;
+        b=BjbeQYGeLM4v/llGKt0DymfRrurytS/EKmjYXpMMGJR/aQnPwysa44kB4mrBlzBknO
+         eTw+fTdLfXHon0IlwfI5R40oiYqaMG6a6QZOrMU7Rt8id/1zac/cJv2ofRI1n3KgSfYg
+         BsE/9RjQvbc+GW9IRN3sUX7Irn2Wd2MPqthIw=
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
+To: wtarreau-Dj75qbTlC0E76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Thursday, 25 of December 2008, Wu Fengguang wrote:
-> Hi Rafael,
-> 
-> According to Lukas's latest comment, let's close this bug?
+Hello all,
 
-Sure, closed.
+Now I tested fealnx driver from 2.4.37 (2.4 git). I am still getting
+"NETDEV WATCHDOG: eth0: transmit timed out". Please let me know how
+can I fix this problem.
 
-Thanks,
-Rafael
+fealnx.c:v2.51 Nov-17-2001
+eth0: 100/10M Ethernet PCI Adapter at 0x6200, 00:40:95:78:05:73, IRQ 11.
+
+NETDEV WATCHDOG: eth0: transmit timed out
+eth0: Transmit timed out, status 00000000, resetting...
+  Rx ring c11bf000:  80000000 80000000 80000000 80000000 80000000
+80000000 80000000 80000000 80000000 80000000 80000000 80000000
+  Tx ring c11be000:  80000000 80000000 80000000 80000000 0000 80000000
+NETDEV WATCHDOG: eth0: transmit timed out
+eth0: Transmit timed out, status 00000000, resetting...
+  Rx ring c11bf000:  80000000 80000000 80000000 80000000 80000000
+80000000 80000000 80000000 80000000 80000000 80000000 80000000
+  Tx ring c11be000:  80000000 0000 80000000 80000000 80000000 80000000
+NETDEV WATCHDOG: eth0: transmit timed out
+eth0: Transmit timed out, status 00000000, resetting...
+  Rx ring c11bf000:  80000000 80000000 80000000 80000000 80000000
+80000000 80000000 80000000 80000000 80000000 80000000 80000000
+  Tx ring c11be000:  80000000 80000000 80000000 80000000 80000000 0000
 
 
-> On Sat, Dec 13, 2008 at 06:33:29PM +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.27.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12210
-> > Subject		: 2.6.28-rc8 big regression in VM
-> > Submitter	: Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
-> > Date		: 2008-12-12 18:38 (2 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=122910711005135&w=4
-> > Handled-By	: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+00:0a.0 Ethernet controller: MYSON Technology Inc: Unknown device 0803
+	Subsystem: MYSON Technology Inc: Unknown device 0803
+	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
+Stepping- SERR- FastB2B-
+	Status: Cap+ 66Mhz- UDF- FastB2B+ ParErr- DEVSEL=medium >TAbort-
+<TAbort- <MAbort- >SERR- <PERR-
+	Latency: 32 (8000ns min, 16000ns max), cache line size 08
+	Interrupt: pin A routed to IRQ 11
+	Region 0: I/O ports at 6200 [size=256]
+	Region 1: Memory at e1000000 (32-bit, non-prefetchable) [size=1K]
+	Expansion ROM at <unassigned> [disabled] [size=64K]
+	Capabilities: [88] Power Management version 2
+		Flags: PMEClk- DSI- D1+ D2- AuxCurrent=375mA PME(D0-,D1+,D2-,D3hot+,D3cold+)
+		Status: D0 PME-Enable- DSel=0 DScale=0 PME-
+
+Thank you,
+JSR
