@@ -1,74 +1,44 @@
-From: Ingo Molnar <mingo@elte.hu>
-Subject: Re: 2.6.29-rc1: Reported regressions from 2.6.28
-Date: Sun, 11 Jan 2009 14:52:37 +0100
-Message-ID: <20090111135237.GA20184@elte.hu>
-References: <XU-8icArWLM.A.UpG.8GfaJB@chimera> <3f9a31f40901110546h4c069b5dx9726a0fbf8caf5a1@mail.gmail.com>
+From: "Jeff Chua" <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12422] 2.6.28-git can't resume from str
+Date: Sun, 11 Jan 2009 21:57:04 +0800
+Message-ID: <b6a2187b0901110557v1679d942if536fc7d59fd99aa@mail.gmail.com>
+References: <XU-8icArWLM.A.UpG.8GfaJB@chimera>
+	 <oWTznAnH9BI.A.qDH.EHfaJB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-acpi-owner@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=KWaS+YGiqsbM5lxJ2DmJNfamb4uuXfG4m5g/usuv/cs=;
+        b=RTxvYyZRE01UqD0ftAmEkFnDexydoEZcLg63PGbLp7NjQw/BKOMUGl1uxGxG2eGZzU
+         oGjBzlfznarsH4Yzqdcu4kn67b/8FhXExgntt9WRBTUasbd/WdtbuaHDuB4akNKURJ70
+         WrV/nYVE688XLn6rxPk+Ek1+ZFsnZX8V7wViw=
+In-Reply-To: <oWTznAnH9BI.A.qDH.EHfaJB@chimera>
 Content-Disposition: inline
-In-Reply-To: <3f9a31f40901110546h4c069b5dx9726a0fbf8caf5a1@mail.gmail.com>
-Sender: linux-acpi-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jaswinder Singh Rajput <jaswinderlinux@gmail.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Daniel Drake <dsd-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Phil Dibowitz <phil-LijsOF1cAEA@public.gmane.org>
 
+On Sun, Jan 11, 2009 at 7:16 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
+>
+>
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12422
+> Subject         : 2.6.28-git can't resume from str
+> Submitter       : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date            : 2009-01-10 1:39 (2 days old)
+> References      : http://marc.info/?l=linux-kernel&m=123155157909282&w=4
 
-* Jaswinder Singh Rajput <jaswinderlinux@gmail.com> wrote:
+Latest git pull still not fixed.
 
-> On Sun, Jan 11, 2009 at 4:42 PM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
-> >
-> > Regressions with patches
-> > ------------------------
-> >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12428
-> > Subject         : Build error on latest git
-> > Submitter       : Petr Titera <P.Titera@century.cz>
-> > Date            : 2009-01-11 9:49 (1 days old)
-> > References      : http://marc.info/?l=linux-kernel&m=123166856318712&w=4
-> > Handled-By      : Petr Titera <P.Titera@century.cz>
-> > Patch           : http://marc.info/?l=linux-kernel&m=123167509024996&w=4
-> 
-> This is a wrong fix, asm/smp.h should only be included when CONFIG_SMP 
-> is defined.
-> 
-> I am still in the process of cleaning non-smp data from asm/smp.h for 
-> x86
-> 
-> Attach patch is the solution for the time being
-> 
-> Ingo, can you please put this in urgent queue.
-
-yes, it already is - see below.
-
-	Ingo
-
------------------>
-From 8b5a33599c541cf5bf66304343d08ff2795d038b Mon Sep 17 00:00:00 2001
-From: Jaswinder Singh Rajput <jaswinder@infradead.org>
-Date: Sun, 11 Jan 2009 18:38:55 +0530
-Subject: [PATCH] x86: fix mpparse.c build error on latest git
-
-Fix this by reintroducing asm/smp.h include in mpparse.c - later on
-I will fix this by removing non-smp data from smp.h.
-
-Reported-by: Petr Titera <P.Titera@century.cz>
-Signed-off-by: Jaswinder Singh Rajput <jaswinderrajput@gmail.com>
-Signed-off-by: Ingo Molnar <mingo@elte.hu>
----
- arch/x86/kernel/mpparse.c |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
-
-diff --git a/arch/x86/kernel/mpparse.c b/arch/x86/kernel/mpparse.c
-index c0601c2..a649a4c 100644
---- a/arch/x86/kernel/mpparse.c
-+++ b/arch/x86/kernel/mpparse.c
-@@ -27,6 +27,7 @@
- #include <asm/e820.h>
- #include <asm/trampoline.h>
- #include <asm/setup.h>
-+#include <asm/smp.h>
- 
- #include <mach_apic.h>
- #ifdef CONFIG_X86_32
+Jeff.
