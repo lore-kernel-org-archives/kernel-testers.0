@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12395] 2.6.28-rc9: oprofile regression
-Date: Sun, 11 Jan 2009 12:41:05 +0100 (CET)
-Message-ID: <nHCfeC0YLrE.A.hIC.nafaJB@chimera>
+Subject: [Bug #12407] Kernel 2.6.28 regression: Hang after hibernate
+Date: Sun, 11 Jan 2009 12:41:07 +0100 (CET)
+Message-ID: <nHCfeC0YLrE.A.xOB.XafaJB@chimera>
 References: <nn3SOLVZ28H.A.bY.CafaJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Robert Richter <robert.richter-5C7GfCeVMHo@public.gmane.org>, Tim Blechmann <tim-xpEK/MU0Hawdnm+yROfE0A@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frank Groeneveld <frankgroeneveld-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pavel Machek <pavel-AlSwsSmVLrQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,11 +22,9 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12395
-Subject		: 2.6.28-rc9: oprofile regression
-Submitter	: Tim Blechmann <tim-xpEK/MU0Hawdnm+yROfE0A@public.gmane.org>
-Date		: 2008-12-21 14:23 (22 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b99170288421c79f0c2efa8b33e26e65f4bb7fb8
-References	: http://marc.info/?l=linux-kernel&m=122986946614791&w=4
-Handled-By	: Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12407
+Subject		: Kernel 2.6.28 regression: Hang after hibernate
+Submitter	: Frank Groeneveld <frankgroeneveld-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-12-28 20:34 (15 days old)
+References	: http://marc.info/?l=linux-kernel&m=123049651906081&w=4
 
