@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12403] TTY problem on linux-2.6.28-rc7
-Date: Sun, 11 Jan 2009 12:41:06 +0100 (CET)
-Message-ID: <nHCfeC0YLrE.A.kpB.gafaJB@chimera>
+Subject: [Bug #12405] oops in __bounce_end_io_read under kvm
+Date: Sun, 11 Jan 2009 12:41:07 +0100 (CET)
+Message-ID: <nHCfeC0YLrE.A.2fB.bafaJB@chimera>
 References: <nn3SOLVZ28H.A.bY.CafaJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, sasa sasa <sasak.1983-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,9 +22,10 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12403
-Subject		: TTY problem on linux-2.6.28-rc7
-Submitter	: sasa sasa <sasak.1983-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-12-22 4:23 (21 days old)
-References	: http://marc.info/?l=linux-kernel&m=122991914600390&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12405
+Subject		: oops in __bounce_end_io_read under kvm
+Submitter	: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+Date		: 2008-12-26 17:36 (17 days old)
+References	: http://marc.info/?l=linux-kernel&m=123031303400676&w=4
+Handled-By	: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
