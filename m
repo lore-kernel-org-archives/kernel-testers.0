@@ -1,75 +1,169 @@
-From: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
-Subject: Re: [xfs-masters] 2.6.29-rc: kernel BUG at
-	fs/xfs/support/debug.c:108
-Date: Sun, 11 Jan 2009 21:46:59 +1100
-Message-ID: <20090111104659.GB8071@disturbed>
-References: <20090109044121.GA31280@orion> <20090109053858.GP9448@disturbed> <a4423d670901091353s7ff12207gcb38eb093d77d401@mail.gmail.com> <a4423d670901091418j5c7fdfb2oeba2f4640f8e29d0@mail.gmail.com> <a4423d670901091511y68a53808rfaab8148526224c6@mail.gmail.com> <a4423d670901100419s2ae106bexac1a538caf654153@mail.gmail.com> <20090110143924.GA25900@infradead.org> <a4423d670901100709v1e7ce0bfs167547c5001787ac@mail.gmail.com> <20090110152803.GA7469@infradead.org> <20090110221459.GA8873@orion>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: 2.6.29-rc1: Reported regressions from 2.6.28
+Date: Sun, 11 Jan 2009 12:12:05 +0100 (CET)
+Message-ID: <XU-8icArWLM.A.UpG.8GfaJB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-acpi-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <20090110221459.GA8873@orion>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, xfs-masters-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
 
-On Sun, Jan 11, 2009 at 01:14:59AM +0300, Alexander Beregalov wrote:
-> On Sat, Jan 10, 2009 at 10:28:03AM -0500, Christoph Hellwig wrote:
-> > On Sat, Jan 10, 2009 at 06:09:05PM +0300, Alexander Beregalov wrote:
-> > > > That would be odd as 7f7c39ccb6045cf1fd5e7684a484c445291b44d4 only
-> > > > changes the tracing code which currently isn't enabled.  Or we
-> > > > get some sort of miscompilation due slightly different noop
-> > > > macros.
-> > > I meant the first bad commit is between these two commits. All of them
-> > > fail to compile as is,
-> > > I added xfs_btree_trace.h manually to compile it, I got different bugs
-> > > on these commits,
-> > > but I am not sure if they are really different. Like this:
-> > 
-> > Ah crap.  When lachlan checked in the btree tracing he forgot to
-> > add that header and it only got in after that.  Can you bisect
-> > further between those commit by just using xfs_btree_trce.h from
-> > a newer version?  It hasn't had a single change yet since it was
-> > commited.
-> > 
-> > This is quite important as all changes between these two revisions
-> > are quite large and deal with consolidating the btree code.
-> > 
-> 
-> I can not reproduce it now, I get the following message instead:
-> I will try to repair the filesystem.
-> 
-> Filesystem "sdb1": XFS internal error xfs_btree_check_lblock at line 86 of file fs/xfs/xfs_btree.c.  Caller 0xc024af42
-> 
-> Pid: 251, comm: pdflush Not tainted 2.6.28-09244-g3d14bda #4
-> Call Trace:
->  [<c0261462>] ? xfs_cmn_err+0x32/0x60
->  [<c02614de>] xfs_error_report+0x4e/0x50
->  [<c024af42>] ? xfs_btree_check_block+0x32/0x40
->  [<c024adcd>] xfs_btree_check_lblock+0x4d/0x190
->  [<c024af42>] ? xfs_btree_check_block+0x32/0x40
->  [<c0286bf0>] ? xfs_trans_read_buf+0x470/0x530
->  [<c024af42>] xfs_btree_check_block+0x32/0x40
->  [<c024b124>] xfs_btree_read_buf_block+0xe4/0x100
->  [<c024ce2d>] xfs_btree_lshift+0xbd/0x580
->  [<c026157b>] ? xfs_error_test+0x1b/0xc0
->  [<c024f29b>] xfs_btree_make_block_unfull+0x5b/0x140
->  [<c0248972>] ? xfs_bmbt_recs_inorder+0x32/0x70
->  [<c024f9be>] xfs_btree_insrec+0x63e/0x6c0
->  [<c024faa9>] xfs_btree_insert+0x69/0x190
+[Notes:
+* 2.6.29-rc1 is out so it's time for a regressions report.  At the moment there
+  are not too many regressions from 2.6.28 listed.
+* We've got quite a number of regressions from 2.6.27 reported against 2.6.28
+  final recently.  For this reason, I'm going to continue reporting regressions
+  introduced between 2.6.27 and 2.6.28.
+* Regressions 2.6.26 -> 2.6.27 won't be listed any more.  There are only 6 of
+  them left and they don't seem to be urgent.
+]
 
-Hmmmm - this might be getting closer to the source of the bug.
-It's being detecting when reading in the buffer to do a left shift
-now, not during the delete of a record.
+This message contains a list of some regressions from 2.6.28, for which there
+are no fixes in the mainline I know of.  If any of them have been fixed already,
+please let me know.
 
-I'd suggest that you treat this as the same failure and continue
-the bisect to try to find when no problems show up at all.
+If you know of any other unresolved regressions from 2.6.28, please let me know
+either and I'll add them to the list.  Also, please let me know if any of the
+entries below are invalid.
 
-Cheers,
+Each entry from the list will be sent additionally in an automatic reply to
+this message with CCs to the people involved in reporting and handling the
+issue.
 
-Dave.
--- 
-Dave Chinner
-david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org
+
+Listed regressions statistics:
+
+  Date          Total  Pending  Unresolved
+  ----------------------------------------
+  2009-01-11       13       13          10
+
+
+Unresolved regressions
+----------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12422
+Subject		: 2.6.28-git can't resume from str
+Submitter	: Jeff Chua <jeff.chua.linux@gmail.com>
+Date		: 2009-01-10 1:39 (2 days old)
+References	: http://marc.info/?l=linux-kernel&m=123155157909282&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12420
+Subject		: WARNING: at drivers/ata/libata-sff.c:1017 ata_sff_hsm_move+0x45e/0x750()
+Submitter	: Christian Borntraeger <borntraeger@de.ibm.com>
+Date		: 2009-01-09 12:34 (3 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=871af1210f13966ab911ed2166e4ab2ce775b99d
+References	: http://marc.info/?l=linux-kernel&m=123150457832109&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12419
+Subject		: possible circular locking dependency on i915 dma
+Submitter	: Wang Chen <wangchen@cn.fujitsu.com>
+Date		: 2009-01-08 14:11 (4 days old)
+References	: http://marc.info/?l=linux-kernel&m=123142399720125&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12418
+Subject		: Repeated ioctl(4, 0x40046445, ..) loop in glxgears
+Submitter	: Pallipadi, Venkatesh <venkatesh.pallipadi@intel.com>
+Date		: 2009-01-07 22:43 (5 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=7c1c2871a6a3a114853ec6836e9035ac1c0c7f7a
+References	: http://marc.info/?l=linux-kernel&m=123136836213319&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12417
+Subject		: glx performance drop with: "x86: PAT: implement track/untrack of pfnmap regions for x86 - v3"
+Submitter	: Alexey Fisher <bug-track@fisher-privat.net>
+Date		: 2009-01-06 18:46 (6 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5899329b19100c0b82dc78e9b21ed8b920c9ffb3
+References	: http://marc.info/?l=linux-kernel&m=123126782822696&w=4
+Handled-By	: Pallipadi, Venkatesh <venkatesh.pallipadi@intel.com>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12416
+Subject		: Recent change to kernel spikes out ccache/distcc
+Submitter	: Theodore Ts'o <tytso@mit.edu>
+Date		: 2009-01-06 15:15 (6 days old)
+References	: http://marc.info/?l=linux-kernel&m=123125495000603&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12415
+Subject		: WARNING: at drivers/net/wireless/iwlwifi/iwl-sta.c:689
+Submitter	: Christian Borntraeger <borntraeger@de.ibm.com>
+Date		: 2009-01-05 10:36 (7 days old)
+References	: http://marc.info/?l=linux-wireless&m=123115178019082&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12414
+Subject		: iwl4965 cannot use "ap auto" on latest 2.6.28/29?
+Submitter	: Jeff Chua <jeff.chua.linux@gmail.com>
+Date		: 2009-01-05 4:13 (7 days old)
+References	: http://marc.info/?l=linux-kernel&m=123112882127823&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12402
+Subject		: 2.6.29-rc: kernel BUG at fs/xfs/support/debug.c:108
+Submitter	: Alexander Beregalov <a.beregalov@gmail.com>
+Date		: 2009-01-09 04:41 (3 days old)
+References	: http://thread.gmane.org/gmane.comp.file-systems.xfs.general/27548
+Handled-By	: Christoph Hellwig <hch@infradead.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12399
+Subject		: USB wakeup problem on Toshiba Portege R500
+Submitter	: Rafael J. Wysocki <rjw@sisk.pl>
+Date		: 2009-01-08 7:35 (4 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=6fd9086a518d4f14213a32fe6c9ac17fabebbc1e
+References	: http://marc.info/?l=linux-kernel&m=123140019117968&w=4
+
+
+Regressions with patches
+------------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12428
+Subject		: Build error on latest git
+Submitter	: Petr Titera <P.Titera@century.cz>
+Date		: 2009-01-11 9:49 (1 days old)
+References	: http://marc.info/?l=linux-kernel&m=123166856318712&w=4
+Handled-By	: Petr Titera <P.Titera@century.cz>
+Patch		: http://marc.info/?l=linux-kernel&m=123167509024996&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12427
+Subject		: cpumask change causes sparc build bustage
+Submitter	: David Miller <davem@davemloft.net>
+Date		: 2009-01-11 8:31 (1 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=588235bb53f2c215f0d4b08fd30b461fedc3338e
+References	: http://marc.info/?l=linux-kernel&m=123166268013838&w=4
+Handled-By	: David Miller <davem@davemloft.net>
+Patch		: http://marc.info/?l=linux-kernel&m=123167571525706&w=4
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12400
+Subject		: git-latest: kernel oops in IOMMU setup
+Submitter	: Dirk Hohndel <hohndel@infradead.org>
+Date		: 2009-01-08 20:05 (4 days old)
+References	: http://marc.info/?l=linux-kernel&m=123144520124853&w=4
+Handled-By	: Dirk Hohndel <hohndel@infradead.org>
+Patch		: http://marc.info/?l=linux-kernel&m=123152033725557&w=4
+
+
+For details, please visit the bug entries and follow the links given in
+references.
+
+As you can see, there is a Bugzilla entry for each of the listed regressions.
+There also is a Bugzilla entry used for tracking the regressions from 2.6.28,
+unresolved as well as resolved, at:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=12398
+
+Please let me know if there are any Bugzilla entries that should be added to
+the list in there.
+
+Thanks,
+Rafael
+
