@@ -1,71 +1,143 @@
-From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Subject: Re: [Bug #12420] WARNING: at drivers/ata/libata-sff.c:1017 ata_sff_hsm_move+0x45e/0x750()
-Date: Sun, 11 Jan 2009 15:52:03 +0100
-Message-ID: <496A0793.3070309@fisher-privat.net>
-References: <XU-8icArWLM.A.UpG.8GfaJB@chimera> <oWTznAnH9BI.A.PPH.GHfaJB@chimera>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [patch] Re: [Bug #12100] resume (S2R) broken by Intel
+	microcode module, on A110L
+Date: Sun, 11 Jan 2009 15:56:15 +0100
+Message-ID: <20090111145615.GA26173@elte.hu>
+References: <1229728524.5122.13.camel@earth> <20081219233006.GA17984@elte.hu>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <oWTznAnH9BI.A.PPH.GHfaJB@chimera>
+Content-Disposition: inline
+In-Reply-To: <20081219233006.GA17984-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jeff Garzik <jgarzik-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Sergei Shtylyov <sshtylyov-hkdhdckH98+B+jHODAdFcQ@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, andeas.herrmann3-5C7GfCeVMHo@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Rafael J. Wysocki schrieb:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+
+* Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
+
+> * Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
+> > Hi,
+> > 
+> > 
+> > This is in response to the following bug report:
+> > 
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12100
+> > Subject         : resume (S2R) broken by Intel microcode module, on A110L
+> > Submitter       : Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
+> > Date            : 2008-11-25 08:48 (19 days old)
+> > Handled-By      : Dmitry Adamushko <dmitry.adamushko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > 
+> applied to tip/x86/microcode, thanks Dmitry!
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12420
-> Subject		: WARNING: at drivers/ata/libata-sff.c:1017 ata_sff_hsm_move+0x45e/0x750()
-> Submitter	: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-> Date		: 2009-01-09 12:34 (3 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=871af1210f13966ab911ed2166e4ab2ce775b99d
-> References	: http://marc.info/?l=linux-kernel&m=123150457832109&w=4
-> 
+> The fix looks right but somewhat intrusive in scope, so i'm a bit 
+> reluctant to push it towards .28 straight away - without having feedback 
+> in the bugzilla. If feedback is positive (the bug reported there goes 
+> away completely) we can cherry-pick it over into x86/urgent, ok? And in 
+> any case i've marked it as a -stable backport for .28.1.
 
-I just realised, this warning message normally should inculde DMI System
-Product Name ( Hardware Name ), but my board do not support this filed (
-it geve only "System Product Name" ) and use only DMI Board Product Name
-instead. It should be "5LD2-VM".
+hm, -tip testing just found this microcode locking lockdep splat:
 
-------------[ cut here ]------------
-WARNING: at drivers/ata/libata-sff.c:1017 ata_sff_hsm_move+0x480/0x6c2()
-Hardware name: System Product Name
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Should be like:
-Hradware name: P5LD2-VM
+[   48.004158] SMP alternatives: switching to UP code
+[   48.342853] CPU0 attaching NULL sched-domain.
+[   48.344288] CPU1 attaching NULL sched-domain.
+[   48.354696] CPU0 attaching NULL sched-domain.
+[   48.361215] device: 'cpu1': device_unregister
+[   48.364231] device: 'cpu1': device_create_release
+[   48.368138] 
+[   48.368139] =======================================================
+[   48.372039] [ INFO: possible circular locking dependency detected ]
+[   48.372039] 2.6.29-rc1-tip-00901-g9699183-dirty #15577
+[   48.372039] -------------------------------------------------------
+[   48.372039] S99local/3496 is trying to acquire lock:
+[   48.372039]  (microcode_mutex){--..}, at: [<c0118489>] microcode_fini_cpu+0x17/0x2b
+[   48.372039] 
+[   48.372039] but task is already holding lock:
+[   48.372039]  (&cpu_hotplug.lock){--..}, at: [<c012f508>] cpu_hotplug_begin+0x1f/0x47
+[   48.372039] 
+[   48.372039] which lock already depends on the new lock.
+[   48.372039] 
+[   48.372039] 
+[   48.372039] the existing dependency chain (in reverse order) is:
+[   48.372039] 
+[   48.372039] -> #1 (&cpu_hotplug.lock){--..}:
+[   48.372039]        [<c014d3f1>] validate_chain+0x8e9/0xb94
+[   48.372039]        [<c014dd03>] __lock_acquire+0x667/0x6e1
+[   48.372039]        [<c014ddda>] lock_acquire+0x5d/0x7a
+[   48.372039]        [<c0a6fac3>] mutex_lock_nested+0xdc/0x170
+[   48.372039]        [<c012f552>] get_online_cpus+0x22/0x34
+[   48.372039]        [<c013ce08>] work_on_cpu+0x50/0x8a
+[   48.372039]        [<c0118465>] microcode_init_cpu+0x25/0x32
+[   48.372039]        [<c0118699>] mc_sysdev_add+0x91/0x9b
+[   48.372039]        [<c04cbd09>] sysdev_driver_register+0x9b/0xea
+[   48.372039]        [<c0fb68e0>] microcode_init+0x8a/0xe4
+[   48.372039]        [<c010106a>] do_one_initcall+0x6a/0x16e
+[   48.372039]        [<c0fa952d>] kernel_init+0x115/0x166
+[   48.372039]        [<c0103737>] kernel_thread_helper+0x7/0x10
+[   48.372039]        [<ffffffff>] 0xffffffff
+[   48.372039] 
+[   48.372039] -> #0 (microcode_mutex){--..}:
+[   48.372039]        [<c014d0fc>] validate_chain+0x5f4/0xb94
+[   48.372039]        [<c014dd03>] __lock_acquire+0x667/0x6e1
+[   48.372039]        [<c014ddda>] lock_acquire+0x5d/0x7a
+[   48.372039]        [<c0a6fac3>] mutex_lock_nested+0xdc/0x170
+[   48.372039]        [<c0118489>] microcode_fini_cpu+0x17/0x2b
+[   48.372039]        [<c0a6ce38>] mc_cpu_callback+0xed/0xfa
+[   48.372039]        [<c0142a48>] notifier_call_chain+0x2b/0x4a
+[   48.372039]        [<c0142a98>] __raw_notifier_call_chain+0x13/0x15
+[   48.372039]        [<c0142aab>] raw_notifier_call_chain+0x11/0x13
+[   48.372039]        [<c0a2925e>] _cpu_down+0x171/0x22a
+[   48.372039]        [<c0a2935a>] cpu_down+0x43/0x68
+[   48.372039]        [<c0a2a27f>] store_online+0x2a/0x5e
+[   48.372039]        [<c04cba85>] sysdev_store+0x20/0x28
+[   48.372039]        [<c01d07d0>] sysfs_write_file+0xbd/0xe8
+[   48.372039]        [<c01912c2>] vfs_write+0x91/0x138
+[   48.372039]        [<c01917c8>] sys_write+0x40/0x65
+[   48.372039]        [<c0102e55>] sysenter_do_call+0x12/0x35
+[   48.372039]        [<ffffffff>] 0xffffffff
+[   48.372039] 
+[   48.372039] other info that might help us debug this:
+[   48.372039] 
+[   48.372039] 3 locks held by S99local/3496:
+[   48.372039]  #0:  (&buffer->mutex){--..}, at: [<c01d073d>] sysfs_write_file+0x2a/0xe8
+[   48.372039]  #1:  (cpu_add_remove_lock){--..}, at: [<c012f4b5>] cpu_maps_update_begin+0x14/0x16
+[   48.372039]  #2:  (&cpu_hotplug.lock){--..}, at: [<c012f508>] cpu_hotplug_begin+0x1f/0x47
+[   48.372039] 
+[   48.372039] stack backtrace:
+[   48.372039] Pid: 3496, comm: S99local Not tainted 2.6.29-rc1-tip-00901-g9699183-dirty #15577
+[   48.372039] Call Trace:
+[   48.372039]  [<c014cafd>] print_circular_bug_tail+0xab/0xb6
+[   48.372039]  [<c014d0fc>] validate_chain+0x5f4/0xb94
+[   48.372039]  [<c0a710b4>] ? _spin_unlock_irqrestore+0x34/0x41
+[   48.372039]  [<c014dd03>] __lock_acquire+0x667/0x6e1
+[   48.372039]  [<c014c508>] ? trace_hardirqs_on_caller+0x120/0x15f
+[   48.372039]  [<c014ddda>] lock_acquire+0x5d/0x7a
+[   48.372039]  [<c0118489>] ? microcode_fini_cpu+0x17/0x2b
+[   48.372039]  [<c0a6fac3>] mutex_lock_nested+0xdc/0x170
+[   48.372039]  [<c0118489>] ? microcode_fini_cpu+0x17/0x2b
+[   48.372039]  [<c0118489>] ? microcode_fini_cpu+0x17/0x2b
+[   48.372039]  [<c0118489>] microcode_fini_cpu+0x17/0x2b
+[   48.372039]  [<c0a6ce38>] mc_cpu_callback+0xed/0xfa
+[   48.372039]  [<c0142a48>] notifier_call_chain+0x2b/0x4a
+[   48.372039]  [<c0142a98>] __raw_notifier_call_chain+0x13/0x15
+[   48.372039]  [<c0142aab>] raw_notifier_call_chain+0x11/0x13
+[   48.372039]  [<c0a2925e>] _cpu_down+0x171/0x22a
+[   48.372039]  [<c0a2935a>] cpu_down+0x43/0x68
+[   48.372039]  [<c0a2a27f>] store_online+0x2a/0x5e
+[   48.372039]  [<c0a2a255>] ? store_online+0x0/0x5e
+[   48.372039]  [<c04cba85>] sysdev_store+0x20/0x28
+[   48.372039]  [<c01d07d0>] sysfs_write_file+0xbd/0xe8
+[   48.372039]  [<c01d0713>] ? sysfs_write_file+0x0/0xe8
+[   48.372039]  [<c01912c2>] vfs_write+0x91/0x138
+[   48.372039]  [<c01917c8>] sys_write+0x40/0x65
+[   48.372039]  [<c0102e55>] sysenter_do_call+0x12/0x35
+[   49.380693] device: 'cpu1': device_add
+[   49.384346] lockdep: fixing up alternatives.
+[   49.388142] SMP alternatives: switching to SMP code
 
-See my dmidecoe:
+config/full bootlog on request. Andreas, Dmitry, any ideas?
 
-Handle 0x0001, DMI type 1, 27 bytes
-System Information
-        Manufacturer: stem manufacturer
-        Product Name: System Product Name
-        Version: System Version
-        Serial Number: System Serial Number
-        UUID: [------------cuted out--------------]
-        Wake-up Type: PCI PME#
-        SKU Number: <BAD INDEX>
-        Family: <BAD INDEX>
-
-Handle 0x0002, DMI type 2, 15 bytes
-Base Board Information
-        Manufacturer: ASUSTeK Computer INC.
-        Product Name: P5LD2-VM
-        Version: Rev 1.xx
-        Serial Number: MB-1234567890
-        Asset Tag: To Be Filled By O.E.M.
-        Features:
-                Board is a hosting board
-                Board is replaceable
-        Location In Chassis: To Be Filled By O.E.M.
-        Chassis Handle: 0x0003
-        Type: Motherboard
-        Contained Object Handles: 0
+	Ingo
