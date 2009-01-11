@@ -1,38 +1,53 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12155] Regression in 2.6.28-rc and 2.6.27-stable - hibernate related
-Date: Sun, 11 Jan 2009 19:40:05 +0100
-Message-ID: <200901111940.06014.rjw@sisk.pl>
-References: <nn3SOLVZ28H.A.bY.CafaJB@chimera> <nHCfeC0YLrE.A.7fD.xbfaJB@chimera> <b637ec0b0901110634i7ea6fa7ao87ec22beb5a51c98@mail.gmail.com>
+Subject: Re: [Bug #12216] Error when drm is loaded
+Date: Sun, 11 Jan 2009 19:41:19 +0100
+Message-ID: <200901111941.20426.rjw@sisk.pl>
+References: <nn3SOLVZ28H.A.bY.CafaJB@chimera> <nHCfeC0YLrE.A.35C.HbfaJB@chimera> <496A073D.4070804@tvcablenet.be>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b637ec0b0901110634i7ea6fa7ao87ec22beb5a51c98-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <496A073D.4070804-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Kleikamp <shaggy-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: =?utf-8?q?Fran=C3=A7ois_Valenduc?= <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
 
-On Sunday 11 January 2009, Fabio Comolli wrote:
-> It's been solved in 2.6.28-final and backported to 2.6.27.10 (a revert
-> of a Dave Kelikamp's commit).
-> 
-> On Sun, Jan 11, 2009 at 12:41 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Sunday 11 January 2009, Fran=C3=A7ois Valenduc wrote:
+> Rafael J. Wysocki a =C3=A9crit :
 > > This message has been generated automatically as a part of a report
 > > of regressions introduced between 2.6.27 and 2.6.28.
 > >
 > > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> > introduced between 2.6.27 and 2.6.28.  Please verify if it still sh=
+ould
 > > be listed and let me know (either way).
 > >
 > >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12155
-> > Subject         : Regression in 2.6.28-rc and 2.6.27-stable - hibernate related
-> > Submitter       : Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date            : 2008-11-23 16:17 (50 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5e55aa8db085dad1aabb4574c73c23c7ae571e7b
-> > References      : http://marc.info/?l=linux-kernel&m=122745709926361&w=4
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12216
+> > Subject		: Error when drm is loaded
+> > Submitter	: Fran=C3=A7ois Valenduc <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org=
+>
+> > Date		: 2008-12-13 09:59 (30 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torva=
+lds/linux-2.6.git;a=3Dcommit;h=3D52440211dcdc52c0b757f8b34d122e11b12cdd=
+50
+> >
+> >
+> >
+> >  =20
+> This problem has been solved by the following patch:
+>=20
+> commit 077ebed54fe66612f58b076628a72eca2be8df90
+> Author: Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Date:   Mon Dec 22 17:11:02 2008 +1000
+>=20
+>     drm/radeon: fix correctness of irq_enabled check for radeon.
+>=20
+>=20
+> This fix is in kernel 2.6.28, so this bug can be removed from the
+> regression list.
 
 Thanks, closed.
 
