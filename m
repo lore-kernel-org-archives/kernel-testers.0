@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12405] oops in __bounce_end_io_read under kvm
-Date: Sun, 11 Jan 2009 12:41:07 +0100 (CET)
-Message-ID: <nHCfeC0YLrE.A.2fB.bafaJB@chimera>
+Subject: [Bug #12408] Funny problem with 2.6.28: Kernel stalls
+Date: Sun, 11 Jan 2009 12:41:08 +0100 (CET)
+Message-ID: <nHCfeC0YLrE.A.qIB.VafaJB@chimera>
 References: <nn3SOLVZ28H.A.bY.CafaJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Roth <mroth-+8Z3Oe2AQjqzQB+pC5nmwQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,10 +22,9 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12405
-Subject		: oops in __bounce_end_io_read under kvm
-Submitter	: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
-Date		: 2008-12-26 17:36 (17 days old)
-References	: http://marc.info/?l=linux-kernel&m=123031303400676&w=4
-Handled-By	: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12408
+Subject		: Funny problem with 2.6.28: Kernel stalls
+Submitter	: Michael Roth <mroth-+8Z3Oe2AQjqzQB+pC5nmwQ@public.gmane.org>
+Date		: 2008-12-25 15:14 (18 days old)
+References	: http://marc.info/?l=linux-kernel&m=123021931714282&w=4
 
