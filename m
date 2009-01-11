@@ -1,42 +1,39 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12422] 2.6.28-git can't resume from str
-Date: Sun, 11 Jan 2009 19:07:14 +0100
-Message-ID: <20090111180714.GB15326@elte.hu>
-References: <XU-8icArWLM.A.UpG.8GfaJB@chimera> <b6a2187b0901110813s5429573cm7d78f39e288f70a3@mail.gmail.com> <20090111162949.GA15338@elte.hu> <200901111736.24350.borntraeger@de.ibm.com> <20090111163904.GA21806@elte.hu> <b6a2187b0901110856j3f2ff6fepc19a816178e38a95@mail.gmail.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #12155] Regression in 2.6.28-rc and 2.6.27-stable - hibernate related
+Date: Sun, 11 Jan 2009 19:40:05 +0100
+Message-ID: <200901111940.06014.rjw@sisk.pl>
+References: <nn3SOLVZ28H.A.bY.CafaJB@chimera> <nHCfeC0YLrE.A.7fD.xbfaJB@chimera> <b637ec0b0901110634i7ea6fa7ao87ec22beb5a51c98@mail.gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <b637ec0b0901110634i7ea6fa7ao87ec22beb5a51c98-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <b6a2187b0901110856j3f2ff6fepc19a816178e38a95-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Daniel Drake <dsd-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Phil Dibowitz <phil-LijsOF1cAEA@public.gmane.org>
+To: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Kleikamp <shaggy-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-
-* Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-
-> On Mon, Jan 12, 2009 at 12:39 AM, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
-> > * Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org> wrote
-> >> I guess Jeff, meant the other way around.
-> >> Since a0e280e0f33f6c859a235fb69a875ed8f3420388 is a fix for a known S2R
-> >> problem , the earlier patch (before) does of course not work.
-> > ah, okay.
-> > So i suspect that at every bisection point, this should be done:
-> >  git cherry-pick a0e280e0f33f6c859a235fb69a875ed8f3420388
+On Sunday 11 January 2009, Fabio Comolli wrote:
+> It's been solved in 2.6.28-final and backported to 2.6.27.10 (a revert
+> of a Dave Kelikamp's commit).
 > 
-> I started with the latest git, and did this ...
-> 
-> git bisect start
-> git bisect bad
-> git bisect good a0e280e0f33f6c859a235fb69a875ed8f3420388
-> 
-> Everything in-between should have
-> a0e280e0f33f6c859a235fb69a875ed8f3420388 applied?
+> On Sun, Jan 11, 2009 at 12:41 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.27 and 2.6.28.
+> >
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> > be listed and let me know (either way).
+> >
+> >
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12155
+> > Subject         : Regression in 2.6.28-rc and 2.6.27-stable - hibernate related
+> > Submitter       : Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2008-11-23 16:17 (50 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5e55aa8db085dad1aabb4574c73c23c7ae571e7b
+> > References      : http://marc.info/?l=linux-kernel&m=122745709926361&w=4
 
-not necessarily - if an intermediate tree that is checked happened to have 
-been based on some earlier -rc, it might have that bug included. Safest is 
-to always cherry-pick that commit. (if it has no dependencies)
+Thanks, closed.
 
-	Ingo
+Rafael
