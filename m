@@ -1,20 +1,46 @@
-From: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 Subject: Re: [Bug #12422] 2.6.28-git can't resume from str
-Date: Sun, 11 Jan 2009 17:18:41 +0100
-Message-ID: <200901111718.41756.borntraeger@de.ibm.com>
-References: <XU-8icArWLM.A.UpG.8GfaJB@chimera> <200901111518.38880.borntraeger@de.ibm.com> <b6a2187b0901110813s5429573cm7d78f39e288f70a3@mail.gmail.com>
+Date: Sun, 11 Jan 2009 17:29:49 +0100
+Message-ID: <20090111162949.GA15338@elte.hu>
+References: <XU-8icArWLM.A.UpG.8GfaJB@chimera> <oWTznAnH9BI.A.qDH.EHfaJB@chimera> <4969FD64.8040408@gentoo.org> <200901111518.38880.borntraeger@de.ibm.com> <b6a2187b0901110813s5429573cm7d78f39e288f70a3@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b6a2187b0901110813s5429573cm7d78f39e288f70a3-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <b6a2187b0901110813s5429573cm7d78f39e288f70a3-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Daniel Drake <dsd-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Phil Dibowitz <phil-LijsOF1cAEA@public.gmane.org>
+Cc: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Daniel Drake <dsd-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Phil Dibowitz <phil-LijsOF1cAEA@public.gmane.org>
 
-Am Sonntag 11 Januar 2009 schrieb Jeff Chua:
+
+* Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+
+> On Sun, Jan 11, 2009 at 10:18 PM, Christian Borntraeger
+> <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org> wrote:
+> > Am Sonntag 11 Januar 2009 schrieb Daniel Drake:
+> >> Rafael J. Wysocki wrote:
+> >> > This message has been generated automatically as a part of a report
+> >> > of recent regressions.
+> >> >
+> >> > The following bug entry is on the current list of known regressions
+> >> > from 2.6.28.  Please verify if it still should be listed and let me know
+> >> > (either way).
+> >> >
+> >> >
+> >> > Bug-Entry   : http://bugzilla.kernel.org/show_bug.cgi?id=12422
+> >> > Subject             : 2.6.28-git can't resume from str
+> >> > Submitter   : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> >> > Date                : 2009-01-10 1:39 (2 days old)
+> >> > References  : http://marc.info/?l=linux-kernel&m=123155157909282&w=4
+> >>
+> >> The bisection looks invalid. It is unlikely to be this commit at fault.
+> >> Jeff, do you even have that camera?
+> >>
+> >> It is also easy to revert that commit by hand. Just delete the
+> >> unusual_devs entry for it.
+> >
 > > I found a nearby commit during bisect, which looks much saner:
 > >
 > > http://marc.info/?l=linux-kernel&m=123167815028388&w=2
@@ -25,15 +51,19 @@ Am Sonntag 11 Januar 2009 schrieb Jeff Chua:
 > that is able to suspend/resume. Go one before, and suspend/resume
 > breaks.
 
-Yes, I am aware that this patch fixes one of the many S2R problems in 
-2.6.29-rc. Thats why I had 
+so you mean a0e280e0f33f6c859a235fb69a875ed8f3420388 seems good, while the 
+next step in Linus's tree, 52fefcec97c25b15887e6a9a885ca54e7f7c0928 is 
+already broken?
 
-commit a0e280e0f33f6c859a235fb69a875ed8f3420388
-Author: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Date:   Wed Jan 7 16:19:46 2009 +0100
+Does 52fefcec97c25b15887e6a9a885ca54e7f7c0928 start working if you do:
 
-    stop_machine/cpu hotplug: fix disable_nonboot_cpus
+  git checkout 52fefcec97c25b15887e6a9a885ca54e7f7c0928
+  git revert a0e280e0f33f6c859a235fb69a875ed8f3420388
 
-as an additional patch applied during my bisect.
+?
 
-Christian
+That would implicate a0e280e0f33f6c859a235fb69a875ed8f3420388 + some 
+layout/timing problem - which does not trigger for some reason if pure 
+a0e280e0f33f6c859a235fb69a875ed8f3420388 is tried.
+
+	Ingo
