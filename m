@@ -1,41 +1,56 @@
-From: Matthias Heinz <mheinz@cs.uni-frankfurt.de>
-Subject: Re: 2.6.29-rc1: Reported regressions from 2.6.28
-Date: Sun, 11 Jan 2009 15:39:46 +0100
-Message-ID: <200901111539.48098.mheinz@cs.uni-frankfurt.de>
-References: <XU-8icArWLM.A.UpG.8GfaJB@chimera>
+From: "Caleb Cushing" <xenoterracide-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12264] i915: switching from kwin in opengl mode to a VT then back to x11, x11 freezes
+Date: Sun, 11 Jan 2009 19:42:51 -0500
+Message-ID: <81bfc67a0901111642i37f46edar8592899d7193b863@mail.gmail.com>
+References: <nn3SOLVZ28H.A.bY.CafaJB@chimera>
+	 <nHCfeC0YLrE.A.ncC.2afaJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <XU-8icArWLM.A.UpG.8GfaJB@chimera>
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from:to
+         :subject:cc:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:references;
+        bh=j44LU0tcxZRagO9D/CB1SjnqfYwTca8KlSTw8scMjGQ=;
+        b=ICADrsnrjbKTq44Vgtg6VKEMtQXSs+H6UHEGe2EGAAu2OH4QSwauxkcGfuOvWJreAa
+         K9dLPR78SpshmStzeXj0DtmAf/toZx7zY/2Ygx+lFSoFmPbsC3vAq4dhjtDS3VdRclsg
+         oYBwSjcj8Ue+3yI0Vj62ASbtQMci22DmVLnHA=
+In-Reply-To: <nHCfeC0YLrE.A.ncC.2afaJB@chimera>
 Content-Disposition: inline
-Sender: linux-acpi-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Am Sonntag, 11. Januar 2009 schrieb Rafael J. Wysocki:
-> If you know of any other unresolved regressions from 2.6.28, please l=
-et me
-> know either and I'll add them to the list. =C2=A0Also, please let me =
-know if any
-> of the entries below are invalid.
+so far I'm tracking with gentoo here.
+http://bugs.gentoo.org/show_bug.cgi?id=253813 and freedesktop here
+http://bugs.freedesktop.org/process_bug.cgi
 
-Unresolved regressions
-----------------------
+and I've tested the first 2 kernel patches alone, and still have the
+issue, haven't been able to add the libdrm patch to libdrm so far.
 
-Bug-Entry=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0: http://bugzilla.ke=
-rnel.org/show_bug.cgi?id=3D12174
-Subject=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0: No backl=
-ight control on Samsung x360
+On 1/11/09, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+>  of regressions introduced between 2.6.27 and 2.6.28.
+>
+>  The following bug entry is on the current list of known regressions
+>  introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+>  be listed and let me know (either way).
+>
+>
+>  Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12264
+>  Subject         : i915: switching from kwin in opengl mode to a VT then back to x11, x11 freezes
+>  Submitter       : Caleb Cushing <xenoterracide-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>  Date            : 2008-12-16 11:40 (27 days old)
+>  References      : http://marc.info/?l=linux-kernel&m=122942777030666&w=4
+>
+>
+>
 
-I think this is a common bug on systems with a broken(?) bios, exposing=
- wrong=20
-driver names. With 2.6.27 it was at least possible to control the backl=
-ight=20
-over the NVID interface.
---
-To unsubscribe from this list: send the line "unsubscribe linux-acpi" i=
-n
-the body of a message to majordomo@vger.kernel.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+-- 
+Caleb Cushing
+
+http://xenoterracide.blogspot.com
