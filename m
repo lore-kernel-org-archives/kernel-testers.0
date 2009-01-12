@@ -1,37 +1,34 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12208] uml is very slow on 2.6.28 host
-Date: Mon, 12 Jan 2009 13:28:38 +0100
-Message-ID: <200901121328.38640.rjw@sisk.pl>
-References: <nn3SOLVZ28H.A.bY.CafaJB@chimera> <nHCfeC0YLrE.A.kFD.NbfaJB@chimera> <E1LMJex-0001lB-SE@pomaz-ex.szeredi.hu>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: 2.6.28-rc6: hpet: object is on stack, but not annotated
+Date: Mon, 12 Jan 2009 13:33:49 +0100
+Message-ID: <20090112123349.GD29628@elte.hu>
+References: <a4423d670811240839q54e6b7afxfc49d28b3ea127cb@mail.gmail.com> <a4423d670811241014n2b2192beh931d374bf063894f@mail.gmail.com> <alpine.LFD.2.00.0811241916560.3301@localhost.localdomain> <20081204111621.GA2466@elf.ucw.cz> <a4423d670901120240m6ee29951ucc1c0f16c27d398c@mail.gmail.com> <1231761143.4371.0.camel@laptop> <20090112115934.GA24266@elte.hu> <a4423d670901120427q502ae9b6uded2e55a91c2a7cc@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <E1LMJex-0001lB-SE-8f8m9JG5TPIdUIPVzhDTVZP2KDSNp7ea@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <a4423d670901120427q502ae9b6uded2e55a91c2a7cc-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Pavel Machek <pavel-AlSwsSmVLrQ@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 
-On Monday 12 January 2009, Miklos Szeredi wrote:
-> On Sun, 11 Jan 2009, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.27 and 2.6.28.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> > be listed and let me know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12208
-> > Subject		: uml is very slow on 2.6.28 host
-> > Submitter	: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
-> > Date		: 2008-12-12 9:35 (31 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=122907463518593&w=4
-> 
-> Yes, this still exists on latest -git.
 
-Thanks for the update.
+* Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 
-Rafael
+> 2009/1/12 Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>:
+> >
+> > * Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
+> >
+> >> > > (No, introducing WARN_ON()s is not fine; it spams kerneloops.org at
+> >> > > least...)
+> >> >
+> >> > The warning is still here on 2.6.29-rc1. It taints the kernel.
+> >>
+> >> Does this fix it?
+> Yes, it does. Thanks Peter.
+
+thanks - added your Tested-by tag to the commit too.
+
+	Ingo
