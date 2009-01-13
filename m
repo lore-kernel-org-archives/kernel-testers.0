@@ -1,58 +1,72 @@
-From: "Jeff Chua" <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12422] 2.6.28-git can't resume from str
-Date: Tue, 13 Jan 2009 21:30:10 +0800
-Message-ID: <b6a2187b0901130530y346f2526l220ea410dd95ea91@mail.gmail.com>
-References: <XU-8icArWLM.A.UpG.8GfaJB@chimera>
-	 <b6a2187b0901122028w3f85fc9aj41d7c8ac44adb2ed@mail.gmail.com>
-	 <b6a2187b0901122147o45890cd4lfb6ba7b2908e6ae7@mail.gmail.com>
-	 <200901131232.17941.rjw@sisk.pl>
+From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Subject: [PATCH] x86: vm86: fix preemption bug
+Date: Tue, 13 Jan 2009 23:36:34 +0100 (CET)
+Message-ID: <alpine.LFD.2.00.0901132117270.3549@localhost.localdomain>
+References: <nn3SOLVZ28H.A.bY.CafaJB@chimera> <nHCfeC0YLrE.A.WKC.qafaJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=5eQxdw4GoiGoyEcXnSYnbN3FnlGskJcIgocg36Kwu0Q=;
-        b=iiI0kIs0LkNBAOn7GvPMjOsthgIlVnNcdJcGFnKETaUhHUQyD6j47oU5iNh/81DD8w
-         8ytGwU3mTCqPvHmTYJ0EA5ztP1KPCV8XELJOuma4Tlkr4VVTPQ/f3c5bLq5ZFay8LTlU
-         09F0LbA+hCiOrm44joMXzZRDUm22Y68x0VrFA=
-In-Reply-To: <200901131232.17941.rjw-KKrjLPT3xs0@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <nHCfeC0YLrE.A.WKC.qafaJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Daniel Drake <dsd-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Phil Dibowitz <phil-LijsOF1cAEA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>, Alexander van Heukelum <heukelum-97jfqw80gc6171pxa8y+qA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-On Tue, Jan 13, 2009 at 7:32 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> On Tuesday 13 January 2009, Jeff Chua wrote:
->> On Sun, Jan 11, 2009 at 7:16 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
->>
->> > The following bug entry is on the current list of known regressions
->> > from 2.6.28.  Please verify if it still should be listed and let me know
->> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12422
->> > Subject         : 2.6.28-git can't resume from str
->> > Submitter       : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> > Date            : 2009-01-10 1:39 (2 days old)
->> > References      : http://marc.info/?l=linux-kernel&m=123155157909282&w=4
->>
->> Fixed by reverting a0d4922da2e4ccb0973095d8d29f36f6b1b5f703.
->> 7503bfbae89eba07b46441a5d1594647f6b8ab7d has already been reverted in
->> the Linus's latest git tree.
->
-> Can you please check if the issue goes away ...
-> instead of reverting commit a0d4922da2e4ccb0973095d8d29f36f6b1b5f703
+Impact: fix scheduling while atomic bug
 
-Confirmed. This commit works. STR still ok.
+commit 3d2a71a596bd9c761c8487a2178e95f8a61da083 (x86, traps: converge
+do_debug handlers) changed the preemption disable logic of do_debug()
+so vm86_handle_trap() is called with preemption disabled resulting in:
 
-But now, a different problem. STD "almost" ok. Suspend-to-disk hangs
-after counting to 100%. Power-cycle and boot ok able to resume. ...
-Again, this is another problem with/without your latest patch. Another
-issue is with iwl4965 not able to attach to my hidden AP. Will try to
-bisect soon.
+BUG: sleeping function called from invalid context at include/linux/kernel.h:155
+in_atomic(): 1, irqs_disabled(): 0, pid: 3005, name: dosemu.bin
+Pid: 3005, comm: dosemu.bin Tainted: G        W  2.6.29-rc1 #51
+Call Trace:
+ [<c050d669>] copy_to_user+0x33/0x108
+ [<c04181f4>] save_v86_state+0x65/0x149
+ [<c0418531>] handle_vm86_trap+0x20/0x8f
+ [<c064e345>] do_debug+0x15b/0x1a4
+ [<c064df1f>] debug_stack_correct+0x27/0x2c
+ [<c040365b>] sysenter_do_call+0x12/0x2f
+BUG: scheduling while atomic: dosemu.bin/3005/0x10000001
 
-Thanks for the patch.
+Restore the original calling convention and reenable preemption before
+calling handle_vm86_trap().
 
-Jeff.
+Reported-by: Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>
+Cc: stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+Signed-off-by: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+---
+ arch/x86/kernel/traps.c |   10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+Index: linux-2.6/arch/x86/kernel/traps.c
+===================================================================
+--- linux-2.6.orig/arch/x86/kernel/traps.c
++++ linux-2.6/arch/x86/kernel/traps.c
+@@ -99,6 +99,12 @@ static inline void preempt_conditional_s
+ 		local_irq_enable();
+ }
+ 
++static inline void conditional_cli(struct pt_regs *regs)
++{
++	if (regs->flags & X86_EFLAGS_IF)
++		local_irq_disable();
++}
++
+ static inline void preempt_conditional_cli(struct pt_regs *regs)
+ {
+ 	if (regs->flags & X86_EFLAGS_IF)
+@@ -626,8 +632,10 @@ clear_dr7:
+ 
+ #ifdef CONFIG_X86_32
+ debug_vm86:
++	/* reenable preemption: handle_vm86_trap() might sleep */
++	dec_preempt_count();
+ 	handle_vm86_trap((struct kernel_vm86_regs *) regs, error_code, 1);
+-	preempt_conditional_cli(regs);
++	conditional_cli(regs);
+ 	return;
+ #endif
+ 
