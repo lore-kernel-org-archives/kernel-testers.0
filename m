@@ -1,51 +1,58 @@
-From: "Jeff Chua" <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12422] 2.6.28-git can't resume from str
-Date: Tue, 13 Jan 2009 13:47:27 +0800
-Message-ID: <b6a2187b0901122147o45890cd4lfb6ba7b2908e6ae7@mail.gmail.com>
-References: <XU-8icArWLM.A.UpG.8GfaJB@chimera>
-	 <b6a2187b0901110813s5429573cm7d78f39e288f70a3@mail.gmail.com>
-	 <20090111162949.GA15338@elte.hu>
-	 <200901111736.24350.borntraeger@de.ibm.com>
-	 <20090111163904.GA21806@elte.hu>
-	 <b6a2187b0901110856j3f2ff6fepc19a816178e38a95@mail.gmail.com>
-	 <20090111180714.GB15326@elte.hu>
-	 <b6a2187b0901121720s1f9b12ednb76a90dcc7eddc81@mail.gmail.com>
-	 <alpine.LFD.2.00.0901121807070.6528@localhost.localdomain>
-	 <b6a2187b0901122028w3f85fc9aj41d7c8ac44adb2ed@mail.gmail.com>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: 2.6.29-rc1: Reported regressions from 2.6.28
+Date: Tue, 13 Jan 2009 12:23:01 +0100
+Message-ID: <200901131223.02813.rjw@sisk.pl>
+References: <XU-8icArWLM.A.UpG.8GfaJB@chimera> <200901112001.00394.rjw@sisk.pl> <3f9a31f40901121924v86b528er652b27e670c5fe0@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=LJDfEUzjBGKcLdbqm2fcDm7uah1HnCVg/iHiHReDJlU=;
-        b=FwZP3bBlXztUESsoiZAfaTXecOkHrTguKtll+e6gBiaK8vnUBGlDYk5iGcfu+W8Y+y
-         KjWMy+DRGz4UnWsGmT5BJPmla4k1L7vXhc7d11OpDXEb25fbN7JseE42YUDacNz2yZvH
-         ckBLp8CXoli4TT/FmJk9sCGKenKcu4AkQgYOU=
-In-Reply-To: <b6a2187b0901122028w3f85fc9aj41d7c8ac44adb2ed-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <3f9a31f40901121924v86b528er652b27e670c5fe0@mail.gmail.com>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Daniel Drake <dsd-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Phil Dibowitz <phil-LijsOF1cAEA@public.gmane.org>
+To: Jaswinder Singh Rajput <jaswinderlinux@gmail.com>
+Cc: Ingo Molnar <mingo@elte.hu>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
 
-On Sun, Jan 11, 2009 at 7:16 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Tuesday 13 January 2009, Jaswinder Singh Rajput wrote:
+> Hello Rafael,
+> 
+> On Mon, Jan 12, 2009 at 12:30 AM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> > On Sunday 11 January 2009, Ingo Molnar wrote:
+> >>
+> >> * Jaswinder Singh Rajput <jaswinderlinux@gmail.com> wrote:
+> >>
+> >> > On Sun, Jan 11, 2009 at 4:42 PM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> >> > >
+> >> > > Regressions with patches
+> >> > > ------------------------
+> >> > >
+> >> > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12428
+> >> > > Subject         : Build error on latest git
+> >> > > Submitter       : Petr Titera <P.Titera@century.cz>
+> >> > > Date            : 2009-01-11 9:49 (1 days old)
+> >> > > References      : http://marc.info/?l=linux-kernel&m=123166856318712&w=4
+> >> > > Handled-By      : Petr Titera <P.Titera@century.cz>
+> >> > > Patch           : http://marc.info/?l=linux-kernel&m=123167509024996&w=4
+> >> >
+> >> > This is a wrong fix, asm/smp.h should only be included when CONFIG_SMP
+> >> > is defined.
+> >> >
+> >> > I am still in the process of cleaning non-smp data from asm/smp.h for
+> >> > x86
+> >> >
+> >> > Attach patch is the solution for the time being
+> >> >
+> >> > Ingo, can you please put this in urgent queue.
+> >>
+> >> yes, it already is - see below.
+> >
+> > Link to this patch was added to the bug entry.  Pleaes let me know or close the
+> > bug when it's merged.
+> >
+> 
+> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=4884d8e6a05026ec906355436cea9dc1acb1d09e
 
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12422
-> Subject         : 2.6.28-git can't resume from str
-> Submitter       : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date            : 2009-01-10 1:39 (2 days old)
-> References      : http://marc.info/?l=linux-kernel&m=123155157909282&w=4
+Thanks, the bug has been closed.
 
-Fixed by reverting a0d4922da2e4ccb0973095d8d29f36f6b1b5f703.
-7503bfbae89eba07b46441a5d1594647f6b8ab7d has already been reverted in
-the Linus's latest git tree.
-
-Thanks everyone for all the help.
-
-Jeff.
+Rafael
