@@ -1,33 +1,70 @@
-From: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #12420] WARNING: at drivers/ata/libata-sff.c:1017 ata_sff_hsm_move+0x45e/0x750()
-Date: Wed, 14 Jan 2009 08:40:39 +0100
-Message-ID: <200901140840.39202.borntraeger@de.ibm.com>
-References: <XU-8icArWLM.A.UpG.8GfaJB@chimera> <oWTznAnH9BI.A.PPH.GHfaJB@chimera> <496D95BA.4070304@gmx.net>
+From: "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: RE: [Bug #12417] glx performance drop with: "x86: PAT: implement
+ track/untrack of pfnmap regions for x86 - v3"
+Date: Tue, 13 Jan 2009 23:51:24 -0800
+Message-ID: <7E82351C108FA840AB1866AC776AEC4643D0530C@orsmsx505.amr.corp.intel.com>
+References: <XU-8icArWLM.A.UpG.8GfaJB@chimera>
+ <oWTznAnH9BI.A.dnH.OHfaJB@chimera> <496D968C.4050405@fisher-privat.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <496D95BA.4070304-hi6Y0CQ0nG0@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <496D968C.4050405-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+Content-Language: en-US
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Alexey Rempel <fishor-hi6Y0CQ0nG0@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jeff Garzik <jgarzik-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Sergei Shtylyov <sshtylyov-hkdhdckH98+B+jHODAdFcQ@public.gmane.org>
-
-Am Mittwoch 14 Januar 2009 schrieb Alexey Rempel:
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12420
-> > Subject		: WARNING: at drivers/ata/libata-sff.c:1017 
-ata_sff_hsm_move+0x45e/0x750()
-> > Submitter	: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-> > Date		: 2009-01-09 12:34 (3 days old)
-> > First-Bad-Commit: 
-http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=871af1210f13966ab911ed2166e4ab2ce775b99d
-> > References	: http://marc.info/?l=linux-kernel&m=123150457832109&w=4
+To: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, "Siddha, Suresh B" <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
 
-> This warning was disabled in latest git.
+>-----Original Message-----
+>From: Alexey Fisher [mailto:bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org] 
+>Sent: Tuesday, January 13, 2009 11:39 PM
+>To: Rafael J. Wysocki
+>Cc: Linux Kernel Mailing List; Kernel Testers List; H. Peter 
+>Anvin; Pallipadi, Venkatesh; Siddha, Suresh B
+>Subject: Re: [Bug #12417] glx performance drop with: "x86: 
+>PAT: implement track/untrack of pfnmap regions for x86 - v3"
+>
+>Rafael J. Wysocki schrieb:
+>> This message has been generated automatically as a part of a report
+>> of recent regressions.
+>> 
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.28.  Please verify if it still should be listed and 
+>let me know
+>> (either way).
+>> 
+>> 
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12417
+>> Subject		: glx performance drop with: "x86: PAT: 
+>implement track/untrack of pfnmap regions for x86 - v3"
+>> Submitter	: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+>> Date		: 2009-01-06 18:46 (6 days old)
+>> First-Bad-Commit: 
+>http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.gi
+>t;a=commit;h=5899329b19100c0b82dc78e9b21ed8b920c9ffb3
+>> References	: http://marc.info/?l=linux-kernel&m=123126782822696&w=4
+>> Handled-By	: Pallipadi, Venkatesh <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+>> 
+>> 
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe 
+>kernel-testers" in
+>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>
+>There is no more warnings on the xorg start, but x server will 
+>completly
+>freeze on glxgears.
+>
 
-Yes. After the discussion had a conclusion, I decided to to send a patch 
-myself and Jeff sent it to Linus.
+Yes. But, that is a different bug with DRM changes. This fix just unmasks the bug now.
 
-http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=a0f79f7ad3e52b908786462cf5446ebe20fe14fa
+http://bugzilla.kernel.org/show_bug.cgi?id=12418
+
+Thanks,
+Venki--
+To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
