@@ -1,39 +1,36 @@
-From: Pavel Machek <pavel-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [Bug #12391] Processor does not go below C2 state until
-	usb.autosuspend is enabled
-Date: Sun, 18 Jan 2009 09:24:02 +0100
-Message-ID: <20090118082401.GC1944@ucw.cz>
-References: <nn3SOLVZ28H.A.bY.CafaJB@chimera> <nHCfeC0YLrE.A.LMC.safaJB@chimera>
+From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Subject: 2.6.29-rc2 regression: hibernation hang on eeepc-701 (method 
+	"platform" only)
+Date: Sun, 18 Jan 2009 11:45:18 +0000
+Message-ID: <9b2b86520901180345j434eacbdn7386958991ee50b@mail.gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <nHCfeC0YLrE.A.LMC.safaJB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=gamma;
+        h=domainkey-signature:mime-version:sender:received:date
+         :x-google-sender-auth:message-id:subject:from:to:content-type
+         :content-transfer-encoding;
+        bh=21NNVOeuQXc55Cp2LOUF4mHmuANdDoKRfmk0mROhr5w=;
+        b=upYNODKH25b60mvbVe68eQGlooii8HGNTK1h1rsVoHXQuZqE04cmQjShhMxX05HTXM
+         SB0r9W8xvc2hY41CAX3lt7/4tOvVXCSd+pyWLXNIYg4vdgeirOR2CVcrorjtnsaMOYHJ
+         NnCOmKacfMCwuSIqShtLaAmKgl9hRfVj2notE=
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gergely Imreh <imrehg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, linux acpi <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sun 2009-01-11 12:41:04, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.27 and 2.6.28.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12391
-> Subject		: Processor does not go below C2 state until usb.autosuspend is enabled
-> Submitter	: Gergely Imreh <imrehg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-01-09 02:35 (3 days old)
+Hibernation hangs just after writing the image.  With s2disk I can see
+this from the console messages.  The same hang happens with kernel
+swsusp ('echo disk | sudo tee /sys/power/state'), and I can see that
+the image has been written from the HDD led.
 
-Are you sure that's regression? IIRC usb.autosuspend is needed for
-C3. It is certainly needed if you have *any* usb device plugged in.
+In either case, I can still hard-power-off and resume from hibernation.
 
-What hw is that?
+It doesn't hang if I use the shutdown method (either 'echo shutdown |
+sudo tee /sys/power/disk' or  's2disk -P "shutdown method=shutdown"').
 
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+Let me know if you'd like more information.
+
+Thanks
+Alan
