@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12499] Problem with using bluetooth adaper connected to usb port
-Date: Mon, 19 Jan 2009 22:32:16 +0100 (CET)
-Message-ID: <2QN7KFic7LG.A.XVG.Z9QdJB@chimera>
+Subject: [Bug #12493] ACPI related kernel panic when booting 2.6.29-rc2
+Date: Mon, 19 Jan 2009 22:32:15 +0100 (CET)
+Message-ID: <2QN7KFic7LG.A._OH.l9QdJB@chimera>
 References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <aystarik-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peter Klotz <peter.klotz-Tswl7xcH0yE@public.gmane.org>, Tero Roponen <tero.roponen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,12 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12499
-Subject		: Problem with using bluetooth adaper connected to usb port
-Submitter	: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-01-13 18:34 (7 days old)
-References	: http://marc.info/?l=linux-kernel&m=123187185426236&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12493
+Subject		: ACPI related kernel panic when booting 2.6.29-rc2
+Submitter	: Peter Klotz <peter.klotz-Tswl7xcH0yE@public.gmane.org>
+Date		: 2009-01-17 20:47 (3 days old)
+References	: http://marc.info/?l=linux-acpi&m=123222565017047&w=4
+Handled-By	: Alexey Starikovskiy <aystarik-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+		  Tero Roponen <tero.roponen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Patch		: http://marc.info/?l=linux-acpi&m=123223261225680&w=4
 
