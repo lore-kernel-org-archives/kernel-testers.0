@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12209] oldish top core dumps (in its meminfo() function)
-Date: Mon, 19 Jan 2009 22:45:38 +0100 (CET)
-Message-ID: <cX2gZ6Cy9nC.A.vlD.XKRdJB@chimera>
+Subject: [Bug #12393] debugging in dosemu causes lots of 'scheduling while atomic'
+Date: Mon, 19 Jan 2009 22:45:40 +0100 (CET)
+Message-ID: <cX2gZ6Cy9nC.A.06C.9JRdJB@chimera>
 References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,10 +22,8 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12209
-Subject		: oldish top core dumps (in its meminfo() function)
-Submitter	: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
-Date		: 2008-12-12 18:49 (39 days old)
-References	: http://marc.info/?l=linux-kernel&m=122910784006472&w=4
-		  http://marc.info/?l=linux-kernel&m=122907511319288&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12393
+Subject		: debugging in dosemu causes lots of 'scheduling while atomic'
+Submitter	: Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>
+Date		: 2009-01-09 07:28 (11 days old)
 
