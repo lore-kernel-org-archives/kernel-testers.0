@@ -1,105 +1,55 @@
-From: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
-Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
-Date: Wed, 21 Jan 2009 04:24:41 +1030
-Message-ID: <1232474081.4895.76.camel@kulgan.wumi.org.au>
+From: Caleb Cushing <xenoterracide-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12264] i915: switching from kwin in opengl mode to a VT 
+	then back to x11, x11 freezes
+Date: Tue, 20 Jan 2009 13:13:40 -0500
+Message-ID: <81bfc67a0901201013p46967ecfgb69353df51fc50d8@mail.gmail.com>
 References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera>
-	 <cX2gZ6Cy9nC.A.4dB.bJRdJB@chimera>
-	 <1232410363.4768.21.camel@kulgan.wumi.org.au>
-	 <20090120113546.GA26571@elte.hu>
-	 <1232455343.4895.4.camel@kulgan.wumi.org.au>  <4975CBF8.90101@redhat.com>
+	 <cX2gZ6Cy9nC.A.SID.GKRdJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4975CBF8.90101-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=hq4ZuiqS8fLzuOsghlLT2Y5LOaKUcHNRC2BNLyvAgt8=;
+        b=dBfqnqZDxT2nvqdQ3ASatQWrdZHbi196i74K5Tmfx4RO+K6sAc+/HGTB/xgjawp7yE
+         lMOjp80m1rvZUgPNrlosB7jo87QUI2i/hY9HR5oNkyBqld3177OM9rCbFucwJHaPl5v8
+         LlY3kPzZo/8yk13Gscs4y14mkfkyZZrORw9B4=
+In-Reply-To: <cX2gZ6Cy9nC.A.SID.GKRdJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tue, 2009-01-20 at 15:04 +0200, Avi Kivity wrote:
-> Kevin Shanahan wrote:
-> > On Tue, 2009-01-20 at 12:35 +0100, Ingo Molnar wrote:
-> >> This only seems to occur under KVM, right? I.e. you tested it with -no-kvm 
-> >> and the problem went away, correct?
-> >>     
-> >
-> > Well, the I couldn't make the test conditions identical, but it the
-> > problem didn't occur with the test I was able to do:
-> >
-> >   http://marc.info/?l=linux-kernel&m=123228728416498&w=2
-> >
-> >   
-> 
-> Can you also try with -no-kvm-irqchip?
-> 
-> You will need to comment out the lines
-> 
->     /* ISA IRQs map to GSI 1-1 except for IRQ0 which maps
->      * to GSI 2.  GSI maps to ioapic 1-1.  This is not
->      * the cleanest way of doing it but it should work. */
-> 
->     if (vector == 0)
->         vector = 2;
-> 
-> in qemu/hw/apic.c (should also fix -no-kvm smp).  This will change kvm 
-> wakeups to use signals rather than the in-kernel code, which may be buggy.
+http://bugs.freedesktop.org/show_bug.cgi?id=18879
 
-Okay, I commented out those lines and compiled a new kvm-82 userspace
-and kernel modules. Using those on a vanilla 2.6.28 kernel, with all
-guests run with -no-kvm-irqchip added.
+fixed here and verified fixed in gentoo. Not sure if the kernel
+patches have made it into vanilla-sources. If they have +libdrm fix,
+it works.
 
-As before a number of the XP guests wanted to chug away at 100% CPU
-usage for a long time. Three of the guests clocked up ~40 minutes CPU
-time before I decided to just shut them down. Perhaps coincidentally,
-these three guests are the only ones with Office 2003 installed on them.
-That could be the difference between those guests and the other XP
-guests, but that's probably not important for now.
+On 1/19/09, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+>  of regressions introduced between 2.6.27 and 2.6.28.
+>
+>  The following bug entry is on the current list of known regressions
+>  introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+>  be listed and let me know (either way).
+>
+>
+>  Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12264
+>  Subject         : i915: switching from kwin in opengl mode to a VT then back to x11, x11 freezes
+>  Submitter       : Caleb Cushing <xenoterracide-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>  Date            : 2008-12-16 11:40 (35 days old)
+>  References      : http://marc.info/?l=linux-kernel&m=122942777030666&w=4
+>
+>
+>
 
-The two Linux SMP guests booted okay this time, though they seem to only
-use one CPU on the host (I guess kvm is not multi-threaded in this
-mode?). "hermes-old", the guest I am pinging in all my tests, had a lot
-of trouble running the apache2 setup - it was so slow it was difficult
-to load a complete page from our RT system. The kvm process for this
-guest was taking up 100% cpu on the host constantly and all sorts of
-wierd stuff could be seen by watching top in the guest:
 
-top - 03:44:17 up 43 min,  1 user,  load average: 3.95, 1.55, 0.80
-Tasks: 101 total,   4 running,  97 sleeping,   0 stopped,   0 zombie
-Cpu(s): 79.7%us, 10.4%sy,  0.0%ni,  0.0%id,  0.0%wa,  0.0%hi,  9.9%si,
-0.0%st
-Mem:   2075428k total,   391128k used,  1684300k free,    13044k buffers
-Swap:  3502160k total,        0k used,  3502160k free,   118488k cached
-  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND             
- 2956 postgres  20   0 19704  11m  10m S 1658  0.6   2:55.99 postmaster          
- 2934 www-data  20   0 60392  40m 5132 R   31  2.0   0:17.28 apache2             
- 2958 postgres  20   0 19700  11m 9.8m R   28  0.6   0:20.41 postmaster          
- 2940 www-data  20   0 58652  38m 5016 S   27  1.9   0:04.87 apache2             
- 2937 www-data  20   0 60124  40m 5112 S   18  2.0   0:11.00 apache2             
- 2959 postgres  20   0 19132 5424 4132 S   10  0.3   0:01.50 postmaster          
- 2072 postgres  20   0  8064 1416  548 S    7  0.1   0:23.71 postmaster          
- 2960 postgres  20   0 19132 5368 4060 R    6  0.3   0:01.55 postmaster          
- 2071 postgres  20   0  8560 1972  488 S    5  0.1   0:08.33 postmaster    
+-- 
+Caleb Cushing
 
-Running the ping test with without apache2 running in the guest:
-
---- hermes-old.wumi.org.au ping statistics ---
-900 packets transmitted, 900 received, 0% packet loss, time 902740ms
-rtt min/avg/max/mdev = 0.568/3.745/272.558/16.990 ms
-
-And with apache2 running:
-
---- hermes-old.wumi.org.au ping statistics ---
-900 packets transmitted, 900 received, 0% packet loss, time 902758ms
-rtt min/avg/max/mdev = 0.625/25.634/852.739/76.586 ms
-
-In both cases it's quite variable, but the max latency is still not as
-bad as when running with the irq chip enabled.
-
-Anyway, the test is again not ideal, but I hope we're proving something.
-That's all I can do for tonight - should be ready for more again
-tomorrow night.
-
-Regards,
-Kevin.
-
+http://xenoterracide.blogspot.com
