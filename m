@@ -1,168 +1,49 @@
-From: "Jan Beulich" <jbeulich@novell.com>
-Subject: [PATCH] Re: [Bug #12416] Recent change to kernel spikes out
-	 ccache/distcc
-Date: Tue, 20 Jan 2009 10:31:27 +0000
-Message-ID: <4975B60F.76E4.0078.0@novell.com>
-References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera>
- <2QN7KFic7LG.A.cl.C-QdJB@chimera>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
+Date: Tue, 20 Jan 2009 12:35:46 +0100
+Message-ID: <20090120113546.GA26571@elte.hu>
+References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.4dB.bJRdJB@chimera> <1232410363.4768.21.camel@kulgan.wumi.org.au>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1760519AbZATKbX@vger.kernel.org>
-In-Reply-To: <2QN7KFic7LG.A.cl.C-QdJB@chimera>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+In-Reply-To: <1232410363.4768.21.camel-9TBizaOOD0ujuAshGpSIhRCuuivNXqWP@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Theodore Ts'o <tytso@mit.edu>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+To: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>, Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kevin Shanahan <kmshanah-IiIpDuVlHfMLO379cgqW9odd74u8MsAO@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-To address the various issues raised on the stripping patches, this
-patch
-- adds a config option to control whether __crc_* symbols should be
-  stripped from modules (and restores filtering out __crc_* in
-  mksysmap)
-- adds a fallback if the advanced module stripping fails during module
-  installation
-- disallows KALLSYMS_STRIP_GENERATED for 32-bit Sparc
 
-Parts based on a draft patch from Sam Ravnborg.
+* Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org> wrote:
 
-Signed-off-by: Jan Beulich <jbeulich@novell.com>
-Cc: Theodore Ts'o <tytso@mit.edu>
-Cc: Rafael J. Wysocki <rjw@sisk.pl>
+> On Mon, 2009-01-19 at 22:45 +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.27 and 2.6.28.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12465
+> > Subject		: KVM guests stalling on 2.6.28 (bisected)
+> > Submitter	: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+> > Date		: 2009-01-17 03:37 (3 days old)
+> 
+> Yes, please keep this on the list.
 
----
- Makefile                 |    4 +++-
- init/Kconfig             |   12 ++++++++++++
- scripts/Makefile.build   |   20 +++++++++++++++++---
- scripts/Makefile.modinst |    3 ++-
- scripts/mksysmap         |    6 ++++--
- 5 files changed, 38 insertions(+), 7 deletions(-)
+This only seems to occur under KVM, right? I.e. you tested it with -no-kvm 
+and the problem went away, correct?
 
---- linux-2.6.29-rc2/Makefile	2009-01-20 10:30:08.000000000 +0100
-+++ 2.6.29-rc2-strip-conditional/Makefile	2009-01-07 15:35:07.000000000 +0100
-@@ -620,13 +620,15 @@ mod_strip_cmd = $(OBJCOPY) --strip-debug
- ifeq ($(CONFIG_KALLSYMS_ALL),$(CONFIG_KALLSYMS_STRIP_GENERATED))
- mod_strip_cmd += --wildcard $(addprefix --strip-symbols ,$(strip-symbols))
- endif
-+mod_strip_cmd2 = $(OBJCOPY) --strip-debug
- else
- mod_strip_cmd = $(OBJCOPY) $(INSTALL_MOD_STRIP)
- endif # INSTALL_MOD_STRIP=1
- else
- mod_strip_cmd = false
- endif # INSTALL_MOD_STRIP
--export mod_strip_cmd
-+mod_strip_cmd2 ?= false
-+export mod_strip_cmd mod_strip_cmd2
- 
- 
- ifeq ($(KBUILD_EXTMOD),)
---- linux-2.6.29-rc2/init/Kconfig	2009-01-20 10:30:37.000000000 +0100
-+++ 2.6.29-rc2-strip-conditional/init/Kconfig	2009-01-08 09:34:39.000000000 +0100
-@@ -628,6 +628,8 @@ config KALLSYMS_ALL
- config KALLSYMS_STRIP_GENERATED
- 	bool "Strip machine generated symbols from kallsyms"
- 	depends on KALLSYMS_ALL
-+	# This doesn't work with -r in LDFLAGS_vmlinux.
-+	depends on !SPARC || SPARC64
- 	default y
- 	help
- 	  Say N if you want kallsyms to retain even machine generated symbols.
-@@ -938,6 +940,16 @@ config MODVERSIONS
- 	  make them incompatible with the kernel you are running.  If
- 	  unsure, say N.
- 
-+config KBUILD_STRIP_CRC
-+	bool "Strip __crc_* symbols from modules"
-+	depends on MODVERSIONS
-+	help
-+	  Since they are useless to keep post compilation, this allows to
-+	  strip these symbols. However, binutils don't offer a simple way
-+	  to get rid of them, so the .c->.o compilation step gets broken up
-+	  when selecting this option, which is known to have an adverse
-+	  effect on compilation caching/distribution systems (ccache/distcc).
-+
- config MODULE_SRCVERSION_ALL
- 	bool "Source checksum for all modules"
- 	help
---- linux-2.6.29-rc2/scripts/Makefile.build	2009-01-20 10:30:44.000000000 +0100
-+++ 2.6.29-rc2-strip-conditional/scripts/Makefile.build	2009-01-08 10:03:27.000000000 +0100
-@@ -153,7 +153,7 @@ $(obj)/%.i: $(src)/%.c FORCE
- 
- cmd_genksyms =                                                              \
-     $(CPP) -D__GENKSYMS__ $(c_flags) $< |                                   \
--    $(GENKSYMS) -T $@ -A -a $(ARCH)                                         \
-+    $(GENKSYMS) -T $@ $(if $(CONFIG_KBUILD_STRIP_CRC), -A) -a $(ARCH)       \
-      $(if $(KBUILD_PRESERVE),-p)                                            \
-      $(if $(1),-r $(firstword $(wildcard $(@:.symtypes=.symref) /dev/null)))
- 
-@@ -187,11 +187,12 @@ else
- # o assemble <file>.o from .tmp_<file>.s forcing inclusion of directives
- #   defining the actual values of __crc_*, followed by objcopy-ing them
- #   to force these symbols to be local to permit stripping them later.
--s_file = $(@D)/.tmp_$(@F:.o=.s)
- v_file = $(@D)/.tmp_$(@F:.o=.v)
- tmp_o_file = $(@D)/.tmp_$(@F)
- no_g_c_flags = $(filter-out -g%,$(c_flags))
- 
-+ifneq ($(CONFIG_KBUILD_STRIP_CRC),)
-+s_file = $(@D)/.tmp_$(@F:.o=.s)
- cmd_cc_o_c = $(CC) $(c_flags) -S -o $(s_file) $<
- 
- cmd_modversions =							\
-@@ -210,6 +211,19 @@ cmd_modversions =							\
- 		rm -f $(v_file);					\
- 		$(CC) $(no_g_c_flags) -c -o $@ $(s_file);		\
- 	fi;
-+else
-+cmd_cc_o_c = $(CC) $(c_flags) -c -o $(tmp_o_file) $<
-+
-+cmd_modversions =							\
-+	if $(OBJDUMP) -h $(tmp_o_file) | grep -q __ksymtab; then	\
-+		$(cmd_genksyms) > $(v_file);				\
-+		$(LD) $(LDFLAGS) -r -o $@ $(tmp_o_file)	-T $(v_file);	\
-+	else								\
-+		rm -f $(v_file);					\
-+		mv $(tmp_o_file) $@;					\
-+	fi;
-+
-+endif
- endif
- 
- ifdef CONFIG_FTRACE_MCOUNT_RECORD
-@@ -225,7 +239,7 @@ define rule_cc_o_c
- 	$(cmd_record_mcount)						  \
- 	scripts/basic/fixdep $(depfile) $@ '$(call make-cmd,cc_o_c)' >    \
- 	                                              $(dot-target).tmp;  \
--	if [ -r $(@D)/.tmp_$(@F:.o=.v) ]; then				  \
-+	if [ -r $(v_file) ]; then					  \
- 		echo >> $(dot-target).tmp;				  \
- 		echo '$@: $(GENKSYMS)' >> $(dot-target).tmp;		  \
- 		echo '$(GENKSYMS):: ;' >> $(dot-target).tmp;		  \
---- linux-2.6.29-rc2/scripts/Makefile.modinst	2009-01-20 10:30:44.000000000 +0100
-+++ 2.6.29-rc2-strip-conditional/scripts/Makefile.modinst	2009-01-07 15:32:23.000000000 +0100
-@@ -18,7 +18,8 @@ __modinst: $(modules)
- 
- quiet_cmd_modules_install = INSTALL $@
-       cmd_modules_install = mkdir -p $(2); \
--			    $(mod_strip_cmd) $@ $(2)/$(notdir $@) || cp $@ $(2)
-+			    $(mod_strip_cmd) $@ $(2)/$(notdir $@) || \
-+			    $(mod_strip_cmd2) $@ $(2)/$(notdir $@) || cp $@ $(2)
- 
- # Modules built outside the kernel source tree go into extra by default
- INSTALL_MOD_DIR ?= extra
---- linux-2.6.29-rc2/scripts/mksysmap	2009-01-20 10:30:44.000000000 +0100
-+++ 2.6.29-rc2-strip-conditional/scripts/mksysmap	2009-01-20 00:00:00.000000000 +0100
-@@ -37,6 +37,8 @@
- 
- # readprofile starts reading symbols when _stext is found, and
- # continue until it finds a symbol which is not either of 'T', 't',
--# 'W' or 'w'.
-+# 'W' or 'w'. __crc_ are 'A' and placed in the middle
-+# so we just ignore them to let readprofile continue to work.
-+# (At least sparc64 has __crc_ in the middle).
- 
--$NM -n $1 | grep -v '\( [aNUw] \)\|\( \$[adt]\)' > $2
-+$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)' > $2
+This suggests some sort of KVM-specific problem. Scheduler latencies in 
+the seconds that occur under normal load situations are noticed and 
+reported quickly - and there are no such open regressions currently.
 
+Avi, can you reproduce these latencies? A possibly theory would be some 
+sort of guest wakeup problem/race triggered by a shift in 
+preemption/scheduling patterns. Or something related to preempt-notifiers 
+(which KVM is using). A genuine scheduler bug is in the cards too, but the 
+KVM-only angle of this bug gives it a low probability.
+
+	Ingo
