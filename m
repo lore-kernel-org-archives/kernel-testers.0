@@ -1,53 +1,168 @@
-From: Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>
-Subject: Re: [Bug #12393] debugging in dosemu causes lots of 'scheduling while 
-	atomic'
-Date: Tue, 20 Jan 2009 10:58:15 +0100
-Message-ID: <a5d587fb0901200158h860ea00gb8350ecd3927f37d@mail.gmail.com>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera>
-	 <cX2gZ6Cy9nC.A.06C.9JRdJB@chimera>
+From: "Jan Beulich" <jbeulich@novell.com>
+Subject: [PATCH] Re: [Bug #12416] Recent change to kernel spikes out
+	 ccache/distcc
+Date: Tue, 20 Jan 2009 10:31:27 +0000
+Message-ID: <4975B60F.76E4.0078.0@novell.com>
+References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera>
+ <2QN7KFic7LG.A.cl.C-QdJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:sender:received:in-reply-to
-         :references:date:x-google-sender-auth:message-id:subject:from:to:cc
-         :content-type:content-transfer-encoding;
-        bh=+aSFwab4I1TI1i2X/A4O5UPFLuDXAUeIKaGujaVOUL0=;
-        b=m/Rd9VYrpyPTuuwwpOIVvvbtrY9o0c4m0Ha49khs+4/wkTAwWCM/K1TJy7guVuY0rW
-         wK8jzfYGfpaez4V+TqmTJPM+lwmUp+ZMRunRezoidDVkhf7IFf8KlcEumwAveXIZSvXv
-         Mx1Dd/7RW8N9RRQVNdyJheB8WFlN40VtvHCaM=
-In-Reply-To: <cX2gZ6Cy9nC.A.06C.9JRdJB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1760519AbZATKbX@vger.kernel.org>
+In-Reply-To: <2QN7KFic7LG.A.cl.C-QdJB@chimera>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: Theodore Ts'o <tytso@mit.edu>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-kernel@vger.kernel.org
 
-2009/1/19 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.27 and 2.6.28.
->
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> be listed and let me know (either way).
->
->
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12393
-> Subject         : debugging in dosemu causes lots of 'scheduling while atomic'
-> Submitter       : Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>
-> Date            : 2009-01-09 07:28 (11 days old)
->
->
->
+To address the various issues raised on the stripping patches, this
+patch
+- adds a config option to control whether __crc_* symbols should be
+  stripped from modules (and restores filtering out __crc_* in
+  mksysmap)
+- adds a fallback if the advanced module stripping fails during module
+  installation
+- disallows KALLSYMS_STRIP_GENERATED for 32-bit Sparc
 
-See here:
+Parts based on a draft patch from Sam Ravnborg.
 
-http://marc.info/?l=linux-kernel&m=123188630319434&w=2
+Signed-off-by: Jan Beulich <jbeulich@novell.com>
+Cc: Theodore Ts'o <tytso@mit.edu>
+Cc: Rafael J. Wysocki <rjw@sisk.pl>
 
-Until the patch is applied the problem will be present. It is probably
-still present in 2.6.29-rc1.
+---
+ Makefile                 |    4 +++-
+ init/Kconfig             |   12 ++++++++++++
+ scripts/Makefile.build   |   20 +++++++++++++++++---
+ scripts/Makefile.modinst |    3 ++-
+ scripts/mksysmap         |    6 ++++--
+ 5 files changed, 38 insertions(+), 7 deletions(-)
 
-Thanks
+--- linux-2.6.29-rc2/Makefile	2009-01-20 10:30:08.000000000 +0100
++++ 2.6.29-rc2-strip-conditional/Makefile	2009-01-07 15:35:07.000000000 +0100
+@@ -620,13 +620,15 @@ mod_strip_cmd = $(OBJCOPY) --strip-debug
+ ifeq ($(CONFIG_KALLSYMS_ALL),$(CONFIG_KALLSYMS_STRIP_GENERATED))
+ mod_strip_cmd += --wildcard $(addprefix --strip-symbols ,$(strip-symbols))
+ endif
++mod_strip_cmd2 = $(OBJCOPY) --strip-debug
+ else
+ mod_strip_cmd = $(OBJCOPY) $(INSTALL_MOD_STRIP)
+ endif # INSTALL_MOD_STRIP=1
+ else
+ mod_strip_cmd = false
+ endif # INSTALL_MOD_STRIP
+-export mod_strip_cmd
++mod_strip_cmd2 ?= false
++export mod_strip_cmd mod_strip_cmd2
+ 
+ 
+ ifeq ($(KBUILD_EXTMOD),)
+--- linux-2.6.29-rc2/init/Kconfig	2009-01-20 10:30:37.000000000 +0100
++++ 2.6.29-rc2-strip-conditional/init/Kconfig	2009-01-08 09:34:39.000000000 +0100
+@@ -628,6 +628,8 @@ config KALLSYMS_ALL
+ config KALLSYMS_STRIP_GENERATED
+ 	bool "Strip machine generated symbols from kallsyms"
+ 	depends on KALLSYMS_ALL
++	# This doesn't work with -r in LDFLAGS_vmlinux.
++	depends on !SPARC || SPARC64
+ 	default y
+ 	help
+ 	  Say N if you want kallsyms to retain even machine generated symbols.
+@@ -938,6 +940,16 @@ config MODVERSIONS
+ 	  make them incompatible with the kernel you are running.  If
+ 	  unsure, say N.
+ 
++config KBUILD_STRIP_CRC
++	bool "Strip __crc_* symbols from modules"
++	depends on MODVERSIONS
++	help
++	  Since they are useless to keep post compilation, this allows to
++	  strip these symbols. However, binutils don't offer a simple way
++	  to get rid of them, so the .c->.o compilation step gets broken up
++	  when selecting this option, which is known to have an adverse
++	  effect on compilation caching/distribution systems (ccache/distcc).
++
+ config MODULE_SRCVERSION_ALL
+ 	bool "Source checksum for all modules"
+ 	help
+--- linux-2.6.29-rc2/scripts/Makefile.build	2009-01-20 10:30:44.000000000 +0100
++++ 2.6.29-rc2-strip-conditional/scripts/Makefile.build	2009-01-08 10:03:27.000000000 +0100
+@@ -153,7 +153,7 @@ $(obj)/%.i: $(src)/%.c FORCE
+ 
+ cmd_genksyms =                                                              \
+     $(CPP) -D__GENKSYMS__ $(c_flags) $< |                                   \
+-    $(GENKSYMS) -T $@ -A -a $(ARCH)                                         \
++    $(GENKSYMS) -T $@ $(if $(CONFIG_KBUILD_STRIP_CRC), -A) -a $(ARCH)       \
+      $(if $(KBUILD_PRESERVE),-p)                                            \
+      $(if $(1),-r $(firstword $(wildcard $(@:.symtypes=.symref) /dev/null)))
+ 
+@@ -187,11 +187,12 @@ else
+ # o assemble <file>.o from .tmp_<file>.s forcing inclusion of directives
+ #   defining the actual values of __crc_*, followed by objcopy-ing them
+ #   to force these symbols to be local to permit stripping them later.
+-s_file = $(@D)/.tmp_$(@F:.o=.s)
+ v_file = $(@D)/.tmp_$(@F:.o=.v)
+ tmp_o_file = $(@D)/.tmp_$(@F)
+ no_g_c_flags = $(filter-out -g%,$(c_flags))
+ 
++ifneq ($(CONFIG_KBUILD_STRIP_CRC),)
++s_file = $(@D)/.tmp_$(@F:.o=.s)
+ cmd_cc_o_c = $(CC) $(c_flags) -S -o $(s_file) $<
+ 
+ cmd_modversions =							\
+@@ -210,6 +211,19 @@ cmd_modversions =							\
+ 		rm -f $(v_file);					\
+ 		$(CC) $(no_g_c_flags) -c -o $@ $(s_file);		\
+ 	fi;
++else
++cmd_cc_o_c = $(CC) $(c_flags) -c -o $(tmp_o_file) $<
++
++cmd_modversions =							\
++	if $(OBJDUMP) -h $(tmp_o_file) | grep -q __ksymtab; then	\
++		$(cmd_genksyms) > $(v_file);				\
++		$(LD) $(LDFLAGS) -r -o $@ $(tmp_o_file)	-T $(v_file);	\
++	else								\
++		rm -f $(v_file);					\
++		mv $(tmp_o_file) $@;					\
++	fi;
++
++endif
+ endif
+ 
+ ifdef CONFIG_FTRACE_MCOUNT_RECORD
+@@ -225,7 +239,7 @@ define rule_cc_o_c
+ 	$(cmd_record_mcount)						  \
+ 	scripts/basic/fixdep $(depfile) $@ '$(call make-cmd,cc_o_c)' >    \
+ 	                                              $(dot-target).tmp;  \
+-	if [ -r $(@D)/.tmp_$(@F:.o=.v) ]; then				  \
++	if [ -r $(v_file) ]; then					  \
+ 		echo >> $(dot-target).tmp;				  \
+ 		echo '$@: $(GENKSYMS)' >> $(dot-target).tmp;		  \
+ 		echo '$(GENKSYMS):: ;' >> $(dot-target).tmp;		  \
+--- linux-2.6.29-rc2/scripts/Makefile.modinst	2009-01-20 10:30:44.000000000 +0100
++++ 2.6.29-rc2-strip-conditional/scripts/Makefile.modinst	2009-01-07 15:32:23.000000000 +0100
+@@ -18,7 +18,8 @@ __modinst: $(modules)
+ 
+ quiet_cmd_modules_install = INSTALL $@
+       cmd_modules_install = mkdir -p $(2); \
+-			    $(mod_strip_cmd) $@ $(2)/$(notdir $@) || cp $@ $(2)
++			    $(mod_strip_cmd) $@ $(2)/$(notdir $@) || \
++			    $(mod_strip_cmd2) $@ $(2)/$(notdir $@) || cp $@ $(2)
+ 
+ # Modules built outside the kernel source tree go into extra by default
+ INSTALL_MOD_DIR ?= extra
+--- linux-2.6.29-rc2/scripts/mksysmap	2009-01-20 10:30:44.000000000 +0100
++++ 2.6.29-rc2-strip-conditional/scripts/mksysmap	2009-01-20 00:00:00.000000000 +0100
+@@ -37,6 +37,8 @@
+ 
+ # readprofile starts reading symbols when _stext is found, and
+ # continue until it finds a symbol which is not either of 'T', 't',
+-# 'W' or 'w'.
++# 'W' or 'w'. __crc_ are 'A' and placed in the middle
++# so we just ignore them to let readprofile continue to work.
++# (At least sparc64 has __crc_ in the middle).
+ 
+-$NM -n $1 | grep -v '\( [aNUw] \)\|\( \$[adt]\)' > $2
++$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)' > $2
 
-Michal
