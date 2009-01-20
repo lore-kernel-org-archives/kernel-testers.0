@@ -1,29 +1,43 @@
 From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
-Date: Tue, 20 Jan 2009 19:39:30 +0100
-Message-ID: <20090120183930.GA5048@elte.hu>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.4dB.bJRdJB@chimera> <1232410363.4768.21.camel@kulgan.wumi.org.au> <20090120113546.GA26571@elte.hu> <1232455343.4895.4.camel@kulgan.wumi.org.au> <20090120125652.GA1457@elte.hu> <20090120130714.GA11048@elte.hu> <alpine.DEB.1.10.0901200957220.2681@gandalf.stny.rr.com> <20090120150408.GD21931@elte.hu> <alpine.DEB.1.10.0901201251180.2681@gandalf.stny.rr.com>
+Date: Tue, 20 Jan 2009 19:42:49 +0100
+Message-ID: <20090120184249.GB5048@elte.hu>
+References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.4dB.bJRdJB@chimera> <1232410363.4768.21.camel@kulgan.wumi.org.au> <20090120113546.GA26571@elte.hu> <1232455343.4895.4.camel@kulgan.wumi.org.au> <4975CBF8.90101@redhat.com> <1232474081.4895.76.camel@kulgan.wumi.org.au>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.1.10.0901201251180.2681-f9ZlEuEWxVcI6MkJdU+c8EEOCMrvLtNR@public.gmane.org>
+In-Reply-To: <1232474081.4895.76.camel-9TBizaOOD0ujuAshGpSIhRCuuivNXqWP@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>
-Cc: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>, Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kevin Shanahan <kmshanah-IiIpDuVlHfMLO379cgqW9odd74u8MsAO@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, =?iso-8859-1?Q?Fr=E9d=E9ric?= Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+Cc: Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
 
-* Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org> wrote:
+* Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org> wrote:
 
-> > hm, that's a significant regression then. The latency tracer used to 
-> > measure the highest-prio task in the system - be that RT or non-rt.
+> Running the ping test with without apache2 running in the guest:
 > 
-> Well, it is a regression from what was in -rt yes. But not from what 
-> ever was in mainline.
+> --- hermes-old.wumi.org.au ping statistics ---
+> 900 packets transmitted, 900 received, 0% packet loss, time 902740ms
+> rtt min/avg/max/mdev = 0.568/3.745/272.558/16.990 ms
+> 
+> And with apache2 running:
+> 
+> --- hermes-old.wumi.org.au ping statistics ---
+> 900 packets transmitted, 900 received, 0% packet loss, time 902758ms
+> rtt min/avg/max/mdev = 0.625/25.634/852.739/76.586 ms
+> 
+> In both cases it's quite variable, but the max latency is still not as 
+> bad as when running with the irq chip enabled.
 
-indeed, it is not a regression, it is worse: it makes the mainline version 
-utterly useless in 99% of the cases ... This really needs to be fixed.
+So the worst-case ping latency is more than 10 times lower?
+
+I'd say this points in the direction of some sort of KVM-internal 
+wakeup/signalling latency that happens if KVM does not deschedule. For 
+example it could be a bug like this: if a guest image runs at 100% CPU 
+time for a long time, IRQ injections might not propagate up until the 
+preemption callbacks run. (but i'm just speculating here)
 
 	Ingo
