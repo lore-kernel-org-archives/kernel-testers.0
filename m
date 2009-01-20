@@ -1,36 +1,30 @@
-From: Jean Delvare <khali-PUYAD+kWke1g9hUCZPvPmw@public.gmane.org>
-Subject: Re: [Bug #12483] Reference to inexistent struct dmi_device_id
- breaks the build
-Date: Tue, 20 Jan 2009 09:15:02 +0100
-Message-ID: <20090120091502.1d5fc96a@hyperion.delvare>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera>
-	<cX2gZ6Cy9nC.A.UWB.ZJRdJB@chimera>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #12505] 2.6.29-rc1 Firefox crashing on page load
+Date: Tue, 20 Jan 2009 09:16:50 +0100
+Message-ID: <20090120081650.GA29725@elte.hu>
+References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera> <2QN7KFic7LG.A.C4F.Q9QdJB@chimera> <49756F3E.6050304@gawab.com> <20090120074312.GD16426@elte.hu>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cX2gZ6Cy9nC.A.UWB.ZJRdJB@chimera>
+Content-Disposition: inline
+In-Reply-To: <20090120074312.GD16426-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>, Hiroshi Shimamoto <h-shimamoto-ehU+Cx/zZe18UrSeD/g0lQ@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Roland McGrath <roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Mon, 19 Jan 2009 22:45:44 +0100 (CET), Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.27 and 2.6.28.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12483
-> Subject		: Reference to inexistent struct dmi_device_id breaks the build
-> Submitter	: Jean Delvare <khali-PUYAD+kWke1g9hUCZPvPmw@public.gmane.org>
-> Date		: 2009-01-19 01:29 (1 days old)
-> 
 
-Yes, this regression is still present.
+* Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
 
--- 
-Jean Delvare
+> (added Cc:s)
+
+> Justin, does it work if you apply the patch below instead of the revert?
+
+hm, that patch wont build because the protect_asmlinkage macro is rather 
+limited - it cannot deal with structure parameters.
+
+We might be better off with a revert here, and a comment added that points 
+out the problem.
+
+	Ingo
