@@ -1,39 +1,93 @@
-From: Arjan Opmeer <arjan@opmeer.net>
-Subject: Re: [Bug #12406] 2.6.28 thinks that my PS/2 mouse is a touchpad
-Date: Tue, 20 Jan 2009 02:45:07 +0100
-Message-ID: <20090120014507.GA1557@adopmeer.homeip.net>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.HKC.vJRdJB@chimera>
+From: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12505] 2.6.29-rc1 Firefox crashing on page load
+Date: Mon, 19 Jan 2009 22:29:18 -0800
+Message-ID: <49756F3E.6050304@gawab.com>
+References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera> <2QN7KFic7LG.A.C4F.Q9QdJB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1762527AbZATBrY@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <cX2gZ6Cy9nC.A.HKC.vJRdJB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, "Alexander E. Patrakov" <patrakov@gmail.com>, Denys Vlasenko <vda.linux@googlemail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <2QN7KFic7LG.A.C4F.Q9QdJB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-
-On Mon, Jan 19, 2009 at 10:45:42PM +0100, Rafael J. Wysocki wrote:
-> 
+Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> be listed and let me know (either way).
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12505
+> Subject		: 2.6.29-rc1 Firefox crashing on page load
+> Submitter	: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-01-16 20:56 (4 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123213941914274&w=4
+> Handled-By	: Justin P. Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>
+>
+>
+>   
+Yes, still a regression sofar, but I've bisected it and checked it with 
+a revert of the bad commit.
+The revert does fix the bug, but we've yet to figure out why, or come up 
+with a patch.
 
-Well. Dmitry hasn't replied yet to my suggestion how to fix this as
-presented in the Patch entry. Without help from him as the Linux input
-subsystem maintainer there is not a lot I can do.
+commit 4217458dafaa57d8e26a46f5d05ab8c53cf64191
+Author: Hiroshi Shimamoto <h-shimamoto-ehU+Cx/zZe18UrSeD/g0lQ@public.gmane.org>
+Date:   Fri Dec 5 17:17:09 2008 -0800
 
-This means the regression is still present in the current 2.6.29 git tree.
+   x86: signal: change type of paramter for sys_rt_sigreturn()
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12406
-> Subject	: 2.6.28 thinks that my PS/2 mouse is a touchpad
-> Submitter	: Alexander E. Patrakov <patrakov@gmail.com>
-> Date		: 2008-12-27 9:06 (24 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123036893817280&w=4
-> Handled-By	: Arjan Opmeer <arjan@opmeer.net>
-> Patch		: http://marc.info/?l=linux-kernel&m=123092147703236&w=4
+   Impact: cleanup on 32-bit
 
+   Peter pointed this parameter can be changed.
 
-Arjan
+   Signed-off-by: Hiroshi Shimamoto <h-shimamoto-ehU+Cx/zZe18UrSeD/g0lQ@public.gmane.org>
+   Signed-off-by: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+
+:040000 040000 f5fba48247ff200092c38a54e334f495917229d5 
+b901159897e5d85e0dc2a0c9d904d9a73c1d58a2 M      arch
+
+   arch/x86/include/asm/syscalls.h
+   arch/x86/kernel/signal.c
+
+diff --git a/arch/x86/include/asm/syscalls.h 
+b/arch/x86/include/asm/syscalls.h
+index 87803da..3a5252c 100644 (file)
+--- a/arch/x86/include/asm/syscalls.h
++++ b/arch/x86/include/asm/syscalls.h
+@@ -33,7 +33,7 @@ asmlinkage int sys_sigaction(int, const struct 
+old_sigaction __user *,
+                            struct old_sigaction __user *);
+asmlinkage int sys_sigaltstack(unsigned long);
+asmlinkage unsigned long sys_sigreturn(unsigned long);
+-asmlinkage int sys_rt_sigreturn(unsigned long);
++asmlinkage int sys_rt_sigreturn(struct pt_regs);
+
+/* kernel/ioport.c */
+asmlinkage long sys_iopl(unsigned long);
+diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
+index b1f4d34..b1cc6da 100644 (file)
+--- a/arch/x86/kernel/signal.c
++++ b/arch/x86/kernel/signal.c
+@@ -642,11 +642,9 @@ badframe:
+}
+
+#ifdef CONFIG_X86_32
+-asmlinkage int sys_rt_sigreturn(unsigned long __unused)
++asmlinkage int sys_rt_sigreturn(struct pt_regs regs)
+{
+-       struct pt_regs *regs = (struct pt_regs *)&__unused;
+-
+-       return do_rt_sigreturn(regs);
++       return do_rt_sigreturn(&regs);
+}
+#else /* !CONFIG_X86_32 */
+asmlinkage long sys_rt_sigreturn(struct pt_regs *regs)
+
+Justin Madru
