@@ -1,38 +1,65 @@
-From: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
-Subject: Re: [Bug #12224] journal activity on inactive partition causes
-	inactive harddrive spinup
-Date: Tue, 20 Jan 2009 08:03:22 -0500
-Message-ID: <20090120130322.GB10037@mit.edu>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.jfD.SKRdJB@chimera>
+From: Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
+Date: Tue, 20 Jan 2009 15:04:56 +0200
+Message-ID: <4975CBF8.90101@redhat.com>
+References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera>	 <cX2gZ6Cy9nC.A.4dB.bJRdJB@chimera>	 <1232410363.4768.21.camel@kulgan.wumi.org.au>	 <20090120113546.GA26571@elte.hu> <1232455343.4895.4.camel@kulgan.wumi.org.au>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <cX2gZ6Cy9nC.A.jfD.SKRdJB@chimera>
+In-Reply-To: <1232455343.4895.4.camel-9TBizaOOD0ujuAshGpSIhRCuuivNXqWP@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arthur Jones <ajones-DUeqMYwuH4dWk0Htik3J/w@public.gmane.org>, C Sights <csights-97jfqw80gc6171pxa8y+qA@public.gmane.org>, Eric Sandeen <sandeen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kevin Shanahan <kmshanah-IiIpDuVlHfMLO379cgqW9odd74u8MsAO@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-On Mon, Jan 19, 2009 at 10:45:38PM +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.27 and 2.6.28.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12224
-> Subject		: journal activity on inactive partition causes inactive harddrive spinup
-> Submitter	: C Sights <csights-97jfqw80gc6171pxa8y+qA@public.gmane.org>
-> Date		: 2008-12-14 11:39 (37 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=c87591b719737b4e91eb1a9fa8fd55a4ff1886d6
-> Handled-By	: Eric Sandeen <sandeen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> 
+Kevin Shanahan wrote:
+> On Tue, 2009-01-20 at 12:35 +0100, Ingo Molnar wrote:
+>   
+>> * Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org> wrote:
+>>
+>>     
+>>> On Mon, 2009-01-19 at 22:45 +0100, Rafael J. Wysocki wrote:
+>>>       
+>>>> This message has been generated automatically as a part of a report
+>>>> of regressions introduced between 2.6.27 and 2.6.28.
+>>>>
+>>>> The following bug entry is on the current list of known regressions
+>>>> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+>>>> be listed and let me know (either way).
+>>>>
+>>>>
+>>>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12465
+>>>> Subject		: KVM guests stalling on 2.6.28 (bisected)
+>>>> Submitter	: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+>>>> Date		: 2009-01-17 03:37 (3 days old)
+>>>>         
+>>> Yes, please keep this on the list.
+>>>       
+>> This only seems to occur under KVM, right? I.e. you tested it with -no-kvm 
+>> and the problem went away, correct?
+>>     
+>
+> Well, the I couldn't make the test conditions identical, but it the
+> problem didn't occur with the test I was able to do:
+>
+>   http://marc.info/?l=linux-kernel&m=123228728416498&w=2
+>
+>   
 
-Yes, this should still be listed.  We have a proposed patch that
-should fix this, but it still needs to be finalized and tested.
+Can you also try with -no-kvm-irqchip?
 
-              	   	     	      - Ted
+You will need to comment out the lines
+
+    /* ISA IRQs map to GSI 1-1 except for IRQ0 which maps
+     * to GSI 2.  GSI maps to ioapic 1-1.  This is not
+     * the cleanest way of doing it but it should work. */
+
+    if (vector == 0)
+        vector = 2;
+
+in qemu/hw/apic.c (should also fix -no-kvm smp).  This will change kvm 
+wakeups to use signals rather than the in-kernel code, which may be buggy.
+
+-- 
+error compiling committee.c: too many arguments to function
