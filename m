@@ -1,35 +1,32 @@
-From: Kevin Shanahan <kmshanah@ucwb.org.au>
-Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
-Date: Tue, 20 Jan 2009 10:42:43 +1030
-Message-ID: <1232410363.4768.21.camel@kulgan.wumi.org.au>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera>
-	 <cX2gZ6Cy9nC.A.4dB.bJRdJB@chimera>
+From: Wang Chen <wangchen-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [Bug #12419] possible circular locking dependency on i915 dma
+Date: Tue, 20 Jan 2009 08:29:38 +0800
+Message-ID: <49751AF2.5050401@cn.fujitsu.com>
+References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera> <2QN7KFic7LG.A.mK.89QdJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1765359AbZATAUu@vger.kernel.org>
-In-Reply-To: <cX2gZ6Cy9nC.A.4dB.bJRdJB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <2QN7KFic7LG.A.mK.89QdJB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Ingo Molnar <mingo@elte.hu>, Kevin Shanahan <kmshanah@flexo.wumi.org.au>, Mike Galbraith <efault@gmx.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, 2009-01-19 at 22:45 +0100, Rafael J. Wysocki wrote:
+Rafael J. Wysocki said the following on 2009-1-20 5:32:
 > This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.27 and 2.6.28.
+> of recent regressions.
 > 
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> be listed and let me know (either way).
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12465
-> Subject		: KVM guests stalling on 2.6.28 (bisected)
-> Submitter	: Kevin Shanahan <kmshanah@ucwb.org.au>
-> Date		: 2009-01-17 03:37 (3 days old)
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12419
+> Subject		: possible circular locking dependency on i915 dma
+> Submitter	: Wang Chen <wangchen-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> Date		: 2009-01-08 14:11 (12 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123142399720125&w=4
+> 
 
-Yes, please keep this on the list.
-
-Cheers,
-Kevin.
-
+This regression is still there in mainline.
