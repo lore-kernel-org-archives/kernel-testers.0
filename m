@@ -1,43 +1,39 @@
-From: "Jeff Chua" <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12422] 2.6.28-git can't resume from str
-Date: Tue, 20 Jan 2009 09:46:05 +0800
-Message-ID: <b6a2187b0901191746u1139d09es22d6c5177635a65@mail.gmail.com>
-References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera>
-	 <2QN7KFic7LG.A.pF.59QdJB@chimera>
+From: Arjan Opmeer <arjan@opmeer.net>
+Subject: Re: [Bug #12406] 2.6.28 thinks that my PS/2 mouse is a touchpad
+Date: Tue, 20 Jan 2009 02:45:07 +0100
+Message-ID: <20090120014507.GA1557@adopmeer.homeip.net>
+References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.HKC.vJRdJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:to
-         :subject:cc:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:references;
-        bh=jTh7E7Sol8r03B+EDlue87x2JpNCPD7g8cqssbO9SMU=;
-        b=O7Sbkr3hX++TIboqZRFS6Rb32z+pgQ+tI6t08VaxGL9yr27rBuR+iCwkWLH6+bRxKf
-         +U9vZs0tyAH3Gauo1Muezi7TIqCiE4aRmp+F3PZcJi1bF1VLT60htp4ZEhHfCaX+IzWU
-         QrsnyUccYHY2X9Y0S+UsWSmE+Wki5UKz6mE5s=
-In-Reply-To: <2QN7KFic7LG.A.pF.59QdJB@chimera>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1762527AbZATBrY@vger.kernel.org>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <cX2gZ6Cy9nC.A.HKC.vJRdJB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Daniel Drake <dsd-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Phil Dibowitz <phil-LijsOF1cAEA@public.gmane.org>, Harvey Harrison <harvey.harrison-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, "Alexander E. Patrakov" <patrakov@gmail.com>, Denys Vlasenko <vda.linux@googlemail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-On Tue, Jan 20, 2009 at 5:32 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12422
-> Subject         : 2.6.28-git can't resume from str
-> Submitter       : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date            : 2009-01-10 1:39 (10 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=a0d4922da2e4ccb0973095d8d29f36f6b1b5f703
-> References      : http://marc.info/?l=linux-kernel&m=123155157909282&w=4
->                  http://marc.info/?l=linux-kernel&m=123167815028388&w=4
-> Handled-By      : Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> Patch           : http://lkml.org/lkml/2009/1/13/144
 
-Rafael,
+On Mon, Jan 19, 2009 at 10:45:42PM +0100, Rafael J. Wysocki wrote:
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> be listed and let me know (either way).
 
-Confirmed the patch fixed resume from STR. No problem for the past 10 days.
+Well. Dmitry hasn't replied yet to my suggestion how to fix this as
+presented in the Patch entry. Without help from him as the Linux input
+subsystem maintainer there is not a lot I can do.
 
-Thanks,
-Jeff.
+This means the regression is still present in the current 2.6.29 git tree.
+
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12406
+> Subject	: 2.6.28 thinks that my PS/2 mouse is a touchpad
+> Submitter	: Alexander E. Patrakov <patrakov@gmail.com>
+> Date		: 2008-12-27 9:06 (24 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123036893817280&w=4
+> Handled-By	: Arjan Opmeer <arjan@opmeer.net>
+> Patch		: http://marc.info/?l=linux-kernel&m=123092147703236&w=4
+
+
+Arjan
