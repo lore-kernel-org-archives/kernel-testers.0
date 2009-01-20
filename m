@@ -1,49 +1,65 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+From: Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
-Date: Tue, 20 Jan 2009 12:35:46 +0100
-Message-ID: <20090120113546.GA26571@elte.hu>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.4dB.bJRdJB@chimera> <1232410363.4768.21.camel@kulgan.wumi.org.au>
+Date: Tue, 20 Jan 2009 14:37:26 +0200
+Message-ID: <4975C586.8090605@redhat.com>
+References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.4dB.bJRdJB@chimera> <1232410363.4768.21.camel@kulgan.wumi.org.au> <20090120113546.GA26571@elte.hu>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1232410363.4768.21.camel-9TBizaOOD0ujuAshGpSIhRCuuivNXqWP@public.gmane.org>
+In-Reply-To: <20090120113546.GA26571-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>, Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kevin Shanahan <kmshanah-IiIpDuVlHfMLO379cgqW9odd74u8MsAO@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kevin Shanahan <kmshanah-IiIpDuVlHfMLO379cgqW9odd74u8MsAO@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
+Ingo Molnar wrote:
+> * Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org> wrote:
+>
+>   
+>> On Mon, 2009-01-19 at 22:45 +0100, Rafael J. Wysocki wrote:
+>>     
+>>> This message has been generated automatically as a part of a report
+>>> of regressions introduced between 2.6.27 and 2.6.28.
+>>>
+>>> The following bug entry is on the current list of known regressions
+>>> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+>>> be listed and let me know (either way).
+>>>
+>>>
+>>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12465
+>>> Subject		: KVM guests stalling on 2.6.28 (bisected)
+>>> Submitter	: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+>>> Date		: 2009-01-17 03:37 (3 days old)
+>>>       
+>> Yes, please keep this on the list.
+>>     
+>
+> This only seems to occur under KVM, right? I.e. you tested it with -no-kvm 
+> and the problem went away, correct?
+>
+> This suggests some sort of KVM-specific problem. Scheduler latencies in 
+> the seconds that occur under normal load situations are noticed and 
+> reported quickly - and there are no such open regressions currently.
+>
+>   
 
-* Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org> wrote:
+Not necessarily.  -no-kvm runs with only one thread, compared to kvm 
+that runs with 1 + nr_cpus threads.
 
-> On Mon, 2009-01-19 at 22:45 +0100, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.27 and 2.6.28.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> > be listed and let me know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12465
-> > Subject		: KVM guests stalling on 2.6.28 (bisected)
-> > Submitter	: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
-> > Date		: 2009-01-17 03:37 (3 days old)
-> 
-> Yes, please keep this on the list.
+> Avi, can you reproduce these latencies? 
 
-This only seems to occur under KVM, right? I.e. you tested it with -no-kvm 
-and the problem went away, correct?
+No.
 
-This suggests some sort of KVM-specific problem. Scheduler latencies in 
-the seconds that occur under normal load situations are noticed and 
-reported quickly - and there are no such open regressions currently.
+> A possibly theory would be some 
+> sort of guest wakeup problem/race triggered by a shift in 
+> preemption/scheduling patterns. Or something related to preempt-notifiers 
+> (which KVM is using). A genuine scheduler bug is in the cards too, but the 
+> KVM-only angle of this bug gives it a low probability.
+>   
 
-Avi, can you reproduce these latencies? A possibly theory would be some 
-sort of guest wakeup problem/race triggered by a shift in 
-preemption/scheduling patterns. Or something related to preempt-notifiers 
-(which KVM is using). A genuine scheduler bug is in the cards too, but the 
-KVM-only angle of this bug gives it a low probability.
+Can we trace task wakeups somehow? (latency between wakeup and actually 
+running).
 
-	Ingo
+-- 
+error compiling committee.c: too many arguments to function
