@@ -1,48 +1,41 @@
-From: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
-Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
-Date: Tue, 20 Jan 2009 17:19:36 +0100
-Message-ID: <1232468376.4886.88.camel@laptop>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera>
-	 <cX2gZ6Cy9nC.A.4dB.bJRdJB@chimera>
-	 <1232410363.4768.21.camel@kulgan.wumi.org.au>
-	 <20090120113546.GA26571@elte.hu>
-	 <1232455343.4895.4.camel@kulgan.wumi.org.au>
-	 <20090120125652.GA1457@elte.hu>
-	 <1232461380.4895.33.camel@kulgan.wumi.org.au>
-	 <20090120142515.GC10224@elte.hu>
-	 <1232466686.4895.45.camel@kulgan.wumi.org.au>
-	 <20090120160613.GA32650@elte.hu>
+From: Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
+Subject: Re: [Bug #12494] Sony backlight regression from 2.6.28 to 29-rc
+Date: Tue, 20 Jan 2009 17:46:18 +0100
+Message-ID: <20090120164618.GD31127@gamma.logic.tuwien.ac.at>
+References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera> <2QN7KFic7LG.A.ZGH.j9QdJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090120160613.GA32650-X9Un+BFzKDI@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <2QN7KFic7LG.A.ZGH.j9QdJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>, Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mattia Dongili <malattia-k2GhghHVRtY@public.gmane.org>
 
-On Tue, 2009-01-20 at 17:06 +0100, Ingo Molnar wrote:
-> se.wait_max                        :           -92.027877
+On Mo, 19 Jan 2009, Rafael J. Wysocki wrote:
+> The following bug entry is on the current list of known regressions
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
 > 
-> that field is not supposed to be negative. Mike, Peter, any ideas?
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12494
+> Subject		: Sony backlight regression from 2.6.28 to 29-rc
 
-Possibly unrelated, but whilst I was poking at try_to_wake_up yesterday,
-I thought I spotted a site where we fail to update rq clock.
+Yes it is.
 
-Since we just moved the task to a new cpu (and thus rq) we need to
-update_rq_clock() again.
+Best wishes
 
-diff --git a/kernel/sched.c b/kernel/sched.c
-index d7ae5f4..6cd5e52 100644
---- a/kernel/sched.c
-+++ b/kernel/sched.c
-@@ -2398,6 +2398,7 @@ static int try_to_wake_up(struct task_struct *p, unsigned int state, int sync)
- 	if (cpu != orig_cpu) {
- 		set_task_cpu(p, cpu);
- 		task_rq_unlock(rq, &flags);
-+		update_rq_clock(rq);
- 		/* might preempt at this point */
- 		rq = task_rq_lock(p, &flags);
- 		old_state = p->state;
+Norbert
 
+-------------------------------------------------------------------------------
+Dr. Norbert Preining <preining-DX+603jRYB8@public.gmane.org>        Vienna University of Technology
+Debian Developer <preining-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>                         Debian TeX Group
+gpg DSA: 0x09C5B094      fp: 14DF 2E6C 0307 BE6D AD76  A9C0 D2BF 4AA3 09C5 B094
+-------------------------------------------------------------------------------
+DITHERINGTON (n)
+Sudden access to panic experienced by one who realises that he is
+being drawn inexorably into a clabby (q.v.) conversion, i.e. one he
+has no hope of enjoying, benefiting from or understanding.
+			--- Douglas Adams, The Meaning of Liff
