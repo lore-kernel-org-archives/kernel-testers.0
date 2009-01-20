@@ -1,31 +1,63 @@
-From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: [xfs-masters] 2.6.29-rc: kernel BUG at
-	fs/xfs/support/debug.c:108
-Date: Tue, 20 Jan 2009 15:33:19 -0500
-Message-ID: <20090120203319.GA7103@infradead.org>
-References: <20090110143924.GA25900@infradead.org> <a4423d670901100709v1e7ce0bfs167547c5001787ac@mail.gmail.com> <20090110152803.GA7469@infradead.org> <20090110221459.GA8873@orion> <20090111104659.GB8071@disturbed> <a4423d670901111648w26e86baajcf7b6d98ff37d043@mail.gmail.com> <20090112034550.GI8071@disturbed> <a4423d670901120008j728af9cdrbed8bbb938117ea3@mail.gmail.com> <20090112211848.GL8071@disturbed> <a4423d670901201054t3e48ece2ned4a7e3254250fce@mail.gmail.com>
+From: Christian Lamparter <chunkeey-S0/GAf8tV78@public.gmane.org>
+Subject: [PATCH -stable] p54usb: fix traffic stalls / packet drop
+Date: Tue, 20 Jan 2009 23:11:11 +0100
+Message-ID: <200901202311.11854.chunkeey@web.de>
+References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.vUD.KKRdJB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <cX2gZ6Cy9nC.A.vUD.KKRdJB@chimera>
 Content-Disposition: inline
-In-Reply-To: <a4423d670901201054t3e48ece2ned4a7e3254250fce-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, xfs-masters-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Greg KH gr <gregkh-l3A5Bk7waGM@public.gmane.org>, Artur Skawina <art.08.09-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, Linux wireless <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tue, Jan 20, 2009 at 09:54:44PM +0300, Alexander Beregalov wrote:
-> Hi
-> 
-> Is it a new bug?
-> It is pre-2.6.29-rc1 kernel, which was supossed to be free of the bug
-> "fs_is_ok, file: fs/xfs/xfs_btree.c, line: 3327"
+All p54usb devices need a explicit termination packet, in oder to finish the pending transfer properly.
+Else, the firmware could freeze, or simply drop the frame.
 
-From the trace it's a post-btree consolidation kernel, so all the bugs
-in -rc1 are there, too.  It looks like this is the readahead type
-cockup that Geert noticed, so this particular one should be fixed in
--rc2.
+Signed-off-by: Christian Lamparter <chunkeey-S0/GAf8tV78@public.gmane.org>
+Cc: stable <stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+---
+Attached is the patch is for the stable series only.
+Bugzilla reference: http://bugzilla.kernel.org/show_bug.cgi?id=12260
+(wireless-testing needs a different one)
 
-I would strongly recommend to just turn on CNFIG_LBD for post-2.6.28
-kernels for now as all the problems showing up are without CONFIG_LBD.
+Rafael, I hope we can close this bug. Greg?
+---
+diff --git a/drivers/net/wireless/p54/p54usb.c b/drivers/net/wireless/p54/p54usb.c
+index 75d749b..be40369 100644
+--- a/drivers/net/wireless/p54/p54usb.c
++++ b/drivers/net/wireless/p54/p54usb.c
+@@ -214,6 +214,8 @@ static void p54u_tx_3887(struct ieee80211_hw *dev, struct p54_control_hdr *data,
+ 	usb_fill_bulk_urb(data_urb, priv->udev,
+ 		usb_sndbulkpipe(priv->udev, P54U_PIPE_DATA), data, len,
+ 		free_on_tx ? p54u_tx_free_cb : p54u_tx_cb, dev);
++	addr_urb->transfer_flags |= URB_ZERO_PACKET;
++	data_urb->transfer_flags |= URB_ZERO_PACKET;
+ 
+ 	usb_submit_urb(addr_urb, GFP_ATOMIC);
+ 	usb_submit_urb(data_urb, GFP_ATOMIC);
+@@ -251,6 +253,7 @@ static void p54u_tx_lm87(struct ieee80211_hw *dev,
+ 		usb_sndbulkpipe(priv->udev, P54U_PIPE_DATA), hdr,
+ 		len + sizeof(*hdr), free_on_tx ? p54u_tx_free_cb : p54u_tx_cb,
+ 		dev);
++	data_urb->transfer_flags |= URB_ZERO_PACKET;
+ 
+ 	usb_submit_urb(data_urb, GFP_ATOMIC);
+ }
+@@ -293,11 +296,13 @@ static void p54u_tx_net2280(struct ieee80211_hw *dev, struct p54_control_hdr *da
+ 	usb_fill_bulk_urb(int_urb, priv->udev,
+ 		usb_sndbulkpipe(priv->udev, P54U_PIPE_DEV), reg, sizeof(*reg),
+ 		p54u_tx_free_cb, dev);
++	int_urb->transfer_flags |= URB_ZERO_PACKET;
+ 	usb_submit_urb(int_urb, GFP_ATOMIC);
+ 
+ 	usb_fill_bulk_urb(data_urb, priv->udev,
+ 		usb_sndbulkpipe(priv->udev, P54U_PIPE_DATA), hdr, len + sizeof(*hdr),
+ 		free_on_tx ? p54u_tx_free_cb : p54u_tx_cb, dev);
++	data_urb->transfer_flags |= URB_ZERO_PACKET;
+ 	usb_submit_urb(data_urb, GFP_ATOMIC);
+ }
+ 
