@@ -1,105 +1,49 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12505] 2.6.29-rc1 Firefox crashing on page load
-Date: Tue, 20 Jan 2009 09:37:00 +0100
-Message-ID: <20090120083700.GA5277@elte.hu>
-References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera> <2QN7KFic7LG.A.C4F.Q9QdJB@chimera> <49756F3E.6050304@gawab.com> <20090120074312.GD16426@elte.hu> <20090120081650.GA29725@elte.hu>
+From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+Subject: Re: [Bug #12417] glx performance drop with: "x86: PAT: implement
+ track/untrack of pfnmap regions for x86 - v3"
+Date: Tue, 20 Jan 2009 10:09:55 +0100
+Message-ID: <497594E3.4040205@fisher-privat.net>
+References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera> <2QN7KFic7LG.A.Ie.A-QdJB@chimera> <20090120074758.GB26284@elte.hu>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090120081650.GA29725-X9Un+BFzKDI@public.gmane.org>
+In-Reply-To: <20090120074758.GB26284-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>, Hiroshi Shimamoto <h-shimamoto-ehU+Cx/zZe18UrSeD/g0lQ@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Roland McGrath <roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Suresh Siddha <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-
-* Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
-
+Ingo Molnar schrieb:
+> * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 > 
-> * Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
+>> This message has been generated automatically as a part of a report
+>> of recent regressions.
+>>
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.28.  Please verify if it still should be listed and let me know
+>> (either way).
+>>
+>>
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12417
+>> Subject		: glx performance drop with: "x86: PAT: implement track/untrack of pfnmap regions for x86 - v3"
+>> Submitter	: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+>> Date		: 2009-01-06 18:46 (14 days old)
+>> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5899329b19100c0b82dc78e9b21ed8b920c9ffb3
+>> References	: http://marc.info/?l=linux-kernel&m=123126782822696&w=4
+>> Handled-By	: Pallipadi, Venkatesh <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 > 
-> > (added Cc:s)
+> is it still broken with the current lineup of x86 fixes:
 > 
-> > Justin, does it work if you apply the patch below instead of the revert?
+>   git pull git://git.kernel.org/pub/scm/linux/kernel/git/tip/linux-2.6-tip.git x86-fixes-for-linus
 > 
-> hm, that patch wont build because the protect_asmlinkage macro is rather 
-> limited - it cannot deal with structure parameters.
+> ?
 > 
-> We might be better off with a revert here, and a comment added that points 
-> out the problem.
+> 	Ingo
 
-Below is the revert+document commit that i have queued up.
+I migrated now to the next ubuntu versio, hope it do no hava mach 
+difference.
+There is no warnings in dmesg about mtrr or pat, no xorg crashes with 
+glxx but same pure performace. With enabled or disabled drm i get ~300fps
 
-Justin, could you try the tip/master tree (which has this fix included):
-
-  http://people.redhat.com/mingo/tip.git/README
-
-does Firefox still work fine?
-
-	Ingo
-
-------------->
-From 779c9b9f8cb87cdfbd299ee7beb62e50ce139a92 Mon Sep 17 00:00:00 2001
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Date: Tue, 20 Jan 2009 09:31:49 +0100
-Subject: [PATCH] Revert "x86: signal: change type of paramter for sys_rt_sigreturn()"
-
-This reverts commit 4217458dafaa57d8e26a46f5d05ab8c53cf64191.
-
-Justin Madru bisected this commit, it was causing weird Firefox
-crashes.
-
-The reason is that GCC mis-optimizes (re-uses) the on-stack parameters of
-the calling frame, which corrupts the syscall return pt_regs state and
-thus corrupts user-space register state.
-
-So we go back to the slightly less clean but more optimization-safe
-method of getting to pt_regs. Also add a comment to explain this.
-
-Resolves: http://bugzilla.kernel.org/show_bug.cgi?id=12505
-
-Reported-and-bisected-by: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
-Signed-off-by: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
----
- arch/x86/include/asm/syscalls.h |    2 +-
- arch/x86/kernel/signal.c        |   11 +++++++++--
- 2 files changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/arch/x86/include/asm/syscalls.h b/arch/x86/include/asm/syscalls.h
-index 9c6797c..c0b0bda 100644
---- a/arch/x86/include/asm/syscalls.h
-+++ b/arch/x86/include/asm/syscalls.h
-@@ -40,7 +40,7 @@ asmlinkage int sys_sigaction(int, const struct old_sigaction __user *,
- 			     struct old_sigaction __user *);
- asmlinkage int sys_sigaltstack(unsigned long);
- asmlinkage unsigned long sys_sigreturn(unsigned long);
--asmlinkage int sys_rt_sigreturn(struct pt_regs);
-+asmlinkage int sys_rt_sigreturn(unsigned long);
- 
- /* kernel/ioport.c */
- asmlinkage long sys_iopl(unsigned long);
-diff --git a/arch/x86/kernel/signal.c b/arch/x86/kernel/signal.c
-index 89bb766..df0587f 100644
---- a/arch/x86/kernel/signal.c
-+++ b/arch/x86/kernel/signal.c
-@@ -632,9 +632,16 @@ badframe:
- }
- 
- #ifdef CONFIG_X86_32
--asmlinkage int sys_rt_sigreturn(struct pt_regs regs)
-+/*
-+ * Note: do not pass in pt_regs directly as with tail-call optimization
-+ * GCC will incorrectly stomp on the caller's frame and corrupt user-space
-+ * register state:
-+ */
-+asmlinkage int sys_rt_sigreturn(unsigned long __unused)
- {
--	return do_rt_sigreturn(&regs);
-+	struct pt_regs *regs = (struct pt_regs *)&__unused;
-+
-+	return do_rt_sigreturn(regs);
- }
- #else /* !CONFIG_X86_32 */
- asmlinkage long sys_rt_sigreturn(struct pt_regs *regs)
+	Alexey
