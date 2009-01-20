@@ -1,49 +1,68 @@
-From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Subject: Re: [Bug #12417] glx performance drop with: "x86: PAT: implement
- track/untrack of pfnmap regions for x86 - v3"
-Date: Tue, 20 Jan 2009 10:09:55 +0100
-Message-ID: <497594E3.4040205@fisher-privat.net>
-References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera> <2QN7KFic7LG.A.Ie.A-QdJB@chimera> <20090120074758.GB26284@elte.hu>
+From: Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12406] 2.6.28 thinks that my PS/2 mouse is a touchpad
+Date: Tue, 20 Jan 2009 01:19:54 -0800
+Message-ID: <200901200119.59851.dmitry.torokhov@gmail.com>
+References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.HKC.vJRdJB@chimera> <20090120014507.GA1557@adopmeer.homeip.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090120074758.GB26284-X9Un+BFzKDI@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:from:to:subject:date
+         :user-agent:cc:references:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:message-id;
+        bh=QKqD9JYgCgOlmhvzjhiEISZt5tWfFgKS11ayRkHp+4w=;
+        b=Hc+0i75Iz+cq83wX0aFg/KkyDU1DjfGnmxuhMDlq8Xz/mVodUqElmLVuFLq/IfEr4P
+         AITKrdw4v6EOGdkHHSxuNu705eRWZd4TGsGF698BImE4FDlCs16ZNZP1C9AztwPBkP6K
+         vA8FFG7mD800WBVg9xAq3+pOPRSQP9Z7e0QOM=
+In-Reply-To: <20090120014507.GA1557-ZZpm67l/2hWBldXiawXZ59HuzzzSOjJt@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Suresh Siddha <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Arjan Opmeer <arjan-OssVvNj1wBysTnJN9+BGXg@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Alexander E. Patrakov" <patrakov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 
-Ingo Molnar schrieb:
-> * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
->> This message has been generated automatically as a part of a report
->> of recent regressions.
->>
->> The following bug entry is on the current list of known regressions
->> from 2.6.28.  Please verify if it still should be listed and let me know
->> (either way).
->>
->>
->> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12417
->> Subject		: glx performance drop with: "x86: PAT: implement track/untrack of pfnmap regions for x86 - v3"
->> Submitter	: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
->> Date		: 2009-01-06 18:46 (14 days old)
->> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5899329b19100c0b82dc78e9b21ed8b920c9ffb3
->> References	: http://marc.info/?l=linux-kernel&m=123126782822696&w=4
->> Handled-By	: Pallipadi, Venkatesh <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> 
-> is it still broken with the current lineup of x86 fixes:
-> 
->   git pull git://git.kernel.org/pub/scm/linux/kernel/git/tip/linux-2.6-tip.git x86-fixes-for-linus
-> 
-> ?
-> 
-> 	Ingo
-
-I migrated now to the next ubuntu versio, hope it do no hava mach 
-difference.
-There is no warnings in dmesg about mtrr or pat, no xorg crashes with 
-glxx but same pure performace. With enabled or disabled drm i get ~300fps
-
-	Alexey
+PiBPbiBNb24sIEphbiAxOSwgMjAwOSBhdCAxMDo0NTo0MlBNICswMTAwLCBSYWZhZWwgSi4gV3lz
+b2NraSB3cm90ZToKPiA+IFRoZSBmb2xsb3dpbmcgYnVnIGVudHJ5IGlzIG9uIHRoZSBjdXJyZW50
+IGxpc3Qgb2Yga25vd24gcmVncmVzc2lvbnMKPiA+IGludHJvZHVjZWQgYmV0d2VlbiAyLjYuMjcg
+YW5kIDIuNi4yOC4gIFBsZWFzZSB2ZXJpZnkgaWYgaXQgc3RpbGwgc2hvdWxkCj4gPiBiZSBsaXN0
+ZWQgYW5kIGxldCBtZSBrbm93IChlaXRoZXIgd2F5KS4KPgo+IFdlbGwuIERtaXRyeSBoYXNuJ3Qg
+cmVwbGllZCB5ZXQgdG8gbXkgc3VnZ2VzdGlvbiBob3cgdG8gZml4IHRoaXMgYXMKPiBwcmVzZW50
+ZWQgaW4gdGhlIFBhdGNoIGVudHJ5LiBXaXRob3V0IGhlbHAgZnJvbSBoaW0gYXMgdGhlIExpbnV4
+IGlucHV0Cj4gc3Vic3lzdGVtIG1haW50YWluZXIgdGhlcmUgaXMgbm90IGEgbG90IEkgY2FuIGRv
+Lgo+Cj4gVGhpcyBtZWFucyB0aGUgcmVncmVzc2lvbiBpcyBzdGlsbCBwcmVzZW50IGluIHRoZSBj
+dXJyZW50IDIuNi4yOSBnaXQgdHJlZS4KClNvcnJ5LCBtdXN0IGhhdmUgbWlzc2VkIHRoYXQuIEkg
+dGhpbmsgaXQncyBnb25uYSBiZSBhIGJpdCBjaGF0dHkgaWYKdXNlciBoYXBwZW5zIHRvIGhhdmUg
+TG9naXRlY2grKyBkZXZpY2UgYXR0YWNoZWQsIGhvd2V2ZXIgSSB0aGluayBpZgp3ZSBjb21wbGVt
+ZW50IGl0IHdpdGggdGhlIHBhdGNoIGJlbG93IEkgdGhpbmsgaXQgc2hvdWxkIHdvcmsgT0suCgot
+LSAKRG1pdHJ5CgpJbnB1dDogcHNtb3VzZSAtIG1vdmUgRWxhbnRlY2ggZGV0ZWN0aW9uIHRvd2Fy
+ZHMgZW5kIG9mIHRoZSBsaXN0CgpFbGFudGVjaCdkIGRldGVjdGlvbiByb3V0aW5lIG1pc2ZpcmVz
+IG9uIExvZ2l0ZWNoJ3MgZGV2aWNlcyBzbyBsZXQncwptb3ZlIGl0IGRvd24gdG8gcHJldmVudCBm
+YWxzZSBwb3NpdGl2ZXMuCgpTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgVG9yb2tob3YgPGR0b3JAbWFp
+bC5ydT4KLS0tCgogZHJpdmVycy9pbnB1dC9tb3VzZS9wc21vdXNlLWJhc2UuYyB8ICAgMjYgKysr
+KysrKysrKysrKy0tLS0tLS0tLS0tLS0KIDEgZmlsZXMgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygr
+KSwgMTMgZGVsZXRpb25zKC0pCgoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW5wdXQvbW91c2UvcHNt
+b3VzZS1iYXNlLmMgYi9kcml2ZXJzL2lucHV0L21vdXNlL3BzbW91c2UtCmJhc2UuYwppbmRleCBm
+OGY4NmRlLi5lNDEwNmJhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2lucHV0L21vdXNlL3BzbW91c2Ut
+YmFzZS5jCisrKyBiL2RyaXZlcnMvaW5wdXQvbW91c2UvcHNtb3VzZS1iYXNlLmMKQEAgLTY1MSwx
+OSArNjUxLDYgQEAgc3RhdGljIGludCBwc21vdXNlX2V4dGVuc2lvbnMoc3RydWN0IHBzbW91c2Ug
+KnBzbW91c2UsCiAJCW1heF9wcm90byA9IFBTTU9VU0VfSU1FWDsKIAl9CiAKLS8qCi0gKiBUcnkg
+RWxhbnRlY2ggdG91Y2hwYWQuCi0gKi8KLQlpZiAobWF4X3Byb3RvID4gUFNNT1VTRV9JTUVYICYm
+Ci0JCQllbGFudGVjaF9kZXRlY3QocHNtb3VzZSwgc2V0X3Byb3BlcnRpZXMpID09IDApIHsKLQkJ
+aWYgKCFzZXRfcHJvcGVydGllcyB8fCBlbGFudGVjaF9pbml0KHBzbW91c2UpID09IDApCi0JCQly
+ZXR1cm4gUFNNT1VTRV9FTEFOVEVDSDsKLS8qCi0gKiBJbml0IGZhaWxlZCwgdHJ5IGJhc2ljIHJl
+bGF0aXZlIHByb3RvY29scwotICovCi0JCW1heF9wcm90byA9IFBTTU9VU0VfSU1FWDsKLQl9Ci0K
+IAlpZiAobWF4X3Byb3RvID4gUFNNT1VTRV9JTUVYKSB7CiAJCWlmIChnZW5pdXNfZGV0ZWN0KHBz
+bW91c2UsIHNldF9wcm9wZXJ0aWVzKSA9PSAwKQogCQkJcmV0dXJuIFBTTU9VU0VfR0VOUFM7CkBA
+IC02NzksNiArNjY2LDE5IEBAIHN0YXRpYyBpbnQgcHNtb3VzZV9leHRlbnNpb25zKHN0cnVjdCBw
+c21vdXNlICpwc21vdXNlLAogCX0KIAogLyoKKyAqIFRyeSBFbGFudGVjaCB0b3VjaHBhZC4KKyAq
+LworCWlmIChtYXhfcHJvdG8gPiBQU01PVVNFX0lNRVggJiYKKwkJCWVsYW50ZWNoX2RldGVjdChw
+c21vdXNlLCBzZXRfcHJvcGVydGllcykgPT0gMCkgeworCQlpZiAoIXNldF9wcm9wZXJ0aWVzIHx8
+IGVsYW50ZWNoX2luaXQocHNtb3VzZSkgPT0gMCkKKwkJCXJldHVybiBQU01PVVNFX0VMQU5URUNI
+OworLyoKKyAqIEluaXQgZmFpbGVkLCB0cnkgYmFzaWMgcmVsYXRpdmUgcHJvdG9jb2xzCisgKi8K
+KwkJbWF4X3Byb3RvID0gUFNNT1VTRV9JTUVYOworCX0KKworLyoKICAqIFJlc2V0IHRvIGRlZmF1
+bHRzIGluIGNhc2UgdGhlIGRldmljZSBnb3QgY29uZnVzZWQgYnkgZXh0ZW5kZWQKICAqIHByb3Rv
+Y29sIHByb2Jlcy4gTm90ZSB0aGF0IHdlIGZvbGxvdyB1cCB3aXRoIGZ1bGwgcmVzZXQgYmVjYXVz
+ZQogICogc29tZSBtaWNlIHB1dCB0aGVtc2VsdmVzIHRvIHNsZWVwIHdoZW4gdGhleSBzZWUgUFNN
+T1VTRV9SRVNFVF9ESVMuCgAK
