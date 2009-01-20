@@ -1,68 +1,39 @@
-From: Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12406] 2.6.28 thinks that my PS/2 mouse is a touchpad
-Date: Tue, 20 Jan 2009 01:19:54 -0800
-Message-ID: <200901200119.59851.dmitry.torokhov@gmail.com>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.HKC.vJRdJB@chimera> <20090120014507.GA1557@adopmeer.homeip.net>
+From: Alberto Gonzalez <luis6674-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12337] ~100 extra wakeups reported by powertop
+Date: Tue, 20 Jan 2009 01:38:45 -0800 (PST)
+Message-ID: <405772.76349.qm@web53301.mail.re2.yahoo.com>
+References: <cX2gZ6Cy9nC.A.e-C.AKRdJB@chimera>
+Reply-To: luis6674-/E1597aS9LQAvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Transfer-Encoding: base64
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:from:to:subject:date
-         :user-agent:cc:references:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:message-id;
-        bh=QKqD9JYgCgOlmhvzjhiEISZt5tWfFgKS11ayRkHp+4w=;
-        b=Hc+0i75Iz+cq83wX0aFg/KkyDU1DjfGnmxuhMDlq8Xz/mVodUqElmLVuFLq/IfEr4P
-         AITKrdw4v6EOGdkHHSxuNu705eRWZd4TGsGF698BImE4FDlCs16ZNZP1C9AztwPBkP6K
-         vA8FFG7mD800WBVg9xAq3+pOPRSQP9Z7e0QOM=
-In-Reply-To: <20090120014507.GA1557-ZZpm67l/2hWBldXiawXZ59HuzzzSOjJt@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <cX2gZ6Cy9nC.A.e-C.AKRdJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Arjan Opmeer <arjan-OssVvNj1wBysTnJN9+BGXg@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Alexander E. Patrakov" <patrakov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-PiBPbiBNb24sIEphbiAxOSwgMjAwOSBhdCAxMDo0NTo0MlBNICswMTAwLCBSYWZhZWwgSi4gV3lz
-b2NraSB3cm90ZToKPiA+IFRoZSBmb2xsb3dpbmcgYnVnIGVudHJ5IGlzIG9uIHRoZSBjdXJyZW50
-IGxpc3Qgb2Yga25vd24gcmVncmVzc2lvbnMKPiA+IGludHJvZHVjZWQgYmV0d2VlbiAyLjYuMjcg
-YW5kIDIuNi4yOC4gIFBsZWFzZSB2ZXJpZnkgaWYgaXQgc3RpbGwgc2hvdWxkCj4gPiBiZSBsaXN0
-ZWQgYW5kIGxldCBtZSBrbm93IChlaXRoZXIgd2F5KS4KPgo+IFdlbGwuIERtaXRyeSBoYXNuJ3Qg
-cmVwbGllZCB5ZXQgdG8gbXkgc3VnZ2VzdGlvbiBob3cgdG8gZml4IHRoaXMgYXMKPiBwcmVzZW50
-ZWQgaW4gdGhlIFBhdGNoIGVudHJ5LiBXaXRob3V0IGhlbHAgZnJvbSBoaW0gYXMgdGhlIExpbnV4
-IGlucHV0Cj4gc3Vic3lzdGVtIG1haW50YWluZXIgdGhlcmUgaXMgbm90IGEgbG90IEkgY2FuIGRv
-Lgo+Cj4gVGhpcyBtZWFucyB0aGUgcmVncmVzc2lvbiBpcyBzdGlsbCBwcmVzZW50IGluIHRoZSBj
-dXJyZW50IDIuNi4yOSBnaXQgdHJlZS4KClNvcnJ5LCBtdXN0IGhhdmUgbWlzc2VkIHRoYXQuIEkg
-dGhpbmsgaXQncyBnb25uYSBiZSBhIGJpdCBjaGF0dHkgaWYKdXNlciBoYXBwZW5zIHRvIGhhdmUg
-TG9naXRlY2grKyBkZXZpY2UgYXR0YWNoZWQsIGhvd2V2ZXIgSSB0aGluayBpZgp3ZSBjb21wbGVt
-ZW50IGl0IHdpdGggdGhlIHBhdGNoIGJlbG93IEkgdGhpbmsgaXQgc2hvdWxkIHdvcmsgT0suCgot
-LSAKRG1pdHJ5CgpJbnB1dDogcHNtb3VzZSAtIG1vdmUgRWxhbnRlY2ggZGV0ZWN0aW9uIHRvd2Fy
-ZHMgZW5kIG9mIHRoZSBsaXN0CgpFbGFudGVjaCdkIGRldGVjdGlvbiByb3V0aW5lIG1pc2ZpcmVz
-IG9uIExvZ2l0ZWNoJ3MgZGV2aWNlcyBzbyBsZXQncwptb3ZlIGl0IGRvd24gdG8gcHJldmVudCBm
-YWxzZSBwb3NpdGl2ZXMuCgpTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgVG9yb2tob3YgPGR0b3JAbWFp
-bC5ydT4KLS0tCgogZHJpdmVycy9pbnB1dC9tb3VzZS9wc21vdXNlLWJhc2UuYyB8ICAgMjYgKysr
-KysrKysrKysrKy0tLS0tLS0tLS0tLS0KIDEgZmlsZXMgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygr
-KSwgMTMgZGVsZXRpb25zKC0pCgoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW5wdXQvbW91c2UvcHNt
-b3VzZS1iYXNlLmMgYi9kcml2ZXJzL2lucHV0L21vdXNlL3BzbW91c2UtCmJhc2UuYwppbmRleCBm
-OGY4NmRlLi5lNDEwNmJhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2lucHV0L21vdXNlL3BzbW91c2Ut
-YmFzZS5jCisrKyBiL2RyaXZlcnMvaW5wdXQvbW91c2UvcHNtb3VzZS1iYXNlLmMKQEAgLTY1MSwx
-OSArNjUxLDYgQEAgc3RhdGljIGludCBwc21vdXNlX2V4dGVuc2lvbnMoc3RydWN0IHBzbW91c2Ug
-KnBzbW91c2UsCiAJCW1heF9wcm90byA9IFBTTU9VU0VfSU1FWDsKIAl9CiAKLS8qCi0gKiBUcnkg
-RWxhbnRlY2ggdG91Y2hwYWQuCi0gKi8KLQlpZiAobWF4X3Byb3RvID4gUFNNT1VTRV9JTUVYICYm
-Ci0JCQllbGFudGVjaF9kZXRlY3QocHNtb3VzZSwgc2V0X3Byb3BlcnRpZXMpID09IDApIHsKLQkJ
-aWYgKCFzZXRfcHJvcGVydGllcyB8fCBlbGFudGVjaF9pbml0KHBzbW91c2UpID09IDApCi0JCQly
-ZXR1cm4gUFNNT1VTRV9FTEFOVEVDSDsKLS8qCi0gKiBJbml0IGZhaWxlZCwgdHJ5IGJhc2ljIHJl
-bGF0aXZlIHByb3RvY29scwotICovCi0JCW1heF9wcm90byA9IFBTTU9VU0VfSU1FWDsKLQl9Ci0K
-IAlpZiAobWF4X3Byb3RvID4gUFNNT1VTRV9JTUVYKSB7CiAJCWlmIChnZW5pdXNfZGV0ZWN0KHBz
-bW91c2UsIHNldF9wcm9wZXJ0aWVzKSA9PSAwKQogCQkJcmV0dXJuIFBTTU9VU0VfR0VOUFM7CkBA
-IC02NzksNiArNjY2LDE5IEBAIHN0YXRpYyBpbnQgcHNtb3VzZV9leHRlbnNpb25zKHN0cnVjdCBw
-c21vdXNlICpwc21vdXNlLAogCX0KIAogLyoKKyAqIFRyeSBFbGFudGVjaCB0b3VjaHBhZC4KKyAq
-LworCWlmIChtYXhfcHJvdG8gPiBQU01PVVNFX0lNRVggJiYKKwkJCWVsYW50ZWNoX2RldGVjdChw
-c21vdXNlLCBzZXRfcHJvcGVydGllcykgPT0gMCkgeworCQlpZiAoIXNldF9wcm9wZXJ0aWVzIHx8
-IGVsYW50ZWNoX2luaXQocHNtb3VzZSkgPT0gMCkKKwkJCXJldHVybiBQU01PVVNFX0VMQU5URUNI
-OworLyoKKyAqIEluaXQgZmFpbGVkLCB0cnkgYmFzaWMgcmVsYXRpdmUgcHJvdG9jb2xzCisgKi8K
-KwkJbWF4X3Byb3RvID0gUFNNT1VTRV9JTUVYOworCX0KKworLyoKICAqIFJlc2V0IHRvIGRlZmF1
-bHRzIGluIGNhc2UgdGhlIGRldmljZSBnb3QgY29uZnVzZWQgYnkgZXh0ZW5kZWQKICAqIHByb3Rv
-Y29sIHByb2Jlcy4gTm90ZSB0aGF0IHdlIGZvbGxvdyB1cCB3aXRoIGZ1bGwgcmVzZXQgYmVjYXVz
-ZQogICogc29tZSBtaWNlIHB1dCB0aGVtc2VsdmVzIHRvIHNsZWVwIHdoZW4gdGhleSBzZWUgUFNN
-T1VTRV9SRVNFVF9ESVMuCgAK
+--- On Mon, 1/19/09, Rafael J. Wysocki wrote:
+
+> 
+> The following bug entry is on the current list of known
+> regressions
+> introduced between 2.6.27 and 2.6.28.  Please verify if it
+> still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	:
+> http://bugzilla.kernel.org/show_bug.cgi?id=12337
+> Subject		: ~100 extra wakeups reported by powertop
+> Submitter	: Alberto Gonzalez <luis6674-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+> Date		: 2008-12-31 12:25 (20 days old)
+
+Yes, the problem is still present in 2.6.28.1
+
+Thanks,
+Alberto.
+
+
+      
