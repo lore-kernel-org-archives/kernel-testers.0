@@ -1,46 +1,49 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12468] Crash in acpi_cpufreq_init
-Date: Wed, 21 Jan 2009 12:59:01 +0100
-Message-ID: <20090121115901.GC22054@elte.hu>
-References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera> <2QN7KFic7LG.A.sgH.t9QdJB@chimera> <81b0412b0901191633y130c4cf0w5531af81c3749ee2@mail.gmail.com> <20090120142312.GB10224@elte.hu> <81b0412b0901201435mabecad3i66957a6463140b82@mail.gmail.com>
+From: Christian Lamparter <chunkeey-S0/GAf8tV78@public.gmane.org>
+Subject: Re: [PATCH -stable] p54usb: fix traffic stalls / packet drop
+Date: Wed, 21 Jan 2009 15:03:11 +0100
+Message-ID: <200901211503.11849.chunkeey@web.de>
+References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <20090120223957.GA6088@suse.de> <20090120235626.GA3094@tuxdriver.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20090120235626.GA3094-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <81b0412b0901201435mabecad3i66957a6463140b82-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Alex Riesen <raa.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alex Riesen <fork0-iA+eEnwkJgzk1uMJSBkQmQ@public.gmane.org>
+To: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Cc: Greg KH <gregkh-l3A5Bk7waGM@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Artur Skawina <art.08.09-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, Linux wireless <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-
-* Alex Riesen <raa.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-
-> 2009/1/20 Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>:
-> >
-> > * Alex Riesen <raa.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> >
-> >> 2009/1/19 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
-> >> > This message has been generated automatically as a part of a report
-> >> > of recent regressions.
-> >> >
-> >> > The following bug entry is on the current list of known regressions
-> >> > from 2.6.28.  Please verify if it still should be listed and let me know
-> >> > (either way).
-> >> >
-> >>
-> >> The regression is still present.
-> >
-> > should be fixed by the pending x86 fixes:
-> >
-> >   git pull git://git.kernel.org/pub/scm/linux/kernel/git/tip/linux-2.6-tip.git x86-fixes-for-linus
-> >
-> > does it work fine if you pull that tree?
+On Wednesday 21 January 2009 00:56:26 John W. Linville wrote:
+> On Tue, Jan 20, 2009 at 02:39:57PM -0800, Greg KH wrote:
+> > On Tue, Jan 20, 2009 at 11:11:11PM +0100, Christian Lamparter wrote:
+> > > All p54usb devices need a explicit termination packet, in oder to finish the pending transfer properly.
+> > > Else, the firmware could freeze, or simply drop the frame.
+> > > 
+> > > Signed-off-by: Christian Lamparter <chunkeey-S0/GAf8tV78@public.gmane.org>
+> > > Cc: stable <stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> > > ---
+> > > Attached is the patch is for the stable series only.
+> > > Bugzilla reference: http://bugzilla.kernel.org/show_bug.cgi?id=12260
+> > > (wireless-testing needs a different one)
+> > 
+> > What do you mean, this is for 2.6.28-stable or 2.6.27-stable only, and
+> > not 2.6.29?  Why?
 > 
-> Yep. No crashing anymore. The commits starting from 31ad908 (work_on_cpu...)
-> seem to do the fixing.
+> At least part of that patch is already in 2.6.29.  I think Christian
+> may have combined another patch into the -stable version, one that
+> he posted today for -rc inclusion.
 
-okay, great. It's all in the queue to Linus now.
+Yup, the -stable patch includes the diff "hunks" for all devices.
 
-	Ingo
+linux-wireless is a different affair, because the fix for LM87
+(aka "p54usb: fix random traffic stalls (LM87)" ) is already merged.
+So the patch I posted on linux-wirelss (-rc inclusion) only has the
+diffs for the 1st generation and 2nd generation with old firmwares.
+
+Regards,
+	Chr
+--
+To unsubscribe from this list: send the line "unsubscribe linux-wireless" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
