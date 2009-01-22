@@ -1,40 +1,33 @@
-From: "Alexander E. Patrakov" <patrakov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12406] 2.6.28 thinks that my PS/2 mouse is a touchpad
-Date: Thu, 22 Jan 2009 11:29:37 +0500
-Message-ID: <49781251.8070807@gmail.com>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera> <cX2gZ6Cy9nC.A.HKC.vJRdJB@chimera> <20090120014507.GA1557@adopmeer.homeip.net> <200901200119.59851.dmitry.torokhov@gmail.com>
+From: Mariusz Kozlowski <m.kozlowski@tuxland.pl>
+Subject: Re: [sparc] ext3 corruption on latest mainline
+Date: Thu, 22 Jan 2009 09:02:09 +0100
+Message-ID: <200901220902.09644.m.kozlowski@tuxland.pl>
+References: <200901201917.12141.m.kozlowski@tuxland.pl> <200901211144.12891.m.kozlowski@tuxland.pl> <20090121.135029.94778665.davem@davemloft.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=Iu7cMa+ervyjsbGOZiGBK+I6Ak8gPXZUbeTsYGoZ7ZM=;
-        b=MoFI1wVXmj4pfXeydTnc+M4/MgsuAzTb0H1Quu6Y2MsccYpDJ0GTkRf4mbn6QlHa1/
-         1HrtIMJVsIk3hPMpcDcVRaUluB6/hTWVfOUgoRVRc0hIX5GJJgFlFTHszWxTKvEUpiBp
-         T77T8FRWg11JjzZsW2RR/a65G/gi46LkXghuA=
-In-Reply-To: <200901200119.59851.dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <sparclinux-owner@vger.kernel.org>
+In-Reply-To: <20090121.135029.94778665.davem@davemloft.net>
+Content-Disposition: inline
+Sender: sparclinux-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Arjan Opmeer <arjan-OssVvNj1wBysTnJN9+BGXg@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: David Miller <davem@davemloft.net>
+Cc: kernel-testers@vger.kernel.org, sparclinux@vger.kernel.org
 
-Dmitry Torokhov wrote:
-> Sorry, must have missed that. I think it's gonna be a bit chatty if
-> user happens to have Logitech++ device attached, however I think if
-> we complement it with the patch below I think it should work OK.
+> > > I ended up with corrupted ext3 (see sparc.jpg) and working now to restore it.
+> > 
+> > Up and running again. I managed to get some more info from yesterday crash from syslog:
+> 
+> I've seen similar corruptions with an Intel SSD drive on an MPT Fusion
+> SAS interface, which also goes through scsi like your sym case here.
+> 
+> But I'm pretty sure I also saw them with 2.6.28, were you able to run
+> 2.6.28 cleanly?
 
-Dmitry, I don't see the effect of your patch. I.e., both the patch by 
-Arjan referenced in the bug, and combination of that patch with yours, 
-produce a working mouse and this dmesg output:
+The thing is the last time I run this sparc was somewhere in 2.6.27~2.6.28 window.
+I didn't see anything like it at that time. I'll give a try to 2.6.28 but it might
+be hard to trigger it as I don't know what exactly caused it. Also yesterday
+the very same kernel (f3b8436a) worked under I/O load for hours just fine.
+I'll leave it with 2.6.28 on it busy for a few days and see what happens.
 
-psmouse serio1: ID: 10 00 64<6>elantech.c: Elantech version query result 
-0x00, 0x01, 0x64.
-elantech.c: Probably not a real Elantech touchpad. Aborting.
-input: ImExPS/2 Logitech Wheel Mouse as /class/input/input18
-
--- 
-Alexander E. Patrakov
+	Mariusz
