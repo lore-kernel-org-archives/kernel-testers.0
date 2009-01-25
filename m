@@ -1,48 +1,70 @@
-From: Bill Davidsen <davidsen@tmr.com>
+From: Jaswinder Singh Rajput <jaswinderlinux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: hdb: status error: error=0x40 <3>{ UncorrectableError }
-Date: Sun, 25 Jan 2009 16:01:01 -0500
-Message-ID: <497CD30D.80203@tmr.com>
-References: <3f9a31f40901251239k3e368feeib33661d82497725b@mail.gmail.com> <20090125204603.2ccb5169@lxorguk.ukuu.org.uk>
+Date: Mon, 26 Jan 2009 02:32:35 +0530
+Message-ID: <3f9a31f40901251302s62949b8fs75c9099e4232b811@mail.gmail.com>
+References: <3f9a31f40901251239k3e368feeib33661d82497725b@mail.gmail.com>
+	 <497CCF9B.6000102@yahoo.fr>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1751417AbZAYVB1@vger.kernel.org>
-In-Reply-To: <20090125204603.2ccb5169@lxorguk.ukuu.org.uk>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=yzNtQI2wdsmsNJmzQjtphTYeNWQyweGHc2gH33ypRg4=;
+        b=cjxWbbMzF2otXJMYV0nhVLtIPvSH6FsMkUGvYfnZwb53xMdH/CVyMJJ4xUYI7IFKKa
+         lzm4GCfO5gSmQEM3lHyChBpJXURApoSUeNjwOUrfg4GRbll5SSJ0PALC81u0u8RU3lK9
+         Z4OH+w4GU8Pn+jSHJ5h4ljZc6N1ciK6I8Wv3Q=
+In-Reply-To: <497CCF9B.6000102-Qt13gs6zZMY@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: linux-kernel@vger.kernel.org
-Cc: kernel-testers@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+To: strawks <strawks-Qt13gs6zZMY@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
 
-Alan Cox wrote:
-> On Mon, 26 Jan 2009 02:09:56 +0530
-> Jaswinder Singh Rajput <jaswinderlinux@gmail.com> wrote:
-> 
+On Mon, Jan 26, 2009 at 2:16 AM, strawks <strawks-Qt13gs6zZMY@public.gmane.org> wrote:
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA1
+>
+> Jaswinder Singh Rajput wrote:
 >> Hello all,
 >>
 >> I added extra IDE drive I get similar messages like below so I replace
 >> it another drive but I am still getting similar error messages on
 >> 2.6.29-rc2-tip:
->>
->> hdb: status error: status=0x59 { DriveReady SeekComplete DataRequest Error }
+>
+> Does it work with other kernels?
+>
+
+Earlier it was working, I was trying to install another OS, during
+format it fails.
+
+>> hdb: status error: status=0x59 { DriveReady SeekComplete DataRequest
+> Error }
 >> hdb: status error: error=0x40 <3>{ UncorrectableError },
 >> LBAsect=208845, sector=0
-> 
-> Uncorrectable Error is an error from the drive, not the kernel. Looks
-> like you have bad sectors on that drive.
-> 
-He noted that he tried another drive, so unless he has a pile of bad drives it's 
-probably something else. Being "hdb" may indicate that it's connected to the 
-same controller as "hda" and might not be jumpered for slave. Or it might be a 
-bad cable, a controller which doesn't like two drives, a dubious power 
-connector, etc. Or if he doesn't have an hda, perhaps the kernel doesn't like a 
-secondary drive without a primary.
+>> ide: failed opcode was: unknown
+>> end_request: I/O error, dev hdb, sector 0
+>> Buffer I/O error on device hdb, logical block 0
+>> hdb: drive not ready for command
+> [...]
+>> How can I fix these error.
+>
+> What is the output of :
+>
+> smartctl -A -l error /dev/hdb
+>
 
-Being hdb instead of sdb with a new kernel indicates he is using a config which 
-may get a lot less testing these days, perhaps?
+[root@jaswinder jsr]# /usr/sbin/smartctl -A -l error /dev/hdb
+smartctl version 5.38 [i386-redhat-linux-gnu] Copyright (C) 2002-8 Bruce Allen
+Home page is http://smartmontools.sourceforge.net/
 
-In any case, I doubt he had two bad drives, so something else is more likely.
+Smartctl: Device Read Identity Failed (not an ATA/ATAPI device)
 
--- 
-Bill Davidsen <davidsen@tmr.com>
-   "We have more to fear from the bungling of the incompetent than from
-the machinations of the wicked."  - from Slashdot
+A mandatory SMART command failed: exiting. To continue, add one or
+more '-T permissive' options.
+[root@jaswinder jsr]#
+
+--
+JSR
