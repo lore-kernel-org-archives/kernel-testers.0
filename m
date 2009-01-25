@@ -1,53 +1,48 @@
-From: strawks <strawks@yahoo.fr>
+From: Bill Davidsen <davidsen@tmr.com>
 Subject: Re: hdb: status error: error=0x40 <3>{ UncorrectableError }
-Date: Sun, 25 Jan 2009 21:46:19 +0100
-Message-ID: <497CCF9B.6000102@yahoo.fr>
-References: <3f9a31f40901251239k3e368feeib33661d82497725b@mail.gmail.com>
+Date: Sun, 25 Jan 2009 16:01:01 -0500
+Message-ID: <497CD30D.80203@tmr.com>
+References: <3f9a31f40901251239k3e368feeib33661d82497725b@mail.gmail.com> <20090125204603.2ccb5169@lxorguk.ukuu.org.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1751546AbZAYUqq@vger.kernel.org>
-In-Reply-To: <3f9a31f40901251239k3e368feeib33661d82497725b@mail.gmail.com>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1751417AbZAYVB1@vger.kernel.org>
+In-Reply-To: <20090125204603.2ccb5169@lxorguk.ukuu.org.uk>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Jaswinder Singh Rajput <jaswinderlinux@gmail.com>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, James Bottomley <James.Bottomley@hansenpartnership.com>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: linux-kernel@vger.kernel.org
+Cc: kernel-testers@vger.kernel.org
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+Alan Cox wrote:
+> On Mon, 26 Jan 2009 02:09:56 +0530
+> Jaswinder Singh Rajput <jaswinderlinux@gmail.com> wrote:
+> 
+>> Hello all,
+>>
+>> I added extra IDE drive I get similar messages like below so I replace
+>> it another drive but I am still getting similar error messages on
+>> 2.6.29-rc2-tip:
+>>
+>> hdb: status error: status=0x59 { DriveReady SeekComplete DataRequest Error }
+>> hdb: status error: error=0x40 <3>{ UncorrectableError },
+>> LBAsect=208845, sector=0
+> 
+> Uncorrectable Error is an error from the drive, not the kernel. Looks
+> like you have bad sectors on that drive.
+> 
+He noted that he tried another drive, so unless he has a pile of bad drives it's 
+probably something else. Being "hdb" may indicate that it's connected to the 
+same controller as "hda" and might not be jumpered for slave. Or it might be a 
+bad cable, a controller which doesn't like two drives, a dubious power 
+connector, etc. Or if he doesn't have an hda, perhaps the kernel doesn't like a 
+secondary drive without a primary.
 
-Jaswinder Singh Rajput wrote:
-> Hello all,
->
-> I added extra IDE drive I get similar messages like below so I replace
-> it another drive but I am still getting similar error messages on
-> 2.6.29-rc2-tip:
+Being hdb instead of sdb with a new kernel indicates he is using a config which 
+may get a lot less testing these days, perhaps?
 
-Does it work with other kernels?
+In any case, I doubt he had two bad drives, so something else is more likely.
 
-> hdb: status error: status=0x59 { DriveReady SeekComplete DataRequest
-Error }
-> hdb: status error: error=0x40 <3>{ UncorrectableError },
-> LBAsect=208845, sector=0
-> ide: failed opcode was: unknown
-> end_request: I/O error, dev hdb, sector 0
-> Buffer I/O error on device hdb, logical block 0
-> hdb: drive not ready for command
-[...]
-> How can I fix these error.
-
-What is the output of :
-
-smartctl -A -l error /dev/hdb
-
-- --
-regards,
-strawks
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org
-
-iEYEARECAAYFAkl8z5sACgkQ+2TXLlA5m78D6QCbBkiQDwjQXiGcP9DNVJiI236P
-KaoAnilCy2jHOGap4tHTDEwFFI9CZPD2
-=BkrH
------END PGP SIGNATURE-----
+-- 
+Bill Davidsen <davidsen@tmr.com>
+   "We have more to fear from the bungling of the incompetent than from
+the machinations of the wicked."  - from Slashdot
