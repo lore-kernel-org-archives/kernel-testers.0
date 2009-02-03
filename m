@@ -1,50 +1,42 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [linux-pm] Suspend regression, hang after matroxfb
-Date: Sat, 31 Jan 2009 00:40:59 +0100
-Message-ID: <200901310041.00468.rjw@sisk.pl>
-References: <Pine.LNX.4.44L0.0901301818400.2785-100000@iolanthe.rowland.org>
+Subject: Re: [Bug #12402] 2.6.29-rc: kernel BUG at fs/xfs/support/debug.c:108
+Date: Tue, 3 Feb 2009 23:56:02 +0100
+Message-ID: <200902032356.03242.rjw@sisk.pl>
+References: <0GOi9pntEoL.A.iGF.B9QdJB@chimera> <2QN7KFic7LG.A.03.I-QdJB@chimera> <a4423d670901281539s958128avcaf4756021125795@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Pine.LNX.4.44L0.0901301818400.2785-100000-IYeN2dnnYyZXsRXLowluHWD2FQJk+8+b@public.gmane.org>
+In-Reply-To: <a4423d670901281539s958128avcaf4756021125795-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Cc: Eric Sesterhenn <snakebyte-Mmb7MZpHnFY@public.gmane.org>, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, vandrove-hnqZr3NxcozrBKCeMvbIDA@public.gmane.org
+To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
 
-On Saturday 31 January 2009, Alan Stern wrote:
-> On Fri, 30 Jan 2009, Rafael J. Wysocki wrote:
+On Thursday 29 January 2009, Alexander Beregalov wrote:
+> 2009/1/20 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> >
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.28.  Please verify if it still should be listed and let me know
+> > (either way).
+> >
+> >
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12402
+> > Subject         : 2.6.29-rc: kernel BUG at fs/xfs/support/debug.c:108
+> > Submitter       : Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2009-01-09 04:41 (11 days old)
+> > References      : http://thread.gmane.org/gmane.comp.file-systems.xfs.general/27548
+> > Handled-By      : Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> >
 > 
-> > Suspend to RAM is reported to break on some machines as a result of
-> > attempting to put one of driverless PCI devices into a low power
-> > state.  Avoid that by not attepmting to power manage driverless
-> > devices during suspend.
+> Should be closed, thanks.
 > 
-> Just out of curiosity, what would happen if one of these troublesome
-> devices _did_ have a driver?  Would suspend still be broken?
+> commit 74e2d06521913443c7e2697037909f5efc200ec5
+> (Long btree pointers are still 64 bit on disk)
 
-That depends on what the driver would do to the device in its suspend callback.
+Closed, thanks.
 
-> Would you then blame the driver instead of the PCI core?
-
-Probably both.  I'd try to find the root cause and presumably blacklist
-the device this way or another.
-
-> Or would the driver be smart enough to avoid putting the device in a
-> low-power state?
-
-I think that putting devices into low power states should better be done by
-the core.  In this particular case, we can add some quirks to the core so
-that it can handle those devices correctly.  I don't think adding such quirks
-to drivers would be a good idea.
-
-> But doesn't that defeat the purpose of suspending in the first place?
-
-If the entire system goes into a sleep state, the platform will probably remove
-power from the device anyway, so it doesn't really matter too much.  It is
-going to matter for run-time power saving, though.
-
-Thanks,
 Rafael
