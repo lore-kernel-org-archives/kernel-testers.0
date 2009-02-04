@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12510] 2.6.29-rc2 dies on startup
-Date: Wed,  4 Feb 2009 11:24:01 +0100 (CET)
-Message-ID: <pWZw1SZjMCH.A.U0F.UvYiJB@chimera>
+Subject: [Bug #12501] build bug in eeepc-laptop.c
+Date: Wed,  4 Feb 2009 11:23:59 +0100 (CET)
+Message-ID: <pWZw1SZjMCH.A.BqG.lvYiJB@chimera>
 References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12510
-Subject		: 2.6.29-rc2 dies on startup
-Submitter	: Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>
-Date		: 2009-01-19 12:53 (17 days old)
-References	: http://marc.info/?l=linux-kernel&m=123236969321703&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12501
+Subject		: build bug in eeepc-laptop.c
+Submitter	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Date		: 2009-01-14 17:25 (22 days old)
+References	: http://lkml.org/lkml/2009/1/14/315
 
