@@ -1,55 +1,56 @@
-From: Andrey Borzenkov <arvidjaar@mail.ru>
-Subject: Re: [Bug #12606] fb_mmap: circular locking dependency on hibernation
-Date: Wed, 4 Feb 2009 17:43:00 +0300
-Message-ID: <200902041743.08010.arvidjaar@mail.ru>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.jNE.xuYiJB@chimera>
+From: Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12505] 2.6.29-rc1 Firefox crashing on page load
+Date: Wed, 4 Feb 2009 07:23:46 -0800
+Message-ID: <dd18b0c30902040723m70f87f7fp4af32702410036d7@mail.gmail.com>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
+	 <pWZw1SZjMCH.A.nXG.evYiJB@chimera>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart4609451.9OHcauY7sL";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754226AbZBDOn2@vger.kernel.org>
-In-Reply-To: <pWZw1SZjMCH.A.jNE.xuYiJB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=V5bOb2XM5jSJfMrnerXQDSZUO9icFpEbmUYMylF+k5s=;
+        b=lMYemeLPsqA74CcJKhnff5dKlWkpFm04hT93Wq/5l9CKCThl3lvMT4Ctwb67NoLMc+
+         s+tvRZMchoS5d0dyt4oJst92cG7/zdhOpa8N9PNhn5lBMdYOBwVAQ9vWO1zkMwPuYYy4
+         Zu0aKpnbfEdQR6NvTyxsCgsta+txq7WlieNuE=
+In-Reply-To: <pWZw1SZjMCH.A.nXG.evYiJB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Hiroshi Shimamoto <h-shimamoto-ehU+Cx/zZe18UrSeD/g0lQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
 
---nextPart4609451.9OHcauY7sL
-Content-Type: text/plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-
-On 4 of February 2009 13:24:06 Rafael J. Wysocki wrote:
+On Wed, Feb 4, 2009 at 2:24 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
 >
 > The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me
-> know (either way).
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
 >
 >
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12606
-> Subject		: fb_mmap: circular locking dependency on hibernation
-> Submitter	: Andrey Borzenkov <arvidjaar@mail.ru>
-> Date		: 2009-01-27 18:37 (9 days old)
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D123308162731408&w=3D4
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12505
+> Subject         : 2.6.29-rc1 Firefox crashing on page load
+> Submitter       : Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
+> Date            : 2009-01-16 20:56 (20 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=4217458dafaa57d8e26a46f5d05ab8c53cf64191
+> References      : http://marc.info/?l=linux-kernel&m=123213941914274&w=4
+> Handled-By      : Justin P. Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>
+>
+>
 
-for me it is fixed with
-http://marc.info/?l=3Dlinux-kernel&m=3D123365581406194&w=3D2=20
+Well the hardest for this, was to reproduce
+the error.(never did). I guess it can be taken
+of if there was a patch for the fix, and the patch
+made it into the main tree. but if this  is a firefox
+issue, then a report needs to be filed with them.
+so overall my answer is "I don't know."
+:^)
 
---nextPart4609451.9OHcauY7sL
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEABECAAYFAkmJqXYACgkQR6LMutpd94yIigCfZQtVS9FxvYb4wxBcouQp4yIj
-g8MAnjurXaxW9J7216qbny8NfgCMknan
-=wUKV
------END PGP SIGNATURE-----
-
---nextPart4609451.9OHcauY7sL--
+regards;
+-- 
+Justin P. Mattock
