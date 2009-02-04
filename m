@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12444] X hangs following switch from radeonfb console - Bisected
-Date: Wed,  4 Feb 2009 11:23:57 +0100 (CET)
-Message-ID: <pWZw1SZjMCH.A.srH.AwYiJB@chimera>
+Subject: [Bug #12496] swsusp cannot find resume device (sometimes)
+Date: Wed,  4 Feb 2009 11:23:58 +0100 (CET)
+Message-ID: <pWZw1SZjMCH.A.y-G.tvYiJB@chimera>
 References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Graham Murray <graham-0mDQKtL6jrwDXYZnReoRVg@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,12 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12444
-Subject		: X hangs following switch from radeonfb console - Bisected
-Submitter	: Graham Murray <graham-0mDQKtL6jrwDXYZnReoRVg@public.gmane.org>
-Date		: 2009-01-13 14:03 (23 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=7c1c2871a6a3a114853ec6836e9035ac1c0c7f7a
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12496
+Subject		: swsusp cannot find resume device (sometimes)
+Submitter	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+Date		: 2009-01-09 12:24 (27 days old)
+References	: http://marc.info/?l=linux-kernel&m=123150395731165&w=4
+Handled-By	: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=123156441218358&w=4
+		  http://marc.info/?t=123156453100002&r=1&w=4
 
