@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12617] unable to compile e100 firmware into kernel
-Date: Wed,  4 Feb 2009 11:24:08 +0100 (CET)
-Message-ID: <pWZw1SZjMCH.A.5PD.iuYiJB@chimera>
+Subject: [Bug #12618] hackbench [pthread mode] regression with 2.6.29-rc3
+Date: Wed,  4 Feb 2009 11:24:09 +0100 (CET)
+Message-ID: <pWZw1SZjMCH.A.lID.guYiJB@chimera>
 References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>, David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Jesse Brandeburg <jesse.brandeburg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,11 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12617
-Subject		: unable to compile e100 firmware into kernel
-Submitter	: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
-Date		: 2009-01-31 15:59 (5 days old)
-References	: http://marc.info/?l=linux-kernel&m=123341764915181&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12618
+Subject		: hackbench [pthread mode] regression with 2.6.29-rc3
+Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Date		: 2009-02-01 7:30 (4 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=490dea45d00f01847ebebd007685d564aaf2cd98
+References	: http://marc.info/?l=linux-kernel&m=123347347726527&w=4
+Handled-By	: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 
