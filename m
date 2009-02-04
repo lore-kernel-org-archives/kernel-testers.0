@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12601] virt-manager broken on 2.6.29-rc2
-Date: Wed,  4 Feb 2009 11:24:04 +0100 (CET)
-Message-ID: <pWZw1SZjMCH.A.cuE.5uYiJB@chimera>
+Subject: [Bug #12598] tg3 dead after resume
+Date: Wed,  4 Feb 2009 11:24:03 +0100 (CET)
+Message-ID: <pWZw1SZjMCH.A.QEF._uYiJB@chimera>
 References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,12 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12601
-Subject		: virt-manager broken on 2.6.29-rc2
-Submitter	: Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
-Date		: 2009-01-29 5:21 (7 days old)
-References	: http://marc.info/?l=linux-kernel&m=123320655819589&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12598
+Subject		: tg3 dead after resume
+Submitter	: Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-01-29 0:14 (7 days old)
+References	: http://marc.info/?l=linux-kernel&m=123318968501524&w=4
+Handled-By	: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+		  Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=123365342301877&w=4
 
