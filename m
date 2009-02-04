@@ -1,41 +1,39 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12417] glx performance drop with: "x86: PAT: implement
-	track/untrack of pfnmap regions for x86 - v3"
-Date: Wed, 4 Feb 2009 14:46:12 +0100
-Message-ID: <20090204134612.GB17024@elte.hu>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.dX.QwYiJB@chimera>
+From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [Bug #12426] TMDC Joystick no longer works in kernel 2.6.28
+Date: Wed, 4 Feb 2009 14:54:10 +0100 (CET)
+Message-ID: <alpine.LRH.1.10.0902041453190.22097@twin.jikos.cz>
+References: <a47yn9c9JrF.A.hz.L5YiJB@chimera> <CGyEB0S4BpO.A.BkB.g5YiJB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <pWZw1SZjMCH.A.dX.QwYiJB@chimera>
+In-Reply-To: <CGyEB0S4BpO.A.BkB.g5YiJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Suresh Siddha <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Andrew S. Johnson" <andy-9eXmkf4BiQ2aMJb+Lgu22Q@public.gmane.org>
 
-
-* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Wed, 4 Feb 2009, Rafael J. Wysocki wrote:
 
 > This message has been generated automatically as a part of a report
-> of recent regressions.
+> of regressions introduced between 2.6.27 and 2.6.28.
 > 
 > The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
+> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> be listed and let me know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12417
-> Subject		: glx performance drop with: "x86: PAT: implement track/untrack of pfnmap regions for x86 - v3"
-> Submitter	: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-> Date		: 2009-01-06 18:46 (30 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5899329b19100c0b82dc78e9b21ed8b920c9ffb3
-> References	: http://marc.info/?l=linux-kernel&m=123126782822696&w=4
-> Handled-By	: Pallipadi, Venkatesh <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> 		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12426
+> Subject		: TMDC Joystick no longer works in kernel 2.6.28
+> Submitter	: Andrew S. Johnson <andy-9eXmkf4BiQ2aMJb+Lgu22Q@public.gmane.org>
+> Date		: 2009-01-10 21:53 (26 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123162486415366&w=4
 
-this should be fixed in latest -git. Alexey, can you confirm?
+I asked [1] the Submitter some time ago to check whether reverting a 
+particular commit fixes the issue, but never heard back.
 
-	Ingo
+[1] http://lkml.org/lkml/2009/1/26/70
+
+-- 
+Jiri Kosina
+SUSE Labs
