@@ -1,36 +1,55 @@
-From: "Beschorner Daniel" <Daniel.Beschorner-cdG02ZADnvLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #12396] hwinfo problem since 2.6.28
-Date: Wed, 4 Feb 2009 15:03:04 +0100
-Message-ID: <3C59DB883F7B0B4D8096010D45ACCD13C73F15@exch.facton.local>
-References: <a47yn9c9JrF.A.hz.L5YiJB@chimera> <CGyEB0S4BpO.A.IwC.65YiJB@chimera>
+From: Andrey Borzenkov <arvidjaar@mail.ru>
+Subject: Re: [Bug #12606] fb_mmap: circular locking dependency on hibernation
+Date: Wed, 4 Feb 2009 17:43:00 +0300
+Message-ID: <200902041743.08010.arvidjaar@mail.ru>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.jNE.xuYiJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-class: urn:content-classes:message
-In-Reply-To: <CGyEB0S4BpO.A.IwC.65YiJB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: multipart/signed;
+  boundary="nextPart4609451.9OHcauY7sL";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754226AbZBDOn2@vger.kernel.org>
+In-Reply-To: <pWZw1SZjMCH.A.jNE.xuYiJB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Suresh Siddha <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
+--nextPart4609451.9OHcauY7sL
+Content-Type: text/plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+On 4 of February 2009 13:24:06 Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.27 and 2.6.28.
-> 
+> of recent regressions.
+>
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it 
-> still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12396
-> Subject		: hwinfo problem since 2.6.28
-> Submitter	: Beschorner Daniel <Daniel.Beschorner-cdG02ZADnvLQT0dZR+AlfA@public.gmane.org>
-> Date		: 2009-01-06 8:53 (30 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123123277800835&w=4
-> Handled-By	: Suresh Siddha <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> Patch		: http://marc.info/?l=linux-kernel&m=123154005127497&w=4
+> from 2.6.28.  Please verify if it still should be listed and let me
+> know (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12606
+> Subject		: fb_mmap: circular locking dependency on hibernation
+> Submitter	: Andrey Borzenkov <arvidjaar@mail.ru>
+> Date		: 2009-01-27 18:37 (9 days old)
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D123308162731408&w=3D4
 
-Fixed with 2.6.28.3.
+for me it is fixed with
+http://marc.info/?l=3Dlinux-kernel&m=3D123365581406194&w=3D2=20
 
-Daniel
+--nextPart4609451.9OHcauY7sL
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEABECAAYFAkmJqXYACgkQR6LMutpd94yIigCfZQtVS9FxvYb4wxBcouQp4yIj
+g8MAnjurXaxW9J7216qbny8NfgCMknan
+=wUKV
+-----END PGP SIGNATURE-----
+
+--nextPart4609451.9OHcauY7sL--
