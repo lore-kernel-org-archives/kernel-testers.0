@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12571] Suspend-resume on Dell Latitude D410 newly broken in 2.6.29-rc*
-Date: Wed,  4 Feb 2009 11:24:03 +0100 (CET)
-Message-ID: <pWZw1SZjMCH.A.4NF.EvYiJB@chimera>
+Subject: [Bug #12509] lockdep report. fb_mmap vs sys_mmap2
+Date: Wed,  4 Feb 2009 11:24:01 +0100 (CET)
+Message-ID: <pWZw1SZjMCH.A.Z_F.WvYiJB@chimera>
 References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ross Boswell <drb-KpQn0vuWxAmlVyrhU4qvOw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrea Righi <righi.andrea-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Harvey Harrison <harvey.harrison-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Johannes Weiner <hannes-druUgvl0LCNAfugRpC6u6w@public.gmane.org>, Stefan Richter <stefanr-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,11 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12571
-Subject		: Suspend-resume on Dell Latitude D410 newly broken in 2.6.29-rc*
-Submitter	: Ross Boswell <drb-KpQn0vuWxAmlVyrhU4qvOw@public.gmane.org>
-Date		: 2009-01-29 03:46 (7 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12509
+Subject		: lockdep report. fb_mmap vs sys_mmap2
+Submitter	: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date		: 2009-01-17 18:19 (19 days old)
+References	: http://lkml.org/lkml/2009/1/17/176
+Handled-By	: Andrea Righi <righi.andrea-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=123231032115956&w=4
 
