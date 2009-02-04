@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12503] [slab corruption] BUG key_jar: Poison overwritten
-Date: Wed,  4 Feb 2009 11:24:00 +0100 (CET)
-Message-ID: <pWZw1SZjMCH.A.FfG.ivYiJB@chimera>
+Subject: [Bug #12538] xfs_fsr fails on 2.6.29-rc kernels
+Date: Wed,  4 Feb 2009 11:24:02 +0100 (CET)
+Message-ID: <pWZw1SZjMCH.A.EYF.IvYiJB@chimera>
 References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>, Lachlan McIlroy <lachlan-sJ/iWh9BUns@public.gmane.org>, Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, sandeen-+82itfer+wXR7s880joybQ@public.gmane.org
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,11 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12503
-Subject		: [slab corruption] BUG key_jar: Poison overwritten
-Submitter	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Date		: 2009-01-15 18:16 (21 days old)
-References	: http://marc.info/?l=linux-kernel&m=123204353425825&w=4
-Handled-By	: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12538
+Subject		: xfs_fsr fails on 2.6.29-rc kernels
+Submitter	: Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Date		: 2009-01-25 13:02 (11 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=743bb4650da9e2595d6cedd01c680b5b9398c74a
+Handled-By	: Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>
+Patch		: http://bugzilla.kernel.org/attachment.cgi?id=19986&action=view
 
