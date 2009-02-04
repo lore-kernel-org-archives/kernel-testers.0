@@ -1,20 +1,20 @@
 From: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #12415] WARNING: at drivers/net/wireless/iwlwifi/iwl-sta.c:689
-Date: Wed, 4 Feb 2009 14:04:46 +0100
-Message-ID: <200902041404.46539.borntraeger@de.ibm.com>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.7l.UwYiJB@chimera>
+Subject: Re: [Bug #12495] thinkpad problems during resume
+Date: Wed, 4 Feb 2009 14:06:50 +0100
+Message-ID: <200902041406.50578.borntraeger@de.ibm.com>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.tOH.wvYiJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <pWZw1SZjMCH.A.7l.UwYiJB@chimera>
+In-Reply-To: <pWZw1SZjMCH.A.tOH.wvYiJB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tomas Winkler <tomas.winkler-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 
-Am Wednesday 04 February 2009 11:23:55 schrieb Rafael J. Wysocki:
+Am Wednesday 04 February 2009 11:23:58 schrieb Rafael J. Wysocki:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
 >
@@ -23,11 +23,18 @@ Am Wednesday 04 February 2009 11:23:55 schrieb Rafael J. Wysocki:
 > (either way).
 >
 >
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12415
-> Subject		: WARNING: at drivers/net/wireless/iwlwifi/iwl-sta.c:689
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12495
+> Subject		: thinkpad problems during resume
 > Submitter	: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-> Date		: 2009-01-05 10:36 (31 days old)
-> References	: http://marc.info/?l=linux-wireless&m=123115178019082&w=4
+> Date		: 2009-01-17 15:48 (19 days old)
+> First-Bad-Commit:
+> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h
+>=e39ad415ac15116df213dfa2aa2a4f1b0857af9c References	:
+> http://marc.info/?l=linux-kernel&m=123220746125479&w=4
+> http://marc.info/?l=linux-kernel&m=123170361827197&w=4
+> Handled-By	: Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>
+> Patch		: http://lkml.org/lkml/2009/1/16/375
+> 		  http://lkml.org/lkml/2009/1/16/376
+> 		  http://lkml.org/lkml/2009/1/16/378
 
-Patch is available but not yet upstream:
-http://marc.info/?l=linux-wireless&m=123316414222201&w=2 
+Fixed upstream. 
