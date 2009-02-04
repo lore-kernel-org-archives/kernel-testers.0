@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12606] fb_mmap: circular locking dependency on hibernation
+Subject: [Bug #12604] Commit 31a12666d8f0c22235297e1c1575f82061480029 slows down Berkeley DB
 Date: Wed,  4 Feb 2009 11:24:06 +0100 (CET)
-Message-ID: <pWZw1SZjMCH.A.jNE.xuYiJB@chimera>
+Message-ID: <pWZw1SZjMCH.A.cfE.1uYiJB@chimera>
 References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12606
-Subject		: fb_mmap: circular locking dependency on hibernation
-Submitter	: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
-Date		: 2009-01-27 18:37 (9 days old)
-References	: http://marc.info/?l=linux-kernel&m=123308162731408&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12604
+Subject		: Commit 31a12666d8f0c22235297e1c1575f82061480029 slows down Berkeley DB
+Submitter	: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+Date		: 2009-01-30 1:23 (6 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=31a12666d8f0c22235297e1c1575f82061480029
+References	: http://marc.info/?l=linux-kernel&m=123327862901800&w=4
 
