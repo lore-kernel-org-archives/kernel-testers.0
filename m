@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12499] Problem with using bluetooth adaper connected to usb port
-Date: Wed,  4 Feb 2009 11:23:59 +0100 (CET)
-Message-ID: <pWZw1SZjMCH.A.4uG.nvYiJB@chimera>
+Subject: [Bug #12508] "powerpc/pci: Reserve legacy regions on PCI" broke my G3
+Date: Wed,  4 Feb 2009 11:24:01 +0100 (CET)
+Message-ID: <pWZw1SZjMCH.A.ZIG.YvYiJB@chimera>
 References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,11 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12499
-Subject		: Problem with using bluetooth adaper connected to usb port
-Submitter	: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-01-13 18:34 (23 days old)
-References	: http://marc.info/?l=linux-kernel&m=123187185426236&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12508
+Subject		: "powerpc/pci: Reserve legacy regions on PCI" broke my G3
+Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Date		: 2009-01-17 22:46 (19 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=c1f343028d35ba4e88cd4a3c44e0d8b8a84264ee
+References	: http://marc.info/?l=linux-kernel&m=123223247325452&w=4
+Handled-By	: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
 
