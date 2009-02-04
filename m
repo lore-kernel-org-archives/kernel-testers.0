@@ -1,43 +1,43 @@
-From: Alex Riesen <raa.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12518] BUG: using smp_processor_id() in preemptible 
-	[00000000] code: dellWirelessCtl/...
-Date: Wed, 4 Feb 2009 16:58:55 +0100
-Message-ID: <81b0412b0902040758s43ba058ava7470213b6d74a85@mail.gmail.com>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
-	 <pWZw1SZjMCH.A.NpF.OvYiJB@chimera>
+From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+Subject: Re: [Bug #12417] glx performance drop with: "x86: PAT: implement
+ track/untrack of pfnmap regions for x86 - v3"
+Date: Wed, 04 Feb 2009 17:02:30 +0100
+Message-ID: <4989BC16.4080602@fisher-privat.net>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.dX.QwYiJB@chimera> <20090204134612.GB17024@elte.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=p1X14+UFFFw2Dq8UHxZBz0J/o8fzrF/NqWRWqgaS5Hw=;
-        b=x543qf8ieofxSd/5nPmtxTEdIaVNtUpN1rAap+NVXXlw1HBDRxVFtiykHksW0nqQtA
-         LMiYVheqFm0uVt38TlVErgkjMp889EopeQ9jiLRNNJzQUa8khVALW42X45gITEMGvJ1J
-         vS9ScJTe4SRGVvERl8vPvBud9FmucCtUakuUc=
-In-Reply-To: <pWZw1SZjMCH.A.NpF.OvYiJB@chimera>
+In-Reply-To: <20090204134612.GB17024-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alex Riesen <fork0-iA+eEnwkJgzk1uMJSBkQmQ@public.gmane.org>, Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Suresh Siddha <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 
-2009/2/4 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
->
+Ingo Molnar schrieb:
+> * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> 
+>> This message has been generated automatically as a part of a report
+>> of recent regressions.
+>>
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.28.  Please verify if it still should be listed and let me know
+>> (either way).
+>>
+>>
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12417
+>> Subject		: glx performance drop with: "x86: PAT: implement track/untrack of pfnmap regions for x86 - v3"
+>> Submitter	: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+>> Date		: 2009-01-06 18:46 (30 days old)
+>> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5899329b19100c0b82dc78e9b21ed8b920c9ffb3
+>> References	: http://marc.info/?l=linux-kernel&m=123126782822696&w=4
+>> Handled-By	: Pallipadi, Venkatesh <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+>> 		  Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+>>
+> 
+> this should be fixed in latest -git. Alexey, can you confirm?
+> 
+> 	Ingo
 
-I confirm the problem fixed with the patch in the bugs discussion.
-
->
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12518
-> Subject         : BUG: using smp_processor_id() in preemptible [00000000] code:  dellWirelessCtl/...
-> Submitter       : Alex Riesen <fork0-iA+eEnwkJgzk1uMJSBkQmQ@public.gmane.org>
-> Date            : 2009-01-21 14:21 (15 days old)
->
+I confirm it. It working  great with latest git 2.6.29-rc3-00495-gdcf6a79.
+	Alexey
