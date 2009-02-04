@@ -1,19 +1,20 @@
-From: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #12616] boot hang: async vs. kexec
-Date: Wed, 04 Feb 2009 08:50:18 -0800
-Message-ID: <4989C74A.2020402@oracle.com>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.xUD.kuYiJB@chimera>
+From: Ira Snyder <iws@ovro.caltech.edu>
+Subject: Re: [Bug #12615] boot hangs while bringing up gianfar ethernet
+Date: Wed, 4 Feb 2009 08:54:10 -0800
+Message-ID: <20090204165410.GA21717@ovro.caltech.edu>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.2aD.muYiJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <pWZw1SZjMCH.A.xUD.kuYiJB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756134AbZBDQyW@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <pWZw1SZjMCH.A.2aD.muYiJB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Peter Korsgaard <jacmet@sunsite.dk>
 
-Rafael J. Wysocki wrote:
+On Wed, Feb 04, 2009 at 11:24:08AM +0100, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
 > 
@@ -22,15 +23,16 @@ Rafael J. Wysocki wrote:
 > (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12616
-> Subject		: boot hang: async vs. kexec
-> Submitter	: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-> Date		: 2009-01-29 13:15 (7 days old)
-> References	: http://lkml.org/lkml/2009/1/29/359
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12615
+> Subject		: boot hangs while bringing up gianfar ethernet
+> Submitter	: Ira Snyder <iws@ovro.caltech.edu>
+> Date		: 2009-01-29 19:41 (7 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123325817201665&w=4
+> 
+> 
 
-Please reject this for now.  I'll keep debugging/working on it
-and see if any fixes are needed.
+Tested this morning with Linux version 2.6.29-rc3-00563-g37f752c, and I
+still see the same behavior.
 
 Thanks,
--- 
-~Randy
+Ira
