@@ -1,30 +1,37 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12615] boot hangs while bringing up gianfar ethernet
-Date: Wed,  4 Feb 2009 11:24:08 +0100 (CET)
-Message-ID: <pWZw1SZjMCH.A.2aD.muYiJB@chimera>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
+From: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #12591] NULL pointer dereference in blk_queue_io_stat
+Date: Wed, 4 Feb 2009 13:53:21 +0100
+Message-ID: <20090204125320.GH30821@kernel.dk>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.OKF.BvYiJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
 Content-Disposition: inline
+In-Reply-To: <pWZw1SZjMCH.A.OKF.BvYiJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ira Snyder <iws-lulEs6mt1IksTUYHLfqkUA@public.gmane.org>, Peter Korsgaard <jacmet-OfajU3CKLf1/SzgSGea1oA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Petr Vandrovec <vandrove-hnqZr3NxcozrBKCeMvbIDA@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of recent regressions.
+On Wed, Feb 04 2009, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12591
+> Subject		: NULL pointer dereference in blk_queue_io_stat
+> Submitter	: Petr Vandrovec <vandrove-hnqZr3NxcozrBKCeMvbIDA@public.gmane.org>
+> Date		: 2009-01-31 23:58 (5 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=bc58ba9468d94d62c56ab9b47173583ec140b165
+> Handled-By	: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
-The following bug entry is on the current list of known regressions
-from 2.6.28.  Please verify if it still should be listed and let me know
-(either way).
+This one is already fixed in -git by commit
+fb8ec18c316d869271137c97320dbfd2def56569.
 
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12615
-Subject		: boot hangs while bringing up gianfar ethernet
-Submitter	: Ira Snyder <iws-lulEs6mt1IksTUYHLfqkUA@public.gmane.org>
-Date		: 2009-01-29 19:41 (7 days old)
-References	: http://marc.info/?l=linux-kernel&m=123325817201665&w=4
-
+-- 
+Jens Axboe
