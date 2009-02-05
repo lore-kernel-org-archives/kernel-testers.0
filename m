@@ -1,99 +1,70 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12491] i915 lockdep warning
-Date: Thu, 5 Feb 2009 02:03:39 +0100
-Message-ID: <200902050203.40535.rjw@sisk.pl>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.ciH.4vYiJB@chimera> <adar62dltg1.fsf@cisco.com>
+Subject: Re: [Bug #12505] 2.6.29-rc1 Firefox crashing on page load
+Date: Thu, 5 Feb 2009 02:08:14 +0100
+Message-ID: <200902050208.15776.rjw@sisk.pl>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <20090204164623.GE25996@elte.hu> <dd18b0c30902041015m2213d94cx72d41bd225afa3e9@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <adar62dltg1.fsf-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <dd18b0c30902041015m2213d94cx72d41bd225afa3e9-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Roland Dreier <rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Brandeburg, Jesse" <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, drivers_video-dri-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+To: Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Hiroshi Shimamoto <h-shimamoto-ehU+Cx/zZe18UrSeD/g0lQ@public.gmane.org>, Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
 
-[Adding CCs.]
+On Wednesday 04 February 2009, Justin Mattock wrote:
+> On Wed, Feb 4, 2009 at 4:46 PM, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
+> >
+> > * Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> >
+> >> On Wed, Feb 4, 2009 at 2:24 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> >> > This message has been generated automatically as a part of a report
+> >> > of recent regressions.
+> >> >
+> >> > The following bug entry is on the current list of known regressions
+> >> > from 2.6.28.  Please verify if it still should be listed and let me know
+> >> > (either way).
+> >> >
+> >> >
+> >> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12505
+> >> > Subject         : 2.6.29-rc1 Firefox crashing on page load
+> >> > Submitter       : Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
+> >> > Date            : 2009-01-16 20:56 (20 days old)
+> >> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=4217458dafaa57d8e26a46f5d05ab8c53cf64191
+> >> > References      : http://marc.info/?l=linux-kernel&m=123213941914274&w=4
+> >> > Handled-By      : Justin P. Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> >> >
+> >> >
+> >> >
+> >>
+> >> Well the hardest for this, was to reproduce
+> >> the error.(never did). I guess it can be taken
+> >> of if there was a patch for the fix, and the patch
+> >> made it into the main tree. but if this  is a firefox
+> >> issue, then a report needs to be filed with them.
+> >> so overall my answer is "I don't know."
+> >> :^)
+> >
+> > the error is spurious because gcc randomly stomps on user register state so
+> > the effects can be rather random and unpredictable.
+> >
+> > The fix:
+> >
+> >  552b8aa: Revert "x86: signal: change type of paramter for sys_rt_sigreturn()"
+> >
+> > was included in -rc2 already, so please test latest -git whether you can see
+> > any such troubles.
+> >
+> >        Ingo
+> >
+> 
+> Sure I'll test it.
+> I'm just in the process of compiling libc.
+> which looks like I'll be here for a while.
 
-On Wednesday 04 February 2009, Roland Dreier wrote:
->  > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12491
->  > Subject		: i915 lockdep warning
->  > Submitter	: Brandeburg, Jesse <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
->  > Date		: 2009-01-13 23:17 (23 days old)
->  > References	: http://marc.info/?l=linux-kernel&m=123188898423532&w=4
-> 
-> Looking at the code, it seems that the issue is that the DRM
-> struct_mutex must be taken inside mmap_sem (because struct_mutex is
-> taken in drm_vm_open(), which is called with mmap_sem already held), but
-> i915_gem_execbuffer() does a copy_to_user() while holding struct_mutex,
-> and if this copy faults, then the VM tries to acquire mmap_sem -- ie
-> lockdep identifies correctly a potential AB/BA deadlock.
-> 
-> I don't pretend to fully understand the DRM or GEM, but a possible fix
-> is below -- would be worth it to test and review, and get into 2.6.29 if
-> it is a correct fix:
-> 
-> ---
-> i915: Fix potential AB-BA deadlock in i915_gem_execbuffer()
-> 
-> Lockdep warns that i915_gem_execbuffer() can trigger a page fault (which
-> takes mmap_sem) while holding dev->struct_mutex, while drm_vm_open()
-> (which is called with mmap_sem already held) takes dev->struct_mutex.
-> So this is a potential AB-BA deadlock.
-> 
-> The way that i915_gem_execbuffer() triggers a page fault is by doing
-> copy_to_user() when returning new buffer offsets back to userspace;
-> however there is no reason to hold the struct_mutex when doing this
-> copy, since what is being copied is a private array anyway.  So we can
-> fix the potential deadlock (and get rid of the lockdep warning) by
-> simply moving the copy_to_user() outside of where struct_mutex is held.
-> 
-> This fixes <http://bugzilla.kernel.org/show_bug.cgi?id=12491>.
-> 
-> Reported-by: Jesse Brandeburg <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> Signed-off-by: Roland Dreier <rolandd-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
-> ---
->  drivers/gpu/drm/i915/i915_gem.c |   21 ++++++++++++---------
->  1 files changed, 12 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-> index debad5c..23aad8c 100644
-> --- a/drivers/gpu/drm/i915/i915_gem.c
-> +++ b/drivers/gpu/drm/i915/i915_gem.c
-> @@ -2610,15 +2610,6 @@ i915_gem_execbuffer(struct drm_device *dev, void *data,
->  
->  	i915_verify_inactive(dev, __FILE__, __LINE__);
->  
-> -	/* Copy the new buffer offsets back to the user's exec list. */
-> -	ret = copy_to_user((struct drm_i915_relocation_entry __user *)
-> -			   (uintptr_t) args->buffers_ptr,
-> -			   exec_list,
-> -			   sizeof(*exec_list) * args->buffer_count);
-> -	if (ret)
-> -		DRM_ERROR("failed to copy %d exec entries "
-> -			  "back to user (%d)\n",
-> -			   args->buffer_count, ret);
->  err:
->  	for (i = 0; i < pinned; i++)
->  		i915_gem_object_unpin(object_list[i]);
-> @@ -2628,6 +2619,18 @@ err:
->  
->  	mutex_unlock(&dev->struct_mutex);
->  
-> +	if (!ret) {
-> +		/* Copy the new buffer offsets back to the user's exec list. */
-> +		ret = copy_to_user((struct drm_i915_relocation_entry __user *)
-> +				   (uintptr_t) args->buffers_ptr,
-> +				   exec_list,
-> +				   sizeof(*exec_list) * args->buffer_count);
-> +		if (ret)
-> +			DRM_ERROR("failed to copy %d exec entries "
-> +				  "back to user (%d)\n",
-> +				  args->buffer_count, ret);
-> +	}
-> +
->  pre_mutex_err:
->  	drm_free(object_list, sizeof(*object_list) * args->buffer_count,
->  		 DRM_MEM_DRIVER);
-> --
+I've closed the bug as hopefully fixed.
+
+Thanks,
+Rafael
