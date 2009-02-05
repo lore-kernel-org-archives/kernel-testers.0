@@ -1,71 +1,58 @@
-From: Jesse Barnes <jbarnes@virtuousgeek.org>
-Subject: Re: [Bug #12608] 2.6.29-rc powerpc G5 Xorg legacy_mem regression
-Date: Thu, 5 Feb 2009 14:33:22 -0800
-Message-ID: <200902051433.23294.jbarnes@virtuousgeek.org>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <Pine.LNX.4.64.0902051713550.1445@blonde.anvils> <1233867944.4612.104.camel@pasglop>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
+Date: Thu, 5 Feb 2009 23:37:30 +0100
+Message-ID: <200902052337.31259.rjw@sisk.pl>
+References: <a47yn9c9JrF.A.hz.L5YiJB@chimera> <CGyEB0S4BpO.A.EfB.d5YiJB@chimera> <1233862503.4823.1.camel@kulgan.wumi.org.au>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755249AbZBEWdf@vger.kernel.org>
-In-Reply-To: <1233867944.4612.104.camel@pasglop>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1233862503.4823.1.camel-9TBizaOOD0ujuAshGpSIhRCuuivNXqWP@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Hugh Dickins <hugh@veritas.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+To: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-On Thursday, February 5, 2009 1:05 pm Benjamin Herrenschmidt wrote:
-> > Is it a really a bug in X, or a misunderstanding between X and
-> > the kernel as to what existence of the legacy_mem file implies?
-> >
-> > I may have got this quite wrong, but to me it appears that X assumes
-> > that existence of the legacy_mem file implies that it will be useful;
-> > whereas the kernel thinks it can make the legacy_mem file available,
-> > even if it cannot be used for mmapping mem - which is its sole purpose?
-> >
-> > What if pci_create_legacy_files() were to call some new verification
-> > routine, and only create the legacy_mem file if it would be usable?
-> > (But perhaps that cannot be known at the time it needs to be created.)
->
-> Well, first X should certainly not -fail- to launch if it fails to map
-> legacy memory, which is generally not useful anyway. That's where the
-> bug is. Jesse, did you have a chance to fix that yet or should I give it
-> a go ?
+On Thursday 05 February 2009, Kevin Shanahan wrote:
+> On Wed, 2009-02-04 at 11:58 +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.27 and 2.6.28.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12465
+> > Subject		: KVM guests stalling on 2.6.28 (bisected)
+> > Submitter	: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+> > Date		: 2009-01-17 03:37 (19 days old)
+> 
+> Yes, this should still be listed.
 
-No, sorry, but I just took a look and as long as the various callers can 
-handle it (haven't checked), this patch would work.
+Thanks for the update.
+ 
+> Please remove kmshanah-IiIpDuVlHfMLO379cgqW9odd74u8MsAO@public.gmane.org from the CC list.
 
-> The second problem is that if I just don't expose the legacy_mem file,
-> then X has no way to know whether the kernel doesn't support the
-> interface or whether the HW doesn't support legacy memory access. So X
-> will fallback to whacking /dev/mem which is even more bogus. At least
-> that's what I remember from last I looked at that part of X code.
->
-> It should be a trivial fix on X side tho.
+It gets added because it is present in the Author: field in
+http://bugzilla.kernel.org/show_bug.cgi?id=12465#c5
 
-One option there would be to provide the file but just use anonymous memory to 
-back it.  X will happily think it's messing with legacy VGA memory, but it 
-shouldn't matter that it's not actually affecting hw.
+This is how the script works, sorry for the inconvenience.
 
-diff --git a/hw/xfree86/os-support/bus/linuxPci.c 
-b/hw/xfree86/os-support/bus/li
-index 263fd8f..5d2da32 100644
---- a/hw/xfree86/os-support/bus/linuxPci.c
-+++ b/hw/xfree86/os-support/bus/linuxPci.c
-@@ -484,8 +484,9 @@ xf86MapDomainMemory(int ScreenNum, int Flags, struct 
-pci_dev
-     if (fd >= 0)
-        close(fd);
-     if (addr == NULL || addr == MAP_FAILED) {
--       perror("mmap failure");
--       FatalError("xf86MapDomainMem():  mmap() failure\n");
-+       xf86Msg(X_WARNING, "xf86MapDomainMem():  mmap() failure: %s\n",
-+               strerror(errno));
-+       return NULL;
-     }
-     return addr;
- }
+Rafael
+
+
+> 
+> Thanks,
+> Kevin.
+> 
+> 
+> 
+> 
 
 
 -- 
-Jesse Barnes, Intel Open Source Technology Center
+Everyone knows that debugging is twice as hard as writing a program
+in the first place.  So if you're as clever as you can be when you write it,
+how will you ever debug it? --- Brian Kernighan
