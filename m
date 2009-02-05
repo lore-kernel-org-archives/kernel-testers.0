@@ -1,44 +1,58 @@
-From: Ray Lee <madrabbit-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12393] debugging in dosemu causes lots of 'scheduling while 
-	atomic'
-Date: Thu, 5 Feb 2009 08:25:05 -0800
-Message-ID: <2c0942db0902050825q90be8d3uf16cafa2e24115bd@mail.gmail.com>
-References: <a47yn9c9JrF.A.hz.L5YiJB@chimera>
-	 <CGyEB0S4BpO.A.C8C.-5YiJB@chimera>
-	 <a5d587fb0902041844v40f1d441s535d070437aa9823@mail.gmail.com>
-	 <200902051709.12967.rjw@sisk.pl>
+From: Hugh Dickins <hugh@veritas.com>
+Subject: Re: [Bug #12608] 2.6.29-rc powerpc G5 Xorg legacy_mem regression
+Date: Thu, 5 Feb 2009 17:23:29 +0000 (GMT)
+Message-ID: <Pine.LNX.4.64.0902051713550.1445@blonde.anvils>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>  <pWZw1SZjMCH.A.sIE.wuYiJB@chimera>
+ <1233791329.4612.23.camel@pasglop>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=Mc9nV4u++456Q4ezcwVE+wkegR8rxppVxLvXQeg1xOE=;
-        b=PBJr7iR8OhgfxuZlLzfJ5N/N/kzmggYR9IV+pF46TCWZXbdsEVSlVUXahVCPELPmQy
-         vCEENCTDRBn8ZeBx53UU2yQbFk4cqX3O+VWOEowRidCsyQ6lh+Nig6ATEWsF47lYp7PY
-         gh73ybCny0GGkSf06ZghIhnanqS8Gl2XmzuH8=
-In-Reply-To: <200902051709.12967.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759440AbZBERYj@vger.kernel.org>
+In-Reply-To: <1233791329.4612.23.camel@pasglop>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jesse Barnes <jbarnes@virtuousgeek.org>
 
-On Thu, Feb 5, 2009 at 8:09 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> On Thursday 05 February 2009, Michal Suchanek wrote:
->> As I said earlier I have received a patch that I applied locally and
->> that fixes the problem.
->>
->> As to if and when the patch actually appears in the kernel is out of
->> my control, and nobody told me that it was applied.
->>
->> If you believe it was applied to a kernel version that is readily
->> available for download I am wiling to test such version.
->
-> I don't at the moment.
->
-> Can you send me a URL to the patch, please?
+On Thu, 5 Feb 2009, Benjamin Herrenschmidt wrote:
+> On Wed, 2009-02-04 at 11:24 +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.28.  Please verify if it still should be listed and let me know
+> > (either way).
+> 
+> I still don't know what's the best way to handle that one... the bug is
+> in X and I don't see a way to work around it without removing support
+> for legacy memory access from the kernel :-( Or doing it in a way that
+> doesn't allow userspace to differenciate between the kernel not
+> supporting it vs. the HW not supporting it, causing X to fallback to
+> even more broken crap.
 
-http://lkml.org/lkml/2009/1/13/445
+Is it a really a bug in X, or a misunderstanding between X and
+the kernel as to what existence of the legacy_mem file implies?
+
+I may have got this quite wrong, but to me it appears that X assumes
+that existence of the legacy_mem file implies that it will be useful;
+whereas the kernel thinks it can make the legacy_mem file available,
+even if it cannot be used for mmapping mem - which is its sole purpose?
+
+What if pci_create_legacy_files() were to call some new verification
+routine, and only create the legacy_mem file if it would be usable?
+(But perhaps that cannot be known at the time it needs to be created.)
+
+Hugh
+
+> 
+> I'll try to find out the extent of the X problem and whether that's
+> fixable in a way that can hit distros.
+> 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12608
+> > Subject		: 2.6.29-rc powerpc G5 Xorg legacy_mem regression
+> > Submitter	: Hugh Dickins <hugh@veritas.com>
+> > Date		: 2009-01-21 21:12 (15 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d3a54014e2a94bd37b7dee5e76e03f7bc4fab49a
+> > References	: http://marc.info/?l=linux-kernel&m=123257250431870&w=4
+> > Handled-By	: Benjamin Herrenschmidt <benh@kernel.crashing.org>
