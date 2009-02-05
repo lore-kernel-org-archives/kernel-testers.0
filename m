@@ -1,40 +1,44 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12605] Suspend regression, hang after matroxfb
-Date: Thu, 5 Feb 2009 17:12:55 +0100
-Message-ID: <200902051712.56407.rjw@sisk.pl>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.2UE.zuYiJB@chimera> <20090205121624.GA17811@alice>
+From: Ray Lee <madrabbit-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12393] debugging in dosemu causes lots of 'scheduling while 
+	atomic'
+Date: Thu, 5 Feb 2009 08:25:05 -0800
+Message-ID: <2c0942db0902050825q90be8d3uf16cafa2e24115bd@mail.gmail.com>
+References: <a47yn9c9JrF.A.hz.L5YiJB@chimera>
+	 <CGyEB0S4BpO.A.C8C.-5YiJB@chimera>
+	 <a5d587fb0902041844v40f1d441s535d070437aa9823@mail.gmail.com>
+	 <200902051709.12967.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090205121624.GA17811@alice>
-Content-Disposition: inline
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=Mc9nV4u++456Q4ezcwVE+wkegR8rxppVxLvXQeg1xOE=;
+        b=PBJr7iR8OhgfxuZlLzfJ5N/N/kzmggYR9IV+pF46TCWZXbdsEVSlVUXahVCPELPmQy
+         vCEENCTDRBn8ZeBx53UU2yQbFk4cqX3O+VWOEowRidCsyQ6lh+Nig6ATEWsF47lYp7PY
+         gh73ybCny0GGkSf06ZghIhnanqS8Gl2XmzuH8=
+In-Reply-To: <200902051709.12967.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Eric Sesterhenn <snakebyte-Mmb7MZpHnFY@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Thursday 05 February 2009, Eric Sesterhenn wrote:
-> * Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.28.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12605
-> > Subject		: Suspend regression, hang after matroxfb
-> > Submitter	: Eric Sesterhenn <snakebyte-Mmb7MZpHnFY@public.gmane.org>
-> > Date		: 2009-01-29 12:58 (7 days old)
-> > References	: http://thread.gmane.org/gmane.linux.power-management.general/12640
-> > Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> > Patch		: http://marc.info/?l=linux-kernel&m=123335902122029&w=4
-> 
-> with todays -git I still get the same error, I have seen that some of 
-> your PM patches got applied, seems the one I need wasnt one of them.
+On Thu, Feb 5, 2009 at 8:09 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> On Thursday 05 February 2009, Michal Suchanek wrote:
+>> As I said earlier I have received a patch that I applied locally and
+>> that fixes the problem.
+>>
+>> As to if and when the patch actually appears in the kernel is out of
+>> my control, and nobody told me that it was applied.
+>>
+>> If you believe it was applied to a kernel version that is readily
+>> available for download I am wiling to test such version.
+>
+> I don't at the moment.
+>
+> Can you send me a URL to the patch, please?
 
-No, it's not been merged yet.
-
-Thanks,
-Rafael
+http://lkml.org/lkml/2009/1/13/445
