@@ -1,80 +1,48 @@
-From: Matthias Reichl <hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12612] hard lockup when interrupting cdda2wav
-Date: Thu, 5 Feb 2009 14:16:44 +0100
-Message-ID: <20090205131644.GA5731@horus.com>
-References: <a47yn9c9JrF.A.hz.L5YiJB@chimera> <CGyEB0S4BpO.A.fLB.T5YiJB@chimera>
+From: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12414] iwl4965 cannot use "ap auto" on latest 2.6.28/29?
+Date: Thu, 5 Feb 2009 22:34:31 +0800
+Message-ID: <b6a2187b0902050634r37a4c3ccg55e2d1e22ae2f9c4@mail.gmail.com>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
+	 <pWZw1SZjMCH.A.zq.WwYiJB@chimera>
+	 <b6a2187b0902041115u130fcfe7ha1612e2e2fa1ec36@mail.gmail.com>
+	 <200902050237.39394.rjw@sisk.pl>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CGyEB0S4BpO.A.fLB.T5YiJB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=+ifM4H4EKZcfEdJJASIOC3DP8bZ2duVIk1DyCY2PB98=;
+        b=UzFDIkOyA1VEZ5fGQrVdk0lfI1a+ewjUupGm2ErjR/h7XChtJYILe2PTp7uEqWnQK9
+         w2iRmfaRB5+BKv9qmlUld/ubTe7wlnkDHxx5ufrzYdjiGZEeAw/M+HGRHNLhih9PBVk/
+         B5twjnx+rV3F5/VxhfEnxsGKIxuL2vpjJo3+Q=
+In-Reply-To: <200902050237.39394.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, Sujith.Manoharan-DlyHzToyqoxBDgjK7y7TUQ@public.gmane.org
 
-On Wed, Feb 04, 2009 at 11:58:51AM +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.27 and 2.6.28.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12612
-> Subject		: hard lockup when interrupting cdda2wav
-> Submitter	: Matthias Reichl <hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-01-28 16:41 (8 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123316111415677&w=4
-> Handled-By	: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+On Thu, Feb 5, 2009 at 9:37 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> On Wednesday 04 February 2009, Jeff Chua wrote:
+>> On Wed, Feb 4, 2009 at 6:23 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+>> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12414
+>> > Subject         : iwl4965 cannot use "ap auto" on latest 2.6.28/29?
+>> > Submitter       : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> > Date            : 2009-01-05 4:13 (31 days old)
+>> > References      : http://marc.info/?l=linux-kernel&m=123112882127823&w=4
+>>
+>> Latest linux git pull seems to behave slightly better. Restarting the
+>> interface a few times fixes the problem 70% of the time. The rest of
+>> the time, it can't associate with the AP.
+>
+> Thanks for the update, there is a patch for you to test at
+> http://bugzilla.kernel.org/show_bug.cgi?id=12414#c3
 
-This bug is still present in 2.6.28.3.
+Ok, will try that patch next weekend when I get home.
 
-so long,
+Thanks for the patch.
 
-Hias
-
-=============================================
-[ INFO: possible recursive locking detected ]
-2.6.28.3-dbg #1
----------------------------------------------
-swapper/0 is trying to acquire lock:
- (&q->__queue_lock){.+..}, at: [<ffffffff8040e5f5>] blk_put_request+0x25/0x60
-
-but task is already holding lock:
- (&q->__queue_lock){.+..}, at: [<ffffffff8040e4da>] blk_end_io+0x5a/0xa0
-
-other info that might help us debug this:
-1 lock held by swapper/0:
- #0:  (&q->__queue_lock){.+..}, at: [<ffffffff8040e4da>] blk_end_io+0x5a/0xa0
-
-stack backtrace:
-Pid: 0, comm: swapper Not tainted 2.6.28.3-dbg #1
-Call Trace:
- <IRQ>  [<ffffffff8026cc87>] __lock_acquire+0x1797/0x1930
- [<ffffffff806abd7b>] error_exit+0x29/0xa9
- [<ffffffff80521e20>] sg_rq_end_io+0x0/0x2e0
- [<ffffffff8026ceba>] lock_acquire+0x9a/0xe0
- [<ffffffff8040e5f5>] blk_put_request+0x25/0x60
- [<ffffffff806ab763>] _spin_lock_irqsave+0x43/0x90
- [<ffffffff8040e5f5>] blk_put_request+0x25/0x60
- [<ffffffff8040e5f5>] blk_put_request+0x25/0x60
- [<ffffffff80520974>] sg_finish_rem_req+0xa4/0x100
- [<ffffffff80522098>] sg_rq_end_io+0x278/0x2e0
- [<ffffffff8040e281>] end_that_request_last+0x61/0x260
- [<ffffffff8040e4e8>] blk_end_io+0x68/0xa0
- [<ffffffff80508061>] scsi_end_request+0x41/0xd0
- [<ffffffff80508750>] scsi_io_completion+0x130/0x470
- [<ffffffff804133e5>] blk_done_softirq+0x75/0x90
- [<ffffffff802488ab>] __do_softirq+0x9b/0x180
- [<ffffffff80213df3>] native_sched_clock+0x13/0x70
- [<ffffffff8020d6ec>] call_softirq+0x1c/0x30
- [<ffffffff8020f175>] do_softirq+0x65/0xa0
- [<ffffffff80248345>] irq_exit+0xa5/0xb0
- [<ffffffff8020f467>] do_IRQ+0x107/0x1d0
- [<ffffffff8020c7fb>] ret_from_intr+0x0/0xf
- <EOI>  [<ffffffff80214ba6>] mwait_idle+0x56/0x60
- [<ffffffff80214b9d>] mwait_idle+0x4d/0x60
- [<ffffffff8020b353>] cpu_idle+0x63/0xc0
+Jeff.
