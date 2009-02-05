@@ -1,37 +1,46 @@
-From: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
-Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
-Date: Fri, 06 Feb 2009 06:05:03 +1030
-Message-ID: <1233862503.4823.1.camel@kulgan.wumi.org.au>
-References: <a47yn9c9JrF.A.hz.L5YiJB@chimera>
-	 <CGyEB0S4BpO.A.EfB.d5YiJB@chimera>
+From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Subject: Re: [Bug #12608] 2.6.29-rc powerpc G5 Xorg legacy_mem regression
+Date: Fri, 06 Feb 2009 08:05:44 +1100
+Message-ID: <1233867944.4612.104.camel@pasglop>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
+	 <pWZw1SZjMCH.A.sIE.wuYiJB@chimera> <1233791329.4612.23.camel@pasglop>
+	 <Pine.LNX.4.64.0902051713550.1445@blonde.anvils>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CGyEB0S4BpO.A.EfB.d5YiJB@chimera>
+In-Reply-To: <Pine.LNX.4.64.0902051713550.1445-XZxpfvf5U/bbmfIwyoSfiQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+To: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 
-On Wed, 2009-02-04 at 11:58 +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.27 and 2.6.28.
+
+> Is it a really a bug in X, or a misunderstanding between X and
+> the kernel as to what existence of the legacy_mem file implies?
 > 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> be listed and let me know (either way).
+> I may have got this quite wrong, but to me it appears that X assumes
+> that existence of the legacy_mem file implies that it will be useful;
+> whereas the kernel thinks it can make the legacy_mem file available,
+> even if it cannot be used for mmapping mem - which is its sole purpose?
 > 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12465
-> Subject		: KVM guests stalling on 2.6.28 (bisected)
-> Submitter	: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
-> Date		: 2009-01-17 03:37 (19 days old)
+> What if pci_create_legacy_files() were to call some new verification
+> routine, and only create the legacy_mem file if it would be usable?
+> (But perhaps that cannot be known at the time it needs to be created.)
 
-Yes, this should still be listed.
+Well, first X should certainly not -fail- to launch if it fails to map
+legacy memory, which is generally not useful anyway. That's where the
+bug is. Jesse, did you have a chance to fix that yet or should I give it
+a go ?
 
-Please remove kmshanah-IiIpDuVlHfMLO379cgqW9odd74u8MsAO@public.gmane.org from the CC list.
+The second problem is that if I just don't expose the legacy_mem file,
+then X has no way to know whether the kernel doesn't support the
+interface or whether the HW doesn't support legacy memory access. So X
+will fallback to whacking /dev/mem which is even more bogus. At least
+that's what I remember from last I looked at that part of X code.
 
-Thanks,
-Kevin.
+It should be a trivial fix on X side tho.
+
+Cheers,
+Ben.
 
