@@ -1,87 +1,32 @@
-From: Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12505] 2.6.29-rc1 Firefox crashing on page load
-Date: Wed, 4 Feb 2009 17:37:46 -0800
-Message-ID: <dd18b0c30902041737j1c5d71c4w98109eb24aed357d@mail.gmail.com>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <20090204164623.GE25996@elte.hu>
-	 <dd18b0c30902041015m2213d94cx72d41bd225afa3e9@mail.gmail.com>
-	 <200902050208.15776.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #12414] iwl4965 cannot use "ap auto" on latest 2.6.28/29?
+Date: Thu, 5 Feb 2009 02:37:38 +0100
+Message-ID: <200902050237.39394.rjw@sisk.pl>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.zq.WwYiJB@chimera> <b6a2187b0902041115u130fcfe7ha1612e2e2fa1ec36@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=G4I6seB/t4rBQr0aQ0tYQ35VXUcjm4x488UgA5Ic9jo=;
-        b=rCas0HH+XwJUeDoS1hnZV14IxfLtP23JCVgm5vViG5xQCRZN6FnEWg+Y4AiaulJFzg
-         0tfMy5oATjKacf4kASUVpYP0Iay4hL5V5KYn4YjnDQYVMmG8fVZ4kgCXJXbCPzXLHd3W
-         bCiO/MhqIp1yK7151gPKoWEHf0dJ7KYYpu3v0=
-In-Reply-To: <200902050208.15776.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <b6a2187b0902041115u130fcfe7ha1612e2e2fa1ec36-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Hiroshi Shimamoto <h-shimamoto-ehU+Cx/zZe18UrSeD/g0lQ@public.gmane.org>, Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
+To: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Wed, Feb 4, 2009 at 5:08 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> On Wednesday 04 February 2009, Justin Mattock wrote:
->> On Wed, Feb 4, 2009 at 4:46 PM, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
->> >
->> > * Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> >
->> >> On Wed, Feb 4, 2009 at 2:24 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
->> >> > This message has been generated automatically as a part of a report
->> >> > of recent regressions.
->> >> >
->> >> > The following bug entry is on the current list of known regressions
->> >> > from 2.6.28.  Please verify if it still should be listed and let me know
->> >> > (either way).
->> >> >
->> >> >
->> >> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12505
->> >> > Subject         : 2.6.29-rc1 Firefox crashing on page load
->> >> > Submitter       : Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
->> >> > Date            : 2009-01-16 20:56 (20 days old)
->> >> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=4217458dafaa57d8e26a46f5d05ab8c53cf64191
->> >> > References      : http://marc.info/?l=linux-kernel&m=123213941914274&w=4
->> >> > Handled-By      : Justin P. Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> >> >
->> >> >
->> >> >
->> >>
->> >> Well the hardest for this, was to reproduce
->> >> the error.(never did). I guess it can be taken
->> >> of if there was a patch for the fix, and the patch
->> >> made it into the main tree. but if this  is a firefox
->> >> issue, then a report needs to be filed with them.
->> >> so overall my answer is "I don't know."
->> >> :^)
->> >
->> > the error is spurious because gcc randomly stomps on user register state so
->> > the effects can be rather random and unpredictable.
->> >
->> > The fix:
->> >
->> >  552b8aa: Revert "x86: signal: change type of paramter for sys_rt_sigreturn()"
->> >
->> > was included in -rc2 already, so please test latest -git whether you can see
->> > any such troubles.
->> >
->> >        Ingo
->> >
->>
->> Sure I'll test it.
->> I'm just in the process of compiling libc.
->> which looks like I'll be here for a while.
->
-> I've closed the bug as hopefully fixed.
->
-> Thanks,
-> Rafael
->
+On Wednesday 04 February 2009, Jeff Chua wrote:
+> On Wed, Feb 4, 2009 at 6:23 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12414
+> > Subject         : iwl4965 cannot use "ap auto" on latest 2.6.28/29?
+> > Submitter       : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2009-01-05 4:13 (31 days old)
+> > References      : http://marc.info/?l=linux-kernel&m=123112882127823&w=4
+> 
+> Latest linux git pull seems to behave slightly better. Restarting the
+> interface a few times fixes the problem 70% of the time. The rest of
+> the time, it can't associate with the AP.
 
-Cool,
+Thanks for the update, there is a patch for you to test at
+http://bugzilla.kernel.org/show_bug.cgi?id=12414#c3
 
--- 
-Justin P. Mattock
+Rafael
