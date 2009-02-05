@@ -1,34 +1,34 @@
-From: Li Zefan <lizf-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [Bug #12611] kernel BUG at kernel/cgroup.c:398!
-Date: Thu, 05 Feb 2009 09:02:47 +0800
-Message-ID: <498A3AB7.9060701@cn.fujitsu.com>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.TrD.quYiJB@chimera>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
+Subject: Re: [Bug #12598] tg3 dead after resume
+Date: Wed, 4 Feb 2009 17:03:52 -0800
+Message-ID: <200902041703.54330.jbarnes@virtuousgeek.org>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.QEF._uYiJB@chimera> <alpine.DEB.2.00.0902041941440.6694@parag-desktop>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <pWZw1SZjMCH.A.TrD.quYiJB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1761079AbZBEBES@vger.kernel.org>
+In-Reply-To: <alpine.DEB.2.00.0902041941440.6694@parag-desktop>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bharata B Rao <bharata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Paul Menage <menage-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+To: Parag Warudkar <parag.lkml@gmail.com>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12611
-> Subject		: kernel BUG at kernel/cgroup.c:398!
-> Submitter	: Bharata B Rao <bharata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> Date		: 2009-01-28 15:49 (8 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123315721707796&w=4
-> 
+On Wednesday, February 4, 2009 4:43 pm Parag Warudkar wrote:
+> On Wed, 4 Feb 2009, Rafael J. Wysocki wrote:
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12598
+> > Subject		: tg3 dead after resume
+> > Submitter	: Parag Warudkar <parag.lkml@gmail.com>
+> > Date		: 2009-01-29 0:14 (7 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=123318968501524&w=4
+> > Handled-By	: Linus Torvalds <torvalds@linux-foundation.org>
+> > 		  Rafael J. Wysocki <rjw@sisk.pl>
+> > Patch		: http://marc.info/?l=linux-kernel&m=123365342301877&w=4
+>
+> OK to close - haven't checked if the patch made it to Linus' tree,
+> assuming yes.
 
-It has been fixed by the following commit:
+It's on its way.  Just applied it to my for-linus branch.
 
-http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=839ec5452ebfd5905b9c69b20ceb640903a8ea1a
+-- 
+Jesse Barnes, Intel Open Source Technology Center
