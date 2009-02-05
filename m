@@ -1,25 +1,20 @@
-From: greg-R92VP3DqSWVWk0Htik3J/w@public.gmane.org
-Subject: Re: [Bug #12208] uml is very slow on 2.6.28 host
-Date: Thu, 5 Feb 2009 12:41:36 -0600
-Message-ID: <200902051841.n15IfatX032223@wind.enjellic.com>
-References: <rjw@sisk.pl>
-Reply-To: greg-R92VP3DqSWVWk0Htik3J/w@public.gmane.org
+From: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
+Date: Fri, 06 Feb 2009 06:05:03 +1030
+Message-ID: <1233862503.4823.1.camel@kulgan.wumi.org.au>
+References: <a47yn9c9JrF.A.hz.L5YiJB@chimera>
+	 <CGyEB0S4BpO.A.EfB.d5YiJB@chimera>
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-       "[Bug #12208] uml is very slow on 2.6.28 host" (Feb  4, 11:58am)
+In-Reply-To: <CGyEB0S4BpO.A.EfB.d5YiJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-On Feb 4, 11:58am, "Rafael J. Wysocki" wrote:
-} Subject: [Bug #12208] uml is very slow on 2.6.28 host
-
-Good day to everyone.
-
+On Wed, 2009-02-04 at 11:58 +0100, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of regressions introduced between 2.6.27 and 2.6.28.
 > 
@@ -27,32 +22,16 @@ Good day to everyone.
 > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 > be listed and let me know (either way).
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12208
-> Subject		: uml is very slow on 2.6.28 host
-> Submitter	: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
-> Date		: 2008-12-12 9:35 (55 days old)
-> References	: http://marc.info/?l=linux-kernel&m=122907463518593&w=4
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12465
+> Subject		: KVM guests stalling on 2.6.28 (bisected)
+> Submitter	: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+> Date		: 2009-01-17 03:37 (19 days old)
 
-I'm not convinced its as fast as it should be on 2.6.27.
+Yes, this should still be listed.
 
-I'm currently testing 2.6.27.14 hosts on several different pieces of
-hardware with a common 2.6.23.17 guest.
+Please remove kmshanah-IiIpDuVlHfMLO379cgqW9odd74u8MsAO@public.gmane.org from the CC list.
 
-Currently the UML guest on my desktop machine which is an 11 year old
-300Mhz dual-processor Pentium-II with 256MB of RAM running 2.6.22.14
-is giving a rather sound performance drubbing to the identical UML
-guest running on a 2.5GHZ dual-quad 5420 with 16GB of RAM running a
-32-bit 2.6.27.14.
+Thanks,
+Kevin.
 
-}-- End of excerpt from "Rafael J. Wysocki"
-
-As always,
-Dr. G.W. Wettstein, Ph.D.   Enjellic Systems Development, LLC.
-4206 N. 19th Ave.           Specializing in information infra-structure
-Fargo, ND  58102            development.
-PH: 701-281-1686
-FAX: 701-281-3949           EMAIL: greg-R92VP3DqSWVWk0Htik3J/w@public.gmane.org
-------------------------------------------------------------------------------
-"There's no such thing as a wizard who minds his own business."
-                                -- Berengis the Black Court Mage
-                                   to the Earls Caeline
