@@ -1,45 +1,38 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12495] thinkpad problems during resume
-Date: Thu, 5 Feb 2009 02:41:12 +0100
-Message-ID: <200902050241.13069.rjw@sisk.pl>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.tOH.wvYiJB@chimera> <200902041406.50578.borntraeger@de.ibm.com>
+Subject: Re: [Bug #12606] fb_mmap: circular locking dependency on hibernation
+Date: Thu, 5 Feb 2009 02:43:42 +0100
+Message-ID: <200902050243.43440.rjw@sisk.pl>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.jNE.xuYiJB@chimera> <200902041743.08010.arvidjaar@mail.ru>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200902041406.50578.borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <200902041743.08010.arvidjaar-JGs/UdohzUI@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+To: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Wednesday 04 February 2009, Christian Borntraeger wrote:
-> Am Wednesday 04 February 2009 11:23:58 schrieb Rafael J. Wysocki:
+On Wednesday 04 February 2009, Andrey Borzenkov wrote:
+> On 4 of February 2009 13:24:06 Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
 > >
 > > The following bug entry is on the current list of known regressions
-> > from 2.6.28.  Please verify if it still should be listed and let me know
-> > (either way).
+> > from 2.6.28.  Please verify if it still should be listed and let me
+> > know (either way).
 > >
 > >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12495
-> > Subject		: thinkpad problems during resume
-> > Submitter	: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-> > Date		: 2009-01-17 15:48 (19 days old)
-> > First-Bad-Commit:
-> > http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h
-> >=e39ad415ac15116df213dfa2aa2a4f1b0857af9c References	:
-> > http://marc.info/?l=linux-kernel&m=123220746125479&w=4
-> > http://marc.info/?l=linux-kernel&m=123170361827197&w=4
-> > Handled-By	: Mike Travis <travis-sJ/iWh9BUns@public.gmane.org>
-> > Patch		: http://lkml.org/lkml/2009/1/16/375
-> > 		  http://lkml.org/lkml/2009/1/16/376
-> > 		  http://lkml.org/lkml/2009/1/16/378
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12606
+> > Subject		: fb_mmap: circular locking dependency on hibernation
+> > Submitter	: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
+> > Date		: 2009-01-27 18:37 (9 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=123308162731408&w=4
 > 
-> Fixed upstream. 
+> for me it is fixed with
+> http://marc.info/?l=linux-kernel&m=123365581406194&w=2 
 
-Thanks, closed.
+Thanks, I've updated the bug entry.
 
 Rafael
