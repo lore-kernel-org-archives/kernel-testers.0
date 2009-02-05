@@ -1,48 +1,31 @@
-From: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12414] iwl4965 cannot use "ap auto" on latest 2.6.28/29?
-Date: Thu, 5 Feb 2009 22:34:31 +0800
-Message-ID: <b6a2187b0902050634r37a4c3ccg55e2d1e22ae2f9c4@mail.gmail.com>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
-	 <pWZw1SZjMCH.A.zq.WwYiJB@chimera>
-	 <b6a2187b0902041115u130fcfe7ha1612e2e2fa1ec36@mail.gmail.com>
-	 <200902050237.39394.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #12393] debugging in dosemu causes lots of 'scheduling while atomic'
+Date: Thu, 5 Feb 2009 17:09:12 +0100
+Message-ID: <200902051709.12967.rjw@sisk.pl>
+References: <a47yn9c9JrF.A.hz.L5YiJB@chimera> <CGyEB0S4BpO.A.C8C.-5YiJB@chimera> <a5d587fb0902041844v40f1d441s535d070437aa9823@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=+ifM4H4EKZcfEdJJASIOC3DP8bZ2duVIk1DyCY2PB98=;
-        b=UzFDIkOyA1VEZ5fGQrVdk0lfI1a+ewjUupGm2ErjR/h7XChtJYILe2PTp7uEqWnQK9
-         w2iRmfaRB5+BKv9qmlUld/ubTe7wlnkDHxx5ufrzYdjiGZEeAw/M+HGRHNLhih9PBVk/
-         B5twjnx+rV3F5/VxhfEnxsGKIxuL2vpjJo3+Q=
-In-Reply-To: <200902050237.39394.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758797AbZBEQKH@vger.kernel.org>
+In-Reply-To: <a5d587fb0902041844v40f1d441s535d070437aa9823@mail.gmail.com>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, Sujith.Manoharan-DlyHzToyqoxBDgjK7y7TUQ@public.gmane.org
+To: Michal Suchanek <hramrach@centrum.cz>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Thu, Feb 5, 2009 at 9:37 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> On Wednesday 04 February 2009, Jeff Chua wrote:
->> On Wed, Feb 4, 2009 at 6:23 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
->> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12414
->> > Subject         : iwl4965 cannot use "ap auto" on latest 2.6.28/29?
->> > Submitter       : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> > Date            : 2009-01-05 4:13 (31 days old)
->> > References      : http://marc.info/?l=linux-kernel&m=123112882127823&w=4
->>
->> Latest linux git pull seems to behave slightly better. Restarting the
->> interface a few times fixes the problem 70% of the time. The rest of
->> the time, it can't associate with the AP.
->
-> Thanks for the update, there is a patch for you to test at
-> http://bugzilla.kernel.org/show_bug.cgi?id=12414#c3
+On Thursday 05 February 2009, Michal Suchanek wrote:
+> As I said earlier I have received a patch that I applied locally and
+> that fixes the problem.
+> 
+> As to if and when the patch actually appears in the kernel is out of
+> my control, and nobody told me that it was applied.
+> 
+> If you believe it was applied to a kernel version that is readily
+> available for download I am wiling to test such version.
 
-Ok, will try that patch next weekend when I get home.
+I don't at the moment.
 
-Thanks for the patch.
+Can you send me a URL to the patch, please?
 
-Jeff.
+Rafael
