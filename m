@@ -1,63 +1,49 @@
-From: Philipp Matthias Hahn <pmhahn-u4khhh1J0LzF41mA0N3lWw@public.gmane.org>
-Subject: Re: WOL with forcedeth broken since
-	f55c21fd9a92a444e55ad1ca4e4732d56661bf2e
-Date: Fri, 6 Feb 2009 07:59:12 +0100
-Message-ID: <20090206065912.GA3614@pmhahn.de>
-References: <86802c440901292253ie9e2a9dmb4580a3da1480c81@mail.gmail.com> <20090205232343.GA9455@pmhahn.de> <200902060113.31651.rjw@sisk.pl> <a47yn9c9JrF.A.hz.L5YiJB@chimera> <20090129063118.GA3586@pmhahn.de> <CGyEB0S4BpO.A.MFB.R5YiJB@chimera> <86802c440901292253ie9e2a9dmb4580a3da1480c81@mail.gmail.com> <20090205232343.GA9455@pmhahn.de> <86802c440902051535n118339bes88ae48a54ce4711a@mail.gmail.com> <20090206053320.GA4369@pmhahn.de>
+From: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Subject: Re: [Bug #12612] hard lockup when interrupting cdda2wav
+Date: Fri, 6 Feb 2009 16:33:44 +0900
+Message-ID: <20090206163257W.fujita.tomonori@lab.ntt.co.jp>
+References: <a47yn9c9JrF.A.hz.L5YiJB@chimera>
+	<CGyEB0S4BpO.A.fLB.T5YiJB@chimera>
+	<20090205131644.GA5731@horus.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090206053320.GA4369-isSyJ6YaLy+zQB+pC5nmwQ@public.gmane.org>
+In-Reply-To: <20090205131644.GA5731-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tobias Diedrich <ranma+kern>
+Content-Type: Text/Plain; charset="us-ascii"
+To: hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org
+Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org, James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org
 
-Hello again!
+On Thu, 5 Feb 2009 14:16:44 +0100
+Matthias Reichl <hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org> wrote:
 
-On Fri, Feb 06, 2009 at 06:33:20AM +0100, Philipp Matthias Hahn wrote:
-> Just this morning I had to use the reverted address to wake up my
-> desktop PC after 6 hours of poweroff.
+> On Wed, Feb 04, 2009 at 11:58:51AM +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.27 and 2.6.28.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12612
+> > Subject		: hard lockup when interrupting cdda2wav
+> > Submitter	: Matthias Reichl <hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org>
+> > Date		: 2009-01-28 16:41 (8 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=123316111415677&w=4
+> > Handled-By	: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+> 
+> This bug is still present in 2.6.28.3.
 
-I did some structured tesing:
+There is a fix against scsi-misc:
 
-1. WOL does _not_ work at all when I do:
-	(grub) boot into initrd
-	(initrd) modprobe forcedeth
-	(initrd) ethtool -s eth0 wol g
-*	(initrd) poweroff
+http://marc.info/?l=linux-scsi&m=123371501613019&w=2
 
-2. WOL does _not_ work at all when I do:
-	(grub) boot into initrd
-	(initrd) modprobe forcedeth
-	(initrd) ethtool -s eth0 wol g
-*	(initrd) Alt-SysRq-O
+I might need to fix it in a different way though.
 
-3. WOL works using the _un-reversed_ MAC when I do:
-	(grub) boot into initrd
-	(initrd) modprobe forcedeth
-	(initrd) ethtool -s eth0 wol g
-*	(initrd) Alt-SysRq-B
-*	(grub) halt
+There are other pending patches to fix other sg oops in scsi-misc so
+the above fix can't be cleanly applied to 2.6.28.X. I'll send a patch
+for 2.6.28.X once I get SCSI maintainer's ACK on it.
 
-4. WOL works using the _reversed_ MAC when I do:
-	(grub) boot into initrd
-	(initrd) modprobe forcedeth
-	(initrd) ethtool -s eth0 wol g
-	(initrd) exit
-*	(Debian) poweroff
-
-If I do the poweroff from linux (either initrd or Debian), forcedeth
-seems to display some messages just before poweroff. I'll try to get
-hands on a Serial-USB-Converter and a NULL-modem-cable to capture it,
-since my laptop is legacy-free :-(
-
-BYtE
-Philipp Hahn
-
-PS: initrd is actually initramfs, before somebody wonders.
--- 
-  / /  (_)__  __ ____  __ Philipp Hahn
- / /__/ / _ \/ // /\ \/ /
-/____/_/_//_/\_,_/ /_/\_\ pmhahn-u4khhh1J0LzF41mA0N3lWw@public.gmane.org
+Sorry for the inconvenience,
