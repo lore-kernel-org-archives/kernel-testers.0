@@ -1,48 +1,56 @@
-From: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-Subject: Re: [Bug #12508] "powerpc/pci: Reserve legacy regions on PCI"
- broke my G3
-Date: Fri, 6 Feb 2009 19:55:54 +0100
-Message-ID: <18828.34746.639582.20441@harpo.it.uu.se>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
-	<pWZw1SZjMCH.A.ZIG.YvYiJB@chimera>
-	<1233783867.4612.9.camel@pasglop>
+From: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: [Bug #12608] 2.6.29-rc powerpc G5 Xorg legacy_mem regression
+Date: Fri, 6 Feb 2009 22:17:41 +0000 (GMT)
+Message-ID: <Pine.LNX.4.64.0902062205540.5710@blonde.anvils>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <1233898836.4612.116.camel@pasglop>
+ <Pine.LNX.4.64.0902061248010.14011@blonde.anvils> <200902060849.45851.jbarnes@virtuousgeek.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1233783867.4612.9.camel@pasglop>
+In-Reply-To: <200902060849.45851.jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Benjamin Herrenschmidt writes:
- > On Wed, 2009-02-04 at 11:24 +0100, Rafael J. Wysocki wrote:
- > > This message has been generated automatically as a part of a report
- > > of recent regressions.
- > > 
- > > The following bug entry is on the current list of known regressions
- > > from 2.6.28.  Please verify if it still should be listed and let me know
- > > (either way).
- > 
- > Can you check if it's still broken ?
- > 
- > 59b608c2c33feacc8be281ec3ba9ca2a3a5cb9a7 might have fixed it...
- > 
- > Cheers,
- > Ben.
+On Fri, 6 Feb 2009, Jesse Barnes wrote:
+> 
+> Hugh, did you get a chance to try my X patch (w/o Ben's patch applied)?  If it 
+> also works, we should apply it to X too, if only to make porting to future 
+> platforms a little easier.
 
-Confirmed. Adding 59b608c2c33feacc8be281ec3ba9ca2a3a5cb9a7 to
-2.6.29-rc3 makes it boot fine on my G3.
+I have tried it now: I'm sorry to say it does not work, fails with
+(WW) xf86MapDomainMem():  mmap() failure: No such device or address
 
-Thanks,
+Fatal server error:
+AddScreen/ScreenInit failed for driver 0
 
-/Mikael
+The "mmap() failure" line is of course the one you're intentionally
+showing, but the AddScreen/ScreenInit one is not what you want.
+Presumably it demands something other than a NULL addr returned,
+but I haven't followed that up at all.
 
- > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12508
- > > Subject		: "powerpc/pci: Reserve legacy regions on PCI" broke my G3
- > > Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
- > > Date		: 2009-01-17 22:46 (19 days old)
- > > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=c1f343028d35ba4e88cd4a3c44e0d8b8a84264ee
- > > References	: http://marc.info/?l=linux-kernel&m=123223247325452&w=4
- > > Handled-By	: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+I have tried the obvious patch below, which reverts to the original
+code if the mmap fails: this works, but presumably negates much of
+what you intended to achieve with legacy_mem.
+
+Easy for me to try something else, fire away.
+
+Hugh
+
+--- a/hw/xfree86/os-support/bus/linuxPci.c
++++ b/hw/xfree86/os-support/bus/linuxPci.c
+@@ -501,8 +501,10 @@ xf86MapDomainMemory(int ScreenNum, int F
+     if (fd >= 0)
+ 	close(fd);
+     if (addr == NULL || addr == MAP_FAILED) {
+-	perror("mmap failure");
+-	FatalError("xf86MapDomainMem():  mmap() failure\n");
++	xf86Msg(X_WARNING, "xf86MapDomainMem():  mmap() failure: %s\n",
++		strerror(errno));
++	return linuxMapPci(ScreenNum, Flags, dev, Base, Size,
++			   PCIIOC_MMAP_IS_MEM);
+     }
+     return addr;
+ }
