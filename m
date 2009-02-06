@@ -1,36 +1,28 @@
-From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Subject: Re: [Bug #12609] v2.6.29-rc2 libata sff 32bit PIO regression
-Date: Fri, 06 Feb 2009 17:10:56 -0600
-Message-ID: <498CC380.1070705@lwfinger.net>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.o-D.uuYiJB@chimera> <Pine.LNX.4.64.0902051723520.1445@blonde.anvils> <200902052354.16361.rjw@sisk.pl>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
+Subject: Re: [Bug #12491] i915 lockdep warning
+Date: Fri, 6 Feb 2009 15:40:34 -0800
+Message-ID: <200902061540.38042.jbarnes@virtuousgeek.org>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <200902050203.40535.rjw@sisk.pl> <adar62bchfw.fsf@cisco.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200902052354.16361.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758946AbZBFXk4@vger.kernel.org>
+In-Reply-To: <adar62bchfw.fsf@cisco.com>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>, Sergei Shtylyov <sshtylyov-hkdhdckH98+B+jHODAdFcQ@public.gmane.org>
+To: Roland Dreier <rdreier@cisco.com>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Eric Anholt <eric@anholt.net>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, "Brandeburg, Jesse" <jesse.brandeburg@intel.com>, drivers_video-dri@kernel-bugs.osdl.org
 
-Rafael J. Wysocki wrote:
-> On Thursday 05 February 2009, Hugh Dickins wrote:
->> On Wed, 4 Feb 2009, Rafael J. Wysocki wrote:
->>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12609
->>> Subject		: v2.6.29-rc2 libata sff 32bit PIO regression
->>> Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
->>> Date		: 2009-01-23 23:52 (13 days old)
->>> References	: http://marc.info/?l=linux-kernel&m=123275478111406&w=4
->>> 		  http://marc.info/?l=linux-kernel&m=123254501314058&w=4
->>> Handled-By	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
->>> 		  Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
->>> Patch		: http://marc.info/?l=linux-kernel&m=123254501314058&w=2
->> Yes, this does still need to be listed.  My initial patch for it was
->> not enough, but I think the three patches necessary have all now been
->> posted (though Sergei may rewrite mine).  I'm expecting Alan to gather
->> them together and send them in due course, but I believe he's occupied
->> with other stuff just at the moment.
+On Friday, February 6, 2009 2:46 pm Roland Dreier wrote:
+>  > i915: Fix potential AB-BA deadlock in i915_gem_execbuffer()
+>
+> Jesse, Eric, or anybody -- does this look correct to you?  This seems to
+> be triggering for several people, eg
+> https://bugzilla.redhat.com/show_bug.cgi?id=481687
 
-I still have the problem as of 2.6.29-rc3-00634-g9be260a
+Eric's been looking at this issue, and there's some discussion about it on the 
+intel-gfx list, but I'm not sure what the latest is (Eric is travelling atm).
 
-Larry
+-- 
+Jesse Barnes, Intel Open Source Technology Center
