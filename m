@@ -1,71 +1,71 @@
-From: Philipp Matthias Hahn <pmhahn-u4khhh1J0LzF41mA0N3lWw@public.gmane.org>
-Subject: Re: WOL with forcedeth broken since
-	f55c21fd9a92a444e55ad1ca4e4732d56661bf2e
-Date: Fri, 6 Feb 2009 06:33:20 +0100
-Message-ID: <20090206053320.GA4369@pmhahn.de>
-References: <a47yn9c9JrF.A.hz.L5YiJB@chimera> <86802c440901292253ie9e2a9dmb4580a3da1480c81@mail.gmail.com> <20090205232343.GA9455@pmhahn.de> <200902060113.31651.rjw@sisk.pl> <a47yn9c9JrF.A.hz.L5YiJB@chimera> <20090129063118.GA3586@pmhahn.de> <CGyEB0S4BpO.A.MFB.R5YiJB@chimera> <86802c440901292253ie9e2a9dmb4580a3da1480c81@mail.gmail.com> <20090205232343.GA9455@pmhahn.de> <86802c440902051535n118339bes88ae48a54ce4711a@mail.gmail.com>
+From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Subject: Re: [Bug #12608] 2.6.29-rc powerpc G5 Xorg legacy_mem regression
+Date: Fri, 06 Feb 2009 16:40:36 +1100
+Message-ID: <1233898836.4612.116.camel@pasglop>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
+	 <Pine.LNX.4.64.0902051713550.1445@blonde.anvils>
+	 <1233867944.4612.104.camel@pasglop>
+	 <200902051433.23294.jbarnes@virtuousgeek.org>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <200902060113.31651.rjw-KKrjLPT3xs0@public.gmane.org> <86802c440902051535n118339bes88ae48a54ce4711a-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <200902051433.23294.jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tobias Diedrich <ranma+kernel-YxUgxmcw2FPQD6PfKP4TzA@public.gmane.org>, Ayaz Abdulla <aabdulla-DDmLM1+adcrQT0dZR+AlfA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Jeff Garzik <jgarzik-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 
-Hello!
+On Thu, 2009-02-05 at 14:33 -0800, Jesse Barnes wrote:
 
-On Fri, Feb 06, 2009 at 01:13:30AM +0100, Rafael J. Wysocki wrote:
-...
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12614
-> > > Subject		: WOL with forcedeth broken since f55c21fd9a92a444e55ad1ca4e4732d56661bf2e
-...
-> > Strage, at the moment I can't seem to reproduce the problem. I've
-> > switched back to the version of 2.6.28.3 and now it seems to work.
-> > I'll continue with tesing.
-> 
-> OK, but for now I'll close the bug as unreproducible.
+> One option there would be to provide the file but just use anonymous memory to 
+> back it.  X will happily think it's messing with legacy VGA memory, but it 
+> shouldn't matter that it's not actually affecting hw.
 
-Just this morning I had to use the reverted address to wake up my
-desktop PC after 6 hours of poweroff.
+What about this (untested) patch ?
 
-Yesterdays tests were domething like the following:
-	Grub: Linux "loglevel=9 ignore_loglevel break=modules"
-	dmesg -c > /dev/null
-	modprobe forcedeth
-	dmesg
-	ethtool -s eth0 wol g
-	echo NMAC > /proc/acpi/wakeup
-	reboot to Grub using Alt-SysRq-B
-	Grub: "halt"
-I have to reboot back to Grub, since doing a "poweroff" from initrd or
-pressing Alt-SysRq-O seems to turn of WOL.
+powerpc/pci: mmap anonymous memory when legacy_mem doesn't exist
 
-...
-> The "echo NMAC > /proc/acpi/wakeup" thing shouldn't be necessary if you do
-> "ethtool -s eth0 wol g".
+The new legacy_mem file in sysfs is causing problems with X on machines
+that don't support legacy memory access. The way I initially implemented
+it, we would fail with -ENXIO when trying to mmap it, thus exposing to
+X that we do support the API but there is no legacy memory.
 
-Will try.
+Unfortunately, X poor error handling is causing it to fail to start when
+it gets this error.
 
-On Thu, Feb 05, 2009 at 03:35:25PM -0800, Yinghai Lu wrote:
-> > Nether the less here's the output of dmesg:
-> >        forcedeth: Reverse Engineered nFoce ethernet driver. Version 0.61.
-> >        ACPI: PCI Interrupt Link [LMAC] enables at IRQ 23
-> >        forcedeth: 0000:00:14.0: PCI INT A -> Link[LMAC] -> GSI 23 (level, low) -> IRQ 23
-> >        forcedeth: 0000:00:14.0: setting latency timer to 64
-> > *       nv_probe: MAC_ADDR_REV ELSE
-> >        nv_probe: set workaround bit for reversed mac addr
-> 
-> that means your BIOS doesn't reverse mac addr.
-> this is the one for new BIOS or old BIOS?
+This implements a workaround hack that instead maps anonymous memory
+instead (using shmem if VM_SHARED is set, just like /dev/zero does).
 
-This is the new BIOS.
+Signed-off-by: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+---
 
-BYtE
-Philipp Hahn
--- 
-  / /  (_)__  __ ____  __ Philipp Hahn
- / /__/ / _ \/ // /\ \/ /
-/____/_/_//_/\_,_/ /_/\_\ pmhahn-u4khhh1J0LzF41mA0N3lWw@public.gmane.org
+Index: linux-work/arch/powerpc/kernel/pci-common.c
+===================================================================
+--- linux-work.orig/arch/powerpc/kernel/pci-common.c	2009-02-06 16:23:36.000000000 +1100
++++ linux-work/arch/powerpc/kernel/pci-common.c	2009-02-06 16:30:32.000000000 +1100
+@@ -561,8 +561,21 @@ int pci_mmap_legacy_page_range(struct pc
+ 		 (unsigned long long)(offset + size - 1));
+ 
+ 	if (mmap_state == pci_mmap_mem) {
+-		if ((offset + size) > hose->isa_mem_size)
+-			return -ENXIO;
++		/* Hack alert !
++		 *
++		 * Because X is lame and can fail starting if it gets an error trying
++		 * to mmap legacy_mem (instead of just moving on without legacy memory
++		 * access) we fake it here by giving it anonymous memory, effectively
++		 * behaving just like /dev/zero
++		 */
++		if ((offset + size) > hose->isa_mem_size) {
++			printk(KERN_DEBUG
++			       "Process %s (pid:%d) mapped non-existing PCI legacy memory for 0%04x:%02x\n",
++			       current->comm, current->pid, pci_domain_nr(bus), bus->number);
++			if (vma->vm_flags & VM_SHARED)
++				return shmem_zero_setup(vma);
++			return 0;
++		}
+ 		offset += hose->isa_mem_phys;
+ 	} else {
+ 		unsigned long io_offset = (unsigned long)hose->io_base_virt - _IO_BASE;
+
