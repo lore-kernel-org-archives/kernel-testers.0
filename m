@@ -1,37 +1,63 @@
-From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
-Subject: Re: [Bug #12608] 2.6.29-rc powerpc G5 Xorg legacy_mem regression
-Date: Fri, 06 Feb 2009 17:01:13 +1100
-Message-ID: <1233900073.4612.118.camel@pasglop>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
-	 <pWZw1SZjMCH.A.sIE.wuYiJB@chimera> <1233791329.4612.23.camel@pasglop>
-	 <Pine.LNX.4.64.0902051713550.1445@blonde.anvils>
-	 <1233867944.4612.104.camel@pasglop>
-	 <21d7e9970902051345h76fb26c1hc0397f6262f70eae@mail.gmail.com>
+From: Philipp Matthias Hahn <pmhahn-u4khhh1J0LzF41mA0N3lWw@public.gmane.org>
+Subject: Re: WOL with forcedeth broken since
+	f55c21fd9a92a444e55ad1ca4e4732d56661bf2e
+Date: Fri, 6 Feb 2009 07:59:12 +0100
+Message-ID: <20090206065912.GA3614@pmhahn.de>
+References: <86802c440901292253ie9e2a9dmb4580a3da1480c81@mail.gmail.com> <20090205232343.GA9455@pmhahn.de> <200902060113.31651.rjw@sisk.pl> <a47yn9c9JrF.A.hz.L5YiJB@chimera> <20090129063118.GA3586@pmhahn.de> <CGyEB0S4BpO.A.MFB.R5YiJB@chimera> <86802c440901292253ie9e2a9dmb4580a3da1480c81@mail.gmail.com> <20090205232343.GA9455@pmhahn.de> <86802c440902051535n118339bes88ae48a54ce4711a@mail.gmail.com> <20090206053320.GA4369@pmhahn.de>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <21d7e9970902051345h76fb26c1hc0397f6262f70eae-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20090206053320.GA4369-isSyJ6YaLy+zQB+pC5nmwQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Dave Airlie <airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Yinghai Lu <yhlu.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tobias Diedrich <ranma+kern>
 
+Hello again!
 
-> I think the correct answer is the ugly one, try again.
+On Fri, Feb 06, 2009 at 06:33:20AM +0100, Philipp Matthias Hahn wrote:
+> Just this morning I had to use the reverted address to wake up my
+> desktop PC after 6 hours of poweroff.
 
-Well... it's a fairly recent damage in X which is why I was somewhat
-hoping that it wasn't too widespread it couldn't be contained
-before the kernel got butchered :-)
+I did some structured tesing:
 
-But I'll just stick anonymous memory in there instead, it should be
-trivial enough.
+1. WOL does _not_ work at all when I do:
+	(grub) boot into initrd
+	(initrd) modprobe forcedeth
+	(initrd) ethtool -s eth0 wol g
+*	(initrd) poweroff
 
-> Add a new legacy_mem interface that works cleanly, update X to use it,
-> leave the old
-> broken one broken as it for older X to use.
+2. WOL does _not_ work at all when I do:
+	(grub) boot into initrd
+	(initrd) modprobe forcedeth
+	(initrd) ethtool -s eth0 wol g
+*	(initrd) Alt-SysRq-O
 
-:-)
+3. WOL works using the _un-reversed_ MAC when I do:
+	(grub) boot into initrd
+	(initrd) modprobe forcedeth
+	(initrd) ethtool -s eth0 wol g
+*	(initrd) Alt-SysRq-B
+*	(grub) halt
 
-Ben.
+4. WOL works using the _reversed_ MAC when I do:
+	(grub) boot into initrd
+	(initrd) modprobe forcedeth
+	(initrd) ethtool -s eth0 wol g
+	(initrd) exit
+*	(Debian) poweroff
 
+If I do the poweroff from linux (either initrd or Debian), forcedeth
+seems to display some messages just before poweroff. I'll try to get
+hands on a Serial-USB-Converter and a NULL-modem-cable to capture it,
+since my laptop is legacy-free :-(
+
+BYtE
+Philipp Hahn
+
+PS: initrd is actually initramfs, before somebody wonders.
+-- 
+  / /  (_)__  __ ____  __ Philipp Hahn
+ / /__/ / _ \/ // /\ \/ /
+/____/_/_//_/\_,_/ /_/\_\ pmhahn-u4khhh1J0LzF41mA0N3lWw@public.gmane.org
