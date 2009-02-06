@@ -1,39 +1,40 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12490] ath5k related kernel panic in 2.6.29-rc1
-Date: Sat, 7 Feb 2009 00:55:24 +0100
-Message-ID: <200902070055.25724.rjw@sisk.pl>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <pWZw1SZjMCH.A.uoH.6vYiJB@chimera> <20090206184156.M22909@bobcopeland.com>
+Subject: Re: [Bug #12609] v2.6.29-rc2 libata sff 32bit PIO regression
+Date: Sat, 7 Feb 2009 00:58:25 +0100
+Message-ID: <200902070058.26539.rjw@sisk.pl>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <200902052354.16361.rjw@sisk.pl> <498CC380.1070705@lwfinger.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090206184156.M22909-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>
+In-Reply-To: <498CC380.1070705-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Sergey S. Kostyliov" <rathamahata-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, nbd-p3rKhJxN3npAfugRpC6u6w@public.gmane.org
+To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Cc: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>, Sergei Shtylyov <sshtylyov-hkdhdckH98+B+jHODAdFcQ@public.gmane.org>
 
-On Friday 06 February 2009, Bob Copeland wrote:
-> On Wed,  4 Feb 2009 11:23:57 +0100 (CET), Rafael J. Wysocki wrote
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.28.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12490
-> > Subject		: ath5k related kernel panic in 2.6.29-rc1
-> > Submitter	: Sergey S. Kostyliov <rathamahata-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2009-01-12 7:38 (24 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123174591509586&w=4
-> > Handled-By	: Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>
+On Saturday 07 February 2009, Larry Finger wrote:
+> Rafael J. Wysocki wrote:
+> > On Thursday 05 February 2009, Hugh Dickins wrote:
+> >> On Wed, 4 Feb 2009, Rafael J. Wysocki wrote:
+> >>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12609
+> >>> Subject		: v2.6.29-rc2 libata sff 32bit PIO regression
+> >>> Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+> >>> Date		: 2009-01-23 23:52 (13 days old)
+> >>> References	: http://marc.info/?l=linux-kernel&m=123275478111406&w=4
+> >>> 		  http://marc.info/?l=linux-kernel&m=123254501314058&w=4
+> >>> Handled-By	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+> >>> 		  Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+> >>> Patch		: http://marc.info/?l=linux-kernel&m=123254501314058&w=2
+> >> Yes, this does still need to be listed.  My initial patch for it was
+> >> not enough, but I think the three patches necessary have all now been
+> >> posted (though Sergei may rewrite mine).  I'm expecting Alan to gather
+> >> them together and send them in due course, but I believe he's occupied
+> >> with other stuff just at the moment.
 > 
-> Yes, this should still be listed.  Seems there is corruption of the rate
-> indexes but I haven't found it yet.  Felix Fietkau added to CC in case
-> he has any thoughts.
+> I still have the problem as of 2.6.29-rc3-00634-g9be260a
 
-Thanks for the update.
+Thanks for the updates.
 
 Rafael
