@@ -1,110 +1,64 @@
-From: Roland Dreier <rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12491] i915 lockdep warning
-Date: Fri, 06 Feb 2009 17:48:09 -0800
-Message-ID: <adabptfc90m.fsf@cisco.com>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
-	<pWZw1SZjMCH.A.ciH.4vYiJB@chimera> <adar62dltg1.fsf@cisco.com>
-	<200902050203.40535.rjw@sisk.pl> <adar62bchfw.fsf@cisco.com>
-	<F169D4F5E1F1974DBFAFABF47F60C10A1DFD867C@orsmsx507.amr.corp.intel.com>
+From: Tetsuo Handa <penguin-kernel-JPay3/Yim36HaxMnTkn67Xf5DAMn2ifp@public.gmane.org>
+Subject: Re: [Bug #12409] NULL pointer dereference at get_stats()
+Date: Sat, 7 Feb 2009 11:34:00 +0900
+Message-ID: <200902071133.AJJ09378.MOHLFFtOSOVQFJ@I-love.SAKURA.ne.jp>
+References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera>
+	<cX2gZ6Cy9nC.A.N0B.pJRdJB@chimera>
+	<20090121161828.GA2739@gambetta>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <F169D4F5E1F1974DBFAFABF47F60C10A1DFD867C-osO9UTpF0URzLByeVOV5+bfspsVTdybXVpNB7YpNyf8@public.gmane.org>
-	(Jesse Brandeburg's message of "Fri, 6 Feb 2009 17:20:27 -0800")
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; l=3068; t=1233971290; x=1234835290;
-	c=relaxed/simple; s=sjdkim2002;
-	h=Content-Type:From:Subject:Content-Transfer-Encoding:MIME-Version;
-	d=cisco.com; i=rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org;
-	z=From:=20Roland=20Dreier=20<rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
-	|Subject:=20Re=3A=20[Bug=20#12491]=20i915=20lockdep=20warni
-	ng
-	|Sender:=20;
-	bh=K8R9RNUPVGs6ALSzlFrZU6CAyT90g2O5RHOFQkAZp2U=;
-	b=KHQmiiQdT7bgDGp83HhGbojU1FvCr2VmeEfIF/QNHbZX8U/3riLfaVHT5t
-	d16/Jepb5a++b/7ap2dO8DPcOua/X1Rh/ZJ3NjWaZIJMV279GI0cl23uKqrZ
-	mS/f2XzyDC;
+In-Reply-To: <20090121161828.GA2739@gambetta>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Brandeburg, Jesse" <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "drivers_video-dri@kernel-bugs.osdl.org" <drivers_video-dri-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, intel-gfx-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org
+To: frederik.deweerdt-kjvbsxwSFqI@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-[intel-gfx CC added]
+Hello.
 
- > I tested this on my 965 based system that showed the issue and it seemed resolved, at least no warnings in dmesg.  Lockdep was confirmed to still be enabled.
+On Mon, Jan 19, 2009 at 10:45:43PM +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.27 and 2.6.28.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12409
+> Subject		: NULL pointer dereference at get_stats()
+> Submitter	: Tetsuo Handa <penguin-kernel-1yMVhJb1mP/7nzcFbJAaVXf5DAMn2ifp@public.gmane.org>
+> Date		: 2008-12-30 12:53 (21 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123064167008695&w=4
+> Handled-By	: Frederik Deweerdt <frederik.deweerdt-kjvbsxwSFqI@public.gmane.org>
 
- > I can mark the bug fixed in korg bugzilla too.
+This bug happens when "nolapic" option is given.
+This bug exists in 2.6.27.15 and 2.6.28.4 .
+This bug does not exist in 2.6.26.8 and 2.6.29-rc3-git10 .
 
-Probably we just want to add a comment saying the patch works -- the bug
-should stay open until we get the fix upstream I guess.
+How to reproduce:
+(1) Prepare x86 machine with 2 cpus.
+(2) Add "nolapic" and "init=/bin/sh" options at the kernel command line.
+(3) Do "cat /sys/class/net/lo/statistics/rx_packets".
 
- > Thank you Roland for looking into this, good work!
+If you apply a patch at http://lkml.org/lkml/2009/1/5/557 , you will notice
+"lb_stats == NULL for CPU 1" message.
+I think "nolapic" option causes for_each_possible_cpu() to reach CPU 1
+by some error.
 
-Thanks for testing!  Patch with updated changelog (including your
-tested-by) below.  Jesse [Barnes] and/or Eric please review and apply:
+Frederik Deweerdt wrote:
+> Hello Rafael,
+> 
+> Not sure what the status should be for that one, it sure seems vmware
+> related, and I don't have one handy.
+> 
+> Regards,
+> Frederik
 
----
+I think this bug will happen in native environment too.
+http://lkml.org/lkml/2009/1/4/349
+But due to driver initialization failure caused by "nolapic" option,
+I can't reach /sbin/init on native ThinkPad X60 environment.
 
-i915: Fix potential AB-BA deadlock in i915_gem_execbuffer()
-
-Lockdep warns that i915_gem_execbuffer() can trigger a page fault (which
-takes mmap_sem) while holding dev->struct_mutex, while drm_vm_open()
-(which is called with mmap_sem already held) takes dev->struct_mutex.
-So this is a potential AB-BA deadlock.
-
-The way that i915_gem_execbuffer() triggers a page fault is by doing
-copy_to_user() when returning new buffer offsets back to userspace;
-however there is no reason to hold the struct_mutex when doing this
-copy, since what is being copied is the contents of an array private to
-i915_gem_execbuffer() anyway.  So we can fix the potential deadlock (and
-get rid of the lockdep warning) by simply moving the copy_to_user()
-outside of where struct_mutex is held.
-
-This fixes <http://bugzilla.kernel.org/show_bug.cgi?id=12491>.
-
-Reported-by: Jesse Brandeburg <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Tested-by: Jesse Brandeburg <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Signed-off-by: Roland Dreier <rolandd-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
----
- drivers/gpu/drm/i915/i915_gem.c |   21 ++++++++++++---------
- 1 files changed, 12 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index debad5c..23aad8c 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -2610,15 +2610,6 @@ i915_gem_execbuffer(struct drm_device *dev, void *data,
- 
- 	i915_verify_inactive(dev, __FILE__, __LINE__);
- 
--	/* Copy the new buffer offsets back to the user's exec list. */
--	ret = copy_to_user((struct drm_i915_relocation_entry __user *)
--			   (uintptr_t) args->buffers_ptr,
--			   exec_list,
--			   sizeof(*exec_list) * args->buffer_count);
--	if (ret)
--		DRM_ERROR("failed to copy %d exec entries "
--			  "back to user (%d)\n",
--			   args->buffer_count, ret);
- err:
- 	for (i = 0; i < pinned; i++)
- 		i915_gem_object_unpin(object_list[i]);
-@@ -2628,6 +2619,18 @@ err:
- 
- 	mutex_unlock(&dev->struct_mutex);
- 
-+	if (!ret) {
-+		/* Copy the new buffer offsets back to the user's exec list. */
-+		ret = copy_to_user((struct drm_i915_relocation_entry __user *)
-+				   (uintptr_t) args->buffers_ptr,
-+				   exec_list,
-+				   sizeof(*exec_list) * args->buffer_count);
-+		if (ret)
-+			DRM_ERROR("failed to copy %d exec entries "
-+				  "back to user (%d)\n",
-+				  args->buffer_count, ret);
-+	}
-+
- pre_mutex_err:
- 	drm_free(object_list, sizeof(*object_list) * args->buffer_count,
- 		 DRM_MEM_DRIVER);
+Regards.
