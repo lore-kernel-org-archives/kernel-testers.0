@@ -1,40 +1,76 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12609] v2.6.29-rc2 libata sff 32bit PIO regression
-Date: Sat, 7 Feb 2009 00:58:25 +0100
-Message-ID: <200902070058.26539.rjw@sisk.pl>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <200902052354.16361.rjw@sisk.pl> <498CC380.1070705@lwfinger.net>
+From: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: [Bug #12608] 2.6.29-rc powerpc G5 Xorg legacy_mem regression
+Date: Sat, 7 Feb 2009 00:50:15 +0000 (GMT)
+Message-ID: <Pine.LNX.4.64.0902070040240.15875@blonde.anvils>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <200902060849.45851.jbarnes@virtuousgeek.org>
+ <Pine.LNX.4.64.0902062205540.5710@blonde.anvils> <200902061445.11379.jbarnes@virtuousgeek.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <498CC380.1070705-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <200902061445.11379.jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Cc: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>, Sergei Shtylyov <sshtylyov-hkdhdckH98+B+jHODAdFcQ@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Saturday 07 February 2009, Larry Finger wrote:
-> Rafael J. Wysocki wrote:
-> > On Thursday 05 February 2009, Hugh Dickins wrote:
-> >> On Wed, 4 Feb 2009, Rafael J. Wysocki wrote:
-> >>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12609
-> >>> Subject		: v2.6.29-rc2 libata sff 32bit PIO regression
-> >>> Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-> >>> Date		: 2009-01-23 23:52 (13 days old)
-> >>> References	: http://marc.info/?l=linux-kernel&m=123275478111406&w=4
-> >>> 		  http://marc.info/?l=linux-kernel&m=123254501314058&w=4
-> >>> Handled-By	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-> >>> 		  Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
-> >>> Patch		: http://marc.info/?l=linux-kernel&m=123254501314058&w=2
-> >> Yes, this does still need to be listed.  My initial patch for it was
-> >> not enough, but I think the three patches necessary have all now been
-> >> posted (though Sergei may rewrite mine).  I'm expecting Alan to gather
-> >> them together and send them in due course, but I believe he's occupied
-> >> with other stuff just at the moment.
+On Fri, 6 Feb 2009, Jesse Barnes wrote:
 > 
-> I still have the problem as of 2.6.29-rc3-00634-g9be260a
+> Yeah that should work.  I always hated this code (well most of X actually); we
+> could probably clean up the logic a little.  If this works I'll send it
+> out to the Xorg list for review.
 
-Thanks for the updates.
+Yes, thanks for restructuring it, I was rather itching to do so.
 
-Rafael
+With the one small change below which I think you'll approve,
+your patch works for me on the G5 - but I've not tested it on
+other (x86) machines which were already working.
+
+Hugh
+
+> 
+> -- 
+> Jesse Barnes, Intel Open Source Technology Center
+> 
+> diff --git a/hw/xfree86/os-support/bus/linuxPci.c b/hw/xfree86/os-support/bus/linuxPci.c
+> index 263fd8f..fa0fc0a 100644
+> --- a/hw/xfree86/os-support/bus/linuxPci.c
+> +++ b/hw/xfree86/os-support/bus/linuxPci.c
+> @@ -471,23 +471,18 @@ xf86MapDomainMemory(int ScreenNum, int Flags, struct pci_device *dev,
+>      int fd = -1;
+>      pointer addr;
+>  
+> -    /*
+> -     * We use /proc/bus/pci on non-legacy addresses or if the Linux sysfs
+> -     * legacy_mem interface is unavailable.
+> -     */
+> -    if ((Base > 1024*1024) || ((fd = linuxOpenLegacy(dev, "legacy_mem")) < 0))
+> -	return linuxMapPci(ScreenNum, Flags, dev, Base, Size,
+> -			   PCIIOC_MMAP_IS_MEM);
+> -    else
+> -	addr = mmap(NULL, Size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, Base);
+> -
+> -    if (fd >= 0)
+> -	close(fd);
+> -    if (addr == NULL || addr == MAP_FAILED) {
+> -	perror("mmap failure");
+> -	FatalError("xf86MapDomainMem():  mmap() failure\n");
+> +    if (Base <= 1024*1024) {
+> +        /* Try legacy_mem (may not be available or implemented) */
+> +        if ((fd = linuxOpenLegacy(dev, "legacy_mem")) < 0) {
+
+                                                         >=
+
+> +            addr = mmap(NULL, Size, PROT_READ|PROT_WRITE, MAP_SHARED, fd, Base);
+> +            close(fd);
+> +            if (addr && addr != MAP_FAILED)
+> +                return addr;
+> +        }
+>      }
+> -    return addr;
+> +
+> +    /* Fall back to old method if legacy_mem fails or Base >= 1M */
+> +    return linuxMapPci(ScreenNum, Flags, dev, Base, Size, PCIIOC_MMAP_IS_MEM);
+>  }
+>  
+>  /**
