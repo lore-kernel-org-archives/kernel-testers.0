@@ -1,64 +1,63 @@
-From: Tetsuo Handa <penguin-kernel-JPay3/Yim36HaxMnTkn67Xf5DAMn2ifp@public.gmane.org>
-Subject: Re: [Bug #12409] NULL pointer dereference at get_stats()
-Date: Sat, 7 Feb 2009 11:34:00 +0900
-Message-ID: <200902071133.AJJ09378.MOHLFFtOSOVQFJ@I-love.SAKURA.ne.jp>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera>
-	<cX2gZ6Cy9nC.A.N0B.pJRdJB@chimera>
-	<20090121161828.GA2739@gambetta>
+From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Subject: Re: [Bug #12608] 2.6.29-rc powerpc G5 Xorg legacy_mem regression
+Date: Sat, 07 Feb 2009 13:51:12 +1100
+Message-ID: <1233975072.31963.55.camel@pasglop>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
+	 <Pine.LNX.4.64.0902051713550.1445@blonde.anvils>
+	 <1233867944.4612.104.camel@pasglop>
+	 <200902051433.23294.jbarnes@virtuousgeek.org>
+	 <1233898836.4612.116.camel@pasglop>
+	 <Pine.LNX.4.64.0902061248010.14011@blonde.anvils>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090121161828.GA2739@gambetta>
+In-Reply-To: <Pine.LNX.4.64.0902061248010.14011-XZxpfvf5U/bbmfIwyoSfiQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: frederik.deweerdt-kjvbsxwSFqI@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 
-Hello.
 
-On Mon, Jan 19, 2009 at 10:45:43PM +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.27 and 2.6.28.
+> I still don't understand the point of this legacy_mem file at all,
+> and why X should want to mmap it, if it works so well when it's
+> thus divorced from reality.  But I won't worry my pretty little
+> head over it any further - please don't waste your time trying
+> to explain it to me!
+
+VGA memory hole :-) ie, text mode & fonts
+
+Ben.
+
+> Thanks,
+> Hugh
 > 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12409
-> Subject		: NULL pointer dereference at get_stats()
-> Submitter	: Tetsuo Handa <penguin-kernel-1yMVhJb1mP/7nzcFbJAaVXf5DAMn2ifp@public.gmane.org>
-> Date		: 2008-12-30 12:53 (21 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123064167008695&w=4
-> Handled-By	: Frederik Deweerdt <frederik.deweerdt-kjvbsxwSFqI@public.gmane.org>
-
-This bug happens when "nolapic" option is given.
-This bug exists in 2.6.27.15 and 2.6.28.4 .
-This bug does not exist in 2.6.26.8 and 2.6.29-rc3-git10 .
-
-How to reproduce:
-(1) Prepare x86 machine with 2 cpus.
-(2) Add "nolapic" and "init=/bin/sh" options at the kernel command line.
-(3) Do "cat /sys/class/net/lo/statistics/rx_packets".
-
-If you apply a patch at http://lkml.org/lkml/2009/1/5/557 , you will notice
-"lb_stats == NULL for CPU 1" message.
-I think "nolapic" option causes for_each_possible_cpu() to reach CPU 1
-by some error.
-
-Frederik Deweerdt wrote:
-> Hello Rafael,
-> 
-> Not sure what the status should be for that one, it sure seems vmware
-> related, and I don't have one handy.
-> 
-> Regards,
-> Frederik
-
-I think this bug will happen in native environment too.
-http://lkml.org/lkml/2009/1/4/349
-But due to driver initialization failure caused by "nolapic" option,
-I can't reach /sbin/init on native ThinkPad X60 environment.
-
-Regards.
+> > 
+> > Index: linux-work/arch/powerpc/kernel/pci-common.c
+> > ===================================================================
+> > --- linux-work.orig/arch/powerpc/kernel/pci-common.c	2009-02-06 16:23:36.000000000 +1100
+> > +++ linux-work/arch/powerpc/kernel/pci-common.c	2009-02-06 16:30:32.000000000 +1100
+> > @@ -561,8 +561,21 @@ int pci_mmap_legacy_page_range(struct pc
+> >  		 (unsigned long long)(offset + size - 1));
+> >  
+> >  	if (mmap_state == pci_mmap_mem) {
+> > -		if ((offset + size) > hose->isa_mem_size)
+> > -			return -ENXIO;
+> > +		/* Hack alert !
+> > +		 *
+> > +		 * Because X is lame and can fail starting if it gets an error trying
+> > +		 * to mmap legacy_mem (instead of just moving on without legacy memory
+> > +		 * access) we fake it here by giving it anonymous memory, effectively
+> > +		 * behaving just like /dev/zero
+> > +		 */
+> > +		if ((offset + size) > hose->isa_mem_size) {
+> > +			printk(KERN_DEBUG
+> > +			       "Process %s (pid:%d) mapped non-existing PCI legacy memory for 0%04x:%02x\n",
+> > +			       current->comm, current->pid, pci_domain_nr(bus), bus->number);
+> > +			if (vma->vm_flags & VM_SHARED)
+> > +				return shmem_zero_setup(vma);
+> > +			return 0;
+> > +		}
+> >  		offset += hose->isa_mem_phys;
+> >  	} else {
+> >  		unsigned long io_offset = (unsigned long)hose->io_base_virt - _IO_BASE;
