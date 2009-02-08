@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12613] [Suspend regression][DRM, RADEON]
-Date: Sun,  8 Feb 2009 20:21:44 +0100 (CET)
-Message-ID: <sWhNs83kKPE.A.HiF.r20jJB@chimera>
+Subject: [Bug #12604] Commit 31a12666d8f0c22235297e1c1575f82061480029 slows down Berkeley DB
+Date: Sun,  8 Feb 2009 20:21:42 +0100 (CET)
+Message-ID: <sWhNs83kKPE.A.gUG.420jJB@chimera>
 References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, etienne <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>, Soeren Sonnenburg <kernel-YxZl4NRrHdw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,10 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12613
-Subject		: [Suspend regression][DRM, RADEON]
-Submitter	: etienne <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
-Date		: 2009-01-28 22:00 (12 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=a9d51a5ad1154b5b20add1e8d30a5564f8aabbe9
-References	: http://marc.info/?l=linux-kernel&m=123318030419558&w=4
-		  http://marc.info/?l=linux-kernel&m=123334865404574&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12604
+Subject		: Commit 31a12666d8f0c22235297e1c1575f82061480029 slows down Berkeley DB
+Submitter	: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+Date		: 2009-01-30 1:23 (10 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=31a12666d8f0c22235297e1c1575f82061480029
+References	: http://marc.info/?l=linux-kernel&m=123327862901800&w=4
 
