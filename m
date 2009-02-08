@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12669] 2.6.28.4 regression: mmap fails if mlockall used
-Date: Sun,  8 Feb 2009 20:21:50 +0100 (CET)
-Message-ID: <sWhNs83kKPE.A.jpD.H20jJB@chimera>
+Subject: [Bug #12667] Badness at kernel/time/timekeeping.c:98 in pmud (timekeeping_suspended)
+Date: Sun,  8 Feb 2009 20:21:49 +0100 (CET)
+Message-ID: <sWhNs83kKPE.A.p4D.L20jJB@chimera>
 References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>, Sami Farin <safari-kernel-nmB1AuG+Lnw9NyIDpsMsJw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12669
-Subject		: 2.6.28.4 regression: mmap fails if mlockall used
-Submitter	: Sami Farin <safari-kernel-nmB1AuG+Lnw9NyIDpsMsJw@public.gmane.org>
-Date		: 2009-02-08 10:52 (1 days old)
-References	: http://marc.info/?l=linux-kernel&m=123409037423068&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12667
+Subject		: Badness at kernel/time/timekeeping.c:98 in pmud (timekeeping_suspended)
+Submitter	: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
+Date		: 2009-01-21 7:15 (19 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1c5745aa380efb6417b5681104b007c8612fb496
+References	: http://marc.info/?l=linux-kernel&m=123252215315106&w=4
 
