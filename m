@@ -1,31 +1,30 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12667] Badness at kernel/time/timekeeping.c:98 in pmud (timekeeping_suspended)
-Date: Sun,  8 Feb 2009 20:21:49 +0100 (CET)
-Message-ID: <sWhNs83kKPE.A.p4D.L20jJB@chimera>
-References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
+From: Kyle McMartin <kyle-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [Bug #12666] Build failure with latest -git: btrfs on ppc64
+Date: Sun, 8 Feb 2009 16:53:21 -0500
+Message-ID: <20090208215321.GE11398@bombadil.infradead.org>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera> <sWhNs83kKPE.A.x-D.N20jJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AIghyjFgMFP.A.uZD._10jJB@chimera>
 Content-Disposition: inline
+In-Reply-To: <sWhNs83kKPE.A.x-D.N20jJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Kyle McMartin <kyle-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of recent regressions.
+On Sun, Feb 08, 2009 at 08:21:49PM +0100, Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12666
+> Subject		: Build failure with latest -git: btrfs on ppc64
+> Submitter	: Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Date		: 2009-02-07 20:50 (2 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123404002114219&w=4
+> 
 
-The following bug entry is on the current list of known regressions
-from 2.6.28.  Please verify if it still should be listed and let me know
-(either way).
+Just fyi, patch here:
+Subject: x86: spinlocks: define dummy __raw_spin_is_contended                   
+Date: Sun, 8 Feb 2009 13:03:41 -0500                                            
+Message-ID: <20090208180341.GC11398-PfSpb0PWhxZc2C7mugBRk2EX/6BAtgUQ@public.gmane.org>    
 
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12667
-Subject		: Badness at kernel/time/timekeeping.c:98 in pmud (timekeeping_suspended)
-Submitter	: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
-Date		: 2009-01-21 7:15 (19 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1c5745aa380efb6417b5681104b007c8612fb496
-References	: http://marc.info/?l=linux-kernel&m=123252215315106&w=4
-
+cheers, Kyle
