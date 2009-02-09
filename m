@@ -1,49 +1,30 @@
-From: Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12496] swsusp cannot find resume device (sometimes)
-Date: Sun, 8 Feb 2009 18:27:00 -0800
-Message-ID: <20090209022700.GA10979@kroah.com>
-References: <AIghyjFgMFP.A.uZD._10jJB@chimera> <sWhNs83kKPE.A.gWH.s30jJB@chimera> <20090208163817.6a53d026@infradead.org>
+From: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+Subject: Re: [Bug #12661] commit 64ff3b938ec6782e6585a83d5459b98b0c3f6eb8
+	breaks rlogin
+Date: Mon, 9 Feb 2009 15:23:07 +1100
+Message-ID: <20090209042307.GA3268@gondor.apana.org.au>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera> <sWhNs83kKPE.A.ueE.U20jJB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20090208163817.6a53d026-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+In-Reply-To: <sWhNs83kKPE.A.ueE.U20jJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="hz-gb-2312"
+Content-Transfer-Encoding: base64
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Sun, Feb 08, 2009 at 04:38:17PM -0800, Arjan van de Ven wrote:
-> On Sun,  8 Feb 2009 20:21:39 +0100 (CET)
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.28.  Please verify if it still should be listed and let me
-> > know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12496
-> > Subject		: swsusp cannot find resume device (sometimes)
-> > Submitter	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> > Date		: 2009-01-09 12:24 (31 days old)
-> > References	:
-> > http://marc.info/?l=linux-kernel&m=123150395731165&w=4
-> > Handled-By	: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> > Patch		:
-> > http://marc.info/?l=linux-kernel&m=123156441218358&w=4
-> > http://marc.info/?t=123156453100002&r=1&w=4
-> > 
-> > 
-> 
-> the patches are in -mm waiting for gregkh to pick them up and push...
-
-Ok, I'm totally confused now, care to point out exactly which ones I
-should be picking up and pushing?
-
-thanks,
-
-greg "i'm slow, humor me" k-h
+T24gU3VuLCBGZWIgMDgsIDIwMDkgYXQgMDg6MjE6NDZQTSArMDEwMCwgUmFmYWVsIEouIFd5c29j
+a2kgd3JvdGU6Cj4gVGhpcyBtZXNzYWdlIGhhcyBiZWVuIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5
+IGFzIGEgcGFydCBvZiBhIHJlcG9ydAo+IG9mIHJlY2VudCByZWdyZXNzaW9ucy4KPiAKPiBUaGUg
+Zm9sbG93aW5nIGJ1ZyBlbnRyeSBpcyBvbiB0aGUgY3VycmVudCBsaXN0IG9mIGtub3duIHJlZ3Jl
+c3Npb25zCj4gZnJvbSAyLjYuMjguICBQbGVhc2UgdmVyaWZ5IGlmIGl0IHN0aWxsIHNob3VsZCBi
+ZSBsaXN0ZWQgYW5kIGxldCBtZSBrbm93Cj4gKGVpdGhlciB3YXkpLgoKVGhlIHBhdGNoIGluIHF1
+ZXN0aW9uIGhhcyBhbHJlYWR5IGJlZW4gcmV2ZXJ0ZWQuICBTbyB3aGlsZSB3ZQpzdGlsbCBuZWVk
+IHRvIHRyYWNrIGRvd24gdGhlIHVuZGVybHlpbmcgcHJvYmxlbSB3aXRoIHJsb2dpbiwgaXQncwpu
+byBsb25nZXIgYSBrZXJuZWwgcmVncmVzc2lvbi4KClRoYW5rcywKLS0gClZpc2l0IE9wZW5zd2Fu
+IGF0IGh0dHA6Ly93d3cub3BlbnN3YW4ub3JnLwpFbWFpbDogSGVyYmVydCBYdSB+e1BtVj5ISX59
+IDxoZXJiZXJ0LWxPQU0yYUswU3JSTEJvMXFERU9NUnJwenE0UzA0bjhRQHB1YmxpYy5nbWFuZS5v
+cmc+CkhvbWUgUGFnZTogaHR0cDovL2dvbmRvci5hcGFuYS5vcmcuYXUvfmhlcmJlcnQvClBHUCBL
+ZXk6IGh0dHA6Ly9nb25kb3IuYXBhbmEub3JnLmF1L35oZXJiZXJ0L3B1YmtleS50eHQ=
