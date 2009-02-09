@@ -1,43 +1,31 @@
-From: "Michael S. Tsirkin" <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12574] possible circular locking dependency detected
-Date: Mon, 9 Feb 2009 15:59:17 +0200
-Message-ID: <8f53421d0902090559n26af97d0i1b8e5f5a04dd6976@mail.gmail.com>
-References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
-	 <sWhNs83kKPE.A.4cG.E30jJB@chimera>
+From: "Bob Copeland" <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>
+Subject: Re: [Bug #12600] i915 lockdep warning
+Date: Mon, 9 Feb 2009 12:21:26 -0500
+Message-ID: <20090209172031.M25268@bobcopeland.com>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera> <sWhNs83kKPE.A.xaG.-20jJB@chimera> <adaljsgbeh6.fsf@cisco.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=9ZCOcuD4x1MdmjVk2V/t+rcmmsC6KA3M7mAGxKXu94U=;
-        b=trb4c7FjJ/hZZWcSU8uYVZiKl1/HDNUU5nTsaiG0wi+i9fHSBnP0Lg6NFY2aySx7c0
-         o1UGoFDGqs7Z2/dcm2I1FmL4TmbPEbV6s/2Uw43NvTDnnPaHgOnkNRqqYp+9e+b6i2VA
-         RTk7I0dTFP1MZ4hvvhKZ31vj8yJxiqzaggVgU=
-In-Reply-To: <sWhNs83kKPE.A.4cG.E30jJB@chimera>
+In-Reply-To: <adaljsgbeh6.fsf-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Roland Dreier <rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Brandeburg, Jesse" <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-I have verified that this still occurs on 2.6.29-rc4.
+On Sun, 08 Feb 2009 17:12:21 -0800, Roland Dreier wrote
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12600
+>  > Subject		: i915 lockdep warning
+>  > Submitter	: Brandeburg, Jesse <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+>  > Date		: 2009-01-13 23:17 (27 days old)
+>  > References	: http://marc.info/?l=linux-kernel&m=123188898423532&w=4
+> 
+> Looks like a dup of 12491 to me.
+> 
+>  - R.
 
-On Sun, Feb 8, 2009 at 9:21 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
->
->
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12574
-> Subject         : possible circular locking dependency detected
-> Submitter       : Michael S. Tsirkin <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date            : 2009-01-29 11:35 (11 days old)
->
->
->
+I can also confirm that Roland's patch fixes it for me.
+
+-- 
+Bob Copeland %% www.bobcopeland.com
+
