@@ -1,38 +1,37 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12667] Badness at kernel/time/timekeeping.c:98 in pmud
-	(timekeeping_suspended)
-Date: Mon, 9 Feb 2009 10:18:49 +0100
-Message-ID: <20090209091849.GF31890@elte.hu>
-References: <AIghyjFgMFP.A.uZD._10jJB@chimera> <sWhNs83kKPE.A.p4D.L20jJB@chimera> <878wognj00.fsf@burly.wgtn.ondioline.org>
+From: wixor <wixorpeek-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12664] viafb triggers BUG at mm/vmalloc.c:294
+Date: Mon, 9 Feb 2009 11:17:55 +0100
+Message-ID: <c43b2e150902090217p6efe5141q4b3a608a00c02f71@mail.gmail.com>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
+	 <sWhNs83kKPE.A.7EE.O20jJB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <878wognj00.fsf-D7l3p2TGOOdLdt5/z87VRY6ehsQQaF5K@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=m5WHTQAxPguAye4mAgfAykggC4OOVKgjpiAhUJgMu5A=;
+        b=N1Ii1b5lbsAGzOrKSWODX6SZJOtuzFkvHz4HtqadKr0AnciBx/McD1CmZjyLkyYX46
+         UBcRAIfNUE8yjwQpFVAkP8bI3Bj48KEINWyARxOHX4dZJUa6Gx3DKWL0Gp8Yw3xHKwuC
+         xS5YbzTx3EkeOZWY3v5CQstwJ7PqC1U7tGe2A=
+In-Reply-To: <sWhNs83kKPE.A.7EE.O20jJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
+There was no support for Chrome9 framebuffer before 2.6.28, so that is
+a progress. However now that we have it, it doesn't work (at least for
+me).... The BUG appearing seemed to be an mm-issue also reported by
+others (see http://marc.info/?l=linux-kernel&m=123415925903748&w=2). I
+don't know if it was there before 2.6.28. It doesn't look like any
+solution has been merged to mainline.
 
-* Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org> wrote:
+It is certainly an issue, but I'm not sure if it's also a regression
+from 2.6.28.
 
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
-> 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12667
-> > Subject		: Badness at kernel/time/timekeeping.c:98 in pmud (timekeeping_suspended)
-> > Submitter	: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
-> > Date		: 2009-01-21 7:15 (19 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1c5745aa380efb6417b5681104b007c8612fb496
-> > References	: http://marc.info/?l=linux-kernel&m=123252215315106&w=4
-> 
-> I've just done ten suspend/resume cycles with 2.6.29-rc4 and this
-> message was not logged, so it's either gone away or else become much
-> more difficult to reproduce.
-
-Various suspend handlers were enabling irqs spuriously - fixed by recent patches in 
--rc4. The warning above is consistent with the timekeeping code being surprised with 
-a premature irqs-enable.
-
-	Ingo
+--
+wixor
