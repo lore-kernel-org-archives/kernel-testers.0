@@ -1,35 +1,35 @@
-From: Stefan Richter <stefanr-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
-Subject: Re: 2.6.29-rc4: Reported regressions from 2.6.28
-Date: Mon, 09 Feb 2009 08:36:25 +0100
-Message-ID: <498FDCF9.1080102@s5r6.in-berlin.de>
+From: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
+Subject: Re: [Bug #12667] Badness at kernel/time/timekeeping.c:98 in pmud (timekeeping_suspended)
+Date: Mon, 09 Feb 2009 20:53:51 +1300
+Message-ID: <878wognj00.fsf@burly.wgtn.ondioline.org>
 References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
+	<sWhNs83kKPE.A.p4D.L20jJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AIghyjFgMFP.A.uZD._10jJB@chimera>
+In-Reply-To: <sWhNs83kKPE.A.p4D.L20jJB@chimera> (Rafael J. Wysocki's message
+	of "Sun, 8 Feb 2009 20:21:49 +0100 (CET)")
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12600
-> Subject		: i915 lockdep warning
-> Submitter	: Brandeburg, Jesse <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-01-13 23:17 (27 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123188898423532&w=4
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
 
-Now closed as duplicate of
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12667
+> Subject		: Badness at kernel/time/timekeeping.c:98 in pmud (timekeeping_suspended)
+> Submitter	: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
+> Date		: 2009-01-21 7:15 (19 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1c5745aa380efb6417b5681104b007c8612fb496
+> References	: http://marc.info/?l=linux-kernel&m=123252215315106&w=4
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12491
-> Subject		: i915 lockdep warning
-> Submitter	: Brandeburg, Jesse <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-01-13 23:17 (27 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123188898423532&w=4
-> Handled-By	: Roland Dreier <rolandd-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
-> Patch		: http://marc.info/?l=linux-kernel&m=123378709730700&w=2
+I've just done ten suspend/resume cycles with 2.6.29-rc4 and this
+message was not logged, so it's either gone away or else become much
+more difficult to reproduce.
+
 -- 
-Stefan Richter
--=====-==--= --=- -=--=
-http://arcgraph.de/sr/
+Paul Collins
+Wellington, New Zealand
+
+Dag vijandelijk luchtschip de huismeester is dood
