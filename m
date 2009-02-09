@@ -1,91 +1,38 @@
-From: Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: install_root=/ not going where it should go.
-Date: Sun, 8 Feb 2009 16:42:20 -0800
-Message-ID: <dd18b0c30902081642l60c8eeacra52597efa60c1057@mail.gmail.com>
+From: Roland Dreier <rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12600] i915 lockdep warning
+Date: Sun, 08 Feb 2009 17:12:21 -0800
+Message-ID: <adaljsgbeh6.fsf@cisco.com>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
+	<sWhNs83kKPE.A.xaG.-20jJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:date:message-id:subject
-         :from:to:cc:content-type:content-transfer-encoding;
-        bh=YRRQxi7x5bVLl8Zme6c/8lVZTsnVJu/JPjXHGgLAyEI=;
-        b=gd/3Rf8/Q3P7d778CRGaEj/7TBT/lOYzAu4ntGyaE8JyJ4TmbRqOdBfYOvFh6SF2I0
-         ArRozhM7meSDOn3iZj0wiwc77fjVTMsAwc+u/uV2dHq/YFRnfmN4ZkLGhkGXrWGIHOjK
-         hsbBwO7shU37D+stI7OtTszRTLWIDkLbWp55w=
+In-Reply-To: <sWhNs83kKPE.A.xaG.-20jJB@chimera> (Rafael J. Wysocki's message
+	of "Sun, 8 Feb 2009 20:21:42 +0100 (CET)")
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; l=324; t=1234141942; x=1235005942;
+	c=relaxed/simple; s=sjdkim2002;
+	h=Content-Type:From:Subject:Content-Transfer-Encoding:MIME-Version;
+	d=cisco.com; i=rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org;
+	z=From:=20Roland=20Dreier=20<rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
+	|Subject:=20Re=3A=20[Bug=20#12600]=20i915=20lockdep=20warni
+	ng
+	|Sender:=20;
+	bh=eqOGeTLGlThF3ySHset0YKV+8kunRsgBoqRzB4vWvrs=;
+	b=eXnRU64Vw+bUIywhPGNmHKtkJ148RxlPNu7GZgo1xiYiqKBEHmFAW36X8z
+	VFtjpZuo/qZVUVW2q09IE8Zfy1eOijR1LZ+c5ODQCRK8rNbaz5IVSc1+l3+P
+	mohMczUOqr;
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>, "Brandeburg, Jesse" <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-I'm in the process of build a linux
-from scratch system, and seem to be
-confused in how I issue the right command
-to have the kernel build to a certain root location.
-(example)
-the system Im building on is ubuntu
-the new root tree is located in /mnt/*
-when building the kernel I(in the home dir)
+ > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12600
+ > Subject		: i915 lockdep warning
+ > Submitter	: Brandeburg, Jesse <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+ > Date		: 2009-01-13 23:17 (27 days old)
+ > References	: http://marc.info/?l=linux-kernel&m=123188898423532&w=4
 
-make INSTALL_HDR_PATH=/mnt/*  DESTDIR=/mnt/* modules_install
-or
-make INSTALL_HDR_PATH=/mnt/*  install_root=/mnt/* modules_install
-(goes to the normal location,not /mnt's location);
-or
-make DESTDIR=/mnt/* modules_install
+Looks like a dup of 12491 to me.
 
-still goes to /lib/modules
-(on the normal system(not /mnt);
-
-at the moment:
-The real main problem I have is chrooting
-into /mnt/*(the new system) and having no headers
-to compile the kernel from the beginning with.
-(should I just cp include/*  /usr/include/);
-or is there a simpler solution that I have missed
-in the Documentation.
-
-heres the error in the chrooted environment:
-
-In file included from /usr/include/bits/posix1_lim.h:153,
-                 from /usr/include/limits.h:145,
-                 from
-/usr/local/lib/gcc/i686-pc-linux-gnu/4.4.0/include-fixed/limits.h:122,
-                 from
-/usr/local/lib/gcc/i686-pc-linux-gnu/4.4.0/include-fixed/syslimits.h:7,
-                 from
-/usr/local/lib/gcc/i686-pc-linux-gnu/4.4.0/include-fixed/limits.h:11,
-                 from scripts/basic/fixdep.c:115:
-/usr/include/bits/local_lim.h:39:26: error: linux/limits.h: No such
-file or directory
-In file included from /usr/include/sys/socket.h:40,
-                 from /usr/include/netinet/in.h:25,
-                 from /usr/include/arpa/inet.h:23,
-                 from scripts/basic/fixdep.c:117:
-/usr/include/bits/socket.h:354:24: error: asm/socket.h: No such file
-or directory
-scripts/basic/fixdep.c: In function 'use_config':
-scripts/basic/fixdep.c:206: error: 'PATH_MAX' undeclared (first use in
-this function)
-scripts/basic/fixdep.c:206: error: (Each undeclared identifier is
-reported only once
-scripts/basic/fixdep.c:206: error: for each function it appears in.)
-scripts/basic/fixdep.c:206: warning: unused variable 's'
-scripts/basic/fixdep.c: In function 'parse_dep_file':
-scripts/basic/fixdep.c:306: error: 'PATH_MAX' undeclared (first use in
-this function)
-scripts/basic/fixdep.c:306: warning: unused variable 's'
-scripts/basic/fixdep.c: In function 'traps':
-scripts/basic/fixdep.c:377: warning: dereferencing type-punned pointer
-will break strict-aliasing rules
-scripts/basic/fixdep.c:379: warning: dereferencing type-punned pointer
-will break strict-aliasing rules
-make[1]: *** [scripts/basic/fixdep] Error 1
-make: *** [scripts_basic] Error 2
-
-any info would be appreciated.
-regards;
-
--- 
-Justin P. Mattock
+ - R.
