@@ -1,58 +1,33 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12496] swsusp cannot find resume device (sometimes)
-Date: Tue, 10 Feb 2009 00:46:32 +0100
-Message-ID: <200902100046.33347.rjw@sisk.pl>
-References: <AIghyjFgMFP.A.uZD._10jJB@chimera> <20090208163817.6a53d026@infradead.org> <20090209022700.GA10979@kroah.com>
+From: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [Bug #12604] Commit 31a12666d8f0c22235297e1c1575f82061480029 slows down Berkeley DB
+Date: Tue, 10 Feb 2009 17:28:30 +0100
+Message-ID: <20090210162830.GD12146@placka.suse.cz>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera> <sWhNs83kKPE.A.gUG.420jJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090209022700.GA10979-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <sWhNs83kKPE.A.gUG.420jJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
-Cc: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>
 
-On Monday 09 February 2009, Greg KH wrote:
-> On Sun, Feb 08, 2009 at 04:38:17PM -0800, Arjan van de Ven wrote:
-> > On Sun,  8 Feb 2009 20:21:39 +0100 (CET)
-> > "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > 
-> > > This message has been generated automatically as a part of a report
-> > > of recent regressions.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > from 2.6.28.  Please verify if it still should be listed and let me
-> > > know (either way).
-> > > 
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12496
-> > > Subject		: swsusp cannot find resume device (sometimes)
-> > > Submitter	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> > > Date		: 2009-01-09 12:24 (31 days old)
-> > > References	:
-> > > http://marc.info/?l=linux-kernel&m=123150395731165&w=4
-> > > Handled-By	: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> > > Patch		:
-> > > http://marc.info/?l=linux-kernel&m=123156441218358&w=4
-> > > http://marc.info/?t=123156453100002&r=1&w=4
-> > > 
-> > > 
-> > 
-> > the patches are in -mm waiting for gregkh to pick them up and push...
+On Sun 08-02-09 20:21:42, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
-> Ok, I'm totally confused now, care to point out exactly which ones I
-> should be picking up and pushing?
+> The following bug entry is on the current list of known regressions
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
+  Yes, I've verified with latest git and the regression is still there.
 
-Patches from -mm called:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12604
+> Subject		: Commit 31a12666d8f0c22235297e1c1575f82061480029 slows down Berkeley DB
+> Submitter	: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+> Date		: 2009-01-30 1:23 (10 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=31a12666d8f0c22235297e1c1575f82061480029
+> References	: http://marc.info/?l=linux-kernel&m=123327862901800&w=4
 
-drivers-consolidate-driver_probe_done-loops-into-one-place.patch
-drivers-consolidate-driver_probe_done-loops-into-one-place-checkpatch-fixes.patch
-resume-wait-for-device-probing-to-finish.patch
-drivers-consolidate-driver_probe_done-loops-into-one-place-fix.patch
-
-in this order.
-
-Thanks,
-Rafael
+									Honza
