@@ -1,33 +1,37 @@
-From: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [Bug #12604] Commit 31a12666d8f0c22235297e1c1575f82061480029 slows down Berkeley DB
-Date: Tue, 10 Feb 2009 17:28:30 +0100
-Message-ID: <20090210162830.GD12146@placka.suse.cz>
-References: <AIghyjFgMFP.A.uZD._10jJB@chimera> <sWhNs83kKPE.A.gUG.420jJB@chimera>
+From: Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #12666] Build failure with latest -git: btrfs on ppc64
+Date: Tue, 10 Feb 2009 15:00:07 -0500
+Message-ID: <20090210150007.38bae23d@dhcp-100-2-144.bos.redhat.com>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
+	<sWhNs83kKPE.A.x-D.N20jJB@chimera>
+	<20090208215321.GE11398@bombadil.infradead.org>
+	<200902082308.14366.rjw@sisk.pl>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <sWhNs83kKPE.A.gUG.420jJB@chimera>
+In-Reply-To: <200902082308.14366.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>
+Cc: Kyle McMartin <kyle-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sun 08-02-09 20:21:42, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+On Sun, 8 Feb 2009 23:08:13 +0100
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+
+> On Sunday 08 February 2009, Kyle McMartin wrote:
+> > On Sun, Feb 08, 2009 at 08:21:49PM +0100, Rafael J. Wysocki wrote:
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12666
+> > > Subject		: Build failure with latest -git: btrfs on ppc64
+> > > Submitter	: Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> > > Date		: 2009-02-07 20:50 (2 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=123404002114219&w=4
+> > > 
+> > 
+> > Just fyi, patch here:
+> > Subject: x86: spinlocks: define dummy __raw_spin_is_contended                   
+> > Date: Sun, 8 Feb 2009 13:03:41 -0500                                            
+> > Message-ID: <20090208180341.GC11398-PfSpb0PWhxZc2C7mugBRk2EX/6BAtgUQ@public.gmane.org>    
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
-  Yes, I've verified with latest git and the regression is still there.
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12604
-> Subject		: Commit 31a12666d8f0c22235297e1c1575f82061480029 slows down Berkeley DB
-> Submitter	: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-> Date		: 2009-01-30 1:23 (10 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=31a12666d8f0c22235297e1c1575f82061480029
-> References	: http://marc.info/?l=linux-kernel&m=123327862901800&w=4
-
-									Honza
+Patch was merged, commit a5ef7ca0e2636bad0ccd07b996d775348ae2b65e
