@@ -1,39 +1,73 @@
 From: Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
-Subject: Re: [Bug #12574] possible circular locking dependency detected
-Date: Tue, 10 Feb 2009 14:41:56 -0800
-Message-ID: <1234305716.32506.10.camel@gaiman>
-References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
-	 <sWhNs83kKPE.A.4cG.E30jJB@chimera>  <20090210223711.GA6809@google.com>
+Subject: Re: [Bug #12491] i915 lockdep warning
+Date: Tue, 10 Feb 2009 16:43:12 -0800
+Message-ID: <1234312992.32506.30.camel@gaiman>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
+	 <pWZw1SZjMCH.A.ciH.4vYiJB@chimera> <adar62dltg1.fsf@cisco.com>
+	 <200902050203.40535.rjw@sisk.pl> <adar62bchfw.fsf@cisco.com>
+	 <F169D4F5E1F1974DBFAFABF47F60C10A1DFD867C@orsmsx507.amr.corp.intel.com>
+	 <adabptfc90m.fsf@cisco.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1; protocol="application/pgp-signature"; boundary="=-1Z7gR/hHA0tX+ZN1mhZM"
+Content-Type: multipart/signed; micalg=pgp-sha1; protocol="application/pgp-signature"; boundary="=-kR0MQ7f70BrvLAu3AEdM"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090210223711.GA6809-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <adabptfc90m.fsf-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: "Michael S. Tsirkin" <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+To: Roland Dreier <rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
+Cc: "Brandeburg, Jesse" <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "drivers_video-dri-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org" <drivers_video-dri-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, intel-gfx-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org
 
 
---=-1Z7gR/hHA0tX+ZN1mhZM
+--=-kR0MQ7f70BrvLAu3AEdM
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2009-02-11 at 00:37 +0200, Michael S. Tsirkin wrote:
-> Dave, dri guys,
-> Could you take a look at this circular dependency please (below)?  I
-> observe it when suspending laptop with radeon drm loaded and with
-> lockdep enabled. It seems that the root of the problem is that
-> various vm ops such as drm_vm_open, drm_mmap) are called with mm
-> semaphore taken, and take dev->struct_mutex. On the other hand,
-> drm_rmmap_locked is called with dev->struct_mutex, and calls mtrr_del
-> which depends on mm semaphore indirectly.
+On Fri, 2009-02-06 at 17:48 -0800, Roland Dreier wrote:
+> [intel-gfx CC added]
 >=20
-> What do you think?
+>  > I tested this on my 965 based system that showed the issue and it seem=
+ed resolved, at least no warnings in dmesg.  Lockdep was confirmed to still=
+ be enabled.
+>=20
+>  > I can mark the bug fixed in korg bugzilla too.
+>=20
+> Probably we just want to add a comment saying the patch works -- the bug
+> should stay open until we get the fix upstream I guess.
+>=20
+>  > Thank you Roland for looking into this, good work!
+>=20
+> Thanks for testing!  Patch with updated changelog (including your
+> tested-by) below.  Jesse [Barnes] and/or Eric please review and apply:
+>=20
+> ---
+>=20
+> i915: Fix potential AB-BA deadlock in i915_gem_execbuffer()
+>=20
+> Lockdep warns that i915_gem_execbuffer() can trigger a page fault (which
+> takes mmap_sem) while holding dev->struct_mutex, while drm_vm_open()
+> (which is called with mmap_sem already held) takes dev->struct_mutex.
+> So this is a potential AB-BA deadlock.
+>=20
+> The way that i915_gem_execbuffer() triggers a page fault is by doing
+> copy_to_user() when returning new buffer offsets back to userspace;
+> however there is no reason to hold the struct_mutex when doing this
+> copy, since what is being copied is the contents of an array private to
+> i915_gem_execbuffer() anyway.  So we can fix the potential deadlock (and
+> get rid of the lockdep warning) by simply moving the copy_to_user()
+> outside of where struct_mutex is held.
+>=20
+> This fixes <http://bugzilla.kernel.org/show_bug.cgi?id=3D12491>.
+>=20
+> Reported-by: Jesse Brandeburg <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> Tested-by: Jesse Brandeburg <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> Signed-off-by: Roland Dreier <rolandd-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
 
-Yes, there are real lock inversions now due to the GTT mmap code.  It's
-going to be a pain to fix (I tried getting the mmap_sem -> struct_mutex
-path to go away, but the fact that mmap_sem is held over the fault
-handler pretty much kills that).  It's high on the list, though.
+This only fixes 1 of the about 4 of this type of deadlock, but it looks
+like a fine fix for that and I've put it in my tree.  Thanks!
+
+(I'd been holding off on hitting the easy ones to figure out if we could
+get the lock order the other way around.  It would be really nice if we
+could have struct_mutex -> mmap_sem, but it looks like that's just not
+going to happen.  pread and pwrite are going to be a mess.)
 
 --=20
 Eric Anholt
@@ -41,16 +75,16 @@ eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org                         eric.anholt
 
 
 
---=-1Z7gR/hHA0tX+ZN1mhZM
+--=-kR0MQ7f70BrvLAu3AEdM
 Content-Type: application/pgp-signature; name=signature.asc
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.9 (GNU/Linux)
 
-iEYEABECAAYFAkmSArQACgkQHUdvYGzw6ved3ACff4huObnqoU+6sC0vjVh1NYy4
-CFAAoIKSScvTf88cLX+SVQh+PDgQbU8B
-=GKtc
+iEYEABECAAYFAkmSHyAACgkQHUdvYGzw6vdgnwCeIpmtGHVwkFNmGT0Iygc5p16U
+hrAAn2uGxAHY8YdRVY4GPIuwx+ggKQAP
+=3XT/
 -----END PGP SIGNATURE-----
 
---=-1Z7gR/hHA0tX+ZN1mhZM--
+--=-kR0MQ7f70BrvLAu3AEdM--
