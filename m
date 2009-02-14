@@ -1,70 +1,33 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12414] iwl4965 cannot use "ap auto" on latest 2.6.28/29?
-Date: Sat, 14 Feb 2009 21:10:03 +0100
-Message-ID: <200902142110.03616.rjw@sisk.pl>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera> <b6a2187b0902140341y2a1da743o7b012e6386583a62@mail.gmail.com> <b6a2187b0902141046r76f80b9ar6df6a0e2472ef61b@mail.gmail.com>
+Subject: Re: [Bug #12661] commit 64ff3b938ec6782e6585a83d5459b98b0c3f6eb8 breaks rlogin
+Date: Sat, 14 Feb 2009 23:35:55 +0100
+Message-ID: <200902142335.55904.rjw@sisk.pl>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera> <sWhNs83kKPE.A.ueE.U20jJB@chimera> <20090209042307.GA3268@gondor.apana.org.au>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b6a2187b0902141046r76f80b9ar6df6a0e2472ef61b-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20090209042307.GA3268-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+To: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Saturday 14 February 2009, Jeff Chua wrote:
-> On Sat, Feb 14, 2009 at 7:41 PM, Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> > On Wed, Feb 4, 2009 at 6:23 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> >> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12414
-> >> Subject         : iwl4965 cannot use "ap auto" on latest 2.6.28/29?
-> >> Submitter       : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> >> Date            : 2009-01-05 4:13 (31 days old)
-> >> References      : http://marc.info/?l=linux-kernel&m=123112882127823&w=4
-> >
-> > I applied the patch
-> > http://marc.info/?l=linux-wireless&m=123320213115108&w=2 and it seems
-> > better now. One instant of not association out of 20 tries, but
-> > reloading the modules seems to make it work again. So, let's just
-> > close the case?
+On Monday 09 February 2009, Herbert Xu wrote:
+> On Sun, Feb 08, 2009 at 08:21:46PM +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.28.  Please verify if it still should be listed and let me know
+> > (either way).
 > 
-> I tested on another AP (WAG200G ), and this one, it's failing to
-> associate more often. And I noticed that when it does associate, I
-> don't get these two lines ...
-> 
-> iwlagn: TX Power requested while scanning!
-> iwlagn: Error sending TX power (-11)
-> 
-> 
-> 
-> Here's a good run ...
-> 
-> iwlagn: Intel(R) Wireless WiFi Link AGN driver for Linux, 1.3.27ks
-> iwlagn: Copyright(c) 2003-2008 Intel Corporation
-> iwlagn 0000:03:00.0: PCI INT A -> GSI 17 (level, low) -> IRQ 17
-> iwlagn 0000:03:00.0: setting latency timer to 64
-> iwlagn: Detected Intel Wireless WiFi Link 4965AGN REV=0x4
-> iwlagn: Tunable channels: 11 802.11bg, 13 802.11a channels
-> wmaster0 (iwlagn): not using net_device_ops yet
-> phy0: Selected rate control algorithm 'iwl-agn-rs'
-> wlan0 (iwlagn): not using net_device_ops yet
-> iwlagn 0000:03:00.0: PCI INT A -> GSI 17 (level, low) -> IRQ 17
-> iwlagn 0000:03:00.0: irq 28 for MSI/MSI-X
-> iwlagn 0000:03:00.0: firmware: requesting iwlwifi-4965-2.ucode
-> iwlagn loaded firmware version 228.57.2.23
-> Registered led device: iwl-phy0:radio
-> Registered led device: iwl-phy0:assoc
-> Registered led device: iwl-phy0:RX
-> Registered led device: iwl-phy0:TX
-> wlan0: authenticate with AP xxxxxxxxxxxxx
-> wlan0: authenticate with AP xxxxxxxxxxxxx
-> wlan0: authenticate with AP xxxxxxxxxxxxx
-> wlan0: authenticated
-> wlan0: associate with AP xxxxxxxxxxxx
-> wlan0: RX AssocResp from xxxxxxxxxxxx (capab=0x471 status=0 aid=1)
-> wlan0: associated
+> The patch in question has already been reverted.  So while we
+> still need to track down the underlying problem with rlogin, it's
+> no longer a kernel regression.
 
-Thanks for the updates.
+I've closed the bug, sorry for the slow response.
 
+Thanks,
 Rafael
