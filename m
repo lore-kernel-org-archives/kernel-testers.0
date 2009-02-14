@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #12160] networking oops after resume from s2ram (2.6.28-rc6)
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #12209] oldish top core dumps (in its meminfo() function)
 Date: Sat, 14 Feb 2009 21:50:19 +0100 (CET)
-Message-ID: <ROx6X68CGJG.A.B-B.750lJB@chimera>
+Message-ID: <ROx6X68CGJG.A.gyB.r50lJB@chimera>
 References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <netdev-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <sTyoMUwdm9B.A.QCH.U40lJB@chimera>
 Content-Disposition: inline
-Sender: netdev-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Marcin Slusarz <marcin.slusarz@gmail.com>, netdev <netdev@vger.kernel.org>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,10 +22,10 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12160
-Subject		: networking oops after resume from s2ram (2.6.28-rc6)
-Submitter	: Marcin Slusarz <marcin.slusarz@gmail.com>
-Date		: 2008-11-28 21:15 (79 days old)
-References	: http://marc.info/?l=linux-kernel&m=122790701615723&w=4
-
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12209
+Subject		: oldish top core dumps (in its meminfo() function)
+Submitter	: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
+Date		: 2008-12-12 18:49 (65 days old)
+References	: http://marc.info/?l=linux-kernel&m=122910784006472&w=4
+		  http://marc.info/?l=linux-kernel&m=122907511319288&w=4
 
