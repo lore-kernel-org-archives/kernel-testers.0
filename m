@@ -1,80 +1,41 @@
-From: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12414] iwl4965 cannot use "ap auto" on latest 2.6.28/29?
-Date: Sun, 15 Feb 2009 02:46:16 +0800
-Message-ID: <b6a2187b0902141046r76f80b9ar6df6a0e2472ef61b@mail.gmail.com>
-References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
-	 <pWZw1SZjMCH.A.zq.WwYiJB@chimera>
-	 <b6a2187b0902140341y2a1da743o7b012e6386583a62@mail.gmail.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #12604] Commit 31a12666d8f0c22235297e1c1575f82061480029 slows down Berkeley DB
+Date: Sat, 14 Feb 2009 20:53:01 +0100
+Message-ID: <200902142053.02389.rjw@sisk.pl>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera> <sWhNs83kKPE.A.gUG.420jJB@chimera> <20090214142915.GE26628@mini-me.lan>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=/gu8JQjyGRXKCq7///esBda+BnQL8HQ1DKrLF+dHOho=;
-        b=kcPT2DoAzklhhhxVtZej0CJccpCKp2nel30GZMUJjGtGiCkDnojPgQE9ZuDIxGJNvY
-         gob+aDrSQYwHImpF940hWVfmrM17c65rWMrM4Nky0Wf+pOiTktEVX51b2k0nmL0bGNyL
-         NwLxsx/vlAd0iRJPE2SAIInGMbfKVly8J+P7A=
-In-Reply-To: <b6a2187b0902140341y2a1da743o7b012e6386583a62-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20090214142915.GE26628-L/UBWM/4G/zhXIiyNabO3w@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+To: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>
 
-On Sat, Feb 14, 2009 at 7:41 PM, Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On Wed, Feb 4, 2009 at 6:23 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
->> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12414
->> Subject         : iwl4965 cannot use "ap auto" on latest 2.6.28/29?
->> Submitter       : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> Date            : 2009-01-05 4:13 (31 days old)
->> References      : http://marc.info/?l=linux-kernel&m=123112882127823&w=4
->
-> I applied the patch
-> http://marc.info/?l=linux-wireless&m=123320213115108&w=2 and it seems
-> better now. One instant of not association out of 20 tries, but
-> reloading the modules seems to make it work again. So, let's just
-> close the case?
+On Saturday 14 February 2009, Theodore Tso wrote:
+> On Sun, Feb 08, 2009 at 08:21:42PM +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.28.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12604
+> > Subject		: Commit 31a12666d8f0c22235297e1c1575f82061480029 slows down Berkeley DB
+> > Submitter	: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+> > Date		: 2009-01-30 1:23 (10 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=31a12666d8f0c22235297e1c1575f82061480029
+> > References	: http://marc.info/?l=linux-kernel&m=123327862901800&w=4
+> > 
+> 
+> Note: this has been fixed in mainline as of 2.6.29-rc5, in commit
+> 3a4c6800.  So this bug can be closed now...
 
-I tested on another AP (WAG200G ), and this one, it's failing to
-associate more often. And I noticed that when it does associate, I
-don't get these two lines ...
-
-iwlagn: TX Power requested while scanning!
-iwlagn: Error sending TX power (-11)
-
-
-
-Here's a good run ...
-
-iwlagn: Intel(R) Wireless WiFi Link AGN driver for Linux, 1.3.27ks
-iwlagn: Copyright(c) 2003-2008 Intel Corporation
-iwlagn 0000:03:00.0: PCI INT A -> GSI 17 (level, low) -> IRQ 17
-iwlagn 0000:03:00.0: setting latency timer to 64
-iwlagn: Detected Intel Wireless WiFi Link 4965AGN REV=0x4
-iwlagn: Tunable channels: 11 802.11bg, 13 802.11a channels
-wmaster0 (iwlagn): not using net_device_ops yet
-phy0: Selected rate control algorithm 'iwl-agn-rs'
-wlan0 (iwlagn): not using net_device_ops yet
-iwlagn 0000:03:00.0: PCI INT A -> GSI 17 (level, low) -> IRQ 17
-iwlagn 0000:03:00.0: irq 28 for MSI/MSI-X
-iwlagn 0000:03:00.0: firmware: requesting iwlwifi-4965-2.ucode
-iwlagn loaded firmware version 228.57.2.23
-Registered led device: iwl-phy0:radio
-Registered led device: iwl-phy0:assoc
-Registered led device: iwl-phy0:RX
-Registered led device: iwl-phy0:TX
-wlan0: authenticate with AP xxxxxxxxxxxxx
-wlan0: authenticate with AP xxxxxxxxxxxxx
-wlan0: authenticate with AP xxxxxxxxxxxxx
-wlan0: authenticated
-wlan0: associate with AP xxxxxxxxxxxx
-wlan0: RX AssocResp from xxxxxxxxxxxx (capab=0x471 status=0 aid=1)
-wlan0: associated
-
-
+The bug has been closed already.
 
 Thanks,
-Jeff.
+Rafael
