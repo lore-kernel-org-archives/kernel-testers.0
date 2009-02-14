@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12663] Commit 8c7e58e690ae60ab4215b025f433ed4af261e103 breaks resume
-Date: Sat, 14 Feb 2009 21:38:21 +0100 (CET)
-Message-ID: <rjPbZ5GRJPO.A.kME.jr0lJB@chimera>
+Subject: [Bug #12617] unable to compile e100 firmware into kernel
+Date: Sat, 14 Feb 2009 21:38:20 +0100 (CET)
+Message-ID: <rjPbZ5GRJPO.A.05E.3r0lJB@chimera>
 References: <juADNmcceYF.A.mdD.Mr0lJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Brian Gerst <brgerst-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>, David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Jesse Brandeburg <jesse.brandeburg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,12 +22,9 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12663
-Subject		: Commit 8c7e58e690ae60ab4215b025f433ed4af261e103 breaks resume
-Submitter	: Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-02-07 18:40 (8 days old)
-References	: http://lkml.org/lkml/2009/2/7/100
-Handled-By	: Brian Gerst <brgerst-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Patch		: http://lkml.org/lkml/2009/2/7/100
-		  http://lkml.org/lkml/2009/2/8/59
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12617
+Subject		: unable to compile e100 firmware into kernel
+Submitter	: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
+Date		: 2009-01-31 15:59 (15 days old)
+References	: http://marc.info/?l=linux-kernel&m=123341764915181&w=4
 
