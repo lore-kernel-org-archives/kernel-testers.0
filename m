@@ -1,81 +1,63 @@
-From: Tetsuo Handa <penguin-kernel-JPay3/Yim36HaxMnTkn67Xf5DAMn2ifp@public.gmane.org>
-Subject: Re: [Bug #12409] NULL pointer dereference at get_stats()
-Date: Fri, 13 Feb 2009 20:54:50 +0900
-Message-ID: <200902132054.HBF52153.QtLFVOJHSMOFOF@I-love.SAKURA.ne.jp>
-References: <KTnguC9mFUC.A.VNB.TJRdJB@chimera>
-	<cX2gZ6Cy9nC.A.N0B.pJRdJB@chimera>
-	<20090121161828.GA2739@gambetta>
-	<200902071133.AJJ09378.MOHLFFtOSOVQFJ@I-love.SAKURA.ne.jp>
+From: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12414] iwl4965 cannot use "ap auto" on latest 2.6.28/29?
+Date: Sat, 14 Feb 2009 19:41:25 +0800
+Message-ID: <b6a2187b0902140341y2a1da743o7b012e6386583a62@mail.gmail.com>
+References: <kkuKoQJIW-D.A.61C.auYiJB@chimera>
+	 <pWZw1SZjMCH.A.zq.WwYiJB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200902071133.AJJ09378.MOHLFFtOSOVQFJ-JPay3/Yim36HaxMnTkn67Xf5DAMn2ifp@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=/ffBvrhQ02n3eAcJAQfUpJdXYyyuuVoQxJkFwNWXMxI=;
+        b=NQw9ZmfP1rKRQM3K2dU0nu3sbZB7yB1QDKT5aRgfFEsBp006IRO32CDUC60FDTRf1J
+         EtTqmm38Uxjzdpwa/D4zykFuFRrHRFL9QP9zqf+d7MPh2oBnzODWjsTaUFGuTMnkJ03A
+         SKlbL58OiGYT5cIGDBD/WFEi12m9TxPCPcdOs=
+In-Reply-To: <pWZw1SZjMCH.A.zq.WwYiJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: frederik.deweerdt-kjvbsxwSFqI@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 
-Hello.
+On Wed, Feb 4, 2009 at 6:23 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12414
+> Subject         : iwl4965 cannot use "ap auto" on latest 2.6.28/29?
+> Submitter       : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date            : 2009-01-05 4:13 (31 days old)
+> References      : http://marc.info/?l=linux-kernel&m=123112882127823&w=4
 
-Tetsuo Handa wrote:
-> I think this bug will happen in native environment too.
-> http://lkml.org/lkml/2009/1/4/349
-> But due to driver initialization failure caused by "nolapic" option,
-> I can't reach /sbin/init on native ThinkPad X60 environment.
+I applied the patch
+http://marc.info/?l=linux-wireless&m=123320213115108&w=2 and it seems
+better now. One instant of not association out of 20 tries, but
+reloading the modules seems to make it work again. So, let's just
+close the case?
 
-I don't encounter NULL pointer dereference at get_stats() on native
-environment, but I encounter another problem on native environment;
-initialization of SATA device fails if "nolapic" is given.
-I don't have specific reasons to give "nolapic" option. This problem was
-found when I was trying to reproduce [Bug #12409] on native ThinkPad X60
-environment.
 
- scsi0 : ahci
- scsi1 : ahci
- scsi2 : ahci
- scsi3 : ahci
- ata1: SATA max UDMA/133 abar m1024@0xee444400 port 0xee444500 irq 1275
- ata2: DUMMY
- ata3: DUMMY
- ata4: DUMMY
- Marking TSC unstable due to TSC halts in idle
- usb 3-6: new high speed USB device using ehci_hcd and address 2
- usb 3-6: configuration #1 chosen from 1 choice
- hub 3-6:1.0: USB hub found
- hub 3-6:1.0: 4 ports detected
- firewire_core: created device fw0: GUID 000ae40600522014, S400
- ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
- ata1.00: qc timeout (cmd 0xec)
- ata1.00: failed to IDENTIFY (I/O error, err_mask=0x4)
- ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
- ata1.00: qc timeout (cmd 0xec)
- ata1.00: failed to IDENTIFY (I/O error, err_mask=0x4)
- ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
- ata1.00: qc timeout (cmd 0xec)
- ata1.00: failed to IDENTIFY (I/O error, err_mask=0x4)
- ata1: SATA link up 1.5 Gbps (SStatus 113 SControl 300)
+Here's part of the dmesg. Kernel is 2.6.29-rc5 with patch above applied.
 
-Full log for 2.6.28.5 without "nolapic" option:
-  http://I-love.SAKURA.ne.jp/tmp/dmesg-2.6.28.5-native.txt
-Full log for 2.6.28.5 with "nolapic" option:
-  http://I-love.SAKURA.ne.jp/tmp/dmesg-2.6.28.5-native-nolapic.txt
+wmaster0 (iwlagn): not using net_device_ops yet
+phy0: Selected rate control algorithm 'iwl-agn-rs'
+wlan0 (iwlagn): not using net_device_ops yet
+iwlagn 0000:03:00.0: PCI INT A -> GSI 17 (level, low) -> IRQ 17
+iwlagn 0000:03:00.0: irq 29 for MSI/MSI-X
+iwlagn 0000:03:00.0: firmware: requesting iwlwifi-4965-2.ucode
+iwlagn loaded firmware version 228.57.2.23
+Registered led device: iwl-phy0:radio
+Registered led device: iwl-phy0:assoc
+Registered led device: iwl-phy0:RX
+Registered led device: iwl-phy0:TX
+iwlagn: TX Power requested while scanning!
+iwlagn: Error sending TX power (-11)
+wlan0: authenticate with AP xxxxxxxxxxxxx
+wlan0: authenticated
+wlan0: associate with AP xxxxxxxxxxxxxx
+wlan0: RX AssocResp from xxxxxxxxxxxxxx (capab=0x471 status=0 aid=24)
+wlan0: associated
 
-Full log for 2.6.27.16 without "nolapic" option:
-  http://I-love.SAKURA.ne.jp/tmp/dmesg-2.6.27.16-native.txt
-Full log for 2.6.27.16 with "nolapic" option:
-  http://I-love.SAKURA.ne.jp/tmp/dmesg-2.6.27.16-native-nolapic.txt
 
-Full log for 2.6.26.8 without "nolapic" option:
-  http://I-love.SAKURA.ne.jp/tmp/dmesg-2.6.26.8-native.txt
-Full log for 2.6.26.8 with "nolapic" option:
-  http://I-love.SAKURA.ne.jp/tmp/dmesg-2.6.26.8-native-nolapic.txt
-
-Config:
-  http://I-love.SAKURA.ne.jp/tmp/config-2.6.27.16
-  http://I-love.SAKURA.ne.jp/tmp/config-2.6.28.5
-
-2.6.27.16 and 2.6.28.5 fail with this problem.
-2.6.26.8 does not fail with this problem.
-
-Regards.
+Thanks,
+Jeff.
