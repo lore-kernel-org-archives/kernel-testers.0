@@ -1,29 +1,40 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12690] DPMS (LCD powersave, poweroff) don't work
-Date: Sat, 14 Feb 2009 21:50:26 +0100 (CET)
-Message-ID: <ROx6X68CGJG.A.KEH.Y40lJB@chimera>
-References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #12265] FPU emulation broken in 2.6.28-rc8 ?
+Date: Sun, 15 Feb 2009 00:23:35 +0100
+Message-ID: <20090214232335.GG20477@elte.hu>
+References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <ROx6X68CGJG.A.kaB.Y50lJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <sTyoMUwdm9B.A.QCH.U40lJB@chimera>
 Content-Disposition: inline
+In-Reply-To: <ROx6X68CGJG.A.kaB.Y50lJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Antonin Kolisek <akolisek-T3ps84XAcx36AaHJ4hbVU+3CNBr840j2@public.gmane.org>
-
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.27 and 2.6.28.
-
-The following bug entry is on the current list of known regressions
-introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-be listed and let me know (either way).
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rogier Wolff <R.E.Wolff-bu/CaDbLbdHGjfRZg6uqBA@public.gmane.org>
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12690
-Subject		: DPMS (LCD powersave, poweroff) don't work
-Submitter	: Antonin Kolisek <akolisek-T3ps84XAcx36AaHJ4hbVU+3CNBr840j2@public.gmane.org>
-Date		: 2009-02-11 09:40 (4 days old)
+* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.27 and 2.6.28.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12265
+> Subject		: FPU emulation broken in 2.6.28-rc8 ?
+> Submitter	: Rogier Wolff <R.E.Wolff-bu/CaDbLbdHGjfRZg6uqBA@public.gmane.org>
+> Date		: 2008-12-17 8:56 (60 days old)
+> References	: http://marc.info/?l=linux-kernel&m=122950463030747&w=4
+
+Should be fixed in -rc5 by:
+
+  d315760: x86: fix math_emu register frame access
+
+Rogier, can you confirm?
+
+	Ingo
