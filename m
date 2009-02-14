@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12551] end_request: I/O error, dev cciss/c0d0, sector 87435720
-Date: Sat, 14 Feb 2009 21:38:17 +0100 (CET)
-Message-ID: <rjPbZ5GRJPO.A.IsF.Ys0lJB@chimera>
+Subject: [Bug #12571] Suspend-resume on Dell Latitude D410 newly broken in 2.6.29-rc*
+Date: Sat, 14 Feb 2009 21:38:18 +0100 (CET)
+Message-ID: <rjPbZ5GRJPO.A.TqF.Ws0lJB@chimera>
 References: <juADNmcceYF.A.mdD.Mr0lJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ralf Hildebrandt <ralf.hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ross Boswell <drb-KpQn0vuWxAmlVyrhU4qvOw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,8 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12551
-Subject		: end_request: I/O error, dev cciss/c0d0, sector 87435720
-Submitter	: Ralf Hildebrandt <ralf.hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>
-Date		: 2009-01-27 06:51 (19 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12571
+Subject		: Suspend-resume on Dell Latitude D410 newly broken in 2.6.29-rc*
+Submitter	: Ross Boswell <drb-KpQn0vuWxAmlVyrhU4qvOw@public.gmane.org>
+Date		: 2009-01-29 03:46 (17 days old)
 
