@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12393] debugging in dosemu causes lots of 'scheduling while atomic'
+Subject: [Bug #12395] 2.6.28-rc9: oprofile regression
 Date: Sat, 14 Feb 2009 21:50:21 +0100 (CET)
-Message-ID: <ROx6X68CGJG.A.TTB.S50lJB@chimera>
+Message-ID: <ROx6X68CGJG.A.ZOB.Q50lJB@chimera>
 References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Robert Richter <robert.richter-5C7GfCeVMHo@public.gmane.org>, Tim Blechmann <tim-xpEK/MU0Hawdnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,10 +22,11 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12393
-Subject		: debugging in dosemu causes lots of 'scheduling while atomic'
-Submitter	: Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>
-Date		: 2009-01-09 07:28 (37 days old)
-Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Patch		: http://lkml.org/lkml/2009/1/13/445
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12395
+Subject		: 2.6.28-rc9: oprofile regression
+Submitter	: Tim Blechmann <tim-xpEK/MU0Hawdnm+yROfE0A@public.gmane.org>
+Date		: 2008-12-21 14:23 (56 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b99170288421c79f0c2efa8b33e26e65f4bb7fb8
+References	: http://marc.info/?l=linux-kernel&m=122986946614791&w=4
+Handled-By	: Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
