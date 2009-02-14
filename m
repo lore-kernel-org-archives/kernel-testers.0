@@ -1,31 +1,30 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12705] X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-Date: Sat, 14 Feb 2009 21:38:23 +0100 (CET)
-Message-ID: <rjPbZ5GRJPO.A.htD.Sr0lJB@chimera>
-References: <juADNmcceYF.A.mdD.Mr0lJB@chimera>
+Subject: [Bug #12061] snd_hda_intel: power_save: sound cracks on powerdown
+Date: Sat, 14 Feb 2009 21:48:14 +0100 (CET)
+Message-ID: <ROx6X68CGJG.A.LCC.S60lJB@chimera>
+References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <juADNmcceYF.A.mdD.Mr0lJB@chimera>
+In-Reply-To: <sTyoMUwdm9B.A.QCH.U40lJB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jens Weibler <bugzilla-kernel-6hJTtV8wudIr9FUcG+3rRQ@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
 
 This message has been generated automatically as a part of a report
-of recent regressions.
+of regressions introduced between 2.6.27 and 2.6.28.
 
 The following bug entry is on the current list of known regressions
-from 2.6.28.  Please verify if it still should be listed and let me know
-(either way).
+introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12705
-Subject		: X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-Submitter	: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-Date		: 2009-02-13 9:33 (2 days old)
-References	: http://marc.info/?l=linux-kernel&m=123451768406825&w=4
-Handled-By	: Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12061
+Subject		: snd_hda_intel: power_save: sound cracks on powerdown
+Submitter	: Jens Weibler <bugzilla-kernel-6hJTtV8wudIr9FUcG+3rRQ@public.gmane.org>
+Date		: 2008-11-18 12:07 (89 days old)
+Handled-By	: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
 
