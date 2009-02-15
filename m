@@ -1,39 +1,45 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12406] 2.6.28 thinks that my PS/2 mouse is a touchpad
-Date: Sun, 15 Feb 2009 15:40:52 +0100
-Message-ID: <200902151540.53004.rjw@sisk.pl>
-References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <ROx6X68CGJG.A.Ql.E50lJB@chimera> <20090215111446.789c1f8a@home.aephome.ru>
+From: Peter Korsgaard <jacmet-OfajU3CKLf1/SzgSGea1oA@public.gmane.org>
+Subject: Re: [Bug #12615] boot hangs while bringing up gianfar ethernet
+Date: Sun, 15 Feb 2009 15:42:34 +0100
+Message-ID: <8763jbep7p.fsf@macbook.be.48ers.dk>
+References: <juADNmcceYF.A.mdD.Mr0lJB@chimera>
+	<rjPbZ5GRJPO.A.__E.7r0lJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090215111446.789c1f8a-OVPaBHQY1ulUCDrD4VgvSg@public.gmane.org>
-Content-Disposition: inline
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:sender:received:to:cc:subject
+         :references:from:date:in-reply-to:message-id:user-agent:mime-version
+         :content-type;
+        bh=J6x3ptXJzdUHuCuIS6v1MTOAdAS66xS+BiNFdCvMi7E=;
+        b=KBZ6uh8tZVu83a5hM96pYINteICQnOnLZvxo68Bt72Nn9tr7qr8VIfYHvlHAJrJ7Y8
+         qN3JA/yAHL8atFbXOuyjHxJfmz43SbIlkiOPcHxokrRSSSPKX3ptWceQkSpElqQjGeT8
+         uuzPPzgglEFcAaco+b9imLIvJ2UdAUgwvF0VE=
+In-Reply-To: <rjPbZ5GRJPO.A.__E.7r0lJB@chimera> (Rafael J. Wysocki's message of "Sat\, 14 Feb 2009 21\:38\:19 +0100 \(CET\)")
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Alexander E. Patrakov" <patrakov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjan Opmeer <arjan-OssVvNj1wBysTnJN9+BGXg@public.gmane.org>, Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ira Snyder <iws-lulEs6mt1IksTUYHLfqkUA@public.gmane.org>
 
-On Sunday 15 February 2009, Alexander E. Patrakov wrote:
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.27 and 2.6.28.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.27 and 2.6.28.  Please verify if it still
-> > should be listed and let me know (either way).
-> 
-> Yes, it is still a regression with a patch that is not in -stable.
+>>>>> "Rafael" == Rafael J Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> writes:
 
-I think it hasn't been merged yet.
- 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12406
-> > Subject		: 2.6.28 thinks that my PS/2 mouse is a
-> > touchpad Submitter	: Alexander E. Patrakov <patrakov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2008-12-27 9:06 (50 days old)
-> > References	:
-> > http://marc.info/?l=linux-kernel&m=123036893817280&w=4
-> > Handled-By	: Arjan Opmeer <arjan-OssVvNj1wBysTnJN9+BGXg@public.gmane.org>
-> > Patch		:
-> > http://marc.info/?l=linux-kernel&m=123092147703236&w=4
+ Rafael> This message has been generated automatically as a part of a report
+ Rafael> of recent regressions.
+
+ Rafael> The following bug entry is on the current list of known
+ Rafael> regressions from 2.6.28.  Please verify if it still should be
+ Rafael> listed and let me know (either way).
+
+As already mentioned, the fix works for me so I think this can be
+closed.
+
+ Rafael> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12615
+ Rafael> Subject		: boot hangs while bringing up gianfar ethernet
+ Rafael> Submitter	: Ira Snyder <iws-lulEs6mt1IksTUYHLfqkUA@public.gmane.org>
+ Rafael> Date		: 2009-01-29 19:41 (17 days old)
+ Rafael> References	: http://marc.info/?l=linux-kernel&m=123325817201665&w=4
+
+-- 
+Bye, Peter Korsgaard
