@@ -1,51 +1,117 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12650] Strange load average and ksoftirqd behavior with
-	2.6.29-rc2-git1
-Date: Sun, 15 Feb 2009 11:13:51 +0100
-Message-ID: <20090215101351.GA23274@elte.hu>
-References: <juADNmcceYF.A.mdD.Mr0lJB@chimera> <rjPbZ5GRJPO.A.1kE.ur0lJB@chimera> <20090215080941.GA2295@localhost.localdomain> <20090215090026.GA31147@elte.hu> <20090215095128.GA3234@localhost.localdomain>
+From: etienne <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+Subject: Re: [Bug #12613] [Suspend regression][DRM, RADEON]
+Date: Sun, 15 Feb 2009 11:20:07 +0100
+Message-ID: <4997EC57.1020608@numericable.fr>
+References: <juADNmcceYF.A.mdD.Mr0lJB@chimera> <rjPbZ5GRJPO.A.mNF.9r0lJB@chimera> <4997E7D7.60205@numericable.fr>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090215095128.GA3234-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+In-Reply-To: <4997E7D7.60205-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Soeren Sonnenburg <kernel-YxZl4NRrHdw@public.gmane.org>
 
+etienne wrote:
+> Rafael J. Wysocki wrote:
+>> This message has been generated automatically as a part of a report
+>> of recent regressions.
+>>
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.28.  Please verify if it still should be listed and let me know
+>> (either way).
+>>
+>>
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12613
+>> Subject		: [Suspend regression][DRM, RADEON]
+>> Submitter	: etienne <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+>> Date		: 2009-01-28 22:00 (18 days old)
+>> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=a9d51a5ad1154b5b20add1e8d30a5564f8aabbe9
+>> References	: http://marc.info/?l=linux-kernel&m=123318030419558&w=4
+>> 		  http://marc.info/?l=linux-kernel&m=123334865404574&w=4
+>> 		  http://lkml.org/lkml/2009/2/8/203
+>>
+>>
+>>
+hello,
 
-* Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org> wrote:
+yes it is still present in -rc5;
+the following unreviewed patch fixes it for me;
 
-> > > Load average is between 0.30 and 0.60 when the machine is idle, the
-> > > two ksoftirqd threads get a very high total running time in top.
-> > > This is on a P4 machine. On a recent laptop, the load is not as
-> > > high, but the ksoftirqd threads also get a very high total running
-> > > time.
-> 
-> > Mind having a look at this anomaly with the function graph tracer? We are
-> > interested in a representative trace that shows the weird ksoftirq activities.
-> > [ which trace could possibly pinpoint their origin. ]
-> 
-> > Here's the tracing quickstart:
-> 
-> >    http://redhat.com/~mingo/tip.git/tracing-quickstart.txt
-> 
-> > Also attached below. Let me know if you have trouble getting a good trace,
-> > or if any of the steps were non-intuitive or burdensome to you.
-> 
-> Thanks for your feedback & explanations; I will try to have a look at
-> all this material asap, I think tomorrow.
+regards,
+Etienne, who should learn to send correct emails
 
-Note that if the box you test this on is multi-core or HT, then interpreting
-traces is easier if there's just a single CPU to look at. In that case i'd 
-suggest to reproduce with just a single core, by turning the second one off:
-
-   echo 0 > /sys/devices/system/cpu/cpu1/online
-
-Or, if the problem only occurs with two cpus, restrict tracing to CPU#1:
-
-   echo 2 > /debug/tracing/tracing_cpumask 
-
-	Ingo
+Signed-off-by: <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+---
+diff --git a/drivers/gpu/drm/radeon/radeon_cp.c b/drivers/gpu/drm/radeon/radeon_cp.c
+index df4cf97..6554adf 100644
+--- a/drivers/gpu/drm/radeon/radeon_cp.c
++++ b/drivers/gpu/drm/radeon/radeon_cp.c
+@@ -557,7 +557,8 @@ static int radeon_do_engine_reset(struct drm_device * dev)
+ }
+ 
+ static void radeon_cp_init_ring_buffer(struct drm_device * dev,
+-				       drm_radeon_private_t * dev_priv)
++				       drm_radeon_private_t * dev_priv,
++				       struct drm_radeon_master_private *master)
+ {
+ 	u32 ring_start, cur_read_ptr;
+ 	u32 tmp;
+@@ -668,13 +669,13 @@ static void radeon_cp_init_ring_buffer(struct drm_device * dev,
+ 		RADEON_WRITE(RADEON_BUS_CNTL, tmp);
+ 	} /* PCIE cards appears to not need this */
+ 
+-	dev_priv->scratch[0] = 0;
++	master->sarea_priv->last_frame = dev_priv->scratch[0] = 0;
+ 	RADEON_WRITE(RADEON_LAST_FRAME_REG, 0);
+ 
+-	dev_priv->scratch[1] = 0;
++	master->sarea_priv->last_dispatch = dev_priv->scratch[1] = 0;
+ 	RADEON_WRITE(RADEON_LAST_DISPATCH_REG, 0);
+ 
+-	dev_priv->scratch[2] = 0;
++	master->sarea_priv->last_clear = dev_priv->scratch[2] = 0;
+ 	RADEON_WRITE(RADEON_LAST_CLEAR_REG, 0);
+ 
+ 	radeon_do_wait_for_idle(dev_priv);
+@@ -1215,7 +1216,7 @@ static int radeon_do_init_cp(struct drm_device *dev, drm_radeon_init_t *init,
+ 	}
+ 
+ 	radeon_cp_load_microcode(dev_priv);
+-	radeon_cp_init_ring_buffer(dev, dev_priv);
++	radeon_cp_init_ring_buffer(dev, dev_priv, master_priv);
+ 
+ 	dev_priv->last_buf = 0;
+ 
+@@ -1281,9 +1282,11 @@ static int radeon_do_cleanup_cp(struct drm_device * dev)
+  *
+  * Charl P. Botha <http://cpbotha.net>
+  */
+-static int radeon_do_resume_cp(struct drm_device * dev)
++static int radeon_do_resume_cp(struct drm_device * dev,
++			       struct drm_file * file_priv)
+ {
+ 	drm_radeon_private_t *dev_priv = dev->dev_private;
++	struct drm_radeon_master_private * master_priv = file_priv->master->driver_priv;
+ 
+ 	if (!dev_priv) {
+ 		DRM_ERROR("Called with no initialization\n");
+@@ -1304,7 +1307,7 @@ static int radeon_do_resume_cp(struct drm_device * dev)
+ 	}
+ 
+ 	radeon_cp_load_microcode(dev_priv);
+-	radeon_cp_init_ring_buffer(dev, dev_priv);
++	radeon_cp_init_ring_buffer(dev, dev_priv, master_priv);
+ 
+ 	radeon_do_engine_reset(dev);
+ 	radeon_irq_set_state(dev, RADEON_SW_INT_ENABLE, 1);
+@@ -1480,7 +1483,7 @@ int radeon_cp_idle(struct drm_device *dev, void *data, struct drm_file *file_pri
+ int radeon_cp_resume(struct drm_device *dev, void *data, struct drm_file *file_priv)
+ {
+ 
+-	return radeon_do_resume_cp(dev);
++	return radeon_do_resume_cp(dev, file_priv);
+ }
+ 
+ int radeon_engine_reset(struct drm_device *dev, void *data, struct drm_file *file_priv)
