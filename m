@@ -1,26 +1,53 @@
-From: Tino Keitel <tino.keitel-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [Bug #12401] 2.6.28 regression: xbacklight broken on ThinkPad
-	X61s
-Date: Sun, 15 Feb 2009 23:16:47 +0100
-Message-ID: <20090215221647.GA15392@dose.home.local>
-References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <ROx6X68CGJG.A.FEB.M50lJB@chimera> <20090215134409.GC21670@srcf.ucam.org> <200902151538.29766.rjw@sisk.pl>
+From: Ingo Molnar <mingo@elte.hu>
+Subject: Re: [Bug #12263] Sata soft reset filling log
+Date: Sun, 15 Feb 2009 23:30:45 +0100
+Message-ID: <20090215223045.GC29300@elte.hu>
+References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <ROx6X68CGJG.A.ahB.b50lJB@chimera> <49987F49.7050202@gawab.com> <200902152221.43834.rjw@sisk.pl>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-ide-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <200902151538.29766.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <200902152221.43834.rjw@sisk.pl>
+Sender: linux-ide-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>, Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Justin Madru <jdm64@gawab.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux IDE <linux-ide@vger.kernel.org>, Alan Cox <alan@lxorguk.ukuu.org.uk>, Hugh Dickins <hugh@veritas.com>, Larry Finger <Larry.Finger@lwfinger.net>, Mikael Pettersson <mikpe@it.uu.se>, Sergei Shtylyov <sshtylyov@ru.mvista.com>
 
-On Sun, Feb 15, 2009 at 15:38:28 +0100, Rafael J. Wysocki wrote:
-> On Sunday 15 February 2009, Matthew Garrett wrote:
-> > This one sounded like a configuration error.
 
-I think if it works without DRI in 2.6.27 and doesn't work in 2.6.28,
-it isn't a configuration error, but a real regression.
+* Rafael J. Wysocki <rjw@sisk.pl> wrote:
 
-Regards,
-Tino
+> On Sunday 15 February 2009, Justin Madru wrote:
+> > Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of regressions introduced between 2.6.27 and 2.6.28.
+> > >
+> > > The following bug entry is on the current list of known regressions
+> > > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> > > be listed and let me know (either way).
+> > >
+> > >
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12263
+> > > Subject		: Sata soft reset filling log
+> > > Submitter	: Justin Madru <bevicm@dslextreme.com>
+> > > Date		: 2008-12-13 2:07 (64 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=122913412608533&w=4
+> > 
+> > I'm still seeing this on .29-rc5, and I think that my bug #12263 is a 
+> > duplicate of bug #12609,
+> > or more correctly it's a duplicate of mine because I reported first.
+> > 
+> > It seems like the bug has been fixed in tip/master for some time now.
+> > Below is the diff of origin and tip from when I tested.
+> 
+> Ingo, do you know whinch patch in -tip fixes this regression?
+
+This one, done on Jan 10, more than a month ago:
+
+  f1d26da: Revert "libata: Add 32bit PIO support"
+
+When a commit causes trouble in -tip qa i immediately revert it in 95% 
+of the cases, no questions asked. Especially if it's related to 
+persistent storage.
+
+	Ingo
