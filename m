@@ -1,43 +1,66 @@
-From: Jarek Poplawski <jarkao2@gmail.com>
-Subject: Re: 2.6.29-rc5: Reported regressions from 2.6.28
-Date: Mon, 16 Feb 2009 07:29:10 +0000
-Message-ID: <20090216072910.GA4763@ff.dom.local>
-References: <juADNmcceYF.A.mdD.Mr0lJB@chimera>
+From: Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org>
+Subject: Re: [Bug #12650] Strange load average and ksoftirqd behavior with
+	2.6.29-rc2-git1
+Date: Mon, 16 Feb 2009 09:42:23 +0100
+Message-ID: <20090216084223.GA2641@localhost.localdomain>
+References: <juADNmcceYF.A.mdD.Mr0lJB@chimera> <rjPbZ5GRJPO.A.1kE.ur0lJB@chimera> <20090215080941.GA2295@localhost.localdomain> <20090215090026.GA31147@elte.hu> <20090215095128.GA3234@localhost.localdomain> <20090215101351.GA23274@elte.hu> <20090215103445.GA2335@localhost.localdomain> <20090215110104.GB31351@elte.hu> <20090215180355.GA2273@localhost.localdomain> <20090215193102.GA16873@elte.hu>
 Mime-Version: 1.0
-Return-path: <linux-acpi-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=KGnn7KXnfGXQ85D54fFiAG9FxpOnnvo+/m1kTQL7BqE=;
-        b=PDxbiP8Ao7R6TlB5ZmLzhojI5CE+c8+ktUfwqGyKMGewsiybo3wQJbZBVLJR+yWRfV
-         eGNCl6c/JWKtqow+N5EWXmWx4aJQvzrpQnJAnPUalMB01vu01OtmvK4FRc+aTjMMZXlP
-         MMm4O7V7zIehy2RRi6IX0B6HXqo3xmd9liWng=
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <juADNmcceYF.A.mdD.Mr0lJB@chimera>
-Sender: linux-acpi-owner@vger.kernel.org
+In-Reply-To: <20090215193102.GA16873-X9Un+BFzKDI@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, =?iso-8859-1?Q?Fr=E9d=E9ric?= Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On 14-02-2009 21:35, Rafael J. Wysocki wrote:
-> This message contains a list of some regressions from 2.6.28, for which there
-> are no fixes in the mainline I know of.  If any of them have been fixed already,
-> please let me know.
-...
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12615
-> Subject		: boot hangs while bringing up gianfar ethernet
-> Submitter	: Ira Snyder <iws@ovro.caltech.edu>
-> Date		: 2009-01-29 19:41 (17 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123325817201665&w=4
+Hello,
 
-Fixed by:
-commit	8707bdd48ab705a459ac1b12014075a139d1d4f9
-gianfar: Fix boot hangs while bringing up gianfar ethernet
-http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=8707bdd48ab705a459ac1b12014075a139d1d4f9
+Ok, I've redone the tests under tip from this morning (Paris time).
+Everything is in http://damien.wyart.free.fr/ksoftirqd_pb/
 
-Cheers,
-Jarek P.
+* Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> [2009-02-15 20:31]:
+> Yes, an abstime trace would be useful.
+
+The corresponding file is trace_tip_2009.02.16_ksoftirqd_pb_abstime.txt.gz
+and there is also a trace without abstime:
+trace_tip_2009.02.16_ksoftirqd_pb.txt.gz
+
+> > checking TSC synchronization [CPU#0 -> CPU#1]: passed.
+> > Switched to high resolution mode on CPU 1
+
+> Lets double-check your scheduler clock first. Without being able to
+> trust the clock we cannot trust the task stats nor the trace output.
+
+> What does this check display:
+
+>   http://people.redhat.com/mingo/time-warp-test/time-warp-test.c
+
+The file is time-warp-test_result.txt
+I've let it run for a few tens of minutes; the first number varies
+slightly sometimes. The second one stays at 0.
+
+> Does it find any TSC time warps?
+
+Seems not.
+
+> Also, could you send the output of:
+
+>   http://people.redhat.com/mingo/cfs-scheduler/tools/cfs-debug-info.sh
+
+> Run it while you can see the ksoftirqd anomaly.
+
+In fact I see it all the time when the machine is idle. When something
+runs (spamd for example), the running time of ksoftirqd stops
+increasing, and it goes back to increasing like crazy when idle state
+comes back.
+
+The corresponding file is cfs-debug-info-2009.02.16-08.09.17.gz
+
+
+Hope this will be useful; do not hesitate to ask for further info. Now
+that I have tip, I guess it will be easier.
+
+-- 
+Damien
