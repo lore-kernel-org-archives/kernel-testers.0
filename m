@@ -1,35 +1,43 @@
-From: Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
-Subject: Re: [Bug #12401] 2.6.28 regression: xbacklight broken on ThinkPad X61s
-Date: Mon, 16 Feb 2009 12:42:24 +0000
-Message-ID: <20090216124223.GA2999@srcf.ucam.org>
-References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <ROx6X68CGJG.A.FEB.M50lJB@chimera> <20090215134409.GC21670@srcf.ucam.org> <200902151538.29766.rjw@sisk.pl> <20090215221647.GA15392@dose.home.local> <20090216011600.GA28929@srcf.ucam.org> <20090216123740.GB7047@elte.hu>
+From: Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org>
+Subject: Re: [Bug #12650] Strange load average and ksoftirqd behavior with 2.6.29-rc2-git1
+Date: Mon, 16 Feb 2009 14:02:23 +0100
+Message-ID: <87ljs6pmao.fsf@free.fr>
+References: <20090215090026.GA31147@elte.hu>
+	<20090215095128.GA3234@localhost.localdomain>
+	<20090215101351.GA23274@elte.hu>
+	<20090215103445.GA2335@localhost.localdomain>
+	<20090215110104.GB31351@elte.hu>
+	<20090215180355.GA2273@localhost.localdomain>
+	<20090215193102.GA16873@elte.hu>
+	<20090216084223.GA2641@localhost.localdomain>
+	<20090216095059.GL6182@elte.hu> <87hc2u61e9.fsf@free.fr>
+	<20090216122632.GA3158@elte.hu>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090216123740.GB7047-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>, Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: "Paul E. McKenney" <paulmck-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, =?iso-8859-1?Q?Fr=E9d=E9ric?= Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, Feb 16, 2009 at 01:37:40PM +0100, Ingo Molnar wrote:
-> 
-> * Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org> wrote:
-> 
-> > On Sun, Feb 15, 2009 at 11:16:47PM +0100, Tino Keitel wrote:
-> > 
-> > > I think if it works without DRI in 2.6.27 and doesn't work in 2.6.28,
-> > > it isn't a configuration error, but a real regression.
-> > 
-> > It only worked by accident without DRM support, since you were using the 
-> > ATI codepath in the firmware rather than the Intel one. That bug's been 
-> > fixed, [...]
-> 
-> Which precise commit ID is that?
+* Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> [090216 13:26]:
+> We do get 0x100 which is 1 << RCU_SOFTIRQ, i.e. the RCU softirq. Paul, 
+> this indeed seems to be a CONFIG_TREE_RCU=y bug.
 
-22c13f9d8179f4c9caecfcb60a95214562b9addc
+> What is weird is that RCU_SOFTIRQ gets set again and again - but there's 
+> no raise_softirq() calls. Could you please do a two-CPU trace too via:
+
+>    echo 3 > /debug/tracing/tracing_cpumask
+
+> So that we can see what's happening on the other CPU?
+
+> Also, could you please apply the debug patch below (or update to the 
+> very latest -tip tree), so that we get trace entries of softirq triggers 
+> too?
+
+Ok, the new trace with these additional modifications is here:
+http://damien.wyart.free.fr/ksoftirqd_pb/trace_tip_2009.02.16_1300_ksoftirqd_pb_abstime_proc_mask3.txt.gz
 
 -- 
-Matthew Garrett | mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org
+Damien
