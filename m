@@ -1,128 +1,157 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12650] Strange load average and ksoftirqd behavior with
-	2.6.29-rc2-git1
-Date: Mon, 16 Feb 2009 10:50:59 +0100
-Message-ID: <20090216095059.GL6182@elte.hu>
-References: <rjPbZ5GRJPO.A.1kE.ur0lJB@chimera> <20090215080941.GA2295@localhost.localdomain> <20090215090026.GA31147@elte.hu> <20090215095128.GA3234@localhost.localdomain> <20090215101351.GA23274@elte.hu> <20090215103445.GA2335@localhost.localdomain> <20090215110104.GB31351@elte.hu> <20090215180355.GA2273@localhost.localdomain> <20090215193102.GA16873@elte.hu> <20090216084223.GA2641@localhost.localdomain>
+From: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
+Subject: Re: [Bug #12667] Badness at kernel/time/timekeeping.c:98 in pmud (timekeeping_suspended)
+Date: Mon, 16 Feb 2009 23:47:00 +1300
+Message-ID: <87d4di1wwr.fsf@burly.wgtn.ondioline.org>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
+	<sWhNs83kKPE.A.p4D.L20jJB@chimera>
+	<878wognj00.fsf@burly.wgtn.ondioline.org>
+	<200902142342.59186.rjw@sisk.pl>
+	<87hc2u26m5.fsf@burly.wgtn.ondioline.org>
+	<1234775410.26036.122.camel@pasglop>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090216084223.GA2641-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+In-Reply-To: <1234775410.26036.122.camel@pasglop> (Benjamin Herrenschmidt's
+	message of "Mon, 16 Feb 2009 20:10:10 +1100")
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org>, "Paul E. McKenney" <paulmck-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-Cc: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, =?iso-8859-1?Q?Fr=E9d=E9ric?= Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+
+Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org> writes:
+
+> On Mon, 2009-02-16 at 20:17 +1300, Paul Collins wrote:
+>> It turns out I didn't test this properly.  The warning is only
+>> triggered
+>> when I close and open the lid, not when I run 'snooze' to suspend and
+>> hit Return to resume, as I did for my so-called testing of 2.6.29-rc4.
+>> 
+>> Whatever is triggering the warning is still present in 2.6.29-rc5.
+>
+> Right, we probably need to stop sending input events from the PMU driver
+> when it's "suspended".
+>
+> Ping me if I don't produce a patch tomorrow (ie, I forgot :-)
+
+Just for laughs I slapped together the following, which seems to do the
+job, although not especially tidily.
 
 
-* Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org> wrote:
-
-> Hello,
-> 
-> Ok, I've redone the tests under tip from this morning (Paris time).
-> Everything is in http://damien.wyart.free.fr/ksoftirqd_pb/
-> 
-> * Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> [2009-02-15 20:31]:
-> > Yes, an abstime trace would be useful.
-> 
-> The corresponding file is trace_tip_2009.02.16_ksoftirqd_pb_abstime.txt.gz
-> and there is also a trace without abstime:
-> trace_tip_2009.02.16_ksoftirqd_pb.txt.gz
-
-hm, we need a trace with both abstime and process information included:
-
-  echo funcgraph-proc     > trace_options
-  echo funcgraph-abstime  > trace_options
-
-Also, at 140 msecs the duration is a bit short - could you please make a 
-1-2 seconds capture? You can do that by increasing the number in 
-buffer_size_kb 10-fold:
-
-   echo 14100 > buffer_size_kb 
-
-(your defaults might be different)
-
-You can see the duration of the trace by looking at the first timestamp 
-and the last one:
-
-  310.846260 |   0)   2.380 us    |                            }
-  [...]
-  457.712729 |   1)               |        dequeue_task() {
-
-Hm ... even with this limited trace, there's an unusually high amount of 
-RCU activities. Each activity goes like this:
-
-  457.680976 |   1)               |  do_softirq() {
-  457.680976 |   1)               |    __do_softirq() {
-  457.680977 |   1)               |      rcu_process_callbacks() {
-  457.680977 |   1)               |        __rcu_process_callbacks() {
-4  457.680978 |   1)   0.478 us    |          force_quiescent_state();
-  457.680979 |   1)   1.591 us    |        }
-  457.680979 |   1)               |        __rcu_process_callbacks() {
-  457.680980 |   1)   0.478 us    |          force_quiescent_state();
-  457.680981 |   1)               |          cpu_quiet() {
-  457.680981 |   1)   0.506 us    |            _spin_lock_irqsave();
-  457.680982 |   1)   0.496 us    |            _spin_unlock_irqrestore();
-  457.680983 |   1)   2.545 us    |          }
-  457.680984 |   1)   4.626 us    |        }
-  457.680985 |   1)   7.823 us    |      }
-  457.680985 |   1)   0.496 us    |      _local_bh_enable();
-  457.680986 |   1)   9.845 us    |    }
-  457.680987 |   1) + 10.962 us   |  }
-
-I've Cc:-ed Paul, as you have tree-RCU enabled, which is a new feature 
-in v2.6.29:
-
- #
- # RCU Subsystem
- #
- # CONFIG_CLASSIC_RCU is not set
- CONFIG_TREE_RCU=y
- # CONFIG_PREEMPT_RCU is not set
- # CONFIG_RCU_TRACE is not set
- CONFIG_RCU_FANOUT=32
- # CONFIG_RCU_FANOUT_EXACT is not set
- # CONFIG_TREE_RCU_TRACE is not set
- # CONFIG_PREEMPT_RCU_TRACE is not set
-
-Damien, as an experiment, if you change your config to 
-CONFIG_CLASSIC_RCU=y, does the ksoftirqd problem go away?
-
-On the other hand ... the softirq processing there looks anomalous in 
-itself, and might be due to some compiler bug perhaps. Could you try the 
-debug patch below please (you'll get it automatically if you update to 
-latest -tip), and redo the trace - the ftrace_printk() info should now 
-be embedded in the trace. The expected result would be for the printed 
-ot value to be non-zero at the #1 point, and zero at the #2 point.
-
-Note: if it's a compiler optimization bug then this patch might make the 
-whole problem go away.
-
-	Ingo
-
------------------->
-From 2d7cf65eec92937bff1073311f6843aa7189bff2 Mon Sep 17 00:00:00 2001
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Date: Mon, 16 Feb 2009 10:48:37 +0100
-Subject: [PATCH] softirq: debug
-
-Signed-off-by: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
----
- kernel/softirq.c |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
-
-diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 3dd0d13..110cad0 100644
---- a/kernel/softirq.c
-+++ b/kernel/softirq.c
-@@ -196,7 +196,9 @@ asmlinkage void __do_softirq(void)
- 	cpu = smp_processor_id();
- restart:
- 	/* Reset the pending bitmask before enabling irqs */
-+	ftrace_printk("#1 softirq pending: %08x\n", local_softirq_pending());
- 	set_softirq_pending(0);
-+	ftrace_printk("#2 softirq pending: %08x\n", local_softirq_pending());
+diff --git a/drivers/macintosh/via-pmu-event.c b/drivers/macintosh/via-pmu-event.c
+index 25cd565..33c4b45 100644
+--- a/drivers/macintosh/via-pmu-event.c
++++ b/drivers/macintosh/via-pmu-event.c
+@@ -23,6 +23,7 @@
+ #include <linux/input.h>
+ #include <linux/adb.h>
+ #include <linux/pmu.h>
++#include <linux/bug.h>
+ #include "via-pmu-event.h"
  
- 	local_irq_enable();
+ static struct input_dev *pmu_input_dev;
+@@ -56,24 +57,62 @@ static int __init via_pmu_event_init(void)
+ 	return err;
+ }
  
++static bool lid_event_pending;
++static int lid_event_pending_down;
++static bool power_button_event_pending;
++static int power_button_event_pending_down;
++
+ void via_pmu_event(int key, int down)
+ {
+ 
+ 	if (unlikely(!pmu_input_dev))
+ 		return;
+ 
+-	switch (key) {
+-	case PMU_EVT_POWER:
+-		input_report_key(pmu_input_dev, KEY_POWER, down);
+-		break;
+-	case PMU_EVT_LID:
+-		input_report_switch(pmu_input_dev, SW_LID, down);
+-		break;
+-	default:
+-		/* no such key handled */
+-		return;
+-	}
++	if (!pmu_sys_suspended) {
++		switch (key) {
++		case PMU_EVT_POWER:
++			input_report_key(pmu_input_dev, KEY_POWER, down);
++			break;
++		case PMU_EVT_LID:
++			input_report_switch(pmu_input_dev, SW_LID, down);
++			break;
++		default:
++			/* no such key handled */
++			return;
++		}
++
++		input_sync(pmu_input_dev);
++	} else {
++		switch (key) {
++		case PMU_EVT_POWER:
++			power_button_event_pending = true;
++			power_button_event_pending_down = down;
++			break;
++		case PMU_EVT_LID:
++			lid_event_pending = true;
++			lid_event_pending_down = down;
++			break;
++		default:
++			/* no such key handled */
++			return;
++		}
++	}		
++}
+ 
++void via_pmu_event_resume(void)
++{
++	WARN_ON(pmu_sys_suspended);
++
++	if (power_button_event_pending) {
++		input_report_key(pmu_input_dev, KEY_POWER,
++				 power_button_event_pending_down);
++		power_button_event_pending = false;
++	}
++	if (lid_event_pending) {
++		input_report_switch(pmu_input_dev, SW_LID,
++				    lid_event_pending_down);
++		lid_event_pending = false;
++	}
+ 	input_sync(pmu_input_dev);
+ }
+ 
+diff --git a/drivers/macintosh/via-pmu-event.h b/drivers/macintosh/via-pmu-event.h
+index 72c54de..2754adc 100644
+--- a/drivers/macintosh/via-pmu-event.h
++++ b/drivers/macintosh/via-pmu-event.h
+@@ -4,5 +4,6 @@
+ #define PMU_EVT_POWER	0
+ #define PMU_EVT_LID	1
+ extern void via_pmu_event(int key, int down);
++extern void via_pmu_event_resume(void);
+ 
+ #endif /* __VIA_PMU_EVENT_H */
+diff --git a/drivers/macintosh/via-pmu.c b/drivers/macintosh/via-pmu.c
+index b40fb9b..01b8689 100644
+--- a/drivers/macintosh/via-pmu.c
++++ b/drivers/macintosh/via-pmu.c
+@@ -2479,6 +2479,8 @@ static int pmu_sys_resume(struct sys_device *sysdev)
+ 	pmu_resume();
+ 	pmu_sys_suspended = 0;
+ 
++	via_pmu_event_resume();
++
+ 	return 0;
+ }
+ 
+
+
+-- 
+Paul Collins
+Wellington, New Zealand
+
+Dag vijandelijk luchtschip de huismeester is dood
