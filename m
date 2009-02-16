@@ -1,8 +1,8 @@
 From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 Subject: Re: [Bug #12650] Strange load average and ksoftirqd behavior with
 	2.6.29-rc2-git1
-Date: Mon, 16 Feb 2009 10:27:12 +0100
-Message-ID: <20090216092712.GJ6182@elte.hu>
+Date: Mon, 16 Feb 2009 10:32:51 +0100
+Message-ID: <20090216093251.GK6182@elte.hu>
 References: <rjPbZ5GRJPO.A.1kE.ur0lJB@chimera> <20090215080941.GA2295@localhost.localdomain> <20090215090026.GA31147@elte.hu> <20090215095128.GA3234@localhost.localdomain> <20090215101351.GA23274@elte.hu> <20090215103445.GA2335@localhost.localdomain> <20090215110104.GB31351@elte.hu> <20090215180355.GA2273@localhost.localdomain> <20090215193102.GA16873@elte.hu> <20090216084223.GA2641@localhost.localdomain>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -16,108 +16,74 @@ To: Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org>
 Cc: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, =?iso-8859-1?Q?Fr=E9d=E9ric?= Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 
-scheduler clock deltas look healthy at first sight:
+Ok, the ksoftirqd/1 stats contain a smoking gun:
 
-$ grep clock-delta cfs-debug-info-2009.02.16-08.09.17
+ksoftirqd/1 (2280, #threads: 1)
+---------------------------------------------------------
+se.exec_start                      :        152642.614531
+se.vruntime                        :         57051.648140
+se.sum_exec_runtime                :          5741.506722
+se.avg_overlap                     :             0.000000
+se.avg_wakeup                      :            10.000000
+se.wait_start                      :             0.000000
+se.sleep_start                     :        152642.623948
+se.block_start                     :             0.000000
+se.sleep_max                       :         22662.455146
+se.block_max                       :          4096.496408
+se.exec_max                        :             0.016849
+se.slice_max                       :             0.000000
+se.wait_max                        :             0.053862
+se.wait_sum                        :          7899.023463
+se.wait_count                      :              4235574
+sched_info.bkl_count               :                    0
+se.nr_migrations                   :                    1
+se.nr_migrations_cold              :                    0
+se.nr_failed_migrations_affine     :                   32
+se.nr_failed_migrations_running    :                   47
+se.nr_failed_migrations_hot        :                   23
+se.nr_forced_migrations            :                    0
+se.nr_forced2_migrations           :                    5
+se.nr_wakeups                      :              4235539
+se.nr_wakeups_sync                 :                    0
+se.nr_wakeups_migrate              :                   11
+se.nr_wakeups_local                :              4235506
+se.nr_wakeups_remote               :                   34
+se.nr_wakeups_affine               :                    4
+se.nr_wakeups_affine_attempts      :                   44
+se.nr_wakeups_passive              :                    7
+se.nr_wakeups_idle                 :                    0
+avg_atom                           :             0.001355
+avg_per_cpu                        :          5741.514564
+nr_switches                        :              4235404
+nr_voluntary_switches              :              4235389
+nr_involuntary_switches            :                   18
+se.load.weight                     :                 3121
+policy                             :                    0
+prio                               :                  115
+clock-delta                        :                  295
 
-clock-delta                        :                  285
-clock-delta                        :                  313
-clock-delta                        :                  286
-clock-delta                        :                  311
-clock-delta                        :                  348
-clock-delta                        :                  301
-clock-delta                        :                  386
-clock-delta                        :                  318
-clock-delta                        :                  275
-clock-delta                        :                  283
-clock-delta                        :                  343
-clock-delta                        :                  341
-clock-delta                        :                  318
-clock-delta                        :                  295
-clock-delta                        :                  330
-clock-delta                        :                  311
-clock-delta                        :                  286
-clock-delta                        :                  333
-clock-delta                        :                  309
-clock-delta                        :                  369
-clock-delta                        :                 1102
-clock-delta                        :                  323
-clock-delta                        :                  283
-clock-delta                        :                  333
-clock-delta                        :                  316
-clock-delta                        :                  300
-clock-delta                        :                  278
-clock-delta                        :                  286
-clock-delta                        :                  364
-clock-delta                        :                  298
-clock-delta                        :                  326
-clock-delta                        :                  353
-clock-delta                        :                  323
-clock-delta                        :                  286
-clock-delta                        :                  286
-clock-delta                        :                  256
-clock-delta                        :                  343
-clock-delta                        :                  305
-clock-delta                        :                  363
-clock-delta                        :                  283
-clock-delta                        :                  280
-clock-delta                        :                  301
-clock-delta                        :                  283
-clock-delta                        :                  308
-clock-delta                        :                  316
-clock-delta                        :                  315
-clock-delta                        :                  318
-clock-delta                        :                  311
-clock-delta                        :                  298
-clock-delta                        :                  343
-clock-delta                        :                  276
-clock-delta                        :                  324
-clock-delta                        :                  285
-clock-delta                        :                  268
-clock-delta                        :                  281
-clock-delta                        :                  280
-clock-delta                        :                  338
-clock-delta                        :                 1060
-clock-delta                        :                  315
-clock-delta                        :                  315
-clock-delta                        :                  298
-clock-delta                        :                  308
-clock-delta                        :                  281
-clock-delta                        :                  323
-clock-delta                        :                  321
-clock-delta                        :                  389
-clock-delta                        :                  288
-clock-delta                        :                  355
-clock-delta                        :                  295
-clock-delta                        :                  284
-clock-delta                        :                 1037
-clock-delta                        :                  298
-clock-delta                        :                  348
-clock-delta                        :                  328
-clock-delta                        :                  305
-clock-delta                        :                  358
-clock-delta                        :                  340
-clock-delta                        :                  406
-clock-delta                        :                  323
-clock-delta                        :                  306
-clock-delta                        :                  295
-clock-delta                        :                  294
-clock-delta                        :                  288
-clock-delta                        :                  363
-clock-delta                        :                  296
-clock-delta                        :                  321
-clock-delta                        :                  278
-clock-delta                        :                  338
-clock-delta                        :                  291
-clock-delta                        :                  318
-clock-delta                        :                  331
-clock-delta                        :                  305
-clock-delta                        :                  353
-clock-delta                        :                  319
-clock-delta                        :                  338
-clock-delta                        :                  286
-clock-delta                        :                  309
-clock-delta                        :                  298
-clock-delta                        :                  316
+these bits:
+
+ se.sum_exec_runtime                :          5741.506722
+ nr_switches                        :              4235404
+ nr_voluntary_switches              :              4235389
+ nr_involuntary_switches            :                   18
+
+mean that ksoftirqd _really_ ran more than 4 million times since bootup 
+- that is _highly_ anomalous. It means that scheduler clock is fine, and 
+that your box is really running a lot of softirq workload.
+
+Here is how it should look like normally. A 16-way testbox with almost 
+an hour of uptime, running high load with a lot of networking. Its CPU#0 
+ksoftirqd [the busiest one] has these stats:
+
+ se.sum_exec_runtime                :             0.523552
+ nr_switches                        :                   42
+ nr_voluntary_switches              :                   42
+ nr_involuntary_switches            :                    0
+
+it ran only 42 times. That is a normal ksoftirqd pattern.
+
+I'll check your traces as the next step.
 
 	Ingo
