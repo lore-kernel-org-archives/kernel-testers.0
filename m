@@ -1,72 +1,58 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12650] Strange load average and ksoftirqd behavior with
-	2.6.29-rc2-git1
-Date: Mon, 16 Feb 2009 14:21:51 +0100
-Message-ID: <20090216132151.GA17996@elte.hu>
-References: <20090215101351.GA23274@elte.hu> <20090215103445.GA2335@localhost.localdomain> <20090215110104.GB31351@elte.hu> <20090215180355.GA2273@localhost.localdomain> <20090215193102.GA16873@elte.hu> <20090216084223.GA2641@localhost.localdomain> <20090216095059.GL6182@elte.hu> <87hc2u61e9.fsf@free.fr> <20090216122632.GA3158@elte.hu> <87ljs6pmao.fsf@free.fr>
+From: Sergei Shtylyov <sshtylyov@ru.mvista.com>
+Subject: Re: [Bug #12263] Sata soft reset filling log
+Date: Mon, 16 Feb 2009 18:18:55 +0300
+Message-ID: <499983DF.5050503@ru.mvista.com>
+References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <200902152221.43834.rjw@sisk.pl> <20090215223045.GC29300@elte.hu> <200902160012.57584.rjw@sisk.pl>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <87ljs6pmao.fsf-GANU6spQydw@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org>
-Cc: "Paul E. McKenney" <paulmck-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, =?iso-8859-1?Q?Fr=E9d=E9ric?= Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752354AbZBPPSu@vger.kernel.org>
+In-Reply-To: <200902160012.57584.rjw@sisk.pl>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Ingo Molnar <mingo@elte.hu>, Justin Madru <jdm64@gawab.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux IDE <linux-ide@vger.kernel.org>, Alan Cox <alan@lxorguk.ukuu.org.uk>, Hugh Dickins <hugh@veritas.com>, Larry Finger <Larry.Finger@lwfinger.net>, Mikael Pettersson <mikpe@it.uu.se>
 
+Hello.
 
-* Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org> wrote:
+Rafael J. Wysocki wrote:
 
-> * Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> [090216 13:26]:
-> > We do get 0x100 which is 1 << RCU_SOFTIRQ, i.e. the RCU softirq. Paul, 
-> > this indeed seems to be a CONFIG_TREE_RCU=y bug.
-> 
-> > What is weird is that RCU_SOFTIRQ gets set again and again - but there's 
-> > no raise_softirq() calls. Could you please do a two-CPU trace too via:
-> 
-> >    echo 3 > /debug/tracing/tracing_cpumask
-> 
-> > So that we can see what's happening on the other CPU?
-> 
-> > Also, could you please apply the debug patch below (or update to the 
-> > very latest -tip tree), so that we get trace entries of softirq triggers 
-> > too?
-> 
-> Ok, the new trace with these additional modifications is here:
-> http://damien.wyart.free.fr/ksoftirqd_pb/trace_tip_2009.02.16_1300_ksoftirqd_pb_abstime_proc_mask3.txt.gz
+>>>>>This message has been generated automatically as a part of a report
+>>>>>of regressions introduced between 2.6.27 and 2.6.28.
 
-thanks.
+>>>>>The following bug entry is on the current list of known regressions
+>>>>>introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+>>>>>be listed and let me know (either way).
 
-This confirms that SOFTIRQ_RCU gets raised here in the timer IRQ:
+>>>>>Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12263
+>>>>>Subject		: Sata soft reset filling log
+>>>>>Submitter	: Justin Madru <bevicm@dslextreme.com>
+>>>>>Date		: 2008-12-13 2:07 (64 days old)
+>>>>>References	: http://marc.info/?l=linux-kernel&m=122913412608533&w=4
 
-  136.255963 |   0)   sleep-2345   |               |          update_process_times() {
-  136.255964 |   0)   sleep-2345   |               |            account_process_tick() {
-  136.255965 |   0)   sleep-2345   |   0.779 us    |              account_system_time();
-  136.255966 |   0)   sleep-2345   |   2.262 us    |            }
-  136.255967 |   0)   sleep-2345   |               |            run_local_timers() {
-  136.255968 |   0)   sleep-2345   |   0.802 us    |              hrtimer_run_queues();
-  136.255969 |   0)   sleep-2345   |               |              raise_softirq() {
-  136.255970 |   0)   sleep-2345   |               |                raise_softirq_irqoff() {
-  136.255971 |   0)   sleep-2345   |               |                  __raise_softirq_irqoff() {
-  136.255972 |   0)   sleep-2345   |               |                    /* nr: 1 */
-  136.255973 |   0)   sleep-2345   |   2.194 us    |                  }
-  136.255974 |   0)   sleep-2345   |   3.832 us    |                }
-  136.255975 |   0)   sleep-2345   |   5.491 us    |              }
-  136.255976 |   0)   sleep-2345   |   8.667 us    |            }
-  136.255976 |   0)   sleep-2345   |   0.792 us    |            rcu_pending();
-  136.255978 |   0)   sleep-2345   |               |            rcu_check_callbacks() {
-  136.255979 |   0)   sleep-2345   |   0.781 us    |              idle_cpu();
-  136.255981 |   0)   sleep-2345   |               |              raise_softirq() {
-  136.255981 |   0)   sleep-2345   |               |                raise_softirq_irqoff() {
-  136.255982 |   0)   sleep-2345   |               |                  __raise_softirq_irqoff() {
-  136.255983 |   0)   sleep-2345   |               |                    /* nr: 8 */
-  136.255984 |   0)   sleep-2345   |   1.555 us    |                  }
-  136.255984 |   0)   sleep-2345   |   3.059 us    |                }
-  136.255985 |   0)   sleep-2345   |   4.594 us    |              }
-  136.255986 |   0)   sleep-2345   |   7.800 us    |            }
-  136.255987 |   0)   sleep-2345   |   0.737 us    |            printk_tick();
+>>>>I'm still seeing this on .29-rc5, and I think that my bug #12263 is a 
+>>>>duplicate of bug #12609,
+>>>>or more correctly it's a duplicate of mine because I reported first.
 
-again and again.
+>>>>It seems like the bug has been fixed in tip/master for some time now.
+>>>>Below is the diff of origin and tip from when I tested.
 
-	Ingo
+>>>Ingo, do you know whinch patch in -tip fixes this regression?
+
+>>This one, done on Jan 10, more than a month ago:
+
+>>  f1d26da: Revert "libata: Add 32bit PIO support"
+
+>>When a commit causes trouble in -tip qa i immediately revert it in 95% 
+>>of the cases, no questions asked. Especially if it's related to 
+>>persistent storage.
+
+> OK, thanks.
+
+> We seem to have a working fix patch for this issue in bug #12609.
+
+    Wait, if this is indeed post-2.6.27 regression, it couldn't possibly have 
+been caused by that patch which got merged during 2.6.29-rc1 timeframe. 
+Something's up with this bug...
+
+MBR, Sergei
