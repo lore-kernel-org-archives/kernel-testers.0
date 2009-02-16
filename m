@@ -1,230 +1,452 @@
-From: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12650] Strange load average and ksoftirqd behavior with
-	2.6.29-rc2-git1
-Date: Mon, 16 Feb 2009 20:08:52 +0100
-Message-ID: <20090216190851.GB4582@nowhere>
-References: <20090215180355.GA2273@localhost.localdomain> <20090215193102.GA16873@elte.hu> <20090216084223.GA2641@localhost.localdomain> <20090216095059.GL6182@elte.hu> <87hc2u61e9.fsf@free.fr> <20090216122632.GA3158@elte.hu> <87ljs6pmao.fsf@free.fr> <20090216132151.GA17996@elte.hu> <20090216160613.GA6785@linux.vnet.ibm.com> <20090216185616.GB6785@linux.vnet.ibm.com>
+From: Justin Madru <jdm64@gawab.com>
+Subject: Re: [Bug #12263] Sata soft reset filling log
+Date: Mon, 16 Feb 2009 11:23:06 -0800
+Message-ID: <4999BD1A.1060101@gawab.com>
+References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <200902152221.43834.rjw@sisk.pl> <20090215223045.GC29300@elte.hu> <200902160012.57584.rjw@sisk.pl> <499983DF.5050503@ru.mvista.com> <49998480.3090408@ru.mvista.com> <499986D0.3000205@ru.mvista.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:received:date:from:to:cc
-         :subject:message-id:references:mime-version:content-type
-         :content-disposition:in-reply-to:user-agent;
-        bh=DDSMWrrClH+XHJ5/rYAU2Sdo12RNSv9OPUHAcB1eW34=;
-        b=Bd5j23GotzxqAqGYebmAe2uoqPUnWUFdGM8SFhVx0S7bmQD6CEDRMHlalMEFnEJRT8
-         gCzG3/OXnTEvBfzf2u4hPhtBlCBUaZbJ/Ny6X6tDQFZXsd/Db+bsFH+j0uPZ6pV7x+Vk
-         ksAYNqKt5hUTMPRRkmf9fF2iXGuxheIhlYePM=
-Content-Disposition: inline
-In-Reply-To: <20090216185616.GB6785-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-ide-owner@vger.kernel.org>
+In-Reply-To: <499986D0.3000205@ru.mvista.com>
+Sender: linux-ide-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Sergei Shtylyov <sshtylyov@ru.mvista.com>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Ingo Molnar <mingo@elte.hu>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux IDE <linux-ide@vger.kernel.org>, Alan Cox <alan@lxorguk.ukuu.org.uk>, Hugh Dickins <hugh@veritas.com>, Larry Finger <Larry.Finger@lwfinger.net>, Mikael Pettersson <mikpe@it.uu.se>
 
-On Mon, Feb 16, 2009 at 10:56:16AM -0800, Paul E. McKenney wrote:
-> On Mon, Feb 16, 2009 at 08:06:13AM -0800, Paul E. McKenney wrote:
-> > On Mon, Feb 16, 2009 at 02:21:51PM +0100, Ingo Molnar wrote:
-> > > 
-> > > * Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org> wrote:
-> > > 
-> > > > * Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> [090216 13:26]:
-> > > > > We do get 0x100 which is 1 << RCU_SOFTIRQ, i.e. the RCU softirq. Paul, 
-> > > > > this indeed seems to be a CONFIG_TREE_RCU=y bug.
-> > > > 
-> > > > > What is weird is that RCU_SOFTIRQ gets set again and again - but there's 
-> > > > > no raise_softirq() calls. Could you please do a two-CPU trace too via:
-> > > > 
-> > > > >    echo 3 > /debug/tracing/tracing_cpumask
-> > > > 
-> > > > > So that we can see what's happening on the other CPU?
-> > > > 
-> > > > > Also, could you please apply the debug patch below (or update to the 
-> > > > > very latest -tip tree), so that we get trace entries of softirq triggers 
-> > > > > too?
-> > > > 
-> > > > Ok, the new trace with these additional modifications is here:
-> > > > http://damien.wyart.free.fr/ksoftirqd_pb/trace_tip_2009.02.16_1300_ksoftirqd_pb_abstime_proc_mask3.txt.gz
-> > > 
-> > > thanks.
-> > > 
-> > > This confirms that SOFTIRQ_RCU gets raised here in the timer IRQ:
-> > > 
-> > >   136.255963 |   0)   sleep-2345   |               |          update_process_times() {
-> > >   136.255964 |   0)   sleep-2345   |               |            account_process_tick() {
-> > >   136.255965 |   0)   sleep-2345   |   0.779 us    |              account_system_time();
-> > >   136.255966 |   0)   sleep-2345   |   2.262 us    |            }
-> > >   136.255967 |   0)   sleep-2345   |               |            run_local_timers() {
-> > >   136.255968 |   0)   sleep-2345   |   0.802 us    |              hrtimer_run_queues();
-> > >   136.255969 |   0)   sleep-2345   |               |              raise_softirq() {
-> > >   136.255970 |   0)   sleep-2345   |               |                raise_softirq_irqoff() {
-> > >   136.255971 |   0)   sleep-2345   |               |                  __raise_softirq_irqoff() {
-> > >   136.255972 |   0)   sleep-2345   |               |                    /* nr: 1 */
-> > >   136.255973 |   0)   sleep-2345   |   2.194 us    |                  }
-> > >   136.255974 |   0)   sleep-2345   |   3.832 us    |                }
-> > >   136.255975 |   0)   sleep-2345   |   5.491 us    |              }
-> > >   136.255976 |   0)   sleep-2345   |   8.667 us    |            }
-> > >   136.255976 |   0)   sleep-2345   |   0.792 us    |            rcu_pending();
-> > >   136.255978 |   0)   sleep-2345   |               |            rcu_check_callbacks() {
-> > >   136.255979 |   0)   sleep-2345   |   0.781 us    |              idle_cpu();
-> > >   136.255981 |   0)   sleep-2345   |               |              raise_softirq() {
-> > >   136.255981 |   0)   sleep-2345   |               |                raise_softirq_irqoff() {
-> > >   136.255982 |   0)   sleep-2345   |               |                  __raise_softirq_irqoff() {
-> > >   136.255983 |   0)   sleep-2345   |               |                    /* nr: 8 */
-> > >   136.255984 |   0)   sleep-2345   |   1.555 us    |                  }
-> > >   136.255984 |   0)   sleep-2345   |   3.059 us    |                }
-> > >   136.255985 |   0)   sleep-2345   |   4.594 us    |              }
-> > >   136.255986 |   0)   sleep-2345   |   7.800 us    |            }
-> > >   136.255987 |   0)   sleep-2345   |   0.737 us    |            printk_tick();
-> > > 
-> > > again and again.
-> > 
-> > Interesting...
-> > 
-> > I will take a look!
-> 
-> The above sequence is more or less normal behavior -- the RCU softirq
-> handler rcu_process_callbacks() is being invoked once per tick, which
-> appears to be HZ=1000 or thereabouts.  The system appears to be mostly
-> idle during this time period.
-> 
-> One oddity is that the _bh call to __rcu_process_callbacks() is invoking
-> force_quiescent_state() each time, and force_quiescent_state() isn't
-> doing anything.  This is a possible mismatch between the conditions in
-> rcu_pending() and force_quiescent_state(), and I will look into this.
-> 
-> However, this sequence is consuming less than 10 microseconds per
-> millisecond, so cannot be the main cause of the softirq issues you
-> are seeing, though if there really is a mismatch, it needs to be fixed,
-> and I will attend to this.
-> 
-> The interesting portion of the trace is later on:
-> 
->   137.896992 |   1)  ksoftir-2302  |               |  do_softirq() {
->   137.896993 |   1)  ksoftir-2302  |               |    __do_softirq() {
->   137.896993 |   1)  ksoftir-2302  |               |      /* #1 softirq pending: 00000100 */
->   137.896994 |   1)  ksoftir-2302  |               |      /* #2 softirq pending: 00000000 */
->   137.896995 |   1)  ksoftir-2302  |               |      rcu_process_callbacks() {
->   137.896995 |   1)  ksoftir-2302  |               |        __rcu_process_callbacks() {
->   137.896996 |   1)  ksoftir-2302  |   0.498 us    |          force_quiescent_state();
->   137.896997 |   1)  ksoftir-2302  |   1.588 us    |        }
->   137.896997 |   1)  ksoftir-2302  |               |        __rcu_process_callbacks() {
->   137.896998 |   1)  ksoftir-2302  |   0.475 us    |          force_quiescent_state();
->   137.896999 |   1)  ksoftir-2302  |               |          cpu_quiet() {
->   137.896999 |   1)  ksoftir-2302  |   0.526 us    |            _spin_lock_irqsave();
->   137.897000 |   1)  ksoftir-2302  |   0.511 us    |            _spin_unlock_irqrestore();
->   137.897001 |   1)  ksoftir-2302  |   2.528 us    |          }
->   137.897002 |   1)  ksoftir-2302  |   4.607 us    |        }
->   137.897002 |   1)  ksoftir-2302  |   7.825 us    |      }
->   137.897003 |   1)  ksoftir-2302  |   0.498 us    |      _local_bh_enable();
->   137.897004 |   1)  ksoftir-2302  | + 11.430 us   |    }
->   137.897005 |   1)  ksoftir-2302  | + 12.572 us   |  }
->   137.897005 |   1)  ksoftir-2302  |   0.549 us    |  _cond_resched();
->   137.897006 |   1)  ksoftir-2302  |   0.541 us    |  kthread_should_stop();
->   137.897007 |   1)  ksoftir-2302  |               |  schedule() {
->   137.897008 |   1)  ksoftir-2302  |               |    __schedule() {
->   137.897008 |   1)  ksoftir-2302  |   0.514 us    |      _spin_lock_irq();
->   137.897009 |   1)  ksoftir-2302  |   0.594 us    |      update_rq_clock();
->   137.897011 |   1)  ksoftir-2302  |               |      deactivate_task() {
->   137.897011 |   1)  ksoftir-2302  |               |        dequeue_task() {
->   137.897011 |   1)  ksoftir-2302  |               |          dequeue_task_fair() {
->   137.897012 |   1)  ksoftir-2302  |               |            update_curr() {
->   137.897012 |   1)  ksoftir-2302  |               |              calc_delta_fair() {
->   137.897013 |   1)  ksoftir-2302  |   0.506 us    |                calc_delta_mine();
->   137.897014 |   1)  ksoftir-2302  |   1.528 us    |              }
->   137.897015 |   1)  ksoftir-2302  |   2.563 us    |            }
->   137.897015 |   1)  ksoftir-2302  |   0.513 us    |            hrtick_start_fair();
->   137.897019 |   1)  ksoftir-2302  |   4.662 us    |          }
->   137.897019 |   1)  ksoftir-2302  |   8.213 us    |        }
->   137.897020 |   1)  ksoftir-2302  |   9.195 us    |      }
->   137.897020 |   1)  ksoftir-2302  |   0.960 us    |      find_busiest_group();
->   137.897022 |   1)  ksoftir-2302  |   0.493 us    |      msecs_to_jiffies();
->   137.897023 |   1)  ksoftir-2302  |   0.511 us    |      put_prev_task_fair();
->   137.897024 |   1)  ksoftir-2302  |               |      pick_next_task() {
->   137.897024 |   1)  ksoftir-2302  |   0.481 us    |        pick_next_task_fair();
->   137.897025 |   1)  ksoftir-2302  |   0.491 us    |        pick_next_task_rt();
->   137.897026 |   1)  ksoftir-2302  |   0.474 us    |        pick_next_task_fair();
->   137.897027 |   1)  ksoftir-2302  |   0.480 us    |        pick_next_task_idle();
->   137.897028 |   1)  ksoftir-2302  |   4.516 us    |      }
->   137.897029 |   1)  ksoftir-2302  |               |      perf_counter_task_sched_out() {
->   137.897029 |   1)  ksoftir-2302  |               |        __perf_counter_sched_out() {
->   137.897030 |   1)  ksoftir-2302  |   0.516 us    |          _spin_lock();
->   137.897031 |   1)  ksoftir-2302  |   1.486 us    |        }
->   137.897031 |   1)  ksoftir-2302  |   2.462 us    |      }
->   137.897032 |   1)  ksoftir-2302  |   0.516 us    |      __lock_text_start();
->   137.897045 |   ------------------------------------------
->  1)  ksoftir-2302  =>    <idle>-0   
->  ------------------------------------------
-> 
->  1)    <idle>-0    |               |  /* nr: 8 */
->  ------------------------------------------
->  1)    <idle>-0    =>  ksoftir-2302 
->  ------------------------------------------
-> 
->   137.897064 |   1)  ksoftir-2302  |               |      finish_task_switch() {
->   137.897064 |   1)  ksoftir-2302  |               |        perf_counter_task_sched_in() {
->   137.897065 |   1)  ksoftir-2302  |   0.508 us    |          _spin_lock();
->   137.897066 |   1)  ksoftir-2302  |   1.525 us    |        }
->   137.897066 |   1)  ksoftir-2302  |   2.617 us    |      }
->   137.897067 |   1)  ksoftir-2302  | + 58.928 us   |    }
->   137.897067 |   1)  ksoftir-2302  | + 59.926 us   |  }
->   137.897068 |   1)  ksoftir-2302  |               |  do_softirq() {
->   137.897068 |   1)  ksoftir-2302  |               |    __do_softirq() {
->   137.897069 |   1)  ksoftir-2302  |               |      /* #1 softirq pending: 00000100 */
->   137.897070 |   1)  ksoftir-2302  |               |      /* #2 softirq pending: 00000000 */
->   137.897070 |   1)  ksoftir-2302  |               |      rcu_process_callbacks() {
->   137.897071 |   1)  ksoftir-2302  |               |        __rcu_process_callbacks() {
->   137.897071 |   1)  ksoftir-2302  |               |          force_quiescent_state() {
->   137.897073 |   1)  ksoftir-2302  |   1.575 us    |        }
->   137.897073 |   1)  ksoftir-2302  |               |        __rcu_process_callbacks() {
->   137.897074 |   1)  ksoftir-2302  |   0.474 us    |          force_quiescent_state();
->   137.897075 |   1)  ksoftir-2302  |               |          cpu_quiet() {
->   137.897075 |   1)  ksoftir-2302  |   0.526 us    |            _spin_lock_irqsave();
->   137.897076 |   1)  ksoftir-2302  |   0.511 us    |            _spin_unlock_irqrestore();
->   137.897077 |   1)  ksoftir-2302  |   2.532 us    |          }
->   137.897078 |   1)  ksoftir-2302  |   4.632 us    |        }
->   137.897078 |   1)  ksoftir-2302  |   7.815 us    |      }
->   137.897079 |   1)  ksoftir-2302  |   0.501 us    |      _local_bh_enable();
->   137.897080 |   1)  ksoftir-2302  | + 11.405 us   |    }
->   137.897080 |   1)  ksoftir-2302  | + 12.542 us   |  }
-> 
-> Here the calls to rcu_process_callbacks() are only 75 microseconds apart,
-> so that this function is consuming more than 10% of a CPU.  The strange
-> thing is that I don't see a raise_softirq() in between, though perhaps
-> it gets inlined or something that makes it invisible to ftrace.
+Sergei Shtylyov wrote:
 
+> After referring to the SCSI command codes "cdb 0x1e" means ALLOW MEDIUM REMOVAL command -- which
+> could hardly be addressed to an usual hard disk. So, it looks like we had a case of the confused bug report which
+> has a lot of info on the hard disk while errors were most probably happening with a CD/DVD drive.
+Yes, I originally thought it was my hard disk because the kernel logs showed ata2.
 
-More likely it's a bug in the function graph tracer.
-I will try to fix it.
+But, Tejun Heo figured out it was my DVD drive (ATAPI) that was on the ata2 link.
 
+(see http://marc.info/?l=linux-kernel&m=122993014109646&w=2)
 
-> Certainly rcu_process_callbacks() can re-invoke itself, for example,
-> when a large number of RCU callbacks has piled up.  However, there are
-> only 29 calls to __call_rcu() over the entire time period, so that does
-> not appear to be the cause.  Strangely enough, there appear to be no
-> calls to rcu_do_batch() over the full trace, but this is invoked
-> unconditionally from __rcu_process_callbacks().  So perhaps the trace
-> wasn't covering that function?
+I tried to bisect it, but around .28-rc1 I began to get numerous compile errors, so couldn't continue.
 
+I also tried patches that Tejun sent me, but non of them worked, it just slightly change the error message.
 
-Hmm. I have to check that too. I'm building CONFIG_RCU_TREE.
-Will try to find what happens.
+So, yes this is a regression that was introduced in the .28 merge window, and I still think that bug #12609 is a duplicate of my bug.
 
+I don't see this bug on tip/master and this is the diff of origin and tip at the time I tested.
 
-> 
-> Whatever, this pattern continues for more than 300 milliseconds(!).
-> 
-> Would you be willing to enable CONFIG_RCU_TRACE and CONFIG_TREE_RCU,
-> reproduce this and send the output of the debugfs files rcu/rcudata
-> and rcu/rcuhier?  The commands for this would be:
-> 
-> 	mkdir /debug || :
-> 	mount -t debugfs debugfs /debug
-> 	cat /debug/rcu/rcuhier
-> 	cat /debug/rcu/rcudata
-> 
-> I will try to reproduce locally as well.
-> 
-> 							Thanx, Paul
+$ git diff origin/master..tip/master drivers/ata/
+
+diff --git a/drivers/ata/ata_piix.c b/drivers/ata/ata_piix.c
+
+index 54961c0..e004c25 100644
+
+--- a/drivers/ata/ata_piix.c
+
++++ b/drivers/ata/ata_piix.c
+
+@@ -310,7 +310,7 @@ static struct scsi_host_template piix_sht = {
+
+};
+
+static struct ata_port_operations piix_pata_ops = {
+
+-    .inherits        = &ata_bmdma32_port_ops,
+
++    .inherits        = &ata_bmdma_port_ops,
+
+    .cable_detect        = ata_cable_40wire,
+
+    .set_piomode        = piix_set_piomode,
+
+    .set_dmamode        = piix_set_dmamode,
+
+diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
+
+index 9fbf059..1ed3966 100644
+
+--- a/drivers/ata/libata-core.c
+
++++ b/drivers/ata/libata-core.c
+
+@@ -1482,7 +1482,7 @@ static int ata_hpa_resize(struct ata_device *dev)
+
+    struct ata_eh_context *ehc = &dev->link->eh_context;
+
+    int print_info = ehc->i.flags & ATA_EHI_PRINTINFO;
+
+    u64 sectors = ata_id_n_sectors(dev->id);
+
+-    u64 native_sectors;
+
++    u64 uninitialized_var(native_sectors);
+
+    int rc;
+
+    /* do we need to do it? */
+
+diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
+
+index b9747fa..d65b9b2 100644
+
+--- a/drivers/ata/libata-scsi.c
+
++++ b/drivers/ata/libata-scsi.c
+
+@@ -3247,7 +3247,7 @@ void ata_scsi_scan_host(struct ata_port *ap, int sync)
+
+    int tries = 5;
+
+    struct ata_device *last_failed_dev = NULL;
+
+    struct ata_link *link;
+
+-    struct ata_device *dev;
+
++    struct ata_device *uninitialized_var(dev);
+
+    if (ap->flags & ATA_FLAG_DISABLED)
+
+        return;
+
+diff --git a/drivers/ata/libata-sff.c b/drivers/ata/libata-sff.c
+
+index 0b299b0..416e3e2 100644
+
+--- a/drivers/ata/libata-sff.c
+
++++ b/drivers/ata/libata-sff.c
+
+@@ -80,13 +80,6 @@ const struct ata_port_operations ata_bmdma_port_ops = {
+
+};
+
+EXPORT_SYMBOL_GPL(ata_bmdma_port_ops);
+
+-const struct ata_port_operations ata_bmdma32_port_ops = {
+
+-    .inherits        = &ata_bmdma_port_ops,
+
+-
+
+-    .sff_data_xfer        = ata_sff_data_xfer32,
+
+-};
+
+-EXPORT_SYMBOL_GPL(ata_bmdma32_port_ops);
+
+-
+
+/**
+
+ *    ata_fill_sg - Fill PCI IDE PRD table
+
+ *    @qc: Metadata associated with taskfile to be transferred
+
+@@ -743,52 +736,6 @@ unsigned int ata_sff_data_xfer(struct ata_device *dev, unsigned char *buf,
+
+EXPORT_SYMBOL_GPL(ata_sff_data_xfer);
+
+/**
+
+- *    ata_sff_data_xfer32 - Transfer data by PIO
+
+- *    @dev: device to target
+
+- *    @buf: data buffer
+
+- *    @buflen: buffer length
+
+- *    @rw: read/write
+
+- *
+
+- *    Transfer data from/to the device data register by PIO using 32bit
+
+- *    I/O operations.
+
+- *
+
+- *    LOCKING:
+
+- *    Inherited from caller.
+
+- *
+
+- *    RETURNS:
+
+- *    Bytes consumed.
+
+- */
+
+-
+
+-unsigned int ata_sff_data_xfer32(struct ata_device *dev, unsigned char *buf,
+
+-                   unsigned int buflen, int rw)
+
+-{
+
+-    struct ata_port *ap = dev->link->ap;
+
+-    void __iomem *data_addr = ap->ioaddr.data_addr;
+
+-    unsigned int words = buflen >> 2;
+
+-    int slop = buflen & 3;
+
+-
+
+-    /* Transfer multiple of 4 bytes */
+
+-    if (rw == READ)
+
+-        ioread32_rep(data_addr, buf, words);
+
+-    else
+
+-        iowrite32_rep(data_addr, buf, words);
+
+-
+
+-    if (unlikely(slop)) {
+
+-        __le32 pad;
+
+-        if (rw == READ) {
+
+-            pad = cpu_to_le32(ioread32(ap->ioaddr.data_addr));
+
+-            memcpy(buf + buflen - slop, &pad, slop);
+
+-        } else {
+
+-            memcpy(&pad, buf + buflen - slop, slop);
+
+-            iowrite32(le32_to_cpu(pad), ap->ioaddr.data_addr);
+
+-        }
+
+-        words++;
+
+-    }
+
+-    return words << 2;
+
+-}
+
+-EXPORT_SYMBOL_GPL(ata_sff_data_xfer32);
+
+-
+
+-/**
+
+ *    ata_sff_data_xfer_noirq - Transfer data by PIO
+
+ *    @dev: device to target
+
+ *    @buf: data buffer
+
+diff --git a/drivers/ata/pata_ali.c b/drivers/ata/pata_ali.c
+
+index eb99dbe..7cd48ea 100644
+
+--- a/drivers/ata/pata_ali.c
+
++++ b/drivers/ata/pata_ali.c
+
+@@ -151,7 +151,8 @@ static void ali_fifo_control(struct ata_port *ap, struct ata_device *adev, int o
+
+    pci_read_config_byte(pdev, pio_fifo, &fifo);
+
+    fifo &= ~(0x0F << shift);
+
+-    fifo |= (on << shift);
+
++    if (on)
+
++        fifo |= (on << shift);
+
+    pci_write_config_byte(pdev, pio_fifo, fifo);
+
+}
+
+@@ -369,11 +370,10 @@ static struct ata_port_operations ali_early_port_ops = {
+
+    .inherits    = &ata_sff_port_ops,
+
+    .cable_detect    = ata_cable_40wire,
+
+    .set_piomode    = ali_set_piomode,
+
+-    .sff_data_xfer  = ata_sff_data_xfer32,
+
+};
+
+static const struct ata_port_operations ali_dma_base_ops = {
+
+-    .inherits    = &ata_bmdma32_port_ops,
+
++    .inherits    = &ata_bmdma_port_ops,
+
+    .set_piomode    = ali_set_piomode,
+
+    .set_dmamode    = ali_set_dmamode,
+
+};
+
+diff --git a/drivers/ata/pata_amd.c b/drivers/ata/pata_amd.c
+
+index 63719ab..0ec9c7d 100644
+
+--- a/drivers/ata/pata_amd.c
+
++++ b/drivers/ata/pata_amd.c
+
+@@ -24,7 +24,7 @@
+
+#include <linux/libata.h>
+
+#define DRV_NAME "pata_amd"
+
+-#define DRV_VERSION "0.3.11"
+
++#define DRV_VERSION "0.3.10"
+
+/**
+
+ *    timing_setup        -    shared timing computation and load
+
+@@ -345,7 +345,7 @@ static struct scsi_host_template amd_sht = {
+
+};
+
+static const struct ata_port_operations amd_base_port_ops = {
+
+-    .inherits    = &ata_bmdma32_port_ops,
+
++    .inherits    = &ata_bmdma_port_ops,
+
+    .prereset    = amd_pre_reset,
+
+};
+
+diff --git a/drivers/ata/pata_atiixp.c b/drivers/ata/pata_atiixp.c
+
+index 506adde..115eb00 100644
+
+--- a/drivers/ata/pata_atiixp.c
+
++++ b/drivers/ata/pata_atiixp.c
+
+@@ -140,7 +140,7 @@ static void atiixp_set_dmamode(struct ata_port *ap, struct ata_device *adev)
+
+        wanted_pio = 3;
+
+    else if (adev->dma_mode == XFER_MW_DMA_0)
+
+        wanted_pio = 0;
+
+-    else BUG();
+
++    else panic("atiixp_set_dmamode: unknown DMA mode!");
+
+    if (adev->pio_mode != wanted_pio)
+
+        atiixp_set_pio_timing(ap, adev, wanted_pio);
+
+diff --git a/drivers/ata/pata_mpiix.c b/drivers/ata/pata_mpiix.c
+
+index aa576ca..7c8faa4 100644
+
+--- a/drivers/ata/pata_mpiix.c
+
++++ b/drivers/ata/pata_mpiix.c
+
+@@ -35,7 +35,7 @@
+
+#include <linux/libata.h>
+
+#define DRV_NAME "pata_mpiix"
+
+-#define DRV_VERSION "0.7.7"
+
++#define DRV_VERSION "0.7.6"
+
+enum {
+
+    IDETIM = 0x6C,        /* IDE control register */
+
+@@ -146,7 +146,6 @@ static struct ata_port_operations mpiix_port_ops = {
+
+    .cable_detect    = ata_cable_40wire,
+
+    .set_piomode    = mpiix_set_piomode,
+
+    .prereset    = mpiix_pre_reset,
+
+-    .sff_data_xfer    = ata_sff_data_xfer32,
+
+};
+
+static int mpiix_init_one(struct pci_dev *dev, const struct pci_device_id *id)
+
+diff --git a/drivers/ata/pata_sil680.c b/drivers/ata/pata_sil680.c
+
+index 9e764e5..83580a5 100644
+
+--- a/drivers/ata/pata_sil680.c
+
++++ b/drivers/ata/pata_sil680.c
+
+@@ -32,7 +32,7 @@
+
+#include <linux/libata.h>
+
+#define DRV_NAME "pata_sil680"
+
+-#define DRV_VERSION "0.4.9"
+
++#define DRV_VERSION "0.4.8"
+
+#define SIL680_MMIO_BAR        5
+
+@@ -195,7 +195,7 @@ static struct scsi_host_template sil680_sht = {
+
+};
+
+static struct ata_port_operations sil680_port_ops = {
+
+-    .inherits    = &ata_bmdma32_port_ops,
+
++    .inherits    = &ata_bmdma_port_ops,
+
+    .cable_detect    = sil680_cable_detect,
+
+    .set_piomode    = sil680_set_piomode,
+
+    .set_dmamode    = sil680_set_dmamode,
+
+diff --git a/drivers/ata/sata_via.c b/drivers/ata/sata_via.c
+
+index 5c62da9..f9803a2 100644
+
+--- a/drivers/ata/sata_via.c
+
++++ b/drivers/ata/sata_via.c
+
+@@ -566,7 +566,7 @@ static int svia_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
+
+    static int printed_version;
+
+    unsigned int i;
+
+    int rc;
+
+-    struct ata_host *host;
+
++    struct ata_host *uninitialized_var(host);
+
+    int board_id = (int) ent->driver_data;
+
+    const unsigned *bar_sizes;
+
+Justin Madru
+
