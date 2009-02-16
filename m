@@ -1,48 +1,43 @@
-From: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
-Subject: Re: [Bug #12667] Badness at kernel/time/timekeeping.c:98 in pmud (timekeeping_suspended)
-Date: Mon, 16 Feb 2009 20:17:22 +1300
-Message-ID: <87hc2u26m5.fsf@burly.wgtn.ondioline.org>
-References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
-	<sWhNs83kKPE.A.p4D.L20jJB@chimera>
-	<878wognj00.fsf@burly.wgtn.ondioline.org>
-	<200902142342.59186.rjw@sisk.pl>
+From: Jarek Poplawski <jarkao2@gmail.com>
+Subject: Re: 2.6.29-rc5: Reported regressions from 2.6.28
+Date: Mon, 16 Feb 2009 07:29:10 +0000
+Message-ID: <20090216072910.GA4763@ff.dom.local>
+References: <juADNmcceYF.A.mdD.Mr0lJB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200902142342.59186.rjw-KKrjLPT3xs0@public.gmane.org> (Rafael J. Wysocki's message of
-	"Sat, 14 Feb 2009 23:42:58 +0100")
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-acpi-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=KGnn7KXnfGXQ85D54fFiAG9FxpOnnvo+/m1kTQL7BqE=;
+        b=PDxbiP8Ao7R6TlB5ZmLzhojI5CE+c8+ktUfwqGyKMGewsiybo3wQJbZBVLJR+yWRfV
+         eGNCl6c/JWKtqow+N5EWXmWx4aJQvzrpQnJAnPUalMB01vu01OtmvK4FRc+aTjMMZXlP
+         MMm4O7V7zIehy2RRi6IX0B6HXqo3xmd9liWng=
+Content-Disposition: inline
+In-Reply-To: <juADNmcceYF.A.mdD.Mr0lJB@chimera>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
 
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+On 14-02-2009 21:35, Rafael J. Wysocki wrote:
+> This message contains a list of some regressions from 2.6.28, for which there
+> are no fixes in the mainline I know of.  If any of them have been fixed already,
+> please let me know.
+...
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12615
+> Subject		: boot hangs while bringing up gianfar ethernet
+> Submitter	: Ira Snyder <iws@ovro.caltech.edu>
+> Date		: 2009-01-29 19:41 (17 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123325817201665&w=4
 
-> On Monday 09 February 2009, Paul Collins wrote:
->> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
->> 
->> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12667
->> > Subject		: Badness at kernel/time/timekeeping.c:98 in pmud (timekeeping_suspended)
->> > Submitter	: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
->> > Date		: 2009-01-21 7:15 (19 days old)
->> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1c5745aa380efb6417b5681104b007c8612fb496
->> > References	: http://marc.info/?l=linux-kernel&m=123252215315106&w=4
->> 
->> I've just done ten suspend/resume cycles with 2.6.29-rc4 and this
->> message was not logged, so it's either gone away or else become much
->> more difficult to reproduce.
->
-> Thanks, I've closed the bug.
+Fixed by:
+commit	8707bdd48ab705a459ac1b12014075a139d1d4f9
+gianfar: Fix boot hangs while bringing up gianfar ethernet
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=8707bdd48ab705a459ac1b12014075a139d1d4f9
 
-It turns out I didn't test this properly.  The warning is only triggered
-when I close and open the lid, not when I run 'snooze' to suspend and
-hit Return to resume, as I did for my so-called testing of 2.6.29-rc4.
-
-Whatever is triggering the warning is still present in 2.6.29-rc5.
-
--- 
-Paul Collins
-Wellington, New Zealand
-
-Dag vijandelijk luchtschip de huismeester is dood
+Cheers,
+Jarek P.
