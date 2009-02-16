@@ -1,34 +1,36 @@
-From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
-Subject: Re: [Bug #12667] Badness at kernel/time/timekeeping.c:98 in pmud
- (timekeeping_suspended)
-Date: Mon, 16 Feb 2009 20:10:10 +1100
-Message-ID: <1234775410.26036.122.camel@pasglop>
-References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
-	 <sWhNs83kKPE.A.p4D.L20jJB@chimera>
-	 <878wognj00.fsf@burly.wgtn.ondioline.org> <200902142342.59186.rjw@sisk.pl>
-	 <87hc2u26m5.fsf@burly.wgtn.ondioline.org>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #12650] Strange load average and ksoftirqd behavior with
+	2.6.29-rc2-git1
+Date: Mon, 16 Feb 2009 10:21:00 +0100
+Message-ID: <20090216092100.GH6182@elte.hu>
+References: <rjPbZ5GRJPO.A.1kE.ur0lJB@chimera> <20090215080941.GA2295@localhost.localdomain> <20090215090026.GA31147@elte.hu> <20090215095128.GA3234@localhost.localdomain> <20090215101351.GA23274@elte.hu> <20090215103445.GA2335@localhost.localdomain> <20090215110104.GB31351@elte.hu> <20090215180355.GA2273@localhost.localdomain> <20090215193102.GA16873@elte.hu> <20090216084223.GA2641@localhost.localdomain>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87hc2u26m5.fsf-D7l3p2TGOOdLdt5/z87VRY6ehsQQaF5K@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20090216084223.GA2641-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org>
+Cc: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, =?iso-8859-1?Q?Fr=E9d=E9ric?= Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, 2009-02-16 at 20:17 +1300, Paul Collins wrote:
-> It turns out I didn't test this properly.  The warning is only
-> triggered
-> when I close and open the lid, not when I run 'snooze' to suspend and
-> hit Return to resume, as I did for my so-called testing of 2.6.29-rc4.
+
+* Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org> wrote:
+
+> > Does it find any TSC time warps?
 > 
-> Whatever is triggering the warning is still present in 2.6.29-rc5.
+> Seems not.
 
-Right, we probably need to stop sending input events from the PMU driver
-when it's "suspended".
+ok, it's indeed pretty conclusive:
 
-Ping me if I don't produce a patch tomorrow (ie, I forgot :-)
+|  2 CPUs, running 2 parallel test-tasks.
+|  checking for time-warps via:
+|  - read time stamp counter (RDTSC) instruction (cycle resolution)
+| 
+|   | TSC: 0.32us, fail:0 |
 
-Cheers,
-Ben.
+i suspect you ran it for at least a couple of minutes, and the ksoftirqd 
+anomaly occured during it, right?
+
+	Ingo
