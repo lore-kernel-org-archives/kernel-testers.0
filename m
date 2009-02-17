@@ -1,99 +1,65 @@
-From: Justin Madru <jdm64@gawab.com>
-Subject: Re: [Bug #12263] Sata soft reset filling log
-Date: Tue, 17 Feb 2009 11:08:46 -0800
-Message-ID: <499B0B3E.3070101@gawab.com>
-References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <200902152221.43834.rjw@sisk.pl> <20090215223045.GC29300@elte.hu> <200902160012.57584.rjw@sisk.pl> <499983DF.5050503@ru.mvista.com> <49998480.3090408@ru.mvista.com> <499986D0.3000205@ru.mvista.com> <4999BD1A.1060101@gawab.com> <4999C195.5050905@ru.mvista.com> <4999DD31.4010504@gawab.com> <Pine.LNX.4.64.0902171102260.15234@blonde.anvils>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #12612] hard lockup when interrupting cdda2wav
+Date: Tue, 17 Feb 2009 21:23:12 +0100
+Message-ID: <200902172123.13052.rjw@sisk.pl>
+References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <ROx6X68CGJG.A.NoH.m40lJB@chimera> <20090217171601.GA3351@horus.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-ide-owner@vger.kernel.org>
-In-Reply-To: <Pine.LNX.4.64.0902171102260.15234@blonde.anvils>
-Sender: linux-ide-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20090217171601.GA3351-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Hugh Dickins <hugh@veritas.com>
-Cc: Sergei Shtylyov <sshtylyov@ru.mvista.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Ingo Molnar <mingo@elte.hu>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux IDE <linux-ide@vger.kernel.org>, Alan Cox <alan@lxorguk.ukuu.org.uk>, Larry Finger <Larry.Finger@lwfinger.net>, Mikael Pettersson <mikpe@it.uu.se>
+Content-Type: text/plain; charset="us-ascii"
+To: Matthias Reichl <hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
 
-Hugh Dickins wrote:
-> On Mon, 16 Feb 2009, Justin Madru wrote:
->   
->> Sergei Shtylyov wrote:
->>     
->>> If 12609 is truly a post-2.6.28 regression and 12263 is post-2.6.27
->>> regresssion, this just cannot be.
->>>       
->> Maybe the reporter of #12609 didn't notice/test kernels 28-rc1 to 28. Or maybe
->> the difference in hardware is
->> the issue, but the bug is still the same. Don't know.
->>     
->
-> Sorry Justin, you must be confused: as Sergei says,
-> #12609 and #12263 can only be different.
->
-> I was one of the reporters of #12609, and I do know it's a post-2.6.28
-> regression (and Larry said so too), and one fix (not the preferred fix)
-> is to revert the ata_bmdma32_port_ops from 2.6.29-rc, and the preferred
-> fix is to improve the ata_sff_data_xfer32() introduced in 2.6.29-rc1.
->
-> 2.6.28 does not contain any ata_bmdma32_port_ops, nor ata_sff_data_xfer32(),
-> not did 2.6.28-rc1 contain them.  So it is impossible for the reversion of
-> the patch that introduced them to fix any problem on 2.6.28.
->
-> I'm quite prepared to believe that your #12263 manifests similarly to
-> #12609, and that a tip tree which contains a fix for #12609 contains
-> a fix for #12263; but please, those bugs are not the same, and they
-> don't have the same fix.
->
-> Hugh
->
->   
-Well, like I said: "[I] Don't know". I'm not a kernel developer (or even 
-any developer... yet).
-I'm just someone that tests the -rc kernels to see if there's any 
-problems with my hardware.
-I try to report any regressions to lkml, and hopefully help the developers.
+On Tuesday 17 February 2009, Matthias Reichl wrote:
+> The bug is still present in 2.6.28.5:
+> 
+> =============================================
+> [ INFO: possible recursive locking detected ]
+> 2.6.28.5-dbg #1
+> ---------------------------------------------
+> swapper/0 is trying to acquire lock:
+>  (&q->__queue_lock){.+..}, at: [<ffffffff8040e615>] blk_put_request+0x25/0x60
+> 
+> but task is already holding lock:
+>  (&q->__queue_lock){.+..}, at: [<ffffffff8040e4fa>] blk_end_io+0x5a/0xa0
+> 
+> other info that might help us debug this:
+> 1 lock held by swapper/0:
+>  #0:  (&q->__queue_lock){.+..}, at: [<ffffffff8040e4fa>] blk_end_io+0x5a/0xa0
+> 
+> stack backtrace:
+> Pid: 0, comm: swapper Not tainted 2.6.28.5-dbg #1
+> Call Trace:
+>  <IRQ>  [<ffffffff8026cd07>] __lock_acquire+0x1797/0x1930
+>  [<ffffffff806abf8b>] error_exit+0x29/0xa9
+>  [<ffffffff80521f40>] sg_rq_end_io+0x0/0x2e0
+>  [<ffffffff8026cf3a>] lock_acquire+0x9a/0xe0
+>  [<ffffffff8040e615>] blk_put_request+0x25/0x60
+>  [<ffffffff806ab973>] _spin_lock_irqsave+0x43/0x90
+>  [<ffffffff8040e615>] blk_put_request+0x25/0x60
+>  [<ffffffff8040e615>] blk_put_request+0x25/0x60
+>  [<ffffffff80520a94>] sg_finish_rem_req+0xa4/0x100
+>  [<ffffffff805221b8>] sg_rq_end_io+0x278/0x2e0
+>  [<ffffffff8040e2a1>] end_that_request_last+0x61/0x260
+>  [<ffffffff8040e508>] blk_end_io+0x68/0xa0
+>  [<ffffffff80508181>] scsi_end_request+0x41/0xd0
+>  [<ffffffff80508870>] scsi_io_completion+0x130/0x470
+>  [<ffffffff80413405>] blk_done_softirq+0x75/0x90
+>  [<ffffffff802488ab>] __do_softirq+0x9b/0x180
+>  [<ffffffff80213df3>] native_sched_clock+0x13/0x70
+>  [<ffffffff8020d6ec>] call_softirq+0x1c/0x30
+>  [<ffffffff8020f175>] do_softirq+0x65/0xa0
+>  [<ffffffff80248345>] irq_exit+0xa5/0xb0
+>  [<ffffffff8020f467>] do_IRQ+0x107/0x1d0
+>  [<ffffffff8020c7fb>] ret_from_intr+0x0/0xf
+>  <EOI>  [<ffffffff80214ba6>] mwait_idle+0x56/0x60
+>  [<ffffffff80214b9d>] mwait_idle+0x4d/0x60
+>  [<ffffffff8020b353>] cpu_idle+0x63/0xc0
 
-To me, who has no knowledge of all these low level issues, the following 
-error messages
-look strikingly similar with a quick glance.
+Thanks for the update.
 
-# bug 12609
-# http://marc.info/?l=linux-kernel&m=123254501314058&w=4
-#
-ata2.00: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x6 frozen
-ata2.00: cmd a0/00:00:00:00:00/00:00:00:00:00/a0 tag 0
-         cdb 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
-         res 51/20:03:00:00:00/00:00:00:00:00/a0 Emask 0x5 (timeout)
-ata2.00: status: { DRDY ERR }
-ata2: soft resetting link
-ata2.00: configured for UDMA/33
-ata2: EH complete
-
-# bug 12263
-# http://marc.info/?l=linux-kernel&m=122913412608533&w=4
-#
-ata2.00: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x6 frozen
-ata2.00: ST_FIRST: !(DRQ|ERR|DF)
-ata2.00: cmd a0/00:00:00:00:00/00:00:00:00:00/a0 tag 0
-         cdb 1e 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
-         res 50/00:01:00:00:00/00:00:00:00:00/a0 Emask 0x2 (HSM violation)
-ata2.00: status: { DRDY }
-ata2: soft resetting link
-ata2.00: configured for UDMA/33
-ata2: EH complete
-
-# bug 12609
-# http://marc.info/?l=linux-kernel&m=123275478111406&w=4
-#
-ata2.00: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x6 frozen
-ata2.00: cmd a0/00:00:00:00:00/00:00:00:00:00/a0 tag 0
-         cdb 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
-         res 51/20:03:00:00:00/00:00:00:00:00/a0 Emask 0x3 (HSM violation)
-ata2.00: status: { DRDY ERR }
-ata2: soft resetting link
-ata2.00: configured for PIO4
-ata2: EH complete
-
-So, will the patch for 12609 fix my issue also, or does there need to be 
-another patch?
-
-Justin Madru
+Rafael
