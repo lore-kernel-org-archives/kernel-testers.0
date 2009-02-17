@@ -1,47 +1,110 @@
-From: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
-Subject: Re: [Bug #12263] Sata soft reset filling log
-Date: Tue, 17 Feb 2009 11:19:53 +0000 (GMT)
-Message-ID: <Pine.LNX.4.64.0902171102260.15234@blonde.anvils>
-References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <200902152221.43834.rjw@sisk.pl>
- <20090215223045.GC29300@elte.hu> <200902160012.57584.rjw@sisk.pl>
- <499983DF.5050503@ru.mvista.com> <49998480.3090408@ru.mvista.com>
- <499986D0.3000205@ru.mvista.com> <4999BD1A.1060101@gawab.com>
- <4999C195.5050905@ru.mvista.com> <4999DD31.4010504@gawab.com>
+From: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Subject: Re: [Bug #12650] Strange load average and ksoftirqd behavior with
+	2.6.29-rc2-git1
+Date: Tue, 17 Feb 2009 06:01:30 -0800
+Message-ID: <20090217140130.GA6761@linux.vnet.ibm.com>
+References: <87hc2u61e9.fsf@free.fr> <20090216122632.GA3158@elte.hu> <87ljs6pmao.fsf@free.fr> <20090216132151.GA17996@elte.hu> <20090216160613.GA6785@linux.vnet.ibm.com> <20090216185616.GB6785@linux.vnet.ibm.com> <20090216200923.GA28938@elte.hu> <20090216223944.GF6785@linux.vnet.ibm.com> <20090216225108.GA15904@linux.vnet.ibm.com> <20090217094657.GA1845@elte.hu>
+Reply-To: paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4999DD31.4010504-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20090217094657.GA1845-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
-Cc: Sergei Shtylyov <sshtylyov-hkdhdckH98+B+jHODAdFcQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux IDE <linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, =?iso-8859-1?Q?Fr=E9d=E9ric?= Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, 16 Feb 2009, Justin Madru wrote:
-> Sergei Shtylyov wrote:
-> >
-> > If 12609 is truly a post-2.6.28 regression and 12263 is post-2.6.27
-> > regresssion, this just cannot be.
+On Tue, Feb 17, 2009 at 10:46:57AM +0100, Ingo Molnar wrote:
 > 
-> Maybe the reporter of #12609 didn't notice/test kernels 28-rc1 to 28. Or maybe
-> the difference in hardware is
-> the issue, but the bug is still the same. Don't know.
+> * Paul E. McKenney <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
+> 
+> > On Mon, Feb 16, 2009 at 02:39:44PM -0800, Paul E. McKenney wrote:
+> > > On Mon, Feb 16, 2009 at 09:09:23PM +0100, Ingo Molnar wrote:
+> > > > 
+> > > > * Paul E. McKenney <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
+> > > > 
+> > > > > Here the calls to rcu_process_callbacks() are only 75 
+> > > > > microseconds apart, so that this function is consuming more 
+> > > > > than 10% of a CPU.  The strange thing is that I don't see a 
+> > > > > raise_softirq() in between, though perhaps it gets inlined or 
+> > > > > something that makes it invisible to ftrace.
+> > > > 
+> > > > look at the latest trace please, that has even the most inline 
+> > > > raise-softirq method instrumented, so all the raising is 
+> > > > visible.
+> > > 
+> > > Ah, my apologies!  This time looking at:
+> > > 
+> > > http://damien.wyart.free.fr/ksoftirqd_pb/trace_tip_2009.02.16_ksoftirqd_pb_abstime_proc.txt.gz
+> > > 
+> > > 
+> > >   799.521187 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.521371 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.521555 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.521738 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.521934 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.522068 |   1)  ksoftir-2324  |               |                rcu_check_callbacks() {
+> > >   799.522208 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.522392 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.522575 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.522759 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.522956 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.523074 |   1)  ksoftir-2324  |               |                  rcu_check_callbacks() {
+> > >   799.523214 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.523397 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.523579 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.523762 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.523960 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.524079 |   1)  ksoftir-2324  |               |                  rcu_check_callbacks() {
+> > >   799.524220 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.524403 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.524587 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > >   799.524770 |   1)    <idle>-0    |               |  rcu_check_callbacks() {
+> > > [ . . . ]
+> > > 
+> > > Yikes!!!
+> > > 
+> > > Why is rcu_check_callbacks() being invoked so often?  It should be called
+> > > but once per jiffy, and here it is called no less than 22 times in about
+> > > 3.5 milliseconds, meaning one call every 160 microseconds or so.
+> > 
+> > BTW, the other question I have is "why do we need to call 
+> > rcu_pending() and rcu_check_callbacks() from the idle loop of 
+> > 32-bit x86, especially given that no other architecture does 
+> > this?".  Don't get me wrong, it would be good to get rcutree's 
+> > rcu_pending() to avoid spuriously saying that 
+> > rcu_check_callbacks() should be invoked, so I would still like 
+> > the trace with my patch, but...
+> 
+> There's no strong reason - we've been back and forth about RCU 
+> in the dynticks code. Mind sending a test patch for Damien to 
+> try?
 
-Sorry Justin, you must be confused: as Sergei says,
-#12609 and #12263 can only be different.
+But of course!  ;-)
 
-I was one of the reporters of #12609, and I do know it's a post-2.6.28
-regression (and Larry said so too), and one fix (not the preferred fix)
-is to revert the ata_bmdma32_port_ops from 2.6.29-rc, and the preferred
-fix is to improve the ata_sff_data_xfer32() introduced in 2.6.29-rc1.
+The following patch removes the call to rcu_pending() and
+rcu_check_callbacks() from the x86 32-bit idle loop in order to
+reduce the softirq load on idle systems.
 
-2.6.28 does not contain any ata_bmdma32_port_ops, nor ata_sff_data_xfer32(),
-not did 2.6.28-rc1 contain them.  So it is impossible for the reversion of
-the patch that introduced them to fix any problem on 2.6.28.
+Signed-off-by: Paul E. McKenney <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+---
 
-I'm quite prepared to believe that your #12263 manifests similarly to
-#12609, and that a tip tree which contains a fix for #12609 contains
-a fix for #12263; but please, those bugs are not the same, and they
-don't have the same fix.
+ process_32.c |    3 ---
+ 1 file changed, 3 deletions(-)
 
-Hugh
+diff --git a/arch/x86/kernel/process_32.c b/arch/x86/kernel/process_32.c
+index a546f55..bd4da2a 100644
+--- a/arch/x86/kernel/process_32.c
++++ b/arch/x86/kernel/process_32.c
+@@ -104,9 +104,6 @@ void cpu_idle(void)
+ 			check_pgt_cache();
+ 			rmb();
+ 
+-			if (rcu_pending(cpu))
+-				rcu_check_callbacks(cpu, 0);
+-
+ 			if (cpu_is_offline(cpu))
+ 				play_dead();
+ 
