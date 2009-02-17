@@ -1,25 +1,33 @@
-From: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+From: Frederic Weisbecker <fweisbec@gmail.com>
 Subject: Re: [Bug #12650] Strange load average and ksoftirqd behavior with
 	2.6.29-rc2-git1
-Date: Mon, 16 Feb 2009 14:51:08 -0800
-Message-ID: <20090216225108.GA15904@linux.vnet.ibm.com>
+Date: Tue, 17 Feb 2009 05:34:23 +0100
+Message-ID: <20090217043422.GA5836@nowhere>
 References: <20090216084223.GA2641@localhost.localdomain> <20090216095059.GL6182@elte.hu> <87hc2u61e9.fsf@free.fr> <20090216122632.GA3158@elte.hu> <87ljs6pmao.fsf@free.fr> <20090216132151.GA17996@elte.hu> <20090216160613.GA6785@linux.vnet.ibm.com> <20090216185616.GB6785@linux.vnet.ibm.com> <20090216200923.GA28938@elte.hu> <20090216223944.GF6785@linux.vnet.ibm.com>
-Reply-To: paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752570AbZBQEem@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:cc
+         :subject:message-id:references:mime-version:content-type
+         :content-disposition:in-reply-to:user-agent;
+        bh=qprWfYCkgx93tGDO15tDJFrTih1gnn7lvCbpki+D4Kw=;
+        b=q2ETlKSviLz17ubCOZ7gNGSCUFFcSrAPOsK71scEtKBVByroqBGDGbyPuIm2iXuyOl
+         dvcYuvGVzH7BgvmKAaljaoNvj9LRQBg8zlzO2iIHOazcHkE14BNz7GpjLPph9EH93zqM
+         DtxVU6eRruAEGrXPdpcxJekIBslyhzPVe0Qkw=
 Content-Disposition: inline
-In-Reply-To: <20090216223944.GF6785-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <20090216223944.GF6785@linux.vnet.ibm.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, =?iso-8859-1?Q?Fr=E9d=E9ric?= Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
+Cc: Ingo Molnar <mingo@elte.hu>, Damien Wyart <damien.wyart@free.fr>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Mike Galbraith <efault@gmx.de>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
 On Mon, Feb 16, 2009 at 02:39:44PM -0800, Paul E. McKenney wrote:
 > On Mon, Feb 16, 2009 at 09:09:23PM +0100, Ingo Molnar wrote:
 > > 
-> > * Paul E. McKenney <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
+> > * Paul E. McKenney <paulmck@linux.vnet.ibm.com> wrote:
 > > 
 > > > Here the calls to rcu_process_callbacks() are only 75 
 > > > microseconds apart, so that this function is consuming more 
@@ -65,16 +73,7 @@ On Mon, Feb 16, 2009 at 02:39:44PM -0800, Paul E. McKenney wrote:
 > Why is rcu_check_callbacks() being invoked so often?  It should be called
 > but once per jiffy, and here it is called no less than 22 times in about
 > 3.5 milliseconds, meaning one call every 160 microseconds or so.
-
-BTW, the other question I have is "why do we need to call rcu_pending()
-and rcu_check_callbacks() from the idle loop of 32-bit x86, especially
-given that no other architecture does this?".  Don't get me wrong, it
-would be good to get rcutree's rcu_pending() to avoid spuriously saying
-that rcu_check_callbacks() should be invoked, so I would still like the
-trace with my patch, but...
-
-							Thanx, Paul
-
+> 
 > Hmmm...
 > 
 > Looks like we never return from:
@@ -135,8 +134,101 @@ trace with my patch, but...
 > patch along these lines below.  Frederic, Damien, could you please give
 > it a go?  (And of course please let me know if something else is
 > needed.)
-> 
-> Signed-off-by: Paul E. McKenney <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+
+
+No, you don't need that, you can use ftrace_printk, it will generate a C-comment like
+inside the functions, ie:
+
+__rcu_pending() {
+	 /* pending_qs */
+}
+
+I've converted your below patch with ftrace_printks and tested it under an old P2
+with rcu_tree and 1000 Hz. I made a trace during an idle state, and well, looks like I'm
+lucky :-) 
+I guess I successfully reproduced the softirq/rcu overhead.
+Please find the below patch to trace the rcu_pending return path, as well as the trace I made.
+Sorry, the trace is a bit buggy with sometimes flying orphans C like comments.
+When I will have more time, I will fix that.
+
+The trace is here http://dl.free.fr/uyWGgCbx4
+
+It looks like it mostly returns 1 because of the waiting for quiescent state:
+
+$ cat rcutrace | grep "/* pending_none" | wc -l
+221
+$ cat rcutrace | grep "/* pending_qs" | wc -l
+248
+$ cat rcutrace | grep "/* pending" | wc -l
+469
+
+
+diff --git a/kernel/rcutree.c b/kernel/rcutree.c
+index b2fd602..c9e78f6 100644
+--- a/kernel/rcutree.c
++++ b/kernel/rcutree.c
+@@ -45,6 +45,7 @@
+ #include <linux/cpu.h>
+ #include <linux/mutex.h>
+ #include <linux/time.h>
++#include <linux/ftrace.h>
+ 
+ #ifdef CONFIG_DEBUG_LOCK_ALLOC
+ static struct lock_class_key rcu_lock_key;
+@@ -1249,31 +1250,44 @@ static int __rcu_pending(struct rcu_state *rsp, struct rcu_data *rdp)
+ 	check_cpu_stall(rsp, rdp);
+ 
+ 	/* Is the RCU core waiting for a quiescent state from this CPU? */
+-	if (rdp->qs_pending)
++	if (rdp->qs_pending) {
++		ftrace_printk("pending_qs\n");
+ 		return 1;
++	}
+ 
+ 	/* Does this CPU have callbacks ready to invoke? */
+-	if (cpu_has_callbacks_ready_to_invoke(rdp))
++	if (cpu_has_callbacks_ready_to_invoke(rdp)) {
++		ftrace_printk("pending_ready_invoke\n");
+ 		return 1;
++	}
+ 
+ 	/* Has RCU gone idle with this CPU needing another grace period? */
+-	if (cpu_needs_another_gp(rsp, rdp))
++	if (cpu_needs_another_gp(rsp, rdp)) {
++		ftrace_printk("pending_gp\n");
+ 		return 1;
++	}
+ 
+ 	/* Has another RCU grace period completed?  */
+-	if (ACCESS_ONCE(rsp->completed) != rdp->completed) /* outside of lock */
++	if (ACCESS_ONCE(rsp->completed) != rdp->completed) {/* outside of lock */
++		ftrace_printk("pending_gp_completed\n");
+ 		return 1;
++	}
+ 
+ 	/* Has a new RCU grace period started? */
+-	if (ACCESS_ONCE(rsp->gpnum) != rdp->gpnum) /* outside of lock */
++	if (ACCESS_ONCE(rsp->gpnum) != rdp->gpnum) { /* outside of lock */
++		ftrace_printk("pending_gp_new_started\n");
+ 		return 1;
++	}
+ 
+ 	/* Has an RCU GP gone long enough to send resched IPIs &c? */
+ 	if (ACCESS_ONCE(rsp->completed) != ACCESS_ONCE(rsp->gpnum) &&
+ 	    ((long)(ACCESS_ONCE(rsp->jiffies_force_qs) - jiffies) < 0 ||
+-	     (rdp->n_rcu_pending_force_qs - rdp->n_rcu_pending) < 0))
++	     (rdp->n_rcu_pending_force_qs - rdp->n_rcu_pending) < 0)) {
++		ftrace_printk("pending_ipi\n");
+ 		return 1;
++	}
+ 
++	ftrace_printk("pending_none\n");
+ 	/* nothing to do */
+ 	return 0;
+ }
+
+ 
+> Signed-off-by: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
 > ---
 > 
 >  rcupdate.c |   23 +++++++++++++++++++++++
