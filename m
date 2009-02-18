@@ -1,36 +1,29 @@
-From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Subject: Re: [Bug #12705] X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-Date: Tue, 17 Feb 2009 15:23:57 -0800
-Message-ID: <200902171523.57612.jbarnes@virtuousgeek.org>
-References: <juADNmcceYF.A.mdD.Mr0lJB@chimera> <1234911925.9844.89.camel@gaiman> <20090217231313.GA2654@srcf.ucam.org>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #12650] Strange load average and ksoftirqd behavior with
+	2.6.29-rc2-git1
+Date: Wed, 18 Feb 2009 01:38:01 +0100
+Message-ID: <20090218003801.GD25856@elte.hu>
+References: <87ljs6pmao.fsf@free.fr> <20090216132151.GA17996@elte.hu> <20090216160613.GA6785@linux.vnet.ibm.com> <20090216185616.GB6785@linux.vnet.ibm.com> <20090216200923.GA28938@elte.hu> <20090216223944.GF6785@linux.vnet.ibm.com> <20090217043422.GA5836@nowhere> <20090217151046.GB6761@linux.vnet.ibm.com> <20090217223741.GC5194@nowhere> <20090217224826.GO6761@linux.vnet.ibm.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090217231313.GA2654-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <20090217224826.GO6761-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
-Cc: Eric Anholt <eric.anholt-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Paul E. McKenney" <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Damien Wyart <damien.wyart-GANU6spQydw@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tuesday, February 17, 2009 3:13 pm Matthew Garrett wrote:
-> On Tue, Feb 17, 2009 at 03:05:25PM -0800, Eric Anholt wrote:
-> > On Sun, 2009-02-15 at 13:43 +0000, Matthew Garrett wrote:
-> > > On Sat, Feb 14, 2009 at 09:38:23PM +0100, Rafael J. Wysocki wrote:
-> > > > The following bug entry is on the current list of known regressions
-> > > > from 2.6.28.  Please verify if it still should be listed and let me
-> > > > know (either way).
-> > >
-> > > I think Eric sent a test patch for this. Did that get pushed?
-> >
-> > I haven't done anything in the area of brightness control.
->
-> This was drm failing to initialise because of incorrect mtrr setup and
-> opregion not working as a result.
 
-I sent one out; it just made the ioremap in i915_initialize into an ioremap_wc 
-for consistency.
+* Paul E. McKenney <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
 
--- 
-Jesse Barnes, Intel Open Source Technology Center
+> No, it was my confusion -- I later realized that your data 
+> above meant that the force-quiescent-state code path was not 
+> being heavily exercised. So no need for this trace!
+
+Do you have any theory for why RCU was activated every 100-200 
+microseconds, resulting in 20% ksoftirqd CPU use - and why the 
+problem went away with classic-rcu?
+
+	Ingo
