@@ -1,45 +1,32 @@
-From: Nico Schottelius <nico-kernel-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-Subject: Re: X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-Date: Thu, 19 Feb 2009 10:01:43 +0100
-Message-ID: <20090219090143.GA5828__34316.8181869716$1235034372$gmane$org@denkbrett.schottelius.org>
-References: <juADNmcceYF.A.mdD.Mr0lJB@chimera> <1234911925.9844.89.camel@gaiman> <20090217231313.GA2654@srcf.ucam.org> <200902171523.57612.jbarnes@virtuousgeek.org> <20090218093602.GA7722@denkbrett.schottelius.org> <20090213093354.GA10175@denkbrett.schottelius.org> <20090213094200.GC17774@elte.hu> <alpine.LFD.2.00.0902131302240.3671@localhost.localdomain> <20090216155434.GA5503@denkbrett.schottelius.org>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #12667] Badness at kernel/time/timekeeping.c:98 in pmud (timekeeping_suspended)
+Date: Thu, 19 Feb 2009 14:00:52 +0100
+Message-ID: <200902191400.53528.rjw@sisk.pl>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera> <87r61uzv95.fsf@burly.wgtn.ondioline.org> <1235032710.8805.37.camel@pasglop>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="9amGYk9869ThD9tj"
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1235032710.8805.37.camel@pasglop>
 Content-Disposition: inline
-In-Reply-To: <20090218093602.GA7722-CwvJMKsI4x9IWicycGkJrnB8g6S6LqdP2LY78lusg7I@public.gmane.org> <20090216155434.GA5503-CwvJMKsI4x9IWicycGkJrnB8g6S6LqdP2LY78lusg7I@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Cc: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
+On Thursday 19 February 2009, Benjamin Herrenschmidt wrote:
+> On Thu, 2009-02-19 at 21:27 +1300, Paul Collins wrote:
+> > > Just for laughs I slapped together the following, which seems to do
+> > the
+> > > job, although not especially tidily.
+> > 
+> > And it doesn't even do the job.  Judging by this new trace, submitting
+> > input events from the via-pmu resume function is still too early.
+> > 
+> What's up Thomas ? We can't call gettimeofday() from a sysdev
+> suspend/resume ? That's a little bit too harsh no ?
 
---9amGYk9869ThD9tj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Perhaps the ordering is wrong (ie. via-pmu resume happens bevore timekeeping
+resume)?
 
-Issue persisting on 2.6.29-rc5-ikn-00168-gba95fd4
-
-Nico
-
---=20
-Think about Free and Open Source Software (FOSS).
-http://nico.schottelius.org/documentations/foss/the-term-foss/
-
-PGP: BFE4 C736 ABE5 406F 8F42  F7CF B8BE F92A 9885 188C
-
---9amGYk9869ThD9tj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-Content-Disposition: inline
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEARECAAYFAkmdH/YACgkQuL75KpiFGIyylwCeIbzdr/n13AZGhdgUNIY3opDr
-oI4AoMSJ74A39koqs4WQKEOYrJvmo7+A
-=HXQ/
------END PGP SIGNATURE-----
-
---9amGYk9869ThD9tj--
+Rafael
