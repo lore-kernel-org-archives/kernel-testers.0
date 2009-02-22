@@ -1,53 +1,56 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12610] sync-Regression in 2.6.28.2?
-Date: Sun, 22 Feb 2009 11:02:09 +0100
-Message-ID: <200902221102.10579.rjw@sisk.pl>
-References: <juADNmcceYF.A.mdD.Mr0lJB@chimera> <rjPbZ5GRJPO.A.xTF.As0lJB@chimera> <20090221175646.GB3750@mit.edu>
+From: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected) [bug
+	12465]
+Date: Sun, 22 Feb 2009 21:09:14 +1030
+Message-ID: <1235299155.5021.6.camel@kulgan.wumi.org.au>
+References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera>
+	 <ROx6X68CGJG.A.54H.w40lJB@chimera>
+	 <1234691284.4967.23.camel@kulgan.wumi.org.au>
+	 <20090215100454.GA30314@elte.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090221175646.GB3750-3s7WtUTddSA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <20090215100454.GA30314-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Federico Cuello <fedux-yJigggV1mSdd+7ixHBZSzg@public.gmane.org>, Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>, bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org, Greg KH <gregkh-l3A5Bk7waGM@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-On Saturday 21 February 2009, Theodore Tso wrote:
-> On Sat, Feb 14, 2009 at 09:38:18PM +0100, Rafael J. Wysocki wrote:
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12610
-> > Subject		: sync-Regression in 2.6.28.2?
-> > Submitter	: Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>
-> > Date		: 2009-01-27 9:35 (19 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123304977706620&w=4
+On Sun, 2009-02-15 at 11:04 +0100, Ingo Molnar wrote:
+> qemu-sy-4237 has been scheduled away, and the system appeared to have done
+> nothing in the meantime. That's not something that really looks like a
+> scheduler regression - there is nothing the scheduler can do if KVM
+> decides to block a task.
 > 
-> This fix for this has landed in mainline post 2.6.29-rc5, as commit
-> 2acf2c.  The deadlock is technically not a regression but it was made
-> *much* more likely to show up because of commit 31a1266: ("mm:
-> write_cache_pages cyclic fix, which show up in 2.6.28.1").  
+> It would be nice to enhance this single-CPU trace some more - to more
+> surgically see what is going on. Firstly, absolute timestamps would be
+> nice:
 > 
-> Commit 3a4c68 in mainline backs up the change made in 31a1266, so you
-> probably won't see this much after 2.6.28.6 (when 3a4c68 was
-> backported to 2.6.28.y), but we should get commit 2acf2c pushed to
-> 2.6.28.x and 2.6.27.y to completely solve the deadlock problem.
-
-Thanks for the update.
-
-I'll close the bug since it's fixed in the mainline.  Please tell Greg which
-patches to put into the -stable kernels.
-
-Thanks,
-Rafael
-
-
+>   echo funcgraph-abstime  > trace_options
+>   echo funcgraph-proc     > trace_options
 > 
-> 						- Ted
-> 
-> 
+> as it's a bit hard to see the global timescale of events.
 
+I was going to try and grab the trace with absolute timestamps tonight,
+but that option doesn't seem to be available in Linus' current kernel.
 
--- 
-Everyone knows that debugging is twice as hard as writing a program
-in the first place.  So if you're as clever as you can be when you write it,
-how will you ever debug it? --- Brian Kernighan
+flexo:/sys/kernel/debug/tracing# echo 0 > tracing_enabled
+flexo:/sys/kernel/debug/tracing# echo function_graph > current_tracer
+flexo:/sys/kernel/debug/tracing# echo funcgraph-proc > trace_options
+flexo:/sys/kernel/debug/tracing# echo funcgraph-abstime  > trace_options
+-su: echo: write error: Invalid argument
+flexo:/sys/kernel/debug/tracing# cat trace_options 
+print-parent nosym-offset nosym-addr noverbose noraw nohex nobin noblock
+nostacktrace nosched-tree ftrace_printk noftrace_preempt nobranch
+annotate nouserstacktrace nosym-userobj noprintk-msg-only
+nofuncgraph-overrun funcgraph-cpu funcgraph-overhead funcgraph-proc 
+flexo:/sys/kernel/debug/tracing# uname -a
+Linux flexo 2.6.29-rc5-00299-gadfafef #6 SMP Sun Feb 22 20:09:37 CST
+2009 x86_64 GNU/Linux
+
+What am I missing?
+
+Cheers,
+Kevin.
+
