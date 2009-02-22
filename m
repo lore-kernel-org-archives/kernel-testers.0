@@ -1,61 +1,46 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected) [bug
-	12465]
-Date: Sun, 22 Feb 2009 18:27:58 +0100
-Message-ID: <20090222172758.GH6570@elte.hu>
-References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <ROx6X68CGJG.A.54H.w40lJB@chimera> <1234691284.4967.23.camel@kulgan.wumi.org.au> <20090215100454.GA30314@elte.hu> <1235299155.5021.6.camel@kulgan.wumi.org.au>
+From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Subject: Re: [Bug #12667] Badness at kernel/time/timekeeping.c:98 in pmud
+ (timekeeping_suspended)
+Date: Sun, 22 Feb 2009 20:31:59 +0100 (CET)
+Message-ID: <alpine.LFD.2.00.0902222026410.3523@localhost.localdomain>
+References: <AIghyjFgMFP.A.uZD._10jJB@chimera>  <sWhNs83kKPE.A.p4D.L20jJB@chimera>  <878wognj00.fsf@burly.wgtn.ondioline.org> <200902142342.59186.rjw@sisk.pl>  <87hc2u26m5.fsf@burly.wgtn.ondioline.org>  <1234775410.26036.122.camel@pasglop> 
+ <87d4di1wwr.fsf@burly.wgtn.ondioline.org>  <87r61uzv95.fsf@burly.wgtn.ondioline.org>  <1235032710.8805.37.camel@pasglop>  <alpine.LFD.2.00.0902192114150.3523@localhost.localdomain> <1235080303.8805.50.camel@pasglop>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1235299155.5021.6.camel-9TBizaOOD0ujuAshGpSIhRCuuivNXqWP@public.gmane.org>
+In-Reply-To: <1235080303.8805.50.camel@pasglop>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+To: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Cc: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-
-* Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org> wrote:
-
-> On Sun, 2009-02-15 at 11:04 +0100, Ingo Molnar wrote:
-> > qemu-sy-4237 has been scheduled away, and the system appeared to have done
-> > nothing in the meantime. That's not something that really looks like a
-> > scheduler regression - there is nothing the scheduler can do if KVM
-> > decides to block a task.
+On Fri, 20 Feb 2009, Benjamin Herrenschmidt wrote:
+> On Thu, 2009-02-19 at 21:17 +0100, Thomas Gleixner wrote:
 > > 
-> > It would be nice to enhance this single-CPU trace some more - to more
-> > surgically see what is going on. Firstly, absolute timestamps would be
-> > nice:
+> > Well, harsh or not is not the question here. 
 > > 
-> >   echo funcgraph-abstime  > trace_options
-> >   echo funcgraph-proc     > trace_options
+> > Fact is that you call gettimeofday() _before_ the timekeeping code has
+> > resumed.
 > > 
-> > as it's a bit hard to see the global timescale of events.
+> > That's a simple ordering problem. timekeeping is in the sysdev class
+> > as well and it's not the only sysdev which has explicit ordering
+> > requirements.
 > 
-> I was going to try and grab the trace with absolute timestamps 
-> tonight, but that option doesn't seem to be available in 
-> Linus' current kernel.
+> And how do I control that ordering ?
 > 
-> flexo:/sys/kernel/debug/tracing# echo 0 > tracing_enabled
-> flexo:/sys/kernel/debug/tracing# echo function_graph > current_tracer
-> flexo:/sys/kernel/debug/tracing# echo funcgraph-proc > trace_options
-> flexo:/sys/kernel/debug/tracing# echo funcgraph-abstime  > trace_options
-> -su: echo: write error: Invalid argument
-> flexo:/sys/kernel/debug/tracing# cat trace_options 
-> print-parent nosym-offset nosym-addr noverbose noraw nohex nobin noblock
-> nostacktrace nosched-tree ftrace_printk noftrace_preempt nobranch
-> annotate nouserstacktrace nosym-userobj noprintk-msg-only
-> nofuncgraph-overrun funcgraph-cpu funcgraph-overhead funcgraph-proc 
-> flexo:/sys/kernel/debug/tracing# uname -a
-> Linux flexo 2.6.29-rc5-00299-gadfafef #6 SMP Sun Feb 22 20:09:37 CST
-> 2009 x86_64 GNU/Linux
-> 
-> What am I missing?
+> I find that a bit fishy ... What about making gettimeofday() in the
+> timekeeping code work, just return a frozen snapshot of the value on
+> suspend instead ?
 
-(replying here too - replied in the bugzilla already)
+We had problems in the past where we just returned frozen time and the
+calling code got surprised when the time jumped 5 hours ahead just a
+few microseconds later.
 
-that's a feature of the latest tracing tree, so if you try -tip 
-you'll have it.
+What I find more fishy is the fact that the lid switch needs to be a
+sysdev. It's a simple input event, which causes the user space code to
+trigger the suspend sequence when the lid is shut.
 
-	Ingo
+Thanks,
+
+	tglx
