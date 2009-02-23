@@ -1,66 +1,32 @@
-From: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
-Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected) [Bug
-	12465]
-Date: Mon, 23 Feb 2009 22:08:55 +1030
-Message-ID: <1235389135.7901.11.camel@kulgan.wumi.org.au>
-References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera>
-	 <ROx6X68CGJG.A.54H.w40lJB@chimera>
-	 <1234691284.4967.23.camel@kulgan.wumi.org.au>
-	 <20090215100454.GA30314@elte.hu>
+From: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
+Subject: Re: [Bug #12224] journal activity on inactive partition causes
+	inactive harddrive spinup
+Date: Mon, 23 Feb 2009 07:22:48 -0500
+Message-ID: <20090223122248.GD19739@mit.edu>
+References: <sTyoMUwdm9B.A.QCH.U40lJB@chimera> <ROx6X68CGJG.A.UsB.m50lJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090215100454.GA30314-X9Un+BFzKDI@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <ROx6X68CGJG.A.UsB.m50lJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Arthur Jones <ajones-DUeqMYwuH4dWk0Htik3J/w@public.gmane.org>, C Sights <csights-97jfqw80gc6171pxa8y+qA@public.gmane.org>, Eric Sandeen <sandeen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Sun, 2009-02-15 at 11:04 +0100, Ingo Molnar wrote:
-> It would be nice to enhance this single-CPU trace some more - to more
-> surgically see what is going on. Firstly, absolute timestamps would b=
-e
-> nice:
->=20
->   echo funcgraph-abstime  > trace_options
->   echo funcgraph-proc     > trace_options
->=20
-> as it's a bit hard to see the global timescale of events.
+On Sat, Feb 14, 2009 at 09:50:20PM +0100, Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12224
+> Subject		: journal activity on inactive partition causes inactive harddrive spinup
+> Submitter	: C Sights <csights-97jfqw80gc6171pxa8y+qA@public.gmane.org>
+> Date		: 2008-12-14 11:39 (63 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=c87591b719737b4e91eb1a9fa8fd55a4ff1886d6
+> Handled-By	: Eric Sandeen <sandeen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> 
 
-Okay, here's some more trace data. I grabbed a few samples at different
-times during the ping test. I think the data in files trace6.txt and
-trace8.txt coincided with some of the biggest delays.
+The fix for this has landed in mainline as commit 02ac59 for ext3, and
+commit 9eddac for ext4.
 
-  http://disenchant.net/tmp/bug-12465/trace-2/
+Rafael, I've marked the bug closed in BZ for your convenience.
 
-This is captured on 2.6.29-rc5-tip-02057-gaad11ad. The kvm guest being
-pinged is process 11211:
-
-  flexo:~# pstree -p 11211
-  qemu-system-x86(11211)=E2=94=80=E2=94=AC=E2=94=80{qemu-system-x86}(11=
-212)
-                         =E2=94=9C=E2=94=80{qemu-system-x86}(11213)
-                         =E2=94=94=E2=94=80{qemu-system-x86}(11609)
-
-Cheers,
-Kevin.
-
-> Secondly, not all events are included - in particular i dont really s=
-ee
-> the points when packets are passed. Would it be possible to add a tra=
-cing
-> hypercall so that the guest kernel can inject trace events that can b=
-e seen
-> on the native-side trace? Regarding ping latencies really just two th=
-ings
-> matter: the loopback network device's rx and tx path. We should trace=
- the
-> outgoing sequence number and the incoming sequence number of IP packe=
-ts,
-> and inject that to the host side. This way we can correlate the delay=
-s
-> precisely.
->=20
-> 	Ingo
-
+    	    	     	       	  	      	 - Ted
