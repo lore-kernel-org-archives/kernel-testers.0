@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12406] 2.6.28 thinks that my PS/2 mouse is a touchpad
+Subject: [Bug #12405] oops in __bounce_end_io_read under kvm
 Date: Mon, 23 Feb 2009 23:03:01 +0100 (CET)
-Message-ID: <LLno3yT_fnC.A.c5H.tzzoJB@chimera>
+Message-ID: <LLno3yT_fnC.A.m_H.vzzoJB@chimera>
 References: <HFSEX4uppGO.A.JSG.2yzoJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Alexander E. Patrakov" <patrakov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Arjan Opmeer <arjan-OssVvNj1wBysTnJN9+BGXg@public.gmane.org>, Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,11 +22,10 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12406
-Subject		: 2.6.28 thinks that my PS/2 mouse is a touchpad
-Submitter	: Alexander E. Patrakov <patrakov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2008-12-27 9:06 (59 days old)
-References	: http://marc.info/?l=linux-kernel&m=123036893817280&w=4
-Handled-By	: Arjan Opmeer <arjan-OssVvNj1wBysTnJN9+BGXg@public.gmane.org>
-Patch		: http://marc.info/?l=linux-kernel&m=123092147703236&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12405
+Subject		: oops in __bounce_end_io_read under kvm
+Submitter	: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+Date		: 2008-12-26 17:36 (60 days old)
+References	: http://marc.info/?l=linux-kernel&m=123031303400676&w=4
+Handled-By	: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
