@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12209] oldish top core dumps (in its meminfo() function)
-Date: Mon, 23 Feb 2009 23:02:59 +0100 (CET)
-Message-ID: <LLno3yT_fnC.A.Wu.R0zoJB@chimera>
+Subject: [Bug #12407] Kernel 2.6.28 regression: Hang after hibernate
+Date: Mon, 23 Feb 2009 23:03:01 +0100 (CET)
+Message-ID: <LLno3yT_fnC.A.tvH.rzzoJB@chimera>
 References: <HFSEX4uppGO.A.JSG.2yzoJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frank Groeneveld <frankgroeneveld-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pavel Machek <pavel-AlSwsSmVLrQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,10 +22,9 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12209
-Subject		: oldish top core dumps (in its meminfo() function)
-Submitter	: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
-Date		: 2008-12-12 18:49 (74 days old)
-References	: http://marc.info/?l=linux-kernel&m=122910784006472&w=4
-		  http://marc.info/?l=linux-kernel&m=122907511319288&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12407
+Subject		: Kernel 2.6.28 regression: Hang after hibernate
+Submitter	: Frank Groeneveld <frankgroeneveld-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2008-12-28 20:34 (58 days old)
+References	: http://marc.info/?l=linux-kernel&m=123049651906081&w=4
 
