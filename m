@@ -1,47 +1,46 @@
-From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
-Subject: Re: [Bug #12667] Badness at kernel/time/timekeeping.c:98 in pmud
- (timekeeping_suspended)
-Date: Mon, 23 Feb 2009 07:46:32 +1100
-Message-ID: <1235335592.8805.214.camel@pasglop>
-References: <AIghyjFgMFP.A.uZD._10jJB@chimera>
-	 <sWhNs83kKPE.A.p4D.L20jJB@chimera>
-	 <878wognj00.fsf@burly.wgtn.ondioline.org> <200902142342.59186.rjw@sisk.pl>
-	 <87hc2u26m5.fsf@burly.wgtn.ondioline.org>
-	 <1234775410.26036.122.camel@pasglop>
-	 <87d4di1wwr.fsf@burly.wgtn.ondioline.org>
-	 <87r61uzv95.fsf@burly.wgtn.ondioline.org>
-	 <1235032710.8805.37.camel@pasglop>
-	 <alpine.LFD.2.00.0902192114150.3523@localhost.localdomain>
-	 <1235080303.8805.50.camel@pasglop>
-	 <alpine.LFD.2.00.0902222026410.3523@localhost.localdomain>
+From: Greg KH <gregkh-l3A5Bk7waGM@public.gmane.org>
+Subject: Re: [Bug #12610] sync-Regression in 2.6.28.2?
+Date: Sun, 22 Feb 2009 20:35:36 -0800
+Message-ID: <20090223043536.GC19687@suse.de>
+References: <juADNmcceYF.A.mdD.Mr0lJB@chimera> <rjPbZ5GRJPO.A.xTF.As0lJB@chimera> <20090221175646.GB3750@mit.edu> <200902221102.10579.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.00.0902222026410.3523-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <200902221102.10579.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Cc: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Federico Cuello <fedux-yJigggV1mSdd+7ixHBZSzg@public.gmane.org>, Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>, bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
 
-On Sun, 2009-02-22 at 20:31 +0100, Thomas Gleixner wrote:
-> We had problems in the past where we just returned frozen time and the
-> calling code got surprised when the time jumped 5 hours ahead just a
-> few microseconds later.
+On Sun, Feb 22, 2009 at 11:02:09AM +0100, Rafael J. Wysocki wrote:
+> On Saturday 21 February 2009, Theodore Tso wrote:
+> > On Sat, Feb 14, 2009 at 09:38:18PM +0100, Rafael J. Wysocki wrote:
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12610
+> > > Subject		: sync-Regression in 2.6.28.2?
+> > > Submitter	: Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>
+> > > Date		: 2009-01-27 9:35 (19 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=123304977706620&w=4
+> > 
+> > This fix for this has landed in mainline post 2.6.29-rc5, as commit
+> > 2acf2c.  The deadlock is technically not a regression but it was made
+> > *much* more likely to show up because of commit 31a1266: ("mm:
+> > write_cache_pages cyclic fix, which show up in 2.6.28.1").  
+> > 
+> > Commit 3a4c68 in mainline backs up the change made in 31a1266, so you
+> > probably won't see this much after 2.6.28.6 (when 3a4c68 was
+> > backported to 2.6.28.y), but we should get commit 2acf2c pushed to
+> > 2.6.28.x and 2.6.27.y to completely solve the deadlock problem.
 > 
-> What I find more fishy is the fact that the lid switch needs to be a
-> sysdev. It's a simple input event, which causes the user space code to
-> trigger the suspend sequence when the lid is shut.
+> Thanks for the update.
 > 
-Well, the PMU is a sysdev for lots of good reasons.. then it -also-
-happens to provide us with the lid switch event.
+> I'll close the bug since it's fixed in the mainline.  Please tell Greg which
+> patches to put into the -stable kernels.
 
-I'm a bit surprised by the explanation about the code that is surprised
-to see the time jump. IE. Code -will- see the time jump anyway. IE. I
-don't see how making gtod blow instead of returning a frozen time will
-make any difference whatsoever for code who get the time some time
-before suspend and then some time after resume and see a 5 hours gap...
+Ted, can you forward the needed patches to stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, or just
+tell us to take those git commits directly?
 
-Cheers,
-Ben.
+thanks,
 
+greg k-h
