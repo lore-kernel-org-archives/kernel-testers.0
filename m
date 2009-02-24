@@ -1,36 +1,40 @@
-From: Ingo Molnar <mingo@elte.hu>
-Subject: Re: 2.6.29-rc6: Reported regressions from 2.6.28
-Date: Tue, 24 Feb 2009 08:15:50 +0100
-Message-ID: <20090224071550.GA10436@elte.hu>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #12660] Linux 2.6.28.3 freezing on a 32-bits x86 Thinkpad
+	T43p
+Date: Tue, 24 Feb 2009 08:29:02 +0100
+Message-ID: <20090224072902.GA20098@elte.hu>
+References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.IkE.cpzoJB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-scsi-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <GVhknozYwrL.A.hiC.rozoJB@chimera>
-Sender: linux-scsi-owner@vger.kernel.org
+In-Reply-To: <vP9hdyF4fL.A.IkE.cpzoJB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>, "Adam J. Richter" <adam@yggdrasil.com>, "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
 
 
-(note, the standalone mail of this bug entry did not make it out 
-for some reason.)
+* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-* Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12660
+> Subject		: Linux 2.6.28.3 freezing on a 32-bits x86 Thinkpad T43p
+> Submitter	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+> Date		: 2009-02-04 21:11 (20 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123378196022258&w=4
+> Handled-By	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12760
-> Subject		: 2.6.29-rc5 hanging at boot when CONFIG_LOCK_STAT=y
-> Submitter	: Adam J. Richter <adam@yggdrasil.com>
-> Date		: 2009-02-16 6:50 (8 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123476768023893&w=4
-> Handled-By	: Ingo Molnar <mingo@elte.hu>
-
-Here we came to the conclusion that this is some LILO bug with a 
-too large BSS section - that's one thing that CONFIG_LOCK_STAT 
-causes. Under Grub the same kernel image boots fine. So unless 
-Adam has new data that contradicts this i think we can close 
-this bug.
+Mathieu, this bug is very weird and makes little sense. Could 
+you please reproduce it with vanilla -git too (without any LTT 
+patches applied) and send the full boot+crash log?
 
 	Ingo
