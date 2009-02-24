@@ -1,43 +1,36 @@
-From: etienne <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
-Subject: Re: [Bug #12613] [Suspend regression][DRM, RADEON]
-Date: Tue, 24 Feb 2009 07:56:45 +0100
-Message-ID: <49A39A2D.7020007@numericable.fr>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.WIF.xpzoJB@chimera>
+From: Ingo Molnar <mingo@elte.hu>
+Subject: Re: 2.6.29-rc6: Reported regressions from 2.6.28
+Date: Tue, 24 Feb 2009 08:15:50 +0100
+Message-ID: <20090224071550.GA10436@elte.hu>
+References: <GVhknozYwrL.A.hiC.rozoJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <vP9hdyF4fL.A.WIF.xpzoJB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-scsi-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <GVhknozYwrL.A.hiC.rozoJB@chimera>
+Sender: linux-scsi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Soeren Sonnenburg <kernel-YxZl4NRrHdw@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>, "Adam J. Richter" <adam@yggdrasil.com>, "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12613
-> Subject		: [Suspend regression][DRM, RADEON]
-> Submitter	: etienne <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
-> Date		: 2009-01-28 22:00 (27 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=a9d51a5ad1154b5b20add1e8d30a5564f8aabbe9
-> References	: http://marc.info/?l=linux-kernel&m=123318030419558&w=4
-> 		  http://marc.info/?l=linux-kernel&m=123334865404574&w=4
-> 		  http://lkml.org/lkml/2009/2/8/203
-> Patch		: http://lkml.org/lkml/2009/2/15/28
-> 
-> 
-> 
-hello,
 
-no it's gone, I see Dave sent a modified version of my patch (thanks!)
-you can close the bug as far as i m concerned
+(note, the standalone mail of this bug entry did not make it out 
+for some reason.)
 
-regards
-Etienne
+* Rafael J. Wysocki <rjw@sisk.pl> wrote:
+
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12760
+> Subject		: 2.6.29-rc5 hanging at boot when CONFIG_LOCK_STAT=y
+> Submitter	: Adam J. Richter <adam@yggdrasil.com>
+> Date		: 2009-02-16 6:50 (8 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123476768023893&w=4
+> Handled-By	: Ingo Molnar <mingo@elte.hu>
+
+Here we came to the conclusion that this is some LILO bug with a 
+too large BSS section - that's one thing that CONFIG_LOCK_STAT 
+causes. Under Grub the same kernel image boots fine. So unless 
+Adam has new data that contradicts this i think we can close 
+this bug.
+
+	Ingo
