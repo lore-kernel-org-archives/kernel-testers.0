@@ -1,32 +1,39 @@
-From: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
-Subject: Re: [Bug #12680] Not having a VIA PadLock hardware incurs a long
-	delay in probing on modules insertion attempt.
-Date: Tue, 24 Feb 2009 15:30:33 +0800
-Message-ID: <20090224073033.GA21044@gondor.apana.org.au>
-References: <vP9hdyF4fL.A.w8D.MpzoJB@chimera>
+From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [Bug #12618] hackbench [pthread mode] regression with
+ 2.6.29-rc3
+Date: Tue, 24 Feb 2009 09:48:16 +0100
+Message-ID: <1235465296.15790.0.camel@twins>
+References: <GVhknozYwrL.A.hiC.rozoJB@chimera>
+	 <vP9hdyF4fL.A.HyE.ppzoJB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <vP9hdyF4fL.A.w8D.MpzoJB@chimera>
+In-Reply-To: <vP9hdyF4fL.A.HyE.ppzoJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="hz-gb-2312"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, v.quequet-techniques-1tsiiZ//OF9QFI55V6+gNQ@public.gmane.org
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
-UmFmYWVsIEouIFd5c29ja2kgPHJqdy1LS3JqTFBUM3hzMEBwdWJsaWMuZ21hbmUub3JnPiB3cm90
-ZToKPiBUaGlzIG1lc3NhZ2UgaGFzIGJlZW4gZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYXMgYSBw
-YXJ0IG9mIGEgcmVwb3J0Cj4gb2YgcmVjZW50IHJlZ3Jlc3Npb25zLgo+IAo+IFRoZSBmb2xsb3dp
-bmcgYnVnIGVudHJ5IGlzIG9uIHRoZSBjdXJyZW50IGxpc3Qgb2Yga25vd24gcmVncmVzc2lvbnMK
-PiBmcm9tIDIuNi4yOC4gIFBsZWFzZSB2ZXJpZnkgaWYgaXQgc3RpbGwgc2hvdWxkIGJlIGxpc3Rl
-ZCBhbmQgbGV0IG1lIGtub3cKPiAoZWl0aGVyIHdheSkuCj4gCj4gCj4gQnVnLUVudHJ5ICAgICAg
-IDogaHR0cDovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hvd19idWcuY2dpP2lkPTEyNjgwCj4gU3Vi
-amVjdCAgICAgICAgIDogTm90IGhhdmluZyBhIFZJQSBQYWRMb2NrIGhhcmR3YXJlIGluY3VycyBh
-IGxvbmcgZGVsYXkgaW4gcHJvYmluZyBvbiBtb2R1bGVzIGluc2VydGlvbiBhdHRlbXB0LgoKUGxl
-YXNlIGNoYW5nZSB0aGUgc3ViamVjdC4gIEl0IGhhcyBub3RoaW5nIHRvIGRvIHdpdGggdGhlIFZJ
-QQpQYWRMb2NrLgoKVGhhbmtzLAotLSAKVmlzaXQgT3BlbnN3YW4gYXQgaHR0cDovL3d3dy5vcGVu
-c3dhbi5vcmcvCkVtYWlsOiBIZXJiZXJ0IFh1IH57UG1WPkhJfn0gPGhlcmJlcnQtbE9BTTJhSzBT
-clJMQm8xcURFT01ScnB6cTRTMDRuOFFAcHVibGljLmdtYW5lLm9yZz4KSG9tZSBQYWdlOiBodHRw
-Oi8vZ29uZG9yLmFwYW5hLm9yZy5hdS9+aGVyYmVydC8KUEdQIEtleTogaHR0cDovL2dvbmRvci5h
-cGFuYS5vcmcuYXUvfmhlcmJlcnQvcHVia2V5LnR4dA==
+On Mon, 2009-02-23 at 22:48 +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12618
+> Subject		: hackbench [pthread mode] regression with 2.6.29-rc3
+> Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> Date		: 2009-02-01 7:30 (23 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=490dea45d00f01847ebebd007685d564aaf2cd98
+> References	: http://marc.info/?l=linux-kernel&m=123347347726527&w=4
+> Handled-By	: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> Patch		: http://marc.info/?l=linux-kernel&m=123383366122146&w=4
+> 		  http://marc.info/?l=linux-kernel&m=123383366222152&w=4
+
+
+I thought this was all upstream by now, Yanmin, are we still seeing some
+badness?
