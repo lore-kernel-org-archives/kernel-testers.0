@@ -1,40 +1,32 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12660] Linux 2.6.28.3 freezing on a 32-bits x86 Thinkpad
-	T43p
-Date: Tue, 24 Feb 2009 08:29:02 +0100
-Message-ID: <20090224072902.GA20098@elte.hu>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.IkE.cpzoJB@chimera>
+From: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+Subject: Re: [Bug #12680] Not having a VIA PadLock hardware incurs a long
+	delay in probing on modules insertion attempt.
+Date: Tue, 24 Feb 2009 15:30:33 +0800
+Message-ID: <20090224073033.GA21044@gondor.apana.org.au>
+References: <vP9hdyF4fL.A.w8D.MpzoJB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <vP9hdyF4fL.A.IkE.cpzoJB@chimera>
+In-Reply-To: <vP9hdyF4fL.A.w8D.MpzoJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="hz-gb-2312"
+Content-Transfer-Encoding: base64
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, v.quequet-techniques-1tsiiZ//OF9QFI55V6+gNQ@public.gmane.org
 
-
-* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12660
-> Subject		: Linux 2.6.28.3 freezing on a 32-bits x86 Thinkpad T43p
-> Submitter	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-> Date		: 2009-02-04 21:11 (20 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123378196022258&w=4
-> Handled-By	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-
-Mathieu, this bug is very weird and makes little sense. Could 
-you please reproduce it with vanilla -git too (without any LTT 
-patches applied) and send the full boot+crash log?
-
-	Ingo
+UmFmYWVsIEouIFd5c29ja2kgPHJqdy1LS3JqTFBUM3hzMEBwdWJsaWMuZ21hbmUub3JnPiB3cm90
+ZToKPiBUaGlzIG1lc3NhZ2UgaGFzIGJlZW4gZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYXMgYSBw
+YXJ0IG9mIGEgcmVwb3J0Cj4gb2YgcmVjZW50IHJlZ3Jlc3Npb25zLgo+IAo+IFRoZSBmb2xsb3dp
+bmcgYnVnIGVudHJ5IGlzIG9uIHRoZSBjdXJyZW50IGxpc3Qgb2Yga25vd24gcmVncmVzc2lvbnMK
+PiBmcm9tIDIuNi4yOC4gIFBsZWFzZSB2ZXJpZnkgaWYgaXQgc3RpbGwgc2hvdWxkIGJlIGxpc3Rl
+ZCBhbmQgbGV0IG1lIGtub3cKPiAoZWl0aGVyIHdheSkuCj4gCj4gCj4gQnVnLUVudHJ5ICAgICAg
+IDogaHR0cDovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hvd19idWcuY2dpP2lkPTEyNjgwCj4gU3Vi
+amVjdCAgICAgICAgIDogTm90IGhhdmluZyBhIFZJQSBQYWRMb2NrIGhhcmR3YXJlIGluY3VycyBh
+IGxvbmcgZGVsYXkgaW4gcHJvYmluZyBvbiBtb2R1bGVzIGluc2VydGlvbiBhdHRlbXB0LgoKUGxl
+YXNlIGNoYW5nZSB0aGUgc3ViamVjdC4gIEl0IGhhcyBub3RoaW5nIHRvIGRvIHdpdGggdGhlIFZJ
+QQpQYWRMb2NrLgoKVGhhbmtzLAotLSAKVmlzaXQgT3BlbnN3YW4gYXQgaHR0cDovL3d3dy5vcGVu
+c3dhbi5vcmcvCkVtYWlsOiBIZXJiZXJ0IFh1IH57UG1WPkhJfn0gPGhlcmJlcnQtbE9BTTJhSzBT
+clJMQm8xcURFT01ScnB6cTRTMDRuOFFAcHVibGljLmdtYW5lLm9yZz4KSG9tZSBQYWdlOiBodHRw
+Oi8vZ29uZG9yLmFwYW5hLm9yZy5hdS9+aGVyYmVydC8KUEdQIEtleTogaHR0cDovL2dvbmRvci5h
+cGFuYS5vcmcuYXUvfmhlcmJlcnQvcHVia2V5LnR4dA==
