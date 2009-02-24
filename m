@@ -1,45 +1,40 @@
-From: "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Subject: Re: [Bug #12618] hackbench [pthread mode] regression with
-	2.6.29-rc3
-Date: Tue, 24 Feb 2009 16:50:08 +0800
-Message-ID: <1235465408.2604.444.camel@ymzhang>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera>
-	 <vP9hdyF4fL.A.HyE.ppzoJB@chimera>  <1235465296.15790.0.camel@twins>
+From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Subject: Re: [Bug #12393] debugging in dosemu causes lots of 'scheduling
+ while atomic'
+Date: Tue, 24 Feb 2009 11:03:25 +0100 (CET)
+Message-ID: <alpine.LFD.2.00.0902241101580.3523@localhost.localdomain>
+References: <HFSEX4uppGO.A.JSG.2yzoJB@chimera> <LLno3yT_fnC.A.dl.6zzoJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1235465296.15790.0.camel@twins>
+In-Reply-To: <LLno3yT_fnC.A.dl.6zzoJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>, Stable Team <stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
-On Tue, 2009-02-24 at 09:48 +0100, Peter Zijlstra wrote:
-> On Mon, 2009-02-23 at 22:48 +0100, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.28.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12618
-> > Subject		: hackbench [pthread mode] regression with 2.6.29-rc3
-> > Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> > Date		: 2009-02-01 7:30 (23 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=490dea45d00f01847ebebd007685d564aaf2cd98
-> > References	: http://marc.info/?l=linux-kernel&m=123347347726527&w=4
-> > Handled-By	: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> > Patch		: http://marc.info/?l=linux-kernel&m=123383366122146&w=4
-> > 		  http://marc.info/?l=linux-kernel&m=123383366222152&w=4
+On Mon, 23 Feb 2009, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.27 and 2.6.28.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> be listed and let me know (either way).
 > 
 > 
-> I thought this was all upstream by now,
-Yes.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12393
+> Subject		: debugging in dosemu causes lots of 'scheduling while atomic'
+> Submitter	: Michal Suchanek <hramrach-aRb0bU7PRFPrBKCeMvbIDA@public.gmane.org>
+> Date		: 2009-01-09 07:28 (46 days old)
+> Handled-By	: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+> Patch		: http://lkml.org/lkml/2009/1/13/445
 
->  Yanmin, are we still seeing some
-> badness?
-No. Pls. close the bug report.
+Commit be716615fe596ee117292dc615e95f707fb67fd1 in Linus tree.
 
+"Cc: stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org" is in the commit log, so stable folks should
+have it as well.
+
+Thanks,
+
+	tglx
