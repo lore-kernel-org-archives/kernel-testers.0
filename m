@@ -1,34 +1,34 @@
-From: Nick Piggin <nickpiggin@yahoo.com.au>
-Subject: Re: [Bug #12337] ~100 extra wakeups reported by powertop
-Date: Tue, 24 Feb 2009 22:23:38 +1100
-Message-ID: <200902242223.39069.nickpiggin@yahoo.com.au>
-References: <37338.58465.qm@web53304.mail.re2.yahoo.com>
+From: Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
+Date: Tue, 24 Feb 2009 14:09:51 +0200
+Message-ID: <49A3E38F.7080306@redhat.com>
+References: <HFSEX4uppGO.A.JSG.2yzoJB@chimera>	 <LLno3yT_fnC.A.-RH.ZzzoJB@chimera> <1235437183.4988.2.camel@kulgan.wumi.org.au>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755941AbZBXLYp@vger.kernel.org>
-In-Reply-To: <37338.58465.qm@web53304.mail.re2.yahoo.com>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1235437183.4988.2.camel-9TBizaOOD0ujuAshGpSIhRCuuivNXqWP@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: luis6674@yahoo.com
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-On Tuesday 24 February 2009 21:53:44 Alberto Gonzalez wrote:
-> --- On Mon, 2/23/09, Rafael J. Wysocki <rjw@sisk.pl> wrote:
-> > The following bug entry is on the current list of known
-> > regressions
-> > introduced between 2.6.27 and 2.6.28.  Please verify if it
-> > still should
-> > be listed and let me know (either way).
-> >
-> >
-> > Bug-Entry	:
-> > http://bugzilla.kernel.org/show_bug.cgi?id=12337
-> > Subject		: ~100 extra wakeups reported by powertop
-> > Submitter	: Alberto Gonzalez <luis6674@yahoo.com>
-> > Date		: 2008-12-31 12:25 (55 days old)
+Kevin Shanahan wrote:
+> On Mon, 2009-02-23 at 23:03 +0100, Rafael J. Wysocki wrote:
+>   
+>> This message has been generated automatically as a part of a report
+>> of regressions introduced between 2.6.27 and 2.6.28.
+>>
+>> The following bug entry is on the current list of known regressions
+>> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+>> be listed and let me know (either way).
+>>     
 >
-> Still present, yes.
+> Yes, the problem should still be listed.
+> The bug is still present as recently as 2.6.29-rc5-00299-gadfafef.
+>   
 
-Any chance you could bisect it?
+Did tracing turn anything up?
+
+-- 
+error compiling committee.c: too many arguments to function
