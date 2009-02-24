@@ -1,63 +1,43 @@
-From: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-Subject: Re: [Bug #12705] X200: Brightness broken since
-	2.6.29-rc4-58-g4c098bc
-Date: Tue, 24 Feb 2009 06:47:25 +0100
-Message-ID: <20090224054725.GB27085@denkbrett.schottelius.org>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.C1D.HpzoJB@chimera>
+From: etienne <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+Subject: Re: [Bug #12613] [Suspend regression][DRM, RADEON]
+Date: Tue, 24 Feb 2009 07:56:45 +0100
+Message-ID: <49A39A2D.7020007@numericable.fr>
+References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.WIF.xpzoJB@chimera>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="IiVenqGWf+H9Y6IX"
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <vP9hdyF4fL.A.C1D.HpzoJB@chimera>
+In-Reply-To: <vP9hdyF4fL.A.WIF.xpzoJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Soeren Sonnenburg <kernel-YxZl4NRrHdw@public.gmane.org>
 
-
---IiVenqGWf+H9Y6IX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Still existing.
-
-Rafael J. Wysocki [Mon, Feb 23, 2009 at 10:48:13PM +0100]:
+Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
->=20
+> 
 > The following bug entry is on the current list of known regressions
 > from 2.6.28.  Please verify if it still should be listed and let me know
 > (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12705
-> Subject		: X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-> Submitter	: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-> Date		: 2009-02-13 9:33 (11 days old)
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D123451768406825&w=3D4
-> Handled-By	: Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
->=20
->=20
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12613
+> Subject		: [Suspend regression][DRM, RADEON]
+> Submitter	: etienne <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+> Date		: 2009-01-28 22:00 (27 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=a9d51a5ad1154b5b20add1e8d30a5564f8aabbe9
+> References	: http://marc.info/?l=linux-kernel&m=123318030419558&w=4
+> 		  http://marc.info/?l=linux-kernel&m=123334865404574&w=4
+> 		  http://lkml.org/lkml/2009/2/8/203
+> Patch		: http://lkml.org/lkml/2009/2/15/28
+> 
+> 
+> 
+hello,
 
---=20
-Think about Free and Open Source Software (FOSS).
-http://nico.schottelius.org/documentations/foss/the-term-foss/
+no it's gone, I see Dave sent a modified version of my patch (thanks!)
+you can close the bug as far as i m concerned
 
-PGP: BFE4 C736 ABE5 406F 8F42  F7CF B8BE F92A 9885 188C
-
---IiVenqGWf+H9Y6IX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-Content-Disposition: inline
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEARECAAYFAkmjie0ACgkQuL75KpiFGIz7bQCeOJFfVEU9+LzWtgg69wAF9xlq
-ghsAoN0c2IWl+/kEmDhrcwGR6SSeLTUL
-=DmnR
------END PGP SIGNATURE-----
-
---IiVenqGWf+H9Y6IX--
+regards
+Etienne
