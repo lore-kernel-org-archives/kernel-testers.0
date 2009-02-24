@@ -1,89 +1,68 @@
-From: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-Subject: Re: [Bug #12660] Linux 2.6.28.3 freezing on a 32-bits x86 Thinkpad
-	T43p
-Date: Tue, 24 Feb 2009 11:13:24 -0500
-Message-ID: <20090224161324.GB2803@Krystal>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.IkE.cpzoJB@chimera> <20090224072902.GA20098@elte.hu>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
+Subject: Re: [Bug #12337] ~100 extra wakeups reported by powertop
+Date: Tue, 24 Feb 2009 08:24:31 -0800
+Message-ID: <200902240824.32155.jbarnes@virtuousgeek.org>
+References: <819821.83409.qm@web53303.mail.re2.yahoo.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758479AbZBXQYv@vger.kernel.org>
+In-Reply-To: <819821.83409.qm@web53303.mail.re2.yahoo.com>
 Content-Disposition: inline
-In-Reply-To: <20090224072902.GA20098-X9Un+BFzKDI@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: luis6674@yahoo.com
+Cc: Eric Anholt <eric@anholt.net>, Nick Piggin <nickpiggin@yahoo.com.au>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-* Ingo Molnar (mingo-X9Un+BFzKDI@public.gmane.org) wrote:
-> 
-> * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.28.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12660
-> > Subject		: Linux 2.6.28.3 freezing on a 32-bits x86 Thinkpad T43p
-> > Submitter	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-> > Date		: 2009-02-04 21:11 (20 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123378196022258&w=4
-> > Handled-By	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-> 
-> Mathieu, this bug is very weird and makes little sense. Could 
-> you please reproduce it with vanilla -git too (without any LTT 
-> patches applied) and send the full boot+crash log?
-> 
-> 	Ingo
+On Tuesday, February 24, 2009 5:50:34 am Alberto Gonzalez wrote:
+> --- On Tue, 2/24/09, Nick Piggin <nickpiggin@yahoo.com.au> wrote:
+> > > I really wish I could do more, but learning to compile
+> >
+> > a custom kernel for
+> >
+> > > my hardware and do a git bisect is something I just
+> >
+> > can't afford now. If
+> >
+> > > relevant people try to reproduce it but can't, and
+> >
+> > say only possible
+> >
+> > > solution would be for me to bisect it I guess I could
+> >
+> > try to give it a go
+> >
+> > > when I get some spare time.
+> >
+> > Fair enough. Reporting a problem is always very
+> > appreciated.
+> >
+> > Pinging Eric and Jesse ;)
+>
+> Thank you Nick.
+>
+> Since Arch Linux is not popular among kernel developers I just tested
+> Fedora 10 Live-CD (KDE) and I can reproduce the exact same problem, even if
+> Fedora 10 has kernel 2.6.27 and for me the problem appeared in .28 (but I
+> guess Fedora adds many patches, so probably the "guilty" commit was
+> backported to 2.6.27.5-117-FC10-i686).
+>
+> Steps:
+> - Boot into Fedora 10 Live CD (obviously, into the default graphical mode)
+> - Install Powertop (yum install powertop) and run it
+> - I get about 60 wakeups per second from i915@pci.... leaving the system
+> idle - Switch to console and back to X. The wakeups are gone.
 
-Hi Ingo,
+Ah ok, it sounds like you're getting vblank interrupts at startup time, but 
+once you VT switch the kernel figures out that you don't need them, so it 
+disables them.  I think this is a bug in the 2D driver; it has an ioctl it 
+uses when doing modesetting which doubles as a "disabling the irq is ok" 
+signal, but we call it at a time when the corresponding pipe is off, so the 
+kernel ignores the call.
 
-The last time I reproduced this bug (before going back to 2.6.27 on this
-machine) was with a vanilla 2.6.28.5 kernel with the following patche
-applied. So maybe this patch is actually causing the problem now that
-other memory problems have been fixed since 2.6.28.3. I'll try without
-it, but it can take a while before the bug reappears, we'll see.
+Can you file a bug for this at bugs.freedesktop.org?  Is it easy for you to 
+rebuild & test xf86-video-intel driver patches?
 
-Mathieu
-
-
-diff --git a/arch/x86/mm/pageattr.c b/arch/x86/mm/pageattr.c
-index 84ba748..fb12f06 100644
---- a/arch/x86/mm/pageattr.c
-+++ b/arch/x86/mm/pageattr.c
-@@ -576,6 +576,13 @@ static int __change_page_attr(struct cpa_data *cpa, int primary)
- 	else
- 		address = *cpa->vaddr;
- 
-+	/*
-+	 * If we're called with lazy mmu updates enabled, the
-+	 * in-memory pte state may be stale.  Flush pending updates to
-+	 * bring them up to date.
-+	 */
-+	arch_flush_lazy_mmu_mode();
-+
- repeat:
- 	kpte = lookup_address(address, &level);
- 	if (!kpte)
-@@ -854,6 +861,13 @@ static int change_page_attr_set_clr(unsigned long *addr, int numpages,
- 	} else
- 		cpa_flush_all(cache);
- 
-+	/* 
-+	 * If we've been called with lazy mmu updates enabled, then
-+	 * make sure that everything gets flushed out before we
-+	 * return.
-+	 */
-+	arch_flush_lazy_mmu_mode();
-+
- out:
- 	return ret;
- }
-
+Thanks,
 -- 
-Mathieu Desnoyers
-OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 A8FE 3BAE 9A68
+Jesse Barnes, Intel Open Source Technology Center
