@@ -1,36 +1,32 @@
-From: Jeremy Fitzhardinge <jeremy@goop.org>
-Subject: Re: [Bug #12766] Lots of smp_processor_id() in preemptible messages
-Date: Mon, 23 Feb 2009 17:03:51 -0800
-Message-ID: <49A34777.3050809@goop.org>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.-rC.vozoJB@chimera>
+From: Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [stable] 2.6.29-rc6: Reported regressions 2.6.27 -> 2.6.28
+Date: Mon, 23 Feb 2009 17:29:59 -0800
+Message-ID: <20090224012959.GA25443@kroah.com>
+References: <HFSEX4uppGO.A.JSG.2yzoJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757355AbZBXBEQ@vger.kernel.org>
-In-Reply-To: <vP9hdyF4fL.A.-rC.vozoJB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <HFSEX4uppGO.A.JSG.2yzoJB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Ingo Molnar <mingo@elte.hu>, Jeremy Fitzhardinge <jeremy.fitzhardinge@citrix.com>, Marcelo Tosatti <mtosatti@redhat.com>, Tilman Schmidt <t.schmidt@phoenixsoftware.de>, Stable Kernel <stable@kernel.org>, Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org Natalie Protasevich" <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Stable Kernel Team <stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, kpalberg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12766
-> Subject		: Lots of smp_processor_id() in preemptible messages
-> Submitter	: Tilman Schmidt <t.schmidt@phoenixsoftware.de>
-> Date		: 2009-02-23 18:37 (1 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123541536414019&w=4
->
->   
+On Mon, Feb 23, 2009 at 11:00:52PM +0100, Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12559
+> Subject		: Huawei E169 doesn't work as mass storage anymore
+> Submitter	: kpalberg <kpalberg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-01-28 02:34 (27 days old)
 
-Looks like stable needs to pick up  
-d85cf93da66977dbc645352be1b2084a659d8a0b.
+I'm pretty sure this has been tracked down to a buggy firmware in the
+device itself, and the company (Huawei) is working on updating it to
+solve the issue.
 
-    J
+This is backed up by the fact that Huawei submitted the patch that is
+said to have broken this device :)
+
+thanks,
+
+greg k-h
