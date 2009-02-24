@@ -1,87 +1,54 @@
-From: Wang Chen <wangchen-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [Bug #12419] possible circular locking dependency on i915 dma
-Date: Tue, 24 Feb 2009 09:56:13 +0800
-Message-ID: <49A353BD.40000@cn.fujitsu.com>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.CDG.IrzoJB@chimera>
+From: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
+Subject: Re: [Bug #12617] unable to compile e100 firmware into kernel
+Date: Tue, 24 Feb 2009 06:19:09 +0300
+Message-ID: <200902240619.18087.arvidjaar@mail.ru>
+References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.a5E.rpzoJB@chimera>
 Mime-Version: 1.0
+Content-Type: multipart/signed;
+  boundary="nextPart1388864.f2dEKkVIGb";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <vP9hdyF4fL.A.CDG.IrzoJB@chimera>
+In-Reply-To: <vP9hdyF4fL.A.a5E.rpzoJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Jesse Brandeburg <jesse.brandeburg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Rafael J. Wysocki said the following on 2009-2-24 5:48:
+--nextPart1388864.f2dEKkVIGb
+Content-Type: text/plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+On 24 of February 2009 00:48:07 Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
-> 
+>
 > The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12419
-> Subject		: possible circular locking dependency on i915 dma
-> Submitter	: Wang Chen <wangchen-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> Date		: 2009-01-08 14:11 (47 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=546b0974c39657017407c86fe79811100b60700d
-> References	: http://marc.info/?l=linux-kernel&m=123142399720125&w=4
-> 
+> from 2.6.28.  Please verify if it still should be listed and let me
+> know (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12617
+> Subject		: unable to compile e100 firmware into kernel
+> Submitter	: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
+> Date		: 2009-01-31 15:59 (24 days old)
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D123341764915181&w=3D4
 
-not changed.
+I think you said you drop it one?=20
 
-=======================================================
-[ INFO: possible circular locking dependency detected ]
-2.6.29-rc6-default #165
--------------------------------------------------------
-X/3940 is trying to acquire lock:
- (&mm->mmap_sem){----}, at: [<c0168e97>] might_fault+0x42/0x7e
+--nextPart1388864.f2dEKkVIGb
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
 
-but task is already holding lock:
- (&dev->struct_mutex){--..}, at: [<eeb76fed>] i915_cmdbuffer+0xf4/0x411 [i915]
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
 
-which lock already depends on the new lock.
+iEYEABECAAYFAkmjZzAACgkQR6LMutpd94yQYwCgraleCe5nU0jX9eFU2IqNhRSC
+2BkAn2pfToKn/bC1ege81EChhXzwjxJa
+=Igpm
+-----END PGP SIGNATURE-----
 
-
-the existing dependency chain (in reverse order) is:
-
--> #2 (&dev->struct_mutex){--..}:
-       [<c013791a>] validate_chain+0x8be/0xbb5
-       [<c0138280>] __lock_acquire+0x66f/0x6f9
-       [<c0138365>] lock_acquire+0x5b/0x77
-       [<c02e56fe>] mutex_lock_nested+0xdb/0x244
-       [<eeb5b03e>] drm_vm_open+0x25/0x37 [drm]
-       [<c011a8b3>] dup_mm+0x247/0x2f2
-       [<c011b312>] copy_process+0x98c/0xfeb
-       [<c011bac7>] do_fork+0x120/0x29c
-       [<c01016be>] sys_clone+0x25/0x2a
-       [<c0102cdd>] sysenter_do_call+0x12/0x31
-       [<ffffffff>] 0xffffffff
-
--> #1 (&mm->mmap_sem/1){--..}:
-       [<c013791a>] validate_chain+0x8be/0xbb5
-       [<c0138280>] __lock_acquire+0x66f/0x6f9
-       [<c0138365>] lock_acquire+0x5b/0x77
-       [<c012e6f6>] down_write_nested+0x32/0x4f
-       [<c011a711>] dup_mm+0xa5/0x2f2
-       [<c011b312>] copy_process+0x98c/0xfeb
-       [<c011bac7>] do_fork+0x120/0x29c
-       [<c01016be>] sys_clone+0x25/0x2a
-       [<c0102cdd>] sysenter_do_call+0x12/0x31
-       [<ffffffff>] 0xffffffff
-
--> #0 (&mm->mmap_sem){----}:
-       [<c0137625>] validate_chain+0x5c9/0xbb5
-       [<c0138280>] __lock_acquire+0x66f/0x6f9
-       [<c0138365>] lock_acquire+0x5b/0x77
-       [<c0168eb4>] might_fault+0x5f/0x7e
-       [<eeb76d0a>] i915_emit_box+0x1d/0x20c [i915]
-       [<eeb7705e>] i915_cmdbuffer+0x165/0x411 [i915]
-       [<eeb5685b>] drm_ioctl+0x1a6/0x21b [drm]
-       [<c0182b29>] vfs_ioctl+0x3d/0x50
-       [<c0183029>] do_vfs_ioctl+0x41b/0x483
-       [<c01830d1>] sys_ioctl+0x40/0x5a
-       [<c0102cdd>] sysenter_do_call+0x12/0x31
-       [<ffffffff>] 0xffffffff
+--nextPart1388864.f2dEKkVIGb--
