@@ -1,34 +1,31 @@
-From: Roland Dreier <rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12491] i915 lockdep warning
-Date: Mon, 23 Feb 2009 17:36:58 -0800
-Message-ID: <adabpssvcn9.fsf@cisco.com>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera>
-	<vP9hdyF4fL.A.8rF.0qzoJB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
+Date: Tue, 24 Feb 2009 02:37:43 +0100
+Message-ID: <200902240237.44916.rjw@sisk.pl>
+References: <HFSEX4uppGO.A.JSG.2yzoJB@chimera> <LLno3yT_fnC.A.-RH.ZzzoJB@chimera> <1235437183.4988.2.camel@kulgan.wumi.org.au>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <vP9hdyF4fL.A.8rF.0qzoJB@chimera> (Rafael J. Wysocki's message of
-	"Mon, 23 Feb 2009 22:48:05 +0100 (CET)")
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; l=153; t=1235439419; x=1236303419;
-	c=relaxed/simple; s=sjdkim2002;
-	h=Content-Type:From:Subject:Content-Transfer-Encoding:MIME-Version;
-	d=cisco.com; i=rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org;
-	z=From:=20Roland=20Dreier=20<rdreier-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
-	|Subject:=20Re=3A=20[Bug=20#12491]=20i915=20lockdep=20warni
-	ng
-	|Sender:=20;
-	bh=teg45iU9tCyrFiemRv6ajv5mzipXtqhvmWHXwcpFwVY=;
-	b=tjeG4XWzdUe5tZzIU5MNmgArXmQG6rZaTXNVrVTkvaS+SnAhg7luj5xnH7
-	Wf+w5XZOljMBz40qcV4N9UwRekDg9g7jh4XGbQ5jlqlJkIGMrGmAhttP5klN
-	W4mrbvaIkI;
+In-Reply-To: <1235437183.4988.2.camel-9TBizaOOD0ujuAshGpSIhRCuuivNXqWP@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>, "Brandeburg, Jesse" <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Roland Dreier <rolandd-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
+To: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
- > Patch		: http://marc.info/?l=linux-kernel&m=123378709730700&w=2
+On Tuesday 24 February 2009, Kevin Shanahan wrote:
+> On Mon, 2009-02-23 at 23:03 +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.27 and 2.6.28.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> > be listed and let me know (either way).
+> 
+> Yes, the problem should still be listed.
+> The bug is still present as recently as 2.6.29-rc5-00299-gadfafef.
 
-this patch is upstream now as a35f2e2b so I think we can close this one.
+Thanks for the update.
 
- - R.
+Rafael
