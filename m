@@ -1,38 +1,41 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12705] X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-Date: Thu, 26 Feb 2009 00:07:59 +0100
-Message-ID: <200902260007.59851.rjw@sisk.pl>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.C1D.HpzoJB@chimera> <20090224054725.GB27085@denkbrett.schottelius.org>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: 2.6.29-rc6: Reported regressions from 2.6.28
+Date: Thu, 26 Feb 2009 00:12:17 +0100
+Message-ID: <200902260012.19083.rjw@sisk.pl>
+References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <20090224071550.GA10436@elte.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090224054725.GB27085-CwvJMKsI4x9IWicycGkJrnB8g6S6LqdP2LY78lusg7I@public.gmane.org>
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <20090224071550.GA10436@elte.hu>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Ingo Molnar <mingo@elte.hu>
+Cc: "Adam J. Richter" <adam@yggdrasil.com>, "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
 
-On Tuesday 24 February 2009, Nico Schottelius wrote:
-> Still existing.
+On Tuesday 24 February 2009, Ingo Molnar wrote:
+> 
+> (note, the standalone mail of this bug entry did not make it out 
+> for some reason.)
 
-Thanks for the update.
+Hm, strange.  I certainly received it from one of the lists.
 
-> Rafael J. Wysocki [Mon, Feb 23, 2009 at 10:48:13PM +0100]:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.28.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12705
-> > Subject		: X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-> > Submitter	: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-> > Date		: 2009-02-13 9:33 (11 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123451768406825&w=4
-> > Handled-By	: Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> * Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12760
+> > Subject		: 2.6.29-rc5 hanging at boot when CONFIG_LOCK_STAT=y
+> > Submitter	: Adam J. Richter <adam@yggdrasil.com>
+> > Date		: 2009-02-16 6:50 (8 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=123476768023893&w=4
+> > Handled-By	: Ingo Molnar <mingo@elte.hu>
+> 
+> Here we came to the conclusion that this is some LILO bug with a 
+> too large BSS section - that's one thing that CONFIG_LOCK_STAT 
+> causes. Under Grub the same kernel image boots fine. So unless 
+> Adam has new data that contradicts this i think we can close 
+> this bug.
+
+Thanks, closed.
 
 Rafael
