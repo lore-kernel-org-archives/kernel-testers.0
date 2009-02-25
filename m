@@ -1,46 +1,38 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12613] [Suspend regression][DRM, RADEON]
-Date: Wed, 25 Feb 2009 23:58:09 +0100
-Message-ID: <200902252358.10362.rjw@sisk.pl>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.WIF.xpzoJB@chimera> <49A39A2D.7020007@numericable.fr>
+Subject: Re: [Bug #12617] unable to compile e100 firmware into kernel
+Date: Wed, 25 Feb 2009 23:58:42 +0100
+Message-ID: <200902252358.42651.rjw@sisk.pl>
+References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <vP9hdyF4fL.A.a5E.rpzoJB@chimera> <200902240619.18087.arvidjaar@mail.ru>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <49A39A2D.7020007-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+In-Reply-To: <200902240619.18087.arvidjaar-JGs/UdohzUI@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: etienne <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Soeren Sonnenburg <kernel-YxZl4NRrHdw@public.gmane.org>
+To: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Jesse Brandeburg <jesse.brandeburg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Tuesday 24 February 2009, etienne wrote:
-> Rafael J. Wysocki wrote:
+On Tuesday 24 February 2009, Andrey Borzenkov wrote:
+> On 24 of February 2009 00:48:07 Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
-> > 
+> >
 > > The following bug entry is on the current list of known regressions
-> > from 2.6.28.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12613
-> > Subject		: [Suspend regression][DRM, RADEON]
-> > Submitter	: etienne <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
-> > Date		: 2009-01-28 22:00 (27 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=a9d51a5ad1154b5b20add1e8d30a5564f8aabbe9
-> > References	: http://marc.info/?l=linux-kernel&m=123318030419558&w=4
-> > 		  http://marc.info/?l=linux-kernel&m=123334865404574&w=4
-> > 		  http://lkml.org/lkml/2009/2/8/203
-> > Patch		: http://lkml.org/lkml/2009/2/15/28
-> > 
-> > 
-> > 
-> hello,
+> > from 2.6.28.  Please verify if it still should be listed and let me
+> > know (either way).
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12617
+> > Subject		: unable to compile e100 firmware into kernel
+> > Submitter	: Andrey Borzenkov <arvidjaar-JGs/UdohzUI@public.gmane.org>
+> > Date		: 2009-01-31 15:59 (24 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=123341764915181&w=4
 > 
-> no it's gone, I see Dave sent a modified version of my patch (thanks!)
-> you can close the bug as far as i m concerned
+> I think you said you drop it one? 
 
-Thanks, closed.
+Well, yeah.  Closed now. :-)
 
+Thanks,
 Rafael
