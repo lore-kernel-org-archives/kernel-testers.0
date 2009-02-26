@@ -1,41 +1,26 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: 2.6.29-rc6: Reported regressions from 2.6.28
-Date: Thu, 26 Feb 2009 00:12:17 +0100
-Message-ID: <200902260012.19083.rjw@sisk.pl>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <20090224071550.GA10436@elte.hu>
+From: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+Subject: Re: [Bug #12680] Not having a VIA PadLock hardware incurs a long
+	delay in probing on modules insertion attempt.
+Date: Thu, 26 Feb 2009 08:43:10 +0800
+Message-ID: <20090226004310.GB9222@gondor.apana.org.au>
+References: <20090224073033.GA21044@gondor.apana.org.au> <200902260006.40347.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <20090224071550.GA10436@elte.hu>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-Sender: netdev-owner@vger.kernel.org
+In-Reply-To: <200902260006.40347.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Ingo Molnar <mingo@elte.hu>
-Cc: "Adam J. Richter" <adam@yggdrasil.com>, "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
+Content-Type: text/plain; charset="hz-gb-2312"
+Content-Transfer-Encoding: base64
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, v.quequet-techniques-1tsiiZ//OF9QFI55V6+gNQ@public.gmane.org
 
-On Tuesday 24 February 2009, Ingo Molnar wrote:
-> 
-> (note, the standalone mail of this bug entry did not make it out 
-> for some reason.)
-
-Hm, strange.  I certainly received it from one of the lists.
-
-> * Rafael J. Wysocki <rjw@sisk.pl> wrote:
-> 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12760
-> > Subject		: 2.6.29-rc5 hanging at boot when CONFIG_LOCK_STAT=y
-> > Submitter	: Adam J. Richter <adam@yggdrasil.com>
-> > Date		: 2009-02-16 6:50 (8 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123476768023893&w=4
-> > Handled-By	: Ingo Molnar <mingo@elte.hu>
-> 
-> Here we came to the conclusion that this is some LILO bug with a 
-> too large BSS section - that's one thing that CONFIG_LOCK_STAT 
-> causes. Under Grub the same kernel image boots fine. So unless 
-> Adam has new data that contradicts this i think we can close 
-> this bug.
-
-Thanks, closed.
-
-Rafael
+T24gVGh1LCBGZWIgMjYsIDIwMDkgYXQgMTI6MDY6MzlBTSArMDEwMCwgUmFmYWVsIEouIFd5c29j
+a2kgd3JvdGU6Cj4KPiBXZWxsLCBpdCB3b3VsZCBiZSBoZWxwZnVsIGlmIHlvdSB0b2xkIG1lIHRv
+IHdoYXQgZXhhY3RseS4KCjopCgo+ID4gSXQgaGFzIG5vdGhpbmcgdG8gZG8gd2l0aCB0aGUgVklB
+IFBhZExvY2suCj4gCj4gSSBjaGFuZ2VkIGl0IHRvIHNvbWV0aGluZyBJIHRob3VnaHQgd2FzIGJl
+dHRlci4gOy0pCgpMb29rcyBnb29kLgoKQ2hlZXJzLAotLSAKVmlzaXQgT3BlbnN3YW4gYXQgaHR0
+cDovL3d3dy5vcGVuc3dhbi5vcmcvCkVtYWlsOiBIZXJiZXJ0IFh1IH57UG1WPkhJfn0gPGhlcmJl
+cnQtbE9BTTJhSzBTclJMQm8xcURFT01ScnB6cTRTMDRuOFFAcHVibGljLmdtYW5lLm9yZz4KSG9t
+ZSBQYWdlOiBodHRwOi8vZ29uZG9yLmFwYW5hLm9yZy5hdS9+aGVyYmVydC8KUEdQIEtleTogaHR0
+cDovL2dvbmRvci5hcGFuYS5vcmcuYXUvfmhlcmJlcnQvcHVia2V5LnR4dA==
