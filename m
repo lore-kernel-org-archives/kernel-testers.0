@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12765] i915 VT switch with AIGLX causes X lock up
+Subject: [Bug #12792] 2.6.29-rc6-git4 boot failure
 Date: Tue,  3 Mar 2009 20:25:57 +0100 (CET)
-Message-ID: <SLCXkuHtxAO.A.u7B.-UarJB@chimera>
+Message-ID: <SLCXkuHtxAO.A.LxB.0UarJB@chimera>
 References: <KiHv0irKPzE.A.l3.hUarJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, "Sachin P. Sant" <sachinp-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12765
-Subject		: i915 VT switch with AIGLX causes X lock up
-Submitter	: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-Date		: 2009-02-21 15:38 (11 days old)
-References	: http://marc.info/?l=linux-kernel&m=123523074304955&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12792
+Subject		: 2.6.29-rc6-git4 boot failure
+Submitter	: Sachin P. Sant <sachinp-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
+Date		: 2009-02-27 23:19 (5 days old)
+References	: http://ozlabs.org/pipermail/linuxppc-dev/2009-February/068771.html
 
