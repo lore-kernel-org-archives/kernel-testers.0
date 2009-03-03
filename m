@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12574] possible circular locking dependency detected
-Date: Tue,  3 Mar 2009 20:25:53 +0100 (CET)
-Message-ID: <SLCXkuHtxAO.A.LtE.VWarJB@chimera>
+Subject: [Bug #12680] Entropy pool problem
+Date: Tue,  3 Mar 2009 20:25:54 +0100 (CET)
+Message-ID: <SLCXkuHtxAO.A.O3C.YVarJB@chimera>
 References: <KiHv0irKPzE.A.l3.hUarJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Michael S. Tsirkin" <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Valentin QUEQUET <v.quequet-techniques-1tsiiZ//OF9QFI55V6+gNQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,8 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12574
-Subject		: possible circular locking dependency detected
-Submitter	: Michael S. Tsirkin <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-01-29 11:35 (34 days old)
-References	: http://lkml.org/lkml/2009/2/9/205
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12680
+Subject		: Entropy pool problem
+Submitter	: Valentin QUEQUET <v.quequet-techniques-1tsiiZ//OF9QFI55V6+gNQ@public.gmane.org>
+Date		: 2009-02-09 09:12 (23 days old)
 
