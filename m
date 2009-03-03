@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #12209] oldish top core dumps (in its meminfo() function)
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #12395] 2.6.28-rc9: oprofile regression
 Date: Tue,  3 Mar 2009 20:41:31 +0100 (CET)
-Message-ID: <pRIaSZpQ1ON.A.xnD.hearJB@chimera>
+Message-ID: <pRIaSZpQ1ON.A.0eD.KearJB@chimera>
 References: <r4SCKuuJK0F.A.UrB.QdarJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759547AbZCCWP6@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <r4SCKuuJK0F.A.UrB.QdarJB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Andreas Mohr <andi@lisas.de>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Robert Richter <robert.richter-5C7GfCeVMHo@public.gmane.org>, Tim Blechmann <tim-xpEK/MU0Hawdnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,10 +22,13 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12209
-Subject		: oldish top core dumps (in its meminfo() function)
-Submitter	: Andreas Mohr <andi@lisas.de>
-Date		: 2008-12-12 18:49 (82 days old)
-References	: http://marc.info/?l=linux-kernel&m=122910784006472&w=4
-		  http://marc.info/?l=linux-kernel&m=122907511319288&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12395
+Subject		: 2.6.28-rc9: oprofile regression
+Submitter	: Tim Blechmann <tim-xpEK/MU0Hawdnm+yROfE0A@public.gmane.org>
+Date		: 2008-12-21 14:23 (73 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b99170288421c79f0c2efa8b33e26e65f4bb7fb8
+References	: http://marc.info/?l=linux-kernel&m=122986946614791&w=4
+Handled-By	: Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+		  Tim Blechmann <tim-xpEK/MU0Hawdnm+yROfE0A@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=123506131927371&w=4
 
