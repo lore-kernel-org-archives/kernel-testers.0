@@ -1,40 +1,36 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: 2.6.29-rc6: Reported regressions from 2.6.28
-Date: Tue, 3 Mar 2009 20:56:19 +0100
-Message-ID: <200903032056.20437.rjw@sisk.pl>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <20090303193609.GE27178@atrey.karlin.mff.cuni.cz>
+From: Paolo Ornati <ornati-dbx96nzIXN7OeuqD6ShaSA@public.gmane.org>
+Subject: Re: [re] libata: blacklist NCQ on Seagate Barracuda ST380817AS
+Date: Tue, 3 Mar 2009 20:50:34 +0100
+Message-ID: <20090303205034.6fa9a5d5@fastwebnet.it>
+References: <49AAB796.1010709@fisher-privat.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-scsi-owner@vger.kernel.org>
-In-Reply-To: <20090303193609.GE27178@atrey.karlin.mff.cuni.cz>
-Content-Disposition: inline
-Sender: linux-scsi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <49AAB796.1010709-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Jan Kara <jack@suse.cz>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
+To: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
 
-On Tuesday 03 March 2009, Jan Kara wrote:
->   Hi,
+On Sun, 01 Mar 2009 17:28:06 +0100
+Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org> wrote:
+
+> Commit da6f0ec2d54acf545e784363aa5bad0dafc5ffa8
+> libata: blacklist NCQ on Seagate Barracuda ST380817AS
 > 
-> > Unresolved regressions
-> > ----------------------
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12551
-> > Subject		: end_request: I/O error, dev cciss/c0d0, sector 87435720
-> > Submitter	: Ralf Hildebrandt <ralf.hildebrandt@charite.de>
-> > Date		: 2009-01-27 06:51 (28 days old)
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12497
-> > Subject		: new barrier warnings in 2.6.29-rc1
-> > Submitter	: Christoph Hellwig <hch@lst.de>
-> > Date		: 2009-01-12 15:46 (43 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123177528217154&w=4
-> > Handled-By	: Jens Axboe <jens.axboe@oracle.com>
->   I've just noticed that the above two reports are probably the same bug...
-> Just that we don't duplicate the effort.
+> I tested Seagate Barracuda ST380817AS on my system without the blacklist 
+>   entry on system with ext4 fs and it seems to work. Two days with 
+> normal load, tar, kvm, torrent... i can't reproduce the error described 
+> in this commit.
+> 
+> I use board with ICH10R south bridge, AHCI mode.
 
-Thanks, I closed 12551 as a duplicate of 12497 .
+In my case it was happening _only_ with barriers enabled (like ext3 mounted with
+"barrier=1") or with XFS (that enables barriers by default).
 
-Best,
-Rafael
+Does it survives an untar with barriers?
+
+-- 
+	Paolo Ornati
+	Linux 2.6.29-rc6-00216-g778ef1e on x86_64
