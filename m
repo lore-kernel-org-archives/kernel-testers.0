@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12414] iwl4965 cannot use "ap auto" on latest 2.6.28/29?
-Date: Tue,  3 Mar 2009 20:22:50 +0100 (CET)
-Message-ID: <SLCXkuHtxAO.A.8pB.FYarJB@chimera>
+Subject: [Bug #12419] possible circular locking dependency on i915 dma
+Date: Tue,  3 Mar 2009 20:25:52 +0100 (CET)
+Message-ID: <SLCXkuHtxAO.A.h1.4XarJB@chimera>
 References: <KiHv0irKPzE.A.l3.hUarJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Wang Chen <wangchen-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12414
-Subject		: iwl4965 cannot use "ap auto" on latest 2.6.28/29?
-Submitter	: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-01-05 4:13 (58 days old)
-References	: http://marc.info/?l=linux-kernel&m=123112882127823&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12419
+Subject		: possible circular locking dependency on i915 dma
+Submitter	: Wang Chen <wangchen-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Date		: 2009-01-08 14:11 (55 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=546b0974c39657017407c86fe79811100b60700d
+References	: http://marc.info/?l=linux-kernel&m=123142399720125&w=4
 
