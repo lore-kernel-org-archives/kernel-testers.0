@@ -1,39 +1,42 @@
-From: Christoph Hellwig <hch@infradead.org>
-Subject: Re: 2.6.29-rc6: Reported regressions from 2.6.28
-Date: Tue, 3 Mar 2009 14:45:13 -0500
-Message-ID: <20090303194513.GA10548@infradead.org>
-References: <GVhknozYwrL.A.hiC.rozoJB@chimera> <20090303193609.GE27178@atrey.karlin.mff.cuni.cz>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #12395] 2.6.28-rc9: oprofile regression
+Date: Tue, 3 Mar 2009 20:55:23 +0100
+Message-ID: <200903032055.23969.rjw@sisk.pl>
+References: <HFSEX4uppGO.A.JSG.2yzoJB@chimera> <LLno3yT_fnC.A.Lh.4zzoJB@chimera> <20090303113218.GE10085@erda.amd.com>
 Mime-Version: 1.0
-Return-path: <linux-acpi-owner@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20090303113218.GE10085-yX1UDyMwZ8xWk0Htik3J/w@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20090303193609.GE27178@atrey.karlin.mff.cuni.cz>
-Sender: linux-acpi-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jan Kara <jack@suse.cz>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
+To: Robert Richter <robert.richter-5C7GfCeVMHo@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Tim Blechmann <tim-xpEK/MU0Hawdnm+yROfE0A@public.gmane.org>
 
-On Tue, Mar 03, 2009 at 08:36:10PM +0100, Jan Kara wrote:
->   Hi,
+On Tuesday 03 March 2009, Robert Richter wrote:
+> Fix upstream in tip/x86/urgent:
 > 
-> > Unresolved regressions
-> > ----------------------
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12551
-> > Subject		: end_request: I/O error, dev cciss/c0d0, sector 87435720
-> > Submitter	: Ralf Hildebrandt <ralf.hildebrandt@charite.de>
-> > Date		: 2009-01-27 06:51 (28 days old)
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12497
-> > Subject		: new barrier warnings in 2.6.29-rc1
-> > Submitter	: Christoph Hellwig <hch@lst.de>
-> > Date		: 2009-01-12 15:46 (43 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123177528217154&w=4
-> > Handled-By	: Jens Axboe <jens.axboe@oracle.com>
->   I've just noticed that the above two reports are probably the same bug...
-> Just that we don't duplicate the effort.
+> 780eef9492b16a1543a3b2ae9f9526a735fc9856
 
-At least on the XFS side it's fixed now.  The block layer gets the
-initial detection right without warning, and a patch to fix the
-unconditional cache flush on unmount is on it's way.
+URL, please?
+
+Rafael
+
+ 
+> On 23.02.09 23:03:00, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.27 and 2.6.28.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12395
+> > Subject		: 2.6.28-rc9: oprofile regression
+> > Submitter	: Tim Blechmann <tim-xpEK/MU0Hawdnm+yROfE0A@public.gmane.org>
+> > Date		: 2008-12-21 14:23 (65 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b99170288421c79f0c2efa8b33e26e65f4bb7fb8
+> > References	: http://marc.info/?l=linux-kernel&m=122986946614791&w=4
+> > Handled-By	: Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
