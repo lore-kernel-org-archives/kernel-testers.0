@@ -1,31 +1,35 @@
-From: Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.29-rc6-git7: Reported regressions from 2.6.28
-Date: Wed, 04 Mar 2009 09:21:28 +0800
-Message-ID: <1236129688.32297.264.camel@rzhang-dt>
-References: <KiHv0irKPzE.A.l3.hUarJB@chimera>
+From: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
+Date: Wed, 04 Mar 2009 13:38:19 +1030
+Message-ID: <1236136099.7726.12.camel@kulgan.wumi.org.au>
+References: <r4SCKuuJK0F.A.UrB.QdarJB@chimera>
+	 <pRIaSZpQ1ON.A.vrC.udarJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <KiHv0irKPzE.A.l3.hUarJB@chimera>
+In-Reply-To: <pRIaSZpQ1ON.A.vrC.udarJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-On Wed, 2009-03-04 at 03:22 +0800, Rafael J. Wysocki wrote:
-
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12758
-> Subject         : ACPI exception with 2.6.29-rc6
-> Submitter       : Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>
-> Date            : 2009-02-23 16:46 (9 days old)
-> References      : http://marc.info/?l=linux-kernel&m=123540758700861&w=4
+On Tue, 2009-03-03 at 20:41 +0100, Rafael J. Wysocki wrote:
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> be listed and let me know (either way).
 > 
-Handled by: Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Patch-available:
-http://bugzilla.kernel.org/attachment.cgi?id=20368&action=view
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12465
+> Subject		: KVM guests stalling on 2.6.28 (bisected)
+> Submitter	: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+> Date		: 2009-01-17 03:37 (46 days old)
+> Handled-By	: Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-not sure if this patch is in len's tree or not.
+Yes this should still be listed.
 
-thanks,
-rui
+The traces are there waiting to be looked at. If there's anything else I
+can do to help things along, please let me know.
+
+Regards,
+Kevin.
+
