@@ -1,45 +1,41 @@
-From: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.29-rc6-git7: Reported regressions from 2.6.28
-Date: Wed, 4 Mar 2009 20:14:21 +0100
-Message-ID: <8db1092f0903041114o767d0079s4c1626dae5335d70@mail.gmail.com>
-References: <KiHv0irKPzE.A.l3.hUarJB@chimera>
+From: Paolo Ornati <ornati-dbx96nzIXN7OeuqD6ShaSA@public.gmane.org>
+Subject: Re: [re] libata: blacklist NCQ on Seagate Barracuda ST380817AS
+Date: Wed, 4 Mar 2009 20:31:00 +0100
+Message-ID: <20090304203100.35f762d9@fastwebnet.it>
+References: <49AAB796.1010709@fisher-privat.net>
+	<20090303205034.6fa9a5d5@fastwebnet.it>
+	<49AD9584.6070603@fisher-privat.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=9lCBwb5WWlMrpIrhMp0rf7yqK2NyeLGQMx0xLiuJONI=;
-        b=jMR16OIY2aI/EkJ42yENJCMCxG9lzjSNO5WtDnhh1sxRBaEuv7xOq7d1BPJxQBSOeD
-         qcFuxMqLwMBQM90ut0VlXj8H5YEUlPE88pIS/5OUUaVjn/AZfE/dZhpiWdD4bU9hFFMG
-         5iZQsotOldB8PH84/ViY9MDP0Ank4Nw4/Xczo=
-In-Reply-To: <KiHv0irKPzE.A.l3.hUarJB@chimera>
+In-Reply-To: <49AD9584.6070603-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tejun Heo <htejun-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
 
-2009/3/3 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+On Tue, 03 Mar 2009 21:39:32 +0100
+Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org> wrote:
 
->
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D12764
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : Can not ioremap virtual address=
- for G33 hw status page
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Maciej Rutecki <maciej.rutecki@gmail=
-=2Ecom>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-02-23 14:46 (9 d=
-ays old)
-> First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
-s/linux-2.6.git;a=3Dcommit;h=3D6fb88588555a18792a27f483887fe1f2af5f9c9b
-> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
-=3D123540053219505&w=3D4
+> >> I use board with ICH10R south bridge, AHCI mode.  
+> > 
+> > In my case it was happening _only_ with barriers enabled (like ext3 mounted with
+> > "barrier=1") or with XFS (that enables barriers by default).
+> > 
+> > Does it survives an untar with barriers?  
+> 
+> ext4 have barriers enabled by default, but it will disable it if hdd is 
+> not capable to do it. So it will just return:
+> JBD: barrier-based sync failed on dm-1:8 - disabling barriers
 
-Problem seems by solved in 2.6.29-rc7
+HD in question _CAN_ do barriers.
 
---=20
-Maciej Rutecki
-http://www.maciek.unixy.pl
+You are using device mapper, maybe it's that additional layer that
+causes barriers to be disabled.
+
+Try with a "raw" partition and see what happens.
+
+-- 
+	Paolo Ornati
+	Linux 2.6.29-rc6-00305-g2450cf5 on x86_64
