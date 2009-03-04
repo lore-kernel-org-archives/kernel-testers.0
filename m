@@ -1,35 +1,45 @@
-From: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
-Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
-Date: Wed, 04 Mar 2009 13:38:19 +1030
-Message-ID: <1236136099.7726.12.camel@kulgan.wumi.org.au>
-References: <r4SCKuuJK0F.A.UrB.QdarJB@chimera>
-	 <pRIaSZpQ1ON.A.vrC.udarJB@chimera>
+From: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Subject: Re: [Bug #12501] build bug in eeepc-laptop.c
+Date: Wed, 4 Mar 2009 11:02:44 +0200
+Message-ID: <84144f020903040102o1ddc6ee7l31bf4cf928092773@mail.gmail.com>
+References: <KiHv0irKPzE.A.l3.hUarJB@chimera>
+	 <SLCXkuHtxAO.A.nSG.-WarJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <pRIaSZpQ1ON.A.vrC.udarJB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:sender:received:in-reply-to
+         :references:date:x-google-sender-auth:message-id:subject:from:to:cc
+         :content-type:content-transfer-encoding;
+        bh=G5Aw3IesJxr4dojMzGM9FpyDwEWHRUx0wJ+isVpKbFo=;
+        b=E8sO4+UfDUQduiU93DHGBgmUbKQb1Cgluw85xqVxrJhBAIc64s7l4nwbFq//GGFHpa
+         Mi65jP83oMruI2jvgGelaCcWCqsRV6qgBxNA4PpRA+FqwSN+WuYCj3/VkCSIGoopZD7K
+         pXX4HiW96omiRetBiukrNJDe6eb1iHTmZ++Fk=
+In-Reply-To: <SLCXkuHtxAO.A.nSG.-WarJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="iso-8859-1"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>, rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 
-On Tue, 2009-03-03 at 20:41 +0100, Rafael J. Wysocki wrote:
+On Tue, Mar 3, 2009 at 9:25 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12465
-> Subject		: KVM guests stalling on 2.6.28 (bisected)
-> Submitter	: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
-> Date		: 2009-01-17 03:37 (46 days old)
-> Handled-By	: Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> from 2.6.28. =A0Please verify if it still should be listed and let me=
+ know
+> (either way).
+>
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+12501
+> Subject =A0 =A0 =A0 =A0 : build bug in eeepc-laptop.c
+> Submitter =A0 =A0 =A0 : Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-01-14 17:25 (49 days old)
+> References =A0 =A0 =A0: http://lkml.org/lkml/2009/1/14/315
 
-Yes this should still be listed.
+There's seems to be a patch for the bug here:
 
-The traces are there waiting to be looked at. If there's anything else I
-can do to help things along, please let me know.
-
-Regards,
-Kevin.
-
+http://bugzilla.kernel.org/attachment.cgi?id=3D20341&action=3Dview
