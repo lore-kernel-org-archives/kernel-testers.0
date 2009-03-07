@@ -1,31 +1,49 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12705] X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-Date: Sat, 7 Mar 2009 22:34:26 +0100
-Message-ID: <200903072234.26989.rjw@sisk.pl>
-References: <KiHv0irKPzE.A.l3.hUarJB@chimera> <SLCXkuHtxAO.A.gvC.UVarJB@chimera> <20090304064354.GA19776@denkbrett.schottelius.org>
+Subject: Re: [Bug #12809] iozone regression with 2.6.29-rc6
+Date: Sat, 7 Mar 2009 22:35:52 +0100
+Message-ID: <200903072235.53642.rjw@sisk.pl>
+References: <KiHv0irKPzE.A.l3.hUarJB@chimera> <SLCXkuHtxAO.A.9MB.pUarJB@chimera> <20090305010920.GB11575@localhost>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090304064354.GA19776-CwvJMKsI4x9IWicycGkJrnB8g6S6LqdP2LY78lusg7I@public.gmane.org>
+In-Reply-To: <20090305010920.GB11575@localhost>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Lin, Ming M" <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-On Wednesday 04 March 2009, Nico Schottelius wrote:
-> Rafael J. Wysocki [Tue, Mar 03, 2009 at 08:25:55PM +0100]:
+On Thursday 05 March 2009, Wu Fengguang wrote:
+> On Tue, Mar 03, 2009 at 09:25:59PM +0200, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
 > > 
 > > The following bug entry is on the current list of known regressions
 > > from 2.6.28.  Please verify if it still should be listed and let me know
 > > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12809
+> > Subject		: iozone regression with 2.6.29-rc6
+> > Submitter	: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> > Date		: 2009-02-27 9:13 (5 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1cf6e7d83bf334cc5916137862c920a97aabc018
+> > References	: http://marc.info/?l=linux-kernel&m=123572630504360&w=4
+> > Handled-By	: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 > 
-> Well, well... nobody really cares about this bug, so it's still
-> there. Seems this automatic reminder will be persistent until 2.6.30.
+> Following Peter's idea of relaxing writeback throttling, Lin Ming
+> and I tried the idea of totally disabling writeback throttling by
+> doing benchmarks with the following parameters:
+> 
+>         echo 60 > /proc/sys/vm/dirty_ratio
+>         echo 50 > /proc/sys/vm/dirty_background_ratio
+> 
+> The result is encouraging: the iozone performance is restored to the
+> level of 2.6.29-rc5!
+> 
+> We'll continue to evaluate the dirty/throttling numbers with Nick's patch.
 
-Well, thanks for the update.
+Thanks for the update.
 
 Rafael
