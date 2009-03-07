@@ -1,31 +1,36 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.29-rc6-git7: Reported regressions from 2.6.28
-Date: Sat, 7 Mar 2009 23:14:40 +0100
-Message-ID: <200903072314.41814.rjw@sisk.pl>
-References: <KiHv0irKPzE.A.l3.hUarJB@chimera> <8db1092f0903041114o767d0079s4c1626dae5335d70@mail.gmail.com>
+Subject: Re: [Bug #12395] 2.6.28-rc9: oprofile regression
+Date: Sat, 7 Mar 2009 23:16:48 +0100
+Message-ID: <200903072316.49455.rjw@sisk.pl>
+References: <HFSEX4uppGO.A.JSG.2yzoJB@chimera> <20090303204504.GA20038@elte.hu> <20090304175828.GA1172@elte.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <8db1092f0903041114o767d0079s4c1626dae5335d70-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20090304175828.GA1172-X9Un+BFzKDI@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: Robert Richter <robert.richter-5C7GfCeVMHo@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Tim Blechmann <tim-xpEK/MU0Hawdnm+yROfE0A@public.gmane.org>
 
-On Wednesday 04 March 2009, Maciej Rutecki wrote:
-> 2009/3/3 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+On Wednesday 04 March 2009, Ingo Molnar wrote:
 > 
-> >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12764
-> > Subject         : Can not ioremap virtual address for G33 hw status page
-> > Submitter       : Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date            : 2009-02-23 14:46 (9 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=6fb88588555a18792a27f483887fe1f2af5f9c9b
-> > References      : http://marc.info/?l=linux-kernel&m=123540053219505&w=4
+> * Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
 > 
-> Problem seems by solved in 2.6.29-rc7
+> > 
+> > * Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > 
+> > > On Tuesday 03 March 2009, Robert Richter wrote:
+> > > > Fix upstream in tip/x86/urgent:
+> > > > 
+> > > > 780eef9492b16a1543a3b2ae9f9526a735fc9856
+> > > 
+> > > URL, please?
+> > 
+> > The fix is not yet in Linus's tree - the commit is below.
+> 
+> The fix is upstream now, included in .29-rc7.
 
 Thanks, closed.
 
