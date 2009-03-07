@@ -1,49 +1,31 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12809] iozone regression with 2.6.29-rc6
-Date: Sat, 7 Mar 2009 22:35:52 +0100
-Message-ID: <200903072235.53642.rjw@sisk.pl>
-References: <KiHv0irKPzE.A.l3.hUarJB@chimera> <SLCXkuHtxAO.A.9MB.pUarJB@chimera> <20090305010920.GB11575@localhost>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: 2.6.29-rc6-git7: Reported regressions from 2.6.28
+Date: Sat, 7 Mar 2009 23:06:56 +0100
+Message-ID: <200903072306.57060.rjw@sisk.pl>
+References: <KiHv0irKPzE.A.l3.hUarJB@chimera> <1236128626.32297.254.camel@rzhang-dt>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090305010920.GB11575@localhost>
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <1236128626.32297.254.camel@rzhang-dt>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Lin, Ming M" <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+To: Zhang Rui <rui.zhang@intel.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
 
-On Thursday 05 March 2009, Wu Fengguang wrote:
-> On Tue, Mar 03, 2009 at 09:25:59PM +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
+On Wednesday 04 March 2009, Zhang Rui wrote:
+> On Wed, 2009-03-04 at 03:22 +0800, Rafael J. Wysocki wrote:
 > > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.28.  Please verify if it still should be listed and let me know
-> > (either way).
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12501
+> > Subject         : build bug in eeepc-laptop.c
+> > Submitter       : Ingo Molnar <mingo@elte.hu>
+> > Date            : 2009-01-14 17:25 (49 days old)
+> > References      : http://lkml.org/lkml/2009/1/14/315
 > > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12809
-> > Subject		: iozone regression with 2.6.29-rc6
-> > Submitter	: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> > Date		: 2009-02-27 9:13 (5 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1cf6e7d83bf334cc5916137862c920a97aabc018
-> > References	: http://marc.info/?l=linux-kernel&m=123572630504360&w=4
-> > Handled-By	: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> 
-> Following Peter's idea of relaxing writeback throttling, Lin Ming
-> and I tried the idea of totally disabling writeback throttling by
-> doing benchmarks with the following parameters:
-> 
->         echo 60 > /proc/sys/vm/dirty_ratio
->         echo 50 > /proc/sys/vm/dirty_background_ratio
-> 
-> The result is encouraging: the iozone performance is restored to the
-> level of 2.6.29-rc5!
-> 
-> We'll continue to evaluate the dirty/throttling numbers with Nick's patch.
+> the problem has already been fixed by
+> 3a5093ee6728c8cbe9c039e685fc1fca8f965048
 
-Thanks for the update.
+Thanks, closed.
 
 Rafael
