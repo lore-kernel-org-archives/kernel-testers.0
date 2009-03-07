@@ -1,56 +1,49 @@
-From: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-Subject: Re: [Bug #12705] X200: Brightness broken since
-	2.6.29-rc4-58-g4c098bc
-Date: Wed, 4 Mar 2009 07:43:54 +0100
-Message-ID: <20090304064354.GA19776@denkbrett.schottelius.org>
-References: <KiHv0irKPzE.A.l3.hUarJB@chimera> <SLCXkuHtxAO.A.gvC.UVarJB@chimera>
+From: Harvey Harrison <harvey.harrison-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12806] i915 broken STR
+Date: Fri, 06 Mar 2009 21:53:07 -0800
+Message-ID: <1236405187.7409.2.camel@brick>
+References: <KiHv0irKPzE.A.l3.hUarJB@chimera>
+	 <SLCXkuHtxAO.A.QeB.sUarJB@chimera>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ReaqsoxgOBHFXBhH"
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <SLCXkuHtxAO.A.gvC.UVarJB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:subject:from:to:cc
+         :in-reply-to:references:content-type:date:message-id:mime-version
+         :x-mailer:content-transfer-encoding;
+        bh=ed1SNd+6S6xRj5H1w5epjaAGSPd5BwyaV37jx980mSE=;
+        b=Sc7Wb2cZWhNJ/kQe+CgPalkr6Lw5t6qJMdUUhl0m7+qzzlRv/OWpBY9pXU+11OjgZK
+         LuafpN7gyrqdLzSLauv/ONBbOUEv8t6bo66/SNDfA1kfxs76+R6W7jAYfmON0vQXEqT+
+         xdidtV7JSGRf7ofHgh4ZKHXdPhve7qksLHWFk=
+In-Reply-To: <SLCXkuHtxAO.A.QeB.sUarJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 
-
---ReaqsoxgOBHFXBhH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Rafael J. Wysocki [Tue, Mar 03, 2009 at 08:25:55PM +0100]:
+On Tue, 2009-03-03 at 20:25 +0100, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
->=20
+> 
 > The following bug entry is on the current list of known regressions
 > from 2.6.28.  Please verify if it still should be listed and let me know
 > (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12806
+> Subject		: i915 broken STR
+> Submitter	: Harvey Harrison <harvey.harrison-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-02-28 4:20 (4 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5669fcacc58bf3a7386057addffd280d75380858
+> References	: http://marc.info/?l=linux-kernel&m=123579487801064&w=4
+> 
+> 
 
-Well, well... nobody really cares about this bug, so it's still
-there. Seems this automatic reminder will be persistent until 2.6.30.
+This looks to have been a case of old-userspace..upgrading to
+xorg-intel-video 2.6.1 (ubuntu Jaunty Alpha5) fixes STR here.
 
-Nico
+Harvey
 
---=20
-Think about Free and Open Source Software (FOSS).
-http://nico.schottelius.org/documentations/foss/the-term-foss/
 
-PGP: BFE4 C736 ABE5 406F 8F42  F7CF B8BE F92A 9885 188C
-
---ReaqsoxgOBHFXBhH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-Content-Disposition: inline
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEARECAAYFAkmuIyoACgkQuL75KpiFGIwlkACgiZ4TlBbu689VrSk0Gq16SB4+
-I+UAoOxdttdCdrlhGqH2731IFFofv/Ha
-=oP8u
------END PGP SIGNATURE-----
-
---ReaqsoxgOBHFXBhH--
