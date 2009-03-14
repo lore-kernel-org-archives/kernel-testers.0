@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12846] Regression issue with kernel 2.6.29-rc6-git1: high power consumption during sleep
+Subject: [Bug #12842] CCMP: replay detected
 Date: Sat, 14 Mar 2009 20:05:35 +0100 (CET)
-Message-ID: <GCLaknAim2M.A.OzC.Y4BvJB@chimera>
+Message-ID: <GCLaknAim2M.A.D1C.a4BvJB@chimera>
 References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Raymond Wooninck <tittiatcoke-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Teoh <htmldeveloper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,8 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12846
-Subject		: Regression issue with kernel 2.6.29-rc6-git1: high power consumption during sleep
-Submitter	: Raymond Wooninck <tittiatcoke-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-03-09 08:18 (6 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12842
+Subject		: CCMP: replay detected
+Submitter	: Peter Teoh <htmldeveloper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-03-08 07:42 (7 days old)
 
