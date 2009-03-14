@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12619] Regression 2.6.28 and last - boot failed
-Date: Sat, 14 Mar 2009 20:20:17 +0100 (CET)
-Message-ID: <qm8_cedJGaP.A.e3G.1OCvJB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #12868] iproute2 and regressing "ipv6: convert tunnels to net_device_ops"
+Date: Sat, 14 Mar 2009 20:20:20 +0100 (CET)
+Message-ID: <qm8_cedJGaP.A.vMG.jOCvJB@chimera>
 References: <9nR7rAsBwYG.A.iEG.fOCvJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <netdev-owner@vger.kernel.org>
 In-Reply-To: <9nR7rAsBwYG.A.iEG.fOCvJB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, jan sonnek <ha2nny-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Jan Engelhardt <jengelh@medozas.de>, netdev <netdev@vger.kernel.org>, Stephen Hemminger <shemminger@vyatta.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,9 +22,11 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12619
-Subject		: Regression 2.6.28 and last - boot failed
-Submitter	: jan sonnek <ha2nny-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-02-01 19:59 (42 days old)
-References	: http://marc.info/?l=linux-kernel&m=123351836213969&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12868
+Subject		: iproute2 and regressing "ipv6: convert tunnels to net_device_ops"
+Submitter	: Jan Engelhardt <jengelh@medozas.de>
+Date		: 2009-03-09 14:46 (6 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1326c3d5a4b792a2b15877feb7fb691f8945d203
+References	: http://marc.info/?l=linux-netdev&m=123660999632730&w=4
+
 
