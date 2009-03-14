@@ -1,22 +1,19 @@
-From: David Miller <davem@davemloft.net>
-Subject: Re: [Bug #12805] QinQ vlan trunking regression
-Date: Sat, 14 Mar 2009 15:04:20 -0700 (PDT)
-Message-ID: <20090314.150420.149174658.davem@davemloft.net>
-References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
-	<GCLaknAim2M.A.RgD.w4BvJB@chimera>
+From: Thomas Backlund <tmb@mandriva.org>
+Subject: Re: [Bug #12869] BUG when disabled ipv6 module is unloaded
+Date: Sun, 15 Mar 2009 00:04:42 +0200
+Message-ID: <49BC29FA.1060308@mandriva.org>
+References: <MiincthRUSI.A.eKC.F4BvJB@chimera> <GCLaknAim2M.A.DjC.O4BvJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <GCLaknAim2M.A.RgD.w4BvJB@chimera>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1760111AbZCNWFL@vger.kernel.org>
+In-Reply-To: <GCLaknAim2M.A.DjC.O4BvJB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: rjw@sisk.pl
-Cc: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, bart@jukie.net, netdev@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, John Dykstra <john.dykstra1@gmail.com>
 
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Date: Sat, 14 Mar 2009 20:05:33 +0100 (CET)
-
+Rafael J. Wysocki skrev:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
 > 
@@ -25,31 +22,19 @@ Date: Sat, 14 Mar 2009 20:05:33 +0100 (CET)
 > (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12805
-> Subject		: QinQ vlan trunking regression
-> Submitter	: Bart Trojanowski <bart@jukie.net>
-> Date		: 2009-02-28 18:05 (15 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123584439115868&w=4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12869
+> Subject		: BUG when disabled ipv6 module is unloaded
+> Submitter	: Thomas Backlund <tmb@mandriva.org>
+> Date		: 2009-03-10 20:15 (5 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123671614621097&w=4
+> Handled-By	: John Dykstra <john.dykstra1@gmail.com>
+> Patch		: http://marc.info/?l=linux-kernel&m=123672746905127&w=4
+> 
+> 
 
-Fixed by:
+Yeah, sorry for the delay testing it...
 
-commit 9d40bbda599def1e1d155d7f7dca14fe8744bd2b
-Author: David S. Miller <davem@davemloft.net>
-Date:   Wed Mar 4 23:46:25 2009 -0800
+I confirm the bug is fixed with the above patch...
 
-    vlan: Fix vlan-in-vlan crashes.
-    
-    As analyzed by Patrick McHardy, vlan needs to reset it's
-    netdev_ops pointer in it's ->init() function but this
-    leaves the compat method pointers stale.
-    
-    Add a netdev_resync_ops() and call it from the vlan code.
-    
-    Any other driver which changes ->netdev_ops after register_netdevice()
-    will need to call this new function after doing so too.
-    
-    With help from Patrick McHardy.
-    
-    Tested-by: Patrick McHardy <kaber@trash.net>
-    Signed-off-by: David S. Miller <davem@davemloft.net>
-
+--
+Thomas
