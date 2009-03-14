@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12499] Problem with using bluetooth adaper connected to usb port
-Date: Sat, 14 Mar 2009 20:05:29 +0100 (CET)
-Message-ID: <GCLaknAim2M.A.MJF.w6BvJB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #12681] s2ram: fails to wake up on Acer Extensa 4220 (SMP disabled)
+Date: Sat, 14 Mar 2009 20:05:30 +0100 (CET)
+Message-ID: <GCLaknAim2M.A.4ZE.V5BvJB@chimera>
 References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-acpi-owner@vger.kernel.org>
 In-Reply-To: <MiincthRUSI.A.eKC.F4BvJB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alexey Starikovskiy <astarikovskiy@suse.de>, Len Brown <len.brown@intel.com>, Linux ACPI <linux-acpi@vger.kernel.org>, Orivej Desh <smpuj@bk.ru>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12499
-Subject		: Problem with using bluetooth adaper connected to usb port
-Submitter	: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-01-13 18:34 (61 days old)
-References	: http://marc.info/?l=linux-kernel&m=123187185426236&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12681
+Subject		: s2ram: fails to wake up on Acer Extensa 4220 (SMP disabled)
+Submitter	: Orivej Desh <smpuj@bk.ru>
+Date		: 2009-02-09 13:01 (34 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1cfe62c8010ac56e1bd3827e30386a87cc2f3594
+
 
