@@ -1,41 +1,59 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Subject: Re: [Bug #12869] BUG when disabled ipv6 module is unloaded
-Date: Sat, 14 Mar 2009 15:05:52 -0700 (PDT)
-Message-ID: <20090314.150552.239936272.davem@davemloft.net>
-References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
-	<GCLaknAim2M.A.DjC.O4BvJB@chimera>
-	<49BC29FA.1060308@mandriva.org>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #12805] QinQ vlan trunking regression
+Date: Sat, 14 Mar 2009 23:26:10 +0100
+Message-ID: <200903142326.11185.rjw@sisk.pl>
+References: <MiincthRUSI.A.eKC.F4BvJB@chimera> <GCLaknAim2M.A.RgD.w4BvJB@chimera> <20090314.150420.149174658.davem@davemloft.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <49BC29FA.1060308-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>
+In-Reply-To: <20090314.150420.149174658.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org
-Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, john.dykstra1-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, bart-LIbhotJ4rFdeoWH0uzbU5w@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-From: Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>
-Date: Sun, 15 Mar 2009 00:04:42 +0200
-
-> Rafael J. Wysocki skrev:
+On Saturday 14 March 2009, David Miller wrote:
+> From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+> Date: Sat, 14 Mar 2009 20:05:33 +0100 (CET)
+> 
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
+> > 
 > > The following bug entry is on the current list of known regressions
 > > from 2.6.28.  Please verify if it still should be listed and let me know
 > > (either way).
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12869
-> > Subject		: BUG when disabled ipv6 module is unloaded
-> > Submitter	: Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>
-> > Date		: 2009-03-10 20:15 (5 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123671614621097&w=4
-> > Handled-By	: John Dykstra <john.dykstra1-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Patch		: http://marc.info/?l=linux-kernel&m=123672746905127&w=4
 > > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12805
+> > Subject		: QinQ vlan trunking regression
+> > Submitter	: Bart Trojanowski <bart-LIbhotJ4rFdeoWH0uzbU5w@public.gmane.org>
+> > Date		: 2009-02-28 18:05 (15 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=123584439115868&w=4
 > 
-> Yeah, sorry for the delay testing it...
+> Fixed by:
 > 
-> I confirm the bug is fixed with the above patch...
+> commit 9d40bbda599def1e1d155d7f7dca14fe8744bd2b
+> Author: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+> Date:   Wed Mar 4 23:46:25 2009 -0800
+> 
+>     vlan: Fix vlan-in-vlan crashes.
+>     
+>     As analyzed by Patrick McHardy, vlan needs to reset it's
+>     netdev_ops pointer in it's ->init() function but this
+>     leaves the compat method pointers stale.
+>     
+>     Add a netdev_resync_ops() and call it from the vlan code.
+>     
+>     Any other driver which changes ->netdev_ops after register_netdevice()
+>     will need to call this new function after doing so too.
+>     
+>     With help from Patrick McHardy.
+>     
+>     Tested-by: Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>
+>     Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 
-Yes and that patch will be on it's way to Linus from the
-net-2.6 tree shortly.
+Thanks, closed.
+
+Rafael
