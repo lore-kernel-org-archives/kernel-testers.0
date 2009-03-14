@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12765] i915 VT switch with AIGLX causes X lock up
+Subject: [Bug #12771] Oops in i915_gem_flush
 Date: Sat, 14 Mar 2009 20:05:32 +0100 (CET)
-Message-ID: <GCLaknAim2M.A.e2D._4BvJB@chimera>
+Message-ID: <GCLaknAim2M.A.BsD.64BvJB@chimera>
 References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, =?utf-8?q?Michel=20D=C3=A4nzer?= <michel-otUistvHUpPR7s880joybQ@public.gmane.org>, Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kalev Lember <kalev-KfhB8dnw0QSuvFJfX82//w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,8 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12765
-Subject		: i915 VT switch with AIGLX causes X lock up
-Submitter	: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-Date		: 2009-02-21 15:38 (22 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=14d200c5e5bd19219d930bbb9a5a22758c8f5bec
-References	: http://marc.info/?l=linux-kernel&m=123523074304955&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12771
+Subject		: Oops in i915_gem_flush
+Submitter	: Kalev Lember <kalev-KfhB8dnw0QSuvFJfX82//w@public.gmane.org>
+Date		: 2009-02-24 08:35 (19 days old)
 
