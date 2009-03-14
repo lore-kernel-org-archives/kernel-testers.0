@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12421] GPF on 2.6.28 and 2.6.28-rc9-git3, e1000e and e1000 issues
-Date: Sat, 14 Mar 2009 20:20:16 +0100 (CET)
-Message-ID: <qm8_cedJGaP.A.8aH.IPCvJB@chimera>
+Subject: [Bug #12645] DMI low-memory-protect quirk causes resume hang on Samsung NC10
+Date: Sat, 14 Mar 2009 20:20:18 +0100 (CET)
+Message-ID: <qm8_cedJGaP.A.ywG.xOCvJB@chimera>
 References: <9nR7rAsBwYG.A.iEG.fOCvJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Doug Bazarnic <doug-nOyj/A09A+/k1uMJSBkQmQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Patrick Walton <pcwalton-764C0pRuGfqVc3sceRu5cw@public.gmane.org>, Philipp Kohlbecher <xt28-Mmb7MZpHnFY@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,9 +22,9 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12421
-Subject		: GPF on 2.6.28 and 2.6.28-rc9-git3, e1000e and e1000 issues
-Submitter	: Doug Bazarnic <doug-nOyj/A09A+/k1uMJSBkQmQ@public.gmane.org>
-Date		: 2009-01-09 21:26 (65 days old)
-References	: http://marc.info/?l=linux-kernel&m=123153653120204&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12645
+Subject		: DMI low-memory-protect quirk causes resume hang on Samsung NC10
+Submitter	: Patrick Walton <pcwalton-764C0pRuGfqVc3sceRu5cw@public.gmane.org>
+Date		: 2009-02-06 18:35 (37 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=0af40a4b1050c050e62eb1dc30b82d5ab22bf221
 
