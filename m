@@ -1,41 +1,65 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #12806] i915 broken STR
-Date: Sun, 15 Mar 2009 11:35:27 +0100
-Message-ID: <200903151135.28108.rjw@sisk.pl>
-References: <MiincthRUSI.A.eKC.F4BvJB@chimera> <GCLaknAim2M.A.LaD.u4BvJB@chimera> <1237088154.4064.0.camel@brick>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
+Date: Sun, 15 Mar 2009 11:41:58 +0100
+Message-ID: <200903151141.59098.rjw@sisk.pl>
+References: <MiincthRUSI.A.eKC.F4BvJB@chimera> <b6a2187b0903141958u9dae0fdk1f44b387108b99e4@mail.gmail.com> <b6a2187b0903142006u546fad9eme66f9ea7b464b81f@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758383AbZCOKfu@vger.kernel.org>
-In-Reply-To: <1237088154.4064.0.camel@brick>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <b6a2187b0903142006u546fad9eme66f9ea7b464b81f-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Harvey Harrison <harvey.harrison@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dave Airlie <airlied@redhat.com>, Eric Anholt <eric@anholt.net>, Jesse Barnes <jbarnes@virtuousgeek.org>
+To: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
-On Sunday 15 March 2009, Harvey Harrison wrote:
-> On Sat, 2009-03-14 at 20:05 +0100, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.28.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12806
-> > Subject		: i915 broken STR
-> > Submitter	: Harvey Harrison <harvey.harrison@gmail.com>
-> > Date		: 2009-02-28 4:20 (15 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5669fcacc58bf3a7386057addffd280d75380858
-> > References	: http://marc.info/?l=linux-kernel&m=123579487801064&w=4
-> > 
-> > 
+On Sunday 15 March 2009, Jeff Chua wrote:
+> On Sun, Mar 15, 2009 at 10:58 AM, Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> > On Sun, Mar 15, 2009 at 3:01 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> >> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12414
+> >> Subject         : iwl4965 cannot use "ap auto" on latest 2.6.28/29?
+> >> Submitter       : Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> >> Date            : 2009-01-05 4:13 (69 days old)
+> >> References      : http://marc.info/?l=linux-kernel&m=123112882127823&w=4
+> >
+> > Still not working in linux-2.6.29-rc8. Broken after the commit below.
+> > There were many changes to wireless after this commit, and simply
+> > reverting this commit will break compiling.
+> >
+> > Jeff.
+> >
+> >
+> >
+> > commit 41bb73eeac5ff5fb217257ba33b654747b3abf11
+> > Author: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+> > Date:   Wed Oct 29 01:09:37 2008 +0100
+> >
+> >    mac80211: remove SSID driver code
+> >
 > 
-> You can close this, turns out KMS got enabled in my config and userspace
-> was too old to cope.
+> The commit below is causing problem with associating with the hidden AP as well.
+> 
+> Thanks,
+> Jeff.
+> 
+> 
+> 71c11fb57b924c160297ccd9e1761db598d00ac2 is first bad commit
+> commit 71c11fb57b924c160297ccd9e1761db598d00ac2
+> Author: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+> Date:   Tue Oct 28 18:29:48 2008 +0100
+> 
+>     b43/legacy: remove SSID code
+> 
+>     The SSID programmed into the device is used by the ucode only
+>     to reply to probe requests, a functionality we disable anyway
+>     because it doesn't fit with the mac80211/hostapd programming
+>     model. Therefore, it isn't useful to program the SSID into
+>     device.
+> 
+>     Signed-off-by: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+>     Signed-off-by: John W. Linville <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
-Thanks, closed.
+Thanks for the update.
 
 Rafael
