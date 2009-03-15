@@ -1,78 +1,47 @@
-From: Jeff Chua <jeff.chua.linux@gmail.com>
-Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
-Date: Sun, 15 Mar 2009 11:06:41 +0800
-Message-ID: <b6a2187b0903142006u546fad9eme66f9ea7b464b81f@mail.gmail.com>
+From: Harvey Harrison <harvey.harrison-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12806] i915 broken STR
+Date: Sat, 14 Mar 2009 20:35:54 -0700
+Message-ID: <1237088154.4064.0.camel@brick>
 References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
-	 <b6a2187b0903141958u9dae0fdk1f44b387108b99e4@mail.gmail.com>
+	 <GCLaknAim2M.A.LaD.u4BvJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netdev-owner@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=NZSx1ifydaQ9jWeW/9L8JEIxh8EtCN44TJuriGwTr2Y=;
-        b=EXLlZJiG8GmrB4bhx6lXF2v87pHVtDgNjWYwsHIvBGpbr1uD3C0wW9Xhs5YnGFKCaN
-         iu8Qi8sXLx0ojbH2vBJaA6OBCOKTyHBdr85ipgdUj8dYu4SCNcRhoJxFHZIGqsTEcILw
-         /wdToX/Taf3b+NB/oepvqYFpb3NZeUoCtn6/I=
-In-Reply-To: <b6a2187b0903141958u9dae0fdk1f44b387108b99e4@mail.gmail.com>
-Sender: netdev-owner@vger.kernel.org
+        h=domainkey-signature:received:received:subject:from:to:cc
+         :in-reply-to:references:content-type:date:message-id:mime-version
+         :x-mailer:content-transfer-encoding;
+        bh=j8eA0yAMjhteMHpEJHiKOhmqK5NAfZ0JHgXij6WEnAw=;
+        b=erZk7i/O0VjoeB3tMHHJQJpaY6ejHUAuaUQTJVMAfgZXXTri09DnyUrq7Ei7IrxwFb
+         RPUvzswBwTeIFaHVtXZp/Ik/zQZQrpt7Sv7/WhokUkFuGtz2u4LpLnuTcNgsiYpYIbZP
+         s1P+iQTDx51WukSUJN0EOO1b4ODqPkzgpJi3Q=
+In-Reply-To: <GCLaknAim2M.A.LaD.u4BvJB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Johannes Berg <johannes@sipsolutions.net>, "John W. Linville" <linville@tuxdriver.com>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 
-On Sun, Mar 15, 2009 at 10:58 AM, Jeff Chua <jeff.chua.linux@gmail.com>=
- wrote:
-> On Sun, Mar 15, 2009 at 3:01 AM, Rafael J. Wysocki <rjw@sisk.pl> wrot=
-e:
->> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-12414
->> Subject =A0 =A0 =A0 =A0 : iwl4965 cannot use "ap auto" on latest 2.6=
-=2E28/29?
->> Submitter =A0 =A0 =A0 : Jeff Chua <jeff.chua.linux@gmail.com>
->> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-01-05 4:13 (69 days old)
->> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D12311=
-2882127823&w=3D4
->
-> Still not working in linux-2.6.29-rc8. Broken after the commit below.
-> There were many changes to wireless after this commit, and simply
-> reverting this commit will break compiling.
->
-> Jeff.
->
->
->
-> commit 41bb73eeac5ff5fb217257ba33b654747b3abf11
-> Author: Johannes Berg <johannes@sipsolutions.net>
-> Date: =A0 Wed Oct 29 01:09:37 2008 +0100
->
-> =A0 =A0mac80211: remove SSID driver code
->
+On Sat, 2009-03-14 at 20:05 +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12806
+> Subject		: i915 broken STR
+> Submitter	: Harvey Harrison <harvey.harrison-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-02-28 4:20 (15 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5669fcacc58bf3a7386057addffd280d75380858
+> References	: http://marc.info/?l=linux-kernel&m=123579487801064&w=4
+> 
+> 
 
-The commit below is causing problem with associating with the hidden AP=
- as well.
+You can close this, turns out KMS got enabled in my config and userspace
+was too old to cope.
 
-Thanks,
-Jeff.
-
-
-71c11fb57b924c160297ccd9e1761db598d00ac2 is first bad commit
-commit 71c11fb57b924c160297ccd9e1761db598d00ac2
-Author: Johannes Berg <johannes@sipsolutions.net>
-Date:   Tue Oct 28 18:29:48 2008 +0100
-
-    b43/legacy: remove SSID code
-
-    The SSID programmed into the device is used by the ucode only
-    to reply to probe requests, a functionality we disable anyway
-    because it doesn't fit with the mac80211/hostapd programming
-    model. Therefore, it isn't useful to program the SSID into
-    device.
-
-    Signed-off-by: Johannes Berg <johannes@sipsolutions.net>
-    Signed-off-by: John W. Linville <linville@tuxdriver.com>
-
-:040000 040000 18109a6ea13da3cd13bfadd625617894c9f91b50
-fc2ca13f0efcd9e51403b5b55ed730e2457a29c0 M      drivers
+Harvey
