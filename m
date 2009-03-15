@@ -1,47 +1,52 @@
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [Bug #12809] iozone regression with 2.6.29-rc6
-Date: Sat, 14 Mar 2009 17:27:08 -0700 (PDT)
-Message-ID: <alpine.LFD.2.00.0903141719510.3940@localhost.localdomain>
-References: <MiincthRUSI.A.eKC.F4BvJB@chimera> <GCLaknAim2M.A.BKD.q4BvJB@chimera>
+From: Jeff Chua <jeff.chua.linux@gmail.com>
+Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
+Date: Sun, 15 Mar 2009 10:58:16 +0800
+Message-ID: <b6a2187b0903141958u9dae0fdk1f44b387108b99e4@mail.gmail.com>
+References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756880AbZCOAbt@vger.kernel.org>
-In-Reply-To: <GCLaknAim2M.A.BKD.q4BvJB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-scsi-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=s4vVudMvV31BXpfylvViiNrFGp1KPiOZgCDjio6V+WU=;
+        b=Y+DqiU23l6fxYPAqO9l35fpFvh9t4q7EMmlQPsTGua622zjUxW0IhmyheYXm/wahRK
+         yAHd5BbQzC4VdJECjAEiIAPExYh0esTsSSj1mcLo2fJqZul8Ce3s1cjHxEZw2yddanp5
+         LRcyb/l6NRMOmGeybZXcTM9kFpcTEZkddjt3U=
+In-Reply-To: <MiincthRUSI.A.eKC.F4BvJB@chimera>
+Sender: linux-scsi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
 To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Lin Ming <ming.m.lin@intel.com>, Nick Piggin <npiggin@suse.de>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Wu Fengguang <fengguang.wu@intel.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
+
+On Sun, Mar 15, 2009 at 3:01 AM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+12414
+> Subject =A0 =A0 =A0 =A0 : iwl4965 cannot use "ap auto" on latest 2.6.=
+28/29?
+> Submitter =A0 =A0 =A0 : Jeff Chua <jeff.chua.linux@gmail.com>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-01-05 4:13 (69 days old)
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D123112=
+882127823&w=3D4
+
+Still not working in linux-2.6.29-rc8. Broken after the commit below.
+There were many changes to wireless after this commit, and simply
+reverting this commit will break compiling.
+
+Jeff.
 
 
 
-On Sat, 14 Mar 2009, Rafael J. Wysocki wrote:
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12809
-> Subject		: iozone regression with 2.6.29-rc6
-> Submitter	: Lin Ming <ming.m.lin@intel.com>
-> Date		: 2009-02-27 9:13 (16 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1cf6e7d83bf334cc5916137862c920a97aabc018
-> References	: http://marc.info/?l=linux-kernel&m=123572630504360&w=4
-> Handled-By	: Wu Fengguang <fengguang.wu@intel.com>
+commit 41bb73eeac5ff5fb217257ba33b654747b3abf11
+Author: Johannes Berg <johannes@sipsolutions.net>
+Date:   Wed Oct 29 01:09:37 2008 +0100
 
-I suspect that I should just raise the default dirty limits. Wu reported 
-that it fixed the regression, and while he picked some rather high 
-percentages, I think we could certainly raise the rather aggressive 
-default ones. 
-
-After all, those default percentages were picked (a) with the old dirty 
-logic and (b) largely at random and (c) designed to be aggressive. In 
-particular, that (a) means that having fixed some of the dirty accounting, 
-maybe the real bug is now that it was always too aggressive, just hidden 
-by an accounting issue.
-
-If we raised the default ratio from 5/10 to 10/20, what happens to the 
-iozone regression?
-
-		Linus
+    mac80211: remove SSID driver code
+--
+To unsubscribe from this list: send the line "unsubscribe linux-scsi" i=
+n
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
