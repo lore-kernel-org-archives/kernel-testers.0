@@ -1,42 +1,57 @@
-From: "Michael S. Tsirkin" <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12574] possible circular locking dependency detected
-Date: Mon, 16 Mar 2009 02:24:05 +0200
-Message-ID: <20090316002404.GA12662@google.com>
-References: <MiincthRUSI.A.eKC.F4BvJB@chimera> <GCLaknAim2M.A.pCF.R6BvJB@chimera>
+From: Zhang Rui <rui.zhang@intel.com>
+Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
+Date: Mon, 16 Mar 2009 09:02:53 +0800
+Message-ID: <1237165373.2807.140.camel@rzhang-dt>
+References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=OVUfKt8IVx7hfICX/6HVHZP48VPZrSr/fXIufLXtUs8=;
-        b=kGCX2hNZ3o8njBBnCLsFQzhSu4wUgtxCGOLCH4b5aWqeLCbtyrzR/WrdJb+KPqunWg
-         c4Rg7EgqMiaKQ7gPV0shaU//W5wJhl7VPedxNJkwEy0dOM3MDU2Tlpgmj93m6kBN8NCQ
-         pAsD7erAOh0wGVZqJWw5nm6N9Ga/XkUqgNO/Y=
-Content-Disposition: inline
-In-Reply-To: <GCLaknAim2M.A.pCF.R6BvJB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <MiincthRUSI.A.eKC.F4BvJB@chimera>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
 
-On Sat, Mar 14, 2009 at 08:05:29PM +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+On Sun, 2009-03-15 at 03:01 +0800, Rafael J. Wysocki wrote:
+> This message contains a list of some regressions from 2.6.28, for which there
+> are no fixes in the mainline I know of.  If any of them have been fixed already,
+> please let me know.
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
+> If you know of any other unresolved regressions from 2.6.28, please let me know
+> either and I'll add them to the list.  Also, please let me know if any of the
+> entries below are invalid.
+> 
+> Each entry from the list will be sent additionally in an automatic reply to
+> this message with CCs to the people involved in reporting and handling the
+> issue.
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12574
-> Subject		: possible circular locking dependency detected
-> Submitter	: Michael S. Tsirkin <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-01-29 11:35 (45 days old)
-> References	: http://lkml.org/lkml/2009/2/9/205
+> Listed regressions statistics:
 > 
+>   Date          Total  Pending  Unresolved
+>   ----------------------------------------
+>   2009-03-14      124       36          32
+>   2009-03-03      108       33          28
+>   2009-02-24       95       32          24
+>   2009-02-14       85       33          27
+>   2009-02-08       82       45          36
+>   2009-02-04       66       51          39
+>   2009-01-20       38       35          27
+>   2009-01-11       13       13          10
+> 
+> 
+> Unresolved regressions
+> ----------------------
 
-It's still there in rc8.
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12831
+> Subject         : Hot/Fn Keys do not work EEEPC 1000HE (eeepc_laptop)
+> Submitter       : Matthew <pyther@pyther.net>
+> Date            : 2009-03-07 10:05 (8 days old)
+
+patch is available at
+http://bugzilla.kernel.org/show_bug.cgi?id=12831#c11
+
+thanks,
+rui
+
