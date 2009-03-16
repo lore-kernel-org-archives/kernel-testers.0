@@ -1,105 +1,61 @@
-From: Andreas Mohr <andi@lisas.de>
-Subject: Re: Bugs on aspire one A150
-Date: Mon, 16 Mar 2009 19:06:38 +0100
-Message-ID: <20090316180638.GB25647@rhlx01.hs-esslingen.de>
-References: <s5hab7lr0k1.wl%tiwai@suse.de>
-	<20090316145036.GA26358@rhlx01.hs-esslingen.de>
-	<s5h4oxtqy6q.wl%tiwai@suse.de>
-	<20090316160208.GB4458@rhlx01.hs-esslingen.de>
-	<s5hwsappi44.wl%tiwai@suse.de> <s5hprghphid.wl%tiwai@suse.de>
-	<20090316170015.GA9776@rhlx01.hs-esslingen.de>
-	<s5hljr5pex0.wl%tiwai@suse.de>
-	<20090316173000.GA25647@rhlx01.hs-esslingen.de>
-	<s5hiqm9pe1g.wl%tiwai@suse.de>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
+Date: Mon, 16 Mar 2009 12:57:18 -0700 (PDT)
+Message-ID: <alpine.LFD.2.00.0903161250080.3082@localhost.localdomain>
+References: <MiincthRUSI.A.eKC.F4BvJB@chimera>  <b6a2187b0903141958u9dae0fdk1f44b387108b99e4@mail.gmail.com>  <b6a2187b0903142006u546fad9eme66f9ea7b464b81f@mail.gmail.com>  <1237140665.24621.2.camel@johannes.local>  <alpine.LFD.2.00.0903151136310.3131@localhost.localdomain>
+  <1237143683.24621.7.camel@johannes.local>  <20090315202603.GA9077@elte.hu> <b6a2187b0903160624gb9d207dv301506e589d93ed4@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <b6a2187b0903160624gb9d207dv301506e589d93ed4@mail.gmail.com>
+Sender: netdev-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <alsa-devel-bounces@alsa-project.org>
-Content-Disposition: inline
-In-Reply-To: <s5hiqm9pe1g.wl%tiwai@suse.de>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <http://mailman.alsa-project.org/mailman/listinfo/alsa-devel>, 
-	<mailto:alsa-devel-request@alsa-project.org?subject=unsubscribe>
-List-Archive: <http://mailman.alsa-project.org/pipermail/alsa-devel>
-List-Post: <mailto:alsa-devel@alsa-project.org>
-List-Help: <mailto:alsa-devel-request@alsa-project.org?subject=help>
-List-Subscribe: <http://mailman.alsa-project.org/mailman/listinfo/alsa-devel>, 
-	<mailto:alsa-devel-request@alsa-project.org?subject=subscribe>
-Sender: alsa-devel-bounces@alsa-project.org
-Errors-To: alsa-devel-bounces@alsa-project.org
-To: Takashi Iwai <tiwai@suse.de>
-Cc: alsa-devel@alsa-project.org, Kernel Testers List <kernel-testers@vger.kernel.org>, Maxim Levitsky <maximlevitsky@gmail.com>, Andreas Mohr <andi@lisas.de>, linux-kernel@vger.kernel.org
+To: Jeff Chua <jeff.chua.linux@gmail.com>
+Cc: Ingo Molnar <mingo@elte.hu>, Johannes Berg <johannes@sipsolutions.net>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, "John W. Linville" <linville@tuxdriver.com>
 
-On Mon, Mar 16, 2009 at 06:34:35PM +0100, Takashi Iwai wrote:
-> At Mon, 16 Mar 2009 18:30:00 +0100,
-> Andreas Mohr wrote:
-> > 
-> > Hi,
-> > 
-> > On Mon, Mar 16, 2009 at 06:15:39PM +0100, Takashi Iwai wrote:
-> > > At Mon, 16 Mar 2009 18:00:15 +0100,
-> > > Andreas Mohr wrote:
-> > > > > > And, is the behavior consistent regardless of the value high, i.e.
-> > > > > > the key is only whether the values for both channels are identical?
-> > > > > 
-> > > > > BTW, what if you record with the following definition?
-> > > > > Put the below to ~/.asoundrc
-> > > > > 
-> > > > > pcm.imix {
-> > > > > 	type plug
-> > > > > 	slave.pcm "hw"
-> > > > > 	ttable.0.0 0.5
-> > > > > 	ttable.0.1 -0.5
-> > > > > }
-> > > > > 
-> > > > > and record like
-> > > > > 
-> > > > > 	% aplay -Dimix -c1 foo.wav
-> > > > 
-> > > > Does NOT exhibit the "equal sliders == no sound" bug (apart from this sliders
-> > > > are acting normally, i.e. slider low == no sound), despite being a
-> > > > "plug" type definition (this is what you wanted to discern, right? ;).
-> > > 
-> > > Interesting.  This implies that one channel is inverted indeed.
-> > 
-> > Oh, you mean "inverted" as in "_hardware_ channel which provides opposite
-> > sample values as compared to the other channel"?
+
+
+On Mon, 16 Mar 2009, Jeff Chua wrote:
 > 
-> Right.  My guess is that the hardware provides left (or right) channel
-> is multiplied by -1  (yep "inverted" is no correct word choice).
-> 
-> > > As default the alsa-lib plugin downmixes a stereo stream to a mono
-> > > stream simply  by left/2 + right/2.  The above changes the routing
-> > > policy as left/2 - right/2.
-> > 
-> > That exactly matches my current stream of thought (while reading
-> > "one channel is inverted" above).
-> > 
-> > > So we need to pass some information to change this kind of thing...
-> > 
-> > That's something specific to ALC268 codec setup, right?
-> > ("ALC268 digital mic == left plus right channel, but inverted setup"?)
-> 
-> No.  It's specific to the digital-mic side.
+> Take the attached bisect log and replay it
 
-I just tried connecting a headset and switching to E-Mic.
-What I can say is:
-- opposite levels does NOT happen there (E-Mic is "analog micro"-based, right?)
-- leaving E-Mic unplugged will actually record from i-Mic (due to properly
-  working EAPD mechanism, right?)
+Taking a bisect log is repeatable, but pointless.
 
+If you made any mistakes in bisecting (marking a kernel that was good as 
+being bad, or the other way around), the log will always replay to the 
+same thing, but it will still be wrong.
 
-BTW, the output (of arecord -Dplughw:0 -c2 -traw -fdat foo.wav) _does_ have
-inverted channels:
+In other words, "git bisect" is only as reliable as the data you feed it, 
+and if the behavior isn't 100% repeatable and unambiguous (or if you 
+simply made a mistake), you need to double-check things.
 
-00000130   2A 02 D2 FD  65 02 A5 FD  10 00 E7 FF  99 FF 72 00 *...e.........r.
-00000140   53 FE A7 01  ED FF 12 00  4F FF A6 00  86 00 81 FF S.......O.......
-... and so on in the entire file ...
+So after bisecting a commit, if there is any question what-so-ever whether 
+the commit makes sense as a result, you need to double-check it. The best 
+way to double-check it is to go back to a known-bad state (preferably the 
+tip of the branch) and revert the presumed-bad commit, and verify that it 
+really fixes the behavior.
 
+But if that is impossible (for example, because the commit no longer 
+reverts cleanly), at least make 100% sure that the state at the commit is 
+bad, and then go to (all) parents of that commit and make 100% sure that 
+the state at those points is _good_. 
 
-One question still: is this a hardware defect (i.e. could this possibly
-be swapped cables of the microphone connector in this model or so?
-Not plausible but...), or is this an existing property
-of the HDA's dig-mic base? You indicated it's the latter I think...
+IOW, if you've pinpointed 71c11fb57b924c160297ccd9e1761db598d00ac2 as 
+being bad, then you should go back and double-check that its parent 
+(in this case 4607816f608b42a5379aca97ceed08378804c99f) is good.
 
-Andreas
+Because if it's parent is also bad, then that just means that you made 
+some mistake in "git bisect".
+
+The thing about bisecting is that it is _extremely_ efficient. It takes 
+essentially the minimal number of answers to get to the end result. But 
+that very efficiency also means that getting even just _one_ of those 
+answers wrong will take you _way_ off base. There's no room for error, 
+because bisect will take each bit and use it to maximally split the error 
+space.
+
+In this case, it really sounds like maybe you marked the parent good, even 
+though you should have marked it bad.
+
+			Linus
