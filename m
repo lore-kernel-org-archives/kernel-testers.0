@@ -1,68 +1,29 @@
-From: Andreas Mohr <andi@lisas.de>
-Subject: Re: Bugs on aspire one A150
-Date: Mon, 16 Mar 2009 22:22:27 +0100
-Message-ID: <20090316212227.GA29471@rhlx01.hs-esslingen.de>
-References: <s5h4oxtqy6q.wl%tiwai@suse.de>
-	<20090316160208.GB4458@rhlx01.hs-esslingen.de>
-	<s5hwsappi44.wl%tiwai@suse.de> <s5hprghphid.wl%tiwai@suse.de>
-	<20090316170015.GA9776@rhlx01.hs-esslingen.de>
-	<s5hljr5pex0.wl%tiwai@suse.de>
-	<20090316173000.GA25647@rhlx01.hs-esslingen.de>
-	<s5hiqm9pe1g.wl%tiwai@suse.de>
-	<20090316180638.GB25647@rhlx01.hs-esslingen.de>
-	<s5htz5tyzyg.wl%tiwai@suse.de>
+From: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: [Bug #12870] 2.6.29-rc "TKIP: replay detected" regression
+Date: Mon, 16 Mar 2009 21:53:28 +0000 (GMT)
+Message-ID: <Pine.LNX.4.64.0903162150060.28429@blonde.anvils>
+References: <MiincthRUSI.A.eKC.F4BvJB@chimera> <GCLaknAim2M.A.mbC.M4BvJB@chimera>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <GCLaknAim2M.A.mbC.M4BvJB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <alsa-devel-bounces@alsa-project.org>
-Content-Disposition: inline
-In-Reply-To: <s5htz5tyzyg.wl%tiwai@suse.de>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <http://mailman.alsa-project.org/mailman/listinfo/alsa-devel>, 
-	<mailto:alsa-devel-request@alsa-project.org?subject=unsubscribe>
-List-Archive: <http://mailman.alsa-project.org/pipermail/alsa-devel>
-List-Post: <mailto:alsa-devel@alsa-project.org>
-List-Help: <mailto:alsa-devel-request@alsa-project.org?subject=help>
-List-Subscribe: <http://mailman.alsa-project.org/mailman/listinfo/alsa-devel>, 
-	<mailto:alsa-devel-request@alsa-project.org?subject=subscribe>
-Sender: alsa-devel-bounces@alsa-project.org
-Errors-To: alsa-devel-bounces@alsa-project.org
-To: Takashi Iwai <tiwai@suse.de>
-Cc: alsa-devel@alsa-project.org, Kernel Testers List <kernel-testers@vger.kernel.org>, Maxim Levitsky <maximlevitsky@gmail.com>, Andreas Mohr <andi@lisas.de>, linux-kernel@vger.kernel.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
-Hi,
-
-On Mon, Mar 16, 2009 at 09:28:39PM +0100, Takashi Iwai wrote:
-> At Mon, 16 Mar 2009 19:06:38 +0100,
-> Andreas Mohr wrote:
-> > I just tried connecting a headset and switching to E-Mic.
-> > What I can say is:
-> > - opposite levels does NOT happen there (E-Mic is "analog micro"-based, right?)
-> > - leaving E-Mic unplugged will actually record from i-Mic (due to properly
-> >   working EAPD mechanism, right?)
+On Sat, 14 Mar 2009, Rafael J. Wysocki wrote:
 > 
-> The record from mic-jack is via analog path.  The phase-inversion
-> appears only for digital-mic, AFAIK.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12870
+> Subject		: 2.6.29-rc "TKIP: replay detected" regression
+> Submitter	: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+> Date		: 2009-03-11 12:07 (4 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123677337219148&w=4
+> Handled-By	: John W. Linville <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
-Thought so.
+Yes, it should still be listed, but could go into the "with patches"
+section: there's a good patch from John in linux-next, which I expect
+he'll get Linus to pull in due course.
 
-> > One question still: is this a hardware defect (i.e. could this possibly
-> > be swapped cables of the microphone connector in this model or so?
-> > Not plausible but...), or is this an existing property
-> > of the HDA's dig-mic base? You indicated it's the latter I think...
-> 
-> My guess is that it's a hardware implementation.
-> Maybe for the noise suppression via mic array.
-
-Not sure what this means.
-
-> The question is whether the left / right channels recorded from
-> digital mic are really raw data, or they are for modified data
-> (for differential, etc)...  It's hard to guess without the actual
-> data.
-
-I don't quite follow you here. Is there anything I could do about this?
-
-Thanks,
-
-Andreas
+Hugh
