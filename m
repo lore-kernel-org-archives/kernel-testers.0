@@ -1,57 +1,56 @@
-From: Zhang Rui <rui.zhang@intel.com>
-Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
-Date: Mon, 16 Mar 2009 09:02:53 +0800
-Message-ID: <1237165373.2807.140.camel@rzhang-dt>
+From: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12809] iozone regression with 2.6.29-rc6
+Date: Mon, 16 Mar 2009 13:03:42 +0800
+Message-ID: <1237179822.27907.6.camel@minggr.sh.intel.com>
 References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
+	 <GCLaknAim2M.A.BKD.q4BvJB@chimera>
+	 <alpine.LFD.2.00.0903141719510.3940@localhost.localdomain>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <MiincthRUSI.A.eKC.F4BvJB@chimera>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.LFD.2.00.0903141719510.3940-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, "Wu, Fengguang" <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Sun, 2009-03-15 at 03:01 +0800, Rafael J. Wysocki wrote:
-> This message contains a list of some regressions from 2.6.28, for which there
-> are no fixes in the mainline I know of.  If any of them have been fixed already,
-> please let me know.
+On Sun, 2009-03-15 at 08:27 +0800, Linus Torvalds wrote:
 > 
-> If you know of any other unresolved regressions from 2.6.28, please let me know
-> either and I'll add them to the list.  Also, please let me know if any of the
-> entries below are invalid.
+> On Sat, 14 Mar 2009, Rafael J. Wysocki wrote:
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.28.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12809
+> > Subject		: iozone regression with 2.6.29-rc6
+> > Submitter	: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> > Date		: 2009-02-27 9:13 (16 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1cf6e7d83bf334cc5916137862c920a97aabc018
+> > References	: http://marc.info/?l=linux-kernel&m=123572630504360&w=4
+> > Handled-By	: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 > 
-> Each entry from the list will be sent additionally in an automatic reply to
-> this message with CCs to the people involved in reporting and handling the
-> issue.
+> I suspect that I should just raise the default dirty limits. Wu reported 
+> that it fixed the regression, and while he picked some rather high 
+> percentages, I think we could certainly raise the rather aggressive 
+> default ones. 
 > 
+> After all, those default percentages were picked (a) with the old dirty 
+> logic and (b) largely at random and (c) designed to be aggressive. In 
+> particular, that (a) means that having fixed some of the dirty accounting, 
+> maybe the real bug is now that it was always too aggressive, just hidden 
+> by an accounting issue.
 > 
-> Listed regressions statistics:
-> 
->   Date          Total  Pending  Unresolved
->   ----------------------------------------
->   2009-03-14      124       36          32
->   2009-03-03      108       33          28
->   2009-02-24       95       32          24
->   2009-02-14       85       33          27
->   2009-02-08       82       45          36
->   2009-02-04       66       51          39
->   2009-01-20       38       35          27
->   2009-01-11       13       13          10
-> 
-> 
-> Unresolved regressions
-> ----------------------
+> If we raised the default ratio from 5/10 to 10/20, what happens to the 
+> iozone regression?
 
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12831
-> Subject         : Hot/Fn Keys do not work EEEPC 1000HE (eeepc_laptop)
-> Submitter       : Matthew <pyther@pyther.net>
-> Date            : 2009-03-07 10:05 (8 days old)
+echo 10 > /proc/sys/vm/dirty_background_ratio
+echo 20 > /proc/sys/vm/dirty_ratio
 
-patch is available at
-http://bugzilla.kernel.org/show_bug.cgi?id=12831#c11
+It fixed the regression of iozone (filesize 1200M) on 4P dual-core HT
+machine(8G mem).
 
-thanks,
-rui
+Lin Ming
 
