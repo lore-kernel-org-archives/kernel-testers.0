@@ -1,42 +1,52 @@
-From: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
-Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
-Date: Tue, 17 Mar 2009 09:25:37 +1030
-Message-ID: <1237244137.4964.54.camel@kulgan.wumi.org.au>
-References: <9nR7rAsBwYG.A.iEG.fOCvJB@chimera>
-	 <qm8_cedJGaP.A.-NH.CPCvJB@chimera>
-	 <1237107837.27699.27.camel@kulgan.wumi.org.au>
-	 <49BE20B2.9070804@redhat.com> <1237207595.4964.31.camel@kulgan.wumi.org.au>
-	 <20090316200736.GD8393@nowhere>
+From: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
+Date: Tue, 17 Mar 2009 07:55:49 +0800
+Message-ID: <b6a2187b0903161655q15437156qc926c8db37d8ba4b@mail.gmail.com>
+References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
+	 <b6a2187b0903141958u9dae0fdk1f44b387108b99e4@mail.gmail.com>
+	 <b6a2187b0903142006u546fad9eme66f9ea7b464b81f@mail.gmail.com>
+	 <1237140665.24621.2.camel@johannes.local>
+	 <alpine.LFD.2.00.0903151136310.3131@localhost.localdomain>
+	 <1237143683.24621.7.camel@johannes.local>
+	 <20090315202603.GA9077@elte.hu>
+	 <b6a2187b0903160624gb9d207dv301506e589d93ed4@mail.gmail.com>
+	 <alpine.LFD.2.00.0903161250080.3082@localhost.localdomain>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090316200736.GD8393@nowhere>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=3z5AkqKedl9rWYuNgqQFwWsxNt4W6CB9R37zNK/wj0M=;
+        b=jIRWAjvh5fEeEEcoMKxdcVpIjxmeUhH+1mIOXuimqOEBF0k+8cNQIEwW3nNOmUoAEh
+         F0iX3HKLaSBaf+D5+VFLBbPBQdU/Uj4jXShdjQzw6XY1UmEoUIf2UFRJDhwDGF85Ya2f
+         J8gcDqzneunQHJZEeqdbmRw1NNGNYKArs8rc4=
+In-Reply-To: <alpine.LFD.2.00.0903161250080.3082-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
-On Mon, 2009-03-16 at 21:07 +0100, Frederic Weisbecker wrote:
-> I've looked a bit at your traces.
-> I think it's probably too wide to find something inside.
-> Latest -tip is provided with a new set of events tracing, meaning
-> that you will be able to produce function graph traces with various
-> sched events included.
-> 
-> Another thing, is it possible to reproduce it with only one ping?
-> Or testing perioding pings and keep only one that raised a relevant
-> threshold of latency? I think we could do a script that can do that.
-> It would make the trace much clearer.
+On Tue, Mar 17, 2009 at 3:57 AM, Linus Torvalds
+<torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
 
-Yeah, I think that should be possible. If you can come up with such a
-script, that would be great.
+> IOW, if you've pinpointed 71c11fb57b924c160297ccd9e1761db598d00ac2 as
+> being bad, then you should go back and double-check that its parent
+> (in this case 4607816f608b42a5379aca97ceed08378804c99f) is good.
+> Because if it's parent is also bad, then that just means that you made
+> some mistake in "git bisect".
+> In this case, it really sounds like maybe you marked the parent good, even
+> though you should have marked it bad.
 
-> Just wait a bit, I'm looking at which event could be relevant to enable
-> and I come back to you with a set of commands to test.
+I should have been more careful, just got thrown off during the last
+few steps of the bisect. But with the bad association to the AP after
+a57a59f247b651e8ed6d3eeb7e2f9d83b83134c9 (iwlwifi: remove implicit
+direct scan), can someone suggest where to go from here?
 
-Excellent! Thanks for looking into this.
+Meanwhile, I'll try bisecting again.
 
-Cheers,
-Kevin.
-
+Thanks,
+Jeff.
