@@ -1,41 +1,77 @@
-From: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-Subject: Re: [Bug #12870] 2.6.29-rc "TKIP: replay detected" regression
-Date: Mon, 16 Mar 2009 20:11:37 -0400
-Message-ID: <20090317001136.GA3650@tuxdriver.com>
-References: <MiincthRUSI.A.eKC.F4BvJB@chimera> <GCLaknAim2M.A.mbC.M4BvJB@chimera> <Pine.LNX.4.64.0903162150060.28429@blonde.anvils> <200903162257.07386.rjw@sisk.pl>
+From: Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [alsa-devel] Bugs on aspire one A150
+Date: Tue, 17 Mar 2009 02:52:19 +0200
+Message-ID: <1237251139.7952.1.camel@maxim-laptop>
+References: <s5h4oxtqy6q.wl%tiwai@suse.de>
+	 <20090316160208.GB4458@rhlx01.hs-esslingen.de>
+	 <s5hwsappi44.wl%tiwai@suse.de> <s5hprghphid.wl%tiwai@suse.de>
+	 <20090316170015.GA9776@rhlx01.hs-esslingen.de>
+	 <s5hljr5pex0.wl%tiwai@suse.de>
+	 <20090316173000.GA25647@rhlx01.hs-esslingen.de>
+	 <s5hiqm9pe1g.wl%tiwai@suse.de>
+	 <20090316180638.GB25647@rhlx01.hs-esslingen.de>
+	 <s5htz5tyzyg.wl%tiwai@suse.de>
+	 <20090316212227.GA29471@rhlx01.hs-esslingen.de>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <200903162257.07386.rjw-KKrjLPT3xs0@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:subject:from:to:cc
+         :in-reply-to:references:content-type:date:message-id:mime-version
+         :x-mailer:content-transfer-encoding;
+        bh=xnkM3JIvkR5eUK023x+XaAOl4F5O297ZPPTTOfHw2Ps=;
+        b=KuJ2j7dHK76Z+4AXAmiDU6H17pw6CyOZI7/iFlbphoWx/IACggcHTpVu0cuSAm6FKC
+         x09xY4n1FMREH9SISYkRm+AByH/ZP9LOO80WcUdsBmdPvIJLf83/vtzyV1E13ohyHYPm
+         Iqr+rzbiBog2ypsnJ+HOKrOAft1AiEOueZZLU=
+In-Reply-To: <20090316212227.GA29471-p/qQFhXj4MHA4IYVXhSI5GHfThorsUsI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
+Cc: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, Mar 16, 2009 at 10:57:06PM +0100, Rafael J. Wysocki wrote:
-> On Monday 16 March 2009, Hugh Dickins wrote:
-> > On Sat, 14 Mar 2009, Rafael J. Wysocki wrote:
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12870
-> > > Subject		: 2.6.29-rc "TKIP: replay detected" regression
-> > > Submitter	: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
-> > > Date		: 2009-03-11 12:07 (4 days old)
-> > > References	: http://marc.info/?l=linux-kernel&m=123677337219148&w=4
-> > > Handled-By	: John W. Linville <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-> > 
-> > Yes, it should still be listed, but could go into the "with patches"
-> > section: there's a good patch from John in linux-next, which I expect
-> > he'll get Linus to pull in due course.
+On Mon, 2009-03-16 at 22:22 +0100, Andreas Mohr wrote:
+> Hi,
 > 
-> Well, I need a pointer to the patch please.  John?
+> On Mon, Mar 16, 2009 at 09:28:39PM +0100, Takashi Iwai wrote:
+> > At Mon, 16 Mar 2009 19:06:38 +0100,
+> > Andreas Mohr wrote:
+> > > I just tried connecting a headset and switching to E-Mic.
+> > > What I can say is:
+> > > - opposite levels does NOT happen there (E-Mic is "analog micro"-based, right?)
+> > > - leaving E-Mic unplugged will actually record from i-Mic (due to properly
+> > >   working EAPD mechanism, right?)
+> > 
+> > The record from mic-jack is via analog path.  The phase-inversion
+> > appears only for digital-mic, AFAIK.
+> 
+> Thought so.
+> 
+> > > One question still: is this a hardware defect (i.e. could this possibly
+> > > be swapped cables of the microphone connector in this model or so?
+> > > Not plausible but...), or is this an existing property
+> > > of the HDA's dig-mic base? You indicated it's the latter I think...
+> > 
+> > My guess is that it's a hardware implementation.
+> > Maybe for the noise suppression via mic array.
+> 
+> Not sure what this means.
+> 
+> > The question is whether the left / right channels recorded from
+> > digital mic are really raw data, or they are for modified data
+> > (for differential, etc)...  It's hard to guess without the actual
+> > data.
+> 
+> I don't quite follow you here. Is there anything I could do about this?
+> 
+> Thanks,
+> 
+> Andreas
 
-http://marc.info/?l=linux-wireless&m=123678463704691&w=2
 
-Just sent a pull request through Dave...
+What about exposing the i-mic as a mono only device to userspace?
+It is mono after all?
 
-John
--- 
-John W. Linville		Someday the world will need a hero, and you
-linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org			might be all we have.  Be ready.
+Best regards,
+	Maxim Levitsky
