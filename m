@@ -1,61 +1,64 @@
-From: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
-Subject: Re: [alsa-devel] Bugs on aspire one A150
-Date: Tue, 17 Mar 2009 17:18:28 +0100
-Message-ID: <20090317161828.GA32756@rhlx01.hs-esslingen.de>
-References: <20090316173000.GA25647@rhlx01.hs-esslingen.de> <s5hiqm9pe1g.wl%tiwai@suse.de> <20090316180638.GB25647@rhlx01.hs-esslingen.de> <s5htz5tyzyg.wl%tiwai@suse.de> <20090316212227.GA29471@rhlx01.hs-esslingen.de> <s5hfxhczinh.wl%tiwai@suse.de> <20090317100500.GA16029@rhlx01.hs-esslingen.de> <20090317103845.GA26007@rhlx01.hs-esslingen.de> <20090317104755.GA1446@rhlx01.hs-esslingen.de> <s5h3adcpf1i.wl%tiwai@suse.de>
+From: Jeff Chua <jeff.chua.linux@gmail.com>
+Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
+Date: Wed, 18 Mar 2009 00:24:33 +0800
+Message-ID: <b6a2187b0903170924u72723220x4c0a717e3cfebf8d@mail.gmail.com>
+References: <1237140665.24621.2.camel@johannes.local>
+	 <1237143683.24621.7.camel@johannes.local>
+	 <20090315202603.GA9077@elte.hu>
+	 <b6a2187b0903160624gb9d207dv301506e589d93ed4@mail.gmail.com>
+	 <alpine.LFD.2.00.0903161250080.3082@localhost.localdomain>
+	 <b6a2187b0903161655q15437156qc926c8db37d8ba4b@mail.gmail.com>
+	 <20090317144802.GF3549@tuxdriver.com>
+	 <20090317152801.GA6737@tuxdriver.com> <20090317153924.GA21061@elte.hu>
+	 <20090317160527.GB6737@tuxdriver.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <s5h3adcpf1i.wl%tiwai-l3A5Bk7waGM@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <netdev-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=TYZg3EFsfJ4ES8BMPlYapLYX2tITRIJL24rkviOmla4=;
+        b=sRHg50TJJqpBhAbsehcnwnnYyB/dmPOxWFu5CzpYD66Wjdn54MDRhfxeLXgxhMoZbo
+         sRJgyJaCQDjFFJzGKXxEuwcEHjsTUZiBivI+m6w3GEj7lv5SUkeKALY0rgD5bN/bTClW
+         0wbhud1J+wRQCqdp2+DyGmWiA8Arq7Ngw8tXA=
+In-Reply-To: <20090317160527.GB6737@tuxdriver.com>
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
-Cc: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>, Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "John W. Linville" <linville@tuxdriver.com>
+Cc: Ingo Molnar <mingo@elte.hu>, Linus Torvalds <torvalds@linux-foundation.org>, Johannes Berg <johannes@sipsolutions.net>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>
 
-Hi,
+On Wed, Mar 18, 2009 at 12:05 AM, John W. Linville <linville@tuxdriver.=
+com>
+> the reverts. =A0But if you think it is helpful:
+> =A0 =A0 =A0 =A0http://bugzilla.kernel.org/attachment.cgi?id=3D20567&a=
+ction=3Dview
 
-On Tue, Mar 17, 2009 at 12:25:13PM +0100, Takashi Iwai wrote:
-> At Tue, 17 Mar 2009 11:47:55 +0100,
-> Andreas Mohr wrote:
-> > > Fortemedia device names include FM2018-380, not sure yet which one is in
-> > > Aspire One.
-> > > 
-> > > http://www.fortemedia.com/products/index.htm
-> > > ( especially http://www.fortemedia.com/products/fm1182.htm )
-> > 
-> > http://www.wpgholdings.com/event/S/SACg_04_ForteMedia_SAM.pdf
-> > mentions "FM201x" and www.sacg.com.tw (this one could be useful!).
-> > Searching Google "FM201[0-9] Fortemedia" comes up with FM2010 and
-> > FM2018 and thus
-> > http://www.hengdasheng.com.cn/uploadfile/391/cfile/2008102414057847.pdf
-> > which is a relatively informative datasheet.
-> 
-> I'm not sure whether FM2018 is on a netbook.  Rather my guess is it's
-> a digital-mic component by FortMedia together with their software
-> library for SAM handling.
+I tried applying the above patch against the latest linux git
+(18439c39e826191c0ef08c3a3271ce7ece46a860), but got a lot of rejects.
+Is this supposed to be?
 
-I had the same thoughts later. Since they use an extensive SAM handling
-library, there probably isn't such a chip, otherwise they probably
-wouldn't need it ;)
-Could you thus implement a nice beam-forming sound evaluation SAM
-library for ALSA pretty pretty please? ;)
-...or, is that SAM library available to us given that it exists in the
-factory install? If so, then one should probably make good use of it...
 
-> BTW, a simple "fix" for the mono capture problem, you can patch
-> the config file for HD-audio in alsa-lib like below.  Then the first
-> channel will be used for mono capture instead of averages.
-> Give it a try.
-> 
-> (But, this won't fix programs that prefer "hw" access such as
->  pulseaudio, of course.)
+patch -p1 </tar/v2.6/revert-remove-ssid-knowledge-from-driver-series.pa=
+tch
+1 out of 1 hunk FAILED -- saving rejects to file
+drivers/net/wireless/adm8211.h.rej
+1 out of 2 hunks FAILED -- saving rejects to file
+drivers/net/wireless/b43/main.c.rej
+1 out of 2 hunks FAILED -- saving rejects to file
+drivers/net/wireless/b43legacy/main.c.rej
+1 out of 1 hunk FAILED -- saving rejects to file
+drivers/net/wireless/iwlwifi/iwl-3945.h.rej
+3 out of 4 hunks FAILED -- saving rejects to file
+drivers/net/wireless/iwlwifi/iwl-agn.c.rej
+1 out of 1 hunk FAILED -- saving rejects to file
+drivers/net/wireless/iwlwifi/iwl-dev.h.rej
+3 out of 5 hunks FAILED -- saving rejects to file
+drivers/net/wireless/iwlwifi/iwl3945-base.c.rej
+1 out of 3 hunks FAILED -- saving rejects to file include/net/mac80211.=
+h.rej
 
-I'm not *quite* sure whether this is really what you meant,
-but I patched /usr/share/alsa/cards/HDA-Intel.conf (libasound2
-1.0.18-1ubuntu7) in exactly this way and then did
-arecord -Dplughw:0 -fdat -c1 test.wav; aplay test.wav
-but well, with equal slider positions there was no audio again.
-
-Andreas
+Thanks,
+Jeff.
