@@ -1,77 +1,37 @@
-From: Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [alsa-devel] Bugs on aspire one A150
-Date: Tue, 17 Mar 2009 02:52:19 +0200
-Message-ID: <1237251139.7952.1.camel@maxim-laptop>
-References: <s5h4oxtqy6q.wl%tiwai@suse.de>
-	 <20090316160208.GB4458@rhlx01.hs-esslingen.de>
-	 <s5hwsappi44.wl%tiwai@suse.de> <s5hprghphid.wl%tiwai@suse.de>
-	 <20090316170015.GA9776@rhlx01.hs-esslingen.de>
-	 <s5hljr5pex0.wl%tiwai@suse.de>
-	 <20090316173000.GA25647@rhlx01.hs-esslingen.de>
-	 <s5hiqm9pe1g.wl%tiwai@suse.de>
-	 <20090316180638.GB25647@rhlx01.hs-esslingen.de>
-	 <s5htz5tyzyg.wl%tiwai@suse.de>
-	 <20090316212227.GA29471@rhlx01.hs-esslingen.de>
+From: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Subject: Re: [Bug #12612] hard lockup when interrupting cdda2wav
+Date: Tue, 17 Mar 2009 09:53:03 +0900
+Message-ID: <20090317095254P.fujita.tomonori@lab.ntt.co.jp>
+References: <9nR7rAsBwYG.A.iEG.fOCvJB@chimera>
+	<qm8_cedJGaP.A.3-G.5OCvJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:subject:from:to:cc
-         :in-reply-to:references:content-type:date:message-id:mime-version
-         :x-mailer:content-transfer-encoding;
-        bh=xnkM3JIvkR5eUK023x+XaAOl4F5O297ZPPTTOfHw2Ps=;
-        b=KuJ2j7dHK76Z+4AXAmiDU6H17pw6CyOZI7/iFlbphoWx/IACggcHTpVu0cuSAm6FKC
-         x09xY4n1FMREH9SISYkRm+AByH/ZP9LOO80WcUdsBmdPvIJLf83/vtzyV1E13ohyHYPm
-         Iqr+rzbiBog2ypsnJ+HOKrOAft1AiEOueZZLU=
-In-Reply-To: <20090316212227.GA29471-p/qQFhXj4MHA4IYVXhSI5GHfThorsUsI@public.gmane.org>
+In-Reply-To: <qm8_cedJGaP.A.3-G.5OCvJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
-Cc: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: rjw-KKrjLPT3xs0@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org, hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org, James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org
 
-On Mon, 2009-03-16 at 22:22 +0100, Andreas Mohr wrote:
-> Hi,
-> 
-> On Mon, Mar 16, 2009 at 09:28:39PM +0100, Takashi Iwai wrote:
-> > At Mon, 16 Mar 2009 19:06:38 +0100,
-> > Andreas Mohr wrote:
-> > > I just tried connecting a headset and switching to E-Mic.
-> > > What I can say is:
-> > > - opposite levels does NOT happen there (E-Mic is "analog micro"-based, right?)
-> > > - leaving E-Mic unplugged will actually record from i-Mic (due to properly
-> > >   working EAPD mechanism, right?)
-> > 
-> > The record from mic-jack is via analog path.  The phase-inversion
-> > appears only for digital-mic, AFAIK.
-> 
-> Thought so.
-> 
-> > > One question still: is this a hardware defect (i.e. could this possibly
-> > > be swapped cables of the microphone connector in this model or so?
-> > > Not plausible but...), or is this an existing property
-> > > of the HDA's dig-mic base? You indicated it's the latter I think...
-> > 
-> > My guess is that it's a hardware implementation.
-> > Maybe for the noise suppression via mic array.
-> 
-> Not sure what this means.
-> 
-> > The question is whether the left / right channels recorded from
-> > digital mic are really raw data, or they are for modified data
-> > (for differential, etc)...  It's hard to guess without the actual
-> > data.
-> 
-> I don't quite follow you here. Is there anything I could do about this?
-> 
-> Thanks,
-> 
-> Andreas
+On Sat, 14 Mar 2009 20:20:17 +0100 (CET)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.27 and 2.6.28.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12612
+> Subject		: hard lockup when interrupting cdda2wav
+> Submitter	: Matthias Reichl <hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-01-28 16:41 (46 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123316111415677&w=4
+> Handled-By	: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+> Patch		: http://marc.info/?l=linux-scsi&m=123371501613019&w=2
 
-What about exposing the i-mic as a mono only device to userspace?
-It is mono after all?
-
-Best regards,
-	Maxim Levitsky
+This still should be listed. I think that the fix (in James'
+scsi-misc) will be merged to 2.6.30-rc1 then be backported.
