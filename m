@@ -1,106 +1,145 @@
-From: Johannes Berg <johannes@sipsolutions.net>
-Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
-Date: Tue, 17 Mar 2009 20:22:22 +0100
-Message-ID: <1237317742.31814.28.camel@johannes.local>
-References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
-	 <b6a2187b0903141958u9dae0fdk1f44b387108b99e4@mail.gmail.com>
-	 <b6a2187b0903142006u546fad9eme66f9ea7b464b81f@mail.gmail.com>
-	 <1237140665.24621.2.camel@johannes.local>
-	 <alpine.LFD.2.00.0903151136310.3131@localhost.localdomain>
-	 <1237143683.24621.7.camel@johannes.local> <20090315202603.GA9077@elte.hu>
-	 <b6a2187b0903160624gb9d207dv301506e589d93ed4@mail.gmail.com>
-	 (sfid-20090316_142417_625321_EAE390ED)
+From: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
+Date: Wed, 18 Mar 2009 01:20:00 +0100
+Message-ID: <20090318001955.GB5143@nowhere>
+References: <9nR7rAsBwYG.A.iEG.fOCvJB@chimera> <qm8_cedJGaP.A.-NH.CPCvJB@chimera> <1237107837.27699.27.camel@kulgan.wumi.org.au> <49BE20B2.9070804@redhat.com> <1237207595.4964.31.camel@kulgan.wumi.org.au> <20090316200736.GD8393@nowhere> <1237244137.4964.54.camel@kulgan.wumi.org.au>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-APmAsfgopLNAwlSHx71g"
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <b6a2187b0903160624gb9d207dv301506e589d93ed4@mail.gmail.com> (sfid-20090316_142417_625321_EAE390ED)
-Sender: netdev-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:cc
+         :subject:message-id:references:mime-version:content-type
+         :content-disposition:in-reply-to:user-agent;
+        bh=2vt501lDqCil6VwJRAClqm9g87TpbNbHR9WaTdKVr1I=;
+        b=i71R+czEIadFpTNLo1ZCmkotBigyoycb2YS0Mt3Qc/R09byNflqN8OkoWTVOlHUmAy
+         CYzIYecj4nwdjYe+Rg3dNavwTq+pZJsScKoZ4dZFz7KfDU61ojT/UEXKxPgSunM+eOoR
+         Phf8tqb+YGf4kPJp1gL+VKdBV59taegTyTQsU=
+Content-Disposition: inline
+In-Reply-To: <1237244137.4964.54.camel-9TBizaOOD0ujuAshGpSIhRCuuivNXqWP@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Jeff Chua <jeff.chua.linux@gmail.com>
-Cc: Ingo Molnar <mingo@elte.hu>, Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, "John W. Linville" <linville@tuxdriver.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
+Cc: Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+
+On Tue, Mar 17, 2009 at 09:25:37AM +1030, Kevin Shanahan wrote:
+> On Mon, 2009-03-16 at 21:07 +0100, Frederic Weisbecker wrote:
+> > I've looked a bit at your traces.
+> > I think it's probably too wide to find something inside.
+> > Latest -tip is provided with a new set of events tracing, meaning
+> > that you will be able to produce function graph traces with various
+> > sched events included.
+> > 
+> > Another thing, is it possible to reproduce it with only one ping?
+> > Or testing perioding pings and keep only one that raised a relevant
+> > threshold of latency? I think we could do a script that can do that.
+> > It would make the trace much clearer.
+> 
+> Yeah, I think that should be possible. If you can come up with such a
+> script, that would be great.
+
+Ok, I've made a small script based on yours which could do this job.
+You will just have to set yourself a threshold of latency
+that you consider as buggy. I don't remember the latency you observed.
+About 5 secs right?
+
+It's the "thres" variable in the script.
+
+The resulting trace should be a mixup of the function graph traces
+and scheduler events which look like this:
+
+ gnome-screensav-4691  [000]  6716.774277:   4691:120:S ==> [000]     0:140:R <idle>
+  xfce4-terminal-4723  [001]  6716.774303:   4723:120:R   + [001]  4289:120:S Xorg
+  xfce4-terminal-4723  [001]  6716.774417:   4723:120:S ==> [001]  4289:120:R Xorg
+            Xorg-4289  [001]  6716.774427:   4289:120:S ==> [001]     0:140:R <idle>
+
++ is a wakeup and ==> is a context switch.
 
 
---=-APmAsfgopLNAwlSHx71g
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+The script will loop trying some pings and will only keep the trace that matches
+the latency threshold you defined.
 
-On Mon, 2009-03-16 at 21:24 +0800, Jeff Chua wrote:
+Tell if the following script work for you.
 
-> Here's what I did, and it's repeatable.
->=20
-> Take the attached bisect log and replay it, and the last offending
-> commit is this ...
-> # git log
-> commit 71c11fb57b924c160297ccd9e1761db598d00ac2
-> Author: Johannes Berg <johannes@sipsolutions.net>
-> Date:   Tue Oct 28 18:29:48 2008 +0100
->=20
->     b43/legacy: remove SSID code
->=20
-> Yes, this is not the real problem, but it's the last commit that cause
-> the problem, and I couldn't bisect further, typing the next "git
-> bisect bad" and the commit is
+You will need to pull the latest -tip tree and enable the following:
 
-I'm on 0191b62 now and cannot reproduce the problem with iwlwifi
-hardware and a linksys (broadcom-based) AP with hidden SSID.
+CONFIG_FUNCTION_TRACER=y
+CONFIG_FUNCTION_GRAPH_TRACER=y
+CONFIG_DYNAMIC_FTRACE=y
+CONFIG_SCHED_TRACER=y
+CONFIG_CONTEXT_SWITCH_TRACER=y
+CONFIG_EVENT_TRACER=y
 
-> Anything I can help to debug further, just let me know.
+Thanks!
 
-Compile iwlwifi with debugging please, and instead of plain modprobe
-iwlagn, do this:
-	modprobe iwlagn debug=3D0x800 debug50=3D0x800
+Ah and you will need python too (since bash can't do floating point
+operation, it uses python here).
 
-Then send me the relevant dmesg output from a working and a failed
-attempt. You should see something like this
+#!/bin/bash
 
-[  318.420537] ieee80211 phy4: U iwl_bg_request_scan Start direct scan for =
-'myssid'
-
-in the log. I can't see any reason why it would be missing. For me, the
-association is instantaneous after saying "ap any". This is expected
-too, because
-	iwconfig wlan0 essid "myessid"
-will have triggered a directed scan for the AP.
-
-There are two possible failure scenarios that I can imagine:
-
-1) You see no line like the one above in your log, but rather
-
-[  736.047879] ieee80211 phy5: U iwl_bg_request_scan Start indirect scan.
-
-This would indicate a bug in the driver.
+# Switch off all CPUs except for one to simplify the trace
+echo 0 > /sys/devices/system/cpu/cpu1/online
+echo 0 > /sys/devices/system/cpu/cpu2/online
+echo 0 > /sys/devices/system/cpu/cpu3/online
 
 
-2) You do see the line with the SSID, but you don't get any reply. In
-this case, please try doing it manually:
-	iwlist wlan0 scan essid 'myssid'
-Wait about 15 seconds between each attempt of doing so, and report
-whether your AP is listed in the results or not. If it isn't most of the
-time, then your AP is broken.
+# Make sure debugfs has been mounted
+if [ ! -d /sys/kernel/debug/tracing ]; then
+    mount -t debugfs debugfs /sys/kernel/debug
+fi
 
-johannes
+# Set up the trace parameters
+pushd /sys/kernel/debug/tracing || exit 1
+echo 0 > tracing_enabled
+echo function_graph > current_tracer
+echo funcgraph-abstime > trace_options
+echo funcgraph-proc    > trace_options
 
---=-APmAsfgopLNAwlSHx71g
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+# Set here the kvm IP addr
+addr=""
 
------BEGIN PGP SIGNATURE-----
-Comment: Johannes Berg (powerbook)
+# Set here a threshold of latency in sec
+thres="5"
+found="False"
+lat=0
+prefix=/sys/kernel/debug/tracing
 
-iQIcBAABAgAGBQJJv/hrAAoJEKVg1VMiehFYEnQP/0L8NEZmyYZMIzDTl7A1/YIk
-GnLVkUEsIQd4WtRQXyiYnw9OHUaG78oqfdCUJqA2AiPiL5jXrp1IMqNyZAI8IRm4
-OzfWVdXYeYc0RoJzksrZOTS2UYG38Hv/XltM77cWOCLfi6aAAZ7lkyPNnjDJtSqd
-3mDzjpbzVRnJYT17aSJhEAJvxygzpT0p8B0lJOKWepyivQhSz28ie50cHsfAxvjr
-tM8eVsH6jW6ZN8+AIiluScRws20YIwOwJEFv43Uapnl4QwvB6Vp2RIVfSx4jNLq1
-uzQ3NHjur6EbpKtUS3HYk7hYSurXb3XDgtolY1WxzePSY/i+RHiColMFfFoN0EZA
-6kam7Pfjml8Xtoz2l+vNL4G+hHvIpVC/rCz7upxsayvt+q0i/jPkC+ThIdKp1gKZ
-iT7D0qxEKac+Z1SDUYVY999H67jM66nrwpro+RSJdb4oQCWEEj5Hxa/UHtYElLxh
-bdmM2N1GUo+cKuX/GtOfXo5WnzIxduhozMRDudtVFAjc0IRfMl4kVHxzL3WPQ691
-qHRg8kNgrLqStJZQ49x9sjoE2TgFW5r7K6EUhrM1upRJqtgn2c4BAU2UgHMugUU9
-whAwhCnwSlWV+LnQYqpXzXmUAZSANqeB0d5tS2mLZ3w1UXM1T7+IhpRWQoBSQoAE
-K3tbYQQV1Xd7fUI648I/
-=95ZB
------END PGP SIGNATURE-----
+echo 1 > $prefix/events/sched/sched_wakeup/enable
+echo 1 > $prefix/events/sched/sched_switch/enable
 
---=-APmAsfgopLNAwlSHx71g--
+while [ "$found" != "True" ]
+do
+	# Flush the previous buffer
+	echo nop > $prefix/current_tracer
 
+	# Reset the function_graph tracer
+	echo function_graph > $prefix/current_tracer
+
+	echo 1 > $prefix/tracing_enabled
+	lat=$(ping -c 1 $addr | grep rtt | grep -Eo " [0-9]+.[0-9]+")
+	echo 0 > $prefix/tracing_enabled
+
+	found=$(python -c "print float(str($lat).strip()) > $thres")
+	sleep 0.01
+done
+
+echo 0 > $prefix/events/sched/sched_wakeup/enable
+echo 0 > $prefix/events/sched/sched_switch/enable
+
+
+echo "Found buggy latency: $lat"
+echo "Please send the trace you will find on $prefix/trace"
+
+
+
+> 
+> > Just wait a bit, I'm looking at which event could be relevant to enable
+> > and I come back to you with a set of commands to test.
+> 
+> Excellent! Thanks for looking into this.
+> 
+> Cheers,
+> Kevin.
+> 
+> 
