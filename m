@@ -1,70 +1,36 @@
-From: Johannes Berg <johannes@sipsolutions.net>
-Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
-Date: Thu, 19 Mar 2009 10:38:54 +0100
-Message-ID: <1237455534.5100.56.camel@johannes.local>
-References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
-	 <b6a2187b0903141958u9dae0fdk1f44b387108b99e4@mail.gmail.com>
-	 <b6a2187b0903142006u546fad9eme66f9ea7b464b81f@mail.gmail.com>
-	 <1237140665.24621.2.camel@johannes.local>
-	 <alpine.LFD.2.00.0903151136310.3131@localhost.localdomain>
-	 <1237143683.24621.7.camel@johannes.local> <20090315202603.GA9077@elte.hu>
-	 <b6a2187b0903160624gb9d207dv301506e589d93ed4@mail.gmail.com>
-	 <1237317742.31814.28.camel@johannes.local>
-	 <b6a2187b0903181958ke11abe7tdcbc4efeb950954d@mail.gmail.com>
-	 <b6a2187b0903182149x77e416ecuf73be2970173c601@mail.gmail.com>
-	 (sfid-20090319_054932_507952_529F646E)
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #12765] i915 VT switch with AIGLX causes X lock up
+Date: Thu, 19 Mar 2009 14:02:30 +0100
+Message-ID: <200903191402.30936.rjw@sisk.pl>
+References: <MiincthRUSI.A.eKC.F4BvJB@chimera> <GCLaknAim2M.A.e2D._4BvJB@chimera> <20090316175419.GC10814@silver.sucs.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-vUXLo/iHZKDZb9ENFFhy"
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <b6a2187b0903182149x77e416ecuf73be2970173c601@mail.gmail.com> (sfid-20090319_054932_507952_529F646E)
-Sender: netdev-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754870AbZCSNCx@vger.kernel.org>
+In-Reply-To: <20090316175419.GC10814@silver.sucs.org>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Jeff Chua <jeff.chua.linux@gmail.com>
-Cc: Ingo Molnar <mingo@elte.hu>, Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, "John W. Linville" <linville@tuxdriver.com>
+Content-Type: text/plain; charset="us-ascii"
+To: Sitsofe Wheeler <sitsofe@yahoo.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dave Airlie <airlied@redhat.com>, Jesse Barnes <jbarnes@virtuousgeek.org>, Michel =?iso-8859-1?q?D=E4nzer?= <michel@daenzer.net>
 
+On Monday 16 March 2009, Sitsofe Wheeler wrote:
+> On Sat, Mar 14, 2009 at 08:05:32PM +0100, Rafael J. Wysocki wrote:
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.28.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12765
+> > Subject		: i915 VT switch with AIGLX causes X lock up
+> > Submitter	: Sitsofe Wheeler <sitsofe@yahoo.com>
+> > Date		: 2009-02-21 15:38 (22 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=14d200c5e5bd19219d930bbb9a5a22758c8f5bec
+> > References	: http://marc.info/?l=linux-kernel&m=123523074304955&w=4
+> 
+> Still here in 2.6.29-rc8.
 
---=-vUXLo/iHZKDZb9ENFFhy
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Thanks for the update.
 
-On Thu, 2009-03-19 at 12:49 +0800, Jeff Chua wrote:
-
-> Ignore the above loop thing. The cause seems to be this one instead.
->=20
->=20
-> # this needs patch to work ...
-> iwconfig wlan0 mode Managed
-> ifconfig wlan0 up
-> iwconfig wlan0 essid xxx
-> iwconfig wlan0 key restricted xxx
-> iwconfig wlan0 ap auto channel auto
-
-If you swap the key and essid lines, it will probably always work. But
-I've yet to analyse your data to see why it doesn't in the other case.
-
-johannes
-
---=-vUXLo/iHZKDZb9ENFFhy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-Comment: Johannes Berg (powerbook)
-
-iQIcBAABAgAGBQJJwhKrAAoJEKVg1VMiehFYNe8P+QFY0/JCRLPUMmHya4YejR7r
-1dTiQ1eOKajY2rcyrwcdP8FrXdBCOMBICRFNHb6Q3VFf1VIsqtUwrmeUs183KIRE
-Eip325lKXBroPED4aqELdbHvjzD3gvsXLeHN4I5MzkZz7FVZjp5HD0XVZWHMkagv
-RH+n/sf6y7JyrZHua8PjOXIoeFGdZKju8uwT093LvsVTo5GPN74hEzaqU7NVbtGY
-CqWlngSpt1syB1+dE7ROMolHESjuNQ3YCEMMLHhiqXDruYUhc0xD3/qCt4tFbZpY
-p8Mkx7bewgUzzFDoR7Xoa+hXYjTwwwIxNbZShyIQVvdtQoSjiZXrdrzGVRC2XW3d
-rSsy4/yAJp3VJdPI1Y4fxJ2WoKp13NNRomccaFU2NqzAZfByccwPs6WAQeFLSVph
-SFBdswXNECd6McxaLoIGsjD/xwQExa7aDu53XfP8G0jIKS/o8VfytTW1Rll0knf7
-BPzV/CzNfDtw3hmtTm5iAtM6PNG/nyB9MdvZ6xQyvPsN0kUt8aBVuQSfv7OY4nzr
-0ayGNmE3eDnKzcylP2mqakAPpkb+k6NPnBsZ9YMtjcBAvKIW3nlHZNj9vxCLr6s5
-j1tvcIHQbZFgS4VZiMc1zUACs9dVZV1EFN7PIX11agQEkTcTLOjJf3ii5Q7753EG
-taJIxppYfhR4cj7KXOW0
-=2g5X
------END PGP SIGNATURE-----
-
---=-vUXLo/iHZKDZb9ENFFhy--
-
+Rafael
