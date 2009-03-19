@@ -1,56 +1,98 @@
-From: Jeff Chua <jeff.chua.linux@gmail.com>
-Subject: Re: Required sequence to set wireless parameters? (was: 2.6.29-rc8: 
-	Reported regressions from 2.6.28)
-Date: Fri, 20 Mar 2009 00:45:17 +0800
-Message-ID: <b6a2187b0903190945l29d64016sa755bbd9581968aa@mail.gmail.com>
-References: <1237143683.24621.7.camel@johannes.local>
-	 <20090315202603.GA9077@elte.hu>
+From: Johannes Berg <johannes@sipsolutions.net>
+Subject: Re: Required sequence to set wireless parameters? (was:
+ 2.6.29-rc8: Reported regressions from 2.6.28)
+Date: Thu, 19 Mar 2009 17:53:50 +0100
+Message-ID: <1237481630.5100.92.camel@johannes.local>
+References: <b6a2187b0903142006u546fad9eme66f9ea7b464b81f@mail.gmail.com>
+	 <1237140665.24621.2.camel@johannes.local>
+	 <alpine.LFD.2.00.0903151136310.3131@localhost.localdomain>
+	 <1237143683.24621.7.camel@johannes.local> <20090315202603.GA9077@elte.hu>
 	 <b6a2187b0903160624gb9d207dv301506e589d93ed4@mail.gmail.com>
 	 <1237317742.31814.28.camel@johannes.local>
 	 <b6a2187b0903181958ke11abe7tdcbc4efeb950954d@mail.gmail.com>
 	 <b6a2187b0903182149x77e416ecuf73be2970173c601@mail.gmail.com>
 	 <1237455534.5100.56.camel@johannes.local>
+	 <1237455534.5100.56.camel@johannes.local>
 	 <20090319141311.GA3587@tuxdriver.com>
 	 <200903191602.58790.elendil@planet.nl>
-	 <20090319152441.GB3587@tuxdriver.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-k25saOD3Tw6lWyrUnp4H"
 Return-path: <netdev-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=tRIO9mPOGB4u+M629TtXNRjMq5nN2wQAkvNMUuF4j7Y=;
-        b=TjpRtRdxNEnr7oKhV6LDMHdndWnUeluDf5sbWu0rtWm4mCXKfRQej9z9UaQS2xQma0
-         fXx/lxJeWr5kjbdF/xE+dGAROA9qAOinlUpaW/SUtDJ/tdafoSIdwdH5GmQqzHO94zW5
-         a5eP62GNcHdx1Y8CS0DJLaOOCaDeuUcf+lPtk=
-In-Reply-To: <20090319152441.GB3587@tuxdriver.com>
+In-Reply-To: <200903191602.58790.elendil@planet.nl>
 Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "John W. Linville" <linville@tuxdriver.com>
-Cc: Frans Pop <elendil@planet.nl>, johannes@sipsolutions.net, mingo@elte.hu, torvalds@linux-foundation.org, rjw@sisk.pl, linux-kernel@vger.kernel.org, bunk@kernel.org, akpm@linux-foundation.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org
+To: Frans Pop <elendil@planet.nl>
+Cc: "John W. Linville" <linville@tuxdriver.com>, jeff.chua.linux@gmail.com, mingo@elte.hu, torvalds@linux-foundation.org, rjw@sisk.pl, linux-kernel@vger.kernel.org, bunk@kernel.org, akpm@linux-foundation.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org
 
-On Thu, Mar 19, 2009 at 11:24 PM, John W. Linville
-<linville@tuxdriver.com> wrote:
-> On Thu, Mar 19, 2009 at 04:02:56PM +0100, Frans Pop wrote:
->> John W. Linville wrote:
->> > On Thu, Mar 19, 2009 at 10:38:54AM +0100, Johannes Berg wrote:
->> >> On Thu, 2009-03-19 at 12:49 +0800, Jeff Chua wrote:
->> >> > # this needs patch to work ...
->> >> > iwconfig wlan0 mode Managed
->> >> > ifconfig wlan0 up
->> >> > iwconfig wlan0 essid xxx
->> >> > iwconfig wlan0 key restricted xxx
->> >> > iwconfig wlan0 ap auto channel auto
->> >>
->> >> If you swap the key and essid lines, it will probably always work.
 
-I just discovered that  "iwconfig wlan0 ap auto channel auto" is the
-one causing the problem on 2.6.29-rc8. Remove the line and it'll
-associate to the AP. Just tried on two different APs a few times, and
-it seems to behave that way. If I execute the "auto" command, it'll
-fail to associate, but works fine with the patch.
+--=-k25saOD3Tw6lWyrUnp4H
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Jeff.
+On Thu, 2009-03-19 at 16:02 +0100, Frans Pop wrote:
+
+> Mostly just curious, but is that actually required by some wireless=20
+> standard? If not, is it really reasonable to ask userland to do things in=
+=20
+> that particular order?
+
+Wext is a mess, and we've known that for a long time... But no, the
+sequence should _not_ be required, it's just _easier_ for the kernel,
+and as such has a better probability of succeeding if there are
+problems, it should still work though.
+
+However, one thing that will _not_ work is this:
+
+iwconfig wlan0 essid xyz
+iwconfig wlan0 key s:xyz
+
+you still need
+
+iwconfig wlan0 ap any
+
+or anything similar after setting the key to trigger the kernel to do
+something.
+
+> Reason I ask is that for example when writing wireless support for e.g. a=
+=20
+> distro installation system, it seems most logical to *first* ask the user=
+=20
+> what network (ESSID) he wants to connect to. Next to check if we can=20
+> connect to that network without additional authentication and only then,=20
+> if needed, ask for keys etc.
+> If it's not possible to set that info in that logical order that seems=20
+> rather restrictive to me and would probably mean that you'd have to reset=
+=20
+> AP, ESSID and possibly other settings before each incremental attempt.
+
+That's a pretty wrong argument, nothing says your software cannot
+collect all the information and then give it to the kernel at once
+later, I think... In fact, this is required anyway when you use RSN or
+WPA (wpa_supplicant needs all information at once), for example.
+
+johannes
+
+--=-k25saOD3Tw6lWyrUnp4H
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+Comment: Johannes Berg (powerbook)
+
+iQIcBAABAgAGBQJJwnicAAoJEKVg1VMiehFYvX4QAJZlB90q2bTsks5+lvKz3DBK
+88ZcByaRAVd4CtMD2LkLgVwc97CuXsR29rCszrsZIh6pa1/4Gnbqq53EhD1p+Tuf
+Byh4eTeUGuEiJTd8RJelZnDeLVzWgc1Vf9smuSd8loyc8p6prBKEjzwNacBADgcW
+n52BQPdr4oYM62gBqpWB18jIv16Oqru9Q3yC5MJGIxxE+E4y+zDpUmvCtq1Dlazj
+blgsRoB+bmoHo6Ws7pOmC1K6Z1g/j72Q5Ighub8sOkRRj9ASFXa1TKofN18npch/
+2jmcNiZajziX7hDJXuwZXwO3TVWcx7EHxymSE11ZK/+91Ddozijo2sq7UD66JUsD
+vOBa1xaW2sCLBlLpAxDvkt/QnBMhCi4KJY9S/3FqEC3hVqKFCvBtGTmdEY6mrCGo
+mIKolBmpo0IT/GGMEuns011o6Wqftybv3Ntl7nvu2Cxa2Jwv+2f41kd8ewoIJhYV
+g1d2/q/tyevIVx/r1LG5XZpNtYAG5a+5Kmn5tWq20p22kx8KuyZsQ9b7WgUvqkbk
+j8M+pICgwljjYCLuWGE34tXQq2HwRsRWGJVNYuztJZZOLpeXTXwcDD8LXuz4czkW
+oZMhqLSHIxkuyHpq9/jPk33x7bXQwi8EbNiXh0W2ho5a3nDQrc9tSJKlPgVZKFmq
+v6vfrF3YqZVySgPk93k3
+=2gHF
+-----END PGP SIGNATURE-----
+
+--=-k25saOD3Tw6lWyrUnp4H--
+
