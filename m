@@ -1,105 +1,59 @@
-From: Johannes Berg <johannes@sipsolutions.net>
-Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
-Date: Thu, 19 Mar 2009 17:59:21 +0100
-Message-ID: <1237481961.5100.98.camel@johannes.local>
-References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
-	 <b6a2187b0903142006u546fad9eme66f9ea7b464b81f@mail.gmail.com>
-	 <1237140665.24621.2.camel@johannes.local>
-	 <alpine.LFD.2.00.0903151136310.3131@localhost.localdomain>
-	 <1237143683.24621.7.camel@johannes.local> <20090315202603.GA9077@elte.hu>
-	 <b6a2187b0903160624gb9d207dv301506e589d93ed4@mail.gmail.com>
-	 <1237317742.31814.28.camel@johannes.local>
-	 <b6a2187b0903181958ke11abe7tdcbc4efeb950954d@mail.gmail.com>
-	 <b6a2187b0903182025y5552900cu6213a4f4eafeb6e6@mail.gmail.com>
-	 <b6a2187b0903182123s4371c67ep7a98f081d12b8e02@mail.gmail.com>
-	 (sfid-20090319_052309_885717_7A3A63CE)
+From: Frans Pop <elendil@planet.nl>
+Subject: Re: Required sequence to set wireless parameters?
+Date: Thu, 19 Mar 2009 20:24:27 +0100
+Message-ID: <200903192024.30562.elendil@planet.nl>
+References: <b6a2187b0903142006u546fad9eme66f9ea7b464b81f@mail.gmail.com> <200903191602.58790.elendil@planet.nl> <1237481630.5100.92.camel@johannes.local>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-pxGy+Al2gKv6l5487tUN"
+Content-Transfer-Encoding: 7bit
 Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <b6a2187b0903182123s4371c67ep7a98f081d12b8e02@mail.gmail.com> (sfid-20090319_052309_885717_7A3A63CE)
+In-Reply-To: <1237481630.5100.92.camel@johannes.local>
+Content-Disposition: inline
 Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Jeff Chua <jeff.chua.linux@gmail.com>
-Cc: Ingo Molnar <mingo@elte.hu>, Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, "John W. Linville" <linville@tuxdriver.com>
+Content-Type: text/plain; charset="us-ascii"
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: "John W. Linville" <linville@tuxdriver.com>, jeff.chua.linux@gmail.com, mingo@elte.hu, torvalds@linux-foundation.org, rjw@sisk.pl, linux-kernel@vger.kernel.org, bunk@kernel.org, akpm@linux-foundation.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org
 
+On Thursday 19 March 2009, Johannes Berg wrote:
+> Wext is a mess, and we've known that for a long time... But no, the
+> sequence should _not_ be required, it's just _easier_ for the kernel,
+> and as such has a better probability of succeeding if there are
+> problems, it should still work though.
+>
+> However, one thing that will _not_ work is this:
+> iwconfig wlan0 essid xyz
+> iwconfig wlan0 key s:xyz
+>
+> you still need:
+> iwconfig wlan0 ap any
+>
+> or anything similar after setting the key to trigger the kernel to do
+> something.
 
---=-pxGy+Al2gKv6l5487tUN
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+OK. Thanks for the info.
 
-On Thu, 2009-03-19 at 12:23 +0800, Jeff Chua wrote:
+> > Reason I ask is that for example when writing wireless support for
+> > e.g. a distro installation system, it seems most logical to *first*
+> > ask the user what network (ESSID) he wants to connect to. Next to
+> > check if we can connect to that network without additional
+> > authentication and only then, if needed, ask for keys etc.
+> > If it's not possible to set that info in that logical order that
+> > seems rather restrictive to me and would probably mean that you'd
+> > have to reset AP, ESSID and possibly other settings before each
+> > incremental attempt.
+>
+> That's a pretty wrong argument, nothing says your software cannot
+> collect all the information and then give it to the kernel at once
+> later, I think... In fact, this is required anyway when you use RSN or
+> WPA (wpa_supplicant needs all information at once), for example.
 
-> *** this is in nopatch.fail ***
->=20
-> 2009-03-19T12:07:22.437578+08:00 boston kernel: ieee80211 phy0: U
-> iwl_bg_request_scan Start direct scan for 'sdg2088a88'
->=20
-> 2009-03-19T12:07:24.337644+08:00 boston kernel: ieee80211 phy0: U
-> iwl_bg_request_scan Start indirect scan.
->=20
->=20
-> For the passing run, it's always "direct scan".
+Well, the thing is that we'll already have tried just setting essid to 
+check if it's an open network. However, I can see the point of needing to 
+set the essid _again_ after asking the key info and setting that.
 
-That's because of your 'iwlist wlan0 scan' command, it triggers an
-indirect scan, if you did 'iwlist wlan0 scan essid sdg2088a88' you would
-get a direct scan there. It's always 'direct' for when it passes because
-then you don't get to the point where you scan again, I think.
+I can also see how you might have to unset some settings in some cases, 
+for example if the NIC has already associated with the wrong network 
+(e.g. because there's a totally open network in range).
 
-All in all, I don't see much in the logs, it seems to be behaving
-properly and asking for a direct scan when you set the essid. The kernel
-will not try to connect to an encrypted network before you give it a
-key, but "iwconfig wlan0 ap any" should trigger the association
-process...
-
-Can you do something else for me?
-
-Get iw (some distros ship it, or see wireless.kernel.org) and enter this
-command:
-	iw dev wlan0 interface add moni0 type monitor flags none
-
-Then,
-	ip link set moni0 up
-
-Start a capture:
-	iwevent > /tmp/event.txt
-
-Now do, in a separate shell:
-	iwconfig wlan0 essid ...
-	iwconfig wlan0 key ...
-
-_Now_ start tcpdump:
-	tcpdump -i moni0 -s 10000 -w /tmp/dump.pkt
-
-and in a separate shell do:
-	iwlist wlan0 scan last > /tmp/scan.txt ; iwconfig wlan0 ap any
-
-(this is important in one command so it's timed closed together)
-
-Send me the contents of all the files from a failed run please.
-
-johannes
-
---=-pxGy+Al2gKv6l5487tUN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-Comment: Johannes Berg (powerbook)
-
-iQIcBAABAgAGBQJJwnnmAAoJEKVg1VMiehFY7j8P/0DtN335lFRGrXmdLP4DY8Ih
-fgoYY0hKxLgT1AnQxpUNsdn0TX6BRovRD+fwsP9Y1ThO3XYLPBe9fjT0Vt23l24+
-YwawUaqdFXLLtKbLjO7fS6CJvIaijqgra5TMNVfya7WLgWHiNVigPjXEJ+7x+/c7
-DBaJWoDLwGpK4HT3WTfBb208+unMtOZejBnvboZ5aQWJ2YGIN9/pYT60Xo2c3pSS
-J0WwojwxPvgW0Xm1qvPC7S4heI310rXfbJct91Ehz44LwpmvhY7665Jn3VCf76mk
-H4A9EaVYF5ylWbZ+ZySxCUaLKE0z+NmfAb4JCcK64rF8p+KhLbPoAoXxRqQfXbkn
-KOR/fnuhdsG4QVTjpYbiPjMTv7yWk8sXP0HQ1FtnJ/hhxkFUnlNZsOwQH8w+qtEU
-ap6jaHewQB/LU6Huzhgb/S3I0BHo5X56GomWn87kiCHFPBaCqwvUlGh0Spr12+fE
-K3RZLOPq9P2ld6kAM4i8QYX2ZXyc34ApL9/OCC9slhI38GgjyEjOQlBOG2H2pskJ
-vzPrxtkjUjohqPhCTq6cKC+bQoinlR5YoznC5p6YVZ24qIf+jY1HhmMoFEVpb4pa
-fylEY67dFmZBxyeGXeIbBcTx0fEe/9/UkOps721NqgtA6ztNBxzV7TY/jFvZmuP0
-mkAd3sIhO23uu7lzXUhj
-=fiih
------END PGP SIGNATURE-----
-
---=-pxGy+Al2gKv6l5487tUN--
-
+Our current logic (in Debian Installer) definitely needs improving and 
+these pointers will help. Thanks.
