@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12792] 2.6.29-rc6-git4 boot failure
-Date: Sat, 21 Mar 2009 17:39:04 +0100 (CET)
-Message-ID: <l8NZ2a3iQtG.A.6EB.JaTxJB@chimera>
+Subject: [Bug #12681] s2ram: fails to wake up on Acer Extensa 4220 (SMP disabled)
+Date: Sat, 21 Mar 2009 17:39:02 +0100 (CET)
+Message-ID: <l8NZ2a3iQtG.A.DwB.qaTxJB@chimera>
 References: <GPBuLTara4J.A.3kH.TZTxJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, "Sachin P. Sant" <sachinp-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Orivej Desh <smpuj-5URONGGNgjI@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12792
-Subject		: 2.6.29-rc6-git4 boot failure
-Submitter	: Sachin P. Sant <sachinp-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
-Date		: 2009-02-27 23:19 (23 days old)
-References	: http://ozlabs.org/pipermail/linuxppc-dev/2009-February/068771.html
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12681
+Subject		: s2ram: fails to wake up on Acer Extensa 4220 (SMP disabled)
+Submitter	: Orivej Desh <smpuj-5URONGGNgjI@public.gmane.org>
+Date		: 2009-02-09 13:01 (41 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1cfe62c8010ac56e1bd3827e30386a87cc2f3594
 
