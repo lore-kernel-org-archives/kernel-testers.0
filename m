@@ -1,40 +1,53 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #12645] DMI low-memory-protect quirk causes resume hang
-	on Samsung NC10
-Date: Sat, 21 Mar 2009 20:51:52 +0100
-Message-ID: <20090321195152.GB25327@elte.hu>
-References: <HPkmj74uawF.A.iqE.M8TxJB@chimera> <fnEpM0mQZjO.A.fJF.d8TxJB@chimera>
+From: Ingo Molnar <mingo@elte.hu>
+Subject: Re: 2.6.29-rc8-git5: Reported regressions from 2.6.28
+Date: Sat, 21 Mar 2009 21:05:34 +0100
+Message-ID: <20090321200534.GA30238@elte.hu>
+References: <GPBuLTara4J.A.3kH.TZTxJB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-acpi-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <fnEpM0mQZjO.A.fJF.d8TxJB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <GPBuLTara4J.A.3kH.TZTxJB@chimera>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Patrick Walton <pcwalton-764C0pRuGfqVc3sceRu5cw@public.gmane.org>, Philipp Kohlbecher <xt28-Mmb7MZpHnFY@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Wu Fengguang <fengguang.wu@intel.com>
 
 
-* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+* Rafael J. Wysocki <rjw@sisk.pl> wrote:
 
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.27 and 2.6.28.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12645
-> Subject		: DMI low-memory-protect quirk causes resume hang on Samsung NC10
-> Submitter	: Patrick Walton <pcwalton-764C0pRuGfqVc3sceRu5cw@public.gmane.org>
-> Date		: 2009-02-06 18:35 (44 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=0af40a4b1050c050e62eb1dc30b82d5ab22bf221
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12809
+> Subject		: iozone regression with 2.6.29-rc6
+> Submitter	: Lin Ming <ming.m.lin@intel.com>
+> Date		: 2009-02-27 9:13 (23 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1cf6e7d83bf334cc5916137862c920a97aabc018
+> References	: http://marc.info/?l=linux-kernel&m=123572630504360&w=4
+> 		  http://lkml.org/lkml/2009/3/14/265
+> Handled-By	: Wu Fengguang <fengguang.wu@intel.com>
 
-this is in NEEDINFO state - the question is whether this commit 
-(currently queued up for .30) fixes it:
+I think this was tracked back to the effective halving of 
+dirty_ratio by 1cf6e7d83 ("mm: task dirty accounting fix") and 
+doubling the ratio fixed the iozone regression.
 
-  78a8b35: x86: make e820_update_range() handle small range update
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12800
+> Subject		: x86 PAT invalid vm_insert_pfn assumptions
+> Submitter	: Thomas Hellstrom <thellstrom@vmware.com>
+> Date		: 2009-03-02 01:40 (20 days old)
+
+fix queued up for .30:
+
+ 895791d: VM, x86, PAT: add a new vm flag to track full pfnmap at mmap
+ 4bb9c5c: VM, x86, PAT: Change is_linear_pfn_mapping to not use vm_pgoff
+
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12763
+> Subject		: Different cpu MHz values for processor0 and processor1
+> Submitter	: Matthew A. Bockol <mbockol@carleton.edu>
+> Date		: 2009-02-21 5:42 (29 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123519687807246&w=4
+
+first-bad-commit:
+
+d96f94c: ACPI: Enable bit 11 in _PDC to advertise hw coord
 
 	Ingo
