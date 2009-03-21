@@ -1,30 +1,30 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12909] boot/kernel init duration regression from 2.6.28
-Date: Sat, 21 Mar 2009 17:39:08 +0100 (CET)
-Message-ID: <l8NZ2a3iQtG.A.2uH.ZZTxJB@chimera>
-References: <GPBuLTara4J.A.3kH.TZTxJB@chimera>
+Subject: [Bug #12061] snd_hda_intel: power_save: sound cracks on powerdown
+Date: Sat, 21 Mar 2009 18:01:22 +0100 (CET)
+Message-ID: <fnEpM0mQZjO.A.8TG.I-TxJB@chimera>
+References: <HPkmj74uawF.A.iqE.M8TxJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <GPBuLTara4J.A.3kH.TZTxJB@chimera>
+In-Reply-To: <HPkmj74uawF.A.iqE.M8TxJB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, CaT <cat-LJ1TwQYPT6cQrrorzV6ljw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jens Weibler <bugzilla-kernel-6hJTtV8wudIr9FUcG+3rRQ@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
 
 This message has been generated automatically as a part of a report
-of recent regressions.
+of regressions introduced between 2.6.27 and 2.6.28.
 
 The following bug entry is on the current list of known regressions
-from 2.6.28.  Please verify if it still should be listed and let me know
-(either way).
+introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12909
-Subject		: boot/kernel init duration regression from 2.6.28
-Submitter	: CaT <cat-LJ1TwQYPT6cQrrorzV6ljw@public.gmane.org>
-Date		: 2009-03-16 10:25 (6 days old)
-References	: http://marc.info/?l=linux-kernel&m=123720083515950&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12061
+Subject		: snd_hda_intel: power_save: sound cracks on powerdown
+Submitter	: Jens Weibler <bugzilla-kernel-6hJTtV8wudIr9FUcG+3rRQ@public.gmane.org>
+Date		: 2008-11-18 12:07 (124 days old)
+Handled-By	: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
 
