@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12634] video distortion and lockup with i830 video chip and 2.6.28.3
-Date: Sat, 21 Mar 2009 18:07:28 +0100 (CET)
-Message-ID: <fnEpM0mQZjO.A.ULF.f8TxJB@chimera>
+Subject: [Bug #12868] iproute2 and regressing "ipv6: convert tunnels to net_device_ops"
+Date: Sat, 21 Mar 2009 18:07:29 +0100 (CET)
+Message-ID: <fnEpM0mQZjO.A.o3E.S8TxJB@chimera>
 References: <HPkmj74uawF.A.iqE.M8TxJB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bob Raitz <pappy_mcfae-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.27 and 2.6.28.
@@ -22,8 +22,10 @@ introduced between 2.6.27 and 2.6.28.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12634
-Subject		: video distortion and lockup with i830 video chip and 2.6.28.3
-Submitter	: Bob Raitz <pappy_mcfae-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-Date		: 2009-02-04 21:10 (46 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12868
+Subject		: iproute2 and regressing "ipv6: convert tunnels to net_device_ops"
+Submitter	: Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org>
+Date		: 2009-03-09 14:46 (13 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1326c3d5a4b792a2b15877feb7fb691f8945d203
+References	: http://marc.info/?l=linux-netdev&m=123660999632730&w=4
 
