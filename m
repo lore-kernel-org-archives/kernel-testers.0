@@ -1,61 +1,49 @@
-From: Michael Riepe <michael.riepe-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: ptrace performance (was: [Bug #12208] uml is very slow on 2.6.28
- host)
-Date: Sat, 21 Mar 2009 15:44:17 +0100
-Message-ID: <49C4FD41.4030504@googlemail.com>
-References: <9nR7rAsBwYG.A.iEG.fOCvJB@chimera> <qm8_cedJGaP.A.c1H.2PCvJB@chimera>
+From: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: 2.6.29-rc8: Reported regressions from 2.6.28
+Date: Sat, 21 Mar 2009 23:08:11 +0800
+Message-ID: <b6a2187b0903210808m7586fdc2g53e72aa269d6e353@mail.gmail.com>
+References: <MiincthRUSI.A.eKC.F4BvJB@chimera>
+	 <b6a2187b0903181958ke11abe7tdcbc4efeb950954d@mail.gmail.com>
+	 <b6a2187b0903182149x77e416ecuf73be2970173c601@mail.gmail.com>
+	 <1237455534.5100.56.camel@johannes.local>
+	 <b6a2187b0903192155q33510b57l9d5927538a0f4f99@mail.gmail.com>
+	 <1237537967.5100.135.camel@johannes.local>
+	 <b6a2187b0903200304l469e3eeet87c51b1cddb43ea8@mail.gmail.com>
+	 <1237544033.5100.143.camel@johannes.local>
+	 <b6a2187b0903200914r23d635c9obc55b30b7cc04382@mail.gmail.com>
+	 <1237637375.5100.178.camel@johannes.local>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:x-accept-language:mime-version:to:cc:subject:references
-         :in-reply-to:x-enigmail-version:content-type
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
          :content-transfer-encoding;
-        bh=NEADi6ZStyhNTK9WR4x/4tvHxKK/2bbG84n6e4KAS4g=;
-        b=i09ok1LSTL8pmHZI4NqbD9rUq1WBAhincwo62Bnmd4HleNBVhrsmhx1k6K0s9XznJ9
-         9Yu7K+hnBhtzIJDNnvL+wSp6vAxzn4Dq6RHn0g/yVStCtuj5/gx8ionBb13ZOTOjOSy2
-         Y4t2lc4pitNQx0Kvd6/yCHxPIp1UTvpnmFj7o=
-In-Reply-To: <qm8_cedJGaP.A.c1H.2PCvJB@chimera>
+        bh=4QXYZgpMgBTld8EZddA4CvdcGseTMaJH7NYA0FE8FPs=;
+        b=YS2LUaF1/+TBnHIq/ty6+iiFxJ8lOqeQydM5wdQkYU1dgrZjiZYc7iXV6W8lBT3vs9
+         nYz8fgY9oLtQ1cV7H8B2F+r2qqDUwgoBTkRMAwYoqOMqKdRCnIC2bcgMWJlzW6DngyCn
+         BCYLSd9YDnhZFB5tYG6kcesHjiPt7LqNYpbG4=
+In-Reply-To: <1237637375.5100.178.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
+To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
-Disclaimer: I'm not using UML, but these problems may be related.
+On Sat, Mar 21, 2009 at 8:09 PM, Johannes Berg
+<johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org> wrote:
+> Thing is that this works perfectly fine for me, on very similar
+> hardware.
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12208
-> Subject		: uml is very slow on 2.6.28 host
-> Submitter	: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
-> Date		: 2008-12-12 9:35 (93 days old)
-> References	: http://marc.info/?l=linux-kernel&m=122907463518593&w=4
+I've set hidden SSID + mac address filtering (only allow my notebook
+MAC address) as well as 128 WEP. And no problem to associate with
+non-hidden AP.
 
-The other day I noticed a dramatic ptrace slowdown between 2.6.27 and
-2.6.28.x (verified with 2.6.28.8). In particular, a command like
+> OTOH, maybe it got _fixed_ again. Would you check wireless-testing
+> (http://wireless.kernel.org/en/developers/Documentation#wireless-testing.git) for me? Or compat-wireless (http://wireless.kernel.org/en/users/Download)
 
-	dd if=/dev/zero of=/dev/null bs=1024k count=1024
+I'll try that tomorrow. Seems a lot to pull from git.
 
-will normally report a throughput in the GB/s range. On 2.6.27, this is
-also true if you run
-
-	strace -o /dev/null <dd command as above>
-
-which is only a little slower. But if I do the same on 2.6.28.x, I get a
-throughput of about 100 MB/s or less, i.e. less than 10%. I tried the
-commands on three different machines (an Athlon64 3000+, a Core Duo
-T2400 and an Atom 330), and they all behave similar. The more system
-calls a program uses, the worse the slowdown (try the dd command with
-bs=16k and count=65536, for example - but don't hold your breath).
-
-Interestingly, the CPUs are mostly idle while the command is executing
-on 2.6.28.x, but there is a high (system) load on 2.6.27. Therefore, I
-suspect that it's a scheduling or maybe timer problem that was
-introduced between 2.6.27 and 2.6.28. I haven't had the time to check
-the rc kernels yet; perhaps someone else can run a quick check to verify
-that it's gone in the latest 2.6.29-rc.
-
--- 
-Michael "Tired" Riepe <michael.riepe-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-X-Tired: Each morning I get up I die a little
+Thanks,
+Jeff.
