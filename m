@@ -1,97 +1,30 @@
-From: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>
-Subject: Re: [alsa-devel] Bugs on aspire one A150
-Date: Sun, 22 Mar 2009 13:55:17 +0100
-Message-ID: <20090322125517.GA26498@rhlx01.hs-esslingen.de>
-References: <20090317100500.GA16029@rhlx01.hs-esslingen.de> <20090317103845.GA26007@rhlx01.hs-esslingen.de> <20090317104755.GA1446@rhlx01.hs-esslingen.de> <s5h3adcpf1i.wl%tiwai@suse.de> <20090317161828.GA32756@rhlx01.hs-esslingen.de> <s5h3adbhovj.wl%tiwai@suse.de> <20090318090507.GA30453@rhlx01.hs-esslingen.de> <s5hsklbchmu.wl%tiwai@suse.de> <20090320185640.GA17278@rhlx01.hs-esslingen.de> <s5hmybgnddc.wl%tiwai@suse.de>
+From: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Subject: Re: [Bug #12867] 2.6.29-rc7 broke r8169 MAC on Thecus n2100 ARM board
+Date: Sun, 22 Mar 2009 14:51:23 +0100
+Message-ID: <18886.16987.469495.585049@pilspetsen.it.uu.se>
+References: <GPBuLTara4J.A.3kH.TZTxJB@chimera>
+	<l8NZ2a3iQtG.A.rS.mZTxJB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <s5hmybgnddc.wl%tiwai-l3A5Bk7waGM@public.gmane.org>
+In-Reply-To: <l8NZ2a3iQtG.A.rS.mZTxJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
-Cc: Andreas Mohr <andi-5+Cda9B46AM@public.gmane.org>, Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Francois Romieu <romieu-W8zweXLXuWQS+FvcfC7Uqw@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
 
-Hi,
-
-On Fri, Mar 20, 2009 at 09:33:19PM +0100, Takashi Iwai wrote:
-> At Fri, 20 Mar 2009 19:56:40 +0100,
-> Andreas Mohr wrote:
-> > 
-> > Hi,
-> > 
-> > On Wed, Mar 18, 2009 at 10:19:53AM +0100, Takashi Iwai wrote:
-> > > What is the output with -v option?
-> > 
-> > Sorry for the delay!
-> > 
-> > $ arecord -fdat -c1 -v test.wav; aplay test.wav 
-> > Recording WAVE 'test.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Mono
-> > ALSA <-> PulseAudio PCM I/O Plugin
-> > Its setup is:
-> >   stream       : CAPTURE
-> >   access       : RW_INTERLEAVED
-> >   format       : S16_LE
-> >   subformat    : STD
-> >   channels     : 1
-> >   rate         : 48000
-> >   exact rate   : 48000 (48000/1)
-> >   msbits       : 16
-> >   buffer_size  : 24000
-> >   period_size  : 6000
-> >   period_time  : 125000
-> >   tstamp_mode  : NONE
-> >   period_step  : 1
-> >   avail_min    : 6000
-> >   period_event : 0
-> >   start_threshold  : 1
-> >   stop_threshold   : 24000
-> >   silence_threshold: 0
-> >   silence_size : 0
-> >   boundary     : 1572864000
-> > ^CAborted by signal Interrupt...
-> > Playing WAVE 'test.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Mono
-> > andi@andinet:/tmp$ 
-> > 
-> > 
-> > Hmm. Note the pulseaudio stuff above...
+Rafael J. Wysocki wrote:
+> The following bug entry is on the current list of known regressions
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
 > 
-> Yes, that's the very reason.  If you don't PA and avoid the
-> default configuration override (e.g. defined in /etc/asound.conf)
-> my patch should work.
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12867
+> Subject		: 2.6.29-rc7 broke r8169 MAC on Thecus n2100 ARM board
+> Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+> Date		: 2009-03-09 20:29 (13 days old)
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D123663065403760&w=3D4
+> Handled-By	: Francois Romieu <romieu-W8zweXLXuWQS+FvcfC7Uqw@public.gmane.org>
 
-Sorry, but how would I achieve "don't PA"?
-I've tried some Ubuntu suggestions
-(e.g. http://ubuntuforums.org/showthread.php?t=852518 ; didn't work,
-it's Jaunty here),
-I tried asoundconf (un)set-pulseaudio (~/.asoundrc contents looked ok
-then but didn't really help),
-I tried pasuspender -- arecord -fdat -c1 -v test.wav
-I always ended up with "ALSA <-> PulseAudio PCM I/O Plugin" mode.
-(I didn't even attempt the ultimate solution, removing all traces of
-PA packages, since that would be a ridiculous thing to do)
-gnome-sound-properties didn't seem overly helpful either...
-(Sound capture was already set as "ALSA")
-
-If things are that impractical, then there needs to be another builtin way
-to always have the microphone output end up correct, automatically,
-instead of having to go through incredible convolutions to try to
-access the raw ALSA device (which would probably provide a correct
-mic stream) directly, by default.
-
-Or, to put it another way, in many cases the default ALSA device
-wouldn't be used (by sound layers or apps or whatever),
-thus the patch above wouldn't work there if I'm not mistaken,
-thus there needs to be a different way to fix the microphone.
-
-Or, to have it even more condensed, the more you have to fiddle to make
-the patch work, the more distance gets between you and the usual Linux
-distribution use case.
-
-Any ideas or suggestions?
-
-Thanks,
-
-Andreas
+Fixed in Linus' tree by ea8dbdd17099a9a5864ebd4c87e01e657b19c7ab.
