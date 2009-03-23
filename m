@@ -1,30 +1,40 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: 2.6.29-rc8-git5: Reported regressions from 2.6.28
-Date: Mon, 23 Mar 2009 09:23:47 -0700 (PDT)
-Message-ID: <alpine.LFD.2.00.0903230922440.3030@localhost.localdomain>
-References: <GPBuLTara4J.A.3kH.TZTxJB@chimera> <20090321200534.GA30238@elte.hu> <20090323005738.GB6003@localhost>
+From: Stefan Seyfried <seife-l3A5Bk7waGM@public.gmane.org>
+Subject: Re: [Bug #12818] iwlagn broken after suspend to RAM (iwlagn: MAC
+ is in deep sleep!)
+Date: Mon, 23 Mar 2009 20:01:31 +0100
+Message-ID: <49C7DC8B.4020904@suse.de>
+References: <HPkmj74uawF.A.iqE.M8TxJB@chimera> <fnEpM0mQZjO.A.L_E.W8TxJB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090323005738.GB6003@localhost>
+In-Reply-To: <fnEpM0mQZjO.A.L_E.W8TxJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Tomas Winkler <tomas.winkler-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Zhu Yi <yi.zhu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
+Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.27 and 2.6.28.
+>=20
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.27 and 2.6.28.  Please verify if it still shou=
+ld
+> be listed and let me know (either way).
 
+It still does not work with 2.6.29-rc8.
 
-On Mon, 23 Mar 2009, Wu Fengguang wrote:
-> > 
-> > I think this was tracked back to the effective halving of 
-> > dirty_ratio by 1cf6e7d83 ("mm: task dirty accounting fix") and 
-> > doubling the ratio fixed the iozone regression.
-> 
-> Yes, exactly. The patch for fixing this regression is trivial.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12818
+> Subject		: iwlagn broken after suspend to RAM (iwlagn: MAC is in deep=
+ sleep!)
+> Submitter	: Stefan Seyfried <seife-l3A5Bk7waGM@public.gmane.org>
+> Date		: 2009-03-04 08:32 (18 days old)
+--=20
+Stefan Seyfried
+R&D Team Mobile Devices            |              "Any ideas, John?"
+SUSE LINUX Products GmbH, N=C3=BCrnberg | "Well, surrounding them's out=
+=2E"
 
-I was planning on applying that patch only after 2.6.29 is out, and then 
-if there are no surprising side effects and nobody complains, we'd then 
-back-port it into stable.
-
-		Linus
+This footer brought to you by insane German lawmakers:
+SUSE Linux Products GmbH, GF: Markus Rex, HRB 16746 (AG N=C3=BCrnberg)
