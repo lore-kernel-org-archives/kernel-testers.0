@@ -1,40 +1,44 @@
-From: Stefan Seyfried <seife-l3A5Bk7waGM@public.gmane.org>
-Subject: Re: [Bug #12818] iwlagn broken after suspend to RAM (iwlagn: MAC
- is in deep sleep!)
-Date: Mon, 23 Mar 2009 20:01:31 +0100
-Message-ID: <49C7DC8B.4020904@suse.de>
-References: <HPkmj74uawF.A.iqE.M8TxJB@chimera> <fnEpM0mQZjO.A.L_E.W8TxJB@chimera>
+From: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: next-20090318: sunhme does not transmit packets
+Date: Tue, 24 Mar 2009 14:32:32 +0300
+Message-ID: <a4423d670903240432m1a4e8e08x9c97a0947d89800a@mail.gmail.com>
+References: <a4423d670903180958j4847717eh99a41534633dd314@mail.gmail.com>
+	 <20090318.234451.38898787.davem@davemloft.net>
+	 <a4423d670903190116p157b2ebfl69d270e0576c6d9a@mail.gmail.com>
+	 <20090322.215110.261185328.davem@davemloft.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <fnEpM0mQZjO.A.L_E.W8TxJB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=HIH3+csaoWLApmJFe+G5z+7IstLUU4g4IKOWDm1ZoF0=;
+        b=P2GDZbfYTwZORyDPp7VvcWq402kS1aOztnZkw1G+Fq9RzOsuHsatc0b9Jd0sTYwhsN
+         bvzULMx9Snc3uIDs9MFChVHf28/rQYgKUR90gRtVuJVtApFH9/9DrQHIE2KpLjHYVNx7
+         A+Q+4SnSwUO5hHgJi1YsigCkSVf0f6WDifYcg=
+In-Reply-To: <20090322.215110.261185328.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Tomas Winkler <tomas.winkler-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Zhu Yi <yi.zhu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-next-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.27 and 2.6.28.
->=20
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.27 and 2.6.28.  Please verify if it still shou=
-ld
-> be listed and let me know (either way).
+>> 2009/3/19 David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>:
+>> > Does the current vanilla kernel work fine?
+>>
+>> Yes. The problem happens only with -next tree.
+>
+> I have one of my ultra10s up and will try to reproduce and diagnose
+> this locally.
 
-It still does not work with 2.6.29-rc8.
+Hi David
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12818
-> Subject		: iwlagn broken after suspend to RAM (iwlagn: MAC is in deep=
- sleep!)
-> Submitter	: Stefan Seyfried <seife-l3A5Bk7waGM@public.gmane.org>
-> Date		: 2009-03-04 08:32 (18 days old)
---=20
-Stefan Seyfried
-R&D Team Mobile Devices            |              "Any ideas, John?"
-SUSE LINUX Products GmbH, N=C3=BCrnberg | "Well, surrounding them's out=
-=2E"
+2.6.29 also does not work.
 
-This footer brought to you by insane German lawmakers:
-SUSE Linux Products GmbH, GF: Markus Rex, HRB 16746 (AG N=C3=BCrnberg)
+The guilty patch should be between 2.6.29-rc8 and final 2.6.29
+
+even more narrow - 59fcbdd..v2.6.29
+
+I can try to bisect.
