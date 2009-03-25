@@ -1,33 +1,36 @@
-From: David Miller <davem@davemloft.net>
-Subject: Re: next-20090318: sunhme does not transmit packets
-Date: Tue, 24 Mar 2009 13:23:55 -0700 (PDT)
-Message-ID: <20090324.132355.234010341.davem@davemloft.net>
-References: <a4423d670903240432m1a4e8e08x9c97a0947d89800a@mail.gmail.com>
-	<a4423d670903240846j252a825cy1e8a50b5ac3a11ef@mail.gmail.com>
-	<a4423d670903240850w223cdb74k7165ffd70cd7b357@mail.gmail.com>
+From: Hans de Bruin <bruinjm-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
+Subject: root on nfs or other troubles
+Date: Wed, 25 Mar 2009 22:53:04 +0100
+Message-ID: <49CAA7C0.3040109@xs4all.nl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <a4423d670903240850w223cdb74k7165ffd70cd7b357@mail.gmail.com>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: a.beregalov@gmail.com
-Cc: roel.kluin@gmail.com, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, linux-next@vger.kernel.org, kernel-testers@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-From: Alexander Beregalov <a.beregalov@gmail.com>
-Date: Tue, 24 Mar 2009 18:50:55 +0300
+The setup I have here at home consists of a nfs server, and two disk 
+less clients. Every day the nfs server creates a fresh kernel for the 
+clients. One of the clients has been inactive for a while (about half a 
+year) and is now annoyingly unstable. Either the hardware or the kernel 
+or something else has degraded. The client seams to hang on a nfs 
+action. The mouse keeps moving when in X, and some screen objects 
+respond to mouse movement. When in terminal mode (I don't trust the 
+openchrome x driver) key strokes end up on the terminal. Pinging the 
+client from another machine ends in timeouts.
 
-> 2009/3/24 Alexander Beregalov <a.beregalov@gmail.com>:
-> > e4a389a9b5c892446b5de2038bdc0cca8703c615 is first bad commit
-> 
-> No, it is wrong, sorry.
-> I will do more tests tomorrow.
+I have pinged the client for an hour or two. no problem. Ran several 
+ping -A's as root, no problem. Ran a normal ping and a 'find / -name 
+bhjfihreibu -print'  and within minutes the ping died.
 
-I bet it is the problem we are discussing here:
+I could try an older kernel, say about half a year ago, but things have 
+changed in haf a year like the kernel verion of the nfs server, nfs 
+parmeters and kernel .config file. The second client (different 
+hardware) is as stable as a rock.
 
-	http://marc.info/?l=linux-kernel&m=123789980524715&w=2
+Al the kernel options under kernel hacking in make menuconfig are off. 
+Is there any that I would want to turn on?
 
-Herbert has posted two patches to try and fix this issue,
-you can try the second one to see if it solves your bug
-too.
+-- 
+Hans
