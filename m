@@ -1,55 +1,123 @@
-From: Kevin Shanahan <kmshanah-biM/RbsGxha6c6uEtOJ/EA@public.gmane.org>
-Subject: Re: [Bug #12465] KVM guests stalling on 2.6.28 (bisected)
-Date: Fri, 27 Mar 2009 06:52:57 +1030
-Message-ID: <1238098977.5406.5.camel@kulgan>
-References: <qm8_cedJGaP.A.-NH.CPCvJB@chimera>
-	 <1237107837.27699.27.camel@kulgan.wumi.org.au>
-	 <49BE20B2.9070804@redhat.com> <1237207595.4964.31.camel@kulgan.wumi.org.au>
-	 <20090316200736.GD8393@nowhere>
-	 <1237244137.4964.54.camel@kulgan.wumi.org.au>
-	 <20090318001955.GB5143@nowhere>
-	 <1237338986.4801.11.camel@kulgan.wumi.org.au>
-	 <1237411441.5211.5.camel@kulgan.wumi.org.au>
-	 <1237611639.4933.4.camel@kulgan.wumi.org.au>
-	 <20090324114409.GB6058@nowhere>
+From: Matthias Reichl <hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12612] hard lockup when interrupting cdda2wav
+Date: Sat, 28 Mar 2009 15:11:25 +0100
+Message-ID: <20090328141125.GA4061@horus.com>
+References: <HPkmj74uawF.A.iqE.M8TxJB@chimera> <fnEpM0mQZjO.A.kXF.l8TxJB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090324114409.GB6058@nowhere>
+Content-Disposition: inline
+In-Reply-To: <fnEpM0mQZjO.A.kXF.l8TxJB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
 
-On Tue, 2009-03-24 at 12:44 +0100, Frederic Weisbecker wrote:
-> As I explained in my previous mail, you trace is only
-> a snapshot that happened in 10 msec.
+On Sat, Mar 21, 2009 at 06:07:27PM +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.27 and 2.6.28.
 > 
-> I experimented different sizes for the ring buffer but even
-> a 1 second trace require 20 Mo of memory. And a so huge trace
-> would be impractical.
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.27 and 2.6.28.  Please verify if it still should
+> be listed and let me know (either way).
 > 
-> I think we should keep the trace filters we had previously.
-> If you don't minde, could you please retest against latest -tip
-> the following updated patch? Iadded the filters, fixed the python
-> subshell and also flushed the buffer more nicely according to
-> a recent feature in -tip:
 > 
-> echo > trace 
-> 
-> instead of switching to nop.
-> You will need to pull latest -tip again.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12612
+> Subject		: hard lockup when interrupting cdda2wav
+> Submitter	: Matthias Reichl <hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-01-28 16:41 (53 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123316111415677&w=4
+> Handled-By	: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+> Patch		: http://marc.info/?l=linux-scsi&m=123371501613019&w=2
 
-Ok, new set of traces uploaded again here:
+The bug is still present in 2.6.28.9 and in 2.6.29 (see backtraces
+below).
 
-  http://disenchant.net/tmp/bug-12465/trace-4/
+so long,
 
-These were taken using 2.6.29-tip-02749-g398bf09.
+Hias
 
-Same as last time, it was only necessary to have the one guest running
-to reproduce the problem.
+=============================================
+[ INFO: possible recursive locking detected ]
+2.6.28.9-dbg #1
+---------------------------------------------
+swapper/0 is trying to acquire lock:
+ (&q->__queue_lock){.+..}, at: [<ffffffff8040e3b5>] blk_put_request+0x25/0x60
 
-Cheers,
-Kevin.
+but task is already holding lock:
+ (&q->__queue_lock){.+..}, at: [<ffffffff8040e29a>] blk_end_io+0x5a/0xa0
 
+other info that might help us debug this:
+1 lock held by swapper/0:
+ #0:  (&q->__queue_lock){.+..}, at: [<ffffffff8040e29a>] blk_end_io+0x5a/0xa0
+
+stack backtrace:
+Pid: 0, comm: swapper Not tainted 2.6.28.9-dbg #1
+Call Trace:
+ <IRQ>  [<ffffffff8026cd17>] __lock_acquire+0x1797/0x1930
+ [<ffffffff8026cf4a>] lock_acquire+0x9a/0xe0
+ [<ffffffff8040e3b5>] blk_put_request+0x25/0x60
+ [<ffffffff806ab173>] _spin_lock_irqsave+0x43/0x90
+ [<ffffffff8040e3b5>] blk_put_request+0x25/0x60
+ [<ffffffff8040e3b5>] blk_put_request+0x25/0x60
+ [<ffffffff80520644>] sg_finish_rem_req+0xa4/0x100
+ [<ffffffff80521d98>] sg_rq_end_io+0x278/0x2e0
+ [<ffffffff8040e041>] end_that_request_last+0x61/0x260
+ [<ffffffff8040e2a8>] blk_end_io+0x68/0xa0
+ [<ffffffff80507da1>] scsi_end_request+0x41/0xd0
+ [<ffffffff80508490>] scsi_io_completion+0x130/0x470
+ [<ffffffff80413195>] blk_done_softirq+0x75/0x90
+ [<ffffffff8024890b>] __do_softirq+0x9b/0x180
+ [<ffffffff80213dd3>] native_sched_clock+0x13/0x70
+ [<ffffffff8020d6ec>] call_softirq+0x1c/0x30
+ [<ffffffff8020f175>] do_softirq+0x65/0xa0
+ [<ffffffff802483a5>] irq_exit+0xa5/0xb0
+ [<ffffffff8020f467>] do_IRQ+0x107/0x1d0
+ [<ffffffff8020c7fb>] ret_from_intr+0x0/0xf
+ <EOI>  [<ffffffff80214b86>] mwait_idle+0x56/0x60
+ [<ffffffff80214b7d>] mwait_idle+0x4d/0x60
+ [<ffffffff8020b353>] cpu_idle+0x63/0xc0
+
+
+=============================================
+[ INFO: possible recursive locking detected ]
+2.6.29-dbg #1
+---------------------------------------------
+swapper/0 is trying to acquire lock:
+ (&q->__queue_lock){.+..}, at: [<ffffffff8041a8c5>] blk_put_request+0x25/0x60
+
+but task is already holding lock:
+ (&q->__queue_lock){.+..}, at: [<ffffffff8041a7aa>] blk_end_io+0x5a/0xa0
+
+other info that might help us debug this:
+1 lock held by swapper/0:
+ #0:  (&q->__queue_lock){.+..}, at: [<ffffffff8041a7aa>] blk_end_io+0x5a/0xa0
+
+stack backtrace:
+Pid: 0, comm: swapper Not tainted 2.6.29-dbg #1
+Call Trace:
+ <IRQ>  [<ffffffff8027109a>] __lock_acquire+0xfda/0x1b70
+ [<ffffffff806c1c89>] error_exit+0x29/0xb0
+ [<ffffffff80531e30>] sg_rq_end_io+0x0/0x2e0
+ [<ffffffff806c4392>] bad_to_user+0xac/0x5c4
+ [<ffffffff80271cca>] lock_acquire+0x9a/0xe0
+ [<ffffffff8041a8c5>] blk_put_request+0x25/0x60
+ [<ffffffff806c1423>] _spin_lock_irqsave+0x43/0x90
+ [<ffffffff8041a8c5>] blk_put_request+0x25/0x60
+ [<ffffffff8041a8c5>] blk_put_request+0x25/0x60
+ [<ffffffff80530934>] sg_finish_rem_req+0xa4/0x100
+ [<ffffffff805320a8>] sg_rq_end_io+0x278/0x2e0
+ [<ffffffff8041a52a>] end_that_request_last+0x5a/0x280
+ [<ffffffff8041a7b8>] blk_end_io+0x68/0xa0
+ [<ffffffff805186e6>] scsi_io_completion+0x146/0x520
+ [<ffffffff8041fa65>] blk_done_softirq+0x75/0x90
+ [<ffffffff8024bcbb>] __do_softirq+0x9b/0x180
+ [<ffffffff8020d5fc>] call_softirq+0x1c/0x30
+ [<ffffffff8020f145>] do_softirq+0x65/0xb0
+ [<ffffffff8024b7e5>] irq_exit+0x85/0xa0
+ [<ffffffff8020f3e7>] do_IRQ+0xb7/0x1b0
+ [<ffffffff8020ce53>] ret_from_intr+0x0/0xf
+ <EOI>  [<ffffffff80214436>] mwait_idle+0x86/0x90
+ [<ffffffff8021442d>] mwait_idle+0x7d/0x90
+ [<ffffffff8020b417>] cpu_idle+0x67/0xc0
