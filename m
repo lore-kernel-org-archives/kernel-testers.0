@@ -1,42 +1,28 @@
-From: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
-Subject: Re: [Bug #12612] hard lockup when interrupting cdda2wav
-Date: Mon, 30 Mar 2009 20:40:51 +0900
-Message-ID: <20090330204051K.fujita.tomonori@lab.ntt.co.jp>
-References: <HPkmj74uawF.A.iqE.M8TxJB@chimera>
-	<fnEpM0mQZjO.A.kXF.l8TxJB@chimera>
-	<20090328141125.GA4061@horus.com>
+From: Hans de Bruin <bruinjm-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: root on nfs or other troubles
+Date: Mon, 30 Mar 2009 22:39:16 +0200
+Message-ID: <49D12DF4.7040902@xs4all.nl>
+References: <49CAA7C0.3040109@xs4all.nl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090328141125.GA4061-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <49CAA7C0.3040109-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org
-Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Sat, 28 Mar 2009 15:11:25 +0100
-Matthias Reichl <hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org> wrote:
+Hans de Bruin wrote:
+...
 
-> On Sat, Mar 21, 2009 at 06:07:27PM +0100, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.27 and 2.6.28.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.27 and 2.6.28.  Please verify if it still should
-> > be listed and let me know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12612
-> > Subject		: hard lockup when interrupting cdda2wav
-> > Submitter	: Matthias Reichl <hias-vtPv7MOkFPkAvxtiuMwx3w@public.gmane.org>
-> > Date		: 2009-01-28 16:41 (53 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123316111415677&w=4
-> > Handled-By	: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
-> > Patch		: http://marc.info/?l=linux-scsi&m=123371501613019&w=2
 > 
-> The bug is still present in 2.6.28.9 and in 2.6.29 (see backtraces
-> below).
+> I could try an older kernel, say about half a year ago, but things have 
+> changed in haf a year like the kernel verion of the nfs server, nfs 
+> parmeters and kernel .config file. The second client (different 
+> hardware) is as stable as a rock.
 
-The patch has been in James' scsi-misc tree. It was finally merged
-into mainline. So I've just sent it to stable-DgEjT+Ai2yi4UlQgPVntAg@public.gmane.org
+so far 2.6.24 and 2.6.26 are stable
+
+> Al the kernel options under kernel hacking in make menuconfig are off. 
+> Is there any that I would want to turn on?
+> 
