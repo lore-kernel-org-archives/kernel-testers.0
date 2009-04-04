@@ -1,43 +1,43 @@
 From: Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: [Bug #12705] X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-Date: Sat, 04 Apr 2009 00:25:36 -0400 (EDT)
-Message-ID: <alpine.LFD.2.00.0904040024520.15220@localhost.localdomain>
+Subject: Re: 2.6.29-rc6-git7: Reported regressions from 2.6.28
+Date: Sat, 04 Apr 2009 03:40:45 -0400 (EDT)
+Message-ID: <alpine.LFD.2.00.0904040339470.16220@localhost.localdomain>
 References: <KiHv0irKPzE.A.l3.hUarJB@chimera>
- <SLCXkuHtxAO.A.gvC.UVarJB@chimera>
- <20090304064354.GA19776@denkbrett.schottelius.org>
- <200903072234.26989.rjw@sisk.pl>
+ <1236129688.32297.264.camel@rzhang-dt> <200903072312.30158.rjw@sisk.pl>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-reply-to: <200903072234.26989.rjw-KKrjLPT3xs0@public.gmane.org>
+In-reply-to: <200903072312.30158.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-
-
-
+Cc: Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 On Sat, 7 Mar 2009, Rafael J. Wysocki wrote:
 
-> On Wednesday 04 March 2009, Nico Schottelius wrote:
-> > Rafael J. Wysocki [Tue, Mar 03, 2009 at 08:25:55PM +0100]:
-> > > This message has been generated automatically as a part of a report
-> > > of recent regressions.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > from 2.6.28.  Please verify if it still should be listed and let me know
-> > > (either way).
+> On Wednesday 04 March 2009, Zhang Rui wrote:
+> > On Wed, 2009-03-04 at 03:22 +0800, Rafael J. Wysocki wrote:
 > > 
-> > Well, well... nobody really cares about this bug, so it's still
-> > there. Seems this automatic reminder will be persistent until 2.6.30.
+> > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12758
+> > > Subject         : ACPI exception with 2.6.29-rc6
+> > > Submitter       : Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>
+> > > Date            : 2009-02-23 16:46 (9 days old)
+> > > References      : http://marc.info/?l=linux-kernel&m=123540758700861&w=4
+> > > 
+> > Handled by: Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> > Patch-available:
+> > http://bugzilla.kernel.org/attachment.cgi?id=20368&action=view
+> > 
+> > not sure if this patch is in len's tree or not.
 > 
-> Well, thanks for the update.
-
-It is a DRI bug, assigned to   	
-Eric Anholt -- I'm not handling it.
+> Thanks, updated.
 
 
-thanks,
-Len Brown, Intel Open Source Technology Center
+per the bug report, this shipped in 2.6.29-rc8:
+
+commit 7b46ecd5fcebf381a7bde966db352d8fb1b8e944
+Author: Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date:   Wed Feb 25 18:00:18 2009 -0500
+
+    Revert "ACPI: make some IO ports off-limits to AML"
