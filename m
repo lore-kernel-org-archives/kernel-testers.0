@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12671] uvc_status_cleanup(): undefined reference to `input_unregister_device'
-Date: Mon,  6 Apr 2009 21:05:35 +0200 (CEST)
-Message-ID: <AsKNxFx2juN.A.KtB.sHn2JB@chimera>
+Subject: [Bug #12809] iozone regression with 2.6.29-rc6
+Date: Mon,  6 Apr 2009 21:05:38 +0200 (CEST)
+Message-ID: <AsKNxFx2juN.A.41._Gn2JB@chimera>
 References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,12 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12671
-Subject		: uvc_status_cleanup(): undefined reference to `input_unregister_device'
-Submitter	: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Date		: 2009-02-08 14:58 (58 days old)
-References	: http://marc.info/?l=linux-kernel&m=123410529909318&w=4
-Handled-By	: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Patch		: http://lkml.org/lkml/2009/2/15/172
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12809
+Subject		: iozone regression with 2.6.29-rc6
+Submitter	: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2009-02-27 9:13 (39 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1cf6e7d83bf334cc5916137862c920a97aabc018
+References	: http://marc.info/?l=linux-kernel&m=123572630504360&w=4
+		  http://lkml.org/lkml/2009/3/14/265
+Handled-By	: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
