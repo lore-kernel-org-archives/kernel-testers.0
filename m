@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12574] possible circular locking dependency detected
+Subject: [Bug #12668] USB flash disk surprise disconnect
 Date: Mon,  6 Apr 2009 21:05:35 +0200 (CEST)
-Message-ID: <AsKNxFx2juN.A.cMC.gIn2JB@chimera>
+Message-ID: <AsKNxFx2juN.A.g2B.wHn2JB@chimera>
 References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Michael S. Tsirkin" <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.28.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12574
-Subject		: possible circular locking dependency detected
-Submitter	: Michael S. Tsirkin <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-01-29 11:35 (68 days old)
-References	: http://lkml.org/lkml/2009/2/9/205
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12668
+Subject		: USB flash disk surprise disconnect
+Submitter	: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-02-08 10:21 (58 days old)
+References	: http://marc.info/?l=linux-kernel&m=123408851821292&w=4
 
