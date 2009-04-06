@@ -1,29 +1,31 @@
-From: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
-Subject: Re: [Bug #13019] /proc/<pid>/maps offset output broken in 2.6.29
-Date: Tue, 7 Apr 2009 00:13:22 +0100 (BST)
-Message-ID: <Pine.LNX.4.64.0904070008320.4254@blonde.anvils>
-References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.9HH.zFn2JB@chimera>
+From: CaT <cat-LJ1TwQYPT6cQrrorzV6ljw@public.gmane.org>
+Subject: Re: [Bug #12909] boot/kernel init duration regression from 2.6.28
+Date: Tue, 7 Apr 2009 08:47:49 +1000
+Message-ID: <20090406224749.GC19377@zip.com.au>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.z3H.SGn2JB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AsKNxFx2juN.A.9HH.zFn2JB@chimera>
+Content-Disposition: inline
+In-Reply-To: <AsKNxFx2juN.A.z3H.SGn2JB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Friesen <cfriesen-ZIRUuHA3oDzQT0dZR+AlfA@public.gmane.org>, Michael Ellerman <michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, 6 Apr 2009, Rafael J. Wysocki wrote:
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13019
-> Subject		: /proc/<pid>/maps offset output broken in 2.6.29
-> Submitter	: "Chris Friesen" <cfriesen-ZIRUuHA3oDzQT0dZR+AlfA@public.gmane.org>
-> Date		: 2009-04-01 23:18 (6 days old)
-> References	: http://marc.info/?l=linuxppc-embedded&m=123862902916059&w=4
-> Handled-By	: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+On Mon, Apr 06, 2009 at 09:05:41PM +0200, Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12909
+> Subject		: boot/kernel init duration regression from 2.6.28
+> Submitter	: CaT <cat-LJ1TwQYPT6cQrrorzV6ljw@public.gmane.org>
+> Date		: 2009-03-16 10:25 (22 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123720083515950&w=4
 
-No, this shouldn't be listed as a regression from 2.6.28: if it's to be
-counted as a regression at all, it's 2.6.23's regression from 2.6.22.
-(We're about to deal with it in 2.6.30, but hardly worth backporting.)
+I got it tracked down to .29-rc1. I guess I'll need to learn to use git
+now (and user the desktop - compiling on the EEE takes /ages/). Also have
+.29.1 ready to test when I get home tonight.
 
-Hugh
+-- 
+  "A search of his car uncovered pornography, a homemade sex aid, women's 
+  stockings and a Jack Russell terrier."
+    - http://www.news.com.au/story/0%2C27574%2C24675808-421%2C00.html
