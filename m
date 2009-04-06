@@ -1,34 +1,28 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: 2.6.29-git13: Reported regressions from 2.6.28
-Date: Tue, 7 Apr 2009 00:34:59 +0200
-Message-ID: <200904070035.00784.rjw@sisk.pl>
-References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <alpine.LFD.2.00.0904061443000.7443@localhost.localdomain>
+From: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: [Bug #12870] 2.6.29-rc "TKIP: replay detected" regression
+Date: Tue, 7 Apr 2009 00:03:32 +0100 (BST)
+Message-ID: <Pine.LNX.4.64.0904070001400.4254@blonde.anvils>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.cV.bGn2JB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <alpine.LFD.2.00.0904061443000.7443@localhost.localdomain>
-Content-Disposition: inline
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <AsKNxFx2juN.A.cV.bGn2JB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Trenton Adams <trenton.d.adams@gmail.com>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "\"\"John W. Linville\"\"" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
-On Monday 06 April 2009, Linus Torvalds wrote:
+On Mon, 6 Apr 2009, Rafael J. Wysocki wrote:
 > 
-> On Mon, 6 Apr 2009, Rafael J. Wysocki wrote:
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13019
-> > Subject		: /proc/<pid>/maps offset output broken in 2.6.29
-> > Submitter	: "Chris Friesen" <cfriesen@nortel.com>
-> > Date		: 2009-04-01 23:18 (6 days old)
-> > References	: http://marc.info/?l=linuxppc-embedded&m=123862902916059&w=4
-> > Handled-By	: Hugh Dickins <hugh@veritas.com>
-> 
-> I don't think that's a regression, nor really a bug. It looks cosmetic, 
-> and likely to be fixed, but not really worth worrying about.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12870
+> Subject		: 2.6.29-rc "TKIP: replay detected" regression
+> Submitter	: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+> Date		: 2009-03-11 12:07 (27 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123677337219148&w=4
+> Handled-By	: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+> Patch		: http://marc.info/?l=linux-wireless&m=123678463704691&w=2
 
-OK, I've dropped it from the list.
+John's fix went into 2.6.29 final: please remove this regression now.
 
-Thanks,
-Rafael
+Hugh
