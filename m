@@ -1,54 +1,40 @@
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: 2.6.29-git13: Reported regressions from 2.6.28
-Date: Mon, 6 Apr 2009 14:53:19 -0700 (PDT)
-Message-ID: <alpine.LFD.2.00.0904061443000.7443@localhost.localdomain>
-References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #12809] iozone regression with 2.6.29-rc6
+Date: Mon, 6 Apr 2009 15:05:07 -0700 (PDT)
+Message-ID: <alpine.LFD.2.00.0904061501470.7443@localhost.localdomain>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.41._Gn2JB@chimera>
 Mime-Version: 1.0
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <AsKNxFx2juN.A.41._Gn2JB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Trenton Adams <trenton.d.adams@gmail.com>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
 
 
 On Mon, 6 Apr 2009, Rafael J. Wysocki wrote:
+>
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13019
-> Subject		: /proc/<pid>/maps offset output broken in 2.6.29
-> Submitter	: "Chris Friesen" <cfriesen@nortel.com>
-> Date		: 2009-04-01 23:18 (6 days old)
-> References	: http://marc.info/?l=linuxppc-embedded&m=123862902916059&w=4
-> Handled-By	: Hugh Dickins <hugh@veritas.com>
+> The following bug entry is on the current list of known regressions
+> from 2.6.28.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12809
 
-I don't think that's a regression, nor really a bug. It looks cosmetic, 
-and likely to be fixed, but not really worth worrying about.
+Hmm. I applied the commit that should fix it, but I applied it _after_ 
+2.6.29. I was too scared to apply it late in the -rc and quite frankly 
+I'm not sure we should necessarily back-port it.
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13018
-> Subject		: 2.6.29 on MacBook 2,1 fails to reboot
-> Submitter	: Trenton Adams <trenton.d.adams@gmail.com>
-> Date		: 2009-03-30 2:04 (8 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123837870307249&w=4
-> Handled-By	: "Morten P.D. Stevens" <mstevens@win-professional.com>
+So I'm hoping that we can close it as "fixed", even though 2.6.29 will 
+have that particular regression - for those particular machines. It is, 
+after all, just a "where do we draw the line" kind of issue.
 
-This went through bisection, but looking at the email log, I tend to 
-suspect that maybe Trenton marked some versions good even though they 
-weren't (because they got versions numbers from v2.6.27), and didn't 
-realize that that messes up bisection in a big way.
+But I won't close it myself, and I leave it to others to argue whether it 
+really maybe should be back-ported after all.
 
-The bug _sounds_ like some deadlock due to lock problems - the shutdown 
-path often triggers locks that no other path really cares about. And we 
-had some lock problems in the sound subsystem that got fixed post-2.6.28, 
-for example. 
-
-And it looks like the problem is somewhere in sound shutdown:
-
-12181 delete_module("snd_hda_codec", O_RDONLY|O_EXCL) = -1 EAGAIN (Resource temporarily unavailable) <0.000011>
-
-So commits like 91054598f794fb5d8a0b1e747ff8e2e8fc2115b3 ("ALSA: pcm_oss, 
-fix locking typo") might explain it.
-
-		Linus
+			Linus
