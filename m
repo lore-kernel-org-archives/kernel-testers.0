@@ -1,30 +1,52 @@
-From: "=?ISO-8859-1?Q?Ilpo_J=E4rvinen?=" <ilpo.jarvinen@helsinki.fi>
-Subject: Re: 2.6.29-git13: Reported regressions from 2.6.28
-Date: Tue, 7 Apr 2009 13:02:23 +0300 (EEST)
-Message-ID: <Pine.LNX.4.64.0904071256110.12253@wrl-59.cs.helsinki.fi>
-References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
+From: Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #12908] acpi_ex_extract_from_field -- div by zero
+Date: Tue, 07 Apr 2009 13:03:10 +0200
+Message-ID: <49DB32EE.4050309@gmail.com>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.l9H.UGn2JB@chimera> <alpine.LFD.2.00.0904070008140.5698@localhost.localdomain>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=Yu7uYxdyCU8pF2+Ijv9uTo24lvwU9dJapxrZOJNePAY=;
+        b=r09o9kY7UjwzLpRAUDTh1PhTQ0oydhkGlyjci0R0pzDv3wcNPCbKFVZkYcEzoEzgsD
+         4iY2yFl43Nmnc6PlLyaopcTwe8KvKbUz+kVxTaGI9q9J2YoePvufN0/+rHrJkPpI0qLd
+         NUzH0hriZF+ZiVU2KQwYmMPOyAVoKi44bhk9Q=
+In-Reply-To: <alpine.LFD.2.00.0904070008140.5698-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Francois Romieu <romieu@fr.zoreil.com>, Mikael Pettersson <mikpe@it.uu.se>
+To: Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Mon, 6 Apr 2009, Rafael J. Wysocki wrote:
+On 04/07/2009 06:09 AM, Len Brown wrote:
+> On Mon, 6 Apr 2009, Rafael J. Wysocki wrote:
+> 
+>> This message has been generated automatically as a part of a report
+>> of recent regressions.
+>>
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.28.  Please verify if it still should be listed and let me know
+>> (either way).
+>>
+>>
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12908
+>> Subject		: acpi_ex_extract_from_field -- div by zero
+>> Submitter	: Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> Date		: 2009-03-15 10:47 (23 days old)
+>> References	: http://marc.info/?l=linux-kernel&m=123711408225013&w=4
+>> Handled-By	: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> 
+> This is unreproducible and now marked closed.
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12867
-> Subject		: 2.6.29-rc7 broke r8169 MAC on Thecus n2100 ARM board
-> Submitter	: Mikael Pettersson <mikpe@it.uu.se>
-> Date		: 2009-03-09 20:29 (29 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123663065403760&w=4
-> Handled-By	: Francois Romieu <romieu@fr.zoreil.com>
+s/un/hardly /. As I wrote earlier this usually happens after few days
+being off which makes it peculiar.
 
-I think this was fixed in the mainline by revert
-ea8dbdd17099a9a5864ebd4c87e01e657b19c7ab.
+> The theory is that somebody (else:-) scribbled on random kernel memory...
 
+Might be, this will probably be hard to catch :/.
 
--- 
- i.
+Or even a HW malfunction...
