@@ -1,46 +1,46 @@
-From: "Trenton D. Adams" <trenton.d.adams@gmail.com>
+From: Jarek Poplawski <jarkao2@gmail.com>
 Subject: Re: 2.6.29-git13: Reported regressions from 2.6.28
-Date: Tue, 7 Apr 2009 00:31:52 -0600
-Message-ID: <9b1675090904062331m56c09a09r88594381a3eaad48@mail.gmail.com>
-References: <9b1675090904062123u42a00a80y3a4385740ecc0121@mail.gmail.com>
-	 <20090407062425.GA4195@ff.dom.local>
+Date: Tue, 7 Apr 2009 06:41:02 +0000
+Message-ID: <20090407064102.GB4195@ff.dom.local>
+References: <9b1675090904062123u42a00a80y3a4385740ecc0121@mail.gmail.com> <20090407062425.GA4195@ff.dom.local> <9b1675090904062331m56c09a09r88594381a3eaad48@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netdev-owner@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1760021AbZDGGlh@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=f+8JpGdm6H2natEuZmmzieHf0YT6LwnAB+RgZF1Ed4E=;
-        b=bsAgnnrKFqfDh9UDvStfDR63nl6N/xF7vcznXV1/kxcR3F7/OUwiPCiX3DxjWXNgBj
-         j3XR+7UXyi2uTAEp/SxPZIuBWTAcz6bFqk6pXNj/fHjrNUQnYMtUFfLvPk6hyHfVsiBv
-         sy/0aLvfkxQlHwcAYo9DpSrpCLqwNyFvYyq54=
-In-Reply-To: <20090407062425.GA4195@ff.dom.local>
-Sender: netdev-owner@vger.kernel.org
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=smsUitoN5kfEoiheaYJW1phNHLKuSDR3TZNwWZ875r8=;
+        b=e+k50qrxLzzWSvGFnbw7C2rDk1BTvSz9gPbHux82dKT4ighx0m/eJ6ZAvUoduC59Ez
+         JPuHCELaaFS9KxjrB5o1focY36lhu2HujDDDPptuiexTjrieBdUWyFfpGJN8fCD26E13
+         t2+IX4z/MQDIvWtGUZlP0gUGh+GQ8df+9Lv1E=
+Content-Disposition: inline
+In-Reply-To: <9b1675090904062331m56c09a09r88594381a3eaad48@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="iso-8859-1"
-To: Jarek Poplawski <jarkao2@gmail.com>
+To: "Trenton D. Adams" <trenton.d.adams@gmail.com>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
 
-On Tue, Apr 7, 2009 at 12:24 AM, Jarek Poplawski <jarkao2@gmail.com> wr=
-ote:
-> On 07-04-2009 06:23, Trenton D. Adams wrote:
-> ...
->> This gave me a bit of a chuckle. ROFL. =A0I didn't think you were
->> _blaming_ me. =A0And even if you were, I'd just say "I'M HUMAN MAN".=
- ;)
->
-> So, do you think you should be treated better than others? @-)
->
-> Jarek P.
->
+On Tue, Apr 07, 2009 at 12:31:52AM -0600, Trenton D. Adams wrote:
+> On Tue, Apr 7, 2009 at 12:24 AM, Jarek Poplawski <jarkao2@gmail.com> =
+wrote:
+> > On 07-04-2009 06:23, Trenton D. Adams wrote:
+> > ...
+> >> This gave me a bit of a chuckle. ROFL. =A0I didn't think you were
+> >> _blaming_ me. =A0And even if you were, I'd just say "I'M HUMAN MAN=
+". ;)
+> >
+> > So, do you think you should be treated better than others? @-)
+> >
+> > Jarek P.
+> >
+>=20
+> This gave me a bit of a confused look. Better, how so?  And what woul=
+d
 
-This gave me a bit of a confused look. Better, how so?  And what would
-provoke such a comment?  Linus was simply being excessively polite,
-which is a good side to error on I suppose, but I don't need excessive
-politeness.  I didn't in any way think he had blamed me for anything.
-And why would I?  He hadn't said anything that indicated he was.
+Hmm... I mean better than NON-HUMANS of course! Everybody is equal here=
+=2E
 
-Yeah, having trouble getting into your head on that comment.  _confused=
- look_
+Jarek P.
