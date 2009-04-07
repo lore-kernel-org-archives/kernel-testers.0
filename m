@@ -1,43 +1,64 @@
-From: Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: [Bug #12705] X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-Date: Tue, 07 Apr 2009 00:12:03 -0400 (EDT)
-Message-ID: <alpine.LFD.2.00.0904070011280.5698@localhost.localdomain>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: 2.6.29-git13: Reported regressions from 2.6.28
+Date: Mon, 6 Apr 2009 21:07:24 -0700 (PDT)
+Message-ID: <alpine.LFD.2.00.0904062103531.4010@localhost.localdomain>
 References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
- <AsKNxFx2juN.A.vfB.lHn2JB@chimera>
+	<alpine.LFD.2.00.0904061443000.7443@localhost.localdomain>
+	<9b1675090904062056v235af58ehc99cce8ff97fe501@mail.gmail.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-reply-to: <AsKNxFx2juN.A.vfB.lHn2JB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+In-Reply-To: <9b1675090904062056v235af58ehc99cce8ff97fe501@mail.gmail.com>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
+List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
+List-Post: <mailto:linux-pm@lists.linux-foundation.org>
+List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
+List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
+Sender: linux-pm-bounces@lists.linux-foundation.org
+Errors-To: linux-pm-bounces@lists.linux-foundation.org
+To: "Trenton D. Adams" <trenton.d.adams@gmail.com>
+Cc: Adrian Bunk <bunk@kernel.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Natalie Protasevich <protasnb@gmail.com>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>
 
 
 
-On Mon, 6 Apr 2009, Rafael J. Wysocki wrote:
-
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+On Mon, 6 Apr 2009, Trenton D. Adams wrote:
+> >
+> > This went through bisection, but looking at the email log, I tend to
+> > suspect that maybe Trenton marked some versions good even though they
+> > weren't (because they got versions numbers from v2.6.27), and didn't
+> > realize that that messes up bisection in a big way.
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12705
-> Subject		: X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-> Submitter	: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-> Date		: 2009-02-13 9:33 (53 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=e806b4957412bf472d826bd8cc571da041248799
-> References	: http://marc.info/?l=linux-kernel&m=123451768406825&w=4
-> 		  http://marc.info/?l=linux-kernel&m=123479975503827&w=2
+> Is it appropriate for me to respond to these things?
 
-> Handled-By	: Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Yes. I added you to the cc exactly because it was hard for me to judge 
+from the email discussion that is linked to in the regression list whether 
+you actually _did_ mark some versions good because of confusion about the 
+version numbering.
 
-Handled-By	: Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+That would certainly explain why bisection didn't seem to work.
 
-thanks,
-Len Brown, Intel Open Source Technology Center
+But it's not the _only_ reason bisection doesn't work. Sometimes you can 
+be as careful as possible, but if it's a bug that is even _slightly_ flaky 
+(timing-dependencies etc), and the bisection marked something good that 
+shouldn't have been (or vice versa, but that's unusual), then the 
+bisection end result won't be right.
 
+So you may well have done everything right, and I'm not trying to blame 
+you. I just was hoping that maybe that confusion would explain why the 
+bisection didn't seem to pinpoint anything sane..
+
+> I was wondering about that.  Someone had mentioned that I should trust
+> the bisect, even when it takes me into "other versions", and it was
+> taking me through 2.6.27, which I thought was just really weird.
+> Would you like me to try the bisect again with a little more
+> diligence, or do you think it can be found with the info given?  It
+> may take a week or so, due to being a bit busy.
+
+It would be good, especially if this bug doesn't end up being solved some 
+other way... And slow results are better than no results at all ;)
+
+			Linus
