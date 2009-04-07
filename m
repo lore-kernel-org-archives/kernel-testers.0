@@ -1,22 +1,24 @@
-From: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-Subject: Re: [Bug #12871] usb bluetooth crashes system
-Date: Tue, 7 Apr 2009 23:09:46 +0200
-Message-ID: <20090407210946.GK3278@elf.ucw.cz>
-References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.dO.aGn2JB@chimera> <1239088599.19390.27.camel@violet>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #12499] Problem with using bluetooth adaper connected to usb port
+Date: Tue, 7 Apr 2009 23:13:23 +0200
+Message-ID: <200904072313.23603.rjw@sisk.pl>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.bxC.BJn2JB@chimera> <1239088491.19390.25.camel@violet>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1239088491.19390.25.camel@violet>
 Content-Disposition: inline
-In-Reply-To: <1239088599.19390.27.camel@violet>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: Text/Plain; charset="us-ascii"
 To: Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Tue 2009-04-07 09:16:39, Marcel Holtmann wrote:
+On Tuesday 07 April 2009, Marcel Holtmann wrote:
 > Hi Rafael,
-> 
+
+Hi,
+
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
 > > 
@@ -25,19 +27,19 @@ On Tue 2009-04-07 09:16:39, Marcel Holtmann wrote:
 > > (either way).
 > > 
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12871
-> > Subject		: usb bluetooth crashes system
-> > Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-> > Date		: 2009-03-10 11:23 (28 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123668450400940&w=4
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12499
+> > Subject		: Problem with using bluetooth adaper connected to usb port
+> > Submitter	: "Maciej Rutecki" <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date		: 2009-01-13 18:34 (84 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=123187185426236&w=4
 > 
-> please have this re-tested against 2.6.30-rc1 then we can work on
-> figuring out which patch might have fixed it. I think it is fixed now,
-> but I could be also wrong here.
+> I prefer to have this checked against 2.6.30-rc1 once Linus released
+> that one. I think that I know the root cause for this one and it is
+> actually a hardware/firmware bug. Some Bluetooth dongles expect to have
+> the interrupt and bulk URBs available at the same time. Otherwise they
+> do pee in their pants.
 
-2.6.30-rc1 does not seem to be out (according to kernel.org); I can
-test the latest git if that helps?
-									Pavel
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+Works for me. :-)
+
+Thanks,
+Rafael
