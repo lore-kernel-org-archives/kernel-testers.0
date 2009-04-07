@@ -1,24 +1,21 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12499] Problem with using bluetooth adaper connected to usb port
-Date: Tue, 7 Apr 2009 23:13:23 +0200
-Message-ID: <200904072313.23603.rjw@sisk.pl>
-References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.bxC.BJn2JB@chimera> <1239088491.19390.25.camel@violet>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #12670] BUG: unable to handle kernel paging request at pin_to_kill+0x21
+Date: Tue, 7 Apr 2009 23:14:24 +0200
+Message-ID: <200904072314.25107.rjw@sisk.pl>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.yxB.tHn2JB@chimera> <1239091869.5876.1.camel@champagne>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1239088491.19390.25.camel@violet>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1761270AbZDGVOX@vger.kernel.org>
+In-Reply-To: <1239091869.5876.1.camel@champagne>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Alessandro Bono <alessandro.bono@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Tuesday 07 April 2009, Marcel Holtmann wrote:
-> Hi Rafael,
-
-Hi,
-
+On Tuesday 07 April 2009, Alessandro Bono wrote:
+> On Mon, 2009-04-06 at 21:05 +0200, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
 > > 
@@ -27,19 +24,19 @@ Hi,
 > > (either way).
 > > 
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12499
-> > Subject		: Problem with using bluetooth adaper connected to usb port
-> > Submitter	: "Maciej Rutecki" <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2009-01-13 18:34 (84 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123187185426236&w=4
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12670
+> > Subject		: BUG: unable to handle kernel paging request at pin_to_kill+0x21
+> > Submitter	: Alessandro Bono <alessandro.bono@gmail.com>
+> > Date		: 2009-02-08 11:04 (58 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=123409113223833&w=4
+> > 
+> > 
+> HI
 > 
-> I prefer to have this checked against 2.6.30-rc1 once Linus released
-> that one. I think that I know the root cause for this one and it is
-> actually a hardware/firmware bug. Some Bluetooth dongles expect to have
-> the interrupt and bulk URBs available at the same time. Otherwise they
-> do pee in their pants.
+> please close this bug
+> I'm not able to reproduce and at time of this problem my notebook has
+> broken memory modules
 
-Works for me. :-)
+Thanks, closed.
 
-Thanks,
 Rafael
