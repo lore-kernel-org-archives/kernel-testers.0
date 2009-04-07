@@ -1,45 +1,62 @@
-From: Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13015] pppoe over ethernet
-Date: Tue, 7 Apr 2009 07:31:36 +0400
-Message-ID: <aa79d98a0904062031x321bd160rd89b19a6a49fe760@mail.gmail.com>
+From: "Trenton D. Adams" <trenton.d.adams@gmail.com>
+Subject: Re: 2.6.29-git13: Reported regressions from 2.6.28
+Date: Mon, 6 Apr 2009 21:56:27 -0600
+Message-ID: <9b1675090904062056v235af58ehc99cce8ff97fe501@mail.gmail.com>
 References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
-	 <AsKNxFx2juN.A.gjH.4Fn2JB@chimera>
+	 <alpine.LFD.2.00.0904061443000.7443@localhost.localdomain>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-scsi-owner@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
         h=domainkey-signature:mime-version:received:in-reply-to:references
          :date:message-id:subject:from:to:cc:content-type
          :content-transfer-encoding;
-        bh=1QMfVeq/8e2VJ9YN4Xpfnn2Ozhv8TBwoh1Tqbf/ink8=;
-        b=M68YWLZsqKdoccrvvhV5tWTyK1laDOA8VFMMhPH9OgIsVWGIJYa58j6K9K9pKyFBJV
-         B+DDaZs+FAjUQEct2Ch6bO/MJYqF8MywnvMnb8MdemKywmD978i3CFkOyZ8qcMTturMq
-         DBQLyL/y2qsEx4s/qqrNKTK8PAMYExzeqT8y8=
-In-Reply-To: <AsKNxFx2juN.A.gjH.4Fn2JB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+        bh=c/m8l8bjO/p4c1IpVfnGOBCfEPkz3RQVQhu6zhuwLLU=;
+        b=Rj3di4iU7z2ojtLj5TaLaO+bYcdnVxZD3ha3tqBeWZt8LXsQkWQg2CLd5jG2rVBoyM
+         BzMPBL8knWLzOBI4P9oE4RY6LO055afrMxxS8Q2gJtLEbJvKLfv8SlE2Sx/KeN/qFCEQ
+         ZITdC/D6zbKGgbQv+XGxj4/FRszS34gzYsPKA=
+In-Reply-To: <alpine.LFD.2.00.0904061443000.7443@localhost.localdomain>
+Sender: linux-scsi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Detlef Tschirschky <detlef.tschirschky-Mmb7MZpHnFY@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
 
-On 4/6/09, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.28.  Please verify if it still should be listed and let me know
-> (either way).
+On Mon, Apr 6, 2009 at 3:53 PM, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
 >
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13015
-> Subject		: pppoe over ethernet
-> Submitter	: Detlef Tschirschky <detlef.tschirschky-Mmb7MZpHnFY@public.gmane.org>
-> Date		: 2009-03-25 21:28 (13 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123801663105671&w=4
+> On Mon, 6 Apr 2009, Rafael J. Wysocki wrote:
+>>
+>> Bug-Entry =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D130=
+18
+>> Subject =A0 =A0 =A0 =A0 =A0 =A0 =A0 : 2.6.29 on MacBook 2,1 fails to=
+ reboot
+>> Submitter =A0 =A0 : Trenton Adams <trenton.d.adams@gmail.com>
+>> Date =A0 =A0 =A0 =A0 =A0: 2009-03-30 2:04 (8 days old)
+>> References =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D123837870=
+307249&w=3D4
+>> Handled-By =A0 =A0: "Morten P.D. Stevens" <mstevens@win-professional=
+=2Ecom>
 >
->
->
-I expect the issue is inspered by network problem found in plain
-2.6.29. Detlef could you confirm the problem is still active in
-2.6.29.1 or in current -git mainline?
+> This went through bisection, but looking at the email log, I tend to
+> suspect that maybe Trenton marked some versions good even though they
+> weren't (because they got versions numbers from v2.6.27), and didn't
+> realize that that messes up bisection in a big way.
+
+Is it appropriate for me to respond to these things?
+
+I was wondering about that.  Someone had mentioned that I should trust
+the bisect, even when it takes me into "other versions", and it was
+taking me through 2.6.27, which I thought was just really weird.
+Would you like me to try the bisect again with a little more
+diligence, or do you think it can be found with the info given?  It
+may take a week or so, due to being a bit busy.
+
+Thanks
+--
+To unsubscribe from this list: send the line "unsubscribe linux-scsi" i=
+n
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
