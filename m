@@ -1,72 +1,86 @@
-From: Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>
+From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 Subject: Re: [Bug #12490] ath5k related kernel panic in 2.6.29-rc1
-Date: Tue, 7 Apr 2009 20:46:44 -0400
-Message-ID: <20090408004644.GB28096@hash.localnet>
-References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.GaD.UJn2JB@chimera> <20090407024021.GA26739@hash.localnet> <1239098625.22453.6.camel@johannes.local>
+Date: Wed, 08 Apr 2009 02:54:32 +0200
+Message-ID: <1239152072.8456.39.camel@johannes.local>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
+	 <AsKNxFx2juN.A.GaD.UJn2JB@chimera> <20090407024021.GA26739@hash.localnet>
+	 <1239098625.22453.6.camel@johannes.local>
+	 <20090408004644.GB28096@hash.localnet>
 Mime-Version: 1.0
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-NLHk8h7izYX30T5hLc7z"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1239098625.22453.6.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
+In-Reply-To: <20090408004644.GB28096-dciA93evfQsotQDIqMXfEQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+To: Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>
 Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Sergey S. Kostyliov" <rathamahata-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Felix Fietkau <nbd-p3rKhJxN3npAfugRpC6u6w@public.gmane.org>
 
-On Tue, Apr 07, 2009 at 12:03:45PM +0200, Johannes Berg wrote:
-> 
-> > Anyway here's a patch to buy some time.  Johannes, would this be
-> > an acceptable band-aid for now?
-> 
-> This is going to make it print two warnings for one occurrence of the
-> problem though. I'd much prefer to put something into minstrel.c to
-> catch when _it_ returns bogus values and in that case return 0, that way
-> at least the bandaid is restricted to the code it patches up.
 
-Ok, then maybe something like this?
+--=-NLHk8h7izYX30T5hLc7z
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-I think this covers most of the bases: if the driver is returning crap or
-the ->cb gets corrupted, it'll get caught in tx_status.  If minstrel
-stuffs a -1 in the first slot for any other reason we'll get a warning
-before get_tx_rate and a hopefully valid index gets substituted.
+On Tue, 2009-04-07 at 20:46 -0400, Bob Copeland wrote:
+> On Tue, Apr 07, 2009 at 12:03:45PM +0200, Johannes Berg wrote:
+> >=20
+> > > Anyway here's a patch to buy some time.  Johannes, would this be
+> > > an acceptable band-aid for now?
+> >=20
+> > This is going to make it print two warnings for one occurrence of the
+> > problem though. I'd much prefer to put something into minstrel.c to
+> > catch when _it_ returns bogus values and in that case return 0, that wa=
+y
+> > at least the bandaid is restricted to the code it patches up.
+>=20
+> Ok, then maybe something like this?
+>=20
+> I think this covers most of the bases: if the driver is returning crap or
+> the ->cb gets corrupted, it'll get caught in tx_status.  If minstrel
+> stuffs a -1 in the first slot for any other reason we'll get a warning
+> before get_tx_rate and a hopefully valid index gets substituted.
 
-diff --git a/net/mac80211/rc80211_minstrel.c b/net/mac80211/rc80211_minstrel.c
-index 3824990..1cf7152 100644
---- a/net/mac80211/rc80211_minstrel.c
-+++ b/net/mac80211/rc80211_minstrel.c
-@@ -181,6 +181,11 @@ minstrel_tx_status(void *priv, struct ieee80211_supported_band *sband,
- 		if (ar[i].idx < 0)
- 			break;
- 
-+		if (WARN(ar[i].idx >= mi->n_rates,
-+		    "minstrel: invalid rate report %d (n=%d)\n",
-+		    ar[i].idx, mi->n_rates))
-+			break;
-+
- 		ndx = rix_to_ndx(mi, ar[i].idx);
- 		mi->r[ndx].attempts += ar[i].count;
- 
-@@ -328,7 +333,7 @@ minstrel_get_rate(void *priv, struct ieee80211_sta *sta,
- 			ar[0].count = mp->max_retry;
- 		ar[1].idx = mi->lowest_rix;
- 		ar[1].count = mp->max_retry;
--		return;
-+		goto done;
- 	}
- 
- 	/* MRR setup */
-@@ -346,6 +351,10 @@ minstrel_get_rate(void *priv, struct ieee80211_sta *sta,
- 		ar[i].idx = mi->r[mrr_ndx[i - 1]].rix;
- 		ar[i].count = mi->r[mrr_ndx[i - 1]].adjusted_retry_count;
- 	}
-+
-+done:
-+	if (WARN_ON(ar[0].idx < 0))
-+		ar[0].idx = rate_lowest_index(sband, sta);
- }
- 
- 
+Yeah, that looks nicer, thanks.
 
--- 
-Bob Copeland %% www.bobcopeland.com
+> diff --git a/net/mac80211/rc80211_minstrel.c b/net/mac80211/rc80211_minst=
+rel.c
+> index 3824990..1cf7152 100644
+> --- a/net/mac80211/rc80211_minstrel.c
+> +++ b/net/mac80211/rc80211_minstrel.c
+> @@ -181,6 +181,11 @@ minstrel_tx_status(void *priv, struct ieee80211_supp=
+orted_band *sband,
+>  		if (ar[i].idx < 0)
+>  			break;
+> =20
+> +		if (WARN(ar[i].idx >=3D mi->n_rates,
+> +		    "minstrel: invalid rate report %d (n=3D%d)\n",
+> +		    ar[i].idx, mi->n_rates))
+> +			break;
+
+It might be easier to print this in hex -- that way things like 0x6b are
+more apparent?
+
+johannes
+
+--=-NLHk8h7izYX30T5hLc7z
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+Comment: Johannes Berg (powerbook)
+
+iQIcBAABAgAGBQJJ2/XFAAoJEKVg1VMiehFYk64P/3cmAf3w0CrNkhKeTs4HDLQz
+kBpw84EzpHbeMpAOj0UyUzVKOBvjnmpF1nEXlU4rKJjHV3KI/UaFh+OpyAMpeaaI
+utePrXvVKwX727YtXE2VgJtB9zhObjqlNSlYcVD9J876CCbGhPOZOzDCnRDKLNzs
+aOTMWJHzGDAozHp1LvMieOqtF0qOwIWRlmGELuzv1Ws0g9cSjcXvmlH3a+qTDrco
+QgZgeiu032dTrCaYyRsWcqNHsWDqf+0V1zDfCrXrvI3Ug6WbheCdF34ARNfOEYEY
+tP+kbcGO0IxamRiwtF0AY1d/kwq7CwNuJaEu+Hbjg12ygp9MXylRCSjx7xZvzzBE
+SIvp55znT8qELS4qpL3UnBAdNQxxrx92y91h342lfWEyMpUVzOkrkqSqOClGKc++
+WmrxtWlPRjzx9rzijLTDqlVg+wqfNnnY1RlQgBG5p9LPi1lwtGMReeiJk70c+Siw
+bvb60/6wgVM2MU2e4DC7FcEE7QVGUjLrqxPulihrSBBGP6ffI81uX9vJN0l8Kp3t
+fTzkoBrUodhhHG+shYOclY7c5jH1DswhlrkMHXclslbp9Tx5GRXEQllBL3jRnx0+
+gH35eN9HDhgJTD/zGsN7aqBnW54b1JrloaVUeCDVSP5gBuf2gtAodx8Cj9SorBgV
+xTd6o2XH7Kt4BzBgkrge
+=3lxA
+-----END PGP SIGNATURE-----
+
+--=-NLHk8h7izYX30T5hLc7z--
