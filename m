@@ -1,33 +1,72 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: 2.6.29-git13: Reported regressions from 2.6.28
-Date: Wed, 8 Apr 2009 00:24:19 +0200
-Message-ID: <200904080024.20489.rjw@sisk.pl>
-References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <Pine.LNX.4.64.0904071256110.12253@wrl-59.cs.helsinki.fi>
+From: Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>
+Subject: Re: [Bug #12490] ath5k related kernel panic in 2.6.29-rc1
+Date: Tue, 7 Apr 2009 20:46:44 -0400
+Message-ID: <20090408004644.GB28096@hash.localnet>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.GaD.UJn2JB@chimera> <20090407024021.GA26739@hash.localnet> <1239098625.22453.6.camel@johannes.local>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <Pine.LNX.4.64.0904071256110.12253@wrl-59.cs.helsinki.fi>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-Sender: netdev-owner@vger.kernel.org
+In-Reply-To: <1239098625.22453.6.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="iso-8859-1"
-To: Ilpo =?iso-8859-1?q?J=E4rvinen?= <ilpo.jarvinen@helsinki.fi>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Francois Romieu <romieu@fr.zoreil.com>, Mikael Pettersson <mikpe@it.uu.se>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Sergey S. Kostyliov" <rathamahata-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Felix Fietkau <nbd-p3rKhJxN3npAfugRpC6u6w@public.gmane.org>
 
-On Tuesday 07 April 2009, Ilpo J=E4rvinen wrote:
-> On Mon, 6 Apr 2009, Rafael J. Wysocki wrote:
->=20
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D12867
-> > Subject		: 2.6.29-rc7 broke r8169 MAC on Thecus n2100 ARM board
-> > Submitter	: Mikael Pettersson <mikpe@it.uu.se>
-> > Date		: 2009-03-09 20:29 (29 days old)
-> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D123663065403760=
-&w=3D4
-> > Handled-By	: Francois Romieu <romieu@fr.zoreil.com>
->=20
-> I think this was fixed in the mainline by revert
-> ea8dbdd17099a9a5864ebd4c87e01e657b19c7ab.
+On Tue, Apr 07, 2009 at 12:03:45PM +0200, Johannes Berg wrote:
+> 
+> > Anyway here's a patch to buy some time.  Johannes, would this be
+> > an acceptable band-aid for now?
+> 
+> This is going to make it print two warnings for one occurrence of the
+> problem though. I'd much prefer to put something into minstrel.c to
+> catch when _it_ returns bogus values and in that case return 0, that way
+> at least the bandaid is restricted to the code it patches up.
 
-Thanks, closed.
+Ok, then maybe something like this?
 
-Rafael
+I think this covers most of the bases: if the driver is returning crap or
+the ->cb gets corrupted, it'll get caught in tx_status.  If minstrel
+stuffs a -1 in the first slot for any other reason we'll get a warning
+before get_tx_rate and a hopefully valid index gets substituted.
+
+diff --git a/net/mac80211/rc80211_minstrel.c b/net/mac80211/rc80211_minstrel.c
+index 3824990..1cf7152 100644
+--- a/net/mac80211/rc80211_minstrel.c
++++ b/net/mac80211/rc80211_minstrel.c
+@@ -181,6 +181,11 @@ minstrel_tx_status(void *priv, struct ieee80211_supported_band *sband,
+ 		if (ar[i].idx < 0)
+ 			break;
+ 
++		if (WARN(ar[i].idx >= mi->n_rates,
++		    "minstrel: invalid rate report %d (n=%d)\n",
++		    ar[i].idx, mi->n_rates))
++			break;
++
+ 		ndx = rix_to_ndx(mi, ar[i].idx);
+ 		mi->r[ndx].attempts += ar[i].count;
+ 
+@@ -328,7 +333,7 @@ minstrel_get_rate(void *priv, struct ieee80211_sta *sta,
+ 			ar[0].count = mp->max_retry;
+ 		ar[1].idx = mi->lowest_rix;
+ 		ar[1].count = mp->max_retry;
+-		return;
++		goto done;
+ 	}
+ 
+ 	/* MRR setup */
+@@ -346,6 +351,10 @@ minstrel_get_rate(void *priv, struct ieee80211_sta *sta,
+ 		ar[i].idx = mi->r[mrr_ndx[i - 1]].rix;
+ 		ar[i].count = mi->r[mrr_ndx[i - 1]].adjusted_retry_count;
+ 	}
++
++done:
++	if (WARN_ON(ar[0].idx < 0))
++		ar[0].idx = rate_lowest_index(sband, sta);
+ }
+ 
+ 
+
+-- 
+Bob Copeland %% www.bobcopeland.com
