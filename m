@@ -1,49 +1,31 @@
-From: Vegard Nossum <vegard.nossum@gmail.com>
-Subject: Re: 2.6.30-rc1 cannot boot: scsi/async
-Date: Wed, 8 Apr 2009 19:15:39 +0200
-Message-ID: <19f34abd0904081015r5549da00w97593be16373bb8c@mail.gmail.com>
-References: <a4423d670904081012j30ad104etefeee0c8c682aca9@mail.gmail.com>
+From: Kyle McMartin <kyle-pfcGkIkfWfAsA/PxXw9srA@public.gmane.org>
+Subject: Re: 2.6.30-rc1: parisc: system hangs on boot at __schedule()
+Date: Wed, 8 Apr 2009 18:09:21 -0400
+Message-ID: <20090408220921.GF7372@bombadil.infradead.org>
+References: <a4423d670904080603w50face2fl87cd16bd7967cb5d@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-scsi-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=O+bkEeYzMxqGYpGW2QVldbx3LcD7gAIz3DFVNScnzn8=;
-        b=HXxbz++FQJx+/IwCOLqpoUXona8J5MmplytrkNas0OrT4tENbnXwe1Nmh+izhy8AV6
-         m1OmLHEND9g6X+iIEjpsa6z9XKVTex+s77mxk7NZUu7LdcS0m8dBhuHa2pmuRnG6iyOs
-         oLrYH6Y3M7/2ZIEQpWAW41zjh2xUxN312WwyE=
-In-Reply-To: <a4423d670904081012j30ad104etefeee0c8c682aca9@mail.gmail.com>
-Sender: linux-scsi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <a4423d670904080603w50face2fl87cd16bd7967cb5d-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alexander Beregalov <a.beregalov@gmail.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-scsi@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-parisc-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-2009/4/8 Alexander Beregalov <a.beregalov@gmail.com>:
+On Wed, Apr 08, 2009 at 05:03:04PM +0400, Alexander Beregalov wrote:
 > Hi
->
-> It is 2*2 SMP system, x86_64.
->
-> INFO: task async/0:1073 blocked for more than 120 seconds.
+> 
+> Machine is HP j6000.
+> CPU(s): 2 x PA8700 (PCX-W2) at 750.000000 MHz
+> 
+> gcc version 4.3.3 (Gentoo 4.3.3-r2 p1.1, pie-10.1.5)
+> 
+> 
+> Machine hangs before starting rc scripts, but SysRq and C-A-Del work.
+> 
+> All tasks are at __schedule+0x268/0x7bc:
+> 
 
-
-Hi,
-
-I just proposed a patch to fix this:
-
-http://marc.info/?l=linux-kernel&m=123920746830420&w=2
-
-Don't know if it's correct or whether it actually fixes the problem,
-but you are welcome to try it :-)
-
-
-Vegard
-
--- 
-"The animistic metaphor of the bug that maliciously sneaked in while
-the programmer was not looking is intellectually dishonest as it
-disguises that the error is the programmer's own creation."
-	-- E. W. Dijkstra, EWD1036
+.config?
