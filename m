@@ -1,47 +1,59 @@
-From: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Subject: Re: usual_tables: module license 'unspecified' taints kernel.
-Date: Wed, 8 Apr 2009 18:31:40 -0400 (EDT)
-Message-ID: <Pine.LNX.4.44L0.0904081829050.3138-100000@iolanthe.rowland.org>
-References: <49DCD481.1050104@tuffmail.co.uk>
+From: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: 2.6.30-rc1: e1000: list_add corruption
+Date: Thu, 9 Apr 2009 07:45:39 +0400
+Message-ID: <a4423d670904082045q41274747ha08d28a0645ae378@mail.gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <49DCD481.1050104-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:date:message-id:subject
+         :from:to:content-type:content-transfer-encoding;
+        bh=wv+LlhHRdQPC/t12kKvmuUHe4kUccQbwHZaSUEL9abg=;
+        b=aDI7Yd4SprxouZ9haoLoUUUs5eVzv0fUzkFcp1kd00Og2iD/xrhXNJEjEUmkv9ocjz
+         RbTxYaV2lNxDLFEKrcmR1hW+S9j2P3l0MruWWThBE0utYbzkJWQ4cOKBI8tSJphUaezB
+         zSHR/B/RoxapT6iX12Y0nYMiaSExG5LY0EReY=
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Cc: usb-storage-ijkIwGHArpdIPJnuZ7Njw4oP9KaGy4wf@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, e1000-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org
 
-On Wed, 8 Apr 2009, Alan Jenkins wrote:
-
-> Hi, I see this regression in v2.6.30-rc1.  I end up with a module 
-> "usual_tables.ko", which is loaded on boot and causes the kernel to 
-> complain about an unspecified license.  See subject for the exact error 
-> message.
-> 
-> I have
-> 
-> CONFIG_USB_STORAGE=m
-> CONFIG_USB_LIBUSUAL=y
-
-This looks like a mistake in the Makefile.  Does the patch below fix
-the problem?
-
-Alan Stern
-
-
-Index: usb-2.6/drivers/usb/storage/Makefile
-===================================================================
---- usb-2.6.orig/drivers/usb/storage/Makefile
-+++ usb-2.6/drivers/usb/storage/Makefile
-@@ -17,7 +17,8 @@ usb-storage-objs :=	scsiglue.o protocol.
- ifeq ($(CONFIG_USB_LIBUSUAL),)
- 	usb-storage-objs	+= usual-tables.o
- else
--	obj-$(CONFIG_USB)	+= libusual.o usual-tables.o
-+	obj-$(CONFIG_USB)	+= usb-libusual.o
-+	usb-libusual-objs	:= libusual.o usual-tables.o
- endif
- 
- obj-$(CONFIG_USB_STORAGE_ALAUDA)	+= ums-alauda.o
+ WARNING: at lib/list_debug.c:30 __list_add+0x89/0x90()
+ Hardware name:
+ list_add corruption. prev->next should be next (c06ea834), but was
+f70244c8. (prev=c06ea834).
+ Modules linked in: w83627hf hwmon_vid i2c_nforce2
+ Pid: 1436, comm: portageq Not tainted 2.6.30-rc1 #1
+ Call Trace:
+  [<c0129d73>] warn_slowpath+0x73/0xd0
+  [<c03c6008>] ? __kfree_skb+0x38/0x90
+  [<c03f9b06>] ? tcp_data_snd_check+0x26/0xe0
+  [<c03fd67f>] ? tcp_rcv_established+0x2bf/0x5e0
+  [<c040557a>] ? tcp_v4_rcv+0x47a/0x610
+  [<c014cebd>] ? print_lock_contention_bug+0x1d/0x110
+  [<c044a967>] ? _spin_unlock+0x27/0x50
+  [<c040564b>] ? tcp_v4_rcv+0x54b/0x610
+  [<c02d86f9>] __list_add+0x89/0x90
+  [<c03ccff9>] __napi_schedule+0x29/0x60
+  [<c036946d>] e1000_intr+0xbd/0x1a0
+  [<c015c5de>] handle_IRQ_event+0x3e/0x120
+  [<c015e190>] handle_fasteoi_irq+0x60/0xd0
+  [<c0104fd4>] handle_irq+0x34/0x60
+  [<c015f748>] ? rcu_irq_enter+0x8/0x40
+  [<c0104b29>] do_IRQ+0x39/0xa0
+  [<c03c592c>] ? skb_release_head_state+0x2c/0x60
+  [<c01034ee>] common_interrupt+0x2e/0x34
+  [<c02d8601>] ? list_del+0x21/0x90
+  [<c014e54b>] ? trace_hardirqs_on+0xb/0x10
+  [<c03cd4da>] __napi_complete+0x1a/0x30
+  [<c0381971>] nv_napi_poll+0xd1/0x5c0
+  [<c014e54b>] ? trace_hardirqs_on+0xb/0x10
+  [<c03cd5f6>] net_rx_action+0x106/0x1b0
+  [<c012e8df>] __do_softirq+0x6f/0x100
+  [<c044a967>] ? _spin_unlock+0x27/0x50
+  [<c015e1b8>] ? handle_fasteoi_irq+0x88/0xd0
+  [<c012e9cd>] do_softirq+0x5d/0x70
+  [<c012ebad>] irq_exit+0x7d/0xa0
+  [<c0104b32>] do_IRQ+0x42/0xa0
+  [<c012e9b7>] ? do_softirq+0x47/0x70
+  [<c01034ee>] common_interrupt+0x2e/0x34
