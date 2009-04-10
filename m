@@ -1,39 +1,39 @@
-From: Kyle McMartin <kyle@mcmartin.ca>
-Subject: Re: 2.6.30-rc1: parisc: system hangs on boot at __schedule()
-Date: Thu, 9 Apr 2009 10:46:12 -0400
-Message-ID: <20090409144611.GH7372@bombadil.infradead.org>
-References: <a4423d670904080603w50face2fl87cd16bd7967cb5d@mail.gmail.com> <20090408220921.GF7372@bombadil.infradead.org> <a4423d670904090146w2937bf15le2afb5dfad718f0e@mail.gmail.com>
+From: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Subject: Re: [linux-pm] Regression: First hibernation attempt fails
+Date: Fri, 10 Apr 2009 11:23:18 +0200
+Message-ID: <20090410092318.GB30093@elf.ucw.cz>
+References: <49DDD83F.507@tuffmail.co.uk>
 Mime-Version: 1.0
-Return-path: <linux-parisc-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <a4423d670904090146w2937bf15le2afb5dfad718f0e@mail.gmail.com>
-Sender: linux-parisc-owner@vger.kernel.org
+In-Reply-To: <49DDD83F.507-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Alexander Beregalov <a.beregalov@gmail.com>
-Cc: Kyle McMartin <kyle@mcmartin.ca>, linux-parisc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Cc: linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 
-On Thu, Apr 09, 2009 at 12:46:15PM +0400, Alexander Beregalov wrote:
-> 2009/4/9 Kyle McMartin <kyle@mcmartin.ca>:
-> > On Wed, Apr 08, 2009 at 05:03:04PM +0400, Alexander Beregalov wrote:
-> >> Hi
-> >>
-> >> Machine is HP j6000.
-> >> CPU(s): 2 x PA8700 (PCX-W2) at 750.000000 MHz
-> >>
-> >> gcc version 4.3.3 (Gentoo 4.3.3-r2 p1.1, pie-10.1.5)
-> >>
-> >>
-> >> Machine hangs before starting rc scripts, but SysRq and C-A-Del work.
-> >>
-> >> All tasks are at __schedule+0x268/0x7bc:
-> >>
-> >
-> > .config?
+On Thu 2009-04-09 12:13:03, Alan Jenkins wrote:
+> Yet another issue in 2.6.30-rc1 which was not present in 2.6.29 :-).  I
+> wonder if it rings any bells?
 > 
-> Sorry, attached.
+> On my laptop (EEE 4G), the first attempt at hibernation fails. 
+> Subsequent attempts succeed.
+> 
+> If I use s2disk as normal, I see "snapshotting system", then before it
+> gets to write out the image, it aborts and switches back to X.   I can't
+> see any error message, even if I check the log with "dmesg".
+> 
+> If I use "echo disk > /sys/power/state", echo reports the error "Cannot
+> allocate memory".
+> 
+> This only happens if I've logged in to X first.  In fact, I narrowed it
+> down to gnome-power-manager.  If I kill gnome-power-manager beforehand,
+> then it doesn't happen.
 
-Thanks, I swapped disks into my j6700 and will try to reproduce.
+Anything interesting in dmesg?
 
-regards, Kyle
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
