@@ -1,211 +1,115 @@
-From: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
-Subject: Regression: 20 ACPI interrupts per second on EEEPC 4G
-Date: Fri, 10 Apr 2009 16:39:33 +0100
-Message-ID: <49DF6835.9040501@tuffmail.co.uk>
+From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Subject: BUG in wiphy_update_regulatory when loading ath5k (on latest git)
+Date: Fri, 10 Apr 2009 17:18:23 +0100
+Message-ID: <49DF714F.9070600@tuffmail.co.uk>
+References: <49DF6216.8040303@tuffmail.co.uk>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------080501080405070107050804"
-Return-path: <linux-acpi-owner@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlemail.com; s=gamma;
         h=domainkey-signature:received:received:sender:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:content-type;
-        bh=dP3wYME8Ku3lxUxUSPYhXyAIgE4lgZRKb5z5dMamU4I=;
-        b=ZD/Vm/3MKrBzGeNJiUmjGufue68XoswTYQ0RnFWzGOOR1Lc5GmMQwLiEmtX0A0Y7/n
-         crkrp74SHavX/9LyxEruT8u34Fvnc+5W/nF9a7DjzJNdz+vM+BGA93BPRuLO6BCJdkuN
-         C5/VIByezG0kZhx7fHQUY5Mbnvc0WAK57dueg=
-Sender: linux-acpi-owner@vger.kernel.org
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=xYKmCMRNtXBiIDxvHJ2k973cJ5KcWIdm6R4Ey3YI6MM=;
+        b=uLj7lh7D47k7tmw/x61aHDAbdXQ7SgPmLElJs748+vmT3umxn5Z227z8TVQQeaKS4F
+         GQC9BlMer3ZScm9J3zZo9zYfbaLGRLjlP2cWF5XaFIV6xeMhcbqJ+s8CvYiDzA3C8Saq
+         JYCD5E3KU/v9zoG5k2q80ZDXuF+hNGFDgR0hQ=
+In-Reply-To: <49DF6216.8040303-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Sender: linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: linux-acpi@vger.kernel.org
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: ath5k-devel-xDcbHBWguxEUs3QNXV6qNA@public.gmane.org
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-This is a multi-part message in MIME format.
---------------080501080405070107050804
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+Alan Jenkins wrote:
+> Hi, while testing latest Git (i.e. 2.6.30-rc1 + a bit), I hit a bug 
+> which killed my keyboard.  SysRQ keys worked, but I couldn't type in X 
+> or on the console.
 
-On latest git, powertop shows 20 ACPI interrupts per second.  
-Previously, this was closer to 1 per second.  See attached output (a vs 
-b, "a" is from 2.6.29-rc8).
+> This happened when ath5k was loaded dynamically, in response to my 
+> pressing the "wireless toggle" key.  (rfkill-input -> eeepc-laptop, 
+> which does weird acpi-driven PCI hotplug).
+>
+> Can anyone at least explain where this weird backtrace comes from?
 
-This is from a pretty sparse KDE desktop.  Normally I run 
-gnome-power-manager, but I killed it to make sure that wasn't causing 
-any problems.
+Scratch that.  I was able to reproduce it once and get a proper dmesg.  
+My logs were just dropping all the useful bits.  Here it is (taint is 
+due to a libusual bug, note usual-tables(P) in list of modules, no 
+binary crap here, honest).
 
-alan@alan-eeepc:/sys/firmware/acpi/interrupts$ grep -v "invalid" *
-error:       0
-ff_gbl_lock:       0    enabled
-ff_pwr_btn:       0     enabled
-ff_rt_clk:       0      disabled
-gpe03:       0  disabled
-gpe04:       0  disabled
-gpe05:       0  disabled
-gpe09:       0  disabled
-gpe0B:       0  disabled
-gpe0C:       0  disabled
-gpe0D:       0  disabled
-gpe0E:       0  disabled
-gpe18:   60975  enabled
-gpe_all:   60975
-sci:   60975
+[   64.995032] ath5k 0000:01:00.0: registered as 'phy0'
+[   65.062652] BUG: unable to handle kernel NULL pointer dereference at 
+00000004
+[   65.062665] IP: [<e0171332>] wiphy_update_regulatory+0x20f/0x295 
+[cfg80211]
+[   65.062705] *pdpt = 0000000008bf1001 *pde = 0000000000000000
+[   65.062717] Oops: 0000 [#1]
+[   65.062724] last sysfs file: /sys/class/backlight/eeepc/brightness
+[   65.062734] Modules linked in: ath5k(+) mac80211 led_class cfg80211 
+i915 drm i2c_algo_bit cfbcopyarea cfbimgblt cfbfillrect ipv6 
+rfkill_input joydev usual_tables(P) snd_hda_codec_realtek snd_hda_intel 
+snd_hda_codec snd_hwdep uhci_hcd snd_pcm_oss snd_mixer_oss i2c_i801 
+ehci_hcd psmouse serio_raw i2c_core pcspkr atl2 snd_pcm intel_agp 
+snd_timer usbcore agpgart eeepc_laptop snd_page_alloc ac video backlight 
+output battery rfkill button processor evdev thermal fan ata_generic
+[   65.062839]
+[   65.062849] Pid: 2909, comm: modprobe Tainted: P           
+(2.6.30-rc1eeepc #112) 701
+[   65.062860] EIP: 0060:[<e0171332>] EFLAGS: 00010246 CPU: 0
+[   65.062885] EIP is at wiphy_update_regulatory+0x20f/0x295 [cfg80211]
+[   65.062894] EAX: 00000000 EBX: c5da0000 ECX: 00000000 EDX: c5da0060
+[   65.062904] ESI: 0000001a EDI: c5da0060 EBP: df3bdd70 ESP: df3bdd40
+[   65.062913]  DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 0068
+[   65.062923] Process modprobe (pid: 2909, ti=df3bc000 task=c5d03000 
+task.ti=df3bc000)
+[   65.062930] Stack:
+[   65.062935]  df3bdd90 c5da0060 c04277e0 00000001 00000044 c04277e4 
+c5da0060 00000002
+[   65.062953]  00000002 c5da0000 0000001a c5da0060 df3bdda8 e01706a2 
+00000002 00000002
+[   65.062971]  00000282 000080d0 00000068 c5d53500 00000080 00000282 
+00000080 c5da0140
+[   65.062991] Call Trace:
+[   65.062999]  [<e01706a2>] ? wiphy_register+0x122/0x1b7 [cfg80211]
+[   65.063028]  [<e0328e02>] ? ieee80211_register_hw+0xd8/0x346 [mac80211]
+[   65.063069]  [<e06a7c9f>] ? ath5k_hw_set_bssid_mask+0x71/0x78 [ath5k]
+[   65.063099]  [<e06b0c52>] ? ath5k_pci_probe+0xa5c/0xd0a [ath5k]
+[   65.063126]  [<c01a6037>] ? sysfs_find_dirent+0x16/0x27
+[   65.063146]  [<c01fec95>] ? local_pci_probe+0xe/0x10
+[   65.063162]  [<c01ff526>] ? pci_device_probe+0x48/0x66
+[   65.063176]  [<c024c9fd>] ? driver_probe_device+0x7f/0xf2
+[   65.063193]  [<c024cab3>] ? __driver_attach+0x43/0x5f
+[   65.063205]  [<c024c0af>] ? bus_for_each_dev+0x39/0x5a
+[   65.063217]  [<c024c8d0>] ? driver_attach+0x14/0x16
+[   65.063228]  [<c024ca70>] ? __driver_attach+0x0/0x5f
+[   65.063240]  [<c024c5b3>] ? bus_add_driver+0xd7/0x1e7
+[   65.063252]  [<c024ccb9>] ? driver_register+0x7b/0xd7
+[   65.063272]  [<c01ff827>] ? __pci_register_driver+0x32/0x85
+[   65.063286]  [<e00a8018>] ? init_ath5k_pci+0x18/0x30 [ath5k]
+[   65.063309]  [<c0101131>] ? _stext+0x49/0x10b
+[   65.063322]  [<e00a8000>] ? init_ath5k_pci+0x0/0x30 [ath5k]
+[   65.063330]  [<c012f452>] ? __blocking_notifier_call_chain+0x40/0x4c
+[   65.063330]  [<c013a714>] ? sys_init_module+0x87/0x18b
+[   65.063330]  [<c0102804>] ? sysenter_do_call+0x12/0x22
+[   65.063330] Code: b8 da 17 e0 83 c0 04 e8 92 f9 ff ff 84 c0 75 2a 8b 
+55 d4 8b 42 28 85 c0 74 0c 83 c0 04 e8 7c f9 ff ff 84 c0 75 14 a1 bc da 
+17 e0 <83> 78 04 03 74 66 8b 4d d4 80 79 08 00 74 5d a1 e0 d2 17 e0 48
+[   65.063330] EIP: [<e0171332>] wiphy_update_regulatory+0x20f/0x295 
+[cfg80211] SS:ESP 0068:df3bdd40
+[   65.063330] CR2: 0000000000000004
+[   65.063543] ---[ end trace 830f2dd2a95fd1a8 ]---
 
-which I presume means lots of EC interrupts.
+I had a look on kerneloops and found a recent bug in the same function, 
+I wonder if it is related (bugzilla.kernel.org/show_bug.cgi?id=12456).
 
-[    0.134068] ACPI: EC: GPE = 0x18, I/O: command/status = 0x66, data = 0x62
+It's _probably_ a regression; I've been using the wireless-toggle button 
+quite a bit previouslly, on 2.6.29-rc8.
 
-Any ideas?
-
-Thanks
+Thanks in advance
 Alan
 
---------------080501080405070107050804
-Content-Type: text/plain;
- name="a"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
- filename="a"
-
-PowerTOP 1.11   (C) 2007, 2008 Intel Corporation 
-
-Collecting data for 100 seconds 
-
-
-Cn	          Avg residency
-C0 (cpu running)        ( 0.0%)
-polling		  0.0ms ( 0.0%)
-C1		  0.1ms ( 0.0%)
-C2		  0.0ms ( 0.0%)
-C3		 93.5ms (100.0%)
-P-states (frequencies)
-Wakeups-from-idle per second : 10.7	interval: 100.0s
-no ACPI power usage estimate available
-Top causes for wakeups:
-  17.0% (  2.0)       <interrupt> : ehci_hcd:usb1, uhci_hcd:usb2 
-  15.1% (  1.8)       <interrupt> : extra timer interrupt 
-  12.7% (  1.5)             udevd : ehci_work (ehci_watchdog) 
-   8.6% (  1.0)              Xorg : schedule_hrtimeout_range (hrtimer_wakeup) 
-   8.5% (  1.0)          kwrapper : do_nanosleep (hrtimer_wakeup) 
-   8.5% (  1.0)              kwin : schedule_hrtimeout_range (hrtimer_wakeup) 
-   8.5% (  1.0)   USB device  1-5 : UB6225 (ENE) 
-   4.2% (  0.5)   hald-addon-stor : schedule_hrtimeout_range (hrtimer_wakeup) 
-   2.4% (  0.3)       <interrupt> : ata_piix 
-   2.1% (  0.2)    NetworkManager : atl2_open (atl2_watchdog) 
-   1.8% (  0.2)       <interrupt> : acpi 
-   1.7% (  0.2)              kded : schedule_hrtimeout_range (hrtimer_wakeup) 
-   1.7% (  0.2)     <kernel core> : page_writeback_init (wb_timer_fn) 
-   1.6% (  0.2)              init : schedule_hrtimeout_range (hrtimer_wakeup) 
-   1.0% (  0.1)   <kernel module> : neigh_table_init_no_netlink (neigh_periodic_timer) 
-   1.0% (  0.1)     <kernel core> : neigh_table_init_no_netlink (neigh_periodic_timer) 
-   0.8% (  0.1)         ssh-agent : schedule_hrtimeout_range (hrtimer_wakeup) 
-   0.8% (  0.1)         klauncher : schedule_hrtimeout_range (hrtimer_wakeup) 
-   0.3% (  0.0)   <kernel module> : acpi_thermal_check (acpi_thermal_run) 
-   0.3% (  0.0)       scsi_scan_2 : blk_add_timer (blk_rq_timed_out_timer) 
-   0.3% (  0.0)     <kernel core> : blk_add_timer (blk_rq_timed_out_timer) 
-   0.3% (  0.0)              hald : schedule_hrtimeout_range (hrtimer_wakeup) 
-   0.2% (  0.0)          kdesktop : schedule_hrtimeout_range (hrtimer_wakeup) 
-   0.2% (  0.0)     <kernel core> : queue_delayed_work (delayed_work_timer_fn) 
-   0.2% (  0.0)            kicker : schedule_hrtimeout_range (hrtimer_wakeup) 
-   0.1% (  0.0)       <interrupt> : PS/2 keyboard/mouse/touchpad 
-   0.1% (  0.0)              cron : do_nanosleep (hrtimer_wakeup) 
-   0.1% (  0.0)     <kernel core> : addrconf_verify (addrconf_verify) 
-   0.1% (  0.0)     <kernel core> : inet_initpeers (peer_check_expire) 
-   0.1% (  0.0)          rsyslogd : futex_wait (hrtimer_wakeup) 
-
-A USB device is active 100.0% of the time:
-USB device  1-5 : UB6225 (ENE)
-
-Suggestion: Enable USB autosuspend by pressing the U key or adding 
-usbcore.autosuspend=1 to the kernel command line in the grub config
-
-Suggestion: increase the VM dirty writeback time from 4.99 to 15 seconds with:
-  echo 1500 > /proc/sys/vm/dirty_writeback_centisecs 
-This wakes the disk up less frequently for background VM activity
-
-Suggestion: Disable 'hal' from polling your cdrom with:  
-hal-disable-polling --device /dev/cdrom 'hal' is the component that auto-opens a
-window if you plug in a CD but disables SATA power saving from kicking in.
-
-Recent USB suspend statistics
-Active  Device name
-100.0%	USB device  1-5 : UB6225 (ENE)
-  0.0%	USB device usb5 : UHCI Host Controller (Linux 2.6.29-rc8eeepc uhci_hcd)
-  0.0%	USB device usb4 : UHCI Host Controller (Linux 2.6.29-rc8eeepc uhci_hcd)
-  0.0%	USB device usb3 : UHCI Host Controller (Linux 2.6.29-rc8eeepc uhci_hcd)
-  0.0%	USB device usb2 : UHCI Host Controller (Linux 2.6.29-rc8eeepc uhci_hcd)
-100.0%	USB device usb1 : EHCI Host Controller (Linux 2.6.29-rc8eeepc ehci_hcd)
-
---------------080501080405070107050804
-Content-Type: text/plain;
- name="b"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
- filename="b"
-
-PowerTOP 1.11   (C) 2007, 2008 Intel Corporation 
-
-Collecting data for 100 seconds 
-
-
-Cn	          Avg residency
-C0 (cpu running)        ( 0.3%)
-polling		  0.0ms ( 0.0%)
-C1		  0.0ms ( 0.0%)
-C2		  1.1ms ( 0.0%)
-C3		 42.1ms (99.7%)
-P-states (frequencies)
-Wakeups-from-idle per second : 23.9	interval: 100.0s
-no ACPI power usage estimate available
-Top causes for wakeups:
-  64.2% ( 19.7)       <interrupt> : acpi 
-  10.6% (  3.3)          events/0 : queue_delayed_work (delayed_work_timer_fn) 
-   9.0% (  2.8)       <interrupt> : extra timer interrupt 
-   3.4% (  1.0)              kwin : hrtimer_start_range_ns (hrtimer_wakeup) 
-   3.3% (  1.0)              Xorg : hrtimer_start_range_ns (hrtimer_wakeup) 
-   3.3% (  1.0)          kwrapper : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.8% (  0.2)       <interrupt> : ata_piix 
-   0.8% (  0.2)    NetworkManager : atl2_open (atl2_watchdog) 
-   0.7% (  0.2)     <kernel core> : page_writeback_init (wb_timer_fn) 
-   0.7% (  0.2)              kded : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.6% (  0.2)              init : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.4% (  0.1)     <kernel core> : add_timer (neigh_periodic_timer) 
-   0.4% (  0.1)   <kernel module> : add_timer (neigh_periodic_timer) 
-   0.3% (  0.1)         ssh-agent : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.3% (  0.1)          kdesktop : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.2% (  0.1)           konsole : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.2% (  0.1)   knetworkmanager : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.2% (  0.1)              kmix : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.1% (  0.0)            kicker : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.1% (  0.0)              hald : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.1% (  0.0)           async/1 : blk_add_timer (blk_rq_timed_out_timer) 
-   0.1% (  0.0)           pdflush : blk_plug_device (blk_unplug_timeout) 
-   0.1% (  0.0)     <kernel core> : queue_delayed_work (delayed_work_timer_fn) 
-   0.0% (  0.0)       <interrupt> : PS/2 keyboard/mouse/touchpad 
-   0.0% (  0.0)       <interrupt> : uhci_hcd:usb5, HDA Intel, i915@pci:0000:00:02.0 
-   0.0% (  0.0)   <kernel module> : queue_delayed_work (delayed_work_timer_fn) 
-   0.0% (  0.0)         hd-audio0 : schedule_timeout_uninterruptible (process_timeout) 
-   0.0% (  0.0)              cron : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.0% (  0.0)          rsyslogd : hrtimer_start_range_ns (hrtimer_wakeup) 
-   0.0% (  0.0)        khungtaskd : schedule_timeout_interruptible (process_timeout) 
-   0.0% (  0.0)   <kernel module> : add_timer (addrconf_verify) 
-   0.0% (  0.0)     <kernel core> : add_timer (peer_check_expire) 
-
-A USB device is active 100.0% of the time:
-USB device  1-5 : UB6225 (ENE)
-
-Suggestion: Enable USB autosuspend by pressing the U key or adding 
-usbcore.autosuspend=1 to the kernel command line in the grub config
-
-Suggestion: increase the VM dirty writeback time from 5.00 to 15 seconds with:
-  echo 1500 > /proc/sys/vm/dirty_writeback_centisecs 
-This wakes the disk up less frequently for background VM activity
-
-Recent USB suspend statistics
-Active  Device name
-100.0%	USB device  1-5 : UB6225 (ENE)
-  0.0%	USB device usb5 : UHCI Host Controller (Linux 2.6.30-rc1eeepc uhci_hcd)
-  0.0%	USB device usb4 : UHCI Host Controller (Linux 2.6.30-rc1eeepc uhci_hcd)
-  0.0%	USB device usb3 : UHCI Host Controller (Linux 2.6.30-rc1eeepc uhci_hcd)
-  0.0%	USB device usb2 : UHCI Host Controller (Linux 2.6.30-rc1eeepc uhci_hcd)
-100.0%	USB device usb1 : EHCI Host Controller (Linux 2.6.30-rc1eeepc ehci_hcd)
-
---------------080501080405070107050804--
+--
+To unsubscribe from this list: send the line "unsubscribe linux-wireless" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
