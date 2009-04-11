@@ -1,60 +1,50 @@
-From: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
-Subject: Re: Regression: 20 ACPI interrupts per second on EEEPC 4G
-Date: Sat, 11 Apr 2009 10:14:43 +0100
-Message-ID: <49E05F83.2090500@tuffmail.co.uk>
-References: <49DF6835.9040501@tuffmail.co.uk> <49DFE345.3010109@gmail.com>
+From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Subject: Regression: EEE PC hangs when booting off battery
+Date: Sat, 11 Apr 2009 10:41:35 +0100
+Message-ID: <49E065CF.6040408@tuffmail.co.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlemail.com; s=gamma;
         h=domainkey-signature:received:received:sender:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=iZPJh7vNDQktELn9wig/oV9fLW37qoedJzuzNAvKHNU=;
-        b=i+LhqBOZltPbQcPcIPx39wFE37zgDhFxzsvj+EP0RpLcfPdZVfXryqVSMra8eeJui9
-         9s0QL3c1jkJMDv8h4j1reXh4ANw18Cl4GCc7C8WGMkCje8gVUWZ90vjpSqOqgZPg+bLS
-         Aa3xlSqy65wLFiNlGCTXsY5kcGX1OiWwDDGb8=
-In-Reply-To: <49DFE345.3010109@gmail.com>
-Sender: linux-acpi-owner@vger.kernel.org
+         :user-agent:mime-version:to:cc:subject:content-type
+         :content-transfer-encoding;
+        bh=wHowyTDqrHXSsMrBNPLu/VnryMK5GAwW7ue5qku9PmM=;
+        b=a+pLGA12rYYPpvzHECiytGk4IAcWdmTPlhr0x8yNQnuGdMVYxOf5CCzji2iuIoY6ZF
+         VqvUsayjVhsnbnC6rZDJ2p9krYCWRSgm+LrlqRNg3YRPPPj9WWdUo87RqLPd8UNJtN6n
+         4J5uslzzmE3ZutW06k41X9CDhvjKbpYmgq+9A=
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Alexey Starikovskiy <aystarik@gmail.com>
-Cc: linux-acpi@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Alexey Starikovskiy wrote:
-> Alan Jenkins wrote:
->> On latest git, powertop shows 20 ACPI interrupts per second.  
->> Previously, this was closer to 1 per second.  See attached output (a 
->> vs b, "a" is from 2.6.29-rc8).
->>
->> This is from a pretty sparse KDE desktop.  Normally I run 
->> gnome-power-manager, but I killed it to make sure that wasn't causing 
->> any problems.
->>
+Regression #6 on latest git! (last known good is 2.6.29-rc8)
 
->> gpe18:   60975  enabled
->> gpe_all:   60975
->> sci:   60975
->>
->> which I presume means lots of EC interrupts.
->>
->> [    0.134068] ACPI: EC: GPE = 0x18, I/O: command/status = 0x66, data 
->> = 0x62
->>
+My EEE PC hangs on bootup if it is not connected to mains power.  The
+hang happens during udev coldplug.  I've left it for >60 seconds with
+nmi_watchdog=1, soft lockup and hung task detection are enabled, and I
+get no trace.  Key presses are not echoed to the screen.
 
-> This patch looks to be a suspect: 
-> 34ff4dbccccce54c83b1234d39b7ad9e548a75dd,
-> Please check if reversing it helps
+Magic SysRQ keys work though.  Unfortunately, SysRq-W / SysRq-T generate
+too much output, so the useful bits immediately scroll off the top of
+the screen.  I can't press SysRq-P (even if that would help), because
+the SysRQ key on my laptop is accessed using a Fn modifier key, which
+also turns the left hand side of the keyboard into a numeric pad.
 
-No, I still get 20 ACPI interrupts per second.
+Magic SysRQs on my USB keyboard generate no response.  (Sometimes the
+numlock key seems to work though.  I can't tell on the laptop keyboard
+because the laptop doesn't have a numlock led).
 
-I tried without powertop, just in case that was provoking it, but it 
-still happens:
+I also tried booting with vga=ask (anticipating nmi_watchdog output),
+and selecting the highest mode, 80x60.  It turns out that this doesn't
+really work, the screen flickers constantly until userspace changes the
+console font.  However, it avoided the hang in udev coldplug.  Instead,
+the hang occurred when X started, leaving me with a black screen and a
+non-responsive X cursor.
 
-alan@alan-eeepc:/sys/firmware/acpi/interrupts$ cat sci; sleep 5; cat sci
-    2583
-    2680
+Booting with acpi=off fixes this.
 
-Thanks
+Regards
 Alan
