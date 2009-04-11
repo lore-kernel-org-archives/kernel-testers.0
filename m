@@ -1,67 +1,60 @@
-From: Alexey Starikovskiy <aystarik-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
 Subject: Re: Regression: 20 ACPI interrupts per second on EEEPC 4G
-Date: Sat, 11 Apr 2009 04:24:37 +0400
-Message-ID: <49DFE345.3010109@gmail.com>
-References: <49DF6835.9040501@tuffmail.co.uk>
+Date: Sat, 11 Apr 2009 10:14:43 +0100
+Message-ID: <49E05F83.2090500@tuffmail.co.uk>
+References: <49DF6835.9040501@tuffmail.co.uk> <49DFE345.3010109@gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-acpi-owner@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
+        d=googlemail.com; s=gamma;
+        h=domainkey-signature:received:received:sender:message-id:date:from
          :user-agent:mime-version:to:cc:subject:references:in-reply-to
          :content-type:content-transfer-encoding;
-        bh=0WBcLcMvokhOUe//3x+HIJaplyS5owtisyM2ohNfH2M=;
-        b=I5uZGUM4Rsj7ZslEKQEFOlNIzpyHY4UNELmzZERRS9T9lmqjgZ5AVn//A+JkEYsqOB
-         BZQDMqnoFNL8clthdc01pnK9XuI7qj/FtAMqwWkGwhF+gccLKqRaowcGIfxT8nC3ahZY
-         tEP7LvMaYyjLrbUatpByzqbaZDiWVgweIW18g=
-In-Reply-To: <49DF6835.9040501-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+        bh=iZPJh7vNDQktELn9wig/oV9fLW37qoedJzuzNAvKHNU=;
+        b=i+LhqBOZltPbQcPcIPx39wFE37zgDhFxzsvj+EP0RpLcfPdZVfXryqVSMra8eeJui9
+         9s0QL3c1jkJMDv8h4j1reXh4ANw18Cl4GCc7C8WGMkCje8gVUWZ90vjpSqOqgZPg+bLS
+         Aa3xlSqy65wLFiNlGCTXsY5kcGX1OiWwDDGb8=
+In-Reply-To: <49DFE345.3010109@gmail.com>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Cc: linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Alexey Starikovskiy <aystarik@gmail.com>
+Cc: linux-acpi@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-Hi Alan,
+Alexey Starikovskiy wrote:
+> Alan Jenkins wrote:
+>> On latest git, powertop shows 20 ACPI interrupts per second.  
+>> Previously, this was closer to 1 per second.  See attached output (a 
+>> vs b, "a" is from 2.6.29-rc8).
+>>
+>> This is from a pretty sparse KDE desktop.  Normally I run 
+>> gnome-power-manager, but I killed it to make sure that wasn't causing 
+>> any problems.
+>>
 
-This patch looks to be a suspect: 34ff4dbccccce54c83b1234d39b7ad9e548a75dd,
-Please check if reversing it helps
+>> gpe18:   60975  enabled
+>> gpe_all:   60975
+>> sci:   60975
+>>
+>> which I presume means lots of EC interrupts.
+>>
+>> [    0.134068] ACPI: EC: GPE = 0x18, I/O: command/status = 0x66, data 
+>> = 0x62
+>>
 
-Regards,
-Alex.
+> This patch looks to be a suspect: 
+> 34ff4dbccccce54c83b1234d39b7ad9e548a75dd,
+> Please check if reversing it helps
 
-Alan Jenkins wrote:
-> On latest git, powertop shows 20 ACPI interrupts per second.  
-> Previously, this was closer to 1 per second.  See attached output (a 
-> vs b, "a" is from 2.6.29-rc8).
->
-> This is from a pretty sparse KDE desktop.  Normally I run 
-> gnome-power-manager, but I killed it to make sure that wasn't causing 
-> any problems.
->
-> alan@alan-eeepc:/sys/firmware/acpi/interrupts$ grep -v "invalid" *
-> error:       0
-> ff_gbl_lock:       0    enabled
-> ff_pwr_btn:       0     enabled
-> ff_rt_clk:       0      disabled
-> gpe03:       0  disabled
-> gpe04:       0  disabled
-> gpe05:       0  disabled
-> gpe09:       0  disabled
-> gpe0B:       0  disabled
-> gpe0C:       0  disabled
-> gpe0D:       0  disabled
-> gpe0E:       0  disabled
-> gpe18:   60975  enabled
-> gpe_all:   60975
-> sci:   60975
->
-> which I presume means lots of EC interrupts.
->
-> [    0.134068] ACPI: EC: GPE = 0x18, I/O: command/status = 0x66, data 
-> = 0x62
->
-> Any ideas?
->
-> Thanks
-> Alan
+No, I still get 20 ACPI interrupts per second.
+
+I tried without powertop, just in case that was provoking it, but it 
+still happens:
+
+alan@alan-eeepc:/sys/firmware/acpi/interrupts$ cat sci; sleep 5; cat sci
+    2583
+    2680
+
+Thanks
+Alan
