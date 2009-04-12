@@ -1,8 +1,8 @@
 From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Subject: Re: Regression: EEE PC hangs when booting off battery
-Date: Sun, 12 Apr 2009 10:22:49 +0100
-Message-ID: <49E1B2E9.5090706@tuffmail.co.uk>
-References: <49E065CF.6040408@tuffmail.co.uk> <20090411214045.7bdd497f.kristoffer.ericson@gmail.com>
+Subject: [BISECTED] EEE PC hangs when booting off battery
+Date: Sun, 12 Apr 2009 14:11:57 +0100
+Message-ID: <49E1E89D.7040502@tuffmail.co.uk>
+References: <49E065CF.6040408@tuffmail.co.uk> <66dc75180904111107q645fbb77i3cf927ffab7a7ef0@mail.gmail.com> <49E1ADAE.2030103@tuffmail.co.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,83 +11,91 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:received:received:sender:message-id:date:from
          :user-agent:mime-version:to:cc:subject:references:in-reply-to
          :content-type:content-transfer-encoding;
-        bh=BLnqwKS7OfgT/UitqeBej8sS1cf8rQvr26DDk3L2eIA=;
-        b=hIcDOSWkzkygOATdHQu6hCIvW0FZ6CcwQyAW+sol+T7B2El83N44d6oiz3MapX+U8h
-         /5ZvYIvjFzu09r4ByMvyicZ7bzIbteEjminqHhsuS1tEOBfTgQGa8Wl1WR4GkgD2pgW1
-         sivBJUwxRYDjMjdU0Xh7Iy8qcv5YQJQu7l4Oc=
-In-Reply-To: <20090411214045.7bdd497f.kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+        bh=fMgMX9cIh+tZfTIs6E6JNl7R3BIonEb3oH8DIRIEuVA=;
+        b=mVEG21g7cb2R02LXX8TIJWV4RNkTUOixZg9yrz+fsqeF6lIVC2zMyMI+1oyXOe3vk1
+         WSai/eyK5IQIxtKDQf/wlSor3vIpOv0eGgtXpcgFpJn2QzqXOqmSV6l+ZEaIjt/nCCET
+         IGUlURTCcBy5ZRoPX9SDlcIpb+js3OaTnMe+I=
+In-Reply-To: <49E1ADAE.2030103-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Kristoffer Ericson <kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
 Cc: linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Kristoffer Ericson wrote:
-> On Sat, 11 Apr 2009 10:41:35 +0100
-> Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org> wrote:
->
+Alan Jenkins wrote:
+> Tzy-Jye Daniel Lin wrote:
 >   
->> Regression #6 on latest git! (last known good is 2.6.29-rc8)
->>
->> My EEE PC hangs on bootup if it is not connected to mains power.  The
->> hang happens during udev coldplug.  I've left it for >60 seconds with
->> nmi_watchdog=1, soft lockup and hung task detection are enabled, and I
->> get no trace.  Key presses are not echoed to the screen.
+>> On Sat, Apr 11, 2009 at 5:41 AM, Alan Jenkins
+>> <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org> wrote:
+>>   
 >>     
+>>> Regression #6 on latest git! (last known good is 2.6.29-rc8)
+>>>
+>>> Magic SysRQ keys work though.  Unfortunately, SysRq-W / SysRq-T generate
+>>> too much output, so the useful bits immediately scroll off the top of
+>>> the screen.  I can't press SysRq-P (even if that would help), because
+>>> the SysRQ key on my laptop is accessed using a Fn modifier key, which
+>>> also turns the left hand side of the keyboard into a numeric pad.
+>>>     
+>>>       
+>> I don't own an Eee, but having played with one, the key sequence
+>>
+>>     Alt down
+>>     Fn down
+>>     SysRq down, up
+>>     Fn up
+>>     P down, up
+>>     Alt up
+>>
+>> should work just fine.  As long as you keep holding Alt, you don't
+>> need to continue holding SysRq after the initial keypress.
+>>
+>>   
+>>     
+>>> Magic SysRQs on my USB keyboard generate no response.  (Sometimes the
+>>> numlock key seems to work though.  I can't tell on the laptop keyboard
+>>> because the laptop doesn't have a numlock led).
+>>>     
+>>>       
+>> SysRq over USB has never worked.  On PC hardware, Magic SysRq depends
+>> on features of the built-in i8042 controller, which only handles PS/2
+>> input.
+>>   
+>>     
+> Great, thanks a lot!
 >
-> Getting this myself, even if power cord attached. Its an tainted
-> kernel though (archlinux 2.6.28) so wasnt sure if
-> vanilla was affected.
+> I was able to run SysRq-P, and found the following backtrace -
 >
-> BUG: unable to handle kernel NULL pointer dereference at 00000000
-> IP: [<f850d031>] acpi_ac_get_state+0x1b/0x59 [ac]
-> *pde = 00000000
-> Oops: 0000 [#1] PREEMPT SMP
-> last sysfs file: /sys/devices/platform/i8042/modalias
-> Modules linked in: joydev psmouse snd_pcsp serio_raw i2c_i801 iTCO_wdt iTCO_vendor_support i2c_core uvcvideo compat_ioctl32 videodev v4l1_compat sg option usbserial video output eeepc_laptop rfkill intel_agp agpgart thermal processor fan evdev button battery ac snd_seq_oss snd_seq_midi_event snd_seq snd_seq_device snd_hda_intel snd_hwdep snd_pcm_oss snd_pcm snd_timer snd_page_alloc snd_mixer_oss snd soundcore ath_pci wlan ath_hal(P) arc4 ecb ath5k mac80211 led_class cfg80211 atl2 rtc_cmos rtc_core rtc_lib ext3 jbd mbcache usbhid hid usb_storage sd_mod uhci_hcd ehci_hcd usbcore ata_piix ahci ata_generic pata_acpi libata scsi_mod
->
-> Pid: 1794, comm: fsck.ext3 Tainted: P           (2.6.28-ARCH #1) 701
-> EIP: 0060:[<f850d031>] EFLAGS: 00010246 CPU: 0
-> EIP is at acpi_ac_get_state+0x1b/0x59 [ac]
-> EAX: f69559dc EBX: 00000000 ECX: 00000000 EDX: f850d418
-> ESI: f6955980 EDI: 00000001 EBP: f6834480 ESP: f6853f0c
->  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
-> Process fsck.ext3 (pid: 1794, ti=f6852000 task=f737e400 task.ti=f6852000)
-> Stack:
->  f69559dc f6955980 f692e360 f850d2fd 00000001 f692e360 c01ab0e0 00000400
->  b80cb000 f6834480 f692e380 00000000 00000000 00000001 00000000 00000000
->  f7327c00 fffffffb c01aafb0 f6834480 c01cead4 f6853fa0 00000400 b80cb000
-> Call Trace:
->  [<f850d2fd>] acpi_ac_seq_show+0x12/0x5d [ac]
->  [<c01ab0e0>] seq_read+0x130/0x2e0
->  [<c01aafb0>] seq_read+0x0/0x2e0
->  [<c01cead4>] proc_reg_read+0x64/0xa0
->  [<c01cea70>] proc_reg_read+0x0/0xa0
->  [<c019346d>] vfs_read+0x9d/0x160
->  [<c0193601>] sys_read+0x41/0x80
->  [<c0103f13>] sysenter_do_call+0x12/0x33
->  [<c0320000>] serial_pnp_probe+0x150/0x250
-> Code: b8 ea ff ff ff 75 07 8b 43 5c 89 01 31 c0 5b c3 56 89 c6 85 f6 b8 ea ff ff ff 53 74 49 8b 5e 58 8d 46 5c 31 c9 50 ba 18 d4 50 f8 <8b> 03 e8 e0 be d2 c7 89 c2 58 31 c0 85 d2 74 2b 68 1d d4 50 f8
-> EIP: [<f850d031>] acpi_ac_get_state+0x1b/0x59 [ac] SS:ESP 0068:f6853f0c
-> ---[ end trace eb12d69e27c56472 ]---
+> Pid: 0
+> EIP is at acpi_idle_enter_bm+0x1df/0x208 [processor]
+> cpud_idle_call
+> cpu_idle
+> rest_init
+> start_kernel
+> i386_start_kernel
 >   
 
-I'm pretty sure that's a separate bug :-).  As you say, it happens under
-different circumstances, it's a BUG as opposed to a hang, and it's in a
-different version (I didn't have my problem in 2.6.28).
+7ec0a7290797f57b780f792d12f4bcc19c83aa4f is first bad commit
+commit 7ec0a7290797f57b780f792d12f4bcc19c83aa4f
+Author: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+Date:   Mon Mar 30 17:48:24 2009 +0000
 
-www.kerneloops.org says no-one else has reported your bug.  So maybe
-you're right, and Arch have applied some patches which nobody else runs
-with.  I don't know how to find Arch source packages, so I can't really
-tell.
+    ACPI: processor: use .notify method instead of installing handler
+directly
 
-But the only _taint_ as such is due to the ath_hal module.  Let's see,
-Arch linux...
+    This patch adds a .notify() method.  The presence of .notify() causes
+    Linux/ACPI to manage event handlers and notify handlers on our behalf,
+    so we don't have to install and remove them ourselves.
 
-<http://wiki.archlinux.org/index.php/Udev#Blacklisting_Modules>
-describes how you can (reversibly) blacklist modules.  If you blacklist
-ath_pci (and ath_hal too, just to make sure), you could boot without any
-taint and generate a "clean" backtrace.
+    Signed-off-by: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+    CC: Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+    CC: Zhao Yakui <yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+    CC: Venki Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+    CC: Anil S Keshavamurthy <anil.s.keshavamurthy-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+    Signed-off-by: Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-Regards
+
+
+However, reverting this commit from v2.6.30-rc1 doesn't solve the hang.
+
 Alan
