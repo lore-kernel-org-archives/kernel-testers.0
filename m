@@ -1,8 +1,8 @@
 From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Subject: [BISECTED] EEE PC hangs when booting off battery
-Date: Sun, 12 Apr 2009 14:11:57 +0100
-Message-ID: <49E1E89D.7040502@tuffmail.co.uk>
-References: <49E065CF.6040408@tuffmail.co.uk> <66dc75180904111107q645fbb77i3cf927ffab7a7ef0@mail.gmail.com> <49E1ADAE.2030103@tuffmail.co.uk>
+Subject: [BISECTED] 20 ACPI interrupts per second on EEEPC 4G
+Date: Sun, 12 Apr 2009 16:54:34 +0100
+Message-ID: <49E20EBA.2090708@tuffmail.co.uk>
+References: <49DF6835.9040501@tuffmail.co.uk> <49DFE345.3010109@gmail.com> <49E05F83.2090500@tuffmail.co.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,91 +11,69 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:received:received:sender:message-id:date:from
          :user-agent:mime-version:to:cc:subject:references:in-reply-to
          :content-type:content-transfer-encoding;
-        bh=fMgMX9cIh+tZfTIs6E6JNl7R3BIonEb3oH8DIRIEuVA=;
-        b=mVEG21g7cb2R02LXX8TIJWV4RNkTUOixZg9yrz+fsqeF6lIVC2zMyMI+1oyXOe3vk1
-         WSai/eyK5IQIxtKDQf/wlSor3vIpOv0eGgtXpcgFpJn2QzqXOqmSV6l+ZEaIjt/nCCET
-         IGUlURTCcBy5ZRoPX9SDlcIpb+js3OaTnMe+I=
-In-Reply-To: <49E1ADAE.2030103-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+        bh=CeI43sviA8B/53Q4yRE4rDwSq2skFWTA/FkXQwLECes=;
+        b=RqHs5VVXBl3MArBVdkKyyHNmw9uI1YdOyIo4aLQV6G5sLqq8dKX04iUFrUHm2OUmV8
+         8RZhUZn4HMJup92b8m0ipLhMV3yz/d/+HOlfs4bnhN24DAI58Q87Oqy2g/hqnHsE23ox
+         DcnG4r6HRaHzObxdbF+7roriTE6uDAPGMsSfY=
+In-Reply-To: <49E05F83.2090500-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
-Cc: linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
+Cc: Alexey Starikovskiy <aystarik-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 Alan Jenkins wrote:
-> Tzy-Jye Daniel Lin wrote:
->   
->> On Sat, Apr 11, 2009 at 5:41 AM, Alan Jenkins
->> <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org> wrote:
->>   
->>     
->>> Regression #6 on latest git! (last known good is 2.6.29-rc8)
+> Alexey Starikovskiy wrote:
+>> Alan Jenkins wrote:
+>>> On latest git, powertop shows 20 ACPI interrupts per second. 
+>>> Previously, this was closer to 1 per second.  See attached output (a
+>>> vs b, "a" is from 2.6.29-rc8).
 >>>
->>> Magic SysRQ keys work though.  Unfortunately, SysRq-W / SysRq-T generate
->>> too much output, so the useful bits immediately scroll off the top of
->>> the screen.  I can't press SysRq-P (even if that would help), because
->>> the SysRQ key on my laptop is accessed using a Fn modifier key, which
->>> also turns the left hand side of the keyboard into a numeric pad.
->>>     
->>>       
->> I don't own an Eee, but having played with one, the key sequence
->>
->>     Alt down
->>     Fn down
->>     SysRq down, up
->>     Fn up
->>     P down, up
->>     Alt up
->>
->> should work just fine.  As long as you keep holding Alt, you don't
->> need to continue holding SysRq after the initial keypress.
->>
->>   
->>     
->>> Magic SysRQs on my USB keyboard generate no response.  (Sometimes the
->>> numlock key seems to work though.  I can't tell on the laptop keyboard
->>> because the laptop doesn't have a numlock led).
->>>     
->>>       
->> SysRq over USB has never worked.  On PC hardware, Magic SysRq depends
->> on features of the built-in i8042 controller, which only handles PS/2
->> input.
->>   
->>     
-> Great, thanks a lot!
+>>> This is from a pretty sparse KDE desktop.  Normally I run
+>>> gnome-power-manager, but I killed it to make sure that wasn't
+>>> causing any problems.
+>>>
 >
-> I was able to run SysRq-P, and found the following backtrace -
+>>> gpe18:   60975  enabled
+>>> gpe_all:   60975
+>>> sci:   60975
+>>>
+>>> which I presume means lots of EC interrupts.
+>>>
+>>> [    0.134068] ACPI: EC: GPE = 0x18, I/O: command/status = 0x66,
+>>> data = 0x62
+>>>
 >
-> Pid: 0
-> EIP is at acpi_idle_enter_bm+0x1df/0x208 [processor]
-> cpud_idle_call
-> cpu_idle
-> rest_init
-> start_kernel
-> i386_start_kernel
->   
+>> This patch looks to be a suspect:
+>> 34ff4dbccccce54c83b1234d39b7ad9e548a75dd,
+>> Please check if reversing it helps
+>
+> No, I still get 20 ACPI interrupts per second.
+>
+> I tried without powertop, just in case that was provoking it, but it
+> still happens:
+>
+> alan@alan-eeepc:/sys/firmware/acpi/interrupts$ cat sci; sleep 5; cat sci
+>    2583
+>    2680
 
-7ec0a7290797f57b780f792d12f4bcc19c83aa4f is first bad commit
-commit 7ec0a7290797f57b780f792d12f4bcc19c83aa4f
-Author: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
-Date:   Mon Mar 30 17:48:24 2009 +0000
-
-    ACPI: processor: use .notify method instead of installing handler
-directly
-
-    This patch adds a .notify() method.  The presence of .notify() causes
-    Linux/ACPI to manage event handlers and notify handlers on our behalf,
-    so we don't have to install and remove them ourselves.
-
-    Signed-off-by: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
-    CC: Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-    CC: Zhao Yakui <yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-    CC: Venki Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-    CC: Anil S Keshavamurthy <anil.s.keshavamurthy-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-    Signed-off-by: Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+I did wonder whether this was due to thermal polling.  So look what I
+found with bisection :-).
 
 
+b1569e99c795bf83b4ddf41c4f1c42761ab7f75e is first bad commit
+commit b1569e99c795bf83b4ddf41c4f1c42761ab7f75e
+Author: Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
+Date:   Wed Dec 3 17:55:32 2008 +0000
 
-However, reverting this commit from v2.6.30-rc1 doesn't solve the hang.
+    ACPI: move thermal trip handling to generic thermal layer
 
+    The ACPI code currently carries its own thermal trip handling,
+meaning that
+    any other thermal implementation will need to reimplement it. Move
+the code
+    to the generic thermal layer.
+
+
+Regards
 Alan
