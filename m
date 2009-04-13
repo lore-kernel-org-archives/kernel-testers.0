@@ -1,18 +1,18 @@
-From: yakui_zhao <yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+From: Zhang Rui <rui.zhang@intel.com>
 Subject: Re: [BISECTED] 20 ACPI interrupts per second on EEEPC 4G
-Date: Mon, 13 Apr 2009 10:04:08 +0800
-Message-ID: <1239588248.5564.19.camel@localhost.localdomain>
+Date: Mon, 13 Apr 2009 10:06:03 +0800
+Message-ID: <1239588363.7661.211.camel@rzhang-dt>
 References: <49DF6835.9040501@tuffmail.co.uk> <49DFE345.3010109@gmail.com>
 	 <49E05F83.2090500@tuffmail.co.uk>  <49E20EBA.2090708@tuffmail.co.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <49E20EBA.2090708-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <49E20EBA.2090708@tuffmail.co.uk>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Cc: Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>, Alexey Starikovskiy <aystarik-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
+Cc: Matthew Garrett <mjg59@srcf.ucam.org>, Alexey Starikovskiy <aystarik@gmail.com>, "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
 On Sun, 2009-04-12 at 23:54 +0800, Alan Jenkins wrote:
 > Alan Jenkins wrote:
@@ -52,13 +52,15 @@ On Sun, 2009-04-12 at 23:54 +0800, Alan Jenkins wrote:
 > 
 > I did wonder whether this was due to thermal polling.  So look what I
 > found with bisection :-).
-Does the issue still exist if the following commit is reverted?
-Thanks.
 > 
+so the problem is gone if you revert this patch, right?
+
+thanks,
+rui
 > 
 > b1569e99c795bf83b4ddf41c4f1c42761ab7f75e is first bad commit
 > commit b1569e99c795bf83b4ddf41c4f1c42761ab7f75e
-> Author: Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
+> Author: Matthew Garrett <mjg59@srcf.ucam.org>
 > Date:   Wed Dec 3 17:55:32 2008 +0000
 > 
 >     ACPI: move thermal trip handling to generic thermal layer
@@ -74,5 +76,6 @@ Thanks.
 > Alan
 > --
 > To unsubscribe from this list: send the line "unsubscribe linux-acpi" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> the body of a message to majordomo@vger.kernel.org
 > More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
