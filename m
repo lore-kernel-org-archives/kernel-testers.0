@@ -1,67 +1,69 @@
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-Subject: Re: 2.6.30-rc1: parisc: system hangs on boot at __schedule()
-Date: Wed, 15 Apr 2009 15:06:03 +0000
-Message-ID: <1239807963.3371.17.camel@mulgrave.int.hansenpartnership.com>
-References: <a4423d670904080603w50face2fl87cd16bd7967cb5d@mail.gmail.com>
-	 <20090408220921.GF7372@bombadil.infradead.org>
-	 <a4423d670904090146w2937bf15le2afb5dfad718f0e@mail.gmail.com>
-	 <20090409144611.GH7372@bombadil.infradead.org>
-	 <a4423d670904150549s48b844a7iba097acaf875b992@mail.gmail.com>
+From: Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: [BISECTED] EEE PC hangs when booting off battery
+Date: Wed, 15 Apr 2009 11:38:32 -0400 (EDT)
+Message-ID: <alpine.LFD.2.00.0904151056390.5664@localhost.localdomain>
+References: <49E065CF.6040408@tuffmail.co.uk>
+ <200904140948.37633.bjorn.helgaas@hp.com>
+ <4911F71203A09E4D9981D27F9D8308581D3722EB@orsmsx503.amr.corp.intel.com>
+ <200904141056.14159.bjorn.helgaas@hp.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754119AbZDOPGW@vger.kernel.org>
-In-Reply-To: <a4423d670904150549s48b844a7iba097acaf875b992@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-reply-to: <200904141056.14159.bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Alexander Beregalov <a.beregalov@gmail.com>
-Cc: Kyle McMartin <kyle@mcmartin.ca>, linux-parisc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-scsi@vger.kernel.org
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+Cc: "Moore, Robert" <robert.moore-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, "linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Wed, 2009-04-15 at 16:49 +0400, Alexander Beregalov wrote:
-> 2009/4/9 Kyle McMartin <kyle@mcmartin.ca>:
-> > On Thu, Apr 09, 2009 at 12:46:15PM +0400, Alexander Beregalov wrote:
-> >> 2009/4/9 Kyle McMartin <kyle@mcmartin.ca>:
-> >> > On Wed, Apr 08, 2009 at 05:03:04PM +0400, Alexander Beregalov wrote:
-> >> >> Hi
-> >> >>
-> >> >> Machine is HP j6000.
-> >> >> CPU(s): 2 x PA8700 (PCX-W2) at 750.000000 MHz
-> >> >>
-> >> >> gcc version 4.3.3 (Gentoo 4.3.3-r2 p1.1, pie-10.1.5)
-> >> >>
-> >> >>
-> >> >> Machine hangs before starting rc scripts, but SysRq and C-A-Del work.
-> >> >>
-> >> >> All tasks are at __schedule+0x268/0x7bc:
-> >> >>
-> >> >
-> >> > .config?
-> >>
-> >> Sorry, attached.
-> >
-> > Thanks, I swapped disks into my j6700 and will try to reproduce.
+
+> > In fact, ACPI methods can execute concurrently -- constrained by the ACPI specification itself. The "big lock" is released before anything that will block for a significant amount of time, allowing other methods to run.
 > 
-> It seems the problem is the same as mentioned here:
-> http://marc.info/?l=linux-kernel&m=123920746830420&w=2
+> We had a discussion about this a couple years ago:
+>   http://www.mail-archive.com/linux-acpi%40vger.kernel.org/msg06976.html
 > 
-> The patch  fixes the issue.
+> Here's my understanding (please correct me if I'm wrong):
 > 
-> James?
-> The same problem on two of my hosts: x86_64 with LSI SAS MegaRAID
-> and parisc with SYM53C8XX_2
+> - The ACPI CA holds a mutex while executing an AML method (see
+>   acpi_ex_enter_interpreter()).
+> 
+> - When an AML method blocks, the ACPI CA releases the mutex, which
+>   allows another AML method to run while the first is blocked.
+> 
+> - Because of the mutex, at most one AML method can be executing at
+>   any given time.  Others may have started, but they are blocked
+>   until the current method completes or blocks itself.
+> 
+> - The undocumented "acpi_serialize" option makes the ACPI CA hold
+>   the mutex for the entire duration of a method, even while a method
+>   is blocked.
+> 
+> Based on that, my guess about the battery init being slow because of
+> a long-running AML method might be incorrect, although I suppose
+> it's still possible to write AML busy-loops that never block.
+> 
+> I'd really like to understand what's making it slow.  The only
+> thing that looks at all unusual in acpi_battery_add() is
+> acpi_battery_update(), and that evaluates _STA and _BIF and
+> not much else.
+> 
+> Arjan, do you have any more information?  Is the battery driver
+> slow on all laptops?  If not, where did you see the problem?  Do
+> you have a DSDT for them?
 
-Well, I can tell you why I don't see the problem:  My parisc system has
-modular SCSI, so it doesn't really test out the async system that well
-(it was designed more for monolithic kernels).
+Before I added Arjan's async battery patch, I booted a couple of laptops
+with async disabled and enabled.  I saw about 40 usec battery init (T61, 
+nx6325).
 
-On the specific patch in the email, it seems reasonable, but I think it
-might interfere with the sd probe async calls, so what you might end up
-losing a rache where the host fully scanned, but the sd driver not
-attached.
+Obviously, this was too fast for async battery to have any measurable
+benefit on these machines (though async disk probing, by comparison,
+was a big win).
 
-The root cause of the problem is that we now have two different async
-mechanisms in SCSI: our original one for host scanning and the new one
-for sd attachment.
+But Arjan saw O(300) usec serial battery init on an EEE PC,
+which is why he optimized it.
 
-James
+Indeed, this thread was started b/c a failure was seen on an EEEPC,
+probably because of its unusually slow timing.
+
+-Len
 
