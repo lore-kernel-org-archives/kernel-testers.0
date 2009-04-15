@@ -1,87 +1,51 @@
-From: Len Brown <lenb@kernel.org>
-Subject: archlinux 2.6.28 ac oops (was Re: Regression: EEE PC hangs when
- booting off battery)
-Date: Wed, 15 Apr 2009 11:49:58 -0400 (EDT)
-Message-ID: <alpine.LFD.2.00.0904151146160.5664@localhost.localdomain>
-References: <49E065CF.6040408@tuffmail.co.uk>
- <20090411214045.7bdd497f.kristoffer.ericson@gmail.com>
- <49E1B2E9.5090706@tuffmail.co.uk>
+From: Dan Williams <dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: 2.6.30-rc1: ioatdma: DMA-API: device driver frees DMA memory with 
+	wrong function
+Date: Wed, 15 Apr 2009 10:27:48 -0700
+Message-ID: <e9c3a7c20904151027xdf617fbh64fcb5618e195a71@mail.gmail.com>
+References: <a4423d670904090536j71be609csf2c32be3ed9cfe1e@mail.gmail.com>
+	 <a4423d670904150539w1a4fe05ake75ce2aea4538eab@mail.gmail.com>
 Mime-Version: 1.0
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-reply-to: <49E1B2E9.5090706@tuffmail.co.uk>
-Sender: linux-acpi-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:sender:received:in-reply-to
+         :references:date:x-google-sender-auth:message-id:subject:from:to:cc
+         :content-type:content-transfer-encoding;
+        bh=CAErbDZNNCW+5j4BcMoOUoOsKp921Sj8KHZMSe87Nlc=;
+        b=WDATrAhlZDHhc0I2jkeULaaauVstGa/c/cJtRgBMxAJbtOdXiHYm1YwqwzM0G5HICS
+         ZDi7qPv4hl1dJLf9XL8TijqACM4x6+zHvSRv4Na8le+LfVH1iZU2lXAacUjCsaXai/CS
+         wdpfU5kUzqoo5zTLtRgyAqtTwl71FcQwO3x+E=
+In-Reply-To: <a4423d670904150539w1a4fe05ake75ce2aea4538eab-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
-Cc: Kristoffer Ericson <kristoffer.ericson@gmail.com>, linux-acpi@vger.kernel.org, linux-kernel <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, maciej.sosnowski-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 
+On Wed, Apr 15, 2009 at 5:39 AM, Alexander Beregalov
+<a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> 2009/4/9 Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+>> ioatdma 0000:00:08.0: PCI INT A -> GSI 16 (level, low) -> IRQ 16
+>> ioatdma 0000:00:08.0: setting latency timer to 64
+>> ioatdma 0000:00:08.0: Intel(R) I/OAT DMA Engine found, 4 channels,
+>> device version 0x12, driver version 3.64
+>> =A0alloc irq_desc for 33 on cpu 0 node 0
+>> =A0alloc kstat_irqs on cpu 0 node 0
+>> ioatdma 0000:00:08.0: irq 33 for MSI/MSI-X
+>> ------------[ cut here ]------------
+>> WARNING: at lib/dma-debug.c:565 check_unmap+0x2f6/0x6a0()
+>> Hardware name: PowerEdge 1950
+>> ioatdma 0000:00:08.0: DMA-API: device driver frees DMA memory with
+>> wrong function [device address=3D0x000000007f76f800] [size=3D2000 by=
+tes]
+>> [map
+>> ped as single] [unmapped as page]
+>
+> The problem still persists.
 
-> Kristoffer Ericson wrote:
+Thanks for the report Alexander.  Maciej and I are looking into a fix.
 
-> > Getting this myself, even if power cord attached. Its an tainted
-> > kernel though (archlinux 2.6.28) so wasnt sure if
-> > vanilla was affected.
-> >
-> > BUG: unable to handle kernel NULL pointer dereference at 00000000
-> > IP: [<f850d031>] acpi_ac_get_state+0x1b/0x59 [ac]
-> > *pde = 00000000
-> > Oops: 0000 [#1] PREEMPT SMP
-> > last sysfs file: /sys/devices/platform/i8042/modalias
-> > Modules linked in: joydev psmouse snd_pcsp serio_raw i2c_i801 iTCO_wdt iTCO_vendor_support i2c_core uvcvideo compat_ioctl32 videodev v4l1_compat sg option usbserial video output eeepc_laptop rfkill intel_agp agpgart thermal processor fan evdev button battery ac snd_seq_oss snd_seq_midi_event snd_seq snd_seq_device snd_hda_intel snd_hwdep snd_pcm_oss snd_pcm snd_timer snd_page_alloc snd_mixer_oss snd soundcore ath_pci wlan ath_hal(P) arc4 ecb ath5k mac80211 led_class cfg80211 atl2 rtc_cmos rtc_core rtc_lib ext3 jbd mbcache usbhid hid usb_storage sd_mod uhci_hcd ehci_hcd usbcore ata_piix ahci ata_generic pata_acpi libata scsi_mod
-> >
-> > Pid: 1794, comm: fsck.ext3 Tainted: P           (2.6.28-ARCH #1) 701
-> > EIP: 0060:[<f850d031>] EFLAGS: 00010246 CPU: 0
-> > EIP is at acpi_ac_get_state+0x1b/0x59 [ac]
-> > EAX: f69559dc EBX: 00000000 ECX: 00000000 EDX: f850d418
-> > ESI: f6955980 EDI: 00000001 EBP: f6834480 ESP: f6853f0c
-> >  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
-> > Process fsck.ext3 (pid: 1794, ti=f6852000 task=f737e400 task.ti=f6852000)
-> > Stack:
-> >  f69559dc f6955980 f692e360 f850d2fd 00000001 f692e360 c01ab0e0 00000400
-> >  b80cb000 f6834480 f692e380 00000000 00000000 00000001 00000000 00000000
-> >  f7327c00 fffffffb c01aafb0 f6834480 c01cead4 f6853fa0 00000400 b80cb000
-> > Call Trace:
-> >  [<f850d2fd>] acpi_ac_seq_show+0x12/0x5d [ac]
-> >  [<c01ab0e0>] seq_read+0x130/0x2e0
-> >  [<c01aafb0>] seq_read+0x0/0x2e0
-> >  [<c01cead4>] proc_reg_read+0x64/0xa0
-> >  [<c01cea70>] proc_reg_read+0x0/0xa0
-> >  [<c019346d>] vfs_read+0x9d/0x160
-> >  [<c0193601>] sys_read+0x41/0x80
-> >  [<c0103f13>] sysenter_do_call+0x12/0x33
-> >  [<c0320000>] serial_pnp_probe+0x150/0x250
-> > Code: b8 ea ff ff ff 75 07 8b 43 5c 89 01 31 c0 5b c3 56 89 c6 85 f6 b8 ea ff ff ff 53 74 49 8b 5e 58 8d 46 5c 31 c9 50 ba 18 d4 50 f8 <8b> 03 e8 e0 be d2 c7 89 c2 58 31 c0 85 d2 74 2b 68 1d d4 50 f8
-> > EIP: [<f850d031>] acpi_ac_get_state+0x1b/0x59 [ac] SS:ESP 0068:f6853f0c
-> > ---[ end trace eb12d69e27c56472 ]---
-> >   
-> 
-> I'm pretty sure that's a separate bug :-).  As you say, it happens under
-> different circumstances, it's a BUG as opposed to a hang, and it's in a
-> different version (I didn't have my problem in 2.6.28).
-> 
-> www.kerneloops.org says no-one else has reported your bug.  So maybe
-> you're right, and Arch have applied some patches which nobody else runs
-> with.  I don't know how to find Arch source packages, so I can't really
-> tell.
-> 
-> But the only _taint_ as such is due to the ath_hal module.  Let's see,
-> Arch linux...
-> 
-> <http://wiki.archlinux.org/index.php/Udev#Blacklisting_Modules>
-> describes how you can (reversibly) blacklist modules.  If you blacklist
-> ath_pci (and ath_hal too, just to make sure), you could boot without any
-> taint and generate a "clean" backtrace.
-
-This oops is happening in the ac driver when user-space is 
-reading /proc/acpi/ac_adapter/*/state
-
-it would be interesting if...
-you can reproduce this using a kernel.org kernel
-if you delay loading of the ac module till after
-the system is up and see if you can reproduce this
-at will by reading the file above.
-
-thanks,
--Len
-
+Regards,
+Dan
