@@ -1,90 +1,42 @@
-From: Eric Dumazet <dada1@cosmosbay.com>
-Subject: [PATCH] netfilter: nf_log fix
-Date: Tue, 14 Apr 2009 23:07:24 +0200
-Message-ID: <49E4FB0C.1080103@cosmosbay.com>
-References: <20090410191736.21efab8c@mako-desktop>	 <49E4744D.5090205@trash.net>	<49E47C2D.1050508@cosmosbay.com>	 <49E47EA5.3060706@trash.net> <20090414211946.4ea0455e@mako-desktop>	 <49E4EE9C.7040509@cosmosbay.com> <1239742000.24204.9.camel@ice-age>
+From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Subject: Regression: active uvcvideo breaks over suspend
+Date: Wed, 15 Apr 2009 11:12:03 +0100
+Message-ID: <49E5B2F3.4080502@tuffmail.co.uk>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756522AbZDNVH5@vger.kernel.org>
-In-Reply-To: <1239742000.24204.9.camel@ice-age>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=gamma;
+        h=domainkey-signature:received:received:sender:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:content-type
+         :content-transfer-encoding;
+        bh=O6PVktoPRnpIy5HE6e7JEw7KUPA+y8mDuqBA5AoQmas=;
+        b=skxwGdXj6FDAescg285fMJ9qu+1ArxACB+doIQB4m35z1RLetwA8Z2kF800uqAOjqp
+         PRnISIF3hEK0YOoBW1sA47J+tkqlR1sez4OBsJcQV20EJV5pyKUWvDNLZEAXa5Gq2HTH
+         HtWd3kh6GcEJswTJFS5ht6yjMZJwMChwtxZUQ=
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Eric Leblond <eric@inl.fr>
-Cc: Mariusz Kozlowski <m.kozlowski@tuxland.pl>, Patrick McHardy <kaber@trash.net>, Kernel Testers List <kernel-testers@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Netfilter Development Mailinglist <netfilter-devel@vger.kernel.org>, Linux Netdev List <netdev@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: linux-uvc-devel-0fE9KPoRgkgATYTw5x5z8w@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Cc: USB list <linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Eric Leblond a =E9crit :
-> Hi,
->=20
-> Le mardi 14 avril 2009 =E0 22:14 +0200, Eric Dumazet a =E9crit :
->> Mariusz Kozlowski a =E9crit :
->>> On Tue, 14 Apr 2009 14:16:37 +0200
->>> Patrick McHardy <kaber@trash.net> wrote:
->>>
->>>> Eric Dumazet wrote:
->>>>> Patrick McHardy a =E9crit :
->>>>>> Mariusz Kozlowski wrote:
->>>>>>>     netfilter: nf_conntrack: use SLAB_DESTROY_BY_RCU and get ri=
-d of
->>>>>>> call_rcu()
->>>>>> Thanks for the report. Does this patch fix it?
->>>>>>
->>>>> Hi Patrick, sorry for the delay, I was in holidays.
->>>> No problem, me too :)
->>>>
-> ...
->=20
->> Check commit ca735b3aaa945626ba65a3e51145bfe4ecd9e222
->>
->> netfilter: use a linked list of loggers
->=20
-> ...
->=20
->> Signed-off-by: Eric Leblond <eric@inl.fr>
->> Signed-off-by: Patrick McHardy <kaber@trash.net>
->>
->> It seems "struct list_head        list[NFPROTO_NUMPROTO];" is not in=
-itialized in "struct nf_logger" ?
->>
->> Please try following patch ?
->=20
-> I've just tested your patch. Without it, I was able to trigger the bu=
-g
-> (modprobe ebt_ulog ; rmmod ebt_ulog). All run cleanly with it.
->=20
+I found this in v2.6.30-rc2.  I haven't tested beyond that.  I'm sure it 
+didn't happen in 2.6.29.
 
-OK thanks everybody, I submit it more formally then, using ARRAY_SIZE()=
- macro too :)
+If I run "xawtv" and then suspend, it stops working on resume; the xawtv 
+display goes black and the camera LED stays off.  When I close xawtv, 
+the LED blinks on then off again.  If I then try to run xawtv again, it 
+works fine.
 
-[PATCH] netfilter: nf_log fix
+In dmesg (after resume) I see
 
-commit ca735b3aaa945626ba65a3e51145bfe4ecd9e222
-'netfilter: use a linked list of loggers'
-introduced an array of list_head in "struct nf_logger", but
-forgot to initialize it in nf_log_register(). This resulted
-in oops when calling nf_log_unregister() at module unload time.
+[  562.884298] usb 1-8: type resume
+[  562.990014] usb 1-8: reset high speed USB device using ehci_hcd and 
+address 3
+[  563.665921] restoring control 00000000-0000-0000-0000-000000000101/0/2
+[  563.665935] restoring control 00000000-0000-0000-0000-000000000101/1/3
+[  563.665948] restoring control 00000000-0000-0000-0000-000000000101/3/7
+[  563.666412] uvcvideo 1-8:1.1: reset_resume error -12
 
-Reported-and-tested-by: Mariusz Kozlowski <m.kozlowski@tuxland.pl>
-Signed-off-by: Eric Dumazet <dada1@cosmosbay.com>
-Acked-by: Eric Leblond <eric@inl.fr>
-
-diff --git a/net/netfilter/nf_log.c b/net/netfilter/nf_log.c
-index 8bb998f..d8b85ab 100644
---- a/net/netfilter/nf_log.c
-+++ b/net/netfilter/nf_log.c
-@@ -36,10 +36,14 @@ static struct nf_logger *__find_logger(int pf, cons=
-t char *str_logger)
- int nf_log_register(u_int8_t pf, struct nf_logger *logger)
- {
- 	const struct nf_logger *llog;
-+	int i;
-=20
- 	if (pf >=3D ARRAY_SIZE(nf_loggers))
- 		return -EINVAL;
-=20
-+	for (i =3D 0; i < ARRAY_SIZE(logger->list); i++)
-+		INIT_LIST_HEAD(&logger->list[i]);
-+
- 	mutex_lock(&nf_log_mutex);
-=20
- 	if (pf =3D=3D NFPROTO_UNSPEC) {
+Thanks in advance
+Alan
