@@ -1,29 +1,42 @@
-From: David Miller <davem@davemloft.net>
-Subject: Re: panic on rmmod of nf_conntrack_irc
-Date: Wed, 15 Apr 2009 03:45:51 -0700 (PDT)
-Message-ID: <20090415.034551.214493254.davem@davemloft.net>
-References: <49E47C2D.1050508@cosmosbay.com>
-	<49E5B66D.30602@trash.net>
-	<49E5BA13.7000501@cosmosbay.com>
+From: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: 2.6.30-rc1: ioatdma: DMA-API: device driver frees DMA memory with 
+	wrong function
+Date: Wed, 15 Apr 2009 16:39:17 +0400
+Message-ID: <a4423d670904150539w1a4fe05ake75ce2aea4538eab@mail.gmail.com>
+References: <a4423d670904090536j71be609csf2c32be3ed9cfe1e@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759283AbZDOKq0@vger.kernel.org>
-In-Reply-To: <49E5BA13.7000501@cosmosbay.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:content-type
+         :content-transfer-encoding;
+        bh=p1u5F3QRcltVQ/N2bqf9H7u5muD59enr2ZPsaP+MKkU=;
+        b=X7BtCtFdDMlxZ2drrkgKzcv3OPsF2qUFCP7azQH7CdTmuWYV0iCyTFRIUHyFjKqxUx
+         hMjN8zcxnozU4eX9dLLJbxka8zViUEkkXIRH89rayPj6Wz5EBa7+dwy+q35V/qUtH0pF
+         7gqQGrmBgdiOwu+m5iOqH4nedq4Fb2yeH12qM=
+In-Reply-To: <a4423d670904090536j71be609csf2c32be3ed9cfe1e-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: dada1@cosmosbay.com
-Cc: kaber@trash.net, m.kozlowski@tuxland.pl, kernel-testers@vger.kernel.org, linux-kernel@vger.kernel.org, netfilter-devel@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+To: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, maciej.sosnowski-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 
-From: Eric Dumazet <dada1@cosmosbay.com>
-Date: Wed, 15 Apr 2009 12:42:27 +0200
+2009/4/9 Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> ioatdma 0000:00:08.0: PCI INT A -> GSI 16 (level, low) -> IRQ 16
+> ioatdma 0000:00:08.0: setting latency timer to 64
+> ioatdma 0000:00:08.0: Intel(R) I/OAT DMA Engine found, 4 channels,
+> device version 0x12, driver version 3.64
+> =C2=A0alloc irq_desc for 33 on cpu 0 node 0
+> =C2=A0alloc kstat_irqs on cpu 0 node 0
+> ioatdma 0000:00:08.0: irq 33 for MSI/MSI-X
+> ------------[ cut here ]------------
+> WARNING: at lib/dma-debug.c:565 check_unmap+0x2f6/0x6a0()
+> Hardware name: PowerEdge 1950
+> ioatdma 0000:00:08.0: DMA-API: device driver frees DMA memory with
+> wrong function [device address=3D0x000000007f76f800] [size=3D2000 byt=
+es]
+> [map
+> ped as single] [unmapped as page]
 
-> Sure, but its a cleanup (and was an RFC to show my point)
-> so should wait a litle bit until David opens his -next tree (for 2.6.31)
-
-The net-next-2.6 tree is open for business since 2.6.30-rc1 :-)
-
-> Please just submit your patch for 2.6.30 ?
-
-I'll let Patrick voice his opinion on this, I don't care either
-way.
+The problem still persists.
