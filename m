@@ -1,58 +1,67 @@
-From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Subject: [FIXED] EEE PC hangs when booting off battery
-Date: Wed, 15 Apr 2009 15:32:59 +0100
-Message-ID: <49E5F01B.2060201@tuffmail.co.uk>
-References: <49E065CF.6040408@tuffmail.co.uk> <200904140859.02188.bjorn.helgaas@hp.com> <20090414081728.10de978a@infradead.org> <200904140948.37633.bjorn.helgaas@hp.com>
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+Subject: Re: 2.6.30-rc1: parisc: system hangs on boot at __schedule()
+Date: Wed, 15 Apr 2009 15:06:03 +0000
+Message-ID: <1239807963.3371.17.camel@mulgrave.int.hansenpartnership.com>
+References: <a4423d670904080603w50face2fl87cd16bd7967cb5d@mail.gmail.com>
+	 <20090408220921.GF7372@bombadil.infradead.org>
+	 <a4423d670904090146w2937bf15le2afb5dfad718f0e@mail.gmail.com>
+	 <20090409144611.GH7372@bombadil.infradead.org>
+	 <a4423d670904150549s48b844a7iba097acaf875b992@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:received:received:sender:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=6Uai5LyzXUMgQUd+9d/60zEApQE2JrgzbOq/Ce5rp7c=;
-        b=gKUYzAIIzCIwZUYcqup0A6VujMtZkx+1/BKNEU3zqheNHRMijlt0cHW36tezm2CoX+
-         jjB7/eWPNXbfFCoMhLuvVX9id5ErGE9WaX8rABnCxAshYoEJubCmK90drTiR9of149ER
-         AOBeI6fmq6uWI7Cswkp/xzcA4I/jut8z7k5g0=
-In-Reply-To: <200904140948.37633.bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754119AbZDOPGW@vger.kernel.org>
+In-Reply-To: <a4423d670904150549s48b844a7iba097acaf875b992@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
-Cc: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: Alexander Beregalov <a.beregalov@gmail.com>
+Cc: Kyle McMartin <kyle@mcmartin.ca>, linux-parisc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-scsi@vger.kernel.org
 
-Bjorn Helgaas wrote:
-> On Tuesday 14 April 2009 09:17:28 am Arjan van de Ven wrote:
->   
->> On Tue, 14 Apr 2009 08:59:01 -0600
->> Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org> wrote:
->>
->>     
->>> I can't help with the real problem of why the asynchronous battery
->>> init causes the hang.
->>>       
->> that got fixed already for the module case.
->>     
->
-> But apparently still broken for the builtin case?  I think Alan is
-> running pretty new bits -- he said "latest git" on April 11.
->   
+On Wed, 2009-04-15 at 16:49 +0400, Alexander Beregalov wrote:
+> 2009/4/9 Kyle McMartin <kyle@mcmartin.ca>:
+> > On Thu, Apr 09, 2009 at 12:46:15PM +0400, Alexander Beregalov wrote:
+> >> 2009/4/9 Kyle McMartin <kyle@mcmartin.ca>:
+> >> > On Wed, Apr 08, 2009 at 05:03:04PM +0400, Alexander Beregalov wrote:
+> >> >> Hi
+> >> >>
+> >> >> Machine is HP j6000.
+> >> >> CPU(s): 2 x PA8700 (PCX-W2) at 750.000000 MHz
+> >> >>
+> >> >> gcc version 4.3.3 (Gentoo 4.3.3-r2 p1.1, pie-10.1.5)
+> >> >>
+> >> >>
+> >> >> Machine hangs before starting rc scripts, but SysRq and C-A-Del work.
+> >> >>
+> >> >> All tasks are at __schedule+0x268/0x7bc:
+> >> >>
+> >> >
+> >> > .config?
+> >>
+> >> Sorry, attached.
+> >
+> > Thanks, I swapped disks into my j6700 and will try to reproduce.
+> 
+> It seems the problem is the same as mentioned here:
+> http://marc.info/?l=linux-kernel&m=123920746830420&w=2
+> 
+> The patch  fixes the issue.
+> 
+> James?
+> The same problem on two of my hosts: x86_64 with LSI SAS MegaRAID
+> and parisc with SYM53C8XX_2
 
-It's now fixed, in 2.6.30-rc2.  My battery is modular btw.  I suspect
+Well, I can tell you why I don't see the problem:  My parisc system has
+modular SCSI, so it doesn't really test out the async system that well
+(it was designed more for monolithic kernels).
 
-5d38258ec026921a7b266f4047ebeaa75db358e5 "ACPI battery: fix async boot
-oops" [removal of __init]
+On the specific patch in the email, it seems reasonable, but I think it
+might interfere with the sd probe async calls, so what you might end up
+losing a rache where the host fully scanned, but the sd driver not
+attached.
 
-was not sufficient to fix my problem, but it was solved by the "real" fix,
+The root cause of the problem is that we now have two different async
+mechanisms in SCSI: our original one for host scanning and the new one
+for sd attachment.
 
-d6de2c80e9d758d2e36c21699117db6178c0f517 "async: Fix module loading
-async-work regression" [module loading waits on async work]
+James
 
-
-I would argue there's still a question over why the asynchronous battery
-init (_with_ the oops fix) should cause a hang in the idle routine.  But
-since the regression is fixed, it's not exactly an urgent question.
-
-Thanks
-Alan
