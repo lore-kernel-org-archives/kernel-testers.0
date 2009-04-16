@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13068] Lockdep warining in inotify_dev_queue_event
-Date: Thu, 16 Apr 2009 23:45:01 +0200 (CEST)
-Message-ID: <nY3-4PrO6XH.A.4dB.pw85JB@chimera>
+Subject: [Bug #13113] tiobench read 50% regression with 2.6.30-rc1
+Date: Thu, 16 Apr 2009 23:45:05 +0200 (CEST)
+Message-ID: <nY3-4PrO6XH.A.szH.Pw85JB@chimera>
 References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Sachin Sant <sachinp-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,11 @@ from 2.6.29.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13068
-Subject		: Lockdep warining in inotify_dev_queue_event
-Submitter	: Sachin Sant <sachinp-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
-Date		: 2009-04-05 12:37 (12 days old)
-References	: http://marc.info/?l=linux-kernel&m=123893439229272&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13113
+Subject		: tiobench read 50% regression with 2.6.30-rc1
+Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Date		: 2009-04-09 8:29 (8 days old)
+References	: http://marc.info/?l=linux-kernel&m=123926576802992&w=4
+Handled-By	: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=123971130800697&w=4
 
