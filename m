@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13110] 2.6.30-rc1 problems with firmware loading
-Date: Thu, 16 Apr 2009 23:45:05 +0200 (CEST)
-Message-ID: <nY3-4PrO6XH.A.zM.Tw85JB@chimera>
+Subject: [Bug #13069] regression in 2.6.29-git3 on SH/Dreamcast
+Date: Thu, 16 Apr 2009 23:45:01 +0200 (CEST)
+Message-ID: <nY3-4PrO6XH.A.QZB.ow85JB@chimera>
 References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ben Castricum <mail0904-YLO5ZLKhJ/U/fZsR/wcYMA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian McMenamin <adrian-TSF8l6Tg6afpT6hvJLqO3U8SxdOydiOw@public.gmane.org>, Manuel Lauss <mano-nEyxjcs6f3Vin2gBucwGBecsttgLyre6@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.29.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13110
-Subject		: 2.6.30-rc1 problems with firmware loading
-Submitter	: Ben Castricum <mail0904-YLO5ZLKhJ/U/fZsR/wcYMA@public.gmane.org>
-Date		: 2009-04-12 6:20 (5 days old)
-References	: http://marc.info/?l=linux-kernel&m=123951774919978&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13069
+Subject		: regression in 2.6.29-git3 on SH/Dreamcast
+Submitter	: Adrian McMenamin <adrian-TSF8l6Tg6afpT6hvJLqO3U8SxdOydiOw@public.gmane.org>
+Date		: 2009-03-29 19:04 (19 days old)
+References	: http://marc.info/?l=linux-kernel&m=123835353115372&w=4
 
