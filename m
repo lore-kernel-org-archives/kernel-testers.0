@@ -1,30 +1,40 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Subject: Re: [Bug #13097] Kernel will freeze network after using a tun/tap
- device
-Date: Thu, 16 Apr 2009 17:44:06 -0700 (PDT)
-Message-ID: <20090416.174406.120779583.davem@davemloft.net>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: 2.6.30-rc2-git2: Reported regressions from 2.6.29
+Date: Thu, 16 Apr 2009 17:40:53 -0700 (PDT)
+Message-ID: <alpine.LFD.2.00.0904161738030.4042@localhost.localdomain>
 References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
-	<nY3-4PrO6XH.A.E-.fw85JB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <nY3-4PrO6XH.A.E-.fw85JB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="iso-8859-1"
-To: rjw-KKrjLPT3xs0@public.gmane.org
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, fragabr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+In-Reply-To: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
+List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
+List-Post: <mailto:linux-pm@lists.linux-foundation.org>
+List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
+List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
+Sender: linux-pm-bounces@lists.linux-foundation.org
+Errors-To: linux-pm-bounces@lists.linux-foundation.org
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Adrian Bunk <bunk@kernel.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Natalie Protasevich <protasnb@gmail.com>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>
 
-=46rom: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Date: Thu, 16 Apr 2009 23:45:02 +0200 (CEST)
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13097
-> Subject		: Kernel will freeze network after using a tun/tap device
-> Submitter	: D=E2niel Fraga <fragabr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-04-15 22:19 (2 days old)
 
-Herbert what's the state of this?  Is this fixed already as of what I
-pushed earlier today to Linus, or are the two patches you are working
-on cure this?
+I think you put this in the wrong regression pile:
 
-Thanks.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13112
+> Subject		: Oops in drain_array
+> Submitter	: Bart <mmx@riz.pl>
+> Date		: 2009-04-14 10:21 (3 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123970493224628&w=4
+
+Hmm. This one seems like it should be in the "since 2.6.28" camp, since if 
+I read that one right, it happens with 2.6.29.1.
+
+(I mean sure, it might be new since 2.6.29, but it sounds more likely that 
+it's already in 2.6.29)
+
+		Linus
