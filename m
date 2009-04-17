@@ -1,59 +1,49 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [Bug #13058] First hibernation attempt fails
-Date: Fri, 17 Apr 2009 09:00:49 -0700 (PDT)
-Message-ID: <alpine.LFD.2.00.0904170856460.4042@localhost.localdomain>
-References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <20090417063007.GB4593@kernel.dk> <49E83DC4.8040207@tuffmail.co.uk> <20090417091321.GP4593@kernel.dk> <20090417093359.GQ4593@kernel.dk> <49E84DF8.7030802@tuffmail.co.uk>
- <20090417094558.GR4593@kernel.dk> <49E85DFD.9030306@tuffmail.co.uk>
+From: Rolf Eike Beer <eike-kernel-F+mm6HnICJmzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: 2.6.29-git13: Reported regressions from 2.6.28
+Date: Fri, 17 Apr 2009 18:23:13 +0200
+Message-ID: <200904171823.20897.eike-kernel@sf-tec.de>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
 Mime-Version: 1.0
+Content-Type: multipart/signed;
+  boundary="nextPart5710256.augzhveVOz";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <49E85DFD.9030306-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+In-Reply-To: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, David Airlie <airlied-cv59FeDIM0c@public.gmane.org>, dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+
+--nextPart5710256.augzhveVOz
+Content-Type: text/plain;
+  charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Cc: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 
+Rafael J. Wysocki wrote:
 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12836
+> Subject		: 2.6.29-rc breaks STD using Intel 945
+> Submitter	: Rolf Eike Beer <eike-kernel-F+mm6HnICJmzQB+pC5nmwQ@public.gmane.org>
+> Date		: 2009-03-04 19:20 (34 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123619451406192&w=4
 
-On Fri, 17 Apr 2009, Alan Jenkins wrote:
-> 
-> As another datapoint:  I tried blindly applying the commit to 2.6.29. 
-> The resulting kernel was able to hibernate fine the first time.
+Looks like this is fixed since 2.6.30-rc1.
 
-Yeah, so it's not that commit per se that causes it. I bet it needs all 
-the IO scheduler changes too - and even when it does that, the end result 
-probably is really just a timing change.
+Eike
 
-> I'm going to be annoying and try something slightly different.  In
-> theory, I should be able to find the "first bad commit" where
-> cherry-picking 1faa16d22 causes a problem.
+--nextPart5710256.augzhveVOz
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
 
-Just for fun, try this one first and see if it makes any difference.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.9 (GNU/Linux)
 
-Maybe the whole "swappiness=0" part was intentional. And maybe it wasn't. 
-This is one trivial patch. Maybe it makes your machine blow up. Who knows?
+iEYEABECAAYFAknorPgACgkQXKSJPmm5/E5S2gCggsu0e9N7V91l2q0D1jUODhKs
+MgUAoIfck2dKs4e1qnDk20Xbs6WxVhMp
+=GhPw
+-----END PGP SIGNATURE-----
 
-There are other differences in the shrink_all_memory() path wrt the normal 
-memory freeing paths, but they are way more subtle. So I'm suggesting 
-tryign this not becasue I think it's "The Bug(tm)", but because it's an 
-easy test to make, and maybe it makes a difference.
-
-		Linus
----
- mm/vmscan.c |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
-
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 39fdfb1..d3595ed 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -2113,6 +2113,8 @@ unsigned long shrink_all_memory(unsigned long nr_pages)
- 	struct scan_control sc = {
- 		.gfp_mask = GFP_KERNEL,
- 		.may_unmap = 0,
-+		.swap_cluster_max = SWAP_CLUSTER_MAX,
-+		.swappiness = vm_swappiness,
- 		.may_writepage = 1,
- 		.isolate_pages = isolate_pages_global,
- 	};
+--nextPart5710256.augzhveVOz--
