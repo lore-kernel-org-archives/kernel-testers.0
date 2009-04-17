@@ -1,59 +1,50 @@
-From: yakui_zhao <yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.30-rc2-git2: Reported regressions from 2.6.29
-Date: Fri, 17 Apr 2009 10:34:53 +0800
-Message-ID: <1239935693.3638.28.camel@localhost.localdomain>
-References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
-	 <1239931813.7661.394.camel@rzhang-dt>
+From: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Subject: Re: 2.6.30-rc1: ioatdma: DMA-API: device driver frees DMA memory
+ with 	wrong function
+Date: Fri, 17 Apr 2009 11:38:09 +0900
+Message-ID: <20090417113814J.fujita.tomonori@lab.ntt.co.jp>
+References: <a4423d670904090536j71be609csf2c32be3ed9cfe1e@mail.gmail.com>
+	<a4423d670904150539w1a4fe05ake75ce2aea4538eab@mail.gmail.com>
+	<e9c3a7c20904151027xdf617fbh64fcb5618e195a71@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1239931813.7661.394.camel@rzhang-dt>
+In-Reply-To: <e9c3a7c20904151027xdf617fbh64fcb5618e195a71-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, mjq59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="iso-8859-1"
+To: dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+Cc: a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, maciej.sosnowski-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 
-On Fri, 2009-04-17 at 09:30 +0800, Zhang Rui wrote:
-> On Fri, 2009-04-17 at 05:42 +0800, Rafael J. Wysocki wrote:
-> > 
-> > 
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13095
-> > Subject         : thinkpad-acpi: cannot control brightness with hotkeys
-> > Submitter       : Niel Lambrechts <niel.lambrechts-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date            : 2009-04-11 23:07 (6 days old)
-> > References      : http://lkml.org/lkml/2009/4/11/160
-> > Handled-By      : Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
-> > Patch           : http://lkml.org/lkml/2009/4/15/339
-> > 
-> > 
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13048
-> > Subject         : /sys/class/backlight/acpi_video0/* is gone on vaio laptop with Intel GM45.
-> > Submitter       : Rodrigo L. Batista <rodrigo-1dof46nAmC8dnm+yROfE0A@public.gmane.org>
-> > Date            : 2009-04-09 04:57 (8 days old)
-> > Handled-By      : yakui_zhao <yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> > Patch           : http://bugzilla.kernel.org/attachment.cgi?id=20967
-> >                   http://bugzilla.kernel.org/attachment.cgi?id=20959
-> > 
-> > 
-> bug 13095 is a duplicate of bug 13048.
-> patches from Matthew and Yakui are for the same issue.
-> 
-> Yakui, could you verify which patch should be taken please?
-The patch from Matthew is better. 
-It still can work even when the KMS is disabled by adding the boot
-option of "i915.modeset=0".
+On Wed, 15 Apr 2009 10:27:48 -0700
+Dan Williams <dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org> wrote:
 
-Hi, Matthew
-    Will you please push the patch?
-    
-thanks.
+> On Wed, Apr 15, 2009 at 5:39 AM, Alexander Beregalov
+> <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> > 2009/4/9 Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> >> ioatdma 0000:00:08.0: PCI INT A -> GSI 16 (level, low) -> IRQ 16
+> >> ioatdma 0000:00:08.0: setting latency timer to 64
+> >> ioatdma 0000:00:08.0: Intel(R) I/OAT DMA Engine found, 4 channels,
+> >> device version 0x12, driver version 3.64
+> >> =A0alloc irq_desc for 33 on cpu 0 node 0
+> >> =A0alloc kstat_irqs on cpu 0 node 0
+> >> ioatdma 0000:00:08.0: irq 33 for MSI/MSI-X
+> >> ------------[ cut here ]------------
+> >> WARNING: at lib/dma-debug.c:565 check_unmap+0x2f6/0x6a0()
+> >> Hardware name: PowerEdge 1950
+> >> ioatdma 0000:00:08.0: DMA-API: device driver frees DMA memory with
+> >> wrong function [device address=3D0x000000007f76f800] [size=3D2000 =
+bytes]
+> >> [map
+> >> ped as single] [unmapped as page]
+> >
+> > The problem still persists.
+>=20
+> Thanks for the report Alexander.  Maciej and I are looking into a fix=
+=2E
 
-> 
-> thanks,
-> rui
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-acpi" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Looks like the driver uses pci_unmap_page() to unmap the region
+previously mapped by dma_map_single(), right?
+
+It's not the proper usage of DMA API but it doesn't cause any
+problems. This is not a urgent issue though it's better to fix it.
