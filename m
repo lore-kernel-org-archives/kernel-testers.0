@@ -1,84 +1,56 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13067] iwl3945: wlan0: beacon loss from AP - sending probe request
-Date: Fri, 17 Apr 2009 23:09:05 +0200
-Message-ID: <200904172309.06033.rjw@sisk.pl>
-References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <nY3-4PrO6XH.A.giB.rw85JB@chimera> <49E7F9B7.2090804@gawab.com>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #13058] First hibernation attempt fails
+Date: Fri, 17 Apr 2009 14:12:00 -0700 (PDT)
+Message-ID: <alpine.LFD.2.00.0904171408081.4042@localhost.localdomain>
+References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <alpine.LFD.2.00.0904170856460.4042@localhost.localdomain> <49E8C06A.5080605@tuffmail.co.uk> <200904172258.58783.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <49E7F9B7.2090804-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <200904172258.58783.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Friday 17 April 2009, Justin Madru wrote:
-> Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.29.  Please verify if it still should be listed and let me know
-> > (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13067
-> > Subject		: iwl3945: wlan0: beacon loss from AP - sending probe request
-> > Submitter	: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2009-04-05 9:11 (12 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123892272218266&w=4
-> >
-> >
-> >   
-> I'm getting this on .30rc2, so I confirm that it's still an issue (I'm 
-> not the original submitter).
-> It's really annoying because it's filling my logs like crazy. Below is 
-> 15mins of logs, and it just repeats like this.
+
+
+On Fri, 17 Apr 2009, Rafael J. Wysocki wrote:
 > 
-> dhclient: DHCPREQUEST of 192.168.1.5 on wlan0 to 192.168.1.254 port 67
-> dhclient: DHCPACK of 192.168.1.5 from 192.168.1.254
-> dhclient: bound to 192.168.1.5 -- renewal in 823 seconds.
-> NetworkManager: <debug> [1239937333.003788] periodic_update(): Roamed 
-> from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
-> kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
-> NetworkManager: <debug> [1239937339.001004] periodic_update(): Roamed 
-> from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
-> NetworkManager: <debug> [1239937453.002911] periodic_update(): Roamed 
-> from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
-> kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
-> NetworkManager: <debug> [1239937459.000974] periodic_update(): Roamed 
-> from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
-> NetworkManager: <debug> [1239937573.002956] periodic_update(): Roamed 
-> from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
-> kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
-> NetworkManager: <debug> [1239937579.000971] periodic_update(): Roamed 
-> from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
-> NetworkManager: <debug> [1239937693.003787] periodic_update(): Roamed 
-> from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
-> kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
-> NetworkManager: <debug> [1239937699.000981] periodic_update(): Roamed 
-> from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
-> NetworkManager: <debug> [1239937813.002710] periodic_update(): Roamed 
-> from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
-> kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
-> NetworkManager: <debug> [1239937819.000753] periodic_update(): Roamed 
-> from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
-> NetworkManager: <debug> [1239937933.003806] periodic_update(): Roamed 
-> from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
-> kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
-> NetworkManager: <debug> [1239937939.000724] periodic_update(): Roamed 
-> from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
-> NetworkManager: <debug> [1239938053.002711] periodic_update(): Roamed 
-> from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
-> kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
-> NetworkManager: <debug> [1239938059.001749] periodic_update(): Roamed 
-> from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
-> dhclient: DHCPREQUEST of 192.168.1.5 on wlan0 to 192.168.1.254 port 67
-> dhclient: DHCPACK of 192.168.1.5 from 192.168.1.254
-> dhclient: bound to 192.168.1.5 -- renewal in 803 seconds.
+> Can you please try to reproduce the problem with the appended debug patch
+> applied and send the output of dmesg to me?
 
-Thanks for the update.
+Maybe something like this instead (or in addition to).
 
-Rafael
+It does "show_mem()" when memory shrinking fails. It will show a _lot_ of 
+data.
+
+Untested, but trivial.
+
+		Linus
+---
+ kernel/power/swsusp.c |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
+
+diff --git a/kernel/power/swsusp.c b/kernel/power/swsusp.c
+index 78c3504..6e70efd 100644
+--- a/kernel/power/swsusp.c
++++ b/kernel/power/swsusp.c
+@@ -207,9 +207,16 @@ void swsusp_show_speed(struct timeval *start, struct timeval *stop,
+ #define SHRINK_BITE	10000
+ static inline unsigned long __shrink_memory(long tmp)
+ {
++	unsigned long ret;
++
+ 	if (tmp > SHRINK_BITE)
+ 		tmp = SHRINK_BITE;
+-	return shrink_all_memory(tmp);
++	ret = shrink_all_memory(tmp);
++	if (!ret) {
++		printk("shrink_all_memory(%ld) failed\n", tmp);
++		show_mem();
++	}
++	return ret;
+ }
+ 
+ int swsusp_shrink_memory(void)
