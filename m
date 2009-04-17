@@ -1,50 +1,47 @@
-From: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
-Subject: Re: 2.6.30-rc1: ioatdma: DMA-API: device driver frees DMA memory
- with 	wrong function
-Date: Fri, 17 Apr 2009 11:38:09 +0900
-Message-ID: <20090417113814J.fujita.tomonori@lab.ntt.co.jp>
-References: <a4423d670904090536j71be609csf2c32be3ed9cfe1e@mail.gmail.com>
-	<a4423d670904150539w1a4fe05ake75ce2aea4538eab@mail.gmail.com>
-	<e9c3a7c20904151027xdf617fbh64fcb5618e195a71@mail.gmail.com>
+From: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13106] 2.6.30-rc1: intel 3945 no wireless
+Date: Thu, 16 Apr 2009 20:21:19 -0700
+Message-ID: <49E7F5AF.8040702@gawab.com>
+References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <nY3-4PrO6XH.A.sp.Zw85JB@chimera> <49E7D320.3080900@lwfinger.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <e9c3a7c20904151027xdf617fbh64fcb5618e195a71-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <49E7D320.3080900-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="iso-8859-1"
-To: dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
-Cc: a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, maciej.sosnowski-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Wed, 15 Apr 2009 10:27:48 -0700
-Dan Williams <dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org> wrote:
+Larry Finger wrote:
+> Rafael J. Wysocki wrote:
+>   
+>> This message has been generated automatically as a part of a report
+>> of recent regressions.
+>>
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.29.  Please verify if it still should be listed and let me know
+>> (either way).
+>>
+>>
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13106
+>> Subject		: 2.6.30-rc1: intel 3945 no wireless
+>> Submitter	: 2.6.30-rc1: intel 3945 no wireless
+>> Date		: 2009-04-08 5:36 (9 days old)
+>> References	: http://marc.info/?l=linux-kernel&m=123916905605534&w=4
+>>     
+>
+> That regression was fixed by Herbert Xu's commit 97c18e2c. It should no longer
+> be listed.
+>
+> Larry
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
+>
+>   
+I'm the original submitter. I confirm that it's been fixed -- close bug.
 
-> On Wed, Apr 15, 2009 at 5:39 AM, Alexander Beregalov
-> <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> > 2009/4/9 Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
-> >> ioatdma 0000:00:08.0: PCI INT A -> GSI 16 (level, low) -> IRQ 16
-> >> ioatdma 0000:00:08.0: setting latency timer to 64
-> >> ioatdma 0000:00:08.0: Intel(R) I/OAT DMA Engine found, 4 channels,
-> >> device version 0x12, driver version 3.64
-> >> =A0alloc irq_desc for 33 on cpu 0 node 0
-> >> =A0alloc kstat_irqs on cpu 0 node 0
-> >> ioatdma 0000:00:08.0: irq 33 for MSI/MSI-X
-> >> ------------[ cut here ]------------
-> >> WARNING: at lib/dma-debug.c:565 check_unmap+0x2f6/0x6a0()
-> >> Hardware name: PowerEdge 1950
-> >> ioatdma 0000:00:08.0: DMA-API: device driver frees DMA memory with
-> >> wrong function [device address=3D0x000000007f76f800] [size=3D2000 =
-bytes]
-> >> [map
-> >> ped as single] [unmapped as page]
-> >
-> > The problem still persists.
->=20
-> Thanks for the report Alexander.  Maciej and I are looking into a fix=
-=2E
-
-Looks like the driver uses pci_unmap_page() to unmap the region
-previously mapped by dma_map_single(), right?
-
-It's not the proper usage of DMA API but it doesn't cause any
-problems. This is not a urgent issue though it's better to fix it.
+Justin Madru
