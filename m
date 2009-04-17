@@ -1,56 +1,47 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [Bug #13058] First hibernation attempt fails
-Date: Fri, 17 Apr 2009 14:12:00 -0700 (PDT)
-Message-ID: <alpine.LFD.2.00.0904171408081.4042@localhost.localdomain>
-References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <alpine.LFD.2.00.0904170856460.4042@localhost.localdomain> <49E8C06A.5080605@tuffmail.co.uk> <200904172258.58783.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #13099] net, sky2: BUG: unable to handle kernel NULL pointer dereference, pci_vpd_truncate()
+Date: Fri, 17 Apr 2009 23:14:49 +0200
+Message-ID: <200904172314.50380.rjw@sisk.pl>
+References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <nY3-4PrO6XH.A.Q2.cw85JB@chimera> <20090417004517.GB1988@elte.hu>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200904172258.58783.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759619AbZDQVPf@vger.kernel.org>
+In-Reply-To: <20090417004517.GB1988@elte.hu>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Ingo Molnar <mingo@elte.hu>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Stephen Hemminger <shemminger@vyatta.com>
 
-
-
-On Fri, 17 Apr 2009, Rafael J. Wysocki wrote:
+On Friday 17 April 2009, Ingo Molnar wrote:
 > 
-> Can you please try to reproduce the problem with the appended debug patch
-> applied and send the output of dmesg to me?
+> * Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> 
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.29.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13099
+> > Subject		: net, sky2: BUG: unable to handle kernel NULL pointer dereference, pci_vpd_truncate()
+> > Submitter	: Ingo Molnar <mingo@elte.hu>
+> > Date		: 2009-04-06 9:03 (11 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=123900867611321&w=4
+> > Handled-By	: Stephen Hemminger <shemminger@vyatta.com>
+> 
+> I think this can be closed as the fix has been merged upstream 
+> already (via the PCI tree):
+> 
+>  commit d407e32efe060afa2b9a797a91376ebc65b4ce11
+>  Author: Anton Vorontsov <avorontsov@ru.mvista.com>
+>  Date:   Wed Apr 1 02:23:41 2009 +0400
+> 
+>     PCI: Fix oops in pci_vpd_truncate
 
-Maybe something like this instead (or in addition to).
+Thanks, closed.
 
-It does "show_mem()" when memory shrinking fails. It will show a _lot_ of 
-data.
-
-Untested, but trivial.
-
-		Linus
----
- kernel/power/swsusp.c |    9 ++++++++-
- 1 files changed, 8 insertions(+), 1 deletions(-)
-
-diff --git a/kernel/power/swsusp.c b/kernel/power/swsusp.c
-index 78c3504..6e70efd 100644
---- a/kernel/power/swsusp.c
-+++ b/kernel/power/swsusp.c
-@@ -207,9 +207,16 @@ void swsusp_show_speed(struct timeval *start, struct timeval *stop,
- #define SHRINK_BITE	10000
- static inline unsigned long __shrink_memory(long tmp)
- {
-+	unsigned long ret;
-+
- 	if (tmp > SHRINK_BITE)
- 		tmp = SHRINK_BITE;
--	return shrink_all_memory(tmp);
-+	ret = shrink_all_memory(tmp);
-+	if (!ret) {
-+		printk("shrink_all_memory(%ld) failed\n", tmp);
-+		show_mem();
-+	}
-+	return ret;
- }
- 
- int swsusp_shrink_memory(void)
+Rafael
