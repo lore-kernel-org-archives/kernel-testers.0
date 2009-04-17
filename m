@@ -1,47 +1,81 @@
 From: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13106] 2.6.30-rc1: intel 3945 no wireless
-Date: Thu, 16 Apr 2009 20:21:19 -0700
-Message-ID: <49E7F5AF.8040702@gawab.com>
-References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <nY3-4PrO6XH.A.sp.Zw85JB@chimera> <49E7D320.3080900@lwfinger.net>
+Subject: Re: [Bug #13067] iwl3945: wlan0: beacon loss from AP - sending probe
+ request
+Date: Thu, 16 Apr 2009 20:38:31 -0700
+Message-ID: <49E7F9B7.2090804@gawab.com>
+References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <nY3-4PrO6XH.A.giB.rw85JB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <49E7D320.3080900-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+In-Reply-To: <nY3-4PrO6XH.A.giB.rw85JB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Larry Finger wrote:
-> Rafael J. Wysocki wrote:
->   
->> This message has been generated automatically as a part of a report
->> of recent regressions.
->>
->> The following bug entry is on the current list of known regressions
->> from 2.6.29.  Please verify if it still should be listed and let me know
->> (either way).
->>
->>
->> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13106
->> Subject		: 2.6.30-rc1: intel 3945 no wireless
->> Submitter	: 2.6.30-rc1: intel 3945 no wireless
->> Date		: 2009-04-08 5:36 (9 days old)
->> References	: http://marc.info/?l=linux-kernel&m=123916905605534&w=4
->>     
+Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 >
-> That regression was fixed by Herbert Xu's commit 97c18e2c. It should no longer
-> be listed.
+> The following bug entry is on the current list of known regressions
+> from 2.6.29.  Please verify if it still should be listed and let me know
+> (either way).
 >
-> Larry
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> Please read the FAQ at  http://www.tux.org/lkml/
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13067
+> Subject		: iwl3945: wlan0: beacon loss from AP - sending probe request
+> Submitter	: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-04-05 9:11 (12 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123892272218266&w=4
+>
 >
 >   
-I'm the original submitter. I confirm that it's been fixed -- close bug.
+I'm getting this on .30rc2, so I confirm that it's still an issue (I'm 
+not the original submitter).
+It's really annoying because it's filling my logs like crazy. Below is 
+15mins of logs, and it just repeats like this.
+
+dhclient: DHCPREQUEST of 192.168.1.5 on wlan0 to 192.168.1.254 port 67
+dhclient: DHCPACK of 192.168.1.5 from 192.168.1.254
+dhclient: bound to 192.168.1.5 -- renewal in 823 seconds.
+NetworkManager: <debug> [1239937333.003788] periodic_update(): Roamed 
+from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
+kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
+NetworkManager: <debug> [1239937339.001004] periodic_update(): Roamed 
+from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
+NetworkManager: <debug> [1239937453.002911] periodic_update(): Roamed 
+from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
+kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
+NetworkManager: <debug> [1239937459.000974] periodic_update(): Roamed 
+from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
+NetworkManager: <debug> [1239937573.002956] periodic_update(): Roamed 
+from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
+kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
+NetworkManager: <debug> [1239937579.000971] periodic_update(): Roamed 
+from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
+NetworkManager: <debug> [1239937693.003787] periodic_update(): Roamed 
+from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
+kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
+NetworkManager: <debug> [1239937699.000981] periodic_update(): Roamed 
+from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
+NetworkManager: <debug> [1239937813.002710] periodic_update(): Roamed 
+from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
+kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
+NetworkManager: <debug> [1239937819.000753] periodic_update(): Roamed 
+from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
+NetworkManager: <debug> [1239937933.003806] periodic_update(): Roamed 
+from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
+kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
+NetworkManager: <debug> [1239937939.000724] periodic_update(): Roamed 
+from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
+NetworkManager: <debug> [1239938053.002711] periodic_update(): Roamed 
+from BSSID 00:1C:DF:67:1F:AC (madru) to (none) ((none))
+kernel: wlan0: beacon loss from AP 00:1c:df:67:1f:ac - sending probe request
+NetworkManager: <debug> [1239938059.001749] periodic_update(): Roamed 
+from BSSID (none) ((none)) to 00:1C:DF:67:1F:AC (madru)
+dhclient: DHCPREQUEST of 192.168.1.5 on wlan0 to 192.168.1.254 port 67
+dhclient: DHCPACK of 192.168.1.5 from 192.168.1.254
+dhclient: bound to 192.168.1.5 -- renewal in 803 seconds.
 
 Justin Madru
