@@ -1,31 +1,69 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13118] iptables very slow after commit 784544739a25c30637397ace5489eeb6e15d7d49
-Date: Thu, 16 Apr 2009 23:45:06 +0200 (CEST)
-Message-ID: <nY3-4PrO6XH.A.XWH.Iw85JB@chimera>
+From: David Miller <davem@davemloft.net>
+Subject: Re: 2.6.30-rc2-git2: Reported regressions from 2.6.29
+Date: Thu, 16 Apr 2009 17:41:45 -0700 (PDT)
+Message-ID: <20090416.174145.225651742.davem@davemloft.net>
 References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-scsi-owner@vger.kernel.org>
 In-Reply-To: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-scsi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>, Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>, Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: rjw@sisk.pl
+Cc: linux-kernel@vger.kernel.org, bunk@kernel.org, akpm@linux-foundation.org, torvalds@linux-foundation.org, protasnb@gmail.com, kernel-testers@vger.kernel.org, netdev@vger.kernel.org, linux-acpi@vger.kernel.org, linux-pm@lists.linux-foundation.org, linux-scsi@vger.kernel.org
 
-This message has been generated automatically as a part of a report
-of recent regressions.
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Date: Thu, 16 Apr 2009 23:42:31 +0200 (CEST)
 
-The following bug entry is on the current list of known regressions
-from 2.6.29.  Please verify if it still should be listed and let me know
-(either way).
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13099
+> Subject		: net, sky2: BUG: unable to handle kernel NULL pointer dereference, pci_vpd_truncate()
+> Submitter	: Ingo Molnar <mingo@elte.hu>
+> Date		: 2009-04-06 9:03 (11 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123900867611321&w=4
+> Handled-By	: Stephen Hemminger <shemminger@vyatta.com>
 
+Fixed by:
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13118
-Subject		: iptables very slow after commit 784544739a25c30637397ace5489eeb6e15d7d49
-Submitter	: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-04-10 16:05 (7 days old)
-References	: http://lkml.org/lkml/2009/4/10/111
-Handled-By	: Eric Dumazet <dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org>
+commit d407e32efe060afa2b9a797a91376ebc65b4ce11
+Author: Anton Vorontsov <avorontsov@ru.mvista.com>
+Date:   Wed Apr 1 02:23:41 2009 +0400
+
+    PCI: Fix oops in pci_vpd_truncate
+    
+    pci_vpd_truncate() should check for dev->vpd->attr, otherwise this might
+    happen:
+    
+      sky2 driver version 1.22
+      Unable to handle kernel paging request for data at address 0x0000000c
+      Faulting instruction address: 0xc01836fc
+      Oops: Kernel access of bad area, sig: 11 [#1]
+      [...]
+      NIP [c01836fc] pci_vpd_truncate+0x38/0x40
+      LR [c029be18] sky2_probe+0x14c/0x518
+      Call Trace:
+      [ef82bde0] [c029bda4] sky2_probe+0xd8/0x518 (unreliable)
+      [ef82be20] [c018a11c] local_pci_probe+0x24/0x34
+      [ef82be30] [c018a14c] pci_call_probe+0x20/0x30
+      [ef82be50] [c018a330] __pci_device_probe+0x64/0x78
+      [ef82be60] [c018a44c] pci_device_probe+0x30/0x58
+      [ef82be80] [c01aa270] really_probe+0x78/0x1a0
+      [ef82bea0] [c01aa460] __driver_attach+0xa4/0xa8
+      [ef82bec0] [c01a96ac] bus_for_each_dev+0x60/0x9c
+      [ef82bef0] [c01aa0b4] driver_attach+0x24/0x34
+      [ef82bf00] [c01a9e08] bus_add_driver+0x12c/0x1cc
+      [ef82bf20] [c01aa87c] driver_register+0x6c/0x110
+      [ef82bf30] [c018a770] __pci_register_driver+0x4c/0x9c
+      [ef82bf50] [c03782c8] sky2_init_module+0x30/0x40
+      [ef82bf60] [c0001dbc] do_one_initcall+0x34/0x1a0
+      [ef82bfd0] [c0362240] do_initcalls+0x38/0x58
+    
+    This happens with CONFIG_SKY2=y, and "ip=on" kernel command line, so
+    pci_vpd_truncate() is called before late_initcall(pci_sysfs_init),
+    therefore ->attr isn't yet initialized.
+    
+    Acked-by: Stephen Hemminger <shemminger@vyatta.com>
+    Signed-off-by: Anton Vorontsov <avorontsov@ru.mvista.com>
+    Signed-off-by: Jesse Barnes <jbarnes@virtuousgeek.org>
+    Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 
