@@ -1,38 +1,41 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: 2.6.30-rc2-git2: Reported regressions from 2.6.29
-Date: Thu, 16 Apr 2009 17:46:15 -0700 (PDT)
-Message-ID: <alpine.LFD.2.00.0904161742140.4042@localhost.localdomain>
-References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
+From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Subject: Re: [Bug #13106] 2.6.30-rc1: intel 3945 no wireless
+Date: Thu, 16 Apr 2009 19:53:52 -0500
+Message-ID: <49E7D320.3080900@lwfinger.net>
+References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <nY3-4PrO6XH.A.sp.Zw85JB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
+DKIM-Signature: v=1; q=dns/txt; d=att.net; s=dkim01;
+      i=larry.finger-fOdFMYwuEsI@public.gmane.org; a=rsa-sha256; c=relaxed/relaxed;
+      t=1239929649; h=Content-Transfer-Encoding:Content-Type:
+     In-Reply-To:References:Subject:CC:To:MIME-Version:From:Date:
+     Message-ID; bh=90y9nmEvjIatWzKXMZvdKPSR6nvJxpOuUvnylJXIunw=; b=VQk
+     9Bizwj4t9nOeJflCD7S6VruEvislLby5pAR75c+daBQEGwsPjapaDApQ+oJBj9mNPv1
+     A3DzeCF74hmdrCUQ==
+In-Reply-To: <nY3-4PrO6XH.A.sp.Zw85JB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "2.6.30-rc1: intel 3945 no wireless"@ogre.sisk.pl
 
-
-
-On Thu, 16 Apr 2009, Rafael J. Wysocki wrote:
+Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13098
-> Subject		: 2.6.29-git12 breaks vga=0x0f07 on MSI/Intel GPU
-> Submitter	: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-> Date		: 2009-04-06 01:14 (11 days old)
-> References	: http://lkml.org/lkml/2009/4/5/200
-> Handled-By	: H. Peter Anvin <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
+> The following bug entry is on the current list of known regressions
+> from 2.6.29.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13106
+> Subject		: 2.6.30-rc1: intel 3945 no wireless
+> Submitter	: 2.6.30-rc1: intel 3945 no wireless
+> Date		: 2009-04-08 5:36 (9 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123916905605534&w=4
 
-I think this got fixed already. The VGA moresettign was reverted back to 
-the old order.
+That regression was fixed by Herbert Xu's commit 97c18e2c. It should no longer
+be listed.
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13044
-> Subject		: 2.6.30-rc1 can't find the root fs
-> Submitter	: Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>
-> Date		: 2009-04-08 13:35 (9 days old)
-
-This was one of the async things that got fixed by just waiting for module 
-async work to finish.
-
-		Linus
+Larry
