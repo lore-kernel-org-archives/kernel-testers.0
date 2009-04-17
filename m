@@ -1,69 +1,65 @@
-From: David Miller <davem@davemloft.net>
-Subject: Re: 2.6.30-rc2-git2: Reported regressions from 2.6.29
-Date: Thu, 16 Apr 2009 17:41:45 -0700 (PDT)
-Message-ID: <20090416.174145.225651742.davem@davemloft.net>
+From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Subject: Re: [Bug #13111] Linux 2.6.30-rc1 tg3 endian issues with MAC
+ addresses on BCM5701
+Date: Thu, 16 Apr 2009 17:43:10 -0700 (PDT)
+Message-ID: <20090416.174310.260350758.davem@davemloft.net>
 References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
+	<nY3-4PrO6XH.A.LI.Sw85JB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-scsi-owner@vger.kernel.org>
-In-Reply-To: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
-Sender: linux-scsi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <nY3-4PrO6XH.A.LI.Sw85JB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: rjw@sisk.pl
-Cc: linux-kernel@vger.kernel.org, bunk@kernel.org, akpm@linux-foundation.org, torvalds@linux-foundation.org, protasnb@gmail.com, kernel-testers@vger.kernel.org, netdev@vger.kernel.org, linux-acpi@vger.kernel.org, linux-pm@lists.linux-foundation.org, linux-scsi@vger.kernel.org
+To: rjw-KKrjLPT3xs0@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, benli-dY08KVG/lbpWk0Htik3J/w@public.gmane.org, mcarlson-dY08KVG/lbpWk0Htik3J/w@public.gmane.org, mchan-dY08KVG/lbpWk0Htik3J/w@public.gmane.org, holt-sJ/iWh9BUns@public.gmane.org
 
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Date: Thu, 16 Apr 2009 23:42:31 +0200 (CEST)
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Date: Thu, 16 Apr 2009 23:45:05 +0200 (CEST)
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13099
-> Subject		: net, sky2: BUG: unable to handle kernel NULL pointer dereference, pci_vpd_truncate()
-> Submitter	: Ingo Molnar <mingo@elte.hu>
-> Date		: 2009-04-06 9:03 (11 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123900867611321&w=4
-> Handled-By	: Stephen Hemminger <shemminger@vyatta.com>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13111
+> Subject		: Linux 2.6.30-rc1 tg3 endian issues with MAC addresses on BCM5701
+> Submitter	: Robin Holt <holt-sJ/iWh9BUns@public.gmane.org>
+> Date		: 2009-04-08 7:12 (9 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=e4f341103e4a2b35f56a0f89802f1b1448e8d04b
+> References	: http://marc.info/?l=linux-kernel&m=123917477312823&w=4
+> Handled-By	: Matt Carlson <mcarlson-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>
 
-Fixed by:
+We're half-way to a fix for this, see the commit below.
 
-commit d407e32efe060afa2b9a797a91376ebc65b4ce11
-Author: Anton Vorontsov <avorontsov@ru.mvista.com>
-Date:   Wed Apr 1 02:23:41 2009 +0400
+But we're not completely finished, so keep this entry open.
 
-    PCI: Fix oops in pci_vpd_truncate
+commit 0d489ffb76de0fe804cf06a9d4d11fa7342d74b9
+Author: James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+Date:   Mon Apr 13 14:31:51 2009 -0700
+
+    tg3: fix big endian MAC address collection failure
     
-    pci_vpd_truncate() should check for dev->vpd->attr, otherwise this might
-    happen:
+    We noticed on parisc that our broadcoms all swapped MAC addresses going
+    from 2.6.29 to 2.6.30-rc1:
     
-      sky2 driver version 1.22
-      Unable to handle kernel paging request for data at address 0x0000000c
-      Faulting instruction address: 0xc01836fc
-      Oops: Kernel access of bad area, sig: 11 [#1]
-      [...]
-      NIP [c01836fc] pci_vpd_truncate+0x38/0x40
-      LR [c029be18] sky2_probe+0x14c/0x518
-      Call Trace:
-      [ef82bde0] [c029bda4] sky2_probe+0xd8/0x518 (unreliable)
-      [ef82be20] [c018a11c] local_pci_probe+0x24/0x34
-      [ef82be30] [c018a14c] pci_call_probe+0x20/0x30
-      [ef82be50] [c018a330] __pci_device_probe+0x64/0x78
-      [ef82be60] [c018a44c] pci_device_probe+0x30/0x58
-      [ef82be80] [c01aa270] really_probe+0x78/0x1a0
-      [ef82bea0] [c01aa460] __driver_attach+0xa4/0xa8
-      [ef82bec0] [c01a96ac] bus_for_each_dev+0x60/0x9c
-      [ef82bef0] [c01aa0b4] driver_attach+0x24/0x34
-      [ef82bf00] [c01a9e08] bus_add_driver+0x12c/0x1cc
-      [ef82bf20] [c01aa87c] driver_register+0x6c/0x110
-      [ef82bf30] [c018a770] __pci_register_driver+0x4c/0x9c
-      [ef82bf50] [c03782c8] sky2_init_module+0x30/0x40
-      [ef82bf60] [c0001dbc] do_one_initcall+0x34/0x1a0
-      [ef82bfd0] [c0362240] do_initcalls+0x38/0x58
+    Apr 11 07:48:24 ion kernel: eth0: Tigon3 [partno(BCM95700A6) rev 0105] (PCI:66MHz:64-bit) MAC address 00:30:6e:4b:15:59
+    Apr 13 07:34:34 ion kernel: eth0: Tigon3 [partno(BCM95700A6) rev 0105] (PCI:66MHz:64-bit) MAC address 00:00:59:15:4b:6e
     
-    This happens with CONFIG_SKY2=y, and "ip=on" kernel command line, so
-    pci_vpd_truncate() is called before late_initcall(pci_sysfs_init),
-    therefore ->attr isn't yet initialized.
+    The problem patch is:
     
-    Acked-by: Stephen Hemminger <shemminger@vyatta.com>
-    Signed-off-by: Anton Vorontsov <avorontsov@ru.mvista.com>
-    Signed-off-by: Jesse Barnes <jbarnes@virtuousgeek.org>
-    Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-
+    commit 6d348f2c1e0bb1cf7a494b51fc921095ead3f6ae
+    Author: Matt Carlson <mcarlson-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>
+    Date:   Wed Feb 25 14:25:52 2009 +0000
+    
+        tg3: Eliminate tg3_nvram_read_swab()
+    
+    With the root cause being the use of memcpy to set the mac address:
+    
+       memcpy(&dev->dev_addr[0], ((char *)&hi) + 2, 2);
+       memcpy(&dev->dev_addr[2], (char *)&lo, sizeof(lo));
+    
+    This might work on little endian machines, but it can't on big endian
+    ones.  You have to use the original setting mechanism to be correct on
+    all architectures.
+    
+    The attached patch fixes parisc.
+    
+    Signed-off-by: James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+    Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
