@@ -1,80 +1,90 @@
-From: Ming Lei <tom.leiming@gmail.com>
-Subject: 2.6.30-rc2 BUG: using smp_processor_id() in preemptible
-Date: Sun, 19 Apr 2009 13:32:23 +0800
-Message-ID: <20090419133223.293e5a10@linux-lm>
+From: Sachin Sant <sachinp-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13068] Lockdep warining in inotify_dev_queue_event
+Date: Sun, 19 Apr 2009 15:06:10 +0530
+Message-ID: <49EAF08A.2020407@in.ibm.com>
+References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <nY3-4PrO6XH.A.4dB.pw85JB@chimera>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-pm-bounces@lists.linux-foundation.org>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
-	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
-List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
-List-Post: <mailto:linux-pm@lists.linux-foundation.org>
-List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
-List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
-	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
-Sender: linux-pm-bounces@lists.linux-foundation.org
-Errors-To: linux-pm-bounces@lists.linux-foundation.org
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: pm list <linux-pm@lists.linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-kernel@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <nY3-4PrO6XH.A.4dB.pw85JB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
+Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13068
+> Subject		: Lockdep warining in inotify_dev_queue_event
+> Submitter	: Sachin Sant <sachinp-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
+> Date		: 2009-04-05 12:37 (12 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123893439229272&w=4
+>   
+I can recreate this with latest kernel. Easiest way is to use the LTP mm 
+tests (runltp -f mm )
 
-[ 5532.990752] Enabling non-boot CPUs ...
-[ 5532.992515] lockdep: fixing up alternatives.
-[ 5532.992518] SMP alternatives: switching to SMP code
-[ 5532.996878] Booting processor 1 APIC 0x1 ip 0x6000
-[ 5532.987607] Initializing CPU#1
-[ 5532.987607] Calibrating delay using timer specific routine.. 3988.87 BogoMIPS (lpj=1994436)
-[ 5532.987607] CPU: L1 I cache: 32K, L1 D cache: 32K
-[ 5532.987607] CPU: L2 cache: 2048K
-[ 5532.987607] [ds] using Core 2/Atom configuration
-[ 5532.987607] CPU 1/0x1 -> Node 0
-[ 5532.987607] CPU: Physical Processor ID: 0
-[ 5532.987607] CPU: Processor Core ID: 1
-[ 5532.987607] CPU1: Thermal monitoring enabled (TM2)
-[ 5533.067483] CPU1: Intel(R) Core(TM)2 Duo CPU     T7250  @ 2.00GHz stepping 0d
-[ 5533.067529] CPU0 attaching NULL sched-domain.
-[ 5533.068265] Switched to high resolution mode on CPU 1
-[ 5533.071043] CPU0 attaching sched-domain:
-[ 5533.071046]  domain 0: span 0-1 level MC
-[ 5533.071049]   groups: 0 (__cpu_power = 1024) 1 (__cpu_power = 1024)
-[ 5533.071057] CPU1 attaching sched-domain:
-[ 5533.071059]  domain 0: span 0-1 level MC
-[ 5533.071062]   groups: 1 (__cpu_power = 1024) 0 (__cpu_power = 1024)
-[ 5533.071769] Registering sys device of class 'machinecheck'
-[ 5533.071776] Registering sys device 'machinecheck1'
-[ 5533.072254] BUG: using smp_processor_id() in preemptible [00000000] code: pm-suspend/20128
-[ 5533.072260] caller is smp_call_function_many+0x24/0x1c0
-[ 5533.072264] Pid: 20128, comm: pm-suspend Tainted: G        W  2.6.30-rc2 #94
-[ 5533.072266] Call Trace:
-[ 5533.072272]  [<ffffffff80360346>] debug_smp_processor_id+0xd2/0xe8
-[ 5533.072276]  [<ffffffff8026dc8c>] smp_call_function_many+0x24/0x1c0
-[ 5533.072283]  [<ffffffffa02ca1b1>] ? do_drv_write+0x0/0x6c [acpi_cpufreq]
-[ 5533.072288]  [<ffffffffa02ca754>] acpi_cpufreq_target+0x251/0x332 [acpi_cpufreq]
-[ 5533.072293]  [<ffffffff8048c491>] ? _spin_unlock_irqrestore+0x46/0x76
-[ 5533.072299]  [<ffffffff803eedb6>] __cpufreq_driver_target+0x67/0x77
-[ 5533.072303]  [<ffffffff803f0b26>] cpufreq_governor_performance+0x46/0x4c
-[ 5533.072308]  [<ffffffff803ee91c>] __cpufreq_governor+0xda/0x117
-[ 5533.072312]  [<ffffffff803eeb25>] __cpufreq_set_policy+0x195/0x211
-[ 5533.072316]  [<ffffffff803f012f>] cpufreq_add_dev+0x5b2/0x6f3
-[ 5533.072320]  [<ffffffff803ef0ea>] ? cpufreq_cpu_get+0xf8/0x104
-[ 5533.072324]  [<ffffffff803f0426>] ? handle_update+0x0/0x33
-[ 5533.072330]  [<ffffffff8048885c>] cpufreq_cpu_callback+0x6c/0x7a
-[ 5533.072334]  [<ffffffff8025a197>] notifier_call_chain+0x33/0x5b
-[ 5533.072339]  [<ffffffff8025a22f>] raw_notifier_call_chain+0xf/0x11
-[ 5533.072343]  [<ffffffff80486a21>] _cpu_up+0xe0/0x12f
-[ 5533.072347]  [<ffffffff80478781>] enable_nonboot_cpus+0x48/0xb1
-[ 5533.072352]  [<ffffffff80272b11>] suspend_devices_and_enter+0xff/0x153
-[ 5533.072356]  [<ffffffff80272d36>] enter_state+0x177/0x24c
-[ 5533.072359]  [<ffffffff80272ec2>] state_store+0xb7/0xd7
-[ 5533.072364]  [<ffffffff80355e27>] kobj_attr_store+0x17/0x19
-[ 5533.072368]  [<ffffffff8031a516>] sysfs_write_file+0xe4/0x119
-[ 5533.072373]  [<ffffffff802c93f0>] vfs_write+0xae/0x137
-[ 5533.072377]  [<ffffffff802c953d>] sys_write+0x47/0x6e
-[ 5533.072382]  [<ffffffff8020b142>] system_call_fastpath+0x16/0x1b
-[ 5533.073285] CPU1 is up
-[ 5533.073288] ACPI: Waking up from system sleep state S3
+=================================
+[ INFO: inconsistent lock state ]
+2.6.30-rc2-git4 #4
+---------------------------------
+inconsistent {RECLAIM_FS-ON-W} -> {IN-RECLAIM_FS-W} usage.
+kswapd0/334 [HC0[0]:SC0[0]:HE1:SE1] takes:
+ (&inode->inotify_mutex){+.+.?.}, at: [<c000000000166cc0>] 
+.inotify_inode_is_dead+0x38/0xc8
+{RECLAIM_FS-ON-W} state was registered at:
+  [<c000000000098d74>] .lockdep_trace_alloc+0xc4/0xf4
+  [<c000000000122128>] .__kmalloc+0x100/0x274
+  [<c0000000001682fc>] .kernel_event+0xb8/0x154
+  [<c0000000001684b8>] .inotify_dev_queue_event+0x120/0x1cc
+  [<c000000000166b2c>] .inotify_inode_queue_event+0xf0/0x160
+  [<c000000000139c08>] .vfs_create+0x170/0x1dc
+  [<c00000000013d5c0>] .do_filp_open+0x25c/0x964
+  [<c00000000012b414>] .do_sys_open+0x80/0x140
+  [<c00000000012b2f0>] .SyS_creat+0x18/0x2c
+  [<c000000000008554>] syscall_exit+0x0/0x40
+irq event stamp: 75815
+hardirqs last  enabled at (75815): [<c0000000000cb824>] 
+.__call_rcu+0x128/0x15c
+hardirqs last disabled at (75814): [<c0000000000cb748>] 
+.__call_rcu+0x4c/0x15c
+softirqs last  enabled at (73084): [<c00000000002be8c>] 
+.call_do_softirq+0x14/0x24
+softirqs last disabled at (73071): [<c00000000002be8c>] 
+.call_do_softirq+0x14/0x24
+
+other info that might help us debug this:
+2 locks held by kswapd0/334:
+ #0:  (shrinker_rwsem){++++..}, at: [<c0000000000f57c8>] 
+.shrink_slab+0x5c/0x228
+ #1:  (&type->s_umount_key#15){++++..}, at: [<c000000000142f00>] 
+.shrink_dcache_memory+0xfc/0x244
+
+stack backtrace:
+Call Trace:
+[c00000004473b440] [c000000000011a54] .show_stack+0x6c/0x16c (unreliable)
+[c00000004473b4f0] [c0000000000984d8] .print_usage_bug+0x1c0/0x1f4
+[c00000004473b5b0] [c00000000009888c] .mark_lock+0x380/0x6e4
+[c00000004473b660] [c00000000009a99c] .__lock_acquire+0x7a8/0x17b4
+[c00000004473b760] [c00000000009bab0] .lock_acquire+0x108/0x154
+[c00000004473b820] [c0000000005a8bac] .mutex_lock_nested+0x88/0x460
+[c00000004473b920] [c000000000166cc0] .inotify_inode_is_dead+0x38/0xc8
+[c00000004473b9d0] [c0000000001427f4] .dentry_iput+0xa0/0x128
+[c00000004473ba60] [c0000000001429f0] .d_kill+0x5c/0xa0
+[c00000004473baf0] [c000000000142d38] .__shrink_dcache_sb+0x304/0x3d0
+[c00000004473bbd0] [c000000000142f48] .shrink_dcache_memory+0x144/0x244
+[c00000004473bcb0] [c0000000000f58c8] .shrink_slab+0x15c/0x228
+[c00000004473bd70] [c0000000000f61a4] .kswapd+0x4c0/0x678
+[c00000004473bf00] [c000000000088ba4] .kthread+0x80/0xcc
+[c00000004473bf90] [c00000000002c194] .kernel_thread+0x54/0x70
+
+Thanks
+-Sachin
 
 -- 
-Lei Ming
+
+---------------------------------
+Sachin Sant
+IBM Linux Technology Center
+India Systems and Technology Labs
+Bangalore, India
+---------------------------------
