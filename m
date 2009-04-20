@@ -1,40 +1,107 @@
-From: "Michael Chan" <mchan-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>
-Subject: Re: [Bug #13111] Linux 2.6.30-rc1 tg3 endian issues with MAC
- addresses on BCM5701
-Date: Sun, 19 Apr 2009 21:31:53 -0700
-Message-ID: <C27F8246C663564A84BB7AB343977242177D75A05C@IRVEXCHCCR01.corp.ad.broadcom.com>
-References: <20090418.213011.50580925.davem@davemloft.net>
+From: Alexander Beregalov <a.beregalov@gmail.com>
+Subject: Re: 2.6.30-rc2: BUG: MAX_LOCKDEP_ENTRIES too low! when mounting 
+	rootfs
+Date: Mon, 20 Apr 2009 11:42:25 +0400
+Message-ID: <a4423d670904200042r476aa2d2p9b8125fe3c8600ac@mail.gmail.com>
+References: <a4423d670904150543w3d6e1371i874618c6bd8bbd0e@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090418.213011.50580925.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Content-Language: en-US
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:content-type
+         :content-transfer-encoding;
+        bh=C0iAL/4Rh6K/lRkgh0ny0WYvnV5fS8S/XopMBn6hFW8=;
+        b=M+ZIIg0uHK5RdFVYSyuWgcHgtbM9ayWbM3TO5+Fry3xSUyo+Thp3z7/Af88Dl6DVzu
+         imZm6m3qvuSdBCMI1/NRY11W8WzR3twWnnXbwzjNZREKuejyMLQ18TIywycEXj4c/UQs
+         IFYPOneLJ5pN8s98GQDjxqhy5ytpE6JVJPaKo=
+In-Reply-To: <a4423d670904150543w3d6e1371i874618c6bd8bbd0e@mail.gmail.com>
+Sender: linux-fsdevel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: 'David Miller' <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "holt-sJ/iWh9BUns@public.gmane.org" <holt-sJ/iWh9BUns@public.gmane.org>
-Cc: Matthew Carlson <mcarlson-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>, "rjw-KKrjLPT3xs0@public.gmane.org" <rjw-KKrjLPT3xs0@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Benjamin Li <benli-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>, "James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org" <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: LKML <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Ingo Molnar <mingo@elte.hu>, Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.k
 
-David Miller wrote:
+2009/4/15 Alexander Beregalov <a.beregalov@gmail.com>:
+> Hi
+>
+> bnx2: eth0 NIC Copper Link is Up, 1000 Mbps full duplex, receive &
+> transmit flow control ON
+> BUG: MAX_LOCKDEP_ENTRIES too low!
+> turning off the locking correctness validator.
+> Pid: 2382, comm: mount Tainted: G =C2=A0 =C2=A0 =C2=A0 =C2=A0W =C2=A0=
+2.6.30-rc2-dirty #121
+> Call Trace:
+> =C2=A0[<ffffffff80280aa7>] add_lock_to_list+0xf7/0x110
+> =C2=A0[<ffffffff80282ad1>] ? check_irq_usage+0xb1/0x110
+> =C2=A0[<ffffffff802df73c>] ? lock_super+0x3c/0x60
+> =C2=A0[<ffffffff80284f20>] __lock_acquire+0xe80/0x12b0
+> =C2=A0[<ffffffff802df73c>] ? lock_super+0x3c/0x60
+> =C2=A0[<ffffffff802853f0>] lock_acquire+0xa0/0xe0
+> =C2=A0[<ffffffff802df73c>] ? lock_super+0x3c/0x60
+> =C2=A0[<ffffffff805f0b50>] ? usbfs_fill_super+0x0/0xe0
+> =C2=A0[<ffffffff806d9178>] __mutex_lock_common+0x68/0x500
+> =C2=A0[<ffffffff802df73c>] ? lock_super+0x3c/0x60
+> =C2=A0[<ffffffff802df73c>] ? lock_super+0x3c/0x60
+> =C2=A0[<ffffffff805f0b50>] ? usbfs_fill_super+0x0/0xe0
+> =C2=A0[<ffffffff806d9738>] mutex_lock_nested+0x48/0x70
+> =C2=A0[<ffffffff802df73c>] lock_super+0x3c/0x60
+> =C2=A0[<ffffffff802dfa7a>] __fsync_super+0x2a/0xa0
+> =C2=A0[<ffffffff802dfb10>] fsync_super+0x20/0x50
+> =C2=A0[<ffffffff802f1f70>] ? shrink_dcache_sb+0x20/0x40
+> =C2=A0[<ffffffff802dfb8c>] do_remount_sb+0x4c/0x250
+> =C2=A0[<ffffffff802e08a5>] get_sb_single+0x75/0x100
+> =C2=A0[<ffffffff805f02b9>] usb_get_sb+0x29/0x50
+> =C2=A0[<ffffffff802df0e7>] vfs_kern_mount+0x67/0xf0
+> =C2=A0[<ffffffff802f942d>] ? get_fs_type+0x4d/0xf0
+> =C2=A0[<ffffffff802df21d>] do_kern_mount+0x5d/0x130
+> =C2=A0[<ffffffff802fcd88>] do_mount+0x2e8/0x930
+> =C2=A0[<ffffffff802a996e>] ? __get_free_pages+0x2e/0x80
+> =C2=A0[<ffffffff802fd4b0>] sys_mount+0xe0/0x120
+> =C2=A0[<ffffffff8020ba6b>] system_call_fastpath+0x16/0x1b
 
->
-> From: Robin Holt <holt-sJ/iWh9BUns@public.gmane.org>
-> Date: Fri, 17 Apr 2009 07:21:21 -0500
->
-> >> Actually, I think we do have a fix for this.  James and Robin both
-> >> reported that the test patch I sent out worked for them.
-> I'm preparing
-> >> a patchset for submission now.
-> >>
-> >> James, Robin, can you confirm that you performed your
-> tests with David's
-> >> patch reverted?
-> >
-> > My test was done with the 2.6.28-rc1 kernel plus your patch and no
-> > others.
->
-> Can I get a final patch against Linus's current tree?
->
+Another one with XFS
 
-Matt should be able to provide a patch tomorrow.  We're still discussing
-this with Grant Grundler on the parisc list.
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+Pid: 1717, comm: mv Tainted: G        W  2.6.30-rc2-00429-gd91dfbb-dirt=
+y #38
+Call Trace:
+ [<ffffffff8027e4d7>] add_lock_to_list+0xf7/0x110
+ [<ffffffff80280501>] ? check_irq_usage+0xb1/0x110
+ [<ffffffff8041afa2>] ? xfs_mod_incore_sb_batch+0x42/0x180
+ [<ffffffff80282930>] __lock_acquire+0xe60/0x1290
+ [<ffffffff804dbf3e>] ? debug_check_no_obj_freed+0xae/0x210
+ [<ffffffff80281da7>] ? __lock_acquire+0x2d7/0x1290
+ [<ffffffff8041afa2>] ? xfs_mod_incore_sb_batch+0x42/0x180
+ [<ffffffff80282e00>] lock_acquire+0xa0/0xe0
+ [<ffffffff8041afa2>] ? xfs_mod_incore_sb_batch+0x42/0x180
+ [<ffffffff804dc02c>] ? debug_check_no_obj_freed+0x19c/0x210
+ [<ffffffff806d92db>] _spin_lock+0x4b/0xa0
+ [<ffffffff8041afa2>] ? xfs_mod_incore_sb_batch+0x42/0x180
+ [<ffffffff8027d800>] ? trace_hardirqs_off+0x20/0x40
+ [<ffffffff8041afa2>] xfs_mod_incore_sb_batch+0x42/0x180
+ [<ffffffff8041e9a0>] xfs_trans_unreserve_and_mod_sb+0x260/0x310
+ [<ffffffff80281130>] ? trace_hardirqs_on+0x20/0x40
+ [<ffffffff8040ceb7>] ? xfs_log_ticket_put+0x57/0x80
+ [<ffffffff8040ceb7>] ? xfs_log_ticket_put+0x57/0x80
+ [<ffffffff8040ffd9>] ? xfs_log_done+0x89/0xf0
+ [<ffffffff8041f909>] _xfs_trans_commit+0x229/0x450
+ [<ffffffff8041cd03>] xfs_rename+0x563/0x7c0
+ [<ffffffff802810ad>] ? trace_hardirqs_on_caller+0x18d/0x1f0
+ [<ffffffff802e648e>] ? vfs_rename+0x14e/0x410
+ [<ffffffff80434dc4>] xfs_vn_rename+0x74/0xa0
+ [<ffffffff802e64f8>] vfs_rename+0x1b8/0x410
+ [<ffffffff806d9b4f>] ? _spin_unlock+0x3f/0x80
+ [<ffffffff802e92db>] sys_renameat+0x23b/0x280
+ [<ffffffff806d9ff5>] ? _spin_unlock_irqrestore+0x55/0xb0
+ [<ffffffff804d0d10>] ? __up_read+0x90/0xd0
+ [<ffffffff8020c4ad>] ? retint_swapgs+0xe/0x13
+ [<ffffffff802810ad>] ? trace_hardirqs_on_caller+0x18d/0x1f0
+ [<ffffffff802e9349>] sys_rename+0x29/0x50
+ [<ffffffff8020ba6b>] system_call_fastpath+0x16/0x1b
+--
+To unsubscribe from this list: send the line "unsubscribe linux-fsdevel=
+" in
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
