@@ -1,36 +1,40 @@
-From: Andrew Price <andy-QvJ1taJFSUQwEI6hhNFqhFpr/1R2p/CL@public.gmane.org>
-Subject: Re: [Bug #13120] BUG: using rootfstype=ext4 causes oops
-Date: Sun, 19 Apr 2009 19:31:43 +0100
-Message-ID: <20090419183143.GB24066@sucs.org>
-References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <nY3-4PrO6XH.A.zGH.Fw85JB@chimera>
+From: "Michael Chan" <mchan-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>
+Subject: Re: [Bug #13111] Linux 2.6.30-rc1 tg3 endian issues with MAC
+ addresses on BCM5701
+Date: Sun, 19 Apr 2009 21:31:53 -0700
+Message-ID: <C27F8246C663564A84BB7AB343977242177D75A05C@IRVEXCHCCR01.corp.ad.broadcom.com>
+References: <20090418.213011.50580925.davem@davemloft.net>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <nY3-4PrO6XH.A.zGH.Fw85JB@chimera>
+In-Reply-To: <20090418.213011.50580925.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Content-Language: en-US
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: 'David Miller' <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "holt-sJ/iWh9BUns@public.gmane.org" <holt-sJ/iWh9BUns@public.gmane.org>
+Cc: Matthew Carlson <mcarlson-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>, "rjw-KKrjLPT3xs0@public.gmane.org" <rjw-KKrjLPT3xs0@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Benjamin Li <benli-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>, "James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org" <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
 
-On Thu, Apr 16, 2009 at 11:45:07PM +0200, Rafael J. Wysocki wrote:
-> The following bug entry is on the current list of known regressions
-> from 2.6.29.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13120
-> Subject		: BUG: using rootfstype=ext4 causes oops
-> Submitter	: Andrew Price <andy-QvJ1taJFSUQwEI6hhNFqhFpr/1R2p/CL@public.gmane.org>
-> Date		: 2009-04-15 20:59 (2 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123982932807371&w=4
-> Handled-By	: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Patch		: http://marc.info/?l=linux-kernel&m=123991090816794&w=4
+David Miller wrote:
 
-Fixed in commit f505d49ffd25ed062e76ffd17568d3937fcd338c "ide: fix
-barriers support" (which was merged in
-df89f1ba971b3df2b7e1bc46ca7ce867539186fa ).
+>
+> From: Robin Holt <holt-sJ/iWh9BUns@public.gmane.org>
+> Date: Fri, 17 Apr 2009 07:21:21 -0500
+>
+> >> Actually, I think we do have a fix for this.  James and Robin both
+> >> reported that the test patch I sent out worked for them.
+> I'm preparing
+> >> a patchset for submission now.
+> >>
+> >> James, Robin, can you confirm that you performed your
+> tests with David's
+> >> patch reverted?
+> >
+> > My test was done with the 2.6.28-rc1 kernel plus your patch and no
+> > others.
+>
+> Can I get a final patch against Linus's current tree?
+>
 
---
-Andrew Price
+Matt should be able to provide a patch tomorrow.  We're still discussing
+this with Grant Grundler on the parisc list.
