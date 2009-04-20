@@ -1,45 +1,67 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13058] First hibernation attempt fails
-Date: Mon, 20 Apr 2009 21:49:32 +0200
-Message-ID: <200904202149.33430.rjw@sisk.pl>
-References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <20090407080632.GG1408@ucw.cz> <20090420122044.7ea6cc15.akpm@linux-foundation.org>
+From: Laurent Pinchart <laurent.pinchart@skynet.be>
+Subject: Re: 2.6.30-rc2-git2: Reported regressions from 2.6.29
+Date: Mon, 20 Apr 2009 22:08:22 +0200
+Message-ID: <200904202208.23899.laurent.pinchart@skynet.be>
+References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <alpine.LFD.2.00.0904171952260.4042@localhost.localdomain> <20090418125111.6646e997@linux-lm>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090420122044.7ea6cc15.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756448AbZDTUGR@vger.kernel.org>
+In-Reply-To: <20090418125111.6646e997@linux-lm>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: leiming <tom.leiming@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, video4linux-list@redhat.com, mchehab@infradead.org
 
-On Monday 20 April 2009, Andrew Morton wrote:
-> On Tue, 7 Apr 2009 10:06:32 +0200
-> Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org> wrote:
-> 
-> > > And the thing is, that "swsusp_shrink_memory()" is just full of 
-> > > heuristics. There's no hard numbers there. It doesn't seem to wait for 
-> > > writeout, it just does the equivalent of "shrink_list()" and 
-> > > "shrink_slab()", but it seems to have been basically cribbed half-way 
-> > > from the regular "try to free memory", without really doing it all.
-> > 
-> > akpm designed shrink_memory(). Long time ago it was just while (1)
-> > kmalloc() loop. It should be waiting. Andrew?
-> 
-> I always wanted the thing to just allocate all the memory which it
-> needed and then to either return it all to the caller or free it all
-> again for the caller to reallocate (preferably the former).
-> 
-> But for some reason which I don't recall (Pavel provided it, iirc) that
-> doesn't work.  So the current (and subsequently tweaked) scheme was put
-> in there instead.  It turned out to be surprisingly difficult and ugly
-> to graft it in top of the existing page reclaim code, and various
-> changes were subsequently made to make it sort-of-work.
-> 
-> Remind me: why can't we just allocate N pages at suspend-time?
+On Saturday 18 April 2009 06:51:11 leiming wrote:
+> On Fri, 17 Apr 2009 19:55:29 -0700 (PDT)
+>
+> Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> > > @@ -742,7 +742,7 @@ static int uvc_alloc_urb_buffers(struct
+> > > uvc_video_device *video,
+> > >  	/* Buffers are already allocated, bail out. */
+> > >  	if (video->urb_size)
+> > > -		return 0;
+> > > +		return DIV_ROUND_UP(video->urb_size, psize);
+> >
+> > I don't think this is right. It should round _down_.
+> >
+> > It's supposed to return 'npackets', but if you pass it a different
+> > packet size than it was passed originally, it can now return a
+> > potentially bigger number than the already allocated buffer, no?
+> >
+> > So I think it should round down (ie use a regular divide). No?
+>
+> Yes,you are correct, please ignore my last reply, and following is
+> the fixed patch.
 
-Well, IMO it may be worth trying anyway.
+psize and video->urb_size shouldn't have changed before and after resume, 
+otherwise we'll get into trouble anyway. A regular divide and a round-up 
+divide should then return the same result. I'll take the regular divide, as it 
+will be more efficient.
 
-Thanks,
-Rafael
+> Thanks.
+>
+> From a3b3d72cdd57a0699fb643b41b78eb7beb211ff5 Mon Sep 17 00:00:00 2001
+> From: Ming Lei <tom.leiming@gmail.com>
+> Date: Wed, 15 Apr 2009 22:32:51 +0800
+> Subject: [PATCH] V4L/DVB:usbvideo:fix uvc resume failed(v2)
+>
+> Now urb buffers is not freed before suspend, so uvc_alloc_urb_buffers
+> should return packet counts allocated originally during uvc resume
+> , instead of zero.
+>
+> This version uses round down to return packet counts on Linus's
+> suggestions, or else may lead to buffer destructed if packet size
+> is changed before calling uvc_alloc_urb_buffers() in this kind of
+> case.
+
+The comment is misleading. If the packet size changes we need to reallocate 
+the buffers anyway. Have you checked if the packet size (which depends on the 
+endpoint being selected) can be changed between suspend and resume, either by 
+the uvcvideo driver (I don't think it can) or the USB core ?
+
+Best regards,
+
+Laurent Pinchart
