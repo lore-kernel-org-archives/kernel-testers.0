@@ -1,107 +1,67 @@
-From: Alexander Beregalov <a.beregalov@gmail.com>
-Subject: Re: 2.6.30-rc2: BUG: MAX_LOCKDEP_ENTRIES too low! when mounting 
-	rootfs
-Date: Mon, 20 Apr 2009 11:42:25 +0400
-Message-ID: <a4423d670904200042r476aa2d2p9b8125fe3c8600ac@mail.gmail.com>
-References: <a4423d670904150543w3d6e1371i874618c6bd8bbd0e@mail.gmail.com>
+From: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Subject: Re: [Bug #12705] X200: Brightness broken since
+	2.6.29-rc4-58-g4c098bc
+Date: Mon, 20 Apr 2009 12:36:36 +0200
+Message-ID: <20090420103636.GA6611@ikn.schottelius.org>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <AsKNxFx2juN.A.vfB.lHn2JB@chimera> <alpine.LFD.2.00.0904070011280.5698@localhost.localdomain> <200904072316.15367.rjw@sisk.pl> <20090417143532.GA6195@ikn.schottelius.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:content-type
-         :content-transfer-encoding;
-        bh=C0iAL/4Rh6K/lRkgh0ny0WYvnV5fS8S/XopMBn6hFW8=;
-        b=M+ZIIg0uHK5RdFVYSyuWgcHgtbM9ayWbM3TO5+Fry3xSUyo+Thp3z7/Af88Dl6DVzu
-         imZm6m3qvuSdBCMI1/NRY11W8WzR3twWnnXbwzjNZREKuejyMLQ18TIywycEXj4c/UQs
-         IFYPOneLJ5pN8s98GQDjxqhy5ytpE6JVJPaKo=
-In-Reply-To: <a4423d670904150543w3d6e1371i874618c6bd8bbd0e@mail.gmail.com>
-Sender: linux-fsdevel-owner@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20090417143532.GA6195-9ll+q7fL1vOwdVNcq5OhcUB+6BGkLq7r@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: LKML <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Ingo Molnar <mingo@elte.hu>, Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.k
+To: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kerne
 
-2009/4/15 Alexander Beregalov <a.beregalov@gmail.com>:
-> Hi
->
-> bnx2: eth0 NIC Copper Link is Up, 1000 Mbps full duplex, receive &
-> transmit flow control ON
-> BUG: MAX_LOCKDEP_ENTRIES too low!
-> turning off the locking correctness validator.
-> Pid: 2382, comm: mount Tainted: G =C2=A0 =C2=A0 =C2=A0 =C2=A0W =C2=A0=
-2.6.30-rc2-dirty #121
-> Call Trace:
-> =C2=A0[<ffffffff80280aa7>] add_lock_to_list+0xf7/0x110
-> =C2=A0[<ffffffff80282ad1>] ? check_irq_usage+0xb1/0x110
-> =C2=A0[<ffffffff802df73c>] ? lock_super+0x3c/0x60
-> =C2=A0[<ffffffff80284f20>] __lock_acquire+0xe80/0x12b0
-> =C2=A0[<ffffffff802df73c>] ? lock_super+0x3c/0x60
-> =C2=A0[<ffffffff802853f0>] lock_acquire+0xa0/0xe0
-> =C2=A0[<ffffffff802df73c>] ? lock_super+0x3c/0x60
-> =C2=A0[<ffffffff805f0b50>] ? usbfs_fill_super+0x0/0xe0
-> =C2=A0[<ffffffff806d9178>] __mutex_lock_common+0x68/0x500
-> =C2=A0[<ffffffff802df73c>] ? lock_super+0x3c/0x60
-> =C2=A0[<ffffffff802df73c>] ? lock_super+0x3c/0x60
-> =C2=A0[<ffffffff805f0b50>] ? usbfs_fill_super+0x0/0xe0
-> =C2=A0[<ffffffff806d9738>] mutex_lock_nested+0x48/0x70
-> =C2=A0[<ffffffff802df73c>] lock_super+0x3c/0x60
-> =C2=A0[<ffffffff802dfa7a>] __fsync_super+0x2a/0xa0
-> =C2=A0[<ffffffff802dfb10>] fsync_super+0x20/0x50
-> =C2=A0[<ffffffff802f1f70>] ? shrink_dcache_sb+0x20/0x40
-> =C2=A0[<ffffffff802dfb8c>] do_remount_sb+0x4c/0x250
-> =C2=A0[<ffffffff802e08a5>] get_sb_single+0x75/0x100
-> =C2=A0[<ffffffff805f02b9>] usb_get_sb+0x29/0x50
-> =C2=A0[<ffffffff802df0e7>] vfs_kern_mount+0x67/0xf0
-> =C2=A0[<ffffffff802f942d>] ? get_fs_type+0x4d/0xf0
-> =C2=A0[<ffffffff802df21d>] do_kern_mount+0x5d/0x130
-> =C2=A0[<ffffffff802fcd88>] do_mount+0x2e8/0x930
-> =C2=A0[<ffffffff802a996e>] ? __get_free_pages+0x2e/0x80
-> =C2=A0[<ffffffff802fd4b0>] sys_mount+0xe0/0x120
-> =C2=A0[<ffffffff8020ba6b>] system_call_fastpath+0x16/0x1b
 
-Another one with XFS
+--EeQfGwPcQSOJBaQU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-BUG: MAX_LOCKDEP_ENTRIES too low!
-turning off the locking correctness validator.
-Pid: 1717, comm: mv Tainted: G        W  2.6.30-rc2-00429-gd91dfbb-dirt=
-y #38
-Call Trace:
- [<ffffffff8027e4d7>] add_lock_to_list+0xf7/0x110
- [<ffffffff80280501>] ? check_irq_usage+0xb1/0x110
- [<ffffffff8041afa2>] ? xfs_mod_incore_sb_batch+0x42/0x180
- [<ffffffff80282930>] __lock_acquire+0xe60/0x1290
- [<ffffffff804dbf3e>] ? debug_check_no_obj_freed+0xae/0x210
- [<ffffffff80281da7>] ? __lock_acquire+0x2d7/0x1290
- [<ffffffff8041afa2>] ? xfs_mod_incore_sb_batch+0x42/0x180
- [<ffffffff80282e00>] lock_acquire+0xa0/0xe0
- [<ffffffff8041afa2>] ? xfs_mod_incore_sb_batch+0x42/0x180
- [<ffffffff804dc02c>] ? debug_check_no_obj_freed+0x19c/0x210
- [<ffffffff806d92db>] _spin_lock+0x4b/0xa0
- [<ffffffff8041afa2>] ? xfs_mod_incore_sb_batch+0x42/0x180
- [<ffffffff8027d800>] ? trace_hardirqs_off+0x20/0x40
- [<ffffffff8041afa2>] xfs_mod_incore_sb_batch+0x42/0x180
- [<ffffffff8041e9a0>] xfs_trans_unreserve_and_mod_sb+0x260/0x310
- [<ffffffff80281130>] ? trace_hardirqs_on+0x20/0x40
- [<ffffffff8040ceb7>] ? xfs_log_ticket_put+0x57/0x80
- [<ffffffff8040ceb7>] ? xfs_log_ticket_put+0x57/0x80
- [<ffffffff8040ffd9>] ? xfs_log_done+0x89/0xf0
- [<ffffffff8041f909>] _xfs_trans_commit+0x229/0x450
- [<ffffffff8041cd03>] xfs_rename+0x563/0x7c0
- [<ffffffff802810ad>] ? trace_hardirqs_on_caller+0x18d/0x1f0
- [<ffffffff802e648e>] ? vfs_rename+0x14e/0x410
- [<ffffffff80434dc4>] xfs_vn_rename+0x74/0xa0
- [<ffffffff802e64f8>] vfs_rename+0x1b8/0x410
- [<ffffffff806d9b4f>] ? _spin_unlock+0x3f/0x80
- [<ffffffff802e92db>] sys_renameat+0x23b/0x280
- [<ffffffff806d9ff5>] ? _spin_unlock_irqrestore+0x55/0xb0
- [<ffffffff804d0d10>] ? __up_read+0x90/0xd0
- [<ffffffff8020c4ad>] ? retint_swapgs+0xe/0x13
- [<ffffffff802810ad>] ? trace_hardirqs_on_caller+0x18d/0x1f0
- [<ffffffff802e9349>] sys_rename+0x29/0x50
- [<ffffffff8020ba6b>] system_call_fastpath+0x16/0x1b
---
-To unsubscribe from this list: send the line "unsubscribe linux-fsdevel=
-" in
-the body of a message to majordomo@vger.kernel.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Nico Schottelius [Fri, Apr 17, 2009 at 04:35:32PM +0200]:
+> Brightness is *AGAIN* broken in 2.6.30-rc2-00195-g9f76208.
+
+2.6.30-rc2-next-20090420:
+
+My display *is* at full brightness, but I cannot adjust it,
+because I'm missing some files:
+
+[12:35] ikn:~# ls /sys/class/video_output=20
+[12:35] ikn:~# ls /sys/class/backlight  =20
+[12:35] ikn:~# ls /proc/acpi          =20
+ac_adapter  debug_layer  embedded_controller  fan   power_resource  thermal=
+_zone
+battery     debug_level  event          ibm   processor     wakeup
+button      dsdt   fadt         info  sleep
+
+So I cannot adjust brightness. I saw that
+/proc/acpi/video/VID/LCD0/brightness was not existing on 2.6.30-rc2-00195-g=
+9f76208
+either.
+
+Bug or am I missing some new file location?
+
+Nico
+
+--=20
+Think about Free and Open Source Software (FOSS).
+http://nico.schottelius.org/documentations/foss/the-term-foss/
+
+PGP: BFE4 C736 ABE5 406F 8F42  F7CF B8BE F92A 9885 188C
+
+--EeQfGwPcQSOJBaQU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+Content-Disposition: inline
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEARECAAYFAknsUDMACgkQuL75KpiFGIyf0gCfb25Zb3ZfQKGgVSpSOGn7dPjg
+HqIAoKKn6xKkP/vpFgfYD31BSIxn8fxa
+=gITJ
+-----END PGP SIGNATURE-----
+
+--EeQfGwPcQSOJBaQU--
