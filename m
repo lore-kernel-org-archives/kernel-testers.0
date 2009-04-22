@@ -1,78 +1,38 @@
-From: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
-Subject: Re: [FIXED] EEE PC hangs when booting off battery
-Date: Wed, 22 Apr 2009 13:17:01 +0100
-Message-ID: <49EF0ABD.2080801@tuffmail.co.uk>
-References: <49E065CF.6040408@tuffmail.co.uk> <200904140859.02188.bjorn.helgaas@hp.com> <20090414081728.10de978a@infradead.org> <200904140948.37633.bjorn.helgaas@hp.com> <49E5F01B.2060201@tuffmail.co.uk>
+From: Pavel Machek <pavel@ucw.cz>
+Subject: Re: [Bug #13058] First hibernation attempt fails
+Date: Wed, 22 Apr 2009 15:07:05 +0200
+Message-ID: <20090422130705.GA16186@elf.ucw.cz>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <20090417063007.GB4593@kernel.dk> <49E83DC4.8040207@tuffmail.co.uk> <20090417091321.GP4593@kernel.dk> <alpine.LFD.2.00.0904170813550.4042@localhost.localdomain> <20090407080632.GG1408@ucw.cz> <20090420122044.7ea6cc15.akpm@linux-foundation.org> <20090420195306.GA3299@elf.ucw.cz> <20090420130412.bc337673.akpm@linux-foundation.org> <20090420163734.b8e24fc9.akpm@linux-foundation.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:received:received:sender:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=SY8J8r2tBqffLCFbphmeJecrihdjpXy5aYSGWPlRaO0=;
-        b=Q4wICQOFGqhQ+nT5wkT6e5siRbIPTRu/FIRcBs6UKp1S44sVo5r/hdEWvfYxwWur+E
-         I+GTgDEtR/tQz2sNM+3PPQJuHoDTc4Ff3Fy8Lhy99yf/cXeZ55lAq6vaHxwFhlhU/BVD
-         2MbUSI5SIEgt1BIyrBTxaeMBz7DMPArmsMxD8=
-In-Reply-To: <49E5F01B.2060201@tuffmail.co.uk>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753930AbZDVNEV@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20090420163734.b8e24fc9.akpm@linux-foundation.org>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Arjan van de Ven <arjan@infradead.org>
-Cc: Bjorn Helgaas <bjorn.helgaas@hp.com>, linux-acpi@vger.kernel.org, linux-kernel <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>
+Content-Transfer-Encoding: 7bit
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: torvalds@linux-foundation.org, jens.axboe@oracle.com, alan-jenkins@tuffmail.co.uk, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org
 
-Alan Jenkins wrote:
-> Bjorn Helgaas wrote:
->   
->> On Tuesday 14 April 2009 09:17:28 am Arjan van de Ven wrote:
->>   
->>     
->>> On Tue, 14 Apr 2009 08:59:01 -0600
->>> Bjorn Helgaas <bjorn.helgaas@hp.com> wrote:
->>>
->>>     
->>>       
->>>> I can't help with the real problem of why the asynchronous battery
->>>> init causes the hang.
->>>>       
->>>>         
->>> that got fixed already for the module case.
->>>     
->>>       
->> But apparently still broken for the builtin case?  I think Alan is
->> running pretty new bits -- he said "latest git" on April 11.
->>   
->>     
->
-> It's now fixed, in 2.6.30-rc2.  My battery is modular btw.  I suspect
->
-> 5d38258ec026921a7b266f4047ebeaa75db358e5 "ACPI battery: fix async boot
-> oops" [removal of __init]
->
-> was not sufficient to fix my problem, but it was solved by the "real" fix,
->
-> d6de2c80e9d758d2e36c21699117db6178c0f517 "async: Fix module loading
-> async-work regression" [module loading waits on async work]
->
->
-> I would argue there's still a question over why the asynchronous battery
-> init (_with_ the oops fix) should cause a hang in the idle routine.  But
-> since the regression is fixed, it's not exactly an urgent question.
->   
+Hi!
 
-Ugh.  Recently I tried building the battery driver into the kernel, to
-benefit from the async work.  Later, I tried booting from the battery
-and it hung again.
+> Of course, this will protect the calling task from getting oom-killed. 
+> But it doesn't protect other tasks from getting oom-killed due to the
+> activity of _this_ task.
+> 
+> But I think that problem already exists, and that this proposal doesn't
+> worsen anything, yes?
+> 
+> Or is it the case that all other tasks are safely stuck in the freezer
+> at this time, so they won't be allocating any memory anyway?
 
-This time, the kernel did not even respond to SysRq.  I tried
-nmi_watchdog=1 and waiting 2 minutes, but the watchdog didn't trigger
-either.  As before, it doesn't happen with acpi=off.
+That is the idea, yes. ... but we now have more threads that are not
+freezable... so they may allocate the memory.
 
-I checked that this still happened in todays rc3, and it doesn't happen
-if I revert
+Is it non-feasible to free memory without really going and allocating
+everything?
 
-0f66af530116e9f4dd97f328d91718b56a6fc5a4 "ACPI: battery: asynchronous init"
-
-Regards
-Alan
+									Pavel
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
