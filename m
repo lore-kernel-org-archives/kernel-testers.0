@@ -1,78 +1,49 @@
-From: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.30-rc1: ioatdma: DMA-API: device driver frees DMA memory with 
-	wrong function
-Date: Wed, 22 Apr 2009 19:48:53 +0400
-Message-ID: <a4423d670904220848g3725e6a3ya113d9051e2fc734@mail.gmail.com>
-References: <a4423d670904090536j71be609csf2c32be3ed9cfe1e@mail.gmail.com>
-	 <a4423d670904150539w1a4fe05ake75ce2aea4538eab@mail.gmail.com>
-	 <e9c3a7c20904151027xdf617fbh64fcb5618e195a71@mail.gmail.com>
-	 <129600E5E5FB004392DDC3FB599660D792A39C27@irsmsx504.ger.corp.intel.com>
-	 <a4423d670904170501l7cf935a6mf8dbe69e166b8099@mail.gmail.com>
-	 <129600E5E5FB004392DDC3FB599660D79A252C69@irsmsx504.ger.corp.intel.com>
+From: "Chris Friesen" <cfriesen-ZIRUuHA3oDzQT0dZR+AlfA@public.gmane.org>
+Subject: Re: 2.6.29-git13: Reported regressions from 2.6.28
+Date: Wed, 22 Apr 2009 13:32:49 -0600
+Message-ID: <49EF70E1.9030904@nortel.com>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <alpine.LFD.2.00.0904061443000.7443@localhost.localdomain> <200904070035.00784.rjw@sisk.pl> <49E79E58.9000606@nortel.com> <alpine.LFD.2.00.0904161432000.4042@localhost.localdomain> <49ECE783.5050704@nortel.com> <Pine.LNX.4.64.0904202352520.2924@blonde.anvils>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=T1IEveulYT8CKZNeGnh1MtrRmH+q9ZpwzahQaYFGhgM=;
-        b=v/RT2KAKiGpoVKNqoyzH0g5g1g1EL7kLscS+otIL3lxraoICuwB9Kyql15YFvaZ4/Y
-         ZRKVTb3Smwdp8cAezWpbtfKrTHwzOUi7Che3rJh6umzaYoH6N8IY8AWr5bMX7rDwgxAr
-         RTLppw0C7xqPskv6yFAJsMZ3WspagKHPcO7/k=
-In-Reply-To: <129600E5E5FB004392DDC3FB599660D79A252C69-IGOiFh9zz4yvNW/NfzhIbrfspsVTdybXVpNB7YpNyf8@public.gmane.org>
+In-Reply-To: <Pine.LNX.4.64.0904202352520.2924-XZxpfvf5U/bbmfIwyoSfiQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: "Sosnowski, Maciej" <maciej.sosnowski-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: "Williams, Dan J" <dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Trenton Adams <trenton.d.adams-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-2009/4/22 Sosnowski, Maciej <maciej.sosnowski-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>:
-> Alexander Beregalov wrote:
->> 2009/4/17 Sosnowski, Maciej <maciej.sosnowski-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>:
->>> Dan Williams wrote:
->>>> On Wed, Apr 15, 2009 at 5:39 AM, Alexander Beregalov
->>>> <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>>>> 2009/4/9 Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
->>>>>> ioatdma 0000:00:08.0: PCI INT A -> GSI 16 (level, low) -> IRQ 16
->>>>>> ioatdma 0000:00:08.0: setting latency timer to 64
->>>>>> ioatdma 0000:00:08.0: Intel(R) I/OAT DMA Engine found, 4 channel=
-s,
->>>>>> device version 0x12, driver version 3.64
->>>>>> =C2=A0alloc irq_desc for 33 on cpu 0 node 0
->>>>>> =C2=A0alloc kstat_irqs on cpu 0 node 0
->>>>>> ioatdma 0000:00:08.0: irq 33 for MSI/MSI-X
->>>>>> ------------[ cut here ]------------
->>>>>> WARNING: at lib/dma-debug.c:565 check_unmap+0x2f6/0x6a0()
->>>>>> Hardware name: PowerEdge 1950
->>>>>> ioatdma 0000:00:08.0: DMA-API: device driver frees DMA memory wi=
-th
->>>>>> wrong function [device address=3D0x000000007f76f800] [size=3D200=
-0 bytes] [map
->>>>>> ped as single] [unmapped as page]
->>>>>
->>>>> The problem still persists.
->>>>
->>>> Thanks for the report Alexander. =C2=A0Maciej and I are looking in=
-to a fix.
->>>>
->>>> Regards,
->>>> Dan
->>>
->>> Hi Alexander,
->>>
->>> Could you check if the following patch helps?
->>
->> Hi Maciej.
->>
->> No, unfortunately it does not help. The same warning message.
->
-> Ok, I have missed to cover self_test case.
-> How about this one instead?
->
+Hugh Dickins wrote:
+> On Mon, 20 Apr 2009, Chris Friesen wrote:
 
-It works! Thanks.
+>> For anonymous mappings, the older kernels put the starting address of the VMA
+>> (from the point of view of the app) as the offset.  Until the recent change,
+>> new kernels still did this for most VMAs, but the stack offset was a 64-bit
+>> value with no obvious relation to the VMA start address.
+> 
+> No, what they put there was something that in most cases matched the
+> starting address of the VMA; but try moving that VMA with mremap (and
+> an old /proc/<pid>/maps!) and you'll see that the "offset" remained
+> unchanged even when the starting address of the VMA was changed.
+> 
+> (The offset remaining constant so that rmap can locate the VMA's pages
+> and unmap them, despite their being mapped at different virtual
+> addresses in parent and child after a move in one of them.)
+> 
+> ... so I think your app was indeed already broken, wasn't it?
+> 
+> It's also unclear why you'd want to use the offset field for the
+> starting address of the VMA, when /proc/<pid>/maps already shows
+> the starting address of the VMA.  I think you've more to tell us!
 
-Reported-by: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Tested-by: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Yeah, given the above the app was broken.  We just didn't run into any 
+cases where the assumption caused any problems.
+
+Also, it's not so much that we were relying on the offset value for 
+anything, so much as we were parsing the file and had made some 
+assumptions about valid offsets for anonymous memory.
+
+Anyways, we'll fix it going forward to simply ignore the offset for 
+anonymous memory.
+
+Chris
