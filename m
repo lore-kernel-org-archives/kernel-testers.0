@@ -1,49 +1,45 @@
-From: "Chris Friesen" <cfriesen-ZIRUuHA3oDzQT0dZR+AlfA@public.gmane.org>
-Subject: Re: 2.6.29-git13: Reported regressions from 2.6.28
-Date: Wed, 22 Apr 2009 13:32:49 -0600
-Message-ID: <49EF70E1.9030904@nortel.com>
-References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera> <alpine.LFD.2.00.0904061443000.7443@localhost.localdomain> <200904070035.00784.rjw@sisk.pl> <49E79E58.9000606@nortel.com> <alpine.LFD.2.00.0904161432000.4042@localhost.localdomain> <49ECE783.5050704@nortel.com> <Pine.LNX.4.64.0904202352520.2924@blonde.anvils>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #13058] First hibernation attempt fails
+Date: Wed, 22 Apr 2009 22:11:17 +0200
+Message-ID: <200904222211.18221.rjw@sisk.pl>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <20090420163734.b8e24fc9.akpm@linux-foundation.org> <20090422130705.GA16186@elf.ucw.cz>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Pine.LNX.4.64.0904202352520.2924-XZxpfvf5U/bbmfIwyoSfiQ@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755735AbZDVUM2@vger.kernel.org>
+In-Reply-To: <20090422130705.GA16186@elf.ucw.cz>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Hugh Dickins <hugh-DTz5qymZ9yRBDgjK7y7TUQ@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Trenton Adams <trenton.d.adams-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, torvalds@linux-foundation.org, jens.axboe@oracle.com, alan-jenkins@tuffmail.co.uk, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org
 
-Hugh Dickins wrote:
-> On Mon, 20 Apr 2009, Chris Friesen wrote:
-
->> For anonymous mappings, the older kernels put the starting address of the VMA
->> (from the point of view of the app) as the offset.  Until the recent change,
->> new kernels still did this for most VMAs, but the stack offset was a 64-bit
->> value with no obvious relation to the VMA start address.
+On Wednesday 22 April 2009, Pavel Machek wrote:
+> Hi!
 > 
-> No, what they put there was something that in most cases matched the
-> starting address of the VMA; but try moving that VMA with mremap (and
-> an old /proc/<pid>/maps!) and you'll see that the "offset" remained
-> unchanged even when the starting address of the VMA was changed.
+> > Of course, this will protect the calling task from getting oom-killed. 
+> > But it doesn't protect other tasks from getting oom-killed due to the
+> > activity of _this_ task.
+> > 
+> > But I think that problem already exists, and that this proposal doesn't
+> > worsen anything, yes?
+> > 
+> > Or is it the case that all other tasks are safely stuck in the freezer
+> > at this time, so they won't be allocating any memory anyway?
 > 
-> (The offset remaining constant so that rmap can locate the VMA's pages
-> and unmap them, despite their being mapped at different virtual
-> addresses in parent and child after a move in one of them.)
+> That is the idea, yes. ... but we now have more threads that are not
+> freezable... so they may allocate the memory.
 > 
-> ... so I think your app was indeed already broken, wasn't it?
-> 
-> It's also unclear why you'd want to use the offset field for the
-> starting address of the VMA, when /proc/<pid>/maps already shows
-> the starting address of the VMA.  I think you've more to tell us!
+> Is it non-feasible to free memory without really going and allocating
+> everything?
 
-Yeah, given the above the app was broken.  We just didn't run into any 
-cases where the assumption caused any problems.
+The question is whether there is a point.  In principle we can just go and
+allocate as much as we need upfront.  It shouldn't change anything, because
+we resume and suspend devices after creating the image anyway.
 
-Also, it's not so much that we were relying on the offset value for 
-anything, so much as we were parsing the file and had made some 
-assumptions about valid offsets for anonymous memory.
+I think we could try to disable the OOM killer before suspend and just
+allocate the memory for the image right before devices are suspended for the
+first time.
 
-Anyways, we'll fix it going forward to simply ignore the offset for 
-anonymous memory.
-
-Chris
+Thanks,
+Rafael
