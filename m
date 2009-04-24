@@ -1,56 +1,59 @@
-From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [Bug #13058] First hibernation attempt fails
-Date: Wed, 22 Apr 2009 13:19:43 -0700
-Message-ID: <20090422131943.69288af3.akpm@linux-foundation.org>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera>
-	<20090420163734.b8e24fc9.akpm@linux-foundation.org>
-	<20090422130705.GA16186@elf.ucw.cz>
-	<200904222211.18221.rjw@sisk.pl>
+From: Kalle Valo <kalle.valo@nokia.com>
+Subject: Re: 2.6.30-rc2-git2: Reported regressions from 2.6.29
+Date: Fri, 24 Apr 2009 16:44:22 +0300
+Message-ID: <87ljpqqi89.fsf@nokia.com>
+References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200904222211.18221.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> (ext Rafael J. Wysocki's message of "Thu\, 16 Apr 2009 23\:42\:31 +0200")
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: "ext Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>
 
-On Wed, 22 Apr 2009 22:11:17 +0200
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+"Rafael J. Wysocki" <rjw@sisk.pl> writes:
 
-> On Wednesday 22 April 2009, Pavel Machek wrote:
-> > Hi!
-> > 
-> > > Of course, this will protect the calling task from getting oom-killed. 
-> > > But it doesn't protect other tasks from getting oom-killed due to the
-> > > activity of _this_ task.
-> > > 
-> > > But I think that problem already exists, and that this proposal doesn't
-> > > worsen anything, yes?
-> > > 
-> > > Or is it the case that all other tasks are safely stuck in the freezer
-> > > at this time, so they won't be allocating any memory anyway?
-> > 
-> > That is the idea, yes. ... but we now have more threads that are not
-> > freezable... so they may allocate the memory.
-> > 
-> > Is it non-feasible to free memory without really going and allocating
-> > everything?
-> 
-> The question is whether there is a point.  In principle we can just go and
-> allocate as much as we need upfront.  It shouldn't change anything, because
-> we resume and suspend devices after creating the image anyway.
-> 
-> I think we could try to disable the OOM killer before suspend and just
-> allocate the memory for the image right before devices are suspended for the
-> first time.
-> 
+> This message contains a list of some regressions from 2.6.29, for
+> which there are no fixes in the mainline I know of. If any of them
+> have been fixed already, please let me know.
+>
+> If you know of any other unresolved regressions from 2.6.29, please
+> let me know either and I'll add them to the list. Also, please let
+> me know if any of the entries below are invalid.
+>
+> Each entry from the list will be sent additionally in an automatic reply to
+> this message with CCs to the people involved in reporting and handling the
+> issue.
+>
 
-It would be nice to do.
+[...]
 
-shrink_all_memory() is simply trying to do something which page reclaim
-doesn't expect to do (free memory when there's already lots of memory
-free).  Consequently it doesn't do it very well, and there's a good
-risk that changes to core reclaim will accidentally break
-shrink_all_memory().  
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13067
+> Subject         : iwl3945: wlan0: beacon loss from AP - sending probe request
+> Submitter       : Maciej Rutecki <maciej.rutecki@gmail.com>
+> Date            : 2009-04-05 9:11 (12 days old)
+> References      : http://marc.info/?l=linux-kernel&m=123892272218266&w=4
+
+The regression here is that I added a printk() to inform about beacon
+loss. The issue has been there a long time, the printk() just exposed
+it.
+
+Michael wrote a patch which silences the printk:
+
+http://git.kernel.org/?p=linux/kernel/git/linville/wireless-testing.git;a=commit;h=16eaea5faa37d552b14e246ca56a436e55ca67b3
+
+I fixed the beacon loss detection here:
+
+http://git.kernel.org/?p=linux/kernel/git/linville/wireless-testing.git;a=commit;h=3b6dc5a431e4fef35717cba53544a95209f49b68
+
+John, I think Michael's patch should be sent to 2.6.30. Any chances
+for that?
+
+Rafael, is it possible to send your regression mails to
+linux-wireless@vger.kernel.org as well? Very few wireless developers
+have time to follow netdev or lkml.
+
+-- 
+Kalle Valo
