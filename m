@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13126] BUG: MAX_LOCKDEP_ENTRIES too low! when mounting rootfs
-Date: Sat, 25 Apr 2009 21:31:48 +0200 (CEST)
-Message-ID: <Fg2zLW93smL.A.ARD.Jd48JB@chimera>
+Subject: [Bug #13156] keyboard backlight brightness up/down keys doesn't work
+Date: Sat, 25 Apr 2009 21:31:49 +0200 (CEST)
+Message-ID: <Fg2zLW93smL.A.w-C.7c48JB@chimera>
 References: <47KgT3nlbjD.A.lnB.jc48JB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,8 @@ from 2.6.29.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13126
-Subject		: BUG: MAX_LOCKDEP_ENTRIES too low! when mounting rootfs
-Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-04-15 12:43 (11 days old)
-References	: http://marc.info/?l=linux-kernel&m=123979949820538&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13156
+Subject		: keyboard backlight brightness up/down keys doesn't work
+Submitter	: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
+Date		: 2009-04-23 20:46 (3 days old)
 
