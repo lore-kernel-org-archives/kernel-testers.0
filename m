@@ -1,22 +1,21 @@
-From: Ingo Molnar <mingo@elte.hu>
-Subject: Re: [Bug #13185] New x86 warning
-Date: Sun, 26 Apr 2009 11:31:03 +0200
-Message-ID: <20090426093103.GA19267@elte.hu>
-References: <47KgT3nlbjD.A.lnB.jc48JB@chimera> <Fg2zLW93smL.A.07B.qc48JB@chimera>
+From: Pavel Machek <pavel@ucw.cz>
+Subject: Re: [Bug #13108] 2.6.30-rc1: white screen during boot (regression)
+	on spitz
+Date: Sat, 25 Apr 2009 13:54:55 +0200
+Message-ID: <20090425115455.GA1339@ucw.cz>
+References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera> <nY3-4PrO6XH.A.sZ.Ww85JB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754804AbZDZJcG@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753477AbZDZIrl@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <Fg2zLW93smL.A.07B.qc48JB@chimera>
+In-Reply-To: <nY3-4PrO6XH.A.sZ.Ww85JB@chimera>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andi Kleen <andi@firstfloor.org>, Jeff Garzik <jeff@garzik.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>, Peter Zijlstra <a.p.zijlstra@chello.nl>
 
-
-* Rafael J. Wysocki <rjw@sisk.pl> wrote:
-
+On Thu 2009-04-16 23:45:04, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
 > 
@@ -25,25 +24,16 @@ Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers Lis
 > (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13185
-> Subject		: New x86 warning
-> Submitter	: Jeff Garzik <jeff@garzik.org>
-> Date		: 2009-04-22 6:46 (4 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124038280020950&w=4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13108
+> Subject		: 2.6.30-rc1: white screen during boot (regression) on spitz
+> Submitter	: Pavel Machek <pavel@ucw.cz>
+> Date		: 2009-04-10 10:34 (7 days old)
+> References	: http://marc.info/?l=linux-kernel&m=123935954223418&w=4
+> Handled-By	: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 
-I saw this warning with certain GCC versions for several kernel 
-cycles, so it's not any recent change that triggers this and it is 
-not a regression.
+It was fixed in 2.6.30-rc3 as a test boot confirmed... (I have a link
+to patch fixing it, but I guess we can simply close this.) Thanks!
 
-GCC is simply wrong here - i have posted a workaround for that but 
-it is too ugly to be merged upstream.
-
-> Handled-By	: Andi Kleen <andi@firstfloor.org>
-> Patch		: http://patchwork.kernel.org/patch/19330/
-> 		  http://patchwork.kernel.org/patch/19406/
-
-This patch regresses on older GCC versions and doesnt really address 
-the GCC false positive warning either, it just removes the inline 
-function that triggers the warning.
-
-	Ingo
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
