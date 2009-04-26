@@ -1,36 +1,50 @@
-From: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Subject: Re: [Bug #13114] USB storage (usbstick) automount woes
-Date: Sun, 26 Apr 2009 14:58:48 -0400 (EDT)
-Message-ID: <Pine.LNX.4.44L0.0904261457540.24895-100000@netrider.rowland.org>
-References: <Fg2zLW93smL.A.CQE.cd48JB@chimera>
+From: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+Subject: Re: [Bug #13186] cpufreq timer teardown problem
+Date: Sun, 26 Apr 2009 14:32:05 -0400
+Message-ID: <20090426183205.GA29238@Krystal>
+References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera> <egHshlwQQFE.A.X-B._oE9JB@chimera> <20090426162800.GB25774@Krystal> <200904261945.11690.rjw@sisk.pl>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Fg2zLW93smL.A.CQE.cd48JB@chimera>
+Content-Disposition: inline
+In-Reply-To: <200904261945.11690.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
 
-On Sat, 25 Apr 2009, Rafael J. Wysocki wrote:
-
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+* Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
+> On Sunday 26 April 2009, Mathieu Desnoyers wrote:
+> > * Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of regressions introduced between 2.6.28 and 2.6.29.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> > > be listed and let me know (either way).
+> > > 
+> > 
+> > I've had no news that the patches I proposed has been considered for
+> > -stable. They fix the teardown problem here. So I guess it's better to
+> > wait for the patches to get into -stable before we close this bug ?
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.29.  Please verify if it still should be listed and let me know
-> (either way).
+> In fact the bug is closeable as soon as they are in the Linus' tree.  Are they
+> in it right now?
 > 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13114
-> Subject		: USB storage (usbstick) automount woes
-> Submitter	: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
-> Date		: 2009-04-09 9:26 (17 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=e6e244b6cb1f70e7109381626293cd40a8334ed3
-> References	: http://marc.info/?l=linux-kernel&m=123926928907568&w=4
-> Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
 
-This has been fixed by commit dfc15e8955338fedf5c5d15622c4042c1e4ee332.
+Nope, Andrew pulled the conservative governor fix for 2.6.30-rc in his
+tree, but that's about it.
 
-Alan Stern
+The fixes for ondemand 2.6.28, 2.6.29 and 2.6.30-rc have not been pulled
+yet. The fix for conservative 2.6.28, 2.6.29 has not been pulled
+neither.
+
+Mathieu
+
+> Thanks,
+> Rafael
+
+-- 
+Mathieu Desnoyers
+OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 A8FE 3BAE 9A68
