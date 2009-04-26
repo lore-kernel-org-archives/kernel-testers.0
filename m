@@ -1,40 +1,48 @@
-From: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: Re: [Bug #13107] LTP 20080131 causes defunct processes w/2.6.30-rc1
-Date: Sat, 25 Apr 2009 17:37:07 -0700
-Message-ID: <20090426003707.GA4115@us.ibm.com>
-References: <47KgT3nlbjD.A.lnB.jc48JB@chimera> <Fg2zLW93smL.A.Y3E.nd48JB@chimera>
+From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Subject: Re: [Bug #13111] Linux 2.6.30-rc1 tg3 endian issues with MAC
+ addresses on BCM5701
+Date: Sat, 25 Apr 2009 18:10:06 -0700 (PDT)
+Message-ID: <20090425.181006.246584933.davem@davemloft.net>
+References: <47KgT3nlbjD.A.lnB.jc48JB@chimera>
+	<Fg2zLW93smL.A.ScE.fd48JB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <Fg2zLW93smL.A.Y3E.nd48JB@chimera>
+In-Reply-To: <Fg2zLW93smL.A.ScE.fd48JB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kumar Gala <galak-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: rjw-KKrjLPT3xs0@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, benli-dY08KVG/lbpWk0Htik3J/w@public.gmane.org, mcarlson-dY08KVG/lbpWk0Htik3J/w@public.gmane.org, mchan-dY08KVG/lbpWk0Htik3J/w@public.gmane.org, holt-sJ/iWh9BUns@public.gmane.org
 
-Rafael J. Wysocki [rjw-KKrjLPT3xs0@public.gmane.org] wrote:
-| This message has been generated automatically as a part of a report
-| of recent regressions.
-| 
-| The following bug entry is on the current list of known regressions
-| from 2.6.29.  Please verify if it still should be listed and let me know
-| (either way).
-| 
-| 
-| Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13107
-| Subject		: LTP 20080131 causes defunct processes w/2.6.30-rc1
-| Submitter	: Kumar Gala <galak-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
-| Date		: 2009-04-09 15:43 (17 days old)
-| First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b3bfa0cba867f23365b81658b47efd906830879b
-| References	: http://marc.info/?l=linux-kernel&m=123929187208953&w=4
-| 		  http://lkml.org/lkml/2009/4/10/193
-| Handled-By	: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-| 
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Date: Sat, 25 Apr 2009 21:31:45 +0200 (CEST)
 
-I don't beleive it is a regression.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13111
+> Subject		: Linux 2.6.30-rc1 tg3 endian issues with MAC addresses on BCM5701
+> Submitter	: Robin Holt <holt-sJ/iWh9BUns@public.gmane.org>
+> Date		: 2009-04-08 7:12 (18 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=e4f341103e4a2b35f56a0f89802f1b1448e8d04b
+> References	: http://marc.info/?l=linux-kernel&m=123917477312823&w=4
+> 		  http://lkml.org/lkml/2009/4/16/471
+> Handled-By	: Matt Carlson <mcarlson-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>
 
-Kumar can you confirm ?
+Fixed by:
 
-Sukadev
+commit 62cedd11f63c99efd2962fb69763a09e2778f6e6
+Author: Matt Carlson <mcarlson-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>
+Date:   Mon Apr 20 14:52:29 2009 -0700
+
+    tg3: Fix SEEPROM accesses
+    
+    The recent NVRAM patches sanitized how the driver deals with NVRAM
+    data, but they failed to bring the SEEPROM interfaces inline with
+    the new strategy.  This patch brings the SEEPROM interfaces up to date.
+    This patch also reverts commit 0d489ffb76de0fe804cf06a9d4d11fa7342d74b9
+    ("tg3: fix big endian MAC address collection failure").
+    
+    Signed-off-by: Matt Carlson <mcarlson-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>
+    Signed-off-by: Michael Chan <mchan-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>
+    Tested-by: Robin Holt <holt-sJ/iWh9BUns@public.gmane.org>
+    Tested-by: James Bottomley <james.bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+    Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
