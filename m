@@ -1,47 +1,52 @@
-From: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-Subject: Re: [Bug #13186] cpufreq timer teardown problem
-Date: Sun, 26 Apr 2009 12:28:00 -0400
-Message-ID: <20090426162800.GB25774@Krystal>
-References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera> <egHshlwQQFE.A.X-B._oE9JB@chimera>
+From: Alexander Beregalov <a.beregalov@gmail.com>
+Subject: Re: [Bug #13124] ioatdma: DMA-API: device driver frees DMA memory 
+	with wrong function
+Date: Sun, 26 Apr 2009 20:06:07 +0400
+Message-ID: <a4423d670904260906y3db7e256g371185ec31717054@mail.gmail.com>
+References: <47KgT3nlbjD.A.lnB.jc48JB@chimera>
+	 <Fg2zLW93smL.A.qeD.Md48JB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <egHshlwQQFE.A.X-B._oE9JB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754152AbZDZQGX@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=ly37yOQlEzt02DRRh0IcD5bWyl2GEQP8/GieQVEHb+o=;
+        b=oeigE7lMrf1d3uqLAcd/gvqJMKKBMOXdtMzsfZ10AHZ2ZeeZySYtucC3nCAxzJwssB
+         8YSnbl9CSrvza0wi16HjvJj+dbnCpalN+8p6p++JDsCZBzG0yZvEZcjnppJHUN8nFl9q
+         trR0tnskgElvkbK/C/QZeAkFxNgmJnDwwZhlw=
+In-Reply-To: <Fg2zLW93smL.A.qeD.Md48JB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+Content-Type: text/plain; charset="utf-8"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dan Williams <dan.j.williams@intel.com>
 
-* Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
+2009/4/25 Rafael J. Wysocki <rjw@sisk.pl>:
 > This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.28 and 2.6.29.
-> 
+> of recent regressions.
+>
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-> be listed and let me know (either way).
-> 
+> from 2.6.29. =C2=A0Please verify if it still should be listed and let=
+ me know
+> (either way).
+>
+>
+> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
+cgi?id=3D13124
+> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : ioatdma: DMA-API: device driver=
+ frees DMA memory with wrong function
+> Submitter =C2=A0 =C2=A0 =C2=A0 : Alexander Beregalov <a.beregalov@gma=
+il.com>
+> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-04-09 12:36 (17 =
+days old)
+> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
+=3D123928064322503&w=3D4
+> Handled-By =C2=A0 =C2=A0 =C2=A0: Dan Williams <dan.j.williams@intel.c=
+om>
 
-I've had no news that the patches I proposed has been considered for
--stable. They fix the teardown problem here. So I guess it's better to
-wait for the patches to get into -stable before we close this bug ?
+Patch is available, http://patchwork.kernel.org/patch/19621/
 
-Mathieu
-
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13186
-> Subject		: cpufreq timer teardown problem
-> Submitter	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-> Date		: 2009-04-23 14:00 (4 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124049523515036&w=4
-> Handled-By	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-> Patch		: http://patchwork.kernel.org/patch/19754/
-> 		  http://patchwork.kernel.org/patch/19753/
-> 
-> 
-> 
-
--- 
-Mathieu Desnoyers
-OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 A8FE 3BAE 9A68
+Thanks.
