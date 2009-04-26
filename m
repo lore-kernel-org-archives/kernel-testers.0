@@ -1,32 +1,46 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12490] ath5k related kernel panic in 2.6.29-rc1
-Date: Sun, 26 Apr 2009 11:42:29 +0200 (CEST)
-Message-ID: <egHshlwQQFE.A.8jE.usE9JB@chimera>
-References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #13188] horizontal strips of the screen frozen
+Date: Sun, 26 Apr 2009 14:13:01 +0200
+Message-ID: <200904261413.01696.rjw@sisk.pl>
+References: <47KgT3nlbjD.A.lnB.jc48JB@chimera> <Fg2zLW93smL.A.VuB.nc48JB@chimera> <49F3AA4D.1090204@gawab.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <tur5OtdUm3E.A.r2B.7oE9JB@chimera>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755654AbZDZMNU@vger.kernel.org>
+In-Reply-To: <49F3AA4D.1090204@gawab.com>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>, "Sergey S. Kostyliov" <rathamahata-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Justin Madru <jdm64@gawab.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Eric Anholt <eric@anholt.net>
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.28 and 2.6.29.
+On Sunday 26 April 2009, Justin Madru wrote:
+> Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> >
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.29.  Please verify if it still should be listed and let me know
+> > (either way).
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13188
+> > Subject		: horizontal strips of the screen frozen
+> > Submitter	: Justin Madru <jdm64@gawab.com>
+> > Date		: 2009-04-24 20:59 (2 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=280b713b5b0fd84cf2469098aee88acbb5de859c
+> > References	: http://marc.info/?l=linux-kernel&m=124060685315937&w=4
+> >
+> >
+> >
+> >   
+> Please mark bug #13187 as a dup of this bug.
 
-The following bug entry is on the current list of known regressions
-introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-be listed and let me know (either way).
+Done.
 
+> I sent two separate emails because nobody replied to the first one.
+> Sorry for the duplication.
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12490
-Subject		: ath5k related kernel panic in 2.6.29-rc1
-Submitter	: Sergey S. Kostyliov <rathamahata-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-01-12 7:38 (105 days old)
-References	: http://marc.info/?l=linux-kernel&m=123174591509586&w=4
-		  http://lkml.org/lkml/2009/4/6/527
-Handled-By	: Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>
+No problem, thanks for the update.
 
+Rafael
