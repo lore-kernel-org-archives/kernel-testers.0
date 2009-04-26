@@ -1,50 +1,38 @@
-From: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-Subject: Re: [Bug #13186] cpufreq timer teardown problem
-Date: Sun, 26 Apr 2009 14:32:05 -0400
-Message-ID: <20090426183205.GA29238@Krystal>
-References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera> <egHshlwQQFE.A.X-B._oE9JB@chimera> <20090426162800.GB25774@Krystal> <200904261945.11690.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #13124] ioatdma: DMA-API: device driver frees DMA memory with wrong function
+Date: Sun, 26 Apr 2009 19:46:24 +0200
+Message-ID: <200904261946.25380.rjw@sisk.pl>
+References: <47KgT3nlbjD.A.lnB.jc48JB@chimera> <Fg2zLW93smL.A.qeD.Md48JB@chimera> <a4423d670904260906y3db7e256g371185ec31717054@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756506AbZDZRqm@vger.kernel.org>
+In-Reply-To: <a4423d670904260906y3db7e256g371185ec31717054@mail.gmail.com>
 Content-Disposition: inline
-In-Reply-To: <200904261945.11690.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: Alexander Beregalov <a.beregalov@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dan Williams <dan.j.williams@intel.com>
 
-* Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
-> On Sunday 26 April 2009, Mathieu Desnoyers wrote:
-> > * Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
-> > > This message has been generated automatically as a part of a report
-> > > of regressions introduced between 2.6.28 and 2.6.29.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-> > > be listed and let me know (either way).
-> > > 
-> > 
-> > I've had no news that the patches I proposed has been considered for
-> > -stable. They fix the teardown problem here. So I guess it's better to
-> > wait for the patches to get into -stable before we close this bug ?
+On Sunday 26 April 2009, Alexander Beregalov wrote:
+> 2009/4/25 Rafael J. Wysocki <rjw@sisk.pl>:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> >
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.29.  Please verify if it still should be listed and let me know
+> > (either way).
+> >
+> >
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13124
+> > Subject         : ioatdma: DMA-API: device driver frees DMA memory with wrong function
+> > Submitter       : Alexander Beregalov <a.beregalov@gmail.com>
+> > Date            : 2009-04-09 12:36 (17 days old)
+> > References      : http://marc.info/?l=linux-kernel&m=123928064322503&w=4
+> > Handled-By      : Dan Williams <dan.j.williams@intel.com>
 > 
-> In fact the bug is closeable as soon as they are in the Linus' tree.  Are they
-> in it right now?
-> 
+> Patch is available, http://patchwork.kernel.org/patch/19621/
 
-Nope, Andrew pulled the conservative governor fix for 2.6.30-rc in his
-tree, but that's about it.
+Thanks for the update.
 
-The fixes for ondemand 2.6.28, 2.6.29 and 2.6.30-rc have not been pulled
-yet. The fix for conservative 2.6.28, 2.6.29 has not been pulled
-neither.
-
-Mathieu
-
-> Thanks,
-> Rafael
-
--- 
-Mathieu Desnoyers
-OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 A8FE 3BAE 9A68
+Rafael
