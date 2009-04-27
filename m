@@ -1,77 +1,41 @@
-From: Martin Knoblauch <knobi@knobisoft.de>
-Subject: Re: [Bug #13178] Booting very slow
-Date: Mon, 27 Apr 2009 01:57:34 -0700 (PDT)
-Message-ID: <209795.21710.qm@web32607.mail.mud.yahoo.com>
+From: Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13112] Oops in drain_array
+Date: Mon, 27 Apr 2009 10:04:47 -0400 (EDT)
+Message-ID: <alpine.DEB.1.10.0904271000200.16119@qirst.com>
+References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera>  <egHshlwQQFE.A.KjC.JpE9JB@chimera>  <alpine.DEB.2.00.0904261314430.18988@chino.kir.corp.google.com> <84144f020904270152o6567e84cj914934120315bf90@mail.gmail.com>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754668AbZD0I5q@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <84144f020904270152o6567e84cj914934120315bf90-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>
+To: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Bart <mmx-G/jkD+u3s4s@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+
+On Mon, 27 Apr 2009, Pekka Enberg wrote:
+
+>   18:   4a 8b 8c eb 68 01 00    mov    0x168(%rbx,%r13,8),%rcx # l3 =
+> cachep->nodelists[node];
+>   1f:   00
+>   20:   48 8b 16                mov    (%rsi),%rdx
+>   23:   48 8b 46 08             mov    0x8(%rsi),%rax
+>   27:   48 89 42 08             mov    %rax,0x8(%rdx)
+>   2b:*  48 89 10                mov    %rdx,(%rax)     <-- trapping instruction
+>   2e:   89 e8                   mov    %ebp,%eax
+>   30:   48 c7 06 00 01 10 00    movq   $0x100100,(%rsi)
+>   37:   48 c7 46 08 00 02 20    movq   $0x200200,0x8(%rsi)
+>
+> it seems like list_del() in free_block() explodes because because
+> ->prev ("rax") of slab->list is bogus ("0000000000000cd0").
+
+Where do I find the rest of the information regarding this report?
+bugzilla does only contain a pointer to the initial report on lkml no
+discussion.
+
+Typically these oopses occur because the slab header at the beginning of a
+slab is overwritten. Enable debugging. Switching to SLUB would give better
+diagnostics.
 
 
------ Original Message ----
 
-> From: Martin Knoblauch <spamtrap@knobisoft.de>
-> To: Rafael J. Wysocki <rjw@sisk.pl>; Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-> Cc: Kernel Testers List <kernel-testers@vger.kernel.org>
-> Sent: Monday, April 27, 2009 9:18:53 AM
-> Subject: Re: [Bug #13178] Booting very slow
-> 
-> ----- Original Message ----
-> 
-> > From: Rafael J. Wysocki 
-> > To: Linux Kernel Mailing List 
-> > Cc: Kernel Testers List ; Martin Knoblauch 
-> 
-> > Sent: Sunday, April 26, 2009 11:46:31 AM
-> > Subject: [Bug #13178] Booting very slow
-> > 
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.28 and 2.6.29.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-> > be listed and let me know (either way).
-> > 
-> > 
-> > Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=13178
-> > Subject        : Booting very slow
-> > Submitter    : Martin Knoblauch 
-> > Date        : 2009-04-24 12:45 (3 days old)
-> > References    : http://marc.info/?l=linux-kernel&m=124057716231773&w=4
-> 
-> Not really sure whether this is a real regression. Between 2.6.28 and 2.6.29 the 
-> content of /proc/mounts for sysfs changed from
-> 
-> /sys /sys sysfs rw 0 0
-> 
-> to
-> 
-> none /sys sysfs rw 0 0
-> 
-> 
-> This breaks RHEL-4.3 userland which parses /proc/mounts in the firmware hotplug 
-> agent to find the mount-point for sysfs. As a result firmware loading started to 
-> fail in 2.6.29. There is a simple fix in the /etc/hotplug/firmware.agent script 
-> (just assume /sys as it is done elsewhere).
-> 
-> Your call.
-> 
-> Cheers
-> Martin
-
- Actually I have to correct myself. The reason for the failure to parse /proc/mounts for "sysfs" is that there are two lines:
-
-[hotplug]# uname -a
-Linux lpsdm52 2.6.30-rc3-git2-nfs_ra #3 SMP Mon Apr 27 10:21:31 CEST 2009 x86_64 x86_64 x86_64 GNU/Linux
-[hotplug]# grep sysfs /proc/mounts
-none /sys sysfs rw,relatime 0 0
-/sys /sys sysfs rw,relatime 0 0
-
- This breaks the "firmware.agent" /sys-parsing code. There still exists the simple fix to userspace, but I now think that this is a real regression that should be fixed.
-
-Cheers
-Martin
