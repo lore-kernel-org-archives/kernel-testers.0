@@ -1,52 +1,66 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #13111] Linux 2.6.30-rc1 tg3 endian issues with MAC addresses on BCM5701
-Date: Sun, 26 Apr 2009 14:07:39 +0200
-Message-ID: <200904261407.40590.rjw@sisk.pl>
-References: <47KgT3nlbjD.A.lnB.jc48JB@chimera> <Fg2zLW93smL.A.ScE.fd48JB@chimera> <20090425.181006.246584933.davem@davemloft.net>
+From: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Subject: Re: [Bug #13112] Oops in drain_array
+Date: Mon, 27 Apr 2009 11:52:56 +0300
+Message-ID: <84144f020904270152o6567e84cj914934120315bf90@mail.gmail.com>
+References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera>
+	 <egHshlwQQFE.A.KjC.JpE9JB@chimera>
+	 <alpine.DEB.2.00.0904261314430.18988@chino.kir.corp.google.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754921AbZDZMIh@vger.kernel.org>
-In-Reply-To: <20090425.181006.246584933.davem@davemloft.net>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:sender:received:in-reply-to
+         :references:date:x-google-sender-auth:message-id:subject:from:to:cc
+         :content-type:content-transfer-encoding;
+        bh=+hDfs22x0UX9SqEHxOtxY77AORt9NLaH6UcworVMSRo=;
+        b=uZM/1LWz1pAu2tHfriN4pDKBVpu4HeIzoQ8V7Z254d9rqzC2EZdR2yXWsL9lVE+CM6
+         OCFnzjjzXuB1sD/g5rUmy8CrpIR5YDwP4GuTDcR4l6C0VpDJKCJ6R5hZer5mr7JtXAN6
+         of1cupGfMrjwD+82a5BR4iveVrXWGCSVw3AWs=
+In-Reply-To: <alpine.DEB.2.00.0904261314430.18988-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: David Miller <davem@davemloft.net>
-Cc: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, benli@broadcom.com, mcarlson@broadcom.com, mchan@broadcom.com, holt@sgi.com
+Content-Type: text/plain; charset="iso-8859-1"
+To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Bart <mmx-G/jkD+u3s4s@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Sunday 26 April 2009, David Miller wrote:
-> From: "Rafael J. Wysocki" <rjw@sisk.pl>
-> Date: Sat, 25 Apr 2009 21:31:45 +0200 (CEST)
-> 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13111
-> > Subject		: Linux 2.6.30-rc1 tg3 endian issues with MAC addresses on BCM5701
-> > Submitter	: Robin Holt <holt@sgi.com>
-> > Date		: 2009-04-08 7:12 (18 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=e4f341103e4a2b35f56a0f89802f1b1448e8d04b
-> > References	: http://marc.info/?l=linux-kernel&m=123917477312823&w=4
-> > 		  http://lkml.org/lkml/2009/4/16/471
-> > Handled-By	: Matt Carlson <mcarlson@broadcom.com>
-> 
-> Fixed by:
-> 
-> commit 62cedd11f63c99efd2962fb69763a09e2778f6e6
-> Author: Matt Carlson <mcarlson@broadcom.com>
-> Date:   Mon Apr 20 14:52:29 2009 -0700
-> 
->     tg3: Fix SEEPROM accesses
->     
->     The recent NVRAM patches sanitized how the driver deals with NVRAM
->     data, but they failed to bring the SEEPROM interfaces inline with
->     the new strategy.  This patch brings the SEEPROM interfaces up to date.
->     This patch also reverts commit 0d489ffb76de0fe804cf06a9d4d11fa7342d74b9
->     ("tg3: fix big endian MAC address collection failure").
->     
->     Signed-off-by: Matt Carlson <mcarlson@broadcom.com>
->     Signed-off-by: Michael Chan <mchan@broadcom.com>
->     Tested-by: Robin Holt <holt@sgi.com>
->     Tested-by: James Bottomley <james.bottomley@HansenPartnership.com>
->     Signed-off-by: David S. Miller <davem@davemloft.net>
+On Sun, 26 Apr 2009, Rafael J. Wysocki wrote:
+>> This message has been generated automatically as a part of a report
+>> of regressions introduced between 2.6.28 and 2.6.29.
+>>
+>> The following bug entry is on the current list of known regressions
+>> introduced between 2.6.28 and 2.6.29. =A0Please verify if it still s=
+hould
+>> be listed and let me know (either way).
+>>
+>>
+>> Bug-Entry =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D131=
+12
+>> Subject =A0 =A0 =A0 =A0 =A0 =A0 =A0 : Oops in drain_array
+>> Submitter =A0 =A0 : Bart <mmx-G/jkD+u3s4s@public.gmane.org>
+>> Date =A0 =A0 =A0 =A0 =A0: 2009-04-14 10:21 (13 days old)
+>> References =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D123970493=
+224628&w=3D4
 
-Thanks, closed.
+On Sun, Apr 26, 2009 at 11:19 PM, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org> =
+wrote:
+> Bart, is it possible to try with CONFIG_DEBUG_SLAB enabled?
 
-Rafael
+Please also enable CONFIG_DEBUG_LIST. Looking at the oops:
+
+  18:   4a 8b 8c eb 68 01 00    mov    0x168(%rbx,%r13,8),%rcx # l3 =3D
+cachep->nodelists[node];
+  1f:   00
+  20:   48 8b 16                mov    (%rsi),%rdx
+  23:   48 8b 46 08             mov    0x8(%rsi),%rax
+  27:   48 89 42 08             mov    %rax,0x8(%rdx)
+  2b:*  48 89 10                mov    %rdx,(%rax)     <-- trapping ins=
+truction
+  2e:   89 e8                   mov    %ebp,%eax
+  30:   48 c7 06 00 01 10 00    movq   $0x100100,(%rsi)
+  37:   48 c7 46 08 00 02 20    movq   $0x200200,0x8(%rsi)
+
+it seems like list_del() in free_block() explodes because because
+->prev ("rax") of slab->list is bogus ("0000000000000cd0").
+
+                                Pekka
