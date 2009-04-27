@@ -1,24 +1,36 @@
-From: Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13112] Oops in drain_array
-Date: Mon, 27 Apr 2009 13:39:06 -0400 (EDT)
-Message-ID: <alpine.DEB.1.10.0904271337450.31916@qirst.com>
-References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera>  <egHshlwQQFE.A.KjC.JpE9JB@chimera>  <alpine.DEB.2.00.0904261314430.18988@chino.kir.corp.google.com> <84144f020904270152o6567e84cj914934120315bf90@mail.gmail.com> <alpine.DEB.1.10.0904271000200.16119@qirst.com>
- <Pine.LNX.4.64.0904271849590.2455@galaxy.riz.pl>
+From: Jos van der Ende <seraph-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [Bug #12947] r128: system hangs when X is started with DRI
+ enabled
+Date: Mon, 27 Apr 2009 20:12:29 +0200
+Message-ID: <20090427201229.3491928a.seraph@xs4all.nl>
+References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera>
+	<egHshlwQQFE.A.ITD.zpE9JB@chimera>
+	<20090426170729.3489b482.angel@pearlgates.net>
+	<200904261943.45126.rjw@sisk.pl>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Pine.LNX.4.64.0904271849590.2455-Bi0AbNG1eu+dHxVRc3HrWQ@public.gmane.org>
+In-Reply-To: <200904261943.45126.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Bart <mmx-G/jkD+u3s4s@public.gmane.org>
-Cc: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Jos van der Ende <seraph-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
 
-On Mon, 27 Apr 2009, Bart wrote:
+On Sun, 26 Apr 2009 19:43:44 +0200
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-> Apr 27 16:57:30 fs kernel: [   96.446708] slab error in verify_redzone_free():
-> cache `size-128': memory outside object was overwritten
+> On Sunday 26 April 2009, Angel wrote:
+> > On Sun, 26 Apr 2009 11:46:26 +0200 (CEST)
+> > 
+> > I've tested with kernel 2.6.29.1. The problem still persists. While everything works fine with 2.6.28 or lower, starting X (both 1.3 and 1.5) with DRI enabled on a 2.6.29 kernel results in a garbled screen and unresponsive keyboard.
+> 
+> Thanks for the update.
+> 
+> Can you also test 2.6.30-rc3, please?
 
-Allright so a write after or before a 128 byte kmalloc object. Can
-you switch to the SLUB allocator so that we can get memory dumps of
-the corruption which will help to diagnose this further?
+Sure. Still broken in exactly the same way. (Garbled screen, non-working keyboard. System can still be ssh-ed into.)
+
+
+-- 
+Jos van der Ende <seraph-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
