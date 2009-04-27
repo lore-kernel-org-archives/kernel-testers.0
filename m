@@ -1,30 +1,41 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #12861] Xorg fails to start "Failed to allocate space for kernel memory manager"
-Date: Sun, 26 Apr 2009 11:46:26 +0200 (CEST)
-Message-ID: <egHshlwQQFE.A.FmD.dqE9JB@chimera>
-References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera>
+From: Hans Verkuil <hverkuil-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [Bug #13003] [2.6.29 regression] ivtv driver causes strange oops'es, disrupts software suspend
+Date: Mon, 27 Apr 2009 08:46:28 +0200
+Message-ID: <200904270846.28726.hverkuil@xs4all.nl>
+References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera> <egHshlwQQFE.A.C_C.ipE9JB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757020AbZDZMf0@vger.kernel.org>
-In-Reply-To: <tur5OtdUm3E.A.r2B.7oE9JB@chimera>
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <egHshlwQQFE.A.C_C.ipE9JB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Dave Airlie <airlied@linux.ie>, David Howells <dhowells@redhat.com>, DRI <dri-devel@lists.sourceforge.net>, Emil Karlson <jkarlson@cc.hut.fi>, Eric Anholt <eric@anholt.net>, Linus Torvalds <torvalds@linux-foundation.org>, "Serge E. Hallyn" <serue@us.ibm.com>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Artem S. Tashkinov" <t.artem-VInPYn6yXxRWk0Htik3J/w@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.28 and 2.6.29.
+On Sunday 26 April 2009 11:46:28 Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.28 and 2.6.29.
+>
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> be listed and let me know (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13003
+> Subject		: [2.6.29 regression] ivtv driver causes strange oops'es,
+> disrupts software suspend Submitter	: Artem S. Tashkinov
+> <t.artem-VInPYn6yXxRWk0Htik3J/w@public.gmane.org>
+> Date		: 2009-04-03 14:57 (24 days old)
+> Handled-By	: Hans Verkuil <hverkuil-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
 
-The following bug entry is on the current list of known regressions
-introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-be listed and let me know (either way).
+This isn't a 2.6.29 regression. It is a bug - somewhere - but it's also been 
+reproduced under 2.6.28 so it doesn't qualify as a regression.
 
+Regards,
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12861
-Subject		: Xorg fails to start "Failed to allocate space for kernel memory manager"
-Submitter	: Emil Karlson <jkarlson@cc.hut.fi>
-Date		: 2009-03-12 12:06 (46 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=ab657db12d7020629f26f30d287558a8d0e32b41
+	Hans
 
+-- 
+Hans Verkuil - video4linux developer - sponsored by TANDBERG
