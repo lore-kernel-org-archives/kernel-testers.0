@@ -1,49 +1,45 @@
-From: Jesse Barnes <jbarnes@virtuousgeek.org>
-Subject: Re: [Bug #13180] 2.6.30-rc2: WARNING at i915_gem.c for
- i915_gem_idle
-Date: Mon, 27 Apr 2009 13:18:07 -0700
-Message-ID: <20090427131807.1999058c@hobbes>
-References: <47KgT3nlbjD.A.lnB.jc48JB@chimera>
-	<Fg2zLW93smL.A.hKC.tc48JB@chimera>
-	<20090427093847.778dcd81@hobbes>
-	<49F61143.9030501@gmail.com>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13112] Oops in drain_array
+Date: Mon, 27 Apr 2009 13:36:46 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0904271327140.11650@chino.kir.corp.google.com>
+References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera>  <egHshlwQQFE.A.KjC.JpE9JB@chimera> <alpine.DEB.2.00.0904261314430.18988@chino.kir.corp.google.com> <84144f020904270152o6567e84cj914934120315bf90@mail.gmail.com> <alpine.DEB.1.10.0904271000200.16119@qirst.com>
+ <Pine.LNX.4.64.0904271849590.2455@galaxy.riz.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1760427AbZD0UX2@vger.kernel.org>
-In-Reply-To: <49F61143.9030501@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1240864613; bh=aDotB7gr/uIy7Obmpy5ZsJlZtec=;
+	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
+	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
+	 Content-Type:X-System-Of-Record; b=VT7nuKTJFMyGqMtB47Zze9d6W1OaHc1
+	p/8whAHaFmzAxBKSUO0kGs0zAG/+rsXhJRmqt/N7u9LwbNv310Zvv1Q==
+In-Reply-To: <Pine.LNX.4.64.0904271849590.2455-Bi0AbNG1eu+dHxVRc3HrWQ@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Niel Lambrechts <niel.lambrechts@gmail.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, eric@anholt.net
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Bart <mmx-G/jkD+u3s4s@public.gmane.org>
+Cc: Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
-On Mon, 27 Apr 2009 22:10:43 +0200
-Niel Lambrechts <niel.lambrechts@gmail.com> wrote:
-> Hi Jesse,
+On Mon, 27 Apr 2009, Bart wrote:
+
+> After turning the suggested debuging options I've got tons of these when
+> trying to stress the tape device like before:
 > 
-> Sure thing - and to be complete I retried with the latest git kernel,
-> along with the latest Xorg updates from the OPENSUSE 11.1 Xorg
-> repository.
-> 
-> On my system the default displaymanager configuration contains
-> DISPLAYMANAGER_RANDR_MODE_auto="1024x768_60 64.11 1024 1080 1184 1344
-> 768 769 772 795 -HSync +Vsync"
-> 
-> With this setting running in KMS+UXA, kdm starts up with a garbled
-> screen, and I soon get a soft lock-up after trying to blindly
-> entering a username/password. With any other setting, I got the mouse
-> cursor but soon followed by a black screen and soft lock-up (No
-> activity from caps-lock, but Alt-SysRq still worked). These settings
-> work fine without KMS when just using EXA.
+> Apr 27 16:57:30 fs kernel: [   96.446708] slab error in verify_redzone_free():
+> cache `size-128': memory outside object was overwritten
+> Apr 27 16:57:30 fs kernel: [   96.446713] Pid: 0, comm: swapper Not tainted
+> 2.6.29.1-64 #2
+> Apr 27 16:57:30 fs kernel: [   96.446715] Call Trace:
+> Apr 27 16:57:30 fs kernel: [   96.446717]  <IRQ>  [<ffffffff8029adc5>]
+> __slab_error+0x1f/0x25
+> Apr 27 16:57:30 fs kernel: [   96.446728]  [<ffffffff8029b24b>]
+> cache_free_debugcheck+0x108/0x1d6
+> Apr 27 16:57:30 fs kernel: [   96.446731]  [<ffffffff8029b473>]
+> kfree+0x81/0xc2
+> Apr 27 16:57:30 fs kernel: [   96.446735]  [<ffffffff802bd311>]
+> bio_free_map_data+0xc/0x1e
 
-Ooh that sounds bad.  Can you check out
-http://intellinuxgraphics.org/how_to_report_bug.html and file a bug at
-freedesktop.org for this?  That way we won't lose it, and we'll have
-all the info in one place.
-
-Eric, do you know of any changes recently that might affect the
-gem_idle warning Niel sees here?  Seems like in any UMS config the GEM
-lists should be clear at VT switch time...
-
--- 
-Jesse Barnes, Intel Open Source Technology Center
+This appears to be kfree(bmd->iovecs) in bio_free_map_data().  It looks 
+like the memcpy size in bio_set_map_data() overrides the kmalloc size; in 
+other words, for a redzone error, bio->bi_vcnt > nr_pages in 
+bio_copy_user_iov().
