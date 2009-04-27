@@ -1,41 +1,43 @@
-From: Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13112] Oops in drain_array
-Date: Mon, 27 Apr 2009 10:04:47 -0400 (EDT)
-Message-ID: <alpine.DEB.1.10.0904271000200.16119@qirst.com>
-References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera>  <egHshlwQQFE.A.KjC.JpE9JB@chimera>  <alpine.DEB.2.00.0904261314430.18988@chino.kir.corp.google.com> <84144f020904270152o6567e84cj914934120315bf90@mail.gmail.com>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
+Subject: Re: [Bug #13180] 2.6.30-rc2: WARNING at i915_gem.c for
+ i915_gem_idle
+Date: Mon, 27 Apr 2009 09:38:47 -0700
+Message-ID: <20090427093847.778dcd81@hobbes>
+References: <47KgT3nlbjD.A.lnB.jc48JB@chimera>
+	<Fg2zLW93smL.A.hKC.tc48JB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <84144f020904270152o6567e84cj914934120315bf90-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
-Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Bart <mmx-G/jkD+u3s4s@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756966AbZD0QkV@vger.kernel.org>
+In-Reply-To: <Fg2zLW93smL.A.hKC.tc48JB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Niel Lambrechts <niel.lambrechts@gmail.com>, eric@anholt.net
 
-On Mon, 27 Apr 2009, Pekka Enberg wrote:
+On Sat, 25 Apr 2009 21:31:51 +0200 (CEST)
+"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
 
->   18:   4a 8b 8c eb 68 01 00    mov    0x168(%rbx,%r13,8),%rcx # l3 =
-> cachep->nodelists[node];
->   1f:   00
->   20:   48 8b 16                mov    (%rsi),%rdx
->   23:   48 8b 46 08             mov    0x8(%rsi),%rax
->   27:   48 89 42 08             mov    %rax,0x8(%rdx)
->   2b:*  48 89 10                mov    %rdx,(%rax)     <-- trapping instruction
->   2e:   89 e8                   mov    %ebp,%eax
->   30:   48 c7 06 00 01 10 00    movq   $0x100100,(%rsi)
->   37:   48 c7 46 08 00 02 20    movq   $0x200200,0x8(%rsi)
->
-> it seems like list_del() in free_block() explodes because because
-> ->prev ("rax") of slab->list is bogus ("0000000000000cd0").
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.29.  Please verify if it still should be listed and let me
+> know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13180
+> Subject		: 2.6.30-rc2: WARNING at i915_gem.c for
+> i915_gem_idle Submitter	: Niel Lambrechts
+> <niel.lambrechts@gmail.com> Date		: 2009-04-21 21:35 (5
+> days old) References	:
+> http://marc.info/?l=linux-kernel&m=124034980819102&w=4
 
-Where do I find the rest of the information regarding this report?
-bugzilla does only contain a pointer to the initial report on lkml no
-discussion.
+Can you elaborate the issues you're seeing with UXA+KMS?  EXA had some
+breakage in several configs, though it shouldn't have caused gem_idle
+warnings (those are real bugs I think).
 
-Typically these oopses occur because the slab header at the beginning of a
-slab is overwritten. Enable debugging. Switching to SLUB would give better
-diagnostics.
+Cc'ing Eric since this is more his area.
 
-
-
+-- 
+Jesse Barnes, Intel Open Source Technology Center
