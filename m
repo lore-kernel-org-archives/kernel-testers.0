@@ -1,45 +1,45 @@
-From: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12765] i915 VT switch with AIGLX causes X lock up
-Date: Mon, 27 Apr 2009 23:07:02 +0100
-Message-ID: <20090427220702.GA31679@sucs.org>
-References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera> <egHshlwQQFE.A.X4D.-qE9JB@chimera> <20090427094651.7cc09227@hobbes>
+From: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13112] Oops in drain_array
+Date: Tue, 28 Apr 2009 08:47:49 +0200
+Message-ID: <20090428064749.GI4593@kernel.dk>
+References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera> <egHshlwQQFE.A.KjC.JpE9JB@chimera> <alpine.DEB.2.00.0904261314430.18988@chino.kir.corp.google.com> <84144f020904270152o6567e84cj914934120315bf90@mail.gmail.com> <alpine.DEB.1.10.0904271000200.16119@qirst.com> <Pine.LNX.4.64.0904271849590.2455@galaxy.riz.pl> <alpine.DEB.2.00.0904271327140.11650@chino.kir.corp.google.com>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20090427094651.7cc09227@hobbes>
+In-Reply-To: <alpine.DEB.2.00.0904271327140.11650-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Michel =?iso-8859-1?Q?D=E4nzer?= <michel-otUistvHUpPR7s880joybQ@public.gmane.org>
+To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Bart <mmx-G/jkD+u3s4s@public.gmane.org>, Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
 
-On Mon, Apr 27, 2009 at 09:46:51AM -0700, Jesse Barnes wrote:
-> On Sun, 26 Apr 2009 11:46:26 +0200 (CEST)
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Mon, Apr 27 2009, David Rientjes wrote:
+> On Mon, 27 Apr 2009, Bart wrote:
 > 
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.28 and 2.6.29.
+> > After turning the suggested debuging options I've got tons of these when
+> > trying to stress the tape device like before:
 > > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.28 and 2.6.29.  Please verify if it still
-> > should be listed and let me know (either way).
+> > Apr 27 16:57:30 fs kernel: [   96.446708] slab error in verify_redzone_free():
+> > cache `size-128': memory outside object was overwritten
+> > Apr 27 16:57:30 fs kernel: [   96.446713] Pid: 0, comm: swapper Not tainted
+> > 2.6.29.1-64 #2
+> > Apr 27 16:57:30 fs kernel: [   96.446715] Call Trace:
+> > Apr 27 16:57:30 fs kernel: [   96.446717]  <IRQ>  [<ffffffff8029adc5>]
+> > __slab_error+0x1f/0x25
+> > Apr 27 16:57:30 fs kernel: [   96.446728]  [<ffffffff8029b24b>]
+> > cache_free_debugcheck+0x108/0x1d6
+> > Apr 27 16:57:30 fs kernel: [   96.446731]  [<ffffffff8029b473>]
+> > kfree+0x81/0xc2
+> > Apr 27 16:57:30 fs kernel: [   96.446735]  [<ffffffff802bd311>]
+> > bio_free_map_data+0xc/0x1e
+> 
+> This appears to be kfree(bmd->iovecs) in bio_free_map_data().  It looks 
+> like the memcpy size in bio_set_map_data() overrides the kmalloc size; in 
+> other words, for a redzone error, bio->bi_vcnt > nr_pages in 
+> bio_copy_user_iov().
 
-The problem is still here in 2.6.29-rc3.
-
-> I think we had a workaround for this (attached), but it sounds like
-> Robert has tracked down the root cause (search for "Broken vblanks on
-> Intel" on dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org).  Will try to get the fix
-
-http://www.mail-archive.com/dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org/msg39370.html
-seems to be it.
-
-> into the Intel driver soon.  Fortunately this doesn't seem to be biting
-> a lot of people (at least not that I've heard); I certainly have a hard
-> time reproducing it.
-
-The patch that was attached to Jesse's mail seems to resolve the
-problem...
+What -git version was this reproduced with?
 
 -- 
-Sitsofe | http://sucs.org/~sits/
+Jens Axboe
