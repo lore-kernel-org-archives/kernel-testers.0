@@ -1,68 +1,118 @@
-From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
 Subject: Re: [PATCH] [RFC] EEE PC hangs when booting off battery
-Date: Tue, 28 Apr 2009 12:35:44 +0200
-Message-ID: <1240914944.28835.11.camel@johannes.local>
-References: <49E065CF.6040408@tuffmail.co.uk>
-	 <200904140859.02188.bjorn.helgaas@hp.com>
-	 <20090414081728.10de978a@infradead.org>
-	 <200904140948.37633.bjorn.helgaas@hp.com> <49E5F01B.2060201@tuffmail.co.uk>
-		 <49EF0ABD.2080801@tuffmail.co.uk> <49F446AE.6070607@tuffmail.co.uk>
-		 <49F6CA0E.5040101@tuffmail.co.uk>
-	 (sfid-20090428_111942_198975_13CDA6F5) <1240912688.28835.10.camel@johannes.local>
-	 <49F6DA14.7030608@tuffmail.co.uk>
+Date: Tue, 28 Apr 2009 11:27:32 +0100
+Message-ID: <49F6DA14.7030608@tuffmail.co.uk>
+References: <49E065CF.6040408@tuffmail.co.uk>	 <200904140859.02188.bjorn.helgaas@hp.com>	 <20090414081728.10de978a@infradead.org>	 <200904140948.37633.bjorn.helgaas@hp.com> <49E5F01B.2060201@tuffmail.co.uk>	 <49EF0ABD.2080801@tuffmail.co.uk> <49F446AE.6070607@tuffmail.co.uk>	 <49F6CA0E.5040101@tuffmail.co.uk> (sfid-20090428_111942_198975_13CDA6F5) <1240912688.28835.10.camel@johannes.local>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-Jprxz+NasVEGsZrS3KWk"
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <49F6DA14.7030608-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+In-Reply-To: <1240912688.28835.10.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 Cc: "linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
+Johannes Berg wrote:
+> It seems the only reason lockdep doesn't warn is the detour to userspace
+> (modprobe) and the waiting for a userspace task (waiting isn't lockdep
+> annotated and I don't think it can be)
+>
+> It seems you cannot load a module while under _any_ lock, ever, since
+> userspace might turn around and do something that requires that lock? I
+> think we should probably add a warning to the code that waits for the
+> userspace task:
+>
+> 	debug_check_no_locks_held(current);
+>
+> Or not? Some purely internal locks _might_ be ok... but how could you
+> verify that?
+>
+>   
+>> - ieee80211_wep_init(), which is called with rtnl_lock() held, is
+>> blocked in request_module() [waiting for modprobe to load a crypto module].
+>>     
+>
+> Right.
+>
+>   
+>> - modprobe is blocked in a call to flush_workqueue(), caused by closing
+>> a TTY.
+>>     
+>
+> Can you point out where? I can't find that.
+>   
 
---=-Jprxz+NasVEGsZrS3KWk
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+I posted the calltraces earlier at
+<http://marc.info/?l=linux-wireless&m=124074566523506&w=2>.
 
-On Tue, 2009-04-28 at 11:27 +0100, Alan Jenkins wrote:
+wait_for_completion
+flush_cpu_workqueue
+? wq_barrier_func
+flush_workqueue
+flush_scheduled_work
+tty_ldisc_release
+? tty_fasyc
+tty_release_dev
+? free_pgtables
+tty_release
+__fput
+filp_close
+sys_close
+syscall_call
 
-> > Can you point out where? I can't find that.
 
->=20
-> I posted the calltraces earlier at
-> <http://marc.info/?l=3Dlinux-wireless&m=3D124074566523506&w=3D2>.
->=20
-> wait_for_completion
-> flush_cpu_workqueue
-> ? wq_barrier_func
-> flush_workqueue
-> flush_scheduled_work
-> tty_ldisc_release
+>> - worker_thread is blocked because the workqueue item linkwatch_event()
+>> is blocked on rtnl_lock.
+>>     
+>
+> This I know about.
+>
+>   
+>> I've hacked up a test patch to move wep_init() outside of rtnl_lock, and
+>> it solved the problem.  My one caveat is that it would probably be
+>> cleaner to move it after rtnl_unlock(), instead of before rtnl_lock(). 
+>> I just wasn't 100% sure if that would be safe.  Here's the patch:
+>>     
+>
+> That doesn't seem relevant, this just does some initialisation. However,
+> you definitely missed adding a call to wep_free().
+>   
 
-Ah, I was just grepping for the wrong thing :)
+Hah, I should have realized something was wrong when I noticed I was
+removing more lines that I added. 
 
-johannes
+The crypto init does cause the module load:
 
---=-Jprxz+NasVEGsZrS3KWk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+wait_for_completion
+call_usermodehelper_exec
+__request_module
+crypto_larval_lookup
+? extract_entropy
+crypto_alg_mod_lookup
+crypto_alloc_base
+ieee80211_wep_init
+ieee80211_register_hw
+? ath5k_hw_set_bss
+ath5k+pci_probe
+local_pci_probe
+pci_device_probe
+driver_probe_device
+__driver_attach
+bus_for_each_dev
+driver_attach
+? __driver_attach
+buad_add_driver
+driver_register
+? ktime_get_ts
+__pci_register_driver
+init_ath5k_pci
+_stext
+? init_ath5k_pci
+? proc_create_data
+? register_ieq_proc
+kernel_init
 
------BEGIN PGP SIGNATURE-----
-Comment: Johannes Berg (powerbook)
 
-iQIcBAABAgAGBQJJ9tv9AAoJEKVg1VMiehFY4ugP/1sFv/kru9oViL9kbbpm63mU
-cAtEAsnOXGIF+XT9Xp+Jn2z10lUe70aX/xT43eR4jcMw8ER1pKcbx5WymNVp7qvS
-4IoBCQEFI0VtH5BrL4yifRtkFF+RLgUdYHsR3cw3aGcE3LDInZDOQgTZlhdiuwaM
-rEL0o7xOjn7nEyNKWVZgVIEmOMKf7KdbB+G+T0tlAeeq+MZKowq3Ch38PlitqPO3
-3CGW82HlgU2ydGnkcH7Ep48BufJ/tJV/VfaG7ymVGHGcnhl8WOLKRBLT6cJFMwpL
-cfUtajLbz9lLfYbqgnWw/wvwrPhmwB1kRq1BXEoF7TaE5TI2Mb4jhC5tY+HWDeap
-ICgGQ6Q1d/ttTMbLUliVA5QtbQPVRmyuQD4X+A8IXhkvSeQyN3j+xvMRSVVP0waC
-8mkFDeactbPaiCJktuQNjMg0ydxVACmC/4e09G2W+UlEf2lYN3MrQlQME3u0s7xX
-E0GGCKyb9i9ale0kzIfLr8FXcV8zbaCcdGtNLODXlc8ZOldC5t/O4wlPTwrv4762
-976oU7qIjCU7/X1vNAWlNCxuSg8H6Vbeiprl1cQlRUofXz8eM8cy7ys9ksbFbREf
-ez80lBWmdi4F8izE3HZFbLHAJ7xHmHTtk+RwyQFqwpQU62zc+Yn5RvEfBIGkL4e8
-VPBwyRnbkgI4LMw8e6Yw
-=UJME
------END PGP SIGNATURE-----
-
---=-Jprxz+NasVEGsZrS3KWk--
+Thanks
+Alan
