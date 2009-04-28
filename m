@@ -1,118 +1,76 @@
-From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Subject: Re: [PATCH] [RFC] EEE PC hangs when booting off battery
-Date: Tue, 28 Apr 2009 11:27:32 +0100
-Message-ID: <49F6DA14.7030608@tuffmail.co.uk>
-References: <49E065CF.6040408@tuffmail.co.uk>	 <200904140859.02188.bjorn.helgaas@hp.com>	 <20090414081728.10de978a@infradead.org>	 <200904140948.37633.bjorn.helgaas@hp.com> <49E5F01B.2060201@tuffmail.co.uk>	 <49EF0ABD.2080801@tuffmail.co.uk> <49F446AE.6070607@tuffmail.co.uk>	 <49F6CA0E.5040101@tuffmail.co.uk> (sfid-20090428_111942_198975_13CDA6F5) <1240912688.28835.10.camel@johannes.local>
+From: Bart <mmx-G/jkD+u3s4s@public.gmane.org>
+Subject: Re: [Bug #13112] Oops in drain_array
+Date: Tue, 28 Apr 2009 14:43:37 +0200 (CEST)
+Message-ID: <Pine.LNX.4.64.0904281425040.2455@galaxy.riz.pl>
+References: <alpine.DEB.1.10.0904271000200.16119@qirst.com>
+ <Pine.LNX.4.64.0904271849590.2455@galaxy.riz.pl>
+ <alpine.DEB.2.00.0904271327140.11650@chino.kir.corp.google.com>
+ <20090428171139N.fujita.tomonori@lab.ntt.co.jp>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1240912688.28835.10.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
+In-Reply-To: <20090428171139N.fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-Cc: "linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"; format="flowed"
+Content-Transfer-Encoding: 7bit
+To: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Cc: rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org, penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org
 
-Johannes Berg wrote:
-> It seems the only reason lockdep doesn't warn is the detour to userspace
-> (modprobe) and the waiting for a userspace task (waiting isn't lockdep
-> annotated and I don't think it can be)
+> On Mon, 27 Apr 2009 13:36:46 -0700 (PDT)
+> David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org> wrote:
 >
-> It seems you cannot load a module while under _any_ lock, ever, since
-> userspace might turn around and do something that requires that lock? I
-> think we should probably add a warning to the code that waits for the
-> userspace task:
+>> On Mon, 27 Apr 2009, Bart wrote:
+>>
+>>> After turning the suggested debuging options I've got tons of these when
+>>> trying to stress the tape device like before:
+>>>
+>>> Apr 27 16:57:30 fs kernel: [   96.446708] slab error in verify_redzone_free():
+>>> cache `size-128': memory outside object was overwritten
+>>> Apr 27 16:57:30 fs kernel: [   96.446713] Pid: 0, comm: swapper Not tainted
+>>> 2.6.29.1-64 #2
+>>> Apr 27 16:57:30 fs kernel: [   96.446715] Call Trace:
+>>> Apr 27 16:57:30 fs kernel: [   96.446717]  <IRQ>  [<ffffffff8029adc5>]
+>>> __slab_error+0x1f/0x25
+>>> Apr 27 16:57:30 fs kernel: [   96.446728]  [<ffffffff8029b24b>]
+>>> cache_free_debugcheck+0x108/0x1d6
+>>> Apr 27 16:57:30 fs kernel: [   96.446731]  [<ffffffff8029b473>]
+>>> kfree+0x81/0xc2
+>>> Apr 27 16:57:30 fs kernel: [   96.446735]  [<ffffffff802bd311>]
+>>> bio_free_map_data+0xc/0x1e
+>>
+>> This appears to be kfree(bmd->iovecs) in bio_free_map_data().  It looks
+>> like the memcpy size in bio_set_map_data() overrides the kmalloc size; in
+>> other words, for a redzone error, bio->bi_vcnt > nr_pages in
+>> bio_copy_user_iov().
 >
-> 	debug_check_no_locks_held(current);
+> Can you try this?
 >
-> Or not? Some purely internal locks _might_ be ok... but how could you
-> verify that?
+> diff --git a/fs/bio.c b/fs/bio.c
+> index 7bbc98f..6a09356 100644
+> --- a/fs/bio.c
+> +++ b/fs/bio.c
+> @@ -817,6 +817,9 @@ struct bio *bio_copy_user_iov(struct request_queue *q,
+> 		len += iov[i].iov_len;
+> 	}
 >
->   
->> - ieee80211_wep_init(), which is called with rtnl_lock() held, is
->> blocked in request_module() [waiting for modprobe to load a crypto module].
->>     
+> +	if (offset)
+> +		nr_pages += 1;
+> +
+> 	bmd = bio_alloc_map_data(nr_pages, iov_count, gfp_mask);
+> 	if (!bmd)
+> 		return ERR_PTR(-ENOMEM);
 >
-> Right.
->
->   
->> - modprobe is blocked in a call to flush_workqueue(), caused by closing
->> a TTY.
->>     
->
-> Can you point out where? I can't find that.
->   
 
-I posted the calltraces earlier at
-<http://marc.info/?l=linux-wireless&m=124074566523506&w=2>.
+There are no more errors in the dmesg after applying this patch to 
+2.6.29.2.
 
-wait_for_completion
-flush_cpu_workqueue
-? wq_barrier_func
-flush_workqueue
-flush_scheduled_work
-tty_ldisc_release
-? tty_fasyc
-tty_release_dev
-? free_pgtables
-tty_release
-__fput
-filp_close
-sys_close
-syscall_call
+Without this patch I can reproduce this kind of errors on 
+2.6.29.1, 2.6.29.2.
 
+I've not tested this patch with 2.6.29.1 and 2.6.30rc3-git3.
+I will try to reproduce the error on 2.6.30rc3-git3 as soon as I compile 
+it.
 
->> - worker_thread is blocked because the workqueue item linkwatch_event()
->> is blocked on rtnl_lock.
->>     
->
-> This I know about.
->
->   
->> I've hacked up a test patch to move wep_init() outside of rtnl_lock, and
->> it solved the problem.  My one caveat is that it would probably be
->> cleaner to move it after rtnl_unlock(), instead of before rtnl_lock(). 
->> I just wasn't 100% sure if that would be safe.  Here's the patch:
->>     
->
-> That doesn't seem relevant, this just does some initialisation. However,
-> you definitely missed adding a call to wep_free().
->   
-
-Hah, I should have realized something was wrong when I noticed I was
-removing more lines that I added. 
-
-The crypto init does cause the module load:
-
-wait_for_completion
-call_usermodehelper_exec
-__request_module
-crypto_larval_lookup
-? extract_entropy
-crypto_alg_mod_lookup
-crypto_alloc_base
-ieee80211_wep_init
-ieee80211_register_hw
-? ath5k_hw_set_bss
-ath5k+pci_probe
-local_pci_probe
-pci_device_probe
-driver_probe_device
-__driver_attach
-bus_for_each_dev
-driver_attach
-? __driver_attach
-buad_add_driver
-driver_register
-? ktime_get_ts
-__pci_register_driver
-init_ath5k_pci
-_stext
-? init_ath5k_pci
-? proc_create_data
-? register_ieq_proc
-kernel_init
-
-
-Thanks
-Alan
+-- 
+  Regards
+  Bart mmx-G/jkD+u3s4s@public.gmane.org
