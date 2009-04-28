@@ -1,35 +1,40 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #12947] r128: system hangs when X is started with DRI enabled
-Date: Tue, 28 Apr 2009 23:49:01 +0200
-Message-ID: <200904282349.02147.rjw@sisk.pl>
-References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera> <200904261943.45126.rjw@sisk.pl> <20090427201229.3491928a.seraph@xs4all.nl>
+Subject: Re: [Bug #13003] [2.6.29 regression] ivtv driver causes strange oops'es, disrupts software suspend
+Date: Tue, 28 Apr 2009 23:53:57 +0200
+Message-ID: <200904282353.58146.rjw@sisk.pl>
+References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera> <egHshlwQQFE.A.C_C.ipE9JB@chimera> <200904270846.28726.hverkuil@xs4all.nl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090427201229.3491928a.seraph-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
+In-Reply-To: <200904270846.28726.hverkuil-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Jos van der Ende <seraph-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
+To: Hans Verkuil <hverkuil-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Artem S. Tashkinov" <t.artem-VInPYn6yXxRWk0Htik3J/w@public.gmane.org>
 
-On Monday 27 April 2009, Jos van der Ende wrote:
-> On Sun, 26 Apr 2009 19:43:44 +0200
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Monday 27 April 2009, Hans Verkuil wrote:
+> On Sunday 26 April 2009 11:46:28 Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.28 and 2.6.29.
+> >
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> > be listed and let me know (either way).
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13003
+> > Subject		: [2.6.29 regression] ivtv driver causes strange oops'es,
+> > disrupts software suspend Submitter	: Artem S. Tashkinov
+> > <t.artem-VInPYn6yXxRWk0Htik3J/w@public.gmane.org>
+> > Date		: 2009-04-03 14:57 (24 days old)
+> > Handled-By	: Hans Verkuil <hverkuil-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
 > 
-> > On Sunday 26 April 2009, Angel wrote:
-> > > On Sun, 26 Apr 2009 11:46:26 +0200 (CEST)
-> > > 
-> > > I've tested with kernel 2.6.29.1. The problem still persists. While everything works fine with 2.6.28 or lower, starting X (both 1.3 and 1.5) with DRI enabled on a 2.6.29 kernel results in a garbled screen and unresponsive keyboard.
-> > 
-> > Thanks for the update.
-> > 
-> > Can you also test 2.6.30-rc3, please?
-> 
-> Sure. Still broken in exactly the same way. (Garbled screen, non-working keyboard. System can still be ssh-ed into.)
+> This isn't a 2.6.29 regression. It is a bug - somewhere - but it's also been 
+> reproduced under 2.6.28 so it doesn't qualify as a regression.
 
-Thanks!
+Thanks, dropped from the list.
 
 Best,
 Rafael
