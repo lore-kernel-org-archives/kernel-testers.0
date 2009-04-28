@@ -1,60 +1,37 @@
 From: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
-Subject: Re: [Bug #13112] Oops in drain_array
-Date: Tue, 28 Apr 2009 17:11:28 +0900
-Message-ID: <20090428171139N.fujita.tomonori@lab.ntt.co.jp>
-References: <alpine.DEB.1.10.0904271000200.16119@qirst.com>
-	<Pine.LNX.4.64.0904271849590.2455@galaxy.riz.pl>
-	<alpine.DEB.2.00.0904271327140.11650@chino.kir.corp.google.com>
+Subject: Re: [Bug #13001] PCI-DMA: Out of IOMMU space
+Date: Tue, 28 Apr 2009 17:28:24 +0900
+Message-ID: <20090428172845R.fujita.tomonori@lab.ntt.co.jp>
+References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera>
+	<egHshlwQQFE.A.8CD.mpE9JB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.00.0904271327140.11650-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+In-Reply-To: <egHshlwQQFE.A.8CD.mpE9JB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
-Cc: mmx-G/jkD+u3s4s@public.gmane.org, cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org, penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org
+To: rjw-KKrjLPT3xs0@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org, grundler-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, optimusgd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-On Mon, 27 Apr 2009 13:36:46 -0700 (PDT)
-David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org> wrote:
+On Sun, 26 Apr 2009 11:46:28 +0200 (CEST)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-> On Mon, 27 Apr 2009, Bart wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.28 and 2.6.29.
 > 
-> > After turning the suggested debuging options I've got tons of these when
-> > trying to stress the tape device like before:
-> > 
-> > Apr 27 16:57:30 fs kernel: [   96.446708] slab error in verify_redzone_free():
-> > cache `size-128': memory outside object was overwritten
-> > Apr 27 16:57:30 fs kernel: [   96.446713] Pid: 0, comm: swapper Not tainted
-> > 2.6.29.1-64 #2
-> > Apr 27 16:57:30 fs kernel: [   96.446715] Call Trace:
-> > Apr 27 16:57:30 fs kernel: [   96.446717]  <IRQ>  [<ffffffff8029adc5>]
-> > __slab_error+0x1f/0x25
-> > Apr 27 16:57:30 fs kernel: [   96.446728]  [<ffffffff8029b24b>]
-> > cache_free_debugcheck+0x108/0x1d6
-> > Apr 27 16:57:30 fs kernel: [   96.446731]  [<ffffffff8029b473>]
-> > kfree+0x81/0xc2
-> > Apr 27 16:57:30 fs kernel: [   96.446735]  [<ffffffff802bd311>]
-> > bio_free_map_data+0xc/0x1e
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> be listed and let me know (either way).
 > 
-> This appears to be kfree(bmd->iovecs) in bio_free_map_data().  It looks 
-> like the memcpy size in bio_set_map_data() overrides the kmalloc size; in 
-> other words, for a redzone error, bio->bi_vcnt > nr_pages in 
-> bio_copy_user_iov().
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13001
+> Subject		: PCI-DMA: Out of IOMMU space
+> Submitter	:  <optimusgd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-04-03 09:30 (24 days old)
 
-Can you try this?
+Probably, this is not a regression.
 
-diff --git a/fs/bio.c b/fs/bio.c
-index 7bbc98f..6a09356 100644
---- a/fs/bio.c
-+++ b/fs/bio.c
-@@ -817,6 +817,9 @@ struct bio *bio_copy_user_iov(struct request_queue *q,
- 		len += iov[i].iov_len;
- 	}
- 
-+	if (offset)
-+		nr_pages += 1;
-+
- 	bmd = bio_alloc_map_data(nr_pages, iov_count, gfp_mask);
- 	if (!bmd)
- 		return ERR_PTR(-ENOMEM);
+He doesn't hit this problem with 2.6.29 when he uses the kernel boot
+option that he used with 2.6.28. I have no idea how not using
+'allowdac' can solve the problem though.
