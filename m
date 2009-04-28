@@ -1,81 +1,57 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13178] Booting very slow
-Date: Wed, 29 Apr 2009 00:01:47 +0200
-Message-ID: <200904290001.47757.rjw@sisk.pl>
-References: <209795.21710.qm@web32607.mail.mud.yahoo.com>
+Subject: Re: [Bug #13177] 2.6.30-rc2-git7 build problem
+Date: Wed, 29 Apr 2009 00:06:51 +0200
+Message-ID: <200904290006.51707.rjw@sisk.pl>
+References: <47KgT3nlbjD.A.lnB.jc48JB@chimera> <Fg2zLW93smL.A.9VC.wc48JB@chimera> <906747.62115.qm@web32604.mail.mud.yahoo.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <209795.21710.qm-f6uctMgKLEavuULXzWHTWIglqE1Y4D90QQ4Iyu8u01E@public.gmane.org>
+In-Reply-To: <906747.62115.qm-lSXk2nNw7cevuULXzWHTWIglqE1Y4D90QQ4Iyu8u01E@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Martin Knoblauch <knobi-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
 On Monday 27 April 2009, Martin Knoblauch wrote:
-> 
 > ----- Original Message ----
 > 
-> > From: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
-> > To: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>; Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-> > Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-> > Sent: Monday, April 27, 2009 9:18:53 AM
-> > Subject: Re: [Bug #13178] Booting very slow
+> > From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> > To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+> > Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>; Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+> > Sent: Saturday, April 25, 2009 9:31:51 PM
+> > Subject: [Bug #13177] 2.6.30-rc2-git7 build problem
 > > 
-> > ----- Original Message ----
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
 > > 
-> > > From: Rafael J. Wysocki 
-> > > To: Linux Kernel Mailing List 
-> > > Cc: Kernel Testers List ; Martin Knoblauch 
-> > 
-> > > Sent: Sunday, April 26, 2009 11:46:31 AM
-> > > Subject: [Bug #13178] Booting very slow
-> > > 
-> > > This message has been generated automatically as a part of a report
-> > > of regressions introduced between 2.6.28 and 2.6.29.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-> > > be listed and let me know (either way).
-> > > 
-> > > 
-> > > Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=13178
-> > > Subject        : Booting very slow
-> > > Submitter    : Martin Knoblauch 
-> > > Date        : 2009-04-24 12:45 (3 days old)
-> > > References    : http://marc.info/?l=linux-kernel&m=124057716231773&w=4
-> > 
-> > Not really sure whether this is a real regression. Between 2.6.28 and 2.6.29 the 
-> > content of /proc/mounts for sysfs changed from
-> > 
-> > /sys /sys sysfs rw 0 0
-> > 
-> > to
-> > 
-> > none /sys sysfs rw 0 0
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.29.  Please verify if it still should be listed and let me know
+> > (either way).
 > > 
 > > 
-> > This breaks RHEL-4.3 userland which parses /proc/mounts in the firmware hotplug 
-> > agent to find the mount-point for sysfs. As a result firmware loading started to 
-> > fail in 2.6.29. There is a simple fix in the /etc/hotplug/firmware.agent script 
-> > (just assume /sys as it is done elsewhere).
-> > 
-> > Your call.
-> > 
-> > Cheers
-> > Martin
+> > Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=13177
+> > Subject        : 2.6.30-rc2-git7 build problem
+> > Submitter    : Martin Knoblauch 
+> > Date        : 2009-04-21 13:39 (5 days old)
+> > References    : http://marc.info/?l=linux-kernel&m=124032163602132&w=4
 > 
->  Actually I have to correct myself. The reason for the failure to parse /proc/mounts for "sysfs" is that there are two lines:
+>  still happens with 2.6.30-rc3-git7 when USB_SERIAL_KLSI=m.
 > 
-> [hotplug]# uname -a
-> Linux lpsdm52 2.6.30-rc3-git2-nfs_ra #3 SMP Mon Apr 27 10:21:31 CEST 2009 x86_64 x86_64 x86_64 GNU/Linux
-> [hotplug]# grep sysfs /proc/mounts
-> none /sys sysfs rw,relatime 0 0
-> /sys /sys sysfs rw,relatime 0 0
+> BUILD   arch/x86/boot/bzImage
+> Root device is (104, 3)
+> Setup is 12664 bytes (padded to 12800 bytes).
+> System is 2651 kB
+> CRC 4864576
+> Kernel: arch/x86/boot/bzImage is ready  (#2)
+>   Building modules, stage 2.
+>   MODPOST 470 modules
+> ERROR: ".L192" [drivers/usb/serial/kl5kusb105.ko] undefined!
+> make[1]: *** [__modpost] Error 1
+> make: *** [modules] Error 2
 > 
->  This breaks the "firmware.agent" /sys-parsing code. There still exists the simple fix to userspace, but I now think that this is a real regression that should be fixed.
+>  Config attached.
 
 Thanks for the update.
 
