@@ -1,20 +1,23 @@
-From: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+From: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
 Subject: Re: [Bug #13112] Oops in drain_array
-Date: Tue, 28 Apr 2009 08:47:49 +0200
-Message-ID: <20090428064749.GI4593@kernel.dk>
-References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera> <egHshlwQQFE.A.KjC.JpE9JB@chimera> <alpine.DEB.2.00.0904261314430.18988@chino.kir.corp.google.com> <84144f020904270152o6567e84cj914934120315bf90@mail.gmail.com> <alpine.DEB.1.10.0904271000200.16119@qirst.com> <Pine.LNX.4.64.0904271849590.2455@galaxy.riz.pl> <alpine.DEB.2.00.0904271327140.11650@chino.kir.corp.google.com>
+Date: Tue, 28 Apr 2009 17:11:28 +0900
+Message-ID: <20090428171139N.fujita.tomonori@lab.ntt.co.jp>
+References: <alpine.DEB.1.10.0904271000200.16119@qirst.com>
+	<Pine.LNX.4.64.0904271849590.2455@galaxy.riz.pl>
+	<alpine.DEB.2.00.0904271327140.11650@chino.kir.corp.google.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 In-Reply-To: <alpine.DEB.2.00.0904271327140.11650-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Bart <mmx-G/jkD+u3s4s@public.gmane.org>, Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
+Cc: mmx-G/jkD+u3s4s@public.gmane.org, cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org, penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org
 
-On Mon, Apr 27 2009, David Rientjes wrote:
+On Mon, 27 Apr 2009 13:36:46 -0700 (PDT)
+David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org> wrote:
+
 > On Mon, 27 Apr 2009, Bart wrote:
 > 
 > > After turning the suggested debuging options I've got tons of these when
@@ -39,7 +42,19 @@ On Mon, Apr 27 2009, David Rientjes wrote:
 > other words, for a redzone error, bio->bi_vcnt > nr_pages in 
 > bio_copy_user_iov().
 
-What -git version was this reproduced with?
+Can you try this?
 
--- 
-Jens Axboe
+diff --git a/fs/bio.c b/fs/bio.c
+index 7bbc98f..6a09356 100644
+--- a/fs/bio.c
++++ b/fs/bio.c
+@@ -817,6 +817,9 @@ struct bio *bio_copy_user_iov(struct request_queue *q,
+ 		len += iov[i].iov_len;
+ 	}
+ 
++	if (offset)
++		nr_pages += 1;
++
+ 	bmd = bio_alloc_map_data(nr_pages, iov_count, gfp_mask);
+ 	if (!bmd)
+ 		return ERR_PTR(-ENOMEM);
