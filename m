@@ -1,87 +1,68 @@
 From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 Subject: Re: [PATCH] [RFC] EEE PC hangs when booting off battery
-Date: Tue, 28 Apr 2009 11:58:08 +0200
-Message-ID: <1240912688.28835.10.camel@johannes.local>
+Date: Tue, 28 Apr 2009 12:35:44 +0200
+Message-ID: <1240914944.28835.11.camel@johannes.local>
 References: <49E065CF.6040408@tuffmail.co.uk>
 	 <200904140859.02188.bjorn.helgaas@hp.com>
 	 <20090414081728.10de978a@infradead.org>
 	 <200904140948.37633.bjorn.helgaas@hp.com> <49E5F01B.2060201@tuffmail.co.uk>
-	 <49EF0ABD.2080801@tuffmail.co.uk> <49F446AE.6070607@tuffmail.co.uk>
-	 <49F6CA0E.5040101@tuffmail.co.uk> (sfid-20090428_111942_198975_13CDA6F5)
+		 <49EF0ABD.2080801@tuffmail.co.uk> <49F446AE.6070607@tuffmail.co.uk>
+		 <49F6CA0E.5040101@tuffmail.co.uk>
+	 (sfid-20090428_111942_198975_13CDA6F5) <1240912688.28835.10.camel@johannes.local>
+	 <49F6DA14.7030608@tuffmail.co.uk>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-ssrFuVECca1fp0kSm0VT"
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-Jprxz+NasVEGsZrS3KWk"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <49F6CA0E.5040101-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org> (sfid-20090428_111942_198975_13CDA6F5)
+In-Reply-To: <49F6DA14.7030608-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
 Cc: "linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 
---=-ssrFuVECca1fp0kSm0VT
+--=-Jprxz+NasVEGsZrS3KWk
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-It seems the only reason lockdep doesn't warn is the detour to userspace
-(modprobe) and the waiting for a userspace task (waiting isn't lockdep
-annotated and I don't think it can be)
+On Tue, 2009-04-28 at 11:27 +0100, Alan Jenkins wrote:
 
-It seems you cannot load a module while under _any_ lock, ever, since
-userspace might turn around and do something that requires that lock? I
-think we should probably add a warning to the code that waits for the
-userspace task:
+> > Can you point out where? I can't find that.
 
-	debug_check_no_locks_held(current);
+>=20
+> I posted the calltraces earlier at
+> <http://marc.info/?l=3Dlinux-wireless&m=3D124074566523506&w=3D2>.
+>=20
+> wait_for_completion
+> flush_cpu_workqueue
+> ? wq_barrier_func
+> flush_workqueue
+> flush_scheduled_work
+> tty_ldisc_release
 
-Or not? Some purely internal locks _might_ be ok... but how could you
-verify that?
-
-> - ieee80211_wep_init(), which is called with rtnl_lock() held, is
-> blocked in request_module() [waiting for modprobe to load a crypto module=
-].
-
-Right.
-
-> - modprobe is blocked in a call to flush_workqueue(), caused by closing
-> a TTY.
-
-Can you point out where? I can't find that.
-
-> - worker_thread is blocked because the workqueue item linkwatch_event()
-> is blocked on rtnl_lock.
-
-This I know about.
-
-> I've hacked up a test patch to move wep_init() outside of rtnl_lock, and
-> it solved the problem.  My one caveat is that it would probably be
-> cleaner to move it after rtnl_unlock(), instead of before rtnl_lock().=20
-> I just wasn't 100% sure if that would be safe.  Here's the patch:
-
-That doesn't seem relevant, this just does some initialisation. However,
-you definitely missed adding a call to wep_free().
+Ah, I was just grepping for the wrong thing :)
 
 johannes
 
---=-ssrFuVECca1fp0kSm0VT
+--=-Jprxz+NasVEGsZrS3KWk
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 Comment: Johannes Berg (powerbook)
 
-iQIcBAABAgAGBQJJ9tMuAAoJEKVg1VMiehFYSxYQAInSVwhErD9Q6+48V4JpDp2l
-3imRtIkdF7+ZFwa2SdF/kiBYP+s+XF1sdulp7PHCtbqdHk4cvoi+XKHOawqo1wYr
-qpI2AKDfOf2rzoczAcK4YW2w6BftgxTTqoUVfLKxPb5KUUChjkJnqrRv5UJEyXBv
-kWRQSbcT4obujlPIBhnPo93wtlvBSQujU1vPrdqs3G5gaSbQtJlZRjFUuJg35Pke
-CEn4nJ62kFeyGZl2eI+QDpyODn7SFUWXuyNTOXgWMcTZsnSlZm7GOTfTi9jBBNEB
-FW4ynZ+itvAkxsDIB2cIEsiC0fygxrDDtDcMHFeQWXWdIOiZSMdcgRK6jaxj1sCh
-qIwq1uuQ4DU4kobHciOBn00GJgNKT3mViS6CbUjXbqN42/+S9BZOY2IG6YPTmoRb
-mn7NcVzA6oy9HVYU2LcBmDuez1lg4w7U7+f1+peCgpAbV4EJ/J0F91TJFNFvGBOK
-dHDhxGwdmCQWurgI6FyL37rxSW42Ho6clicm2epdmZ/yG2DRRYD68Vj20IqCEowA
-rOfO57ypb/1G71EkyNfCWr9ITTNs+WSQhWFm1YO8U9IgAelIJH/MQLTQ0mKR6Zoe
-PYosgETnBt2Nh+p8BRt2gI2+D9W9T7G/IBZaSmMjGLrHjMKIC02Dpkqkri2injDc
-9FjC2xhtyugVVRruZXil
-=pqaC
+iQIcBAABAgAGBQJJ9tv9AAoJEKVg1VMiehFY4ugP/1sFv/kru9oViL9kbbpm63mU
+cAtEAsnOXGIF+XT9Xp+Jn2z10lUe70aX/xT43eR4jcMw8ER1pKcbx5WymNVp7qvS
+4IoBCQEFI0VtH5BrL4yifRtkFF+RLgUdYHsR3cw3aGcE3LDInZDOQgTZlhdiuwaM
+rEL0o7xOjn7nEyNKWVZgVIEmOMKf7KdbB+G+T0tlAeeq+MZKowq3Ch38PlitqPO3
+3CGW82HlgU2ydGnkcH7Ep48BufJ/tJV/VfaG7ymVGHGcnhl8WOLKRBLT6cJFMwpL
+cfUtajLbz9lLfYbqgnWw/wvwrPhmwB1kRq1BXEoF7TaE5TI2Mb4jhC5tY+HWDeap
+ICgGQ6Q1d/ttTMbLUliVA5QtbQPVRmyuQD4X+A8IXhkvSeQyN3j+xvMRSVVP0waC
+8mkFDeactbPaiCJktuQNjMg0ydxVACmC/4e09G2W+UlEf2lYN3MrQlQME3u0s7xX
+E0GGCKyb9i9ale0kzIfLr8FXcV8zbaCcdGtNLODXlc8ZOldC5t/O4wlPTwrv4762
+976oU7qIjCU7/X1vNAWlNCxuSg8H6Vbeiprl1cQlRUofXz8eM8cy7ys9ksbFbREf
+ez80lBWmdi4F8izE3HZFbLHAJ7xHmHTtk+RwyQFqwpQU62zc+Yn5RvEfBIGkL4e8
+VPBwyRnbkgI4LMw8e6Yw
+=UJME
 -----END PGP SIGNATURE-----
 
---=-ssrFuVECca1fp0kSm0VT--
+--=-Jprxz+NasVEGsZrS3KWk--
