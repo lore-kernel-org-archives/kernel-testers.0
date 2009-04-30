@@ -1,47 +1,172 @@
-From: Nico Schottelius <nico-kernel-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-Subject: Re: [Bug #12705] X200: Brightness broken since
-	2.6.29-rc4-58-g4c098bc
-Date: Thu, 30 Apr 2009 10:00:49 +0200
-Message-ID: <20090430080049.GA4715@ikn.schottelius.org>
-References: <tur5OtdUm3E.A.r2B.7oE9JB@chimera> <egHshlwQQFE.A.EJE.WrE9JB@chimera> <20090426201554.GC22487@ikn.schottelius.org> <200904270118.17292.rjw@sisk.pl>
+From: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
+Subject: [WATCHDOG] iTCO_wdt.c - ICH9 reboot issue - testing wanted
+Date: Thu, 30 Apr 2009 11:49:18 +0200
+Message-ID: <20090430094918.GC4141@infomag.iguana.be>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <200904270118.17292.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Stephen Clark <sclark46-ihVZJaRskl1bRRN4PJnoQQ@public.gmane.org>, Denys Fedoryschenko <denys-EpTYZhqHKuJnTudFRACr3A@public.gmane.org>, Johannes Dewender <arch-ArHZ4xy2k9XR7s880joybQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Cc: Andriy Gapon <avg-+43SdJ71VxTsG83rWm+8vg@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
+Hi All,
 
---vtzGhvizbBRQ85DL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I'm looking for people that can test the below patch(es).
+I'm mainly interested in knowing if you experience any side-effects when using this patch.
+(See also bugzilla 9868, 10195, 12363 & 12162).
 
-Update:
+For people not using the watchdog or without any reboot problems the driver should
+work as normal after compilation/installation/...
 
-  Brightness works on 2.6.30-rc3-next-20090428-04067-g72f1b63 (linux-next)
+For people that have the ICH9 reboot problems: load the module with module-parameter
+gbl_smi_en=0 and test the watchdog functionality again.
 
---=20
-Think about Free and Open Source Software (FOSS).
-http://nico.schottelius.org/documentations/foss/the-term-foss/
+Thanks in advance,
+Wim.
 
-PGP: BFE4 C736 ABE5 406F 8F42  F7CF B8BE F92A 9885 188C
+The Changes are:
 
---vtzGhvizbBRQ85DL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-Content-Disposition: inline
+Author: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
+Date:   Thu Apr 30 09:13:33 2009 +0000
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
+    [WATCHDOG] iTCO_wdt: Fix ICH9 reboot issue.
+    
+    Bugzilla: 9868 & 10195.
+    There seems to be a bug into the SMM code that handles TCO Timeout SMI.
+    Andriy Gapon found that the code on his DG33TL system does the following:
+    > The handler is quite simple - it tests value in TCO1_CNT against 0x800, i.e.
+    > checks TCO_TMR_HLT. If the bit is set the handler goes into an infinite loop,
+    > apparently to allow the second timeout and reboot. Otherwise it simply clears
+    > TIMEOUT bit in TCO1_STS and that's it.
+    > So the logic seems to be reversed, because it is hard to see how TIMEOUT can
+    > get set to 1 and SMI generated when TCO_TMR_HLT is set (other than a
+    > transitional effect).
+    
+    The only trick we have is to bypass the SMM code by turning of the generation
+    of the SMI#. The trick can only be enabled by setting the gbl_smi_en module
+    parameter to 0.
+    
+    Signed-off-by: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
 
-iEYEARECAAYFAkn5WrAACgkQuL75KpiFGIzS0ACfalhCw8uSBRrLQ1egmC3bwaNu
-xSEAoJRAbXk6Yj5vf0sOG9JnpGBUpI80
-=XdaA
------END PGP SIGNATURE-----
+Author: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
+Date:   Tue Apr 14 20:20:07 2009 +0000
 
---vtzGhvizbBRQ85DL--
+    [WATCHDOG] iTCO_wdt: Cleanup code
+    
+    Clean-up the iTCO_wdt code so that checkpatch.pl get's happy...
+    
+    Signed-off-by: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
+
+The Changes can also be looked at on:
+	http://www.kernel.org/git/?p=linux/kernel/git/wim/linux-2.6-watchdog.git;a=summary
+
+For completeness, I added the overal diff below.
+
+Greetings,
+Wim.
+
+================================================================================
+diff --git a/drivers/watchdog/iTCO_vendor_support.c b/drivers/watchdog/iTCO_vendor_support.c
+index d3c0f6d..843ef62 100644
+--- a/drivers/watchdog/iTCO_vendor_support.c
++++ b/drivers/watchdog/iTCO_vendor_support.c
+@@ -35,9 +35,9 @@
+ #include "iTCO_vendor.h"
+ 
+ /* iTCO defines */
+-#define	SMI_EN		acpibase + 0x30	/* SMI Control and Enable Register */
+-#define	TCOBASE		acpibase + 0x60	/* TCO base address */
+-#define	TCO1_STS	TCOBASE + 0x04	/* TCO1 Status Register */
++#define	SMI_EN		(acpibase + 0x30) /* SMI Control and Enable Register */
++#define	TCOBASE		(acpibase + 0x60) /* TCO base address */
++#define	TCO1_STS	(TCOBASE + 0x04)  /* TCO1 Status Register */
+ 
+ /* List of vendor support modes */
+ /* SuperMicro Pentium 3 Era 370SSE+-OEM1/P3TSSE */
+diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
+index 648250b..b76d1ec 100644
+--- a/drivers/watchdog/iTCO_wdt.c
++++ b/drivers/watchdog/iTCO_wdt.c
+@@ -63,7 +63,7 @@
+ 
+ /* Module and version information */
+ #define DRV_NAME	"iTCO_wdt"
+-#define DRV_VERSION	"1.05"
++#define DRV_VERSION	"1.06"
+ #define PFX		DRV_NAME ": "
+ 
+ /* Includes */
+@@ -236,19 +236,19 @@ MODULE_DEVICE_TABLE(pci, iTCO_wdt_pci_tbl);
+ 
+ /* Address definitions for the TCO */
+ /* TCO base address */
+-#define TCOBASE		iTCO_wdt_private.ACPIBASE + 0x60
++#define TCOBASE		(iTCO_wdt_private.ACPIBASE + 0x60)
+ /* SMI Control and Enable Register */
+-#define SMI_EN		iTCO_wdt_private.ACPIBASE + 0x30
+-
+-#define TCO_RLD		TCOBASE + 0x00	/* TCO Timer Reload and Curr. Value */
+-#define TCOv1_TMR	TCOBASE + 0x01	/* TCOv1 Timer Initial Value	*/
+-#define TCO_DAT_IN	TCOBASE + 0x02	/* TCO Data In Register		*/
+-#define TCO_DAT_OUT	TCOBASE + 0x03	/* TCO Data Out Register	*/
+-#define TCO1_STS	TCOBASE + 0x04	/* TCO1 Status Register		*/
+-#define TCO2_STS	TCOBASE + 0x06	/* TCO2 Status Register		*/
+-#define TCO1_CNT	TCOBASE + 0x08	/* TCO1 Control Register	*/
+-#define TCO2_CNT	TCOBASE + 0x0a	/* TCO2 Control Register	*/
+-#define TCOv2_TMR	TCOBASE + 0x12	/* TCOv2 Timer Initial Value	*/
++#define SMI_EN		(iTCO_wdt_private.ACPIBASE + 0x30)
++
++#define TCO_RLD		(TCOBASE + 0x00) /* TCO Timer Reload and Curr. Value */
++#define TCOv1_TMR	(TCOBASE + 0x01) /* TCOv1 Timer Initial Value	*/
++#define TCO_DAT_IN	(TCOBASE + 0x02) /* TCO Data In Register	*/
++#define TCO_DAT_OUT	(TCOBASE + 0x03) /* TCO Data Out Register	*/
++#define TCO1_STS	(TCOBASE + 0x04) /* TCO1 Status Register	*/
++#define TCO2_STS	(TCOBASE + 0x06) /* TCO2 Status Register	*/
++#define TCO1_CNT	(TCOBASE + 0x08) /* TCO1 Control Register	*/
++#define TCO2_CNT	(TCOBASE + 0x0a) /* TCO2 Control Register	*/
++#define TCOv2_TMR	(TCOBASE + 0x12) /* TCOv2 Timer Initial Value	*/
+ 
+ /* internal variables */
+ static unsigned long is_active;
+@@ -277,6 +277,13 @@ MODULE_PARM_DESC(heartbeat, "Watchdog heartbeat in seconds. "
+ 	"(2<heartbeat<39 (TCO v1) or 613 (TCO v2), default="
+ 				__MODULE_STRING(WATCHDOG_HEARTBEAT) ")");
+ 
++#define GBL_SMI_EN_DEFAULT 1	/* 1 = don't turn GBL_SMI_EN off */
++static int gbl_smi_en = GBL_SMI_EN_DEFAULT;
++module_param(gbl_smi_en, int, 0);
++MODULE_PARM_DESC(gbl_smi_en,
++	"Turn GBL_SMI_EN off to fix reboot issues on ICH9..., default="
++				__MODULE_STRING(GBL_SMI_EN_DEFAULT) ")");
++
+ static int nowayout = WATCHDOG_NOWAYOUT;
+ module_param(nowayout, int, 0);
+ MODULE_PARM_DESC(nowayout,
+@@ -688,9 +695,12 @@ static int __devinit iTCO_wdt_init(struct pci_dev *pdev,
+ 		ret = -EIO;
+ 		goto out;
+ 	}
+-	/* Bit 13: TCO_EN -> 0 = Disables TCO logic generating an SMI# */
+ 	val32 = inl(SMI_EN);
++	/* Bit 13: TCO_EN     -> 0 = Disables TCO logic generating an SMI#
++	   Bit  0: GBL_SMI_EN -> 0 = No SMI# will be generated by ICH9. */
+ 	val32 &= 0xffffdfff;	/* Turn off SMI clearing watchdog */
++	if (gbl_smi_en == 0)
++		val32 &= 0xfffffffe;	/* Turn off GBL_SMI_EN */
+ 	outl(val32, SMI_EN);
+ 
+ 	/* The TCO I/O registers reside in a 32-byte range pointed to
+@@ -733,8 +743,8 @@ static int __devinit iTCO_wdt_init(struct pci_dev *pdev,
+ 		goto unreg_region;
+ 	}
+ 
+-	printk(KERN_INFO PFX "initialized. heartbeat=%d sec (nowayout=%d)\n",
+-							heartbeat, nowayout);
++	printk(KERN_INFO PFX "initialized. heartbeat=%d sec, gbl_smi_en=%d "
++		"(nowayout=%d)\n", heartbeat, gbl_smi_en, nowayout);
+ 
+ 	return 0;
+ 
