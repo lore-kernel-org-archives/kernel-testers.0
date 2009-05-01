@@ -1,12 +1,12 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [PATCH 0/3] PM: Drop shrink_all_memory (was: Re: [Bug #13058] First hibernation attempt fails)
-Date: Sat, 2 May 2009 00:26:18 +0200
-Message-ID: <200905020026.19027.rjw@sisk.pl>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200904222211.18221.rjw@sisk.pl> <20090422131943.69288af3.akpm@linux-foundation.org>
+Subject: [PATCH 2/3] PM/Hibernate: Move memory shrinking to snapshot.c
+Date: Sat, 2 May 2009 00:28:23 +0200
+Message-ID: <200905020028.24452.rjw@sisk.pl>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <20090422131943.69288af3.akpm@linux-foundation.org> <200905020026.19027.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090422131943.69288af3.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+In-Reply-To: <200905020026.19027.rjw-KKrjLPT3xs0@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
@@ -14,55 +14,207 @@ Content-Type: Text/Plain; charset="us-ascii"
 To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Cc: pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
 
-On Wednesday 22 April 2009, Andrew Morton wrote:
-> On Wed, 22 Apr 2009 22:11:17 +0200
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > On Wednesday 22 April 2009, Pavel Machek wrote:
-> > > Hi!
-> > > 
-> > > > Of course, this will protect the calling task from getting oom-killed. 
-> > > > But it doesn't protect other tasks from getting oom-killed due to the
-> > > > activity of _this_ task.
-> > > > 
-> > > > But I think that problem already exists, and that this proposal doesn't
-> > > > worsen anything, yes?
-> > > > 
-> > > > Or is it the case that all other tasks are safely stuck in the freezer
-> > > > at this time, so they won't be allocating any memory anyway?
-> > > 
-> > > That is the idea, yes. ... but we now have more threads that are not
-> > > freezable... so they may allocate the memory.
-> > > 
-> > > Is it non-feasible to free memory without really going and allocating
-> > > everything?
-> > 
-> > The question is whether there is a point.  In principle we can just go and
-> > allocate as much as we need upfront.  It shouldn't change anything, because
-> > we resume and suspend devices after creating the image anyway.
-> > 
-> > I think we could try to disable the OOM killer before suspend and just
-> > allocate the memory for the image right before devices are suspended for the
-> > first time.
-> > 
-> 
-> It would be nice to do.
-> 
-> shrink_all_memory() is simply trying to do something which page reclaim
-> doesn't expect to do (free memory when there's already lots of memory
-> free).  Consequently it doesn't do it very well, and there's a good
-> risk that changes to core reclaim will accidentally break
-> shrink_all_memory().  
+From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
 
-OK, a patchset follows:
+The next patch is going to modify the memory shrinking code so that
+it will make memory allocations to free memory instead of using an
+artificial memory shrinking mechanism for that.  For this purpose it
+is convenient to move swsusp_shrink_memory() from
+kernel/power/swsusp.c to kernel/power/snapshot.c, because the new
+memory-shrinking code is going to use things that are local to
+kernel/power/snapshot.c .
 
-[1/3] - disable the OOM killer during system-wide power transitions (should be
-        done anyway IMO)
-[2/3] - move swsusp_shrink_memory() to kernel/power/snapshot.c so that the
-        next patch is easier to read
-[3/3] - drop shrink_all_memory()
+Signed-off-by: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+---
+ kernel/power/snapshot.c |   76 ++++++++++++++++++++++++++++++++++++++++++++++++
+ kernel/power/swsusp.c   |   76 ------------------------------------------------
+ 2 files changed, 76 insertions(+), 76 deletions(-)
 
-Please have a look and tell me what you think.
-
-Thanks,
-Rafael
+Index: linux-2.6/kernel/power/snapshot.c
+===================================================================
+--- linux-2.6.orig/kernel/power/snapshot.c
++++ linux-2.6/kernel/power/snapshot.c
+@@ -39,6 +39,14 @@ static int swsusp_page_is_free(struct pa
+ static void swsusp_set_page_forbidden(struct page *);
+ static void swsusp_unset_page_forbidden(struct page *);
+ 
++/*
++ * Preferred image size in bytes (tunable via /sys/power/image_size).
++ * When it is set to N, swsusp will do its best to ensure the image
++ * size will not exceed N bytes, but if that is impossible, it will
++ * try to create the smallest image possible.
++ */
++unsigned long image_size = 500 * 1024 * 1024;
++
+ /* List of PBEs needed for restoring the pages that were allocated before
+  * the suspend and included in the suspend image, but have also been
+  * allocated by the "resume" kernel, so their contents cannot be written
+@@ -569,6 +577,74 @@ static unsigned long memory_bm_next_pfn(
+ }
+ 
+ /**
++ *	swsusp_shrink_memory -  Try to free as much memory as needed
++ *
++ *	... but do not OOM-kill anyone
++ *
++ *	Notice: all userland should be stopped before it is called, or
++ *	livelock is possible.
++ */
++
++#define SHRINK_BITE	10000
++static inline unsigned long __shrink_memory(long tmp)
++{
++	if (tmp > SHRINK_BITE)
++		tmp = SHRINK_BITE;
++	return shrink_all_memory(tmp);
++}
++
++int swsusp_shrink_memory(void)
++{
++	long tmp;
++	struct zone *zone;
++	unsigned long pages = 0;
++	unsigned int i = 0;
++	char *p = "-\\|/";
++	struct timeval start, stop;
++
++	printk(KERN_INFO "PM: Shrinking memory...  ");
++	do_gettimeofday(&start);
++	do {
++		long size, highmem_size;
++
++		highmem_size = count_highmem_pages();
++		size = count_data_pages() + PAGES_FOR_IO + SPARE_PAGES;
++		tmp = size;
++		size += highmem_size;
++		for_each_populated_zone(zone) {
++			tmp += snapshot_additional_pages(zone);
++			if (is_highmem(zone)) {
++				highmem_size -=
++					zone_page_state(zone, NR_FREE_PAGES);
++			} else {
++				tmp -= zone_page_state(zone, NR_FREE_PAGES);
++				tmp += zone->lowmem_reserve[ZONE_NORMAL];
++			}
++		}
++
++		if (highmem_size < 0)
++			highmem_size = 0;
++
++		tmp += highmem_size;
++		if (tmp > 0) {
++			tmp = __shrink_memory(tmp);
++			if (!tmp)
++				return -ENOMEM;
++			pages += tmp;
++		} else if (size > image_size / PAGE_SIZE) {
++			tmp = __shrink_memory(size - (image_size / PAGE_SIZE));
++			pages += tmp;
++		}
++		printk("\b%c", p[i++%4]);
++	} while (tmp > 0);
++	do_gettimeofday(&stop);
++	printk("\bdone (%lu pages freed)\n", pages);
++	swsusp_show_speed(&start, &stop, pages, "Freed");
++
++	return 0;
++}
++
++/**
+  *	This structure represents a range of page frames the contents of which
+  *	should not be saved during the suspend.
+  */
+Index: linux-2.6/kernel/power/swsusp.c
+===================================================================
+--- linux-2.6.orig/kernel/power/swsusp.c
++++ linux-2.6/kernel/power/swsusp.c
+@@ -55,14 +55,6 @@
+ 
+ #include "power.h"
+ 
+-/*
+- * Preferred image size in bytes (tunable via /sys/power/image_size).
+- * When it is set to N, swsusp will do its best to ensure the image
+- * size will not exceed N bytes, but if that is impossible, it will
+- * try to create the smallest image possible.
+- */
+-unsigned long image_size = 500 * 1024 * 1024;
+-
+ int in_suspend __nosavedata = 0;
+ 
+ /**
+@@ -195,74 +187,6 @@ void swsusp_show_speed(struct timeval *s
+ 			kps / 1000, (kps % 1000) / 10);
+ }
+ 
+-/**
+- *	swsusp_shrink_memory -  Try to free as much memory as needed
+- *
+- *	... but do not OOM-kill anyone
+- *
+- *	Notice: all userland should be stopped before it is called, or
+- *	livelock is possible.
+- */
+-
+-#define SHRINK_BITE	10000
+-static inline unsigned long __shrink_memory(long tmp)
+-{
+-	if (tmp > SHRINK_BITE)
+-		tmp = SHRINK_BITE;
+-	return shrink_all_memory(tmp);
+-}
+-
+-int swsusp_shrink_memory(void)
+-{
+-	long tmp;
+-	struct zone *zone;
+-	unsigned long pages = 0;
+-	unsigned int i = 0;
+-	char *p = "-\\|/";
+-	struct timeval start, stop;
+-
+-	printk(KERN_INFO "PM: Shrinking memory...  ");
+-	do_gettimeofday(&start);
+-	do {
+-		long size, highmem_size;
+-
+-		highmem_size = count_highmem_pages();
+-		size = count_data_pages() + PAGES_FOR_IO + SPARE_PAGES;
+-		tmp = size;
+-		size += highmem_size;
+-		for_each_populated_zone(zone) {
+-			tmp += snapshot_additional_pages(zone);
+-			if (is_highmem(zone)) {
+-				highmem_size -=
+-					zone_page_state(zone, NR_FREE_PAGES);
+-			} else {
+-				tmp -= zone_page_state(zone, NR_FREE_PAGES);
+-				tmp += zone->lowmem_reserve[ZONE_NORMAL];
+-			}
+-		}
+-
+-		if (highmem_size < 0)
+-			highmem_size = 0;
+-
+-		tmp += highmem_size;
+-		if (tmp > 0) {
+-			tmp = __shrink_memory(tmp);
+-			if (!tmp)
+-				return -ENOMEM;
+-			pages += tmp;
+-		} else if (size > image_size / PAGE_SIZE) {
+-			tmp = __shrink_memory(size - (image_size / PAGE_SIZE));
+-			pages += tmp;
+-		}
+-		printk("\b%c", p[i++%4]);
+-	} while (tmp > 0);
+-	do_gettimeofday(&stop);
+-	printk("\bdone (%lu pages freed)\n", pages);
+-	swsusp_show_speed(&start, &stop, pages, "Freed");
+-
+-	return 0;
+-}
+-
+ /*
+  * Platforms, like ACPI, may want us to save some memory used by them during
+  * hibernation and to restore the contents of this memory during the subsequent
