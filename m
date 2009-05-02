@@ -1,77 +1,54 @@
-From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [PATCH 3/3] PM/Hibernate: Use memory allocations to free memory
-Date: Fri, 1 May 2009 16:14:23 -0700
-Message-ID: <20090501161423.94b37d5b.akpm@linux-foundation.org>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera>
-	<20090422131943.69288af3.akpm@linux-foundation.org>
-	<200905020026.19027.rjw@sisk.pl>
-	<200905020029.39181.rjw@sisk.pl>
+From: Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>
+Subject: Re: 2.6.30-rc4: xfs_fsr hangs
+Date: Sat, 2 May 2009 12:14:05 +0200
+Message-ID: <20090502101405.GA6145@fancy-poultry.org>
+References: <a4423d670905011333s664115bdh1d72392897567c1d@mail.gmail.com>
+Reply-To: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200905020029.39181.rjw-KKrjLPT3xs0@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <a4423d670905011333s664115bdh1d72392897567c1d-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
 
-On Sat, 2 May 2009 00:29:38 +0200
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On 01.05.2009, Alexander Beregalov wrote: 
 
-> From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> # xfs_db -r /dev/sdc1
+> xfs_db> frag
+> actual 23805, ideal 22890, fragmentation factor 3.84%
+> # xfs_fsr -v /dev/sdc1
+> /mnt/c start inode=0
+> ino=158
+> extents before:3 after:1 DONE ino=158
 > 
-> Modify the hibernation memory shrinking code so that it will make
-> memory allocations to free memory instead of using an artificial
-> memory shrinking mechanism for that.  Remove the shrinking of
-> memory from the suspend-to-RAM code, where it is not really
-> necessary.  Finally, remove the no longer used memory shrinking
-> functions from mm/vmscan.c .
-> 
-> ...
->
-> +static long alloc_and_mark_pages(struct memory_bitmap *bm, long nr_pages)
->  {
-> -	if (tmp > SHRINK_BITE)
-> -		tmp = SHRINK_BITE;
-> -	return shrink_all_memory(tmp);
-> +	long nr_normal = 0;
-> +
-> +	while (nr_pages-- > 0) {
-> +		struct page *page;
-> +
-> +		page = alloc_page(GFP_KERNEL | __GFP_HIGHMEM);
-> +		if (!page)
-> +			return -ENOMEM;
-> +		memory_bm_set_bit(bm, page_to_pfn(page));
-> +		if (!PageHighMem(page))
-> +			nr_normal++;
-> +	}
-> +
-> +	return nr_normal;
->  }
+>  then it hangs
 
-Do we need the bitmap?  I expect we can just string all these pages
-onto a local list via page.lru.  Would need to check that - the
-pageframe fields are quite overloaded.
+I can't confirm this here on my systems:
 
+liesel:~ # uname -a
+Linux liesel 2.6.30-rc4 #1 SMP PREEMPT Sat May 2 11:49:13 CEST 2009 x86_64 x86_64 x86_64 GNU/Linux
 
-> ...
->
-> +#define SHRINK_BITE	10000
-> +		long size, highmem_size, ret;
-> +
-> +		highmem_size = count_highmem_pages() - 2 * alloc_highmem;
-> +		size = count_data_pages() + PAGES_FOR_IO + SPARE_PAGES
-> +			- 2 * alloc_normal;
+liesel:~ # xfs_db -r /dev/sdc1
+xfs_db> frag
+actual 42974, ideal 42842, fragmentation factor 0.31%
+xfs_db> quit
 
-It'd be nice if this head-spinning arithmetic were spelled out in a
-comment somewhere.  There are rather a lot of magic-number heuristics
-in here.
-
->  		tmp = size;
->  		size += highmem_size;
->  		for_each_populated_zone(zone) {
-> @@ -621,27 +671,39 @@ int swsusp_shrink_memory(void)
-
-All looks pretty sane to me.
+liesel:~ # xfs_fsr -v /dev/sdc1
+/home start inode=0
+ino=248755507
+ino=248755507 already fully defragmented.
+ino=536871160
+extents before:2 after:1 DONE ino=536871160
+ino=536875693
+extents before:3 after:1 DONE ino=536875693
+ino=615920545
+extents before:2 after:1 DONE ino=615920545
+ino=615920557
+extents before:2 after:1 DONE ino=615920557
+ino=1092324584
+extents before:4 after:1 DONE ino=1092324584
+liesel:~ #
