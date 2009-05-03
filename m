@@ -1,46 +1,52 @@
-From: Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>
-Subject: Re: 2.6.30-rc4: xfs_fsr hangs
-Date: Sat, 02 May 2009 15:14:00 -0500
-Message-ID: <49FCA988.2050600@sandeen.net>
-References: <a4423d670905011333s664115bdh1d72392897567c1d@mail.gmail.com>	 <20090502101405.GA6145@fancy-poultry.org>	 <a4423d670905021135s4fdbea82t20cf75b61c59dc75@mail.gmail.com>	 <49FC9762.6010109@sandeen.net> <a4423d670905021159k51e91b12h96189005980b5e73@mail.gmail.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [PATCH 0/4] PM: Drop shrink_all_memory (rev. 2) (was: Re: [PATCH 3/3] PM/Hibernate: Use memory allocations to free memory)
+Date: Sun, 3 May 2009 02:20:57 +0200
+Message-ID: <200905030220.57933.rjw@sisk.pl>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905021346.34967.rjw@sisk.pl> <20090502104947.2720f173.akpm@linux-foundation.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <a4423d670905021159k51e91b12h96189005980b5e73-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20090502104947.2720f173.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
 
-Alexander Beregalov wrote:
-> 2009/5/2 Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>:
->> Alexander Beregalov wrote:
->>> 2009/5/2 Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>:
->>>> On 01.05.2009, Alexander Beregalov wrote:
->>>>
->>>>> # xfs_db -r /dev/sdc1
->>>>> xfs_db> frag
->>>>> actual 23805, ideal 22890, fragmentation factor 3.84%
->>>>> # xfs_fsr -v /dev/sdc1
->>>>> /mnt/c start inode=0
->>>>> ino=158
->>>>> extents before:3 after:1 DONE ino=158
->>>>>
->>>>>  then it hangs
->>>> I can't confirm this here on my systems:
->>>>
->>>> liesel:~ # uname -a
->>>> Linux liesel 2.6.30-rc4 #1 SMP PREEMPT Sat May 2 11:49:13 CEST 2009 x86_64 x86_64 x86_64 GNU/Linux
->>> I have this problem on two x86_32 hosts.
->>> It runs for about a minute and then hangs.
->> echo w > /proc/sysrq-trigger
->> dmesg
->>
->> would show all the sleeping processes...
-> It is the same as I posted already:
+On Saturday 02 May 2009, Andrew Morton wrote:
+> On Sat, 2 May 2009 13:46:34 +0200 "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> 
+> > > Do we need the bitmap?  I expect we can just string all these pages
+> > > onto a local list via page.lru.  Would need to check that - the
+> > > pageframe fields are quite overloaded.
+> > 
+> > This is the reason why we use the bitmaps for hibernation. :-)
+> 
+> grep the tree for page->lru and you'll see that quite a few page
+> consumers are using it.  So you'd be pretty safe doing it this way.
+> 
+> Whether it's _worth_ doing it this way is debatable, given that
+> hibernation uses bitmaps elsewhere.  But it would shrink the patch a
+> bit I expect?
 
-hum, only 1 thread, interesting...
+It probably would, but it turns out we need not create the new bitmap, we
+can use the existing ones for marking the allocated pages.  That also has
+the benefit that we can use swsusp_free() to release them.
+
+Modified patch series follows:
+
+[1/4] - your patch introducing __GFP_NO_OOM_KILL (I decided it would be better
+        do it this way in this particular case.  The fact that the OOM killer
+        is not going to work after tasks have been frozen is a different issue.)
+
+[2/4] - move swsusp_shrink_memory to snapshot.c, no major changes
+
+[3/4] - use memory allocations to for making the room for the image (added
+        comments, used the existing bitmaps, cleaned up a bit)
+
+[4/4] - new thing: do not release memory allocated by [3/4] and use it for
+        creating the image directly.
 
 Thanks,
--Eric
+Rafael
