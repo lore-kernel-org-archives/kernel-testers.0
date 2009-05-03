@@ -1,50 +1,82 @@
-From: Ed Tomlinson <edt@aei.ca>
-Subject: Re: 2.6.30-rc4: xfs_fsr hangs
-Date: Sat, 2 May 2009 21:47:51 -0400
-Message-ID: <200905022147.52216.edt@aei.ca>
-References: <a4423d670905011333s664115bdh1d72392897567c1d@mail.gmail.com> <a4423d670905021159k51e91b12h96189005980b5e73@mail.gmail.com> <49FCA988.2050600@sandeen.net>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [PATCH 3/4] PM/Hibernate: Use memory allocations to free memory
+ (rev. 2)
+Date: Sat, 2 May 2009 20:06:51 -0700 (PDT)
+Message-ID: <alpine.LFD.2.01.0905021958480.4983@localhost.localdomain>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <20090502104947.2720f173.akpm@linux-foundation.org> <200905030220.57933.rjw@sisk.pl> <200905030224.21471.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753231AbZECBsQ@vger.kernel.org>
-In-Reply-To: <49FCA988.2050600@sandeen.net>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200905030224.21471.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Eric Sandeen <sandeen@sandeen.net>
-Cc: Alexander Beregalov <a.beregalov@gmail.com>, linux-kernel@vger.kernel.org, Heinz Diehl <htd@fancy-poultry.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, xfs@oss.sgi.com
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, pavel-+ZI9xUNit7I@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
 
-On Saturday 02 May 2009 16:14:00 Eric Sandeen wrote:
-> Alexander Beregalov wrote:
-> > 2009/5/2 Eric Sandeen <sandeen@sandeen.net>:
-> >> Alexander Beregalov wrote:
-> >>> 2009/5/2 Heinz Diehl <htd@fancy-poultry.org>:
-> >>>> On 01.05.2009, Alexander Beregalov wrote:
-> >>>>
-> >>>>> # xfs_db -r /dev/sdc1
-> >>>>> xfs_db> frag
-> >>>>> actual 23805, ideal 22890, fragmentation factor 3.84%
-> >>>>> # xfs_fsr -v /dev/sdc1
-> >>>>> /mnt/c start inode=0
-> >>>>> ino=158
-> >>>>> extents before:3 after:1 DONE ino=158
-> >>>>>
-> >>>>>  then it hangs
-> >>>> I can't confirm this here on my systems:
-> >>>>
-> >>>> liesel:~ # uname -a
-> >>>> Linux liesel 2.6.30-rc4 #1 SMP PREEMPT Sat May 2 11:49:13 CEST 2009 x86_64 x86_64 x86_64 GNU/Linux
-> >>> I have this problem on two x86_32 hosts.
-> >>> It runs for about a minute and then hangs.
-> >> echo w > /proc/sysrq-trigger
-> >> dmesg
-> >>
-> >> would show all the sleeping processes...
-> > It is the same as I posted already:
-> 
-> hum, only 1 thread, interesting...
+
+
+On Sun, 3 May 2009, Rafael J. Wysocki wrote:
+>
+> Remove the shrinking of memory from the suspend-to-RAM code, where it is 
+> not really necessary.
+
+Hmm. Shouldn't we do this _regardless_?
+
+IOW, shouldn't this be a totally separate patch? It seems to be left-over 
+from when we shared the same code-paths, and before the split of the STR 
+and hibernate code?
+
+IOW, shouldn't the very _first_ patch just be this part? That code doesn't 
+make any sense anyway (that FREE_PAGE_NUMBER really _is_ totally 
+arbitrary).
+
+This part seems to be totally independent of all the other parts in your 
+patch-series. No?
+
+		Linus
+
+---
+ kernel/power/main.c |   19 +------------------
+ 1 files changed, 1 insertions(+), 18 deletions(-)
+
+diff --git a/kernel/power/main.c b/kernel/power/main.c
+index f99ed6a..e3197e9 100644
+--- a/kernel/power/main.c
++++ b/kernel/power/main.c
+@@ -188,9 +188,6 @@ static void suspend_test_finish(const char *label)
  
-I have also had strange stalls with rc4 (but not with rc3).  In one case sysrq would just print the title of commands no
-data would follow.  Do not know if this is related but it may be that this is not just an xfs issue.
-
-Ed Tomlinson
+ #endif
+ 
+-/* This is just an arbitrary number */
+-#define FREE_PAGE_NUMBER (100)
+-
+ static struct platform_suspend_ops *suspend_ops;
+ 
+ /**
+@@ -241,24 +238,10 @@ static int suspend_prepare(void)
+ 	if (error)
+ 		goto Finish;
+ 
+-	if (suspend_freeze_processes()) {
+-		error = -EAGAIN;
+-		goto Thaw;
+-	}
+-
+-	free_pages = global_page_state(NR_FREE_PAGES);
+-	if (free_pages < FREE_PAGE_NUMBER) {
+-		pr_debug("PM: free some memory\n");
+-		shrink_all_memory(FREE_PAGE_NUMBER - free_pages);
+-		if (nr_free_pages() < FREE_PAGE_NUMBER) {
+-			error = -ENOMEM;
+-			printk(KERN_ERR "PM: No enough memory\n");
+-		}
+-	}
++	error = suspend_freeze_processes();
+ 	if (!error)
+ 		return 0;
+ 
+- Thaw:
+ 	suspend_thaw_processes();
+ 	usermodehelper_enable();
+  Finish:
