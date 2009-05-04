@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [PATCH 1/5] mm: Add __GFP_NO_OOM_KILL flag
-Date: Mon, 4 May 2009 02:10:09 +0200
-Message-ID: <200905040210.10153.rjw@sisk.pl>
+Subject: [PATCH 3/5] PM/Suspend: Do not shrink memory before suspend
+Date: Mon, 4 May 2009 02:12:01 +0200
+Message-ID: <200905040212.02280.rjw@sisk.pl>
 References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905031830.49690.rjw@sisk.pl> <200905040208.43040.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -14,53 +14,61 @@ Content-Type: Text/Plain; charset="us-ascii"
 To: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 Cc: linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
 
-> > Remind me: why can't we just allocate N pages at suspend-time?
-> 
-> We need half of memory free. The reason we can't "just allocate" is
-> probably OOM killer; but my memories are quite weak :-(.
-
-hm.  You'd think that with our splendid range of __GFP_foo falgs, there
-would be some combo which would suit this requirement but I can't
-immediately spot one.
-
-We can always add another I guess.  Something like...
-
-[rjw: fixed white space]
+Remove the shrinking of memory from the suspend-to-RAM code, where
+it is not really necessary.
 
 Signed-off-by: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
 ---
- include/linux/gfp.h |    3 ++-
- mm/page_alloc.c     |    3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ kernel/power/main.c |   20 +-------------------
+ 1 file changed, 1 insertion(+), 19 deletions(-)
 
-Index: linux-2.6/mm/page_alloc.c
+Index: linux-2.6/kernel/power/main.c
 ===================================================================
---- linux-2.6.orig/mm/page_alloc.c
-+++ linux-2.6/mm/page_alloc.c
-@@ -1620,7 +1620,8 @@ nofail_alloc:
- 		}
+--- linux-2.6.orig/kernel/power/main.c
++++ linux-2.6/kernel/power/main.c
+@@ -188,9 +188,6 @@ static void suspend_test_finish(const ch
  
- 		/* The OOM killer will not help higher order allocs so fail */
--		if (order > PAGE_ALLOC_COSTLY_ORDER) {
-+		if (order > PAGE_ALLOC_COSTLY_ORDER ||
-+				(gfp_mask & __GFP_NO_OOM_KILL)) {
- 			clear_zonelist_oom(zonelist, gfp_mask);
- 			goto nopage;
- 		}
-Index: linux-2.6/include/linux/gfp.h
-===================================================================
---- linux-2.6.orig/include/linux/gfp.h
-+++ linux-2.6/include/linux/gfp.h
-@@ -51,8 +51,9 @@ struct vm_area_struct;
- #define __GFP_THISNODE	((__force gfp_t)0x40000u)/* No fallback, no policies */
- #define __GFP_RECLAIMABLE ((__force gfp_t)0x80000u) /* Page is reclaimable */
- #define __GFP_MOVABLE	((__force gfp_t)0x100000u)  /* Page is movable */
-+#define __GFP_NO_OOM_KILL ((__force gfp_t)0x200000u)  /* Don't invoke out_of_memory() */
+ #endif
  
--#define __GFP_BITS_SHIFT 21	/* Room for 21 __GFP_FOO bits */
-+#define __GFP_BITS_SHIFT 22	/* Number of __GFP_FOO bits */
- #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))
+-/* This is just an arbitrary number */
+-#define FREE_PAGE_NUMBER (100)
+-
+ static struct platform_suspend_ops *suspend_ops;
  
- /* This equals 0, but use constants in case they ever change */
+ /**
+@@ -226,7 +223,6 @@ int suspend_valid_only_mem(suspend_state
+ static int suspend_prepare(void)
+ {
+ 	int error;
+-	unsigned int free_pages;
+ 
+ 	if (!suspend_ops || !suspend_ops->enter)
+ 		return -EPERM;
+@@ -241,24 +237,10 @@ static int suspend_prepare(void)
+ 	if (error)
+ 		goto Finish;
+ 
+-	if (suspend_freeze_processes()) {
+-		error = -EAGAIN;
+-		goto Thaw;
+-	}
+-
+-	free_pages = global_page_state(NR_FREE_PAGES);
+-	if (free_pages < FREE_PAGE_NUMBER) {
+-		pr_debug("PM: free some memory\n");
+-		shrink_all_memory(FREE_PAGE_NUMBER - free_pages);
+-		if (nr_free_pages() < FREE_PAGE_NUMBER) {
+-			error = -ENOMEM;
+-			printk(KERN_ERR "PM: No enough memory\n");
+-		}
+-	}
++	error = suspend_freeze_processes();
+ 	if (!error)
+ 		return 0;
+ 
+- Thaw:
+ 	suspend_thaw_processes();
+ 	usermodehelper_enable();
+  Finish:
