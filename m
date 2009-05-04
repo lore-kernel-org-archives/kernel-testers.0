@@ -1,67 +1,78 @@
-From: Dan Williams <dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13116] Can't boot with nosmp
-Date: Sun, 3 May 2009 16:21:37 -0700
-Message-ID: <e9c3a7c20905031621s2a1dc934x11ca1c50859ca75e@mail.gmail.com>
-References: <47KgT3nlbjD.A.lnB.jc48JB@chimera>
-	 <Fg2zLW93smL.A.oGE.Zd48JB@chimera> <49F4DF40.50302@intel.com>
-	 <alpine.DEB.2.00.0904281507240.30946@chino.kir.corp.google.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [PATCH 0/5] PM: Drop shrink_all_memory (rev. 3)
+Date: Mon, 4 May 2009 02:08:41 +0200
+Message-ID: <200905040208.43040.rjw@sisk.pl>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <20090503130818.GC9661@localhost> <200905031830.49690.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:sender:received:in-reply-to
-         :references:date:x-google-sender-auth:message-id:subject:from:to:cc
-         :content-type:content-transfer-encoding;
-        bh=RByp9z9a58ClkcApAunzNv3TrWDvIlCKle3xz+k/gmc=;
-        b=lglvI2WRQZInAQNCDAaTTWkc9N7l/OoKlm2mlQRqWixvBQNUT27DSd0k+zHJrUCA/X
-         6Vt/nWOzXz8CAvT7UKXWK3DuOmIUvtUAWPvAhkdNaE9m1/fZHOFAPs9tqzOVxHh33nuO
-         MVNy6tHM18GW82fydShFeBkWw2YeB7fTgxGI4=
-In-Reply-To: <alpine.DEB.2.00.0904281507240.30946-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+In-Reply-To: <200905031830.49690.rjw-KKrjLPT3xs0@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Tue, Apr 28, 2009 at 3:14 PM, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org> w=
-rote:
-> On Sun, 26 Apr 2009, Dan Williams wrote:
->
->> Rafael J. Wysocki wrote:
->> > This message has been generated automatically as a part of a repor=
-t
->> > of recent regressions.
->> >
->> > The following bug entry is on the current list of known regression=
-s
->> > from 2.6.29. =A0Please verify if it still should be listed and let=
- me know
->> > (either way).
->>
->> This is still unresolved.
->>
->> Stephen, please send your config.
->>
->
-> Given the stack for the initial report, why would a config other than
-> enabling CONFIG_DMA_ENGINE help if there's no ifdefs involved?
+On Sunday 03 May 2009, Rafael J. Wysocki wrote:
+> On Sunday 03 May 2009, Wu Fengguang wrote:
+> > 
+> > Hi Rafael,
+> 
+> Hi,
+> 
+> > I happened to be doing some benchmarks on the older shrink_all_memory(),
+> > Hopefully it can be a useful reference point for the new design.
+> > 
+> > The current swsusp_shrink_memory()/shrink_all_memory() are terribly
+> > inefficient: it takes 7-9s to free up 1.4G memory:
+> 
+> One reason may be that it takes too many steps to do it,
+> 
+> > [  131.899389] PM: Freed 1413380 kbytes in 7.03 seconds (201.04 MB/s)
+> > [  732.757916] PM: Freed 1490116 kbytes in 9.37 seconds (159.03 MB/s)
+> 
+> because the new way doesn't seem to do any better.
+> 
+> > Below are the logs I collected by injecting printks. There are
+> > basically two major problems:
+> > - swsusp_shrink_memory() scans the whole 2G memory again and again;
+> > - shrink_all_memory() is slow. It won't reclaim pages at all with
+> >   small priority values, because it's batching size is 10000 pages.
+> 
+> I know that swsusp_shrink_memory() has problems, that's why I'd like to get rid
+> of it.
+> 
+> > I wonder if it's possible to free up the memory within 1s at all.
+> 
+> I'm not sure.
+> 
+> Apparently, the counting of saveable pages takes substantial time (0.5 s each
+> iteration on my 64-bit test box), so we can improve that by limiting the number
+> of iterations.
+> 
+> Well, perhaps we can do it all in one shot after all, I'll think how to do that.
 
-=2E..because I have been unable to reproduce it and wanted to start
-eliminating differences in our respective setups.  I have booted an
-oversubscribed (8-virtual / 2 physical cpus) kvm instance with 2.6.29
-and have not seen this reproduce.
+I've changed swsusp_shrink_memory() to preallocate all of the pages in one
+iteration.  Although it doesn't seem to improve the speed of memory shrinking,
+the function is simpler in this form.
 
-> This is happening in the for_each_possible_cpu() loop within
-> dma_channel_rebalance(), which makes sense since the machine boots fi=
-ne
-> normally but not with `nosmp'.
->
-> channel_table[] is not being initialized per-cpu for non-online cpus?
+Anyway, updated patch series follows:
 
-I'm grasping, but could this possibly be a kvm quirk whereby
-cpu_possible_map gets out of sync with cpu_online_map in the 'nosmp'
-case?
+[1/5] - the Andrew's patch introducing __GFP_NO_OOM_KILL (I decided it would be
+        better do it this way in this particular case.  The fact that the OOM
+        killer is not going to work after tasks have been frozen is a different
+        issue.)
 
---
-Dan
+[2/5] - move swsusp_shrink_memory to snapshot.c, no major changes
+
+[3/5] - remove the shrinking of memory from suspend code (in a separate patch
+         as requested by Linus)
+
+[4/5] - use memory allocations to for making the room for the image
+
+[5/5] - do not release all memory allocated by [4/5] and use it for
+        creating the image directly (some allocated memory is released).
+
+Thanks,
+Rafael
