@@ -1,41 +1,157 @@
-From: David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH 1/5] mm: Add __GFP_NO_OOM_KILL flag
-Date: Sun, 3 May 2009 17:38:06 -0700 (PDT)
-Message-ID: <alpine.DEB.2.00.0905031734190.24114@chino.kir.corp.google.com>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905031830.49690.rjw@sisk.pl> <200905040208.43040.rjw@sisk.pl> <200905040210.10153.rjw@sisk.pl>
+From: =?UTF-8?B?0JTQsNC90LjQu9CwINCW0YPQutC+0YbQutC40Lk=?= 
+	<optimusgd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13001] PCI-DMA: Out of IOMMU space
+Date: Mon, 4 May 2009 10:27:11 +0500
+Message-ID: <db2b43030905032227u73a41ec3wa511efcef6a22169@mail.gmail.com>
+References: <egHshlwQQFE.A.8CD.mpE9JB@chimera>
+	 <20090428172845R.fujita.tomonori@lab.ntt.co.jp>
+	 <db2b43030904280218v61fded68rc585ce9c58ba1cce@mail.gmail.com>
+	 <20090428184431Z.fujita.tomonori@lab.ntt.co.jp>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756048AbZEDAi1@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
-	t=1241397493; bh=tjrcbwp1UE7hirbt5doNr+WclFs=;
-	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
-	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
-	 Content-Type:X-System-Of-Record; b=AuTs4+cczJxqWxWbd/HKiwMPghOxhSq
-	1fLv0eY8AziQsiJ8mKztYrjA4TKVJ8kOXtsUR/CPbxAnYTqx7F6fgew==
-In-Reply-To: <200905040210.10153.rjw@sisk.pl>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=9ZOxRXkikEOI/2Ln7mHDDCIPdXFLUpevmwKGUgKHnAY=;
+        b=CzG6oiu+LJw4OPHdCaiCIIWBCjQ1D66QhzBl3rmQ5ZadktscExzPmjGzkbbHvUYri4
+         8vQ1mct0s0A4nF4T18LXoZk2wNTBspBFPYmVdSqwKTTmpYOTmaJ4h5YSaYR1zK1N/dYd
+         NFQrCdyjY/IQPhrnnOf52VAlEW3Lz4ZRXqYzc=
+In-Reply-To: <20090428184431Z.fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Wu Fengguang <fengguang.wu@intel.com>, linux-pm@lists.linux-foundation.org, Andrew Morton <akpm@linux-foundation.org>, pavel@ucw.cz, torvalds@linux-foundation.org, jens.axboe@oracle.com, alan-jenkins@tuffmail.co.uk, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+To: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, grundler-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
 
-On Mon, 4 May 2009, Rafael J. Wysocki wrote:
+2009/4/28 FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>:
+> On Tue, 28 Apr 2009 14:18:57 +0500
+> **UNKNOWN CHARSET** <optimusgd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>
+>> No, it is regression. I can reproduce that without allowdac and any
+>> other unnecessary boot options.
+>
+> Hmm, in the bug repport, you said that you can't reproduce the proble=
+m:
+>
+> http://bugzilla.kernel.org/show_bug.cgi?id=3D13001#c15
+>
+> I can't find your comment like, "I can reproduce that without
+> allowdac".
 
-> Index: linux-2.6/mm/page_alloc.c
-> ===================================================================
-> --- linux-2.6.orig/mm/page_alloc.c
-> +++ linux-2.6/mm/page_alloc.c
-> @@ -1620,7 +1620,8 @@ nofail_alloc:
->  		}
->  
->  		/* The OOM killer will not help higher order allocs so fail */
-> -		if (order > PAGE_ALLOC_COSTLY_ORDER) {
-> +		if (order > PAGE_ALLOC_COSTLY_ORDER ||
-> +				(gfp_mask & __GFP_NO_OOM_KILL)) {
->  			clear_zonelist_oom(zonelist, gfp_mask);
->  			goto nopage;
->  		}
+I was under a misapprehension. Later discussion was been in linux-pci
+mailing list
+http://markmail.org/message/pbng73ojpllln5fl
 
-This is inconsistent because __GFP_NO_OOM_KILL now implies __GFP_NORETRY 
-(the "goto nopage" above), but only for allocations with __GFP_FS set and 
-__GFP_NORETRY clear.
+>
+>> In later discussion Grant Grundler ask
+>> me apply patch that show 32 bit dma devices in my system. Results I
+>> attached to bugreport. Looks like only one 32 bit dma device in my
+>> system is ata controller, sata-nv.
+>
+> Hmm, looks like http://bugzilla.kernel.org/attachment.cgi?id=3D20895
+> said that pata_amd and sata_nv use 32bit dma mask.
+>
+>
+>> I can stable reproduce IOMMU out of space when I write data to sata
+>> drive.
+>
+> Ok, let's figure out what's wrong.
+>
+> First, can you test v2.6.30-rc3 with the following patch?
+>
+> http://www.kernel.org/pub/linux/kernel/people/tomo/misc/gart-debug.di=
+ff
+>
+>
+> Note that please enable CONFIG_DMA_API_DEBUG, CONFIG_IOMMU_DEBUG, and
+> CONFIG_IOMMU_LEAK and see if you can reproduce the problem (of course=
+,
+> don't use any kernel option).
+>
+> When the kernel is out of IOMMU space, it prints some useful
+> information.
+>
+
+I can't reproduce bug in 2.6.30-rc3. I read and wrote ~ 100gb data
+from and to sata drive. Dmesg has two warnings during boot,
+
+------------[ cut here ]------------
+WARNING: at lib/dma-debug.c:607 check_unmap+0x542/0x610()
+Hardware name: HP xw9400 Workstation
+3w-9xxx 0001:45:00.0: DMA-API: device driver tries to free DMA memory
+it has not allocated [device address=3D0x0000000000000000] [size=3D36
+bytes]
+Modules linked in:
+Pid: 0, comm: swapper Not tainted 2.6.30-rc3-git7 #1
+Call Trace:
+ <IRQ>  [<ffffffff8023ce2a>] ? warn_slowpath+0xea/0x160
+ [<ffffffff802589ae>] ? sched_clock_cpu+0x6e/0x240
+ [<ffffffff802370a2>] ? scheduler_tick+0xc2/0x220
+ [<ffffffff80259f4b>] ? getnstimeofday+0x5b/0xe0
+ [<ffffffff80256b30>] ? ktime_get_ts+0x30/0x60
+ [<ffffffff80256b6c>] ? ktime_get+0xc/0x50
+ [<ffffffff8021d828>] ? lapic_next_event+0x18/0x20
+ [<ffffffff8025e1d6>] ? tick_dev_program_event+0x36/0xb0
+ [<ffffffff8021e29c>] ? smp_apic_timer_interrupt+0x6c/0xa0
+ [<ffffffff8020bf83>] ? apic_timer_interrupt+0x13/0x20
+ [<ffffffff8023db13>] ? vprintk+0x2d3/0x420
+ [<ffffffff803f0b12>] ? check_unmap+0x542/0x610
+ [<ffffffff803f0d0e>] ? debug_dma_unmap_sg+0xde/0x180
+ [<ffffffff8046c0fb>] ? scsi_dma_unmap+0x6b/0xa0
+ [<ffffffff80472559>] ? twa_interrupt+0x3e9/0x6a0
+ [<ffffffff80256f2d>] ? __hrtimer_start_range_ns+0x12d/0x2b0
+ [<ffffffff8026b3b9>] ? handle_IRQ_event+0x59/0x130
+ [<ffffffff8026d4e1>] ? handle_edge_irq+0xc1/0x160
+ [<ffffffff8020e377>] ? handle_irq+0x17/0x20
+ [<ffffffff8020dae5>] ? do_IRQ+0x65/0xf0
+ [<ffffffff8020be13>] ? ret_from_intr+0x0/0xa
+ <EOI>  [<ffffffff80213182>] ? default_idle+0x42/0x50
+ [<ffffffff802131c4>] ? c1e_idle+0x34/0x100
+ [<ffffffff802581d9>] ? __atomic_notifier_call_chain+0x19/0x50
+ [<ffffffff8020a09a>] ? cpu_idle+0x5a/0xc0
+---[ end trace eedd91b655a6fdac ]---
+
+and
+
+------------[ cut here ]------------
+WARNING: at fs/namei.c:1251 lookup_one_len+0xe9/0x100()
+Hardware name: HP xw9400 Workstation
+Modules linked in: fuse nfs auth_rpcgss lockd sunrpc scsi_wait_scan
+usbhid ohci_hcd usb_storage usb_libusual ehci_hcd usbcore
+Pid: 2807, comm: mount Tainted: G        W  2.6.30-rc3-git7 #1
+Call Trace:
+ [<ffffffff8023ce2a>] ? warn_slowpath+0xea/0x160
+ [<ffffffff80564ac6>] ? printk+0x4e/0x58
+ [<ffffffff8032d8ba>] ? prepare_error_buf+0x51a/0x610
+ [<ffffffff802a0afe>] ? new_slab+0x1ee/0x330
+ [<ffffffff8032da91>] ? reiserfs_info+0x71/0xa0
+ [<ffffffff802b3bb9>] ? lookup_one_len+0xe9/0x100
+ [<ffffffff8033e8bd>] ? reiserfs_xattr_init+0x3d/0xb0
+ [<ffffffff8032c2b3>] ? reiserfs_fill_super+0x663/0xb50
+ [<ffffffff803dfad2>] ? kobject_get+0x12/0x20
+ [<ffffffff80457864>] ? get_device+0x14/0x20
+ [<ffffffff805676b2>] ? __down_write_nested+0xb2/0xc0
+ [<ffffffff802a37e5>] ? kmem_cache_alloc+0x65/0xa0
+ [<ffffffff802ac922>] ? sget+0x3c2/0x410
+ [<ffffffff802acc94>] ? get_sb_bdev+0x174/0x1a0
+ [<ffffffff8032bc50>] ? reiserfs_fill_super+0x0/0xb50
+ [<ffffffff802ab726>] ? vfs_kern_mount+0x56/0xd0
+ [<ffffffff802ab803>] ? do_kern_mount+0x53/0x120
+ [<ffffffff802c450a>] ? do_mount+0x2ba/0x8c0
+ [<ffffffff80568f88>] ? bad_gs+0xc34/0x1e0c
+ [<ffffffff802c4bdd>] ? sys_mount+0xcd/0x100
+ [<ffffffff8020b4eb>] ? system_call_fastpath+0x16/0x1b
+---[ end trace eedd91b655a6fdae ]---
+
+So I hope that bug is gone.
+
+--=20
+=D0=A1 =D1=83=D0=B2=D0=B0=D0=B6=D0=B5=D0=BD=D0=B8=D0=B5=D0=BC =D0=94=D0=
+=B0=D0=BD=D0=B8=D0=BB=D0=B0 =D0=96=D1=83=D0=BA=D0=BE=D1=86=D0=BA=D0=B8=D0=
+=B9, =D1=81=D0=B8=D1=81=D1=82=D0=B5=D0=BC=D0=BD=D1=8B=D0=B9 =D0=B0=D0=B4=
+=D0=BC=D0=B8=D0=BD=D0=B8=D1=81=D1=82=D1=80=D0=B0=D1=82=D0=BE=D1=80 =D0=97=
+=D0=90=D0=9E "=D0=A0=D0=BE=D1=81=D0=BD=D0=B5=D1=84=D1=82=D0=B5=D0=B3=D0=
+=B0=D0=B7=D0=BC=D0=B0=D1=88"
