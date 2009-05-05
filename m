@@ -1,84 +1,71 @@
-From: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 5/5] PM/Hibernate: Do not release preallocated memory
-	unnecessarily (rev. 2)
-Date: Tue, 5 May 2009 10:46:46 +0800
-Message-ID: <20090505024646.GA14621@localhost>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905031830.49690.rjw@sisk.pl> <200905040208.43040.rjw@sisk.pl> <200905040222.39062.rjw@sisk.pl> <20090505022427.GA10880@localhost>
+From: adam radford <aradford@gmail.com>
+Subject: Re: [Bug #13001] PCI-DMA: Out of IOMMU space
+Date: Mon, 4 May 2009 21:31:39 -0700
+Message-ID: <b1bc6a000905042131t3656f14arc98dc4a518543a86@mail.gmail.com>
+References: <egHshlwQQFE.A.8CD.mpE9JB@chimera>
+	 <20090428172845R.fujita.tomonori@lab.ntt.co.jp>
+	 <db2b43030904280218v61fded68rc585ce9c58ba1cce@mail.gmail.com>
+	 <20090428184431Z.fujita.tomonori@lab.ntt.co.jp>
+	 <db2b43030905032227u73a41ec3wa511efcef6a22169@mail.gmail.com>
+	 <da824cf30905041858t2cbd0fa2x4075f387973e2700@mail.gmail.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090505022427.GA10880@localhost>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752680AbZEEEbv@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=Quj/IsQ+EMkAlNUStg16sxfrUIduSJ6IfCwtOozFA5c=;
+        b=IL133ZHkJg1AB3mLt9UN8jcEd+CqeS8UknEbqSYlVfPLwos3jm2iC9yhoKQQKXsaKY
+         0fpBDGb8iHABv5HMag1zXprPMmfNQ2k9xbths1Cg89Av8wvFP2xOMLYc8yAxQSKSvB3/
+         lIIZTdPvvl6VAKUADZMUWDQViZJCOF27yqh0Y=
+In-Reply-To: <da824cf30905041858t2cbd0fa2x4075f387973e2700@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: "linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org" <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "pavel-+ZI9xUNit7I@public.gmane.org" <pavel-+ZI9xUNit7I@public.gmane.org>, "torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org" <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org" <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org" <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="koi8-r"
+To: Grant Grundler <grundler@google.com>
+Cc: =?KOI8-U?B?5MHOyczBIPbVy8/Dy8nK?= <optimusgd@gmail.com>, FUJITA Tomonori <fujita.tomonori@lab.ntt.co.jp>, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org
 
-On Tue, May 05, 2009 at 10:24:27AM +0800, Wu Fengguang wrote:
-> On Mon, May 04, 2009 at 08:22:38AM +0800, Rafael J. Wysocki wrote:
-> > From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> > 
-> > Since the hibernation code is now going to use allocations of memory
-> > to create enough room for the image, it can also use the page frames
-> > allocated at this stage as image page frames.  The low-level
-> > hibernation code needs to be rearranged for this purpose, but it
-> > allows us to avoid freeing a great number of pages and allocating
-> > these same pages once again later, so it generally is worth doing.
-> > 
-> > [rev. 2: Change the strategy of preallocating memory to allocate as
-> >  many pages as needed to get the right image size in one shot (the
-> >  excessive allocated pages are released afterwards).]
-> 
-> Rafael, I tried out your patches and found doubled memory shrink speed!
-> 
-> [  579.641781] PM: Preallocating image memory ... done (allocated 383900 pages, 128000 image pages kept)
-> [  583.087875] PM: Allocated 1535600 kbytes in 3.43 seconds (447.69 MB/s)
- 
-> For you reference, here is the free memory before/after
-> hibernate_preallocate_memory():
-> 
->         # free
->                      total       used       free     shared    buffers     cached
->         Mem:          1933       1917         15          0          0       1845
->         -/+ buffers/cache:         72       1861
->         Swap:            0          0          0
-> 
->         # free
->                      total       used       free     shared    buffers     cached
->         Mem:          1933        920       1012          0          0        356
->         -/+ buffers/cache:        563       1369
->         Swap:            0          0          0
-> 
-> It seems that the preallocated memory is not freed on -ENOMEM.
+2009/5/4 Grant Grundler <grundler@google.com>:
+> 2009/5/3 =E4=C1=CE=C9=CC=C1 =F6=D5=CB=CF=C3=CB=C9=CA <optimusgd@gmail=
+=2Ecom>:
+> ...
+>> WARNING: at lib/dma-debug.c:607 check_unmap+0x542/0x610()
+>> Hardware name: HP xw9400 Workstation
+>> 3w-9xxx 0001:45:00.0: DMA-API: device driver tries to free DMA memor=
+y
+>> it has not allocated [device address=3D0x0000000000000000] [size=3D3=
+6
+>> bytes]
+>
+> This is definitely a driver bug. Just follow the stack trace back to
+> the device driver.
+>
 
-Ah, this was my fault.
+I think this is a regression from the scsi_dma_map()/unmap() changes a =
+while
+back.
 
-I used to do this debugging trick:
-
-        @@ -1207,7 +1207,7 @@ int hibernate_preallocate_memory(void)
-                        pages, size);
-                swsusp_show_speed(&start, &stop, pages, "Allocated");
-
-        -       return 0;
-        +       return -ENOMEM;
-
-          err_out:
-                printk(KERN_CONT "\n");
-
-That "return -ENOMEM" should be "error = -ENOMEM" :-)
-
-Here is one more run:
-
-[  194.016991] PM: Preallocating image memory ... done (allocated 383897 pages, 128000 image pages kept)
-[  196.505999] PM: Allocated 1535588 kbytes in 2.47 seconds (621.69 MB/s)
-
-Now the free report is back to normal:
-
-# free
-             total       used       free     shared    buffers     cached
-Mem:          1933         74       1858          0          0         15
-
+Can you try this patch?
 
 Thanks,
-Fengguang
+
+-Adam
+
+diff -Naur linux-2.6.30-rc4/drivers/scsi/3w-9xxx.c
+linux-2.6.30-rc4.new/drivers/scsi/3w-9xxx.c
+--- linux-2.6.30-rc4/drivers/scsi/3w-9xxx.c	2009-05-04 21:19:49.0000000=
+00 -0700
++++ linux-2.6.30-rc4.new/drivers/scsi/3w-9xxx.c	2009-05-04
+21:23:59.000000000 -0700
+@@ -1978,7 +1978,8 @@
+ {
+ 	struct scsi_cmnd *cmd =3D tw_dev->srb[request_id];
+
+-	scsi_dma_unmap(cmd);
++	if (cmd->SCp.phase =3D=3D TW_PHASE_SGLIST)
++		scsi_dma_unmap(cmd);
+ } /* End twa_unmap_scsi_data() */
+
+ /* scsi_host_template initializer */
