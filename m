@@ -1,53 +1,85 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [PATCH 1/5] mm: Add __GFP_NO_OOM_KILL flag
-Date: Wed, 6 May 2009 01:20:34 +0200
-Message-ID: <200905060120.35698.rjw@sisk.pl>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905060019.36542.rjw@sisk.pl> <20090505153739.2cc9d244.akpm@linux-foundation.org>
+From: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 5/5] PM/Hibernate: Do not release preallocated memory
+	unnecessarily (rev. 2)
+Date: Wed, 6 May 2009 07:40:56 +0800
+Message-ID: <20090505234056.GA6778@localhost>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <20090505022427.GA10880@localhost> <20090505024646.GA14621@localhost> <200905060107.45345.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090505153739.2cc9d244.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <200905060107.45345.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: "linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org" <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "pavel-+ZI9xUNit7I@public.gmane.org" <pavel-+ZI9xUNit7I@public.gmane.org>, "torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org" <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org" <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org" <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Wednesday 06 May 2009, Andrew Morton wrote:
-> On Wed, 6 May 2009 00:19:35 +0200
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > > > +			&& !processes_are_frozen()) {
-> > > >  		if (!try_set_zone_oom(zonelist, gfp_mask)) {
-> > > >  			schedule_timeout_uninterruptible(1);
-> > > >  			goto restart;
+On Wed, May 06, 2009 at 07:07:44AM +0800, Rafael J. Wysocki wrote:
+> On Tuesday 05 May 2009, Wu Fengguang wrote:
+> > On Tue, May 05, 2009 at 10:24:27AM +0800, Wu Fengguang wrote:
+> > > On Mon, May 04, 2009 at 08:22:38AM +0800, Rafael J. Wysocki wrote:
+> > > > From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> > > > 
+> > > > Since the hibernation code is now going to use allocations of memory
+> > > > to create enough room for the image, it can also use the page frames
+> > > > allocated at this stage as image page frames.  The low-level
+> > > > hibernation code needs to be rearranged for this purpose, but it
+> > > > allows us to avoid freeing a great number of pages and allocating
+> > > > these same pages once again later, so it generally is worth doing.
+> > > > 
+> > > > [rev. 2: Change the strategy of preallocating memory to allocate as
+> > > >  many pages as needed to get the right image size in one shot (the
+> > > >  excessive allocated pages are released afterwards).]
 > > > 
-> > > Cool, that looks like the semantics of __GFP_NO_OOM_KILL without requiring 
-> > > a new gfp flag.  Thanks.
+> > > Rafael, I tried out your patches and found doubled memory shrink speed!
+> > > 
+> > > [  579.641781] PM: Preallocating image memory ... done (allocated 383900 pages, 128000 image pages kept)
+> > > [  583.087875] PM: Allocated 1535600 kbytes in 3.43 seconds (447.69 MB/s)
+> >  
+> > > For you reference, here is the free memory before/after
+> > > hibernate_preallocate_memory():
+> > > 
+> > >         # free
+> > >                      total       used       free     shared    buffers     cached
+> > >         Mem:          1933       1917         15          0          0       1845
+> > >         -/+ buffers/cache:         72       1861
+> > >         Swap:            0          0          0
+> > > 
+> > >         # free
+> > >                      total       used       free     shared    buffers     cached
+> > >         Mem:          1933        920       1012          0          0        356
+> > >         -/+ buffers/cache:        563       1369
+> > >         Swap:            0          0          0
+> > > 
+> > > It seems that the preallocated memory is not freed on -ENOMEM.
 > > 
-> > Well, you're welcome.
+> > Ah, this was my fault.
 > > 
-> > BTW, I think that Andrew was actually right when he asked if I checked whether
-> > the existing __GFP_NORETRY would work as-is for __GFP_FS set and
-> > __GFP_NORETRY unset.  Namely, in that case we never reach the code before
-> > nopage: that checks __GFP_NORETRY, do we?
+> > I used to do this debugging trick:
 > > 
-> > So I think we shouldn't modify the 'else if' condition above and check for
-> > !processes_are_frozen() at the beginning of the block below.
-> 
-> Confused.
-> 
-> I'm suspecting that hibernation can allocate its pages with
-> __GFP_FS|__GFP_WAIT|__GFP_NORETRY|__GFP_NOWARN, and the page allocator
-> will dtrt: no oom-killings.
-> 
-> In which case, processes_are_frozen() is not needed at all?
+> >         @@ -1207,7 +1207,7 @@ int hibernate_preallocate_memory(void)
+> >                         pages, size);
+> >                 swsusp_show_speed(&start, &stop, pages, "Allocated");
+> > 
+> >         -       return 0;
+> >         +       return -ENOMEM;
+> > 
+> >           err_out:
+> >                 printk(KERN_CONT "\n");
+> > 
+> > That "return -ENOMEM" should be "error = -ENOMEM" :-)
+> > 
+> > Here is one more run:
+> > 
+> > [  194.016991] PM: Preallocating image memory ... done (allocated 383897 pages, 128000 image pages kept)
+> > [  196.505999] PM: Allocated 1535588 kbytes in 2.47 seconds (621.69 MB/s)
+> > 
+> > Now the free report is back to normal:
+> > 
+> > # free
+> >              total       used       free     shared    buffers     cached
+> > Mem:          1933         74       1858          0          0         15
 
-__GFP_NORETRY alone causes it to fail relatively quickly, but I'll try with
-the combination.
-
-Anyway, even if the hibernation code itself doesn't trigger the OOM killer,
-but anyone else allocates memory in parallel or after we've preallocated the
-image memory, that may still trigger it.  So it seems processes_are_frozen()
-may still be useful?
+The above 'free' still exposed something wrong: only 74M memory are left,
+instead of image_size=500M memory. I'm prepared to test your updated patches :-)
