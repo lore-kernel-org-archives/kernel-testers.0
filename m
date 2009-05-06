@@ -1,78 +1,143 @@
-From: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
-Subject: Re: [Bug #13001] PCI-DMA: Out of IOMMU space
-Date: Wed, 6 May 2009 19:39:29 +0900
-Message-ID: <20090506194012M.fujita.tomonori@lab.ntt.co.jp>
-References: <db2b43030904280218v61fded68rc585ce9c58ba1cce@mail.gmail.com>
-	<20090428184431Z.fujita.tomonori@lab.ntt.co.jp>
-	<db2b43030905032227u73a41ec3wa511efcef6a22169@mail.gmail.com>
+From: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 5/5] PM/Hibernate: Do not release preallocated memory
+	unnecessarily (rev. 2)
+Date: Wed, 6 May 2009 21:30:25 +0800
+Message-ID: <20090506133025.GA25499@localhost>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905040222.39062.rjw@sisk.pl> <20090505022427.GA10880@localhost> <200905060105.10800.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <db2b43030905032227u73a41ec3wa511efcef6a22169-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <200905060105.10800.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: optimusgd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, grundler-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: "linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org" <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "pavel-+ZI9xUNit7I@public.gmane.org" <pavel-+ZI9xUNit7I@public.gmane.org>, "torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org" <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org" <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org" <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, 4 May 2009 10:27:11 +0500
-**UNKNOWN CHARSET** <optimusgd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-
-> 2009/4/28 FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>:
-> > On Tue, 28 Apr 2009 14:18:57 +0500
-> > **UNKNOWN CHARSET** <optimusgd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+On Wed, May 06, 2009 at 07:05:09AM +0800, Rafael J. Wysocki wrote:
+> On Tuesday 05 May 2009, Wu Fengguang wrote:
+> > On Mon, May 04, 2009 at 08:22:38AM +0800, Rafael J. Wysocki wrote:
+> > > From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> > > 
+> > > Since the hibernation code is now going to use allocations of memory
+> > > to create enough room for the image, it can also use the page frames
+> > > allocated at this stage as image page frames.  The low-level
+> > > hibernation code needs to be rearranged for this purpose, but it
+> > > allows us to avoid freeing a great number of pages and allocating
+> > > these same pages once again later, so it generally is worth doing.
+> > > 
+> > > [rev. 2: Change the strategy of preallocating memory to allocate as
+> > >  many pages as needed to get the right image size in one shot (the
+> > >  excessive allocated pages are released afterwards).]
+> > 
+> > Rafael, I tried out your patches and found doubled memory shrink speed!
 > >
-> >> No, it is regression. I can reproduce that without allowdac and any
-> >> other unnecessary boot options.
-> >
-> > Hmm, in the bug repport, you said that you can't reproduce the problem:
-> >
-> > http://bugzilla.kernel.org/show_bug.cgi?id=13001#c15
-> >
-> > I can't find your comment like, "I can reproduce that without
-> > allowdac".
+> > [  579.641781] PM: Preallocating image memory ... done (allocated 383900 pages, 128000 image pages kept)
+> > [  583.087875] PM: Allocated 1535600 kbytes in 3.43 seconds (447.69 MB/s)
 > 
-> I was under a misapprehension. Later discussion was been in linux-pci
-> mailing list
-> http://markmail.org/message/pbng73ojpllln5fl
-
-You didn't CC to me so it was impossible for me to track this bug.
-
-
-> >> In later discussion Grant Grundler ask
-> >> me apply patch that show 32 bit dma devices in my system. Results I
-> >> attached to bugreport. Looks like only one 32 bit dma device in my
-> >> system is ata controller, sata-nv.
-> >
-> > Hmm, looks like http://bugzilla.kernel.org/attachment.cgi?id=20895
-> > said that pata_amd and sata_nv use 32bit dma mask.
-> >
-> >
-> >> I can stable reproduce IOMMU out of space when I write data to sata
-> >> drive.
-> >
-> > Ok, let's figure out what's wrong.
-> >
-> > First, can you test v2.6.30-rc3 with the following patch?
-> >
-> > http://www.kernel.org/pub/linux/kernel/people/tomo/misc/gart-debug.diff
-> >
-> >
-> > Note that please enable CONFIG_DMA_API_DEBUG, CONFIG_IOMMU_DEBUG, and
-> > CONFIG_IOMMU_LEAK and see if you can reproduce the problem (of course,
-> > don't use any kernel option).
-> >
-> > When the kernel is out of IOMMU space, it prints some useful
-> > information.
-> >
+> Unfortunately, I'm observing a regression and a huge one.
 > 
-> I can't reproduce bug in 2.6.30-rc3. I read and wrote ~ 100gb data
-> from and to sata drive. Dmesg has two warnings during boot,
+> On my Atom-based test box with 1 GB of RAM after a fresh boot and starting X
+> with KDE 4 there are ~256 MB free.  To create an image we need to free ~300 MB
+> and that takes ~2 s with the old code and ~15 s with the new one.
+> 
+> It helps to call shrink_all_memory() once with a sufficiently large argument
+> before the preallocation.
 
-Thanks, then let's debug 2.6.29.2.
+Yes there are some strange behaviors. I tried to populate the page
+cache with 1/30 mapped file pages and others normal file pages, all
+referenced once. I get this on "echo disk > /sys/power/state":
 
-http://www.kernel.org/pub/linux/kernel/people/tomo/misc/gart-debug-2.6.29.diff
+[  462.820098] PM: Marking nosave pages: 0000000000001000 - 0000000000006000
+[  462.827161] PM: Marking nosave pages: 000000000009f000 - 0000000000100000
+[  462.834249] PM: Basic memory bitmaps created
+[  462.838631] PM: Syncing filesystems ... done.
+[  463.167805] Freezing user space processes ... (elapsed 0.00 seconds) done.
+[  463.175738] Freezing remaining freezable tasks ... (elapsed 0.00 seconds) done.
+[  463.183834] PM: Preallocating image memory ... done (allocated 383898 pages, 128000 image pages kept)
+[  469.605741] PM: Allocated 1535592 kbytes in 6.41 seconds (239.56 MB/s)
+[  469.612325]
+[  469.768796] Restarting tasks ... done.
+[  469.775044] PM: Basic memory bitmaps freed
 
-As you did with 2.6.30-rc3, enable CONFIG_DMA_API_DEBUG,
-CONFIG_IOMMU_DEBUG, and CONFIG_IOMMU_LEAK and don't use any kernel
-boot option.
+Immediately after that, I copied a big sparse file into memory, and get this:
+
+[  508.097913] PM: Marking nosave pages: 0000000000001000 - 0000000000006000
+[  508.104799] PM: Marking nosave pages: 000000000009f000 - 0000000000100000
+[  508.111702] PM: Basic memory bitmaps created
+[  508.116073] PM: Syncing filesystems ... done.
+[  509.208608] Freezing user space processes ... (elapsed 0.00 seconds) done.
+[  509.216692] Freezing remaining freezable tasks ... (elapsed 0.00 seconds) done.
+[  509.224708] PM: Preallocating image memory ... done (allocated 383872 pages, 128000 image pages kept)
+[  520.951882] PM: Allocated 1535488 kbytes in 11.71 seconds (131.12 MB/s)
+
+It's much worse.
+
+Your patches are really interesting exercises for the vmscan code ;-)
+
+> > +       error = memory_bm_create(&orig_bm, GFP_IMAGE, PG_ANY);
+> > +       if (error)
+> > +               goto err_out;
+> > +
+> > +       error = memory_bm_create(&copy_bm, GFP_IMAGE, PG_ANY);
+> > +       if (error)
+> > +               goto err_out;
+> > 
+> > memory_bm_create() is called a number of times, each time it will
+> > call create_mem_extents()/memory_bm_free(). Can they be optimized to
+> > be called only once?
+> 
+> Possibly, but not right now if you please?  This is just moving code BTW.
+
+OK.
+
+> 
+> > A side note: there are somehow duplicated *_extent_*() logics in the
+> > filesystems, is it possible that we abstract out some of the common code?
+> 
+> I think we can do it, but it really is low priority to me at the moment.
+
+OK. Just was a wild thought.
+
+> 
+> > +       for_each_populated_zone(zone) {
+> > +               size += snapshot_additional_pages(zone);
+> > +               count += zone_page_state(zone, NR_FREE_PAGES);
+> > +               if (!is_highmem(zone))
+> > +                       count -= zone->lowmem_reserve[ZONE_NORMAL];
+> > +       }
+> > 
+> > Why [ZONE_NORMAL] instead of [zone]? ZONE_NORMAL may not always be the largest zone,
+> > for example, My 4GB laptop has a tiny ZONE_NORMAL and a large ZONE_DMA32.
+> 
+> Ah, this is a leftover and it should be changed or even dropped.  Can you
+> please remind me how exactly lowmem_reserve[] is supposed to work?
+
+totalreserve_pages could be better. When free memory drops below that
+threshold(it actually works per zone), kswapd will wake up trying to
+reclaim pages. If the total reclaimable+free pages are as low as
+totalreserve_pages, that would drive kswapd mad - scanning the whole
+zones, trying to squeeze the last pages out of them.  Sure kswapd will
+stop somewhere, but the resulting scan:reclaim ratio would be pretty
+high and therefore hurt performance.
+
+So we shall stop preallocation when reclaimable pages go down to
+something like (5*totalreserve_pages). The vmscan mad may come earlier
+because of unbalanced distributions of reclaimable pages among the zones.
+
+> > At last, I'd express my major concern about the transition to preallocate
+> > based memory shrinking: will it lead to more random swapping IOs?
+> 
+> Hmm.  I don't see immediately why would it.  Maybe the regression I'm seeing
+> is related to that ...
+
+OK. Anyway a preallocate based shrinking policy could be far from optimal. 
+I'd suggest to switch to user space directed shrinking via fadvise(DONTNEED),
+and leave the kernel one a fail safe path.  The user space tool could
+gather page information from the filecache interface which I've been
+maintaining out of tree, and to drop inactive/active pages from large
+files first. That should be a better policy at least for rotational disks.
+
+Thanks,
+Fengguang
