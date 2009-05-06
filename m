@@ -1,8 +1,8 @@
 From: Wu Fengguang <fengguang.wu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH 5/5] PM/Hibernate: Do not release preallocated memory
 	unnecessarily (rev. 2)
-Date: Wed, 6 May 2009 21:52:53 +0800
-Message-ID: <20090506135253.GA26233@localhost>
+Date: Wed, 6 May 2009 21:56:59 +0800
+Message-ID: <20090506135659.GB26233@localhost>
 References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905040222.39062.rjw@sisk.pl> <20090505022427.GA10880@localhost> <200905060105.10800.rjw@sisk.pl>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,10 +11,10 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:received:received:received:date:from:to:cc
          :subject:message-id:references:mime-version:content-type
          :content-disposition:in-reply-to:user-agent;
-        bh=oYIVp+ouTxzT+nN5ze8pyy6lKOE14g9/BBkyfDWLh1E=;
-        b=xmq/m5tkbHm/gKEp1u1v6w0nb1DkcB1fT1oVmObL0sGsxJHuvLGEIQwh7BkqG6VuzA
-         T3BF+luFfc6oVARYaSBAG9/3Y67MyF3zl1tGDreXmJUyNtbioArSUS44Hsp0MWRwreHh
-         JmMBp3vGcrCCqLrJOYEquhdttUSAK+i5IKPuk=
+        bh=TsrZhxT0TxmbT/HNxsw6wJ30LlPYrtKDqb4ZcZWuB2k=;
+        b=VJT3YIu4tFSOyx9hHh+zpl27jqMz5Di93mVoX1H3K6AQqG8P3ymxw5wyVcZQUslOxk
+         Me+zOjznaWo39ta0Vs+Ur+nrARrXNwrxqQY9MuVCSt17qbQ7Yn5tbB92xP+4kTyV499s
+         wkt+q0Iq2X60hjZXn/oo8qfZ/W8q9Goh8BWno=
 Content-Disposition: inline
 In-Reply-To: <200905060105.10800.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -22,7 +22,7 @@ List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: "linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org" <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "pavel-+ZI9xUNit7I@public.gmane.org" <pavel-+ZI9xUNit7I@public.gmane.org>, "torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org" <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org" <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org" <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org" <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "pavel-+ZI9xUNit7I@public.gmane.org" <pavel-+ZI9xUNit7I@public.gmane.org>, "torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org" <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org" <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org" <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 On Wed, May 06, 2009 at 07:05:09AM +0800, Rafael J. Wysocki wrote:
 > On Tuesday 05 May 2009, Wu Fengguang wrote:
@@ -53,100 +53,17 @@ On Wed, May 06, 2009 at 07:05:09AM +0800, Rafael J. Wysocki wrote:
 > 
 > It helps to call shrink_all_memory() once with a sufficiently large argument
 > before the preallocation.
-
-Yes there are some strange behaviors. I tried to populate the page
-cache with 1/30 mapped file pages and others normal file pages, all
-referenced once. I get this on "echo disk > /sys/power/state":
-
-[  462.820098] PM: Marking nosave pages: 0000000000001000 - 0000000000006000
-[  462.827161] PM: Marking nosave pages: 000000000009f000 - 0000000000100000
-[  462.834249] PM: Basic memory bitmaps created
-[  462.838631] PM: Syncing filesystems ... done.
-[  463.167805] Freezing user space processes ... (elapsed 0.00 seconds) done.
-[  463.175738] Freezing remaining freezable tasks ... (elapsed 0.00 seconds) done.
-[  463.183834] PM: Preallocating image memory ... done (allocated 383898 pages, 128000 image pages kept)
-[  469.605741] PM: Allocated 1535592 kbytes in 6.41 seconds (239.56 MB/s)
-[  469.612325]
-[  469.768796] Restarting tasks ... done.
-[  469.775044] PM: Basic memory bitmaps freed
-
-Immediately after that, I copied a big sparse file into memory, and get this:
-
-[  508.097913] PM: Marking nosave pages: 0000000000001000 - 0000000000006000
-[  508.104799] PM: Marking nosave pages: 000000000009f000 - 0000000000100000
-[  508.111702] PM: Basic memory bitmaps created
-[  508.116073] PM: Syncing filesystems ... done.
-[  509.208608] Freezing user space processes ... (elapsed 0.00 seconds) done.
-[  509.216692] Freezing remaining freezable tasks ... (elapsed 0.00 seconds) done.
-[  509.224708] PM: Preallocating image memory ... done (allocated 383872 pages, 128000 image pages kept)
-[  520.951882] PM: Allocated 1535488 kbytes in 11.71 seconds (131.12 MB/s)
-
-It's much worse.
-
-Your patches are really interesting exercises for the vmscan code ;-)
-
-> > +       error = memory_bm_create(&orig_bm, GFP_IMAGE, PG_ANY);
-> > +       if (error)
-> > +               goto err_out;
-> > +
-> > +       error = memory_bm_create(&copy_bm, GFP_IMAGE, PG_ANY);
-> > +       if (error)
-> > +               goto err_out;
-> > 
-> > memory_bm_create() is called a number of times, each time it will
-> > call create_mem_extents()/memory_bm_free(). Can they be optimized to
-> > be called only once?
-> 
-> Possibly, but not right now if you please?  This is just moving code BTW.
-
-OK.
-
-> 
-> > A side note: there are somehow duplicated *_extent_*() logics in the
-> > filesystems, is it possible that we abstract out some of the common code?
-> 
-> I think we can do it, but it really is low priority to me at the moment.
-
-OK. Just was a wild thought.
-
-> 
-> > +       for_each_populated_zone(zone) {
-> > +               size += snapshot_additional_pages(zone);
-> > +               count += zone_page_state(zone, NR_FREE_PAGES);
-> > +               if (!is_highmem(zone))
-> > +                       count -= zone->lowmem_reserve[ZONE_NORMAL];
-> > +       }
-> > 
-> > Why [ZONE_NORMAL] instead of [zone]? ZONE_NORMAL may not always be the largest zone,
-> > for example, My 4GB laptop has a tiny ZONE_NORMAL and a large ZONE_DMA32.
-> 
-> Ah, this is a leftover and it should be changed or even dropped.  Can you
-> please remind me how exactly lowmem_reserve[] is supposed to work?
-
-totalreserve_pages could be better. When free memory drops below that
-threshold(it actually works per zone), kswapd will wake up trying to
-reclaim pages. If the total reclaimable+free pages are as low as
-totalreserve_pages, that would drive kswapd mad - scanning the whole
-zones, trying to squeeze the last pages out of them.  Sure kswapd will
-stop somewhere, but the resulting scan:reclaim ratio would be pretty
-high and therefore hurt performance.
-
-So we shall stop preallocation when reclaimable pages go down to
-something like (5*totalreserve_pages). The vmscan mad may come earlier
-because of unbalanced distributions of reclaimable pages among the zones.
-
+[snip]
 > > At last, I'd express my major concern about the transition to preallocate
 > > based memory shrinking: will it lead to more random swapping IOs?
 > 
 > Hmm.  I don't see immediately why would it.  Maybe the regression I'm seeing
 > is related to that ...
 
-OK. Anyway a preallocate based shrinking policy could be far from optimal. 
-I'd suggest to switch to user space directed shrinking via fadvise(DONTNEED),
-and leave the kernel one a fail safe path.  The user space tool could
-gather page information from the filecache interface which I've been
-maintaining out of tree, and to drop inactive/active pages from large
-files first. That should be a better policy at least for rotational disks.
-
-Thanks,
-Fengguang
+So you do have swap file enabled? hibernate_preallocate_memory() will
+firstly try to allocate as much pages as possible(savable+free), and
+then to free up (allocated-image_size) pages. That means *all*
+swappable pages will be swapped out in the process - that's a major
+performance regression!  And the zones are likely to be *over scanned*
+and go to *all unreclaimable* state! (Hopefully they may be already
+small at the time.)
