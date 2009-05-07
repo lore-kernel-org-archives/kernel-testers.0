@@ -1,92 +1,35 @@
-From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
 Subject: Re: [PATCH 1/5] mm: Add __GFP_NO_OOM_KILL flag
-Date: Thu, 7 May 2009 15:45:02 -0700
-Message-ID: <20090507154502.a7f51dd9.akpm@linux-foundation.org>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera>
-	<200905072218.50782.rjw@sisk.pl>
-	<alpine.DEB.2.00.0905071321440.646@chino.kir.corp.google.com>
-	<200905072238.14558.rjw@sisk.pl>
-	<20090507135615.e7db550d.akpm@linux-foundation.org>
-	<alpine.DEB.2.00.0905071417160.24417@chino.kir.corp.google.com>
-	<20090507145041.9b59f4eb.akpm@linux-foundation.org>
-	<alpine.DEB.2.00.0905071508190.2164@chino.kir.corp.google.com>
+Date: Fri, 8 May 2009 00:50:41 +0200
+Message-ID: <200905080050.41973.rjw@sisk.pl>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905080014.49426.rjw@sisk.pl> <20090507153824.df54658c.akpm@linux-foundation.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.00.0905071508190.2164-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1763381AbZEGWwS@vger.kernel.org>
+In-Reply-To: <20090507153824.df54658c.akpm@linux-foundation.org>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: rjw-KKrjLPT3xs0@public.gmane.org, fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: rientjes@google.com, fengguang.wu@intel.com, linux-pm@lists.linux-foundation.org, pavel@ucw.cz, torvalds@linux-foundation.org, jens.axboe@oracle.com, alan-jenkins@tuffmail.co.uk, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org
 
-On Thu, 7 May 2009 15:16:17 -0700 (PDT)
-David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org> wrote:
-
-> On Thu, 7 May 2009, Andrew Morton wrote:
+On Friday 08 May 2009, Andrew Morton wrote:
+> On Fri, 8 May 2009 00:14:48 +0200
+> "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
 > 
-> > - the standard way of controlling memory allocator behaviour is via
-> >   the gfp_t.  Bypassing that is an unusual step and needs a higher
-> >   level of justification, which I'm not seeing here.
-> > 
+> > IOW, you need to freeze the user space totally before trying to disable the
+> > OOM killer.
 > 
-> The standard way of controlling the oom killer behavior for a zone is via 
-> the ZONE_OOM_LOCKED bit.
-
-oop, I didn't remember/realise that ZONE_OOM_LOCKED already exists.
-
-> > - if we do this via an unusual global, we reduce the chances that
-> >   another subsytem could use the new feature.
-> > 
-> >   I don't know what subsytem that might be, but I bet they're out
-> >   there.  checkpoint-restart, virtual machines, ballooning memory
-> >   drivers, kexec loading, etc.
-> > 
+> Not necessarily.  We only need to take action if a task is about to
+> start oom-killing - presumably by taking a nap.
 > 
-> There's two separate issues here: the use of ZONE_OOM_LOCKED to control 
-> whether or not to invoke the oom killer for a specific zone (which is 
-> already its only function), and the fact that in this case we're doing it 
-> for all zones.  It seems like you're concerned with the latter, but the 
-> distinction in the hibernation case is that no memory freeing would be 
-> possible as the result of the oom killer for _all_ zones, so it makes 
-> sense to lock them all out.
+> If a process is sitting there happily computing pi then we can leave it
+> running.
 
-OK.
+Well, the point is we don't really know what the task is going to do next.
+Is it going to continue computing pi, or is it going to execl(huge_binary), for
+example?
 
-> > > The fact is that _all_ allocations here are implicitly __GFP_NO_OOM_KILL 
-> > > whether it specifies it or not since the oom killer would simply kill a 
-> > > task in D state which can't exit or free memory and subsequent allocations 
-> > > would make the oom killer a no-op because there's an eligible task with 
-> > > TIF_MEMDIE set.  The only thing you're saving with __GFP_NO_OOM_KILL is 
-> > > calling the oom killer in a first place and killing an unresponsive task 
-> > > but that would have to happen anyway when thawed since the system is oom 
-> > > (or otherwise lockup for GFP_KERNEL with order < PAGE_ALLOC_COSTLY_ORDER).
-> > 
-> > All the above is specific to the PM application only, when userspace
-> > tasks are stopped.
-> > 
-> 
-> I'm not arguing that the only way we can ever implement __GFP_NO_OOM_KILL 
-> is for the entire system: we can set ZONE_OOM_LOCKED for only the zones in 
-> the zonelist that are passed to the page allocator.  For this particular 
-> purpose, that is naturally all zones; for other future use cases it may be 
-> chosen only to lock out the zones we're allowed to allocate from in that 
-> context.
-
-OK.
-
-> > It might well end up that stopping userspace (beforehand or before
-> > oom-killing) is a hard requirement for reliably disabling the
-> > oom-killer.
-> 
-> Yes, globally, but future use cases may disable only specific zones such 
-> as with memory hot-remove.
-
-<goes off to find out what ZONE_OOM_LOCKED does>
-
-That took remarkably longer than one would have expected..
-
-Yes, OK, I agree, globally setting ZONE_OOM_LOCKED would produce a
-decent result.
-
-The setting and clearing of that thing looks gruesomely racy..
+If we knew what tasks were going to do in advance, the whole freezing wouldn't
+really be necessary. :-)
