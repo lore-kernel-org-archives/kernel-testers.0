@@ -1,50 +1,106 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [PATCH 1/5] mm: Add __GFP_NO_OOM_KILL flag
-Date: Fri, 8 May 2009 01:24:18 +0200
-Message-ID: <200905080124.19794.rjw@sisk.pl>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905080050.41973.rjw@sisk.pl> <20090507161508.42f586ef.akpm@linux-foundation.org>
+From: Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>
+Subject: Re: 2.6.30-rc4: xfs_fsr hangs
+Date: Thu, 07 May 2009 18:33:16 -0500
+Message-ID: <4A036FBC.9020201@sandeen.net>
+References: <a4423d670905011333s664115bdh1d72392897567c1d@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090507161508.42f586ef.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <a4423d670905011333s664115bdh1d72392897567c1d-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
 
-On Friday 08 May 2009, Andrew Morton wrote:
-> On Fri, 8 May 2009 00:50:41 +0200
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+Alexander Beregalov wrote:
+> # xfs_db -r /dev/sdc1
+> xfs_db> frag
+> actual 23805, ideal 22890, fragmentation factor 3.84%
+> # xfs_fsr -v /dev/sdc1
+> /mnt/c start inode=0
+> ino=158
+> extents before:3 after:1 DONE ino=158
 > 
-> > On Friday 08 May 2009, Andrew Morton wrote:
-> > > On Fri, 8 May 2009 00:14:48 +0200
-> > > "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > > 
-> > > > IOW, you need to freeze the user space totally before trying to disable the
-> > > > OOM killer.
-> > > 
-> > > Not necessarily.  We only need to take action if a task is about to
-> > > start oom-killing - presumably by taking a nap.
-> > > 
-> > > If a process is sitting there happily computing pi then we can leave it
-> > > running.
-> > 
-> > Well, the point is we don't really know what the task is going to do next.
-> > Is it going to continue computing pi, or is it going to execl(huge_binary), for
-> > example?
-> > 
-> > If we knew what tasks were going to do in advance, the whole freezing wouldn't
-> > really be necessary. :-)
-> 
-> argh.  Third time:
-> 
-> - if the task is computing pi, let it do so.
-> 
-> - if the task tries to allocate memory and succeeds, let it proceed.
-> 
-> - if the task tries to allocate memory and fails and then tries to invoke
->   the oom-killer, stop the task.
+>  then it hangs
 
-Understood.
+Ok, yep with the testcase I proposed I see this on the fedora
+2.6.30-rc4.git3 x86 kernel as well:
+
+# for I in `seq 10 -1 0`; do
+ dd if=/dev/zero of=fragfile bs=4k count=1 seek=$I conv=notrunc oflag=sync
+done
+
+# xfs_fsr fragfile
+
+=====================================
+[ BUG: bad unlock balance detected! ]
+-------------------------------------
+xfs_fsr/1459 is trying to release lock (&(&ip->i_iolock)->mr_lock) at:
+[<e248dedb>] xfs_iunlock+0x2c/0x92 [xfs]
+but there are no more locks to release!
+
+other info that might help us debug this:
+no locks held by xfs_fsr/1459.
+
+stack backtrace:
+Pid: 1459, comm: xfs_fsr Not tainted 2.6.30-0.78.rc4.git3.fc12.i586 #1
+Call Trace:
+ [<c07e2f2e>] ? printk+0x22/0x3c
+ [<c0465f34>] print_unlock_inbalance_bug+0xb3/0xd1
+ [<e248dedb>] ? xfs_iunlock+0x2c/0x92 [xfs]
+ [<c04661e2>] lock_release+0xd0/0x1a6
+ [<c04571ce>] up_write+0x29/0x50
+ [<e248dedb>] xfs_iunlock+0x2c/0x92 [xfs]
+ [<e2496bdb>] xfs_swap_extents+0x427/0x4cc [xfs]
+ [<e2496d5a>] xfs_swapext+0xda/0x11c [xfs]
+ [<c0a4586d>] ? kobject_uevent_init+0x30/0x6d
+ [<e24b2386>] xfs_file_ioctl+0x4ac/0x67e [xfs]
+ [<c0592f00>] ? avc_has_perm_noaudit+0x3b1/0x3cc
+ [<e24b1eda>] ? xfs_file_ioctl+0x0/0x67e [xfs]
+ [<c04ec8fa>] vfs_ioctl+0x29/0x91
+ [<c04ecdf8>] do_vfs_ioctl+0x496/0x4e3
+ [<c0a4586d>] ? kobject_uevent_init+0x30/0x6d
+ [<c05946b7>] ? selinux_file_ioctl+0x4d/0x62
+ [<c0a4586d>] ? kobject_uevent_init+0x30/0x6d
+ [<c04ece9a>] sys_ioctl+0x55/0x86
+ [<c040c6cb>] ? syscall_trace_enter+0xea/0x10f
+ [<c040419c>] syscall_call+0x7/0xb
+ [<c0a4586d>] ? kobject_uevent_init+0x30/0x6d
+
+there are 2 subsequent unlocks for the same inode:
+
+1:
+xfs_iunlock: ip ca2304c0 ino 132  flags 0x5
+Pid: 3648, comm: xfs_fsr Not tainted 2.6.30-0.78.rc4.git3.fc12.i586 #1
+Call Trace:
+ [<e3a81ee7>] xfs_iunlock+0x38/0xb9 [xfs]
+ [<e3a82404>] xfs_iput+0x20/0x40 [xfs]
+ [<e3a8793b>] xfs_inode_item_unlock+0x82/0x97 [xfs]
+ [<e3a9a288>] xfs_trans_unlock_chunk+0x96/0xe1 [xfs]
+ [<e3a9a37a>] xfs_trans_unlock_items+0x4f/0xd4 [xfs]
+ [<e3a985a9>] _xfs_trans_commit+0x275/0x307 [xfs]
+ [<e3a8ac27>] xfs_swap_extents+0x403/0x4cc [xfs]
+ [<e3a8adca>] xfs_swapext+0xda/0x11c [xfs]
+ [<e3aa63f6>] xfs_file_ioctl+0x4ac/0x67e [xfs]
+ [<c04ec8fa>] vfs_ioctl+0x29/0x91
+ [<c04ecdf8>] do_vfs_ioctl+0x496/0x4e3
+ [<c04ece9a>] sys_ioctl+0x55/0x86
+ [<c040419c>] syscall_call+0x7/0xb
+
+2:
+xfs_iunlock: ip ca230980 ino 131  flags 0x5
+Pid: 3648, comm: xfs_fsr Not tainted 2.6.30-0.78.rc4.git3.fc12.i586 #1
+Call Trace:
+ [<e3a81ee7>] xfs_iunlock+0x38/0xb9 [xfs]
+ [<e3a8ac4b>] xfs_swap_extents+0x427/0x4cc [xfs]
+ [<e3a8adca>] xfs_swapext+0xda/0x11c [xfs]
+ [<e3aa63f6>] xfs_file_ioctl+0x4ac/0x67e [xfs]
+ [<c04ec8fa>] vfs_ioctl+0x29/0x91
+ [<c04ecdf8>] do_vfs_ioctl+0x496/0x4e3
+ [<c04ece9a>] sys_ioctl+0x55/0x86
+ [<c040419c>] syscall_call+0x7/0xb
+
+Looking into it ... not sure offhand what caused this.
+
+-Eric
