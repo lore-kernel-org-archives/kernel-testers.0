@@ -1,87 +1,32 @@
-From: Felix Blyakher <felixb-sJ/iWh9BUns@public.gmane.org>
-Subject: Re: 2.6.30-rc4: xfs_fsr hangs
-Date: Thu, 7 May 2009 20:17:49 -0500
-Message-ID: <A84486DD-0769-45A8-B858-63082457D497@sgi.com>
-References: <a4423d670905011333s664115bdh1d72392897567c1d@mail.gmail.com> <4A036FBC.9020201@sandeen.net> <4A037503.1070904@sandeen.net> <ABCCDF18-5100-4891-AF1C-BA9513C8A334@sgi.com> <4A038651.5010202@sandeen.net>
-Mime-Version: 1.0 (Apple Message framework v930.3)
+From: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH 1/5] mm: Add __GFP_NO_OOM_KILL flag
+Date: Fri, 8 May 2009 10:16:51 +0900
+Message-ID: <20090508101651.aa4d513d.kamezawa.hiroyu@jp.fujitsu.com>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera>
+	<20090507154502.a7f51dd9.akpm@linux-foundation.org>
+	<alpine.DEB.2.00.0905071554490.10759@chino.kir.corp.google.com>
+	<200905080111.31273.rjw@sisk.pl>
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4A038651.5010202-+82itfer+wXR7s880joybQ@public.gmane.org>
+In-Reply-To: <200905080111.31273.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"; delsp="yes"
-To: Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>
-Cc: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
+On Fri, 8 May 2009 01:11:30 +0200
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-On May 7, 2009, at 8:09 PM, Eric Sandeen wrote:
+> +	for_each_populated_zone(zone)
+> +		zone_set_flag(zone, ZONE_OOM_LOCKED);
 
-> Felix Blyakher wrote:
->
->> I've been chasing this as well, and I found the double xfs iolock
->> unlock which is causing xfs_fsr deadlock itself. I have a fix tested.
->> The patch is coming.
->>
->> Felix
->>
-> Oh :)  I just sent this one to the list ...  :)
-
-Oh :) And I did as well.
-
-And guess what, the fix is exactly the same.
-Great minds think alike :)
-
-Felix
-
->
->
-> XFS: Fix double unlock of inodes in xfs_swap_extents()
->
-> commit ef8f7fc549bf345d92f396f5aa7b152b4969cbf7 had an error
-> where we would try to re-unlock the inodes after they had been
-> committed in the transaction; this double unlock caused a
->
-> =====================================
-> [ BUG: bad unlock balance detected! ]
-> -------------------------------------
-> xfs_fsr/1459 is trying to release lock (&(&ip->i_iolock)->mr_lock) at:
-> [<e248dedb>] xfs_iunlock+0x2c/0x92 [xfs]
-> but there are no more locks to release!
->
-> Signed-off-by: Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>
-> ---
->
-> Index: linux-2.6/fs/xfs/xfs_dfrag.c
-> ===================================================================
-> --- linux-2.6.orig/fs/xfs/xfs_dfrag.c
-> +++ linux-2.6/fs/xfs/xfs_dfrag.c
-> @@ -347,13 +347,15 @@ xfs_swap_extents(
->
-> 	error = xfs_trans_commit(tp, XFS_TRANS_SWAPEXT);
->
-> -out_unlock:
-> -	xfs_iunlock(ip,  XFS_ILOCK_EXCL | XFS_IOLOCK_EXCL);
-> -	xfs_iunlock(tip, XFS_ILOCK_EXCL | XFS_IOLOCK_EXCL);
-> out:
-> 	kmem_free(tempifp);
-> 	return error;
->
-> +out_unlock:
-> +	xfs_iunlock(ip,  XFS_ILOCK_EXCL | XFS_IOLOCK_EXCL);
-> +	xfs_iunlock(tip, XFS_ILOCK_EXCL | XFS_IOLOCK_EXCL);
-> +	goto out;
+> +	for_each_populated_zone(zone)
+> +		zone_clear_flag(zone, ZONE_OOM_LOCKED);
 > +
-> out_trans_cancel:
-> 	xfs_trans_cancel(tp, 0);
-> 	goto out_unlock;
->
->
->
->
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux- 
-> kernel" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> Please read the FAQ at  http://www.tux.org/lkml/
+
+Isn't it better to make above 2 be functions and move to mm/oom_kill.c ?
+
+Thanks,
+-Kame
