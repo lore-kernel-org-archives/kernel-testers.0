@@ -1,32 +1,62 @@
-From: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH 1/5] mm: Add __GFP_NO_OOM_KILL flag
-Date: Fri, 8 May 2009 10:16:51 +0900
-Message-ID: <20090508101651.aa4d513d.kamezawa.hiroyu@jp.fujitsu.com>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera>
-	<20090507154502.a7f51dd9.akpm@linux-foundation.org>
-	<alpine.DEB.2.00.0905071554490.10759@chino.kir.corp.google.com>
-	<200905080111.31273.rjw@sisk.pl>
+From: Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>
+Subject: Re: [PATCH] xfs: fix double unlock in xfs_swap_extents()
+Date: Thu, 07 May 2009 21:57:09 -0500
+Message-ID: <4A039F85.8010506@sandeen.net>
+References: <1241745202-7452-1-git-send-email-felixb@sgi.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200905080111.31273.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <1241745202-7452-1-git-send-email-felixb-sJ/iWh9BUns@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Felix Blyakher <felixb-sJ/iWh9BUns@public.gmane.org>
+Cc: xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-On Fri, 8 May 2009 01:11:30 +0200
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+Felix Blyakher wrote:
+> Regreesion from commit ef8f7fc, which rearranged the code in
+> xfs_swap_extents() leading to double unlock of xfs inode iolock.
+> That resulted in xfs_fsr deadlocking itself on platforms, which
+> don't handle double unlock of rw_semaphore nicely. It caused the
+> count go negative, which represents the write holder, without
+> really having one. ia64 is one of the platforms where deadlock
+> was easily reproduced and the fix was tested.
+> 
+> Signed-off-by: Felix Blyakher <felixb-sJ/iWh9BUns@public.gmane.org>
 
-> +	for_each_populated_zone(zone)
-> +		zone_set_flag(zone, ZONE_OOM_LOCKED);
+Also-written-by: Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>
+Independently-arrived-at-by: Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>
 
-> +	for_each_populated_zone(zone)
-> +		zone_clear_flag(zone, ZONE_OOM_LOCKED);
+;)
+
+But seriously ...
+
+Reviewed-by: Eric Sandeen <sandeen-+82itfer+wXR7s880joybQ@public.gmane.org>
+
+> ---
+>  fs/xfs/xfs_dfrag.c |    8 +++++---
+>  1 files changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/xfs/xfs_dfrag.c b/fs/xfs/xfs_dfrag.c
+> index e6d839b..7465f9e 100644
+> --- a/fs/xfs/xfs_dfrag.c
+> +++ b/fs/xfs/xfs_dfrag.c
+> @@ -347,13 +347,15 @@ xfs_swap_extents(
+>  
+>  	error = xfs_trans_commit(tp, XFS_TRANS_SWAPEXT);
+>  
+> -out_unlock:
+> -	xfs_iunlock(ip,  XFS_ILOCK_EXCL | XFS_IOLOCK_EXCL);
+> -	xfs_iunlock(tip, XFS_ILOCK_EXCL | XFS_IOLOCK_EXCL);
+>  out:
+>  	kmem_free(tempifp);
+>  	return error;
+>  
+> +out_unlock:
+> +	xfs_iunlock(ip,  XFS_ILOCK_EXCL | XFS_IOLOCK_EXCL);
+> +	xfs_iunlock(tip, XFS_ILOCK_EXCL | XFS_IOLOCK_EXCL);
+> +	goto out;
 > +
-
-Isn't it better to make above 2 be functions and move to mm/oom_kill.c ?
-
-Thanks,
--Kame
+>  out_trans_cancel:
+>  	xfs_trans_cancel(tp, 0);
+>  	goto out_unlock;
