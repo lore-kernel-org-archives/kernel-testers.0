@@ -1,99 +1,38 @@
-From: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/5] mm: Add __GFP_NO_OOM_KILL flag
-Date: Sat, 9 May 2009 15:34:17 +0800
-Message-ID: <20090509073417.GB6487@localhost>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <20090508095010.GA26398@localhost> <200905081551.56577.rjw@sisk.pl> <200905090208.44381.rjw@sisk.pl>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: 2.6.30-rc2-git2: Reported regressions from 2.6.29
+Date: Sat, 9 May 2009 09:24:51 -0700 (PDT)
+Message-ID: <alpine.LFD.2.01.0905090923370.3586@localhost.localdomain>
+References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
+	<200904202208.23899.laurent.pinchart@skynet.be>
+	<d82e647a0904201847n403424efnb5a0c40a4cac365d@mail.gmail.com>
+	<200904220121.12002.laurent.pinchart@skynet.be>
+	<20090509112819.759594d5@linux-lm>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <200905090208.44381.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org" <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, "pavel-+ZI9xUNit7I@public.gmane.org" <pavel-+ZI9xUNit7I@public.gmane.org>, "torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org" <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org" <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org" <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+In-Reply-To: <20090509112819.759594d5@linux-lm>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
+List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
+List-Post: <mailto:linux-pm@lists.linux-foundation.org>
+List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
+List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
+Sender: linux-pm-bounces@lists.linux-foundation.org
+Errors-To: linux-pm-bounces@lists.linux-foundation.org
+To: Ming Lei <tom.leiming@gmail.com>
+Cc: Adrian Bunk <bunk@kernel.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Natalie Protasevich <protasnb@gmail.com>, mchehab@infradead.org, Linux ACPI <linux-acpi@vger.kernel.org>, video4linux-list@redhat.com, Laurent Pinchart <laurent.pinchart@skynet.be>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>
 
-On Sat, May 09, 2009 at 08:08:43AM +0800, Rafael J. Wysocki wrote:
-> On Friday 08 May 2009, Rafael J. Wysocki wrote:
-> > On Friday 08 May 2009, Wu Fengguang wrote:
-> [--snip--]
-> > > But hey, that 'count' counts "savable+free" memory.
-> > > We don't have a counter for an estimation of "free+freeable" memory,
-> > > ie. we are sure we cannot preallocate above that threshold. 
-> > > 
-> > > One applicable situation is, when there are 800M anonymous memory,
-> > > but only 500M image_size and no swap space.
-> > > 
-> > > In that case we will otherwise goto the oom code path. Sure oom is
-> > > (and shall be) reliably disabled in hibernation, but still we shall be
-> > > cautious enough not to create a low memory situation, which will hurt:
-> > > - hibernation speed
-> > >   (vmscan goes mad trying to squeeze the last free page)
-> > > - user experiences after resume
-> > >   (all *active* file data and metadata have to reloaded)
-> > 
-> > Strangely enough, my recent testing with this patch doesn't confirm the
-> > theory. :-)  Namely, I set image_size too low on purpose and it only caused
-> > preallocate_image_memory() to return NULL at one point and that was it.
-> > 
-> > It didn't even took too much time.
-> > 
-> > I'll carry out more testing to verify this observation.
+
+
+On Sat, 9 May 2009, Ming Lei wrote:
 > 
-> I can confirm that even if image_size is below the minimum we can get,
+> Rc5 has been released today, why isn't this patch accepted by upstream
+> now?  It is really a bug fix.
 
-Which minimum please?
+I can take it directly, but was hoping to get it through the regular DVB 
+tree. Haven't had a DVB update request yet (or maybe it got lost?)
 
-> the second preallocate_image_memory() just returns after allocating fewer pages
-> that it's been asked for (that's with the original __GFP_NO_OOM_KILL-based
-> approach, as I wrote in the previous message in this thread) and nothing bad
-> happens.
->
-> That may be because we freeze the mm kernel threads, but I've also tested
-> without freezing them and it's still worked the same way.
-> 
-> > > The current code simply tries *too hard* to meet image_size.
-> > > I'd rather take that as a mild advice, and to only free
-> > > "free+freeable-margin" pages when image_size is not approachable.
-> > > 
-> > > The safety margin can be totalreserve_pages, plus enough pages for
-> > > retaining the "hard core working set".
-> > 
-> > How to compute the size of the "hard core working set", then?
-> 
-> Well, I'm still interested in the answer here. ;-)
-
-A tough question ;-)
-
-We can start with the following formula, this should be called *after*
-the initial memory shrinking.
-
-/* a typical desktop do not have more than 100MB mapped pages */
-#define MAX_MMAP_PAGES  (100 << (20 - PAGE_SHIFT))
-unsigned long hard_core_working_set(void)
-{
-        unsigned long nr;
-
-        /*
-         * mapped pages are normally small and precious,
-         * but shall be bounded for safety.
-         */
-        nr = global_page_state(NR_FILE_MAPPED);
-        nr = min_t(unsigned long, nr, MAX_MMAP_PAGES);
-
-        /*
-         * if no swap space, this is a hard request;
-         * otherwise this is an optimization.
-         * (the disk image IO can be much faster than swap IO)
-         */
-        nr += global_page_state(NR_ACTIVE_ANON);
-        nr += global_page_state(NR_INACTIVE_ANON);
-
-        /* hard (but normally small) memory requests */
-        nr += global_page_state(NR_SLAB_UNRECLAIMABLE);
-        nr += global_page_state(NR_UNEVICTABLE);
-        nr += global_page_state(NR_PAGETABLE);
-
-        return nr;
-}
+		Linus
