@@ -1,61 +1,46 @@
-From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH 1/5] mm: Add __GFP_NO_OOM_KILL flag
-Date: Sat, 9 May 2009 14:22:48 -0700 (PDT)
-Message-ID: <alpine.DEB.2.00.0905091415310.1124@chino.kir.corp.google.com>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905072218.50782.rjw@sisk.pl> <alpine.DEB.2.00.0905071321440.646@chino.kir.corp.google.com> <200905090155.44635.rjw@sisk.pl>
+From: Mauro Carvalho Chehab <mchehab@infradead.org>
+Subject: Re: 2.6.30-rc2-git2: Reported regressions from 2.6.29
+Date: Sat, 9 May 2009 18:37:12 -0300
+Message-ID: <20090509183712.54ac4c79@pedra.chehab.org>
+References: <EJaiQ4Wfaz.A.3YG.4v85JB@chimera>
+	<200904202208.23899.laurent.pinchart@skynet.be>
+	<d82e647a0904201847n403424efnb5a0c40a4cac365d@mail.gmail.com>
+	<200904220121.12002.laurent.pinchart@skynet.be>
+	<20090509112819.759594d5@linux-lm>
+	<alpine.LFD.2.01.0905090923370.3586@localhost.localdomain>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
-	t=1241904175; bh=sIpjOQLqMJxuwI3RYk11FfJ0HJM=;
-	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
-	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
-	 Content-Type:X-System-Of-Record; b=lQYOpgxh20B/S8knvcDu0p9URx49LfW
-	zKYDx7tZZ9BM6TttUnbrINkI3p4BCmV5/dAj7cB5ytqUvgNssJDA+pQ==
-In-Reply-To: <200905090155.44635.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, pavel-+ZI9xUNit7I@public.gmane.org, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Return-path: <linux-scsi-owner@vger.kernel.org>
+In-Reply-To: <alpine.LFD.2.01.0905090923370.3586@localhost.localdomain>
+Sender: linux-scsi-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Ming Lei <tom.leiming@gmail.com>, Laurent Pinchart <laurent.pinchart@skynet.be>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, video4linux-list@redhat.com
 
-On Sat, 9 May 2009, Rafael J. Wysocki wrote:
+Em Sat, 9 May 2009 09:24:51 -0700 (PDT)
+Linus Torvalds <torvalds@linux-foundation.org> escreveu:
 
-> > All of your tasks are in D state other than kthreads, right?  That means 
-> > they won't be in the oom killer (thus no zones are oom locked), so you can 
-> > easily do this
-> > 
-> > 	struct zone *z;
-> > 	for_each_populated_zone(z)
-> > 		zone_set_flag(z, ZONE_OOM_LOCKED);
-> > 
-> > and then
-> > 
-> > 	for_each_populated_zone(z)
-> > 		zone_clear_flag(z, ZONE_OOM_LOCKED);
-> > 
-> > The serialization is done with trylocks so this will never invoke the oom 
-> > killer because all zones in the allocator's zonelist will be oom locked.
 > 
-> Well, that might have been a good idea if it actually had worked. :-(
 > 
-> > Why does this not work for you?
+> On Sat, 9 May 2009, Ming Lei wrote:
+> > 
+> > Rc5 has been released today, why isn't this patch accepted by upstream
+> > now?  It is really a bug fix.
+
+
 > 
-> If I set image_size to something below "hard core working set" +
-> totalreserve_pages, preallocate_image_memory() hangs the
-> box (please refer to the last patch I sent,
-> http://patchwork.kernel.org/patch/22423/).
+> I can take it directly, but was hoping to get it through the regular DVB 
+> tree. Haven't had a DVB update request yet (or maybe it got lost?)
 > 
+> 		Linus
 
-This has been changed in the latest mmotm with Mel's page alloactor 
-patches (and I think yours should be based on mmotm).  Specifically, 
-page-allocator-break-up-the-allocator-entry-point-into-fast-and-slow-paths.patch.
+The patch were added on my linux-next tree. I'll move it to the tree I handle
+bug fixes and I'll ask Linus to pull from it together with a few other fixes I
+have there, later today or tomorrow.
 
-Before his patchset, zonelists that had ZONE_OOM_LOCKED set for at least 
-one of their zones would unconditionally goto restart.  Now, if
-order > PAGE_ALLOC_COSTLY_ORDER, it gives up and returns NULL.  Otherwise, 
-it does goto restart.
 
-So if your allocation has order > PAGE_ALLOC_COSTLY_ORDER, using the 
-ZONE_OOM_LOCKED approach to locking out the oom killer will work just fine 
-in mmotm.
+
+
+Cheers,
+Mauro
