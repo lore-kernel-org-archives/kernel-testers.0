@@ -1,59 +1,42 @@
-From: Jeff Mahoney <jeffm@suse.com>
-Subject: Re: 2.6.30-rc5: reiserfs is broken on parisc (bisected)
-Date: Tue, 12 May 2009 13:20:17 -0400
-Message-ID: <4A09AFD1.5090604@suse.com>
-References: <a4423d670905120940r5de3eab7v7e8e92d89107b962@mail.gmail.com>
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH 1/5] mm: Add __GFP_NO_OOM_KILL flag
+Date: Tue, 12 May 2009 10:50:59 -0700
+Message-ID: <20090512105059.30fb93c2.akpm@linux-foundation.org>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905120128.16780.rjw@sisk.pl>
+	<20090511171111.9d74e4c0.akpm@linux-foundation.org>
+	<200905121852.37224.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <reiserfs-devel-owner@vger.kernel.org>
-In-Reply-To: <a4423d670905120940r5de3eab7v7e8e92d89107b962@mail.gmail.com>
-Sender: reiserfs-devel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alexander Beregalov <a.beregalov@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-parisc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, reiserfs-devel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+In-Reply-To: <200905121852.37224.rjw@sisk.pl>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
+List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
+List-Post: <mailto:linux-pm@lists.linux-foundation.org>
+List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
+List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
+Sender: linux-pm-bounces@lists.linux-foundation.org
+Errors-To: linux-pm-bounces@lists.linux-foundation.org
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: kernel-testers@vger.kernel.org, mel@csn.ul.ie, rientjes@google.com, linux-kernel@vger.kernel.org, alan-jenkins@tuffmail.co.uk, jens.axboe@oracle.com, linux-pm@lists.linux-foundation.org, fengguang.wu@intel.com, torvalds@linux-foundation.org
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+On Tue, 12 May 2009 18:52:36 +0200 "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
 
-Alexander Beregalov wrote:
-> Hi
-> 
-> ab17c4f02156c4f75d7fa43a5aa2a7f942d47201 is the first bad commit
-> (reiserfs: fixup xattr_root caching)
-> 
-> Kernel panics when init tries to remount rootfs (reiserfs) with
-> read-write access.
-> Read-only access works fine.
-> 
-> No more messages on the screen before panic.
-> 
-> Is it endianess related?
+> Well, what about the following?
 
-No, not at all. There was a problem with the xattr code if the kernel
-was built with xattrs disabled. It assumed that
-REISERFS_SB(s)->xattr_root would be available, which isn't the case when
-xattrs aren't enabled. Part of it has been cleaned up in -git1, and I've
-sent Al some additional patches to fix the rest of it up.
+It has the virtue of simplicity.
 
-There's a thread called "reiserfs xattr fixups" that contains 4 patches.
-The patch marked with * is the one I believe will fix your problem.
+> +static inline void disable_oom_killer(void)
+> +{
+> +	oom_killer_disabled = true;
+> +}
+> +
+> +static inline void enable_oom_killer(void)
+> +{
+> +	oom_killer_disabled = false;
+> +}
 
-- - reiserfs: cleanup ifdefs
-- - reiserfs: deal with NULL xattr root w/ xattrs disabled *
-- - reiserfs: fixup perms when xattrs are disabled
-- - reiserfs: allow exposing privroot w/ xattrs enabled
-
-- -Jeff
-
-- --
-Jeff Mahoney
-SUSE Labs
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.9 (GNU/Linux)
-Comment: Using GnuPG with SUSE - http://enigmail.mozdev.org
-
-iEYEARECAAYFAkoJr9EACgkQLPWxlyuTD7JbfACfSV+WiMxReRCr/YRDT8IBf7M8
-jVkAn3fhf3R1i5cyi/YJ+vtO/WTd6Lre
-=90Xq
------END PGP SIGNATURE-----
+I'll change these to oom_killer_disable() and oom_killer_enable(), OK?
