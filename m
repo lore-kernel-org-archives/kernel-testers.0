@@ -1,36 +1,59 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [PATCH 1/5] mm: Add __GFP_NO_OOM_KILL flag
-Date: Tue, 12 May 2009 22:40:32 +0200
-Message-ID: <200905122240.33384.rjw@sisk.pl>
-References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905121852.37224.rjw@sisk.pl> <20090512105059.30fb93c2.akpm@linux-foundation.org>
+From: Alexander Beregalov <a.beregalov@gmail.com>
+Subject: Re: 2.6.30-rc5: reiserfs is broken on parisc (bisected)
+Date: Thu, 14 May 2009 15:04:13 +0400
+Message-ID: <a4423d670905140404n719f21f3jd841bf6fed3fd7be@mail.gmail.com>
+References: <a4423d670905120940r5de3eab7v7e8e92d89107b962@mail.gmail.com>
+	 <4A09AFD1.5090604@suse.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090512105059.30fb93c2.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <reiserfs-devel-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=VUyx8W1OiGP24fav96lUabGtfWGzOd4Cu7ajnC5TjBI=;
+        b=pwC7+K0mUCKi39pr2rlUnFZJebBMYga3qkhXrTjDVZNBBEQ5aZh/HtPLEsHzKsg/A4
+         cKJ7oJZujF3Dos1uOFVqFtK9e4KFynFTAceSQtnaRdhfggJOXfM4XxEsR+D9iOa4D22j
+         RNpnujNgLPmvsMTYf0wlNBLAwWycxI65xUtEU=
+In-Reply-To: <4A09AFD1.5090604@suse.com>
+Sender: reiserfs-devel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, pavel-+ZI9xUNit7I@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Jeff Mahoney <jeffm@suse.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-parisc@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, reiserfs-devel@vger.kernel.org
 
-On Tuesday 12 May 2009, Andrew Morton wrote:
-> On Tue, 12 May 2009 18:52:36 +0200 "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > Well, what about the following?
-> 
-> It has the virtue of simplicity.
-> 
-> > +static inline void disable_oom_killer(void)
-> > +{
-> > +	oom_killer_disabled = true;
-> > +}
-> > +
-> > +static inline void enable_oom_killer(void)
-> > +{
-> > +	oom_killer_disabled = false;
-> > +}
-> 
-> I'll change these to oom_killer_disable() and oom_killer_enable(), OK?
-
-Works for me, thanks!
+2009/5/12 Jeff Mahoney <jeffm@suse.com>:
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA1
+>
+> Alexander Beregalov wrote:
+>> Hi
+>>
+>> ab17c4f02156c4f75d7fa43a5aa2a7f942d47201 is the first bad commit
+>> (reiserfs: fixup xattr_root caching)
+>>
+>> Kernel panics when init tries to remount rootfs (reiserfs) with
+>> read-write access.
+>> Read-only access works fine.
+>>
+>> No more messages on the screen before panic.
+>>
+>> Is it endianess related?
+>
+> No, not at all. There was a problem with the xattr code if the kernel
+> was built with xattrs disabled. It assumed that
+> REISERFS_SB(s)->xattr_root would be available, which isn't the case when
+> xattrs aren't enabled. Part of it has been cleaned up in -git1, and I've
+> sent Al some additional patches to fix the rest of it up.
+>
+> There's a thread called "reiserfs xattr fixups" that contains 4 patches.
+> The patch marked with * is the one I believe will fix your problem.
+>
+> - - reiserfs: cleanup ifdefs
+> - - reiserfs: deal with NULL xattr root w/ xattrs disabled *
+> - - reiserfs: fixup perms when xattrs are disabled
+> - - reiserfs: allow exposing privroot w/ xattrs enabled
+>
+It works!
+Thanks Jeff.
