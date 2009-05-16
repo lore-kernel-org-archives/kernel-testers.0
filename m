@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13025] After upgrading to kernel 2.6.29, pulseaudio stopped with some strange error
-Date: Sat, 16 May 2009 22:06:00 +0200 (CEST)
-Message-ID: <pQ9WADCjgyE.A.C_G.hA0DKB@chimera>
+Subject: [Bug #13001] PCI-DMA: Out of IOMMU space
+Date: Sat, 16 May 2009 22:05:59 +0200 (CEST)
+Message-ID: <pQ9WADCjgyE.A.EGH.sA0DKB@chimera>
 References: <yO1BmxN79sN.A.xAG.8_zDKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, Yaroslav Isakov <yaroslav.isakov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>, Grant Grundler <grundler-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, optimusgd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.28 and 2.6.29.
@@ -22,8 +22,9 @@ introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13025
-Subject		: After upgrading to kernel 2.6.29, pulseaudio stopped with some strange error
-Submitter	: Yaroslav Isakov <yaroslav.isakov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-04-06 19:47 (41 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13001
+Subject		: PCI-DMA: Out of IOMMU space
+Submitter	:  <optimusgd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-04-03 09:30 (44 days old)
+References	: http://lkml.org/lkml/2009/4/28/133
 
