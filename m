@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13324] panic when loading oprofile
-Date: Sat, 16 May 2009 21:20:47 +0200 (CEST)
-Message-ID: <385Pu-agh7M.A.08H.cYzDKB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #13328] b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
+Date: Sat, 16 May 2009 21:20:49 +0200 (CEST)
+Message-ID: <385Pu-agh7M.A.1mH.WYzDKB@chimera>
 References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <netdev-owner@vger.kernel.org>
 In-Reply-To: <_AjETDMbIoL.A.DcH.RYzDKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, "Brandeburg, Jesse" <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Francis Moreau <francis.moro@gmail.com>, netdev <netdev@vger.kernel.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.29.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13324
-Subject		: panic when loading oprofile
-Submitter	: Brandeburg, Jesse <jesse.brandeburg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Date		: 2009-05-13 22:30 (4 days old)
-References	: http://marc.info/?l=linux-kernel&m=124225384311631&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13328
+Subject		: b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
+Submitter	: Francis Moreau <francis.moro@gmail.com>
+Date		: 2009-05-03 16:22 (14 days old)
+References	: http://marc.info/?l=linux-kernel&m=124136778012280&w=4
+
 
