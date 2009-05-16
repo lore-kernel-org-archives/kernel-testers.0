@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #12681] s2ram: fails to wake up on Acer Extensa 4220 (SMP disabled)
-Date: Sat, 16 May 2009 22:05:57 +0200 (CEST)
-Message-ID: <pQ9WADCjgyE.A.kQ.WC0DKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #12899] Crash in i915.ko: i915_driver_irq_handler
+Date: Sat, 16 May 2009 22:05:58 +0200 (CEST)
+Message-ID: <pQ9WADCjgyE.A.TXH.MB0DKB@chimera>
 References: <yO1BmxN79sN.A.xAG.8_zDKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-acpi-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <yO1BmxN79sN.A.xAG.8_zDKB@chimera>
 Content-Disposition: inline
-Sender: linux-acpi-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alexey Starikovskiy <astarikovskiy@suse.de>, Len Brown <len.brown@intel.com>, Linux ACPI <linux-acpi@vger.kernel.org>, Orivej Desh <smpuj@bk.ru>, Zhang Rui <rui.zhang@intel.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Helge Bahmann <helge.bahmann-opNxpl+3fjRBDgjK7y7TUQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.28 and 2.6.29.
@@ -22,11 +22,8 @@ introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12681
-Subject		: s2ram: fails to wake up on Acer Extensa 4220 (SMP disabled)
-Submitter	: Orivej Desh <smpuj@bk.ru>
-Date		: 2009-02-09 13:01 (97 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1cfe62c8010ac56e1bd3827e30386a87cc2f3594
-Handled-By	: Alexey Starikovskiy <astarikovskiy@suse.de>
-
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12899
+Subject		: Crash in i915.ko: i915_driver_irq_handler
+Submitter	: Helge Bahmann <helge.bahmann-opNxpl+3fjRBDgjK7y7TUQ@public.gmane.org>
+Date		: 2009-03-20 07:13 (58 days old)
 
