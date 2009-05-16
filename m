@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13177] 2.6.30-rc2-git7 build problem
-Date: Sat, 16 May 2009 21:20:40 +0200 (CEST)
-Message-ID: <385Pu-agh7M.A.ffB.HZzDKB@chimera>
+Subject: [Bug #13125] active uvcvideo breaks over suspend
+Date: Sat, 16 May 2009 21:20:38 +0200 (CEST)
+Message-ID: <385Pu-agh7M.A.MDC.iZzDKB@chimera>
 References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Laurent Pinchart <laurent.pinchart-AgBVmzD5pcezQB+pC5nmwQ@public.gmane.org>, Ming Lei <tom.leiming-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,11 @@ from 2.6.29.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13177
-Subject		: 2.6.30-rc2-git7 build problem
-Submitter	: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
-Date		: 2009-04-21 13:39 (26 days old)
-References	: http://marc.info/?l=linux-kernel&m=124032163602132&w=4
-		  http://lkml.org/lkml/2009/4/27/56
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13125
+Subject		: active uvcvideo breaks over suspend
+Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Date		: 2009-04-15 10:12 (32 days old)
+References	: http://marc.info/?l=linux-kernel&m=123979009508840&w=4
+Handled-By	: Ming Lei <tom.leiming-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Patch		: http://lkml.org/lkml/2009/4/18/5
 
