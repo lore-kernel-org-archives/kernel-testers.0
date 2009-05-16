@@ -1,32 +1,31 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13326] Null pointer dereference in rtc-cmos driver
+Subject: [Bug #13327] Regression: 2.6.30-rc5 and rt2x00 / rt2500pci
 Date: Sat, 16 May 2009 21:20:48 +0200 (CEST)
-Message-ID: <385Pu-agh7M.A.axH.ZYzDKB@chimera>
+Message-ID: <385Pu-agh7M.A.nsH.YYzDKB@chimera>
 References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <_AjETDMbIoL.A.DcH.RYzDKB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?utf-8?q?Ozan=20=C3=87a=C4=9Flayan?= <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Ken Lewis <kennylewis-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.29.  Please verify if it still should be listed and let me kno=
-w
+from 2.6.29.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13326
-Subject		: Null pointer dereference in rtc-cmos driver
-Submitter	: Ozan =C3=87a=C4=9Flayan <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>
-Date		: 2009-05-14 16:16 (3 days old)
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D124231783704696&w=3D=
-4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13327
+Subject		: Regression: 2.6.30-rc5 and rt2x00 / rt2500pci
+Submitter	: Ken Lewis <kennylewis-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-05-15 14:40 (2 days old)
+References	: http://marc.info/?l=linux-kernel&m=124239988223614&w=4
+Handled-By	: John W. Linville <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
