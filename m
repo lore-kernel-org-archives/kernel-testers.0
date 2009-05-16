@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13180] 2.6.30-rc2: WARNING at i915_gem.c for i915_gem_idle
-Date: Sat, 16 May 2009 21:20:40 +0200 (CEST)
-Message-ID: <385Pu-agh7M.A.ATB.EZzDKB@chimera>
+Subject: [Bug #13156] keyboard backlight brightness up/down keys doesn't work
+Date: Sat, 16 May 2009 21:20:39 +0200 (CEST)
+Message-ID: <385Pu-agh7M.A.foB.SZzDKB@chimera>
 References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Niel Lambrechts <niel.lambrechts-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,8 @@ from 2.6.29.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13180
-Subject		: 2.6.30-rc2: WARNING at i915_gem.c for i915_gem_idle
-Submitter	: Niel Lambrechts <niel.lambrechts-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-04-21 21:35 (26 days old)
-References	: http://marc.info/?l=linux-kernel&m=124034980819102&w=4
-		  http://lkml.org/lkml/2009/4/27/290
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13156
+Subject		: keyboard backlight brightness up/down keys doesn't work
+Submitter	: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
+Date		: 2009-04-23 20:46 (24 days old)
 
