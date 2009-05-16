@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13327] Regression: 2.6.30-rc5 and rt2x00 / rt2500pci
-Date: Sat, 16 May 2009 21:20:48 +0200 (CEST)
-Message-ID: <385Pu-agh7M.A.nsH.YYzDKB@chimera>
+Subject: [Bug #13323] 2.6.30-rc deadline scheduler performance regression for iozone over NFS
+Date: Sat, 16 May 2009 21:20:47 +0200 (CEST)
+Message-ID: <385Pu-agh7M.A.iL.dYzDKB@chimera>
 References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Ken Lewis <kennylewis-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "J. Bruce Fields" <bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org>, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Jim Rees <rees-63aXycvo3TyHXe+LvDLADg@public.gmane.org>, Olga Kornievskaia <aglo-vtMw8L3fJ9vSiEDVxGk4TQ@public.gmane.org>, Trond Myklebust <trond.myklebust-41N18TsMXrtuMpJDpNschA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,9 @@ from 2.6.29.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13327
-Subject		: Regression: 2.6.30-rc5 and rt2x00 / rt2500pci
-Submitter	: Ken Lewis <kennylewis-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-05-15 14:40 (2 days old)
-References	: http://marc.info/?l=linux-kernel&m=124239988223614&w=4
-Handled-By	: John W. Linville <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13323
+Subject		: 2.6.30-rc deadline scheduler performance regression for iozone over NFS
+Submitter	: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date		: 2009-04-23 14:01 (24 days old)
+References	: http://marc.info/?l=linux-kernel&m=124049547915450&w=4
 
