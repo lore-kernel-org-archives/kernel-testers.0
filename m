@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13232] ext3/4 with synchronous writes gets wedged by Postfix
-Date: Sat, 16 May 2009 22:06:04 +0200 (CEST)
-Message-ID: <pQ9WADCjgyE.A.yJG.DA0DKB@chimera>
+Subject: [Bug #13186] cpufreq timer teardown problem
+Date: Sat, 16 May 2009 22:06:03 +0200 (CEST)
+Message-ID: <pQ9WADCjgyE.A.PTG.HA0DKB@chimera>
 References: <yO1BmxN79sN.A.xAG.8_zDKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Author: Theodore Ts'o" <tytso-3s7WtUTddSA@public.gmane.org>, David Watson <kernel-nospam-yvBcC19sZ6P0OyVTGvYuXB2eb7JE58TQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.28 and 2.6.29.
@@ -22,8 +22,12 @@ introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13232
-Subject		: ext3/4 with synchronous writes gets wedged by Postfix
-Submitter	: David Watson <kernel-nospam-yvBcC19sZ6P0OyVTGvYuXB2eb7JE58TQ@public.gmane.org>
-Date		: 2009-05-03 19:46 (14 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13186
+Subject		: cpufreq timer teardown problem
+Submitter	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+Date		: 2009-04-23 14:00 (24 days old)
+References	: http://marc.info/?l=linux-kernel&m=124049523515036&w=4
+Handled-By	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+Patch		: http://patchwork.kernel.org/patch/19754/
+		  http://patchwork.kernel.org/patch/19753/
 
