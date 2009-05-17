@@ -1,40 +1,49 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13122] reiserfs_delete_xattrs: Couldn't delete all xattrs (-13)
-Date: Sun, 17 May 2009 22:36:58 +0200
-Message-ID: <200905172236.59424.rjw@sisk.pl>
-References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera> <385Pu-agh7M.A.sNC.mZzDKB@chimera> <alpine.LFD.2.01.0905171213160.3301@localhost.localdomain>
+From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
+Date: Sun, 17 May 2009 18:16:21 -0500
+Message-ID: <4A109AC5.7040008@lwfinger.net>
+References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera>	<385Pu-agh7M.A.SU.iYzDKB@chimera> <20090516163610.8a012268.akpm@linux-foundation.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.01.0905171213160.3301-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; q=dns/txt; d=att.net; s=dkim01;
+      i=larry.finger-fOdFMYwuEsI@public.gmane.org; a=rsa-sha256; c=relaxed/relaxed;
+      t=1242602207; h=Content-Transfer-Encoding:Content-Type:
+     In-Reply-To:References:Subject:CC:To:MIME-Version:From:Date:
+     Message-ID; bh=yhVzud7IsfnPDwi0W8nYH3c7o00teAnAEkk4DKVXVuI=; b=BwL
+     EOEz9tyHw1QNbNTspBT1PDKaZgfmFZsFLqK2l+026YO6/fdp+mXoR+V02BXbjG7A+16
+     8ofiS/cDXkggyLeg==
+In-Reply-To: <20090516163610.8a012268.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Sender: linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Sunday 17 May 2009, Linus Torvalds wrote:
+Andrew Morton wrote:
 > 
-> On Sat, 16 May 2009, Rafael J. Wysocki wrote:
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.29.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13122
-> > Subject		: reiserfs_delete_xattrs: Couldn't delete all xattrs (-13)
-> > Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2009-04-16 19:23 (31 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d984561b326cd0fe0d1183d11b9b4fa1d011d21d
-> > References	: http://marc.info/?l=linux-kernel&m=123990989515105&w=4
-> > Handled-By	: Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>
-> > Patch		: http://lkml.org/lkml/2009/5/10/91
-> 
-> The fix should now be merged as b83674c0da6558e357c6b482ccf299eeea77d8ef 
-> ("reiserfs: fixup perms when xattrs are disabled")
+> Well..  order-1 GFP_ATOMIC allocations are unreliable.  The networking
+> code should hanlde the situation and recover.  I assume that is
+> happening in this case?
 
-Thanks, closed.
+Yes, the driver has recovered in all cases so far.
 
-Rafael
+> Perhaps we did something in that code after 2.6.29 which increased the
+> frequency of the order-1 allocation attempts?  Maybe earlier kernels
+> used order-0 all the time?  Those are much more reliable.
+
+I think something happened to change the allocation as I never saw these O(1)
+failures before with these particular drivers. I put in a few test printk's and
+the buffers were 700-800 bytes long, and I would not expect them to require more
+than an O(0) allocation.
+
+I pushed 2.6.30-rc6 hard for ~12 hours without any recurrence of the problem.
+Given the relative infrequency of the error, this certainly does not indicate a
+fix in recent code. I will be trying to force it again.
+
+Larry
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-wireless" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
