@@ -1,83 +1,119 @@
-From: Jeff Mahoney <jeffm@suse.com>
-Subject: Re: 2.6.30-rc6: Reported regressions from 2.6.29
-Date: Sun, 17 May 2009 09:59:30 -0400
-Message-ID: <4A101842.7000501@suse.com>
-References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera> <20090517073327.GC1583@elte.hu> <200905171234.23436.rjw@sisk.pl> <4A100977.1070506@s5r6.in-berlin.de>
+From: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+Subject: [PATCH] cpufreq: remove rwsem lock from CPUFREQ_GOV_STOP call
+Date: Sun, 17 May 2009 10:23:52 -0400
+Message-ID: <20090517142352.GA27882@Krystal>
+References: <yO1BmxN79sN.A.xAG.8_zDKB@chimera> <pQ9WADCjgyE.A.PTG.HA0DKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <4A100977.1070506@s5r6.in-berlin.de>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <pQ9WADCjgyE.A.PTG.HA0DKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Stefan Richter <stefanr@s5r6.in-berlin.de>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Ingo Molnar <mingo@elte.hu>, Martin Bammer <mrb74@gmx.at>, Andrew Morton <akpm@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Chris Wright <chrisw-69jw2NvuJkxg9hUCZPvPmw@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ben Slusky <sluskyb-k/7z6JowIC0cuXOPmUuyGA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
-
-Stefan Richter wrote:
-> Rafael J. Wysocki wrote:
->> On Sunday 17 May 2009, Ingo Molnar wrote:
->>> * Rafael J. Wysocki <rjw@sisk.pl> wrote:
->>>> Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=13321
->>>> Subject        : kernel crash with NULL pointer when boot
->>>> Submitter    : Martin Bammer <mrb74@gmx.at>
->>>> Date        : 2009-05-16 12:37 (1 days old)
->>>> References    : http://lkml.org/lkml/2009/5/16/100
->>> that crash is in reiserfs_for_each_xattr(), during sys_unlink()'s
->>> xattr teardown.
->>>
->>> There's been a good deal of reiserfs changes in this cycle - some
->>> touch the xattr code as well. Some of them fairly late in the cycle,
+* Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.28 and 2.6.29.
 > 
-> (Also, the bug is reportedly a post -rc5 regression.)
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> be listed and let me know (either way).
 > 
->>> in the last two weeks:
->>>
->>>  earth4:~/tip> gll v2.6.29..linus --since=two-weeks-ago fs/reiserfs/
->>>  2a32ceb: Fix races around the access to ->s_options
->>>  677c9b2: reiserfs: remove privroot hiding in lookup
->>>  b82bb72: reiserfs: dont associate security.* with xattr files
->>>  ab17c4f: reiserfs: fixup xattr_root caching
->>>  edcc37a: Always lookup priv_root on reiserfs mount and keep it
->>>  5a6059c: reiserfs: Expand i_mutex to enclose lookup_one_len
->>>
->>> Martin, you could try a blind revert of say ... ab17c4f, which looks
->>> the most suspect and which is also a rather large commit.
->>>
->>> Or/and you could try a bisect - perhaps accelerated via:
->>>
->>>    git bisect start fs/reiserfs/
->>
->> I think there's a fix already for this in the works, but it hasn't
->> been merged
->> yet.  It looks like Jeff has just posted some reiserfs fixes. :-)
 > 
-> I'd say Martin should try Jeff's pending patches before a revert or
-> before starting a bisection.  Either apply them from
-> http://lkml.org/lkml/2009/5/17/6, or pull from
->  git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs-2.6.git for-next
-> or wait for them to appear in Linus' tree...
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13186
+> Subject		: cpufreq timer teardown problem
+> Submitter	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+> Date		: 2009-04-23 14:00 (24 days old)
+> References	: http://marc.info/?l=linux-kernel&m=124049523515036&w=4
+> Handled-By	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+> Patch		: http://patchwork.kernel.org/patch/19754/
+> 		  http://patchwork.kernel.org/patch/19753/
+
+The patches linked above depend on the following patch to remove
+circular locking dependency :
+
+
+cpufreq: remove rwsem lock from CPUFREQ_GOV_STOP call
+
+(the following issue was faced when using cancel_delayed_work_sync() in the
+timer teardown (which fixes a race).
+
+* KOSAKI Motohiro (kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org) wrote:
+> Hi
 > 
-> I for one didn't test the post v2.6.30-rc5 changes to reiserfs, but I
-> did try them _together_ with the four pending patches on a system with
-> reiserfs root filesystem and extended attributes disabled in the config.
-> Everything is fine here after almost a week uptime.
+> my box output following warnings.
+> it seems regression by commit 7ccc7608b836e58fbacf65ee4f8eefa288e86fac.
+> 
+> A: work -> do_dbs_timer()  -> cpu_policy_rwsem
+> B: store() -> cpu_policy_rwsem -> cpufreq_governor_dbs() -> work
+> 
+> 
 
-Yes, this bug is known and is fixed with "[patch 2/4] [PATCH] reiserfs:
-deal with NULL xattr root w/ xattrs disabled"
+Hrm, I think it must be due to my attempt to fix the timer teardown race
+in ondemand governor mixed with new locking behavior in 2.6.30-rc.
 
-- -Jeff
+The rwlock seems to be taken around the whole call to
+cpufreq_governor_dbs(), when it should be only taken around accesses to
+the locked data, and especially *not* around the call to
+dbs_timer_exit().
 
-- --
-Jeff Mahoney
-SUSE Labs
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.9 (GNU/Linux)
-Comment: Using GnuPG with SUSE - http://enigmail.mozdev.org
+Reverting my fix attempt would put the teardown race back in place
+(replacing the cancel_delayed_work_sync by cancel_delayed_work).
+Instead, a proper fix would imply modifying this critical section :
 
-iEYEARECAAYFAkoQGEIACgkQLPWxlyuTD7K8kwCfUEq36jJvY+FzzuvWbAyOYX+r
-BPwAniRe6a7Cj8n5+vC2Zmwfp1hRRUb1
-=fh19
------END PGP SIGNATURE-----
+cpufreq.c: __cpufreq_remove_dev()
+...
+        if (cpufreq_driver->target)
+                __cpufreq_governor(data, CPUFREQ_GOV_STOP);
+
+        unlock_policy_rwsem_write(cpu);
+
+To make sure the __cpufreq_governor() callback is not called with rwsem
+held. This would allow execution of cancel_delayed_work_sync() without
+being nested within the rwsem.
+
+Applies on top of the 2.6.30-rc5 tree.
+
+Required to remove circular dep in teardown of both conservative and
+ondemande governors so they can use cancel_delayed_work_sync().
+CPUFREQ_GOV_STOP does not modify the policy, therefore this locking seemed
+unneeded.
+
+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+CC: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Cc: Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
+CC: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+CC: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+CC: Ben Slusky <sluskyb-k/7z6JowIC0cuXOPmUuyGA@public.gmane.org>
+CC: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+CC: Chris Wright <chrisw-69jw2NvuJkxg9hUCZPvPmw@public.gmane.org>
+CC: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+---
+ drivers/cpufreq/cpufreq.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+Index: linux-2.6-lttng/drivers/cpufreq/cpufreq.c
+===================================================================
+--- linux-2.6-lttng.orig/drivers/cpufreq/cpufreq.c	2009-05-10 14:41:53.000000000 -0400
++++ linux-2.6-lttng/drivers/cpufreq/cpufreq.c	2009-05-10 14:42:29.000000000 -0400
+@@ -1070,11 +1070,11 @@ static int __cpufreq_remove_dev(struct s
+ 	spin_unlock_irqrestore(&cpufreq_driver_lock, flags);
+ #endif
+ 
++	unlock_policy_rwsem_write(cpu);
++
+ 	if (cpufreq_driver->target)
+ 		__cpufreq_governor(data, CPUFREQ_GOV_STOP);
+ 
+-	unlock_policy_rwsem_write(cpu);
+-
+ 	kobject_put(&data->kobj);
+ 
+ 	/* we need to make sure that the underlying kobj is actually
+
+-- 
+Mathieu Desnoyers
+OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 A8FE 3BAE 9A68
