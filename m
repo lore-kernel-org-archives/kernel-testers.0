@@ -1,99 +1,45 @@
-From: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-Subject: [PATCH] cpufreq fix timer teardown in conservative governor
-Date: Sun, 17 May 2009 10:29:33 -0400
-Message-ID: <20090517142933.GB27882@Krystal>
-References: <yO1BmxN79sN.A.xAG.8_zDKB@chimera> <pQ9WADCjgyE.A.PTG.HA0DKB@chimera>
+From: Marcus Better <marcus-sJr3legBufCzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [Bug #12980] lockup in X.org
+Date: Sun, 17 May 2009 17:39:43 +0200
+Message-ID: <4A102FBF.9070208@better.se>
+References: <yO1BmxN79sN.A.xAG.8_zDKB@chimera> <pQ9WADCjgyE.A.0HH.vA0DKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <pQ9WADCjgyE.A.PTG.HA0DKB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=better.se; s=mail;
+	t=1242574790; bh=Eso8kfbwlkMRl//+chRwSNd1O0BNbAsdfTrNQ+/LKOg=;
+	h=Message-ID:Date:From:MIME-Version:To:CC:Subject:References:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding; b=RRYlAy2cOAkb
+	5unhGHeVJO8WEP+ToKMWeoLbWXdJF5+2ZuAhPy4RYSD5L8FgeaqVm5StVFCQKNG5Pof
+	jnZphhNFOMX9x2nFDJEFzxWemyb5O+nv49zAIkv1IKqZFV+YC9/fR1dvHAnq8XwWPeT
+	qZoebdcs+SIYZKBhK7yOVPJ3M=
+In-Reply-To: <pQ9WADCjgyE.A.0HH.vA0DKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, gregkh-l3A5Bk7waGM@public.gmane.org, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, Ben Slusky <sluskyb-k/7z6JowIC0cuXOPmUuyGA@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-* Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.28 and 2.6.29.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13186
-> Subject		: cpufreq timer teardown problem
-> Submitter	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-> Date		: 2009-04-23 14:00 (24 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124049523515036&w=4
-> Handled-By	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-> Patch		: http://patchwork.kernel.org/patch/19754/
-> 		  http://patchwork.kernel.org/patch/19753/
-> 
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-(re-send with updated changelog)
+Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12980
+> Subject		: lockup in X.org
+> Submitter	: Marcus Better <marcus-sJr3legBufCzQB+pC5nmwQ@public.gmane.org>
+> Date		: 2009-03-31 08:58 (47 days old)
 
-cpufreq fix timer teardown in conservative governor
+Bug went away for unknown reason, hasn't occurred in more than a month.
 
-The problem is that dbs_timer_exit() uses cancel_delayed_work() when it should
-use cancel_delayed_work_sync(). cancel_delayed_work() does not wait for the
-workqueue handler to exit.
+Cheers,
 
-The ondemand governor does not seem to be affected because the
-"if (!dbs_info->enable)" check at the beginning of the workqueue handler returns
-immediately without rescheduling the work. The conservative governor in
-2.6.30-rc has the same check as the ondemand governor, which makes things
-usually run smoothly. However, if the governor is quickly stopped and then
-started, this could lead to the following race :
+Marcus
 
-dbs_enable could be reenabled and multiple do_dbs_timer handlers would run.
-This is why a synchronized teardown is required.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org
 
-Depends on patch
-cpufreq: remove rwsem lock from CPUFREQ_GOV_STOP call
-
-The following patch applies to 2.6.30-rc2. Stable kernels have a similar
-issue which should also be fixed, but the code changed between 2.6.29
-and 2.6.30, so this patch only applies to 2.6.30-rc.
-
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-CC: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-CC: gregkh-l3A5Bk7waGM@public.gmane.org
-CC: stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
-CC: cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-CC: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-CC: rjw-KKrjLPT3xs0@public.gmane.org
-CC: Ben Slusky <sluskyb-k/7z6JowIC0cuXOPmUuyGA@public.gmane.org>
-CC: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
----
- drivers/cpufreq/cpufreq_conservative.c |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-Index: linux-2.6-lttng/drivers/cpufreq/cpufreq_conservative.c
-===================================================================
---- linux-2.6-lttng.orig/drivers/cpufreq/cpufreq_conservative.c	2009-04-23 23:22:15.000000000 -0400
-+++ linux-2.6-lttng/drivers/cpufreq/cpufreq_conservative.c	2009-04-23 23:24:38.000000000 -0400
-@@ -91,6 +91,9 @@ static unsigned int dbs_enable;	/* numbe
-  * (like __cpufreq_driver_target()) is being called with dbs_mutex taken, then
-  * cpu_hotplug lock should be taken before that. Note that cpu_hotplug lock
-  * is recursive for the same process. -Venki
-+ * DEADLOCK ALERT! (2) : do_dbs_timer() must not take the dbs_mutex, because it
-+ * would deadlock with cancel_delayed_work_sync(), which is needed for proper
-+ * raceless workqueue teardown.
-  */
- static DEFINE_MUTEX(dbs_mutex);
- 
-@@ -542,7 +545,7 @@ static inline void dbs_timer_init(struct
- static inline void dbs_timer_exit(struct cpu_dbs_info_s *dbs_info)
- {
- 	dbs_info->enable = 0;
--	cancel_delayed_work(&dbs_info->work);
-+	cancel_delayed_work_sync(&dbs_info->work);
- }
- 
- static int cpufreq_governor_dbs(struct cpufreq_policy *policy,
-
--- 
-Mathieu Desnoyers
-OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 A8FE 3BAE 9A68
+iEYEARECAAYFAkoQL78ACgkQXjXn6TzcAQlQNQCcDH+GrasHNGT7UrrsvfNOH/iy
+hlkAoMo9JJ+33MJLPrTF49HgfgcIdp/r
+=ovke
+-----END PGP SIGNATURE-----
