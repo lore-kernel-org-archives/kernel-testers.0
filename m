@@ -1,35 +1,40 @@
-From: Sachin Sant <sachinp-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #13068] Lockdep warining in inotify_dev_queue_event
-Date: Sun, 17 May 2009 13:43:42 +0530
-Message-ID: <4A0FC736.7050301@in.ibm.com>
-References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera> <385Pu-agh7M.A.UHD.QazDKB@chimera> <20090517063530.GB1583@elte.hu>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #12499] Problem with using bluetooth adaper connected to usb port
+Date: Sun, 17 May 2009 12:21:57 +0200
+Message-ID: <200905171221.57847.rjw@sisk.pl>
+References: <yO1BmxN79sN.A.xAG.8_zDKB@chimera> <pQ9WADCjgyE.A.gb.dD0DKB@chimera> <8db1092f0905170058n338a3cbcr2a7524b11a22d21@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090517063530.GB1583-X9Un+BFzKDI@public.gmane.org>
+In-Reply-To: <8db1092f0905170058n338a3cbcr2a7524b11a22d21-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Marcin Slusarz <marcin.slusarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
 
-Ingo Molnar wrote:
-> i think this might be fixed by:
->
-> 381a80e: inotify: use GFP_NOFS in kernel_event() to work around a lockdep false-positive
->
-> already in -rc6.
->   
-Haven't seen this issue with rc6.
+On Sunday 17 May 2009, Maciej Rutecki wrote:
+> 2009/5/16 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.28 and 2.6.29.
+> >
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> > be listed and let me know (either way).
+> >
+> >
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=12499
+> > Subject         : Problem with using bluetooth adaper connected to usb port
+> > Submitter       : Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2009-01-13 18:34 (124 days old)
+> > References      : http://marc.info/?l=linux-kernel&m=123187185426236&w=4
+> > Handled-By      : Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
+> >
+> 
+> 2.6.30-rc6 works fine. Please, remove it.
 
-Thanks
--Sachin
+Removed.
 
--- 
-
----------------------------------
-Sachin Sant
-IBM Linux Technology Center
-India Systems and Technology Labs
-Bangalore, India
----------------------------------
+Thanks,
+Rafael
