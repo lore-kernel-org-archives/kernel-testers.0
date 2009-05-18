@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 Subject: Re: [Bug #13188] horizontal strips of the screen frozen
-Date: Mon, 18 May 2009 20:03:09 +0200
-Message-ID: <200905182003.09876.rjw@sisk.pl>
+Date: Mon, 18 May 2009 20:04:46 +0200
+Message-ID: <200905182004.46627.rjw@sisk.pl>
 References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera> <385Pu-agh7M.A.hMB._YzDKB@chimera> <4A118E36.40204@gawab.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
