@@ -1,73 +1,70 @@
-From: Oleg Nesterov <oleg@redhat.com>
+From: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: 2.6.30-rc6: Reported regressions from 2.6.29
-Date: Mon, 18 May 2009 17:45:50 +0200
-Message-ID: <20090518154550.GB22133@redhat.com>
-References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera> <20090517073327.GC1583@elte.hu> <20090518145725.GB18607@redhat.com> <20090518151102.GA6241@elte.hu> <alpine.LFD.2.01.0905180819130.3301@localhost.localdomain>
+Date: Mon, 18 May 2009 18:35:28 +0200
+Message-ID: <200905181835.28803.bzolnier@gmail.com>
+References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera> <20090517133210.GB4640@nowhere> <20090517161916.GA2976@liondog.tnic>
 Mime-Version: 1.0
-Return-path: <linux-acpi-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.LFD.2.01.0905180819130.3301@localhost.localdomain>
-Sender: linux-acpi-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Ingo Molnar <mingo@elte.hu>, "Rafael J. Wysocki" <rjw@sisk.pl>, Jonathan Corbet <corbet@lwn.net>, Martin Bammer <mrb74@gmx.at>, Jeff Garzik <jgarzik@pobox.com>, Kumar Gala <galak@kernel.crashing.org>, Andrew Morton <akpm@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:from:to:subject:date
+         :user-agent:cc:references:in-reply-to:mime-version
+         :content-disposition:message-id:content-type
+         :content-transfer-encoding;
+        bh=JgOWbXGkrhS85h6Zq8AgAgCBQsry6PILqr+JaUFB3nI=;
+        b=XYBJgTrtWX47NkoJvAFS7DO69uqf2IrWNIl+brQ/nIGYcHpjUhm2FIXXEcriEVa+x9
+         69hm+0y3ELb0hnyk5IPvE+dB+fq5PQ4O0NDUKvawy2mZdLYQR0mc+lHRlmlFPrUciaXp
+         2vmr+Z/VrIRz5lsboaIuV4SPzPOzwqTq3ySxk=
+In-Reply-To: <20090517161916.GA2976-f9CnO7I+Q6zU6FkGJEIX5A@public.gmane.org>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Borislav Petkov <petkovbb-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Helge Deller <deller-Mmb7MZpHnFY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kyle McMartin <kyle-pfcGkIkfWfAsA/PxXw9srA@public.gmane.org>
 
-On 05/18, Linus Torvalds wrote:
->
-> On Mon, 18 May 2009, Ingo Molnar wrote:
-> >
-> > Btw., why did the patch (and the revert) make any difference to the
-> > test? Timing differences look improbable.
->
-> It's the change from
->
-> 	!signal_group_exit(signal)
->
-> to
->
-> 	!sig_kernel_only(signr)
->
-> and quite frankly, I still don't see the point.
+On Sunday 17 May 2009 18:19:16 Borislav Petkov wrote:
+> Hi,
+> 
+> On Sun, May 17, 2009 at 03:32:11PM +0200, Frederic Weisbecker wrote:
+> > On Sun, May 17, 2009 at 09:33:27AM +0200, Ingo Molnar wrote:
+> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13297
+> > > > Subject		: kernel panic -  not syncing : fatel exception in interupt
+> > > > Submitter	: rob <rob1-z2Ut7v/pTR/vt0rt8C/ehw@public.gmane.org>
+> > > > Date		: 2009-05-12 19:34 (5 days old)
+> > > > References	: http://marc.info/?l=linux-kernel&m=124216126903309&w=4
+> > > 
+> > > tainted crash, but probably legit. It does show some badness in an 
+> > > old-IDE legacy codepath:
+> > > 
+> > > [<c0371865>] error_code+0x65/0x6c
+> > > [<c0110155>] do_page_fault+0x0/0x1e0
+> > > [<c027dafc>] ide_complete_rq+0xf/0x3b
+> > > [<c02870a0>] cdrom_newpc_intr+0x64d/0x6cd
+> > > [<c0286a53>] cdrom_newpc_intr+0x0/0x6cd
+> > > [<c027dcc2>] ide_intr+0x109/0x161
+> > > [<c0132298>] handle_IRQ_event+0x54/0xc7
+> > > [<c013354a>] handle_level_irq+0x4f/0x85
+> > > [<c0103df7>] handle_irq+0x17/0x20
+> > > [<c0103da5>] do_IRQ+0x2b/0x66
+> > > [<c0102be9>] common_interupt+0x29/0x30
+> > > [<c0480000>] cmd40x_init+0x2ac/0x38d
+> > > [<c0106db3>] default_idle+0x25/0x38
+> > > [<c01019be>] cpu_idle+0x19/0x2d
+> > > [<c0468907>] start_kernel+0x23f/0x242
+> > > 
+> > > report subject line is too unspecific, it should be changed to 
+> > > something like:
+> > > 
+> > >   legacy IDE cmd40x related bootup crash
+> > 
+> > 
+> > It seems the crash has been rewritten by hand. I don't see
+> > any cmd40x_init(), I guess it's about cmd640 chipset, then
+> > cmd640x_init()
 
-Previously,
+Frederic, is the oops reproducible?  Is 2.6.30-rc6 any better?
 
-	!signal_group_exit(signal)
-
-meant: we do not know what should we do, let's ignore this signal.
-Unless the multithreaded init does exec, in this case we should
-respect SIGKILL.
-
-With the recent changes, sig_kernel_only() means: we already checked
-we should handle SIGKILL/SIGSTOP when this signal was queued.
-
-> The comment seems to be wrong too:
->
->     If SIGSTOP/SIGKILL originate from a descendant of container-init they are
->     never queued (i.e dropped in sig_ignored() in an earler patch).
->
->     If SIGSTOP/SIGKILL originate from parent namespace, the signal is queued
->     and container-init processes the signal.
->
-> since the bug was that the SIGSTOP (from within the same container) was
-> _not_ ignored like the comment says.
-
-Yes, the changelog could be better because it ignores ptrace issues. But
-this was discussed,
-
-From http://marc.info/?t=123222433100001
-
-	Yes we should handle SIGSTOP fine if it sent from the parent namespace.
-
-	Also. Currently it is possible to ptrace the global init, but even
-	ptracer can't stop it (but ptrace_stop() works). With these patches
-	ptracer can stop init.
-
-	I forgot to mention this behaviour change, imho this side-effect
-	is good.
-
-So, at least this change is not "by accident".
-
-Oleg.
-
+Does it help if you disable CONFIG_BLK_DEV_CMD640?
+(this system doesn't have CMD640 chipset)
