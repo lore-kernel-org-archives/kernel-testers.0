@@ -1,36 +1,46 @@
-From: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12765] i915 VT switch with AIGLX causes X lock up
-Date: Mon, 18 May 2009 08:13:16 +0100
-Message-ID: <20090518071315.GA26870@sucs.org>
-References: <yO1BmxN79sN.A.xAG.8_zDKB@chimera> <pQ9WADCjgyE.A.iyH.9B0DKB@chimera>
+From: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+Subject: Re: [Bug #13178] Booting very slow
+Date: Mon, 18 May 2009 01:15:59 -0700 (PDT)
+Message-ID: <424718.52835.qm@web32607.mail.mud.yahoo.com>
+References: <yO1BmxN79sN.A.xAG.8_zDKB@chimera> <pQ9WADCjgyE.A.scG.LA0DKB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <pQ9WADCjgyE.A.iyH.9B0DKB@chimera>
+In-Reply-To: <pQ9WADCjgyE.A.scG.LA0DKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Michel =?iso-8859-1?Q?D=E4nzer?= <michel-otUistvHUpPR7s880joybQ@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sat, May 16, 2009 at 10:05:57PM +0200, Rafael J. Wysocki wrote:
+
+----- Original Message ----
+
+> From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+> Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>; Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+> Sent: Saturday, May 16, 2009 10:06:02 PM
+> Subject: [Bug #13178] Booting very slow
+> 
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.28 and 2.6.29.
+> 
 > The following bug entry is on the current list of known regressions
 > introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 > be listed and let me know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12765
-> Subject		: i915 VT switch with AIGLX causes X lock up
-> Submitter	: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-02-21 15:38 (85 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=14d200c5e5bd19219d930bbb9a5a22758c8f5bec
-> References	: http://marc.info/?l=linux-kernel&m=123523074304955&w=4
-> 		  http://lkml.org/lkml/2009/4/27/317
-> Handled-By	: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-> Patch		: http://patchwork.kernel.org/patch/20197/
+> Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=13178
+> Subject        : Booting very slow
+> Submitter    : Martin Knoblauch 
+> Date        : 2009-04-24 12:45 (23 days old)
+> References    : http://marc.info/?l=linux-kernel&m=124057716231773&w=4
 
-Yes, this problem is still here in 2.6.30-rc6-00026-g0f6f49a .
+ The issue is still open. It turns out that starting with 2.6.29-rc1 /proc/mounts already has a "sysfs" line when entering the startup scripts from initrd. This breaks the RHEL4 firmware hotplug script.
 
--- 
-Sitsofe | http://sucs.org/~sits/
+Simple fix to user space is available. I do not know how important this issue is.
+
+Anyway, I am in the process of bisecting the problem. It is just a bit tedious in the my customers and employers environment :-(
+
+Cheers
+Martin
