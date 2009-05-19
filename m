@@ -1,47 +1,37 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13188] horizontal strips of the screen frozen
-Date: Mon, 18 May 2009 20:04:46 +0200
-Message-ID: <200905182004.46627.rjw@sisk.pl>
-References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera> <385Pu-agh7M.A.hMB._YzDKB@chimera> <4A118E36.40204@gawab.com>
+From: Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
+Subject: Re: [Bug #13178] Booting very slow
+Date: Tue, 19 May 2009 02:26:04 +0200
+Message-ID: <ac3eb2510905181726q3b996b8ei9c6a74fe1d3bb17d@mail.gmail.com>
+References: <yO1BmxN79sN.A.xAG.8_zDKB@chimera> <pQ9WADCjgyE.A.scG.LA0DKB@chimera> 
+	<424718.52835.qm@web32607.mail.mud.yahoo.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4A118E36.40204-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <424718.52835.qm-f6uctMgKLEavuULXzWHTWIglqE1Y4D90QQ4Iyu8u01E@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Monday 18 May 2009, Justin Madru wrote:
-> Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.29.  Please verify if it still should be listed and let me know
-> > (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13188
-> > Subject		: horizontal strips of the screen frozen
-> > Submitter	: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2009-04-24 20:59 (23 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=280b713b5b0fd84cf2469098aee88acbb5de859c
-> > References	: http://marc.info/?l=linux-kernel&m=124060685315937&w=4
-> >
-> >
-> >
-> >   
-> As far as I can tell, this seams to be fixed by the intel-2.7.1 driver, 
-> and the bug only happened with UXA.
-> I did some minor testing and I couldn't trigger the bug. (earlier 
-> discussion in http://lkml.org/lkml/2009/4/23/587)
-> So this seams to be a user space bug, fixed in the intel-2.7.1 bug fix 
-> release (intel-2.7.0 still has the issue).
+On Mon, May 18, 2009 at 10:15, Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>=
+ wrote:
 
-I have closed the bug.
+>> Bug-Entry =C2=A0 =C2=A0: http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+13178
+>> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0: Booting very slow
+>> Submitter =C2=A0 =C2=A0: Martin Knoblauch
+>> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-04-24 12:45 (23 days old)
+>> References =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=3D124=
+057716231773&w=3D4
+>
+> =C2=A0The issue is still open. It turns out that starting with 2.6.29=
+-rc1 /proc/mounts already has a "sysfs" line when entering the startup =
+scripts from initrd. This breaks the RHEL4 firmware hotplug script.
+
+Is that possibly a missing/failing "umount /sys" _in_ initramfs, which
+leaves the sysfs entry in /proc/mounts behind, which then shows up as
+a duplicate when running in the real rootfs?
 
 Thanks,
-Rafael
+Kay
