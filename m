@@ -1,82 +1,79 @@
-From: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.30-rc6: Reported regressions from 2.6.29
-Date: Wed, 20 May 2009 03:14:01 +0200
-Message-ID: <20090520011358.GH6066@nowhere>
-References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera> <20090517133210.GB4640@nowhere> <20090517161916.GA2976@liondog.tnic> <200905181835.28803.bzolnier@gmail.com>
+From: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+Subject: Re: [Bug #13178] Booting very slow
+Date: Wed, 20 May 2009 03:14:36 -0700 (PDT)
+Message-ID: <480189.30937.qm@web32602.mail.mud.yahoo.com>
+References: <yO1BmxN79sN.A.xAG.8_zDKB@chimera> <pQ9WADCjgyE.A.scG.LA0DKB@chimera>  <424718.52835.qm@web32607.mail.mud.yahoo.com> <ac3eb2510905181726q3b996b8ei9c6a74fe1d3bb17d@mail.gmail.com>  <783496.86803.qm@web32608.mail.mud.yahoo.com> <ac3eb2510905190158o6682f7aat62ff66ac9aaa2a74@mail.gmail.com>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:received:date:from:to:cc
-         :subject:message-id:references:mime-version:content-type
-         :content-disposition:in-reply-to:user-agent;
-        bh=AV9F7sL8oAwZTgNFVA/7kXKL/zg124WAQpGL4MgtDNA=;
-        b=BrOlLV9VyszwoaVmhDODwJLjvdnJdrN1igJ9zgKc4KYZtwUfpLa5B0UufIU6XMTZth
-         hO0kVdbUtSX3yj+FOmg7MEDJAvBA2zIG4HvtE/HdKETHegwAWb0WKo9Nm427izHbiDiL
-         t1O4nBNjx3U/okHEFPSSc+7xsLSk91vaI/jaM=
-Content-Disposition: inline
-In-Reply-To: <200905181835.28803.bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <ac3eb2510905190158o6682f7aat62ff66ac9aaa2a74-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, rob <rob1-z2Ut7v/pTR/vt0rt8C/ehw@public.gmane.org>
-Cc: Borislav Petkov <petkovbb-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Helge Deller <deller-Mmb7MZpHnFY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kyle McMartin <kyle-pfcGkIkfWfAsA/PxXw9srA@public.gmane.org>
+To: Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, May 18, 2009 at 06:35:28PM +0200, Bartlomiej Zolnierkiewicz wrote:
-> On Sunday 17 May 2009 18:19:16 Borislav Petkov wrote:
-> > Hi,
-> > 
-> > On Sun, May 17, 2009 at 03:32:11PM +0200, Frederic Weisbecker wrote:
-> > > On Sun, May 17, 2009 at 09:33:27AM +0200, Ingo Molnar wrote:
-> > > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13297
-> > > > > Subject		: kernel panic -  not syncing : fatel exception in interupt
-> > > > > Submitter	: rob <rob1-z2Ut7v/pTR/vt0rt8C/ehw@public.gmane.org>
-> > > > > Date		: 2009-05-12 19:34 (5 days old)
-> > > > > References	: http://marc.info/?l=linux-kernel&m=124216126903309&w=4
-> > > > 
-> > > > tainted crash, but probably legit. It does show some badness in an 
-> > > > old-IDE legacy codepath:
-> > > > 
-> > > > [<c0371865>] error_code+0x65/0x6c
-> > > > [<c0110155>] do_page_fault+0x0/0x1e0
-> > > > [<c027dafc>] ide_complete_rq+0xf/0x3b
-> > > > [<c02870a0>] cdrom_newpc_intr+0x64d/0x6cd
-> > > > [<c0286a53>] cdrom_newpc_intr+0x0/0x6cd
-> > > > [<c027dcc2>] ide_intr+0x109/0x161
-> > > > [<c0132298>] handle_IRQ_event+0x54/0xc7
-> > > > [<c013354a>] handle_level_irq+0x4f/0x85
-> > > > [<c0103df7>] handle_irq+0x17/0x20
-> > > > [<c0103da5>] do_IRQ+0x2b/0x66
-> > > > [<c0102be9>] common_interupt+0x29/0x30
-> > > > [<c0480000>] cmd40x_init+0x2ac/0x38d
-> > > > [<c0106db3>] default_idle+0x25/0x38
-> > > > [<c01019be>] cpu_idle+0x19/0x2d
-> > > > [<c0468907>] start_kernel+0x23f/0x242
-> > > > 
-> > > > report subject line is too unspecific, it should be changed to 
-> > > > something like:
-> > > > 
-> > > >   legacy IDE cmd40x related bootup crash
-> > > 
-> > > 
-> > > It seems the crash has been rewritten by hand. I don't see
-> > > any cmd40x_init(), I guess it's about cmd640 chipset, then
-> > > cmd640x_init()
+
+
+
+ ------------------------------------------------------
+Martin Knoblauch
+email: k n o b i AT knobisoft DOT de
+www:   http://www.knobisoft.de
+
+
+
+----- Original Message ----
+> From: Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
+> To: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+> Cc: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>; Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>; Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+> Sent: Tuesday, May 19, 2009 10:58:24 AM
+> Subject: Re: [Bug #13178] Booting very slow
 > 
-> Frederic, is the oops reproducible?  Is 2.6.30-rc6 any better?
+> On Tue, May 19, 2009 at 09:22, Martin Knoblauch wrote:
+> >> >  The issue is still open. It turns out that starting with 2.6.29-rc1
+> >> /proc/mounts already has a "sysfs" line when entering the startup scripts 
+> from
+> >> initrd. This breaks the RHEL4 firmware hotplug script.
+> >>
+> >> Is that possibly a missing/failing "umount /sys" _in_ initramfs, which
+> >> leaves the sysfs entry in /proc/mounts behind, which then shows up as
+> >> a duplicate when running in the real rootfs?
+> >
+> >  could be. Remains the question, why it never showed up before 2.6.29. I 
+> compared my initrd images for 2.6.28 and 2.6.29-rc1, and they only differ in the 
+> module-binaries.
 > 
-> Does it help if you disable CONFIG_BLK_DEV_CMD640?
-> (this system doesn't have CMD640 chipset)
+> I wouldn't be surprised if we are just "too fast" again now with the
+> async stuff, for another piece of rather fragile userspace bootup
+> logic, making some wrong assumptions. Are you compiling-in the modules
+> for the root disk and the root filesystem?
+> 
+> Cheers,
+> Kay
 
+ timing may actually be the answer. I finally manged to bisect the thing and the first bad commit is this one:
 
-Sorry, I'm not the author of this bug report and I don't have this
-hardware. I've just added you in Cc's :-)
+|commit 1120f8b8169fb2cb51219d326892d963e762edb6
+|Author: Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+|Date:   Thu Dec 18 09:17:16 2008 -0800
+|
+|    PCI: handle long delays in VPD access
+|
+|    Accessing the VPD area can take a long time.  The existing
+|    VPD access code fails consistently on my hardware. There are comments
+|
+|    Change the access routines to:
+|      * use a mutex rather than spinning with IRQ's disabled and lock held
+|      * have a much longer timeout
+|      * call cond_resched while spinning
+|
+|    Signed-off-by: Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+|    Reviewed-by: Matthew Wilcox <willy-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+|    Signed-off-by: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 
-But I'm adding the bug reporter in Cc.
+  And no, the "cciss", "ext3" and "jbd" are modules in my intrd image.
 
-Rob, could you test above Bartlomiej's suggestion?
+ I will continue the discussion under the original topic.
 
-Thanks,
-
-Frederic.
+Cheers
