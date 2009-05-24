@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12490] ath5k related kernel panic in 2.6.29-rc1
-Date: Sun, 24 May 2009 21:27:46 +0200 (CEST)
-Message-ID: <WCcYF-TAbJC.A.3DF.LUcGKB@chimera>
+Subject: [Bug #12705] X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
+Date: Sun, 24 May 2009 21:31:15 +0200 (CEST)
+Message-ID: <WCcYF-TAbJC.A.quE.yScGKB@chimera>
 References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>, "Sergey S. Kostyliov" <rathamahata-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.28 and 2.6.29.
@@ -22,11 +22,12 @@ introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12490
-Subject		: ath5k related kernel panic in 2.6.29-rc1
-Submitter	: Sergey S. Kostyliov <rathamahata-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-01-12 7:38 (133 days old)
-References	: http://marc.info/?l=linux-kernel&m=123174591509586&w=4
-		  http://lkml.org/lkml/2009/4/6/527
-Handled-By	: Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12705
+Subject		: X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
+Submitter	: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Date		: 2009-02-13 9:33 (101 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=e806b4957412bf472d826bd8cc571da041248799
+References	: http://marc.info/?l=linux-kernel&m=123451768406825&w=4
+		  http://marc.info/?l=linux-kernel&m=123479975503827&w=2
+Handled-By	: Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
 
