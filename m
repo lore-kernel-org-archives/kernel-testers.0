@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12705] X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #12681] s2ram: fails to wake up on Acer Extensa 4220 (SMP disabled)
 Date: Sun, 24 May 2009 21:31:15 +0200 (CEST)
-Message-ID: <WCcYF-TAbJC.A.quE.yScGKB@chimera>
+Message-ID: <WCcYF-TAbJC.A.Q3E.2ScGKB@chimera>
 References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-acpi-owner@vger.kernel.org>
 In-Reply-To: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alexey Starikovskiy <astarikovskiy@suse.de>, Len Brown <len.brown@intel.com>, Linux ACPI <linux-acpi@vger.kernel.org>, Orivej Desh <smpuj@bk.ru>, Zhang Rui <rui.zhang@intel.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.28 and 2.6.29.
@@ -22,12 +22,11 @@ introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12705
-Subject		: X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-Submitter	: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-Date		: 2009-02-13 9:33 (101 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=e806b4957412bf472d826bd8cc571da041248799
-References	: http://marc.info/?l=linux-kernel&m=123451768406825&w=4
-		  http://marc.info/?l=linux-kernel&m=123479975503827&w=2
-Handled-By	: Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12681
+Subject		: s2ram: fails to wake up on Acer Extensa 4220 (SMP disabled)
+Submitter	: Orivej Desh <smpuj@bk.ru>
+Date		: 2009-02-09 13:01 (105 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=1cfe62c8010ac56e1bd3827e30386a87cc2f3594
+Handled-By	: Alexey Starikovskiy <astarikovskiy@suse.de>
+
 
