@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12899] Crash in i915.ko: i915_driver_irq_handler
+Subject: [Bug #12765] i915 VT switch with AIGLX causes X lock up
 Date: Sun, 24 May 2009 21:31:15 +0200 (CEST)
-Message-ID: <WCcYF-TAbJC.A.jME.rRcGKB@chimera>
+Message-ID: <WCcYF-TAbJC.A.9dE.cScGKB@chimera>
 References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Helge Bahmann <helge.bahmann-opNxpl+3fjRBDgjK7y7TUQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, =?utf-8?q?Michel=20D=C3=A4nzer?= <michel-otUistvHUpPR7s880joybQ@public.gmane.org>, Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.28 and 2.6.29.
@@ -22,8 +22,13 @@ introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12899
-Subject		: Crash in i915.ko: i915_driver_irq_handler
-Submitter	: Helge Bahmann <helge.bahmann-opNxpl+3fjRBDgjK7y7TUQ@public.gmane.org>
-Date		: 2009-03-20 07:13 (66 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12765
+Subject		: i915 VT switch with AIGLX causes X lock up
+Submitter	: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Date		: 2009-02-21 15:38 (93 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=14d200c5e5bd19219d930bbb9a5a22758c8f5bec
+References	: http://marc.info/?l=linux-kernel&m=123523074304955&w=4
+		  http://lkml.org/lkml/2009/4/27/317
+Handled-By	: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Patch		: http://patchwork.kernel.org/patch/20197/
 
