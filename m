@@ -1,36 +1,42 @@
-From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: [Bug #13331] FUTEX_LOCK_PI kills kernel
-Date: Mon, 25 May 2009 10:24:56 +0200
-Message-ID: <1243239896.26820.648.camel@twins>
-References: <ZPPBiNHr1LC.A.9ZH.K9bGKB@chimera>
-	 <uSztiUhmDDC.A.0_H.h9bGKB@chimera>
+From: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+Subject: Re: [Bug #13178] Booting very slow
+Date: Mon, 25 May 2009 01:37:02 -0700 (PDT)
+Message-ID: <349066.43765.qm@web32603.mail.mud.yahoo.com>
+References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <WCcYF-TAbJC.A.VXD.iQcGKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <uSztiUhmDDC.A.0_H.h9bGKB@chimera>
+In-Reply-To: <WCcYF-TAbJC.A.VXD.iQcGKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sun, 2009-05-24 at 21:11 +0200, Rafael J. Wysocki wrote:
+
+----- Original Message ----
+
+> From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+> Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>; Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+> Sent: Sunday, May 24, 2009 9:31:18 PM
+> Subject: [Bug #13178] Booting very slow
+> 
 > This message has been generated automatically as a part of a report
-> of recent regressions.
+> of regressions introduced between 2.6.28 and 2.6.29.
 > 
 > The following bug entry is on the current list of known regressions
-> from 2.6.29.  Please verify if it still should be listed and let me know
-> (either way).
+> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> be listed and let me know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13331
-> Subject		: FUTEX_LOCK_PI kills kernel
-> Submitter	: Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>
-> Date		: 2009-05-17 09:51 (8 days old)
+> Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=13178
+> Subject        : Booting very slow
+> Submitter    : Martin Knoblauch 
+> Date        : 2009-04-24 12:45 (31 days old)
+> References    : http://marc.info/?l=linux-kernel&m=124057716231773&w=4
 
-commit 64d1304a64477629cb16b75491a77bafe6f86963
-Author: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Date:   Mon May 18 21:20:10 2009 +0200
+ Still happens with 2.6.30-rc7. But see my comment on bz. I would be willing to leave this as "fuzzy timing related problem.
 
-    futex: setup writeable mapping for futex ops which modify user space data
-
+Cheers
+Martin
