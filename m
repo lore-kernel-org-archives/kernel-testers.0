@@ -1,37 +1,48 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.30-rc6: Reported regressions from 2.6.29
-Date: Tue, 26 May 2009 01:02:28 +0200
-Message-ID: <200905260102.29455.rjw@sisk.pl>
-References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera> <200905252224.37012.elendil@planet.nl>
+Subject: Re: [Bug #13178] Booting very slow
+Date: Tue, 26 May 2009 01:04:04 +0200
+Message-ID: <200905260104.04844.rjw@sisk.pl>
+References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <WCcYF-TAbJC.A.VXD.iQcGKB@chimera> <349066.43765.qm@web32603.mail.mud.yahoo.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200905252224.37012.elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+In-Reply-To: <349066.43765.qm-DCzg5M2nF3GvuULXzWHTWIglqE1Y4D90QQ4Iyu8u01E@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Monday 25 May 2009, Frans Pop wrote:
-> Rafael J. Wysocki wrote:
-> > If you know of any other unresolved regressions from 2.6.29, please let
-> > me know either and I'll add them to the list.
+On Monday 25 May 2009, Martin Knoblauch wrote:
 > 
-> It may be worth tracking a possible regression introduced with -rc6 as a 
-> result of http://bugzilla.kernel.org/show_bug.cgi?id=13259.
+> ----- Original Message ----
 > 
-> A new warning that was added in drivers/acpi/processor_throttling.c 
-> (commit 4973b22a: 'ACPI processor: reset the throttling state once it's 
-> invalid') may be triggering in cases where it shouldn't. It seems to 
-> trigger during boot and on 'cat /proc/acpi/processor/*/throttling'.
-> Otherwise it's probably relatively harmless.
+> > From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> > To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+> > Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>; Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+> > Sent: Sunday, May 24, 2009 9:31:18 PM
+> > Subject: [Bug #13178] Booting very slow
+> > 
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.28 and 2.6.29.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=13178
+> > Subject        : Booting very slow
+> > Submitter    : Martin Knoblauch 
+> > Date        : 2009-04-24 12:45 (31 days old)
+> > References    : http://marc.info/?l=linux-kernel&m=124057716231773&w=4
 > 
-> See the comments starting at #23 for details.
+>  Still happens with 2.6.30-rc7. But see my comment on bz. I would be willing to leave this as "fuzzy timing related problem.
 
-Hmm.  It's really better if you file a separate bug for that with a reference
-to the previous discussion.
+OK
+
+I've closed it as "unreproducible".
 
 Thanks,
 Rafael
