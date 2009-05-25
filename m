@@ -1,40 +1,49 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13371] s2disk hangs with kernel 2.6.29 and later, SATA, Gigabyte EG45M-DS2H - culprit found
-Date: Tue, 26 May 2009 01:36:32 +0200
-Message-ID: <200905260136.33724.rjw@sisk.pl>
-References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <20090525171305.GA5855@arbonne.lan> <20090525230259.GA5098@vilya>
+Subject: Re: [Bug #13371] s2disk hangs with kernel 2.6.29 and later, SATA, Gigabyte EG45M-DS2H
+Date: Tue, 26 May 2009 01:38:12 +0200
+Message-ID: <200905260138.12880.rjw@sisk.pl>
+References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <200905260111.40728.rjw@sisk.pl> <200905260119.57542.bzolnier@gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090525230259.GA5098@vilya>
+In-Reply-To: <200905260119.57542.bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Richard Atterer <richard-2/EmM+jwkBzwc4Swprx3xw@public.gmane.org>
-Cc: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>, Auke Kok <auke-jan.h.kok-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Richard Atterer <richard-2/EmM+jwkBzwc4Swprx3xw@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
 
-On Tuesday 26 May 2009, Richard Atterer wrote:
-> Hello,
+On Tuesday 26 May 2009, Bartlomiej Zolnierkiewicz wrote:
+> On Tuesday 26 May 2009 01:11:40 Rafael J. Wysocki wrote:
+> > On Monday 25 May 2009, Richard Atterer wrote:
+> > > On Mon, May 25, 2009 at 04:30:21PM +0200, Bartlomiej Zolnierkiewicz wrote:
+> > > > Hmm, we added ACPI NVS memory handling there and some machines seem
+> > > > to have trouble with it.  I think it would be worth to check it first.
+> > > > 
+> > > > Richard, could you try s2disk on some recent 2.6.30-rc kernel while
+> > > > booting using "acpi_sleep=s4_nonvs"?
+> > > 
+> > > I just tried that with 2.6.30-rc7, unfortunately it doesn't make any 
+> > > difference.
+> > > 
+> > > It turns out that if I wait long enough (just over 1 minute) both during 
+> > > suspend and resume, I *am* able to suspend and resume the machine. I have 
+> > > to manually turn it off or reset it though.
+> > > 
+> > > Another possibly interesting observation: My DVD writer apparently gets 
+> > > reset before the 1-minute hang and my USB hub after the hang.
+> > 
+> > You replied to Jeff that hibernation worked with CONFIG_IDE=n.  What was wrong
+> > with that test?
 > 
-> "Jerry" contacted me off-list with information about the root of the 
-> problem - many thanks indeed!!!
+> It didn't work.  That was wrong.
 > 
-> It turns out that the e100 driver is responsible. (The motherboard actually 
-> has a r8169 chip, but I added an old Intel PCI ethernet card I own.)
-> 
-> By rmmoding e100 before s2disk, the problem goes away. Jerry mentions that 
-> he once saw a message about e100 failing to load its microcode - I never 
-> saw such a message.
-> 
-> The most recent e100 commit ac7c992 by Thadeu Lima de Souza Cascardo (Apr 
-> 28) made some changes to the behaviour in the case of shutdown vs. suspend, 
-> maybe the problem is there? (But note that during bisecting, I tested 
-> kernels older than that commit, and not all of them worked.) Before that, 
-> f902283 (Mar 3 2008) mentions suspend in the log message.
+> Please at least read the current thread before asking such questions.
 
-OK, thanks for the information.  I'll have a look at the e100 suspend-resume
-code, but I really don't think commit ac7c992 is at fault here.
+Sorry, I was wondering why Richard told Jeff that the test worked at that time.
+
+I should have asked differently or something, perhaps.
 
 Best,
 Rafael
