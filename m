@@ -1,51 +1,40 @@
-From: Richard Atterer <richard-2/EmM+jwkBzwc4Swprx3xw@public.gmane.org>
-Subject: Re: [Bug #13371] s2disk hangs with kernel 2.6.29 and later, SATA,
-	Gigabyte EG45M-DS2H - culprit found
-Date: Tue, 26 May 2009 01:03:00 +0200
-Message-ID: <20090525230259.GA5098@vilya>
-References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <200905251448.40907.bzolnier@gmail.com> <20090525134522.GA7805@arbonne.lan> <200905251630.21781.bzolnier@gmail.com> <20090525171305.GA5855@arbonne.lan>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13331] FUTEX_LOCK_PI kills kernel
+Date: Tue, 26 May 2009 01:25:44 +0200
+Message-ID: <200905260125.44782.rjw@sisk.pl>
+References: <ZPPBiNHr1LC.A.9ZH.K9bGKB@chimera> <uSztiUhmDDC.A.0_H.h9bGKB@chimera> <1243239896.26820.648.camel@twins>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1243239896.26820.648.camel@twins>
 Content-Disposition: inline
-In-Reply-To: <20090525171305.GA5855-dsTKODJrvkThXIiyNabO3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>, Auke Kok <auke-jan.h.kok-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
-Hello,
+On Monday 25 May 2009, Peter Zijlstra wrote:
+> On Sun, 2009-05-24 at 21:11 +0200, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.29.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13331
+> > Subject		: FUTEX_LOCK_PI kills kernel
+> > Submitter	: Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>
+> > Date		: 2009-05-17 09:51 (8 days old)
+> 
+> commit 64d1304a64477629cb16b75491a77bafe6f86963
+> Author: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+> Date:   Mon May 18 21:20:10 2009 +0200
+> 
+>     futex: setup writeable mapping for futex ops which modify user space data
 
-"Jerry" contacted me off-list with information about the root of the=20
-problem - many thanks indeed!!!
+Thanks, closed.
 
-It turns out that the e100 driver is responsible. (The motherboard actu=
-ally=20
-has a r8169 chip, but I added an old Intel PCI ethernet card I own.)
-
-By rmmoding e100 before s2disk, the problem goes away. Jerry mentions t=
-hat=20
-he once saw a message about e100 failing to load its microcode - I neve=
-r=20
-saw such a message.
-
-The most recent e100 commit ac7c992 by Thadeu Lima de Souza Cascardo (A=
-pr=20
-28) made some changes to the behaviour in the case of shutdown vs. susp=
-end,=20
-maybe the problem is there? (But note that during bisecting, I tested=20
-kernels older than that commit, and not all of them worked.) Before tha=
-t,=20
-f902283 (Mar 3 2008) mentions suspend in the log message.
-
-Cheers,
-
-  Richard
-
---=20
-  __   _
-  |_) /|  Richard Atterer     |  GnuPG key: 888354F7
-  | \/=AF|  http://atterer.net  |  08A9 7B7D 3D13 3EF2 3D25  D157 79E6 =
-=466DC 8883 54F7
-  =AF '` =AF
+Rafael
