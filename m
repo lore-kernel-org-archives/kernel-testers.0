@@ -1,33 +1,40 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13375] Kernel crash with 2.6.29 + nfs + xfs (radix-tree)
-Date: Tue, 26 May 2009 01:15:55 +0200
-Message-ID: <200905260115.56374.rjw@sisk.pl>
-References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <20090525002210.GE1339@samad.com.au> <alpine.DEB.1.10.0905250032330.19424@router.windsormachine.com>
+Subject: Re: [Bug #13125] active uvcvideo breaks over suspend
+Date: Tue, 26 May 2009 01:17:52 +0200
+Message-ID: <200905260117.53340.rjw@sisk.pl>
+References: <ZPPBiNHr1LC.A.9ZH.K9bGKB@chimera> <uSztiUhmDDC.A.B-B.0-bGKB@chimera> <4A1A6B59.2030009@tuffmail.co.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.1.10.0905250032330.19424-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>
+In-Reply-To: <4A1A6B59.2030009-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Mike Dresser <mdresser_l-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>
-Cc: Alex Samad <alex-SGFoFqf0RKf0CCvOHzKKcA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
+To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Laurent Pinchart <laurent.pinchart-AgBVmzD5pcezQB+pC5nmwQ@public.gmane.org>, Ming Lei <tom.leiming-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Monday 25 May 2009, Mike Dresser wrote:
-> Confirmed this is still a problem with 2.6.29.4
-> 
-> Mike
-> 
-> On Mon, 25 May 2009, Alex Samad wrote:
-> 
-> > Hi
+On Monday 25 May 2009, Alan Jenkins wrote:
+> Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
 > >
-> > As far as I know it is still a problem
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.29.  Please verify if it still should be listed and let me know
+> > (either way).
 > >
-> > Thanks
-> > Alex
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13125
+> > Subject		: active uvcvideo breaks over suspend
+> > Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+> > Date		: 2009-04-15 10:12 (40 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=123979009508840&w=4
+> > Handled-By	: Ming Lei <tom.leiming-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Patch		: http://lkml.org/lkml/2009/4/18/5
+> >   
+> 
+> Seems to be fixed in RC7, thanks.
 
-Thanks for the updates.
+Thanks, closed.
 
 Rafael
