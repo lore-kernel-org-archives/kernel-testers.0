@@ -1,19 +1,18 @@
 From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: [Bug #13126] BUG: MAX_LOCKDEP_ENTRIES too low! when mounting
- rootfs
-Date: Mon, 25 May 2009 10:21:58 +0200
-Message-ID: <1243239718.26820.647.camel@twins>
+Subject: Re: [Bug #13331] FUTEX_LOCK_PI kills kernel
+Date: Mon, 25 May 2009 10:24:56 +0200
+Message-ID: <1243239896.26820.648.camel@twins>
 References: <ZPPBiNHr1LC.A.9ZH.K9bGKB@chimera>
-	 <uSztiUhmDDC.A.I2B.y-bGKB@chimera>
+	 <uSztiUhmDDC.A.0_H.h9bGKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <uSztiUhmDDC.A.I2B.y-bGKB@chimera>
+In-Reply-To: <uSztiUhmDDC.A.0_H.h9bGKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Philip Copeland <bryce-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 
 On Sun, 2009-05-24 at 21:11 +0200, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
@@ -24,19 +23,14 @@ On Sun, 2009-05-24 at 21:11 +0200, Rafael J. Wysocki wrote:
 > (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13126
-> Subject		: BUG: MAX_LOCKDEP_ENTRIES too low! when mounting rootfs
-> Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-04-15 12:43 (40 days old)
-> References	: http://marc.info/?l=linux-kernel&m=123979949820538&w=4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13331
+> Subject		: FUTEX_LOCK_PI kills kernel
+> Submitter	: Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>
+> Date		: 2009-05-17 09:51 (8 days old)
 
--rc7 includes:
+commit 64d1304a64477629cb16b75491a77bafe6f86963
+Author: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Date:   Mon May 18 21:20:10 2009 +0200
 
-Ingo Molnar (1):
-      lockdep: increase MAX_LOCKDEP_ENTRIES and MAX_LOCKDEP_CHAINS
-
-Which can be found with commit id: 
-   d80c19df5fcceb8c741e96f09f275c2da719efef
-
-
+    futex: setup writeable mapping for futex ops which modify user space data
 
