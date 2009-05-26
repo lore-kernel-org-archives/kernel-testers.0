@@ -1,47 +1,59 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: 2.6.30-rc6: Reported regressions from 2.6.29
-Date: Tue, 26 May 2009 20:48:12 +0200
-Message-ID: <200905262048.13325.rjw@sisk.pl>
-References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera> <200905260102.29455.rjw@sisk.pl> <200905261730.53041.elendil@planet.nl>
+From: gapeters-XfrvlLN1Pqtfpb/ySbbPhw@public.gmane.org
+Subject: Re: [Bug #13371] s2disk hangs with kernel 2.6.29 and later, SATA,
+	Gigabyte EG45M-DS2H - culprit found
+Date: Tue, 26 May 2009 17:10:59 -0400
+Message-ID: <20090526211058.GB2538@indigo.myhome.westell.com>
+References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <200905251448.40907.bzolnier@gmail.com> <20090525134522.GA7805@arbonne.lan> <200905251630.21781.bzolnier@gmail.com> <20090525171305.GA5855@arbonne.lan> <20090525230259.GA5098@vilya>
+Reply-To: jerry_734-H+0wwilmMs3R7s880joybQ@public.gmane.org
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <200905261730.53041.elendil@planet.nl>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-acpi-owner@vger.kernel.org
+In-Reply-To: <20090525230259.GA5098@vilya>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Frans Pop <elendil@planet.nl>
-Cc: linux-kernel@vger.kernel.org, akpm@linux-foundation.org, torvalds@linux-foundation.org, kernel-testers@vger.kernel.org, linux-acpi@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>, Auke Kok <auke-jan.h.kok-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Tuesday 26 May 2009, Frans Pop wrote:
-> On Tuesday 26 May 2009, Rafael J. Wysocki wrote:
-> > On Monday 25 May 2009, Frans Pop wrote:
-> > > Rafael J. Wysocki wrote:
-> > > > If you know of any other unresolved regressions from 2.6.29, please
-> > > > let me know either and I'll add them to the list.
-> > >
-> > > It may be worth tracking a possible regression introduced with -rc6
-> > > as a result of http://bugzilla.kernel.org/show_bug.cgi?id=13259.
-> > >
-> > > A new warning that was added in drivers/acpi/processor_throttling.c
-> > > (commit 4973b22a: 'ACPI processor: reset the throttling state once
-> > > it's invalid') may be triggering in cases where it shouldn't. It
-> > > seems to trigger during boot and on 'cat
-> > > /proc/acpi/processor/*/throttling'. Otherwise it's probably
-> > > relatively harmless.
-> > >
-> > > See the comments starting at #23 for details.
-> >
-> > Hmm.  It's really better if you file a separate bug for that with a
-> > reference to the previous discussion.
+On Tue, May 26, 2009 at 01:03:00AM +0200, Richard Atterer wrote:
+> Hello,
 > 
-> Done (after doing additional debugging):
-> http://bugzilla.kernel.org/show_bug.cgi?id=13389
+> "Jerry" contacted me off-list with information about the root of the 
+> problem - many thanks indeed!!!
 > 
-> Marked as regression and set as blocking for #13070.
+> It turns out that the e100 driver is responsible. (The motherboard actually 
+> has a r8169 chip, but I added an old Intel PCI ethernet card I own.)
+> 
+> By rmmoding e100 before s2disk, the problem goes away. Jerry mentions that 
+> he once saw a message about e100 failing to load its microcode - I never 
+> saw such a message.
+> 
+> The most recent e100 commit ac7c992 by Thadeu Lima de Souza Cascardo (Apr 
+> 28) made some changes to the behaviour in the case of shutdown vs. suspend, 
+> maybe the problem is there? (But note that during bisecting, I tested 
+> kernels older than that commit, and not all of them worked.) Before that, 
+> f902283 (Mar 3 2008) mentions suspend in the log message.
+> 
+> Cheers,
+> 
+>   Richard
+> 
+> -- 
 
-Thanks!
+I think I saw the firmware loader failure during resume. If you leave the
+system alone for ~2 minutes it will resume, but the e100 won't work &
+any thing "touching" it will go into an un-interruptable sleep
+(ifconfig, cat'ing some of its /sys files).
 
-Best,
-Rafael
+IIRC started with 2.6.29, with the change to net drivers to use the
+firmware loader. During the hibernate, for some reason, the e100 is
+suspended then resumed, at which point it requests its firmware.
+Userspace is frozen so the firmware load times out (the 2 minute timeout
+which is why I guessed you were having the same problem).
+
+During resume, the e100 is apparently resumed *before* userspace is
+un-frozen, so again it times out loading its firmware. At this point
+it's unusable.
+
+	Jerry
