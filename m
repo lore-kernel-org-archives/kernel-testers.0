@@ -1,40 +1,42 @@
-From: Benny Halevy <bhalevy-C4P08NqkoRlBDgjK7y7TUQ@public.gmane.org>
-Subject: Re: [Bug #13175] sata_nv incompatible with async scsi scan
-Date: Tue, 26 May 2009 19:38:32 +0300
-Message-ID: <4A1C1B08.2080600@panasas.com>
-References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <WCcYF-TAbJC.A.NgD.lQcGKB@chimera>
+From: "Kok, Auke" <auke-jan.h.kok-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13371] s2disk hangs with kernel 2.6.29 and later, SATA,
+ Gigabyte EG45M-DS2H - culprit found
+Date: Tue, 26 May 2009 10:36:21 -0700
+Message-ID: <4A1C2895.7090902@intel.com>
+References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <20090525171305.GA5855@arbonne.lan> <20090525230259.GA5098@vilya> <200905260136.33724.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <WCcYF-TAbJC.A.NgD.lQcGKB@chimera>
+In-Reply-To: <200905260136.33724.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Matthew Wilcox <matthew-Ztpu424NOJ8@public.gmane.org>
+Cc: Richard Atterer <richard-2/EmM+jwkBzwc4Swprx3xw@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>, "Kirsher, Jeffrey T" <jeffrey.t.kirsher-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On May. 24, 2009, 22:31 +0300, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.28 and 2.6.29.
+Rafael J. Wysocki wrote:
+> On Tuesday 26 May 2009, Richard Atterer wrote:
+>> Hello,
+>>
+>> "Jerry" contacted me off-list with information about the root of the 
+>> problem - many thanks indeed!!!
+>>
+>> It turns out that the e100 driver is responsible. (The motherboard actually 
+>> has a r8169 chip, but I added an old Intel PCI ethernet card I own.)
+>>
+>> By rmmoding e100 before s2disk, the problem goes away. Jerry mentions that 
+>> he once saw a message about e100 failing to load its microcode - I never 
+>> saw such a message.
+>>
+>> The most recent e100 commit ac7c992 by Thadeu Lima de Souza Cascardo (Apr 
+>> 28) made some changes to the behaviour in the case of shutdown vs. suspend, 
+>> maybe the problem is there? (But note that during bisecting, I tested 
+>> kernels older than that commit, and not all of them worked.) Before that, 
+>> f902283 (Mar 3 2008) mentions suspend in the log message.
 > 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-> be listed and let me know (either way).
+> OK, thanks for the information.  I'll have a look at the e100 suspend-resume
+> code, but I really don't think commit ac7c992 is at fault here.
 
-Verified to still exist with 2.6.30-rc7 :-(
+adding Jeff Kirsher to the Cc, who currently maintains the e100 driver.
 
-[The bug description is misleading though.  More testing
-lead to post-kernel boot problems where initrd cannot find the sata
-devices during its init phase]
-
-Benny
-
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13175
-> Subject		: sata_nv incompatible with async scsi scan
-> Submitter	: Benny Halevy <bhalevy-C4P08NqkoRlBDgjK7y7TUQ@public.gmane.org>
-> Date		: 2009-04-21 7:03 (34 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124029746431777&w=4
-> 
-> 
+Auke
