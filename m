@@ -1,44 +1,40 @@
-From: Frans Pop <elendil@planet.nl>
-Subject: Re: 2.6.30-rc6: Reported regressions from 2.6.29
-Date: Tue, 26 May 2009 17:30:51 +0200
-Message-ID: <200905261730.53041.elendil@planet.nl>
-References: <_AjETDMbIoL.A.DcH.RYzDKB@chimera> <200905252224.37012.elendil@planet.nl> <200905260102.29455.rjw@sisk.pl>
+From: Benny Halevy <bhalevy-C4P08NqkoRlBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: [Bug #13175] sata_nv incompatible with async scsi scan
+Date: Tue, 26 May 2009 19:38:32 +0300
+Message-ID: <4A1C1B08.2080600@panasas.com>
+References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <WCcYF-TAbJC.A.NgD.lQcGKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <200905260102.29455.rjw@sisk.pl>
-Content-Disposition: inline
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <WCcYF-TAbJC.A.NgD.lQcGKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: linux-kernel@vger.kernel.org, akpm@linux-foundation.org, torvalds@linux-foundation.org, kernel-testers@vger.kernel.org, linux-acpi@vger.kernel.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Matthew Wilcox <matthew-Ztpu424NOJ8@public.gmane.org>
 
-On Tuesday 26 May 2009, Rafael J. Wysocki wrote:
-> On Monday 25 May 2009, Frans Pop wrote:
-> > Rafael J. Wysocki wrote:
-> > > If you know of any other unresolved regressions from 2.6.29, please
-> > > let me know either and I'll add them to the list.
-> >
-> > It may be worth tracking a possible regression introduced with -rc6
-> > as a result of http://bugzilla.kernel.org/show_bug.cgi?id=13259.
-> >
-> > A new warning that was added in drivers/acpi/processor_throttling.c
-> > (commit 4973b22a: 'ACPI processor: reset the throttling state once
-> > it's invalid') may be triggering in cases where it shouldn't. It
-> > seems to trigger during boot and on 'cat
-> > /proc/acpi/processor/*/throttling'. Otherwise it's probably
-> > relatively harmless.
-> >
-> > See the comments starting at #23 for details.
->
-> Hmm.  It's really better if you file a separate bug for that with a
-> reference to the previous discussion.
+On May. 24, 2009, 22:31 +0300, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.28 and 2.6.29.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> be listed and let me know (either way).
 
-Done (after doing additional debugging):
-http://bugzilla.kernel.org/show_bug.cgi?id=13389
+Verified to still exist with 2.6.30-rc7 :-(
 
-Marked as regression and set as blocking for #13070.
+[The bug description is misleading though.  More testing
+lead to post-kernel boot problems where initrd cannot find the sata
+devices during its init phase]
 
-Cheers,
-FJP
+Benny
+
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13175
+> Subject		: sata_nv incompatible with async scsi scan
+> Submitter	: Benny Halevy <bhalevy-C4P08NqkoRlBDgjK7y7TUQ@public.gmane.org>
+> Date		: 2009-04-21 7:03 (34 days old)
+> References	: http://marc.info/?l=linux-kernel&m=124029746431777&w=4
+> 
+> 
