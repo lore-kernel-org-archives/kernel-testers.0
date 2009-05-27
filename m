@@ -1,55 +1,40 @@
-From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [Bug #13178] Booting very slow
-Date: Tue, 26 May 2009 23:32:44 -0700
-Message-ID: <20090526233244.b817948e.akpm@linux-foundation.org>
-References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera>
-	<WCcYF-TAbJC.A.VXD.iQcGKB@chimera>
-	<349066.43765.qm@web32603.mail.mud.yahoo.com>
-	<200905260104.04844.rjw@sisk.pl>
+From: Benny Halevy <bhalevy-C4P08NqkoRlBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: [Bug #13175] sata_nv incompatible with async scsi scan
+Date: Wed, 27 May 2009 10:31:09 +0300
+Message-ID: <4A1CEC3D.5030908@panasas.com>
+References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <WCcYF-TAbJC.A.NgD.lQcGKB@chimera> <4A1C1B08.2080600@panasas.com> <200905262047.20823.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200905260104.04844.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <200905262047.20823.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Matthew Wilcox <matthew-Ztpu424NOJ8@public.gmane.org>
 
-On Tue, 26 May 2009 01:04:04 +0200 "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On May. 26, 2009, 21:47 +0300, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> On Tuesday 26 May 2009, Benny Halevy wrote:
+>> On May. 24, 2009, 22:31 +0300, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+>>> This message has been generated automatically as a part of a report
+>>> of regressions introduced between 2.6.28 and 2.6.29.
+>>>
+>>> The following bug entry is on the current list of known regressions
+>>> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+>>> be listed and let me know (either way).
+>> Verified to still exist with 2.6.30-rc7 :-(
+>>
+>> [The bug description is misleading though.  More testing
+>> lead to post-kernel boot problems where initrd cannot find the sata
+>> devices during its init phase]
+> 
+> Thanks for the update.
+> 
+> What description would be better in your opinion?
 
-> On Monday 25 May 2009, Martin Knoblauch wrote:
-> > 
-> > ----- Original Message ----
-> > 
-> > > From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> > > To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-> > > Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>; Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
-> > > Sent: Sunday, May 24, 2009 9:31:18 PM
-> > > Subject: [Bug #13178] Booting very slow
-> > > 
-> > > This message has been generated automatically as a part of a report
-> > > of regressions introduced between 2.6.28 and 2.6.29.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-> > > be listed and let me know (either way).
-> > > 
-> > > 
-> > > Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=13178
-> > > Subject        : Booting very slow
-> > > Submitter    : Martin Knoblauch 
-> > > Date        : 2009-04-24 12:45 (31 days old)
-> > > References    : http://marc.info/?l=linux-kernel&m=124057716231773&w=4
-> > 
-> >  Still happens with 2.6.30-rc7. But see my comment on bz. I would be willing to leave this as "fuzzy timing related problem.
-> 
-> OK
-> 
-> I've closed it as "unreproducible".
-> 
+How about: initrd fails to find /dev/sda* (sata_nv)
 
-afacit this should remain open.  It's a reproducible regression on one
-of Martin's machines and it has been bisected down to a particular
-commit which quite clearly has the potential to increase device
-intialisation times by a lot.  Especially if that commit was buggy.
+Benny
+
+> 
+> Rafael
