@@ -1,69 +1,18 @@
-From: Pete Zaitcev <zaitcev-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: 2.6.30-rc6: usb printer does not work
-Date: Thu, 28 May 2009 12:20:54 -0600
-Message-ID: <20090528122054.2c837ccd.zaitcev@redhat.com>
-References: <20090528170726.GA13714@orion>
-	<20090528111831.a35c5184.zaitcev@redhat.com>
-	<a4423d670905281044n5e2480a1g98fc6fb5ceb845cd@mail.gmail.com>
+From: Mike Dresser <mdresser_l-d1V2JtDI1HZNJje9z4SY99BPR1lH4CV8@public.gmane.org>
+Subject: Re: [Bug #13375] Kernel crash with 2.6.29 + nfs + xfs (radix-tree)
+Date: Thu, 28 May 2009 17:10:04 -0400
+Message-ID: <4A1EFDAC.9050103@windsormachine.com>
+References: <GtY7d2eWpoK.A.ioC.MQcGKB@chimera> <20090525002210.GE1339@samad.com.au> <alpine.DEB.1.10.0905250032330.19424@router.windsormachine.com> <200905260115.56374.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <a4423d670905281044n5e2480a1g98fc6fb5ceb845cd-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200905260115.56374.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, zaitcev-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Mike Dresser <mdresser_l-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>, Alex Samad <alex-SGFoFqf0RKf0CCvOHzKKcA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>, 526406-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org
 
-On Thu, 28 May 2009 21:44:05 +0400, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+I should mention that I don't run NFS on this server, so it's likely not 
+to be an NFS issue either.
 
-> >> kernel is 2.6.30-rc6-00065-g3633832
-> >>
-> >> It worked sometime ago, I do not remember,
-> >> perhaps it was 2.6.29.
-> >
-> > Can you verify it?
-
-> It works with 2.6.29 indeed.
-
-Thanks. Just to make sure that it's the culprit, can you back out
-the patch for the usblp from the 2.6.30-rc6-00065-g3633832, whatever
-that is? We only had one since 2.6.29 (attached).
-
-Also, I'd like to see a usbmon trace. I don't want to create more
-quirks, so perhaps we can work out some kind of compromise that lets
-BJC-3000 work with the general code. Failing that, we'll add a quirk
-and that would hopefuly restore your case (HP CP1215, I take it).
-
--- Pete
-
---- linux-2.6.29/drivers/usb/class/usblp.c	2009-05-28 12:07:06.000000000 -0600
-+++ linux-2.6/drivers/usb/class/usblp.c	2009-04-05 11:27:00.000000000 -0600
-@@ -880,16 +880,19 @@ static int usblp_wwait(struct usblp *usb
- 		if (rc <= 0)
- 			break;
- 
--		if (usblp->flags & LP_ABORT) {
--			if (schedule_timeout(msecs_to_jiffies(5000)) == 0) {
-+		if (schedule_timeout(msecs_to_jiffies(1500)) == 0) {
-+			if (usblp->flags & LP_ABORT) {
- 				err = usblp_check_status(usblp, err);
- 				if (err == 1) {	/* Paper out */
- 					rc = -ENOSPC;
- 					break;
- 				}
-+			} else {
-+				/* Prod the printer, Gentoo#251237. */
-+				mutex_lock(&usblp->mut);
-+				usblp_read_status(usblp, usblp->statusbuf);
-+				mutex_unlock(&usblp->mut);
- 			}
--		} else {
--			schedule();
- 		}
- 	}
- 	set_current_state(TASK_RUNNING);
---
-To unsubscribe from this list: send the line "unsubscribe linux-usb" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
