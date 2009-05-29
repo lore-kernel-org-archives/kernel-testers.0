@@ -1,39 +1,34 @@
-From: Pete Zaitcev <zaitcev-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: 2.6.30-rc6: usb printer does not work
-Date: Fri, 29 May 2009 01:11:19 -0600
-Message-ID: <20090529011119.3dbbe0e2.zaitcev@redhat.com>
-References: <20090528170726.GA13714@orion>
-	<20090528111831.a35c5184.zaitcev@redhat.com>
-	<a4423d670905281044n5e2480a1g98fc6fb5ceb845cd@mail.gmail.com>
-	<20090528122054.2c837ccd.zaitcev@redhat.com>
-	<a4423d670905282230n4bb9f456w1b13ce6462f81bf9@mail.gmail.com>
+From: Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Subject: Re: Installing outside LTP source
+Date: Fri, 29 May 2009 18:24:51 +0530
+Message-ID: <1243601691.5188.35.camel@subratamodak.linux.ibm.com>
+References: <4A1E5847.6030807@petalogix.com>
+Reply-To: subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <a4423d670905282230n4bb9f456w1b13ce6462f81bf9-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <4A1E5847.6030807-g5w7nrANp4BDPfheJLI6IQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, zaitcev-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: Kumar Gala <galak-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: LTP <ltp-list-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Jiri Palecek <jpalecek-S0/GAf8tV78@public.gmane.org>, Michal Simek <michal.simek-g5w7nrANp4BDPfheJLI6IQ@public.gmane.org>
 
-On Fri, 29 May 2009 09:30:57 +0400, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+On Thu, 2009-05-28 at 11:24 +0200, Michal Simek wrote: 
+> Hi All,
+> 
+> I would to ask you if someone works or worked on moving LTP to Kbuild.
 
-> It is working with 2.6.30-rc7-00097-gb5c42bc and without dd44be6b1
-> (usblp: continuously poll for status).
-> I cannot reproduce the problem after reboot.
-> It seems the problem is more complicated.
+I think we can probably ask somebody in this list as well.
 
-Indeed this is curious. I would like to see a usbmon trace if it
-starts looping like before. Then we'll see if it dies after it gets
-the status command.
+Kumar,
 
-One tiny possibility is that the old driver in Vojtech's days polled
-every 5s. The patch we discuss here polls every 1.5s. I have traces
-from Windows that bomb printers several times every second, so I figured
-that it would be safe to reduce the latency a bit. Maybe swapping that
-1500 with 5000 is enough. But we'd need a well controlled
-experiment, with a power cycle and several passes preferably.
+You have any idea ?
 
-Yours,
--- Pete
+Regards--
+Subrata
+
+> 
+> Thanks,
+> Michal
+> 
