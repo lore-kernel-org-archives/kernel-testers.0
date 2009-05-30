@@ -1,18 +1,25 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12765] i915 VT switch with AIGLX causes X lock up
-Date: Sat, 30 May 2009 21:55:33 +0200 (CEST)
-Message-ID: <PkPeJtNB3KO.A.TsH.wXbIKB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #12947] r128: system hangs when X is started with DRI enabled
+Date: Sat, 30 May 2009 21:55:34 +0200 (CEST)
+Message-ID: <PkPeJtNB3KO.A.CSH.sWbIKB@chimera>
 References: <THxQaUP0K2D.A.QkF.UVbIKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <dri-devel-bounces@lists.sourceforge.net>
 In-Reply-To: <THxQaUP0K2D.A.QkF.UVbIKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, =?utf-8?q?Michel=20D=C3=A4nzer?= <michel-otUistvHUpPR7s880joybQ@public.gmane.org>, Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/dri-devel>,
+	<mailto:dri-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=dri-devel>
+List-Post: <mailto:dri-devel@lists.sourceforge.net>
+List-Help: <mailto:dri-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/dri-devel>,
+	<mailto:dri-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: dri-devel-bounces@lists.sourceforge.net
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Jos van der Ende <seraph@xs4all.nl>, Kernel Testers List <kernel-testers@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>, "venkatesh.pallipadi@intel.com" <venkatesh.pallipadi@intel.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.28 and 2.6.29.
@@ -22,13 +29,17 @@ introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12765
-Subject		: i915 VT switch with AIGLX causes X lock up
-Submitter	: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-Date		: 2009-02-21 15:38 (99 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=14d200c5e5bd19219d930bbb9a5a22758c8f5bec
-References	: http://marc.info/?l=linux-kernel&m=123523074304955&w=4
-		  http://lkml.org/lkml/2009/4/27/317
-Handled-By	: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Patch		: http://patchwork.kernel.org/patch/20197/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12947
+Subject		: r128: system hangs when X is started with DRI enabled
+Submitter	: Jos van der Ende <seraph@xs4all.nl>
+Date		: 2009-03-26 16:14 (66 days old)
 
+
+
+------------------------------------------------------------------------------
+Register Now for Creativity and Technology (CaT), June 3rd, NYC. CaT 
+is a gathering of tech-side developers & brand creativity professionals. Meet
+the minds behind Google Creative Lab, Visual Complexity, Processing, & 
+iPhoneDevCamp as they present alongside digital heavyweights like Barbarian 
+Group, R/GA, & Big Spaceship. http://p.sf.net/sfu/creativitycat-com 
+--
