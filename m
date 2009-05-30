@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13179] CD-R: wodim intermittent failures
+Subject: [Bug #13119] Trouble with make-install from a NFS mount
 Date: Sat, 30 May 2009 21:37:30 +0200 (CEST)
-Message-ID: <LEcEO2518_I.A.I5E.BKbIKB@chimera>
+Message-ID: <LEcEO2518_I.A.cQF.jKbIKB@chimera>
 References: <4to6E2myxvG.A.muC.aIbIKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Isaacson <adi-3HqRAUrWAWyGglJvpFV4uA@public.gmane.org>, Joerg Schilling <Joerg.Schilling-8LS2qeF34IpklNlQbfROjRvVK+yQ3ZXh@public.gmane.org>, Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gregory Haskins <ghaskins-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.29.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13179
-Subject		: CD-R: wodim intermittent failures
-Submitter	: Andy Isaacson <adi-3HqRAUrWAWyGglJvpFV4uA@public.gmane.org>
-Date		: 2009-04-21 1:52 (40 days old)
-References	: http://marc.info/?l=linux-kernel&m=124027879214231&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13119
+Subject		: Trouble with make-install from a NFS mount
+Submitter	: Gregory Haskins <ghaskins-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>
+Date		: 2009-04-14 21:32 (47 days old)
+References	: http://marc.info/?l=linux-kernel&m=123974482327044&w=4
+Handled-By	: H. Peter Anvin <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
 
