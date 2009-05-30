@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #12705] X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
+Subject: [Bug #12909] boot/kernel init duration regression from 2.6.28
 Date: Sat, 30 May 2009 21:55:33 +0200 (CEST)
-Message-ID: <PkPeJtNB3KO.A.C9H.HYbIKB@chimera>
+Message-ID: <PkPeJtNB3KO.A.GXH.6WbIKB@chimera>
 References: <THxQaUP0K2D.A.QkF.UVbIKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-cv59FeDIM0c@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, CaT <cat-LJ1TwQYPT6cQrrorzV6ljw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.28 and 2.6.29.
@@ -22,12 +22,9 @@ introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12705
-Subject		: X200: Brightness broken since 2.6.29-rc4-58-g4c098bc
-Submitter	: Nico Schottelius <nico-linux-20090213-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
-Date		: 2009-02-13 9:33 (107 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=e806b4957412bf472d826bd8cc571da041248799
-References	: http://marc.info/?l=linux-kernel&m=123451768406825&w=4
-		  http://marc.info/?l=linux-kernel&m=123479975503827&w=2
-Handled-By	: Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12909
+Subject		: boot/kernel init duration regression from 2.6.28
+Submitter	: CaT <cat-LJ1TwQYPT6cQrrorzV6ljw@public.gmane.org>
+Date		: 2009-03-16 10:25 (76 days old)
+References	: http://marc.info/?l=linux-kernel&m=123720083515950&w=4
 
