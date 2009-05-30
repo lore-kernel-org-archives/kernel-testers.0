@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13001] PCI-DMA: Out of IOMMU space
-Date: Sat, 30 May 2009 21:55:34 +0200 (CEST)
-Message-ID: <PkPeJtNB3KO.A.WJH.YWbIKB@chimera>
+Subject: [Bug #13100] can't anymore even do a s2ram-s2disk-s2ram cycle on acer aspire 5720G
+Date: Sat, 30 May 2009 21:55:36 +0200 (CEST)
+Message-ID: <PkPeJtNB3KO.A.5zG.9VbIKB@chimera>
 References: <THxQaUP0K2D.A.QkF.UVbIKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>, Grant Grundler <grundler-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, optimusgd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.28 and 2.6.29.
@@ -22,9 +22,11 @@ introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13001
-Subject		: PCI-DMA: Out of IOMMU space
-Submitter	:  <optimusgd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-04-03 09:30 (58 days old)
-References	: http://lkml.org/lkml/2009/4/28/133
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13100
+Subject		: can't anymore even do a s2ram-s2disk-s2ram cycle on acer aspire 5720G
+Submitter	: Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-04-06 23:52 (55 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=a0d4922da2e4ccb0973095d8d29f36f6b1b5f703
+References	: http://marc.info/?l=linux-kernel&m=123906202829074&w=4
+Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
 
