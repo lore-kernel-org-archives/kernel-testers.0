@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13074] gspca_stv06xx doesn't work with Logitech QuickCam Express (046d:0840)
-Date: Sat, 30 May 2009 21:55:36 +0200 (CEST)
-Message-ID: <PkPeJtNB3KO.A.p1G.AWbIKB@chimera>
+Subject: [Bug #12971] "tg3 transmit timed out" when transmitting at high bitrate
+Date: Sat, 30 May 2009 21:55:34 +0200 (CEST)
+Message-ID: <PkPeJtNB3KO.A.GOH.mWbIKB@chimera>
 References: <THxQaUP0K2D.A.QkF.UVbIKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Paulo Matias <matias-fd97jBR+K/6SGgWmA85PRw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Matt Carlson <mcarlson-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>, Nikolay <dobrev666-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.28 and 2.6.29.
@@ -22,8 +22,9 @@ introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13074
-Subject		: gspca_stv06xx doesn't work with Logitech QuickCam Express (046d:0840)
-Submitter	: Paulo Matias <matias-fd97jBR+K/6SGgWmA85PRw@public.gmane.org>
-Date		: 2009-04-12 14:10 (49 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12971
+Subject		: "tg3 transmit timed out" when transmitting at high bitrate
+Submitter	: Nikolay <dobrev666-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-03-29 18:02 (63 days old)
+Handled-By	: Matt Carlson <mcarlson-dY08KVG/lbpWk0Htik3J/w@public.gmane.org>
 
