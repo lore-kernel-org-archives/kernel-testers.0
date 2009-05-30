@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13373] fbcon, intelfb, i915: INFO: possible circular locking dependency detected
-Date: Sat, 30 May 2009 21:37:36 +0200 (CEST)
-Message-ID: <LEcEO2518_I.A.6kD.zIbIKB@chimera>
+Subject: [Bug #13372] Oops in usb-serial with keyspan adapter
+Date: Sat, 30 May 2009 21:37:35 +0200 (CEST)
+Message-ID: <LEcEO2518_I.A.xsD.1IbIKB@chimera>
 References: <4to6E2myxvG.A.muC.aIbIKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, USB <linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,11 @@ from 2.6.29.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13373
-Subject		: fbcon, intelfb, i915: INFO: possible circular locking dependency detected
-Submitter	: Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-05-23 5:08 (8 days old)
-References	: http://marc.info/?l=linux-kernel&m=124305538130702&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13372
+Subject		: Oops in usb-serial with keyspan adapter
+Submitter	: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Date		: 2009-05-18 0:07 (13 days old)
+References	: http://marc.info/?l=linux-kernel&m=124260532924736&w=4
+Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Patch		: http://patchwork.kernel.org/patch/26603/
 
