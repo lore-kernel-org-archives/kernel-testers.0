@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13148] resume after suspend-to-ram broken on Sony Vaio VGN-SR19VN when sony-laptop driver present
-Date: Sat, 30 May 2009 21:55:37 +0200 (CEST)
-Message-ID: <PkPeJtNB3KO.A.qmG.3VbIKB@chimera>
+Subject: [Bug #13025] After upgrading to kernel 2.6.29, pulseaudio stopped with some strange error
+Date: Sat, 30 May 2009 21:55:35 +0200 (CEST)
+Message-ID: <PkPeJtNB3KO.A.m6G.KWbIKB@chimera>
 References: <THxQaUP0K2D.A.QkF.UVbIKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, fanderay <fanderay4-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Mattia Dongili <malattia-k2GhghHVRtY@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, Yaroslav Isakov <yaroslav.isakov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.28 and 2.6.29.
@@ -22,8 +22,8 @@ introduced between 2.6.28 and 2.6.29.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13148
-Subject		: resume after suspend-to-ram broken on Sony Vaio VGN-SR19VN when sony-laptop driver present
-Submitter	: fanderay <fanderay4-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Date		: 2009-04-22 14:39 (39 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13025
+Subject		: After upgrading to kernel 2.6.29, pulseaudio stopped with some strange error
+Submitter	: Yaroslav Isakov <yaroslav.isakov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-04-06 19:47 (55 days old)
 
