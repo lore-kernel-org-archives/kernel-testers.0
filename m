@@ -1,65 +1,61 @@
 From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-Subject: Re: [Bug #13362] [mac80211 ] Wifi Network Slownes Bisected
-Date: Sun, 31 May 2009 12:01:36 +0200
-Message-ID: <1243764096.19302.34.camel@johannes.local>
+Subject: Re: [Bug #13306] hibernate slow on _second_ run
+Date: Sun, 31 May 2009 12:02:09 +0200
+Message-ID: <1243764129.19302.37.camel@johannes.local>
 References: <4to6E2myxvG.A.muC.aIbIKB@chimera>
-	 <LEcEO2518_I.A.9zD.8IbIKB@chimera>  <20090531003941.4891c859@varda>
+	 <LEcEO2518_I.A.qkE.kJbIKB@chimera>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-G4caAvjRFPzFIJE3Wduf"
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-P8K8pZPSdWyFI+gl2aZU"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090531003941.4891c859@varda>
+In-Reply-To: <LEcEO2518_I.A.qkE.kJbIKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Alejandro Riveira =?ISO-8859-1?Q?Fern=E1ndez?= <ariveira-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Wright <chrisw-69jw2NvuJkxg9hUCZPvPmw@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 
---=-G4caAvjRFPzFIJE3Wduf
-Content-Type: text/plain; charset="UTF-8"
+--=-P8K8pZPSdWyFI+gl2aZU
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2009-05-31 at 00:39 +0200, Alejandro Riveira Fern=C3=A1ndez wrote:
-> El Sat, 30 May 2009 21:37:34 +0200 (CEST)
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> escribi=C3=B3:
+On Sat, 2009-05-30 at 21:37 +0200, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 >=20
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >=20
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.29.  Please verify if it still should be listed and let me kno=
-w
-> > (either way).
+> The following bug entry is on the current list of known regressions
+> from 2.6.29.  Please verify if it still should be listed and let me know
+> (either way).
 >=20
->  It should be listed.
+>=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13306
+> Subject		: hibernate slow on _second_ run
+> Submitter	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+> Date		: 2009-05-14 09:34 (17 days old)
 
-But it should definitely be retitled -- the commit bisect pointed out
-has little to do with the problem. And Handled-by should point to Ivo
-since he was asking for debugging info and stuff.
-
-Retitle to "rt2x00: slow wifi with correct basic rate bitmap" or
-something like that, it's not a bug in mac80211.
+I'm trying to get an ftrace profile that covers the point in question,
+but it might take me a couple of days.
 
 johannes
 
---=-G4caAvjRFPzFIJE3Wduf
+--=-P8K8pZPSdWyFI+gl2aZU
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIcBAABAgAGBQJKIlV9AAoJEODzc/N7+QmaBIMP/1/iACeBzugY8xEqsqyC/Nn3
-xNnUZCAhhgozkW9hMQUW3vPG9vgx8AV8BlM6rBbUvOf4V3XzIUY5LM1kc5MXC8ox
-0SV7OX3jVUGPt6EvQd8YSNbC7/6MeiHPER0AZA/37gEPkCa57GOejPvAlo6TYDsI
-lM81bAHX8c2O73rFbhLuTjCWNtaNHNKqT29rEkTcb+pgc56e6MI1m1bS/mb2tekj
-0Wz9dgx8YmjrT+2QwUM56XZwaKVIC3B/03r9o12BYdaJukLMX2AEFwIjGg46+mSt
-qvZ4Nx3r2x8tFT95gUnYqr3VdxnpoDIIvDHJSVJD1NQiYYjl5zvg5vK6rABtT5Vo
-GfLKqWLAyOdGbXZRSHPZEHWkCefD3M9JVMvOxCXMNlESVUaBYAhQojYNkWWkscNa
-fatSBfNQ2k0aqt3nRQHyIPK23UT3aiBpwZX3b9RhO5mr2WMRNxkkSvVHMe/RM799
-RMHvaOM2rF8KSDYbDPT7GgAOEC4hSf7fbB1o0Zy02ykSgp9MJbtg8WAhlkLMl/da
-lGKVCvbVJE2ijUdxmulw+WXEefopPuwrgP4OIY2ZVhpF8QWQgUQvMVrwZlFwgt1U
-pvtLYZW9iq2lTeXamAxovycl1COL9KEKSY+6Xy5jDr3uBJncBJ7T0quweVA4so9W
-QVVZajruaRXr+Azxnl0v
-=xv/r
+iQIcBAABAgAGBQJKIlWbAAoJEODzc/N7+QmaQsEQAJGIYhPZ+/xSUTAsLWqoskKW
+ohU51uHJoKXgY+ozIqWzP29EMDOv5Tuz0bYq/WiDyUUA44UVpLVfQfWof5m4H736
+5vkbwiOYIGa0/wbjzBu3onHCMCV2BB8aYGyqhoBKWJAD+ZW6ZZ3gl6hiz9qmcdu5
+ZAIWFTbtVU+Np5IqRsdB98HJLXVlgJf0FSDNjzvtwAhm8B1+27Fnhbxj7lqRLwwN
+THTvIswwSCkwoc9H7y1t/c4O69Gmr7102dnsEKFt8EAHbvaVn+0ltp24h0+UhAVU
+2OtaQevSqFGdoAnMc1CeMreXLF1o5+oNAPV/COY9N9LndBLkEoVHNJ9B6vZPRN5E
+QC9yjuYXKWT5+6XGFSSHCpVvnUAYNk5dP4/YesFC71SVWsS7v+PDpbXT7hS2UVUZ
+n2Uytt+67ANs5QLWb7eaBeA0lZKcmi7GO0bWv7Ltsre7TuyPSz1NFsIXVkUAmKSs
+aNtujS/Xnx7Y09Qx1inew2ruleaTgwxmRclurAAixxMysmn0Kc+/g36VEk0NJ1yD
+pvBLJjHW05DY2Ogl7J2ZdvT5plDKbRGMBdWjq9xx7dGcCeHy3ba3JdhmKjs2RTny
+tOOV97ZbjNbCjromTT6akaVrvmGXVidotwzAf8f1K26Fh6DHekdVbG+0+kUM2yMo
+t0XgSAAplO+B1fDXSNNb
+=Bou0
 -----END PGP SIGNATURE-----
 
---=-G4caAvjRFPzFIJE3Wduf--
+--=-P8K8pZPSdWyFI+gl2aZU--
