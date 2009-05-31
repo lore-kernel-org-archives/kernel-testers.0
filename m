@@ -1,41 +1,31 @@
-From: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #12765] i915 VT switch with AIGLX causes X lock up
-Date: Sun, 31 May 2009 17:12:23 +0100
-Message-ID: <20090531161222.GA4204@sucs.org>
-References: <THxQaUP0K2D.A.QkF.UVbIKB@chimera> <PkPeJtNB3KO.A.TsH.wXbIKB@chimera>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [Bug #13389] Warning 'Invalid throttling state, reset' gets displayed when it should not be
+Date: Sun, 31 May 2009 23:18:30 +0200
+Message-ID: <200905312318.31318.elendil@planet.nl>
+References: <4to6E2myxvG.A.muC.aIbIKB@chimera> <LEcEO2518_I.A.6LD.pIbIKB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <LEcEO2518_I.A.6LD.pIbIKB@chimera>
 Content-Disposition: inline
-In-Reply-To: <PkPeJtNB3KO.A.TsH.wXbIKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Michel =?iso-8859-1?Q?D=E4nzer?= <michel-otUistvHUpPR7s880joybQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sat, May 30, 2009 at 09:55:33PM +0200, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.28 and 2.6.29.
-> 
+On Saturday 30 May 2009, Rafael J. Wysocki wrote:
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12765
-> Subject		: i915 VT switch with AIGLX causes X lock up
-> Submitter	: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-02-21 15:38 (99 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=14d200c5e5bd19219d930bbb9a5a22758c8f5bec
-> References	: http://marc.info/?l=linux-kernel&m=123523074304955&w=4
-> 		  http://lkml.org/lkml/2009/4/27/317
-> Handled-By	: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-> Patch		: http://patchwork.kernel.org/patch/20197/
+> from 2.6.29.  Please verify if it still should be listed and let me
+> know (either way).
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13389
+> Subject	: Warning 'Invalid throttling state, reset' gets displayed
+>		  when it should not be
+> Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org> 
+> Date		: 2009-05-26 15:24 (5 days old)
 
-Still here in 2.6.30-rc7-00149-g3218911. I have to admit that I thought
-commit 9b6fe313bfce27d4a261257da70196be0ac2bef5 might fix it but that
-doesn't appear to have been the case...
+Still valid. I've just added possible patches in bugzilla.
 
--- 
-Sitsofe | http://sucs.org/~sits/
+Cheers,
+FJP
