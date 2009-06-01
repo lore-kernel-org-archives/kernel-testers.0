@@ -1,45 +1,47 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13362] [mac80211 ] Wifi Network Slownes Bisected
-Date: Mon, 1 Jun 2009 22:29:30 +0200
-Message-ID: <200906012229.31088.rjw@sisk.pl>
-References: <4to6E2myxvG.A.muC.aIbIKB@chimera> <20090531003941.4891c859@varda> <1243764096.19302.34.camel@johannes.local>
+Subject: Re: [Bug #13372] Oops in usb-serial with keyspan adapter
+Date: Mon, 1 Jun 2009 22:33:09 +0200
+Message-ID: <200906012233.10128.rjw@sisk.pl>
+References: <Pine.LNX.4.44L0.0905311046340.31316-100000@netrider.rowland.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1243764096.19302.34.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <Pine.LNX.4.44L0.0905311046340.31316-100000-pYrvlCTfrz9XsRXLowluHWD2FQJk+8+b@public.gmane.org>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-usb-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="iso-8859-1"
-To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-Cc: Alejandro Riveira =?iso-8859-2?q?Fern=E1ndez?= <ariveira-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Wright <chrisw-69jw2NvuJkxg9hUCZPvPmw@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, USB <linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sunday 31 May 2009, Johannes Berg wrote:
-> On Sun, 2009-05-31 at 00:39 +0200, Alejandro Riveira Fern=E1ndez wrot=
-e:
-> > El Sat, 30 May 2009 21:37:34 +0200 (CEST)
-> > "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> escribi=F3:
-> >=20
-> > > This message has been generated automatically as a part of a repo=
-rt
-> > > of recent regressions.
-> > >=20
-> > > The following bug entry is on the current list of known regressio=
-ns
-> > > from 2.6.29.  Please verify if it still should be listed and let =
-me know
-> > > (either way).
-> >=20
-> >  It should be listed.
->=20
-> But it should definitely be retitled -- the commit bisect pointed out
-> has little to do with the problem. And Handled-by should point to Ivo
-> since he was asking for debugging info and stuff.
->=20
-> Retitle to "rt2x00: slow wifi with correct basic rate bitmap" or
-> something like that, it's not a bug in mac80211.
+On Sunday 31 May 2009, Alan Stern wrote:
+> On Sat, 30 May 2009, Rafael J. Wysocki wrote:
+> 
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.29.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13372
+> > Subject		: Oops in usb-serial with keyspan adapter
+> > Submitter	: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+> > Date		: 2009-05-18 0:07 (13 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=124260532924736&w=4
+> > Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+> > Patch		: http://patchwork.kernel.org/patch/26603/
+> 
+> That URL points to a patch for a different problem.  The "Oops in
+> usb-serial with keyspan adapter" has been fixed by commit
+> 0a3c8549ea7e94d74a41096d42bc6cdf43d183bf.
 
-Done.
+Thanks, I've closed the bug.
 
 Best,
 Rafael
+--
+To unsubscribe from this list: send the line "unsubscribe linux-usb" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
