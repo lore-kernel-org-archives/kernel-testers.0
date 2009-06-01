@@ -1,42 +1,71 @@
-From: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
-Subject: Re: [Bug #13178] Booting very slow
-Date: Mon, 1 Jun 2009 01:13:35 -0700 (PDT)
-Message-ID: <295883.87002.qm@web32604.mail.mud.yahoo.com>
-References: <THxQaUP0K2D.A.QkF.UVbIKB@chimera> <PkPeJtNB3KO.A.4QG.tVbIKB@chimera>
+From: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: 2.6.30-rc6: BUG at fs/xfs/support/debug.c:109!
+Date: Mon, 1 Jun 2009 19:22:56 +0400
+Message-ID: <a4423d670906010822l6e8e112dl3d6f7de9e2179850@mail.gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <PkPeJtNB3KO.A.4QG.tVbIKB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:date:message-id:subject
+         :from:to:content-type:content-transfer-encoding;
+        bh=XqUWFtCzZJ36lG32bMrBUSZXUfLnobM4Hm85lExw2Es=;
+        b=jlZxdj6G2tbF4rMHJfunsj+W/qCu1qs4lTaqaxKMcGrDHEcshTvh/JljlMCZTeoI0w
+         0uTnVjwyAnClYQFraW3oxU8hvJf9VWtacO7ncvkXy24OqtyzpV9ao/9l5Di1lR5jq1ZY
+         S/h4aiZ6KaOSoD501CQYOhNx5f2K+y3ByEtyA=
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+To: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
 
+Hi
 
------ Original Message ----
-
-> From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-> Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>; Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>; Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>; Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
-> Sent: Saturday, May 30, 2009 9:55:37 PM
-> Subject: [Bug #13178] Booting very slow
-> 
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.28 and 2.6.29.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=13178
-> Subject        : Booting very slow
-> Submitter    : Martin Knoblauch 
-> Date        : 2009-04-24 12:45 (37 days old)
-> References    : http://marc.info/?l=linux-kernel&m=124057716231773&w=4
-
- We (HP and myself) are trying to track it down.
-
-Cheers
-Martin
+Assertion failed: *nmap >= 1, file: fs/xfs/xfs_bmap.c, line: 4846
+------------[ cut here ]------------
+kernel BUG at fs/xfs/support/debug.c:109!
+invalid opcode: 0000 [#1] PREEMPT SMP DEBUG_PAGEALLOC
+last sysfs file: /sys/kernel/uevent_seqnum
+CPU 0
+Modules linked in:
+Pid: 30665, comm: emerge Not tainted 2.6.30-rc6-00144-g5805977 #1 PowerEdge 1950
+RIP: 0010:[<ffffffff8043abeb>]  [<ffffffff8043abeb>] assfail+0x2b/0x30
+RSP: 0018:ffff8800303c1b98  EFLAGS: 00010246
+RAX: 0000000000000054 RBX: 0000000000000000 RCX: 0000000000000301
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000001
+RBP: ffff8800303c1ba8 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000001 R12: 0000000800000000
+R13: ffff880078c0ccc0 R14: 0000000000000002 R15: ffff88007eb3f000
+FS:  00007f7e92dbc6f0(0000) GS:ffff880005000000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000001b0a024 CR3: 0000000074cb0000 CR4: 00000000000006e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+Process emerge (pid: 30665, threadinfo ffff8800303c0000, task ffff88007e335e10)
+Stack:
+ ffff8800051cefa0 00000000780d89a3 ffff8800303c1d88 ffffffff803d6bad
+ ffffffff804c9ad8 ffffffff814497f8 ffff880045a72000 ffff880045a72aa8
+ ffffffff81449800 0000000000000000 0000000000000000 00000000780d89a3
+Call Trace:
+ [<ffffffff803d6bad>] xfs_bmapi+0xad/0x1ad0
+ [<ffffffff804c9ad8>] ? _atomic_dec_and_lock+0x88/0xb0
+ [<ffffffff8042ef97>] ? xfs_buf_free+0xd7/0x130
+ [<ffffffff806d987f>] ? _spin_unlock+0x3f/0x80
+ [<ffffffff8042f114>] ? xfs_buf_rele+0x124/0x190
+ [<ffffffff8042df2d>] ? xfs_buf_unlock+0x3d/0x80
+ [<ffffffff80421e69>] ? xfs_trans_brelse+0x219/0x2e0
+ [<ffffffff803e445f>] ? xfs_da_brelse+0x7f/0x150
+ [<ffffffff803ee5c0>] xfs_dir2_leaf_getdents+0x640/0x7b0
+ [<ffffffff802ec220>] ? filldir+0x0/0x100
+ [<ffffffff802ec220>] ? filldir+0x0/0x100
+ [<ffffffff803e975c>] xfs_readdir+0x12c/0x140
+ [<ffffffff802ec220>] ? filldir+0x0/0x100
+ [<ffffffff80430b57>] xfs_file_readdir+0x47/0x70
+ [<ffffffff802ec500>] vfs_readdir+0xd0/0xf0
+ [<ffffffff802ec6b6>] sys_getdents+0x96/0x110
+ [<ffffffff8020ba6b>] system_call_fastpath+0x16/0x1b
+Code: 55 89 d1 48 89 e5 48 89 f2 48 83 ec 10 48 89 fe 65 48 8b 04 25
+28 00 00 00 48 89 45 f8 31 c0 48 c7 c7 38 73 83 80 e8 25 a4 29 00 <0f>
+0b eb fe 90 55 48 89 e5 41 57 49 89 d7 41 56 41 55 49 89 cd
+RIP  [<ffffffff8043abeb>] assfail+0x2b/0x30
+ RSP <ffff8800303c1b98>
+---[ end trace bf7e45980908c8f7 ]---
