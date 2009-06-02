@@ -1,104 +1,91 @@
-From: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Alexander Beregalov <a.beregalov@gmail.com>
 Subject: Re: 2.6.30-rc6: BUG at fs/xfs/support/debug.c:109!
-Date: Tue, 2 Jun 2009 12:21:47 +0400
-Message-ID: <a4423d670906020121v131c9c12t35c3ffc7df048ee9@mail.gmail.com>
+Date: Tue, 2 Jun 2009 15:32:32 +0400
+Message-ID: <a4423d670906020432w7d3cb478i6df2b6a844640edb@mail.gmail.com>
 References: <a4423d670906010822l6e8e112dl3d6f7de9e2179850@mail.gmail.com>
-	 <B5660F1A-7940-4E4A-92E8-8C0F93C274BD@sgi.com>
-	 <a4423d670906011038qd809ebay22aebca5aaf271a4@mail.gmail.com>
-	 <D7FB8214-6C2B-4D13-9B50-C53CB74885C2@sgi.com>
+	<B5660F1A-7940-4E4A-92E8-8C0F93C274BD@sgi.com>
+	<a4423d670906011038qd809ebay22aebca5aaf271a4@mail.gmail.com>
+	<D7FB8214-6C2B-4D13-9B50-C53CB74885C2@sgi.com>
+	<a4423d670906020121v131c9c12t35c3ffc7df048ee9@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=udLN/cX+yssfeYtV7FNS26uecqXv1apDdCbhV/HV59A=;
-        b=wfrCz8Lp5AUOHeWo/Cu9Vf5F5AfvZw7SYVrRSRqSqkRpc4iQFHqAXKKcFdP3gzehNQ
-         1rloGZgkKO34pSNaPoWbZblscP3uydEYyFwY6VhNKaK2suXvkDOqq0TScLg9/2P4PjI7
-         Z6omz9crslLOYnG/2Xw969K6bHJNi9U3b+oN8=
-In-Reply-To: <D7FB8214-6C2B-4D13-9B50-C53CB74885C2-sJ/iWh9BUns@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Felix Blyakher <felixb-sJ/iWh9BUns@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <xfs-bounces@oss.sgi.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:received:in-reply-to:references
+	:date:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=5uM19+pS4LFP3ocAAtjcGdO9pb4OKxQtJzS3uuMpk8o=;
+	b=u4iZFd+OE4HNoYmWR/+UqtxeqVmHzS5yrsp3Sr4rrHgLIle1gvms0upvAmAW2gkcxA
+	MKxVjCtpFhHrtZNSzYmkennEwfrme5CEb6D33XLhbj7tUL3RAfXiJx+8t73CzLp5pBlv
+	UP4xZ+3AuFUkjcOT3WCJaRkxKyRC/Ttgm9HVg=
+In-Reply-To: <a4423d670906020121v131c9c12t35c3ffc7df048ee9@mail.gmail.com>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <http://oss.sgi.com/mailman/options/xfs>,
+	<mailto:xfs-request@oss.sgi.com?subject=unsubscribe>
+List-Archive: <http://oss.sgi.com/pipermail/xfs>
+List-Post: <mailto:xfs@oss.sgi.com>
+List-Help: <mailto:xfs-request@oss.sgi.com?subject=help>
+List-Subscribe: <http://oss.sgi.com/mailman/listinfo/xfs>,
+	<mailto:xfs-request@oss.sgi.com?subject=subscribe>
+Sender: xfs-bounces@oss.sgi.com
+Errors-To: xfs-bounces@oss.sgi.com
+To: Felix Blyakher <felixb@sgi.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, xfs@oss.sgi.com
 
-2009/6/1 Felix Blyakher <felixb-sJ/iWh9BUns@public.gmane.org>:
->
-> On Jun 1, 2009, at 12:38 PM, Alexander Beregalov wrote:
->
->> It was Gentoo's `emerge --metadata`. It reads many small files (ebuilds).
->> I am sure it cannot be easily reproduced.
->
-> Right. Otherwise many more people would've reported it.
->
->> It runs fine everyday. I do not have a testcase.
->> I can try to run it forever in loop if you need.
->
-> Yes, that will be good.
-> The problem is that the traces are confusing. From one
-> side readdir stack makes sense based on your description
-> of the load, but OTOH the panic is from xfs_bmapi(), which
-> doesn't fit in that backtrace at all. It seems like
-> backtrace is from the concurrently running different thread.
-> Don't have good idea for this bug atm.
+Again similar trace:
 
-The host is still running, SysRq-W shows two precesses with the same
-stacktraces.
-
-SysRq : Show Blocked State
-  task                        PC stack   pid father
-emerge        D 0000000000000000  3856  8399   8387
- ffff880078da7b48 0000000000000046 ffff8800074b4b40 ffff880078da7af4
- 0000000000000001 000000000000d948 00000000001d2000 0000000000000001
- ffff8800074b4b40 ffff88007f4725a0 ffff8800074b4eb8 0000000100000246
+Assertion failed: *nmap >= 1, file: fs/xfs/xfs_bmap.c, line: 4846
+------------[ cut here ]------------
+kernel BUG at fs/xfs/support/debug.c:109!
+invalid opcode: 0000 [#1] PREEMPT SMP DEBUG_PAGEALLOC
+last sysfs file: /sys/kernel/uevent_seqnum
+CPU 0
+Modules linked in:
+Pid: 1988, comm: emerge Not tainted 2.6.30-rc7-00227-gd9244b5 #66 PowerEdge 1950
+RIP: 0010:[<ffffffff8043ac1b>]  [<ffffffff8043ac1b>] assfail+0x2b/0x30
+RSP: 0018:ffff88006db6bb98  EFLAGS: 00010246
+RAX: 0000000000000054 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffff880077336558 RDI: 0000000010000000
+RBP: ffff88006db6bba8 R08: ffff880077335e10 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000001 R12: 0000000800000000
+R13: ffff8800581f2980 R14: 0000000000000002 R15: ffff88007eb87000
+FS:  00007f63e31586f0(0000) GS:ffff880005000000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000001d04024 CR3: 000000005a70e000 CR4: 00000000000006e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
+Process emerge (pid: 1988, threadinfo ffff88006db6a000, task ffff880077335e10)
+Stack:
+ ffff88006db6bbd8 00000000b772307d ffff88006db6bd88 ffffffff803d6bdd
+ ffff880077335e10 ffffffff802d429b ffff880050450480 ffff88007e32e800
+ ffff88006db6bc08 ffffffff80280e6d 0000000000000000 00000000b772307d
 Call Trace:
- [<ffffffff802e7328>] ? do_lookup+0xd8/0x270
- [<ffffffff806d707d>] __mutex_lock_common+0x16d/0x4f0
- [<ffffffff802e7328>] ? do_lookup+0xd8/0x270
- [<ffffffff80280eb0>] ? trace_hardirqs_on+0x20/0x40
- [<ffffffff802e7328>] ? do_lookup+0xd8/0x270
- [<ffffffff806d7528>] mutex_lock_nested+0x48/0x70
- [<ffffffff802e7328>] do_lookup+0xd8/0x270
- [<ffffffff802e7776>] __link_path_walk+0x2b6/0xf00
- [<ffffffff802e884c>] ? do_path_lookup+0xec/0x200
- [<ffffffff802e884c>] ? do_path_lookup+0xec/0x200
- [<ffffffff802e863e>] path_walk+0x7e/0x100
- [<ffffffff802e8816>] do_path_lookup+0xb6/0x200
- [<ffffffff802e9bd8>] do_filp_open+0xf8/0x9e0
- [<ffffffff802f6199>] ? alloc_fd+0x49/0x170
- [<ffffffff806d987f>] ? _spin_unlock+0x3f/0x80
- [<ffffffff802f6289>] ? alloc_fd+0x139/0x170
- [<ffffffff802d7f6b>] do_sys_open+0x9b/0x130
- [<ffffffff802d806e>] sys_open+0x2e/0x50
+ [<ffffffff803d6bdd>] xfs_bmapi+0xad/0x1ad0
+ [<ffffffff802d429b>] ? kmem_cache_free+0xbb/0x140
+ [<ffffffff80280e6d>] ? trace_hardirqs_on_caller+0x17d/0x1e0
+ [<ffffffff8042efc7>] ? xfs_buf_free+0xd7/0x130
+ [<ffffffff806d994f>] ? _spin_unlock+0x3f/0x80
+ [<ffffffff8042f144>] ? xfs_buf_rele+0x124/0x190
+ [<ffffffff8042df5d>] ? xfs_buf_unlock+0x3d/0x80
+ [<ffffffff80421e99>] ? xfs_trans_brelse+0x219/0x2e0
+ [<ffffffff803e448f>] ? xfs_da_brelse+0x7f/0x150
+ [<ffffffff803ee5f0>] xfs_dir2_leaf_getdents+0x640/0x7b0
+ [<ffffffff802ec270>] ? filldir+0x0/0x100
+ [<ffffffff802ec270>] ? filldir+0x0/0x100
+ [<ffffffff803e978c>] xfs_readdir+0x12c/0x140
+ [<ffffffff802ec270>] ? filldir+0x0/0x100
+ [<ffffffff80430b87>] xfs_file_readdir+0x47/0x70
+ [<ffffffff802ec550>] vfs_readdir+0xd0/0xf0
+ [<ffffffff802ec706>] sys_getdents+0x96/0x110
  [<ffffffff8020ba6b>] system_call_fastpath+0x16/0x1b
-emerge        D 0000000000000000  3280  1643   1901
- ffff88000f43bb48 0000000000000046 ffff88002dc33870 ffff88000f43baf4
- 0000000000000001 000000000000d948 00000000001d2000 0000000000000003
- ffff88002dc33870 ffff88007ea30000 ffff88002dc33be8 0000000300000246
-Call Trace:
- [<ffffffff802e7328>] ? do_lookup+0xd8/0x270
- [<ffffffff802e7328>] ? do_lookup+0xd8/0x270
- [<ffffffff806d707d>] __mutex_lock_common+0x16d/0x4f0
- [<ffffffff802e7328>] ? do_lookup+0xd8/0x270
- [<ffffffff80280eb0>] ? trace_hardirqs_on+0x20/0x40
- [<ffffffff802e7328>] ? do_lookup+0xd8/0x270
- [<ffffffff806d7528>] mutex_lock_nested+0x48/0x70
- [<ffffffff802e7328>] do_lookup+0xd8/0x270
- [<ffffffff802e7776>] __link_path_walk+0x2b6/0xf00
- [<ffffffff802e884c>] ? do_path_lookup+0xec/0x200
- [<ffffffff802e884c>] ? do_path_lookup+0xec/0x200
- [<ffffffff802e863e>] path_walk+0x7e/0x100
- [<ffffffff802e8816>] do_path_lookup+0xb6/0x200
- [<ffffffff802e9bd8>] do_filp_open+0xf8/0x9e0
- [<ffffffff802f6199>] ? alloc_fd+0x49/0x170
- [<ffffffff806d987f>] ? _spin_unlock+0x3f/0x80
- [<ffffffff802f6289>] ? alloc_fd+0x139/0x170
- [<ffffffff802d7f6b>] do_sys_open+0x9b/0x130
- [<ffffffff802d806e>] sys_open+0x2e/0x50
- [<ffffffff8020ba6b>] system_call_fastpath+0x16/0x1b
+Code: 55 89 d1 48 89 e5 48 89 f2 48 83 ec 10 48 89 fe 65 48 8b 04 25
+28 00 00 00 48 89 45 f8 31 c0 48 c7 c7 78 73 83 80 e8 c5 a4 29 00 <0f>
+0b eb fe 90 55 48 89 e5 41 57 49 89 d7 41 56 41 55 49 89 cd
+RIP  [<ffffffff8043ac1b>] assfail+0x2b/0x30
+ RSP <ffff88006db6bb98>
 
-
-I will try to reproduce it.
+_______________________________________________
+xfs mailing list
+xfs@oss.sgi.com
+http://oss.sgi.com/mailman/listinfo/xfs
