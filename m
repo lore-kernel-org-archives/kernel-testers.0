@@ -1,91 +1,191 @@
-From: Alexander Beregalov <a.beregalov@gmail.com>
-Subject: Re: 2.6.30-rc6: BUG at fs/xfs/support/debug.c:109!
-Date: Tue, 2 Jun 2009 15:32:32 +0400
-Message-ID: <a4423d670906020432w7d3cb478i6df2b6a844640edb@mail.gmail.com>
-References: <a4423d670906010822l6e8e112dl3d6f7de9e2179850@mail.gmail.com>
-	<B5660F1A-7940-4E4A-92E8-8C0F93C274BD@sgi.com>
-	<a4423d670906011038qd809ebay22aebca5aaf271a4@mail.gmail.com>
-	<D7FB8214-6C2B-4D13-9B50-C53CB74885C2@sgi.com>
-	<a4423d670906020121v131c9c12t35c3ffc7df048ee9@mail.gmail.com>
+From: Rui Santos <rsantos-TSnNRl9vlf1Wk0Htik3J/w@public.gmane.org>
+Subject: Re: [WATCHDOG] iTCO_wdt.c - ICH9 reboot issue - testing wanted
+Date: Tue, 02 Jun 2009 17:09:35 +0100
+Message-ID: <4A254EBF.70004@grupopie.com>
+References: <20090430094918.GC4141@infomag.iguana.be>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <xfs-bounces@oss.sgi.com>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
-	h=domainkey-signature:mime-version:received:in-reply-to:references
-	:date:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=5uM19+pS4LFP3ocAAtjcGdO9pb4OKxQtJzS3uuMpk8o=;
-	b=u4iZFd+OE4HNoYmWR/+UqtxeqVmHzS5yrsp3Sr4rrHgLIle1gvms0upvAmAW2gkcxA
-	MKxVjCtpFhHrtZNSzYmkennEwfrme5CEb6D33XLhbj7tUL3RAfXiJx+8t73CzLp5pBlv
-	UP4xZ+3AuFUkjcOT3WCJaRkxKyRC/Ttgm9HVg=
-In-Reply-To: <a4423d670906020121v131c9c12t35c3ffc7df048ee9@mail.gmail.com>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <http://oss.sgi.com/mailman/options/xfs>,
-	<mailto:xfs-request@oss.sgi.com?subject=unsubscribe>
-List-Archive: <http://oss.sgi.com/pipermail/xfs>
-List-Post: <mailto:xfs@oss.sgi.com>
-List-Help: <mailto:xfs-request@oss.sgi.com?subject=help>
-List-Subscribe: <http://oss.sgi.com/mailman/listinfo/xfs>,
-	<mailto:xfs-request@oss.sgi.com?subject=subscribe>
-Sender: xfs-bounces@oss.sgi.com
-Errors-To: xfs-bounces@oss.sgi.com
-To: Felix Blyakher <felixb@sgi.com>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, xfs@oss.sgi.com
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20090430094918.GC4141-flHiHfN8CTwhDM6iD19NGrNAH6kLmebB@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
+Cc: Stephen Clark <sclark46-ihVZJaRskl1bRRN4PJnoQQ@public.gmane.org>, Denys Fedoryschenko <denys-EpTYZhqHKuJnTudFRACr3A@public.gmane.org>, Johannes Dewender <arch-ArHZ4xy2k9XR7s880joybQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Rutger Nijlunsing <bugzilla.kernel-iCbNM5W9OABowPkYzbXIcw@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andriy Gapon <avg-+43SdJ71VxTsG83rWm+8vg@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Again similar trace:
+Wim Van Sebroeck wrote:
+> Hi All,
+>   
+Hi Wim,
+> I'm looking for people that can test the below patch(es).
+> I'm mainly interested in knowing if you experience any side-effects when using this patch.
+> (See also bugzilla 9868, 10195, 12363 & 12162).
+>
+> For people not using the watchdog or without any reboot problems the driver should
+> work as normal after compilation/installation/...
+>
+> For people that have the ICH9 reboot problems: load the module with module-parameter
+> gbl_smi_en=0 and test the watchdog functionality again.
+>   
 
-Assertion failed: *nmap >= 1, file: fs/xfs/xfs_bmap.c, line: 4846
-------------[ cut here ]------------
-kernel BUG at fs/xfs/support/debug.c:109!
-invalid opcode: 0000 [#1] PREEMPT SMP DEBUG_PAGEALLOC
-last sysfs file: /sys/kernel/uevent_seqnum
-CPU 0
-Modules linked in:
-Pid: 1988, comm: emerge Not tainted 2.6.30-rc7-00227-gd9244b5 #66 PowerEdge 1950
-RIP: 0010:[<ffffffff8043ac1b>]  [<ffffffff8043ac1b>] assfail+0x2b/0x30
-RSP: 0018:ffff88006db6bb98  EFLAGS: 00010246
-RAX: 0000000000000054 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffff880077336558 RDI: 0000000010000000
-RBP: ffff88006db6bba8 R08: ffff880077335e10 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000001 R12: 0000000800000000
-R13: ffff8800581f2980 R14: 0000000000000002 R15: ffff88007eb87000
-FS:  00007f63e31586f0(0000) GS:ffff880005000000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000001d04024 CR3: 000000005a70e000 CR4: 00000000000006e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
-Process emerge (pid: 1988, threadinfo ffff88006db6a000, task ffff880077335e10)
-Stack:
- ffff88006db6bbd8 00000000b772307d ffff88006db6bd88 ffffffff803d6bdd
- ffff880077335e10 ffffffff802d429b ffff880050450480 ffff88007e32e800
- ffff88006db6bc08 ffffffff80280e6d 0000000000000000 00000000b772307d
-Call Trace:
- [<ffffffff803d6bdd>] xfs_bmapi+0xad/0x1ad0
- [<ffffffff802d429b>] ? kmem_cache_free+0xbb/0x140
- [<ffffffff80280e6d>] ? trace_hardirqs_on_caller+0x17d/0x1e0
- [<ffffffff8042efc7>] ? xfs_buf_free+0xd7/0x130
- [<ffffffff806d994f>] ? _spin_unlock+0x3f/0x80
- [<ffffffff8042f144>] ? xfs_buf_rele+0x124/0x190
- [<ffffffff8042df5d>] ? xfs_buf_unlock+0x3d/0x80
- [<ffffffff80421e99>] ? xfs_trans_brelse+0x219/0x2e0
- [<ffffffff803e448f>] ? xfs_da_brelse+0x7f/0x150
- [<ffffffff803ee5f0>] xfs_dir2_leaf_getdents+0x640/0x7b0
- [<ffffffff802ec270>] ? filldir+0x0/0x100
- [<ffffffff802ec270>] ? filldir+0x0/0x100
- [<ffffffff803e978c>] xfs_readdir+0x12c/0x140
- [<ffffffff802ec270>] ? filldir+0x0/0x100
- [<ffffffff80430b87>] xfs_file_readdir+0x47/0x70
- [<ffffffff802ec550>] vfs_readdir+0xd0/0xf0
- [<ffffffff802ec706>] sys_getdents+0x96/0x110
- [<ffffffff8020ba6b>] system_call_fastpath+0x16/0x1b
-Code: 55 89 d1 48 89 e5 48 89 f2 48 83 ec 10 48 89 fe 65 48 8b 04 25
-28 00 00 00 48 89 45 f8 31 c0 48 c7 c7 78 73 83 80 e8 c5 a4 29 00 <0f>
-0b eb fe 90 55 48 89 e5 41 57 49 89 d7 41 56 41 55 49 89 cd
-RIP  [<ffffffff8043ac1b>] assfail+0x2b/0x30
- RSP <ffff88006db6bb98>
+Just to let you know that gbl_smi_en=0, also solves the problem with
+Intel DG35EC motherboard, witch uses a  82801HB I/O Controller Hub (ICH8)
 
-_______________________________________________
-xfs mailing list
-xfs@oss.sgi.com
-http://oss.sgi.com/mailman/listinfo/xfs
+Regards,
+Rui
+
+> Thanks in advance,
+> Wim.
+>
+> The Changes are:
+>
+> Author: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
+> Date:   Thu Apr 30 09:13:33 2009 +0000
+>
+>     [WATCHDOG] iTCO_wdt: Fix ICH9 reboot issue.
+>     
+>     Bugzilla: 9868 & 10195.
+>     There seems to be a bug into the SMM code that handles TCO Timeout SMI.
+>     Andriy Gapon found that the code on his DG33TL system does the following:
+>     > The handler is quite simple - it tests value in TCO1_CNT against 0x800, i.e.
+>     > checks TCO_TMR_HLT. If the bit is set the handler goes into an infinite loop,
+>     > apparently to allow the second timeout and reboot. Otherwise it simply clears
+>     > TIMEOUT bit in TCO1_STS and that's it.
+>     > So the logic seems to be reversed, because it is hard to see how TIMEOUT can
+>     > get set to 1 and SMI generated when TCO_TMR_HLT is set (other than a
+>     > transitional effect).
+>     
+>     The only trick we have is to bypass the SMM code by turning of the generation
+>     of the SMI#. The trick can only be enabled by setting the gbl_smi_en module
+>     parameter to 0.
+>     
+>     Signed-off-by: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
+>
+> Author: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
+> Date:   Tue Apr 14 20:20:07 2009 +0000
+>
+>     [WATCHDOG] iTCO_wdt: Cleanup code
+>     
+>     Clean-up the iTCO_wdt code so that checkpatch.pl get's happy...
+>     
+>     Signed-off-by: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
+>
+> The Changes can also be looked at on:
+> 	http://www.kernel.org/git/?p=linux/kernel/git/wim/linux-2.6-watchdog.git;a=summary
+>
+> For completeness, I added the overal diff below.
+>
+> Greetings,
+> Wim.
+>
+> ================================================================================
+> diff --git a/drivers/watchdog/iTCO_vendor_support.c b/drivers/watchdog/iTCO_vendor_support.c
+> index d3c0f6d..843ef62 100644
+> --- a/drivers/watchdog/iTCO_vendor_support.c
+> +++ b/drivers/watchdog/iTCO_vendor_support.c
+> @@ -35,9 +35,9 @@
+>  #include "iTCO_vendor.h"
+>  
+>  /* iTCO defines */
+> -#define	SMI_EN		acpibase + 0x30	/* SMI Control and Enable Register */
+> -#define	TCOBASE		acpibase + 0x60	/* TCO base address */
+> -#define	TCO1_STS	TCOBASE + 0x04	/* TCO1 Status Register */
+> +#define	SMI_EN		(acpibase + 0x30) /* SMI Control and Enable Register */
+> +#define	TCOBASE		(acpibase + 0x60) /* TCO base address */
+> +#define	TCO1_STS	(TCOBASE + 0x04)  /* TCO1 Status Register */
+>  
+>  /* List of vendor support modes */
+>  /* SuperMicro Pentium 3 Era 370SSE+-OEM1/P3TSSE */
+> diff --git a/drivers/watchdog/iTCO_wdt.c b/drivers/watchdog/iTCO_wdt.c
+> index 648250b..b76d1ec 100644
+> --- a/drivers/watchdog/iTCO_wdt.c
+> +++ b/drivers/watchdog/iTCO_wdt.c
+> @@ -63,7 +63,7 @@
+>  
+>  /* Module and version information */
+>  #define DRV_NAME	"iTCO_wdt"
+> -#define DRV_VERSION	"1.05"
+> +#define DRV_VERSION	"1.06"
+>  #define PFX		DRV_NAME ": "
+>  
+>  /* Includes */
+> @@ -236,19 +236,19 @@ MODULE_DEVICE_TABLE(pci, iTCO_wdt_pci_tbl);
+>  
+>  /* Address definitions for the TCO */
+>  /* TCO base address */
+> -#define TCOBASE		iTCO_wdt_private.ACPIBASE + 0x60
+> +#define TCOBASE		(iTCO_wdt_private.ACPIBASE + 0x60)
+>  /* SMI Control and Enable Register */
+> -#define SMI_EN		iTCO_wdt_private.ACPIBASE + 0x30
+> -
+> -#define TCO_RLD		TCOBASE + 0x00	/* TCO Timer Reload and Curr. Value */
+> -#define TCOv1_TMR	TCOBASE + 0x01	/* TCOv1 Timer Initial Value	*/
+> -#define TCO_DAT_IN	TCOBASE + 0x02	/* TCO Data In Register		*/
+> -#define TCO_DAT_OUT	TCOBASE + 0x03	/* TCO Data Out Register	*/
+> -#define TCO1_STS	TCOBASE + 0x04	/* TCO1 Status Register		*/
+> -#define TCO2_STS	TCOBASE + 0x06	/* TCO2 Status Register		*/
+> -#define TCO1_CNT	TCOBASE + 0x08	/* TCO1 Control Register	*/
+> -#define TCO2_CNT	TCOBASE + 0x0a	/* TCO2 Control Register	*/
+> -#define TCOv2_TMR	TCOBASE + 0x12	/* TCOv2 Timer Initial Value	*/
+> +#define SMI_EN		(iTCO_wdt_private.ACPIBASE + 0x30)
+> +
+> +#define TCO_RLD		(TCOBASE + 0x00) /* TCO Timer Reload and Curr. Value */
+> +#define TCOv1_TMR	(TCOBASE + 0x01) /* TCOv1 Timer Initial Value	*/
+> +#define TCO_DAT_IN	(TCOBASE + 0x02) /* TCO Data In Register	*/
+> +#define TCO_DAT_OUT	(TCOBASE + 0x03) /* TCO Data Out Register	*/
+> +#define TCO1_STS	(TCOBASE + 0x04) /* TCO1 Status Register	*/
+> +#define TCO2_STS	(TCOBASE + 0x06) /* TCO2 Status Register	*/
+> +#define TCO1_CNT	(TCOBASE + 0x08) /* TCO1 Control Register	*/
+> +#define TCO2_CNT	(TCOBASE + 0x0a) /* TCO2 Control Register	*/
+> +#define TCOv2_TMR	(TCOBASE + 0x12) /* TCOv2 Timer Initial Value	*/
+>  
+>  /* internal variables */
+>  static unsigned long is_active;
+> @@ -277,6 +277,13 @@ MODULE_PARM_DESC(heartbeat, "Watchdog heartbeat in seconds. "
+>  	"(2<heartbeat<39 (TCO v1) or 613 (TCO v2), default="
+>  				__MODULE_STRING(WATCHDOG_HEARTBEAT) ")");
+>  
+> +#define GBL_SMI_EN_DEFAULT 1	/* 1 = don't turn GBL_SMI_EN off */
+> +static int gbl_smi_en = GBL_SMI_EN_DEFAULT;
+> +module_param(gbl_smi_en, int, 0);
+> +MODULE_PARM_DESC(gbl_smi_en,
+> +	"Turn GBL_SMI_EN off to fix reboot issues on ICH9..., default="
+> +				__MODULE_STRING(GBL_SMI_EN_DEFAULT) ")");
+> +
+>  static int nowayout = WATCHDOG_NOWAYOUT;
+>  module_param(nowayout, int, 0);
+>  MODULE_PARM_DESC(nowayout,
+> @@ -688,9 +695,12 @@ static int __devinit iTCO_wdt_init(struct pci_dev *pdev,
+>  		ret = -EIO;
+>  		goto out;
+>  	}
+> -	/* Bit 13: TCO_EN -> 0 = Disables TCO logic generating an SMI# */
+>  	val32 = inl(SMI_EN);
+> +	/* Bit 13: TCO_EN     -> 0 = Disables TCO logic generating an SMI#
+> +	   Bit  0: GBL_SMI_EN -> 0 = No SMI# will be generated by ICH9. */
+>  	val32 &= 0xffffdfff;	/* Turn off SMI clearing watchdog */
+> +	if (gbl_smi_en == 0)
+> +		val32 &= 0xfffffffe;	/* Turn off GBL_SMI_EN */
+>  	outl(val32, SMI_EN);
+>  
+>  	/* The TCO I/O registers reside in a 32-byte range pointed to
+> @@ -733,8 +743,8 @@ static int __devinit iTCO_wdt_init(struct pci_dev *pdev,
+>  		goto unreg_region;
+>  	}
+>  
+> -	printk(KERN_INFO PFX "initialized. heartbeat=%d sec (nowayout=%d)\n",
+> -							heartbeat, nowayout);
+> +	printk(KERN_INFO PFX "initialized. heartbeat=%d sec, gbl_smi_en=%d "
+> +		"(nowayout=%d)\n", heartbeat, gbl_smi_en, nowayout);
+>  
+>  	return 0;
+>  
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
+>
+>
+>
+>   
