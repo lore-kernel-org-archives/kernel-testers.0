@@ -1,46 +1,41 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13306] hibernate slow on _second_ run
-Date: Mon, 1 Jun 2009 22:48:48 +0200
-Message-ID: <200906012248.49304.rjw@sisk.pl>
-References: <4to6E2myxvG.A.muC.aIbIKB@chimera> <200906012226.46086.rjw@sisk.pl> <1243888860.5299.32.camel@johannes.local>
+From: Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13179] CD-R: wodim intermittent failures
+Date: Mon, 01 Jun 2009 22:42:33 -0600
+Message-ID: <4A24ADB9.6010903@gmail.com>
+References: <4to6E2myxvG.A.muC.aIbIKB@chimera> <LEcEO2518_I.A.I5E.BKbIKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1243888860.5299.32.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
-Content-Disposition: inline
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=Yo76hPokE9CozCp8iYmxdSiDUjYTVWikJCv/z/QUV7Q=;
+        b=SvUSCtetQfq6a5EqA41/pcdc/svLlo6KwFmfEvBabmt9+BJyR6tTKQ4pKu1/ZgW8+t
+         fTnSxUYEee5LX6aTIQZHGClRQ8bORzGnskfkoV3DlGFAydUA8Zbs1my6asr+2fuCxB+s
+         myaAqsRR1wxDb4JdPp5/8ZjZbqvwnl5UiZ4Sw=
+In-Reply-To: <LEcEO2518_I.A.I5E.BKbIKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Isaacson <adi-3HqRAUrWAWyGglJvpFV4uA@public.gmane.org>, Joerg Schilling <Joerg.Schilling-8LS2qeF34IpklNlQbfROjRvVK+yQ3ZXh@public.gmane.org>
 
-On Monday 01 June 2009, Johannes Berg wrote:
-> On Mon, 2009-06-01 at 22:26 +0200, Rafael J. Wysocki wrote:
-> > On Sunday 31 May 2009, Johannes Berg wrote:
-> > > On Sat, 2009-05-30 at 21:37 +0200, Rafael J. Wysocki wrote:
-> > > > This message has been generated automatically as a part of a report
-> > > > of recent regressions.
-> > > > 
-> > > > The following bug entry is on the current list of known regressions
-> > > > from 2.6.29.  Please verify if it still should be listed and let me know
-> > > > (either way).
-> > > > 
-> > > > 
-> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13306
-> > > > Subject		: hibernate slow on _second_ run
-> > > > Submitter	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-> > > > Date		: 2009-05-14 09:34 (17 days old)
-> > > 
-> > > I'm trying to get an ftrace profile that covers the point in question,
-> > > but it might take me a couple of days.
-> > 
-> > Did it work?
+Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
-> No, it's now hanging 20 seconds much later, after returning to
-> userspace :( But the dmesg log still has a hang of ~20.5 seconds just
-> like before, between two kernel messages...
+> The following bug entry is on the current list of known regressions
+> from 2.6.29.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13179
+> Subject		: CD-R: wodim intermittent failures
+> Submitter	: Andy Isaacson <adi-3HqRAUrWAWyGglJvpFV4uA@public.gmane.org>
+> Date		: 2009-04-21 1:52 (40 days old)
+> References	: http://marc.info/?l=linux-kernel&m=124027879214231&w=4
 
-Hmm.  Can you try to comment out suspend_device_irqs() and resume_device_irqs()
-in drivers/base/power/main.c and see what happens?
-
-Rafael
+Last I heard the reporter was going to attempt a bisect, that was a 
+while ago. I don't really have any suggestions other than that.
