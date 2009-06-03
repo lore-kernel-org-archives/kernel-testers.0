@@ -1,51 +1,33 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
+From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
 Subject: Re: [Bug #13306] hibernate slow on _second_ run
-Date: Wed, 3 Jun 2009 23:51:01 +0200
-Message-ID: <200906032351.01900.rjw@sisk.pl>
-References: <4to6E2myxvG.A.muC.aIbIKB@chimera> <200906032305.07551.rjw@sisk.pl> <1244064315.22576.5.camel@johannes.local>
+Date: Thu, 04 Jun 2009 08:25:26 +1000
+Message-ID: <1244067926.27194.35.camel@pasglop>
+References: <4to6E2myxvG.A.muC.aIbIKB@chimera>
+	 <1244018021.10665.4.camel@johannes.local> <200906031116.05114.rjw@sisk.pl>
+	 <200906032210.54854.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756749AbZFCVu4@vger.kernel.org>
-In-Reply-To: <1244064315.22576.5.camel@johannes.local>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200906032210.54854.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
 
-On Wednesday 03 June 2009, Johannes Berg wrote:
-> [can you please turn off html email?]
+On Wed, 2009-06-03 at 22:10 +0200, Rafael J. Wysocki wrote:
+> Apparently, we have two hibernation and suspend bugs on macbooks
+> related to suspend_device_irqs() and resume_device_irqs(), the other
+> one is
+> (http://bugzilla.kernel.org/show_bug.cgi?id=13407) and I have no idea
+> what's
+> up.
 
-Yes, sorry.  I didn't notice that my mailer sneakily started to add HTML
-"alternative" to every message.
+The other one is a _powerbook_ bug, very different machine (powerpc
+mac). macbooks are just almost ordinary x86 gear :-)
 
-> > Can you please send me /proc/interrupts from the affected box?
-> 
-> $ cat /proc/interrupts 
->             CPU0       CPU1       
->    0:    1820687          0   IO-APIC-edge      timer
->    7:          1          0   IO-APIC-edge    
->    9:      38721          0   IO-APIC-fasteoi   acpi
->   16:        940          0   IO-APIC-fasteoi   HDA Intel
->   17:        517          0   IO-APIC-fasteoi   ohci_hcd:usb4
->   18:     289829          0   IO-APIC-fasteoi   ohci_hcd:usb3
->   19:    2035671          0   IO-APIC-fasteoi   ehci_hcd:usb2
->   20:         32          0   IO-APIC-fasteoi   ehci_hcd:usb1
->   25:     515569          0   PCI-MSI-edge      ahci
->   26:          0          0   PCI-MSI-edge      eth0
->  NMI:          0          0   Non-maskable interrupts
->  LOC:     152936     638337   Local timer interrupts
->  SPU:          0          0   Spurious interrupts
->  RES:     317238     581858   Rescheduling interrupts
->  CAL:         43        128   Function call interrupts
->  TLB:      60645      53553   TLB shootdowns
->  TRM:          0          0   Thermal event interrupts
->  THR:          0          0   Threshold APIC interrupts
->  ERR:          1
->  MIS:          0
+I'll try to tackle the trackpad problem.
 
-Hmm.  The patch shouldn't matter for this box, except for one thing:
-check_irq_resend() on resume.  Interesting.
+Cheers,
+Ben.
 
-Rafael
