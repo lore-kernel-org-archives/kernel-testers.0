@@ -1,33 +1,56 @@
-From: Jos van der Ende <seraph-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
-Subject: Re: [Bug #12947] r128: system hangs when X is started with DRI
- enabled
-Date: Tue, 2 Jun 2009 21:11:07 +0200
-Message-ID: <20090602211107.388693ef.seraph@xs4all.nl>
-References: <THxQaUP0K2D.A.QkF.UVbIKB@chimera>
-	<PkPeJtNB3KO.A.CSH.sWbIKB@chimera>
-	<20090531105227.178e5397.angel@pearlgates.net>
+From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Subject: Re: [Bug #13306] hibernate slow on _second_ run
+Date: Wed, 03 Jun 2009 10:33:41 +0200
+Message-ID: <1244018021.10665.4.camel@johannes.local>
+References: <4to6E2myxvG.A.muC.aIbIKB@chimera>
+	 <200906012226.46086.rjw@sisk.pl> <1243888860.5299.32.camel@johannes.local>
+	 <200906012248.49304.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-9pnyQgOL/svDVHzKWrXJ"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090531105227.178e5397.angel-CPAcdlEyg76BYrYycbcsJg@public.gmane.org>
+In-Reply-To: <200906012248.49304.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
-
-> The bug fix in question is this one:
-> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=42beefc00
-
-I did some final testing today.
-
-The problem with the black screen I was having with 2.6.30 seems to have been solved in rc7, X works flawlessly there.
-
-2.6.29.4 and 2.6.29-gentoo-r5 also work just fine with Dave's bug fix in place.
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 
-Thanks to everyone who helped! :-)
+--=-9pnyQgOL/svDVHzKWrXJ
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, 2009-06-01 at 22:48 +0200, Rafael J. Wysocki wrote:
+> > No, it's now hanging 20 seconds much later, after returning to
+> > userspace :( But the dmesg log still has a hang of ~20.5 seconds just
+> > like before, between two kernel messages...
+>=20
+> Hmm.  Can you try to comment out suspend_device_irqs() and resume_device_=
+irqs()
+> in drivers/base/power/main.c and see what happens?
 
--- 
-Jos van der Ende <seraph-qWit8jRvyhVmR6Xm/wNWPw@public.gmane.org>
+Oddly, that does seem to help. I'm sure it can't be a solution though :)
+
+johannes
+
+--=-9pnyQgOL/svDVHzKWrXJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAABAgAGBQJKJjViAAoJEODzc/N7+QmaGj8P/A+UCCu+EE0wS+CQOBMPyoeM
+JS5ljkIdyqHIEdVdRhD0ThA2frkStR/AqehkS90T+n1WtKE4q+kqTur+8RgoHntY
+xm3TfgaPJEiuOpEvhncHXL7UdJgrHrNOfMUXtBK4JXqGTpcjnTRz5PRUAwE3Z2wL
+NgSVJl4wRSbtTzbcj3m56mSBbwZKv8HMKb2bW2h00HFCFNptFILZoTzi20KKrizJ
+5b26uwyUi00SAR+PoZqTC9tDKzWmn0YreI7hGXUVroj6ds11Pi0DJNz+wygBwxlH
+VdC4IhknaF9wGDpSOoi39n9ZE4r85OMCPsDJQQhvAu4a1OK2eZUnIXp+/UkMPuo9
+dbOzdJlP/BuQGl6HCIwU7cKh7dkRxav9rCvM1ovp7fEKkEyU0AnGFkTM0i9JQ8mk
+9J57Iatfj9T3+2koPUL78d5LTqBeZmdYNCXpvFdQscJa9iJCgGhVYuAV9E8i66G9
+MsHyNM9DaHCEKCrsYv1gJBeDEJO7FL5Aq0X+rNSYtOnsp0TfwA4EVUcYZsFnGsKs
+09ddoMa8s4oykSBUPNZZDeUEKcCO1AdOmNtQmL0ZcyptHQFdzffk9h2yBoChtg4N
+ftgGwRLkBDFZjTuov8dv4zbdxX4+0leJYHAVDo6wZLZd1XaaniSjKn8gVOOmDCe4
+8+8k23ye3cZvIfe9aSpU
+=uUtz
+-----END PGP SIGNATURE-----
+
+--=-9pnyQgOL/svDVHzKWrXJ--
