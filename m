@@ -1,33 +1,69 @@
-From: Jonathan Corbet <corbet-T1hC0tSOHrs@public.gmane.org>
-Subject: Re: [Bug #13325] 2.6.30-rc kills my box hard - and lockdep chains
-Date: Wed, 3 Jun 2009 11:52:10 -0600
-Message-ID: <20090603115210.6a06492b@bike.lwn.net>
+From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Subject: Re: [Bug #13306] hibernate slow on _second_ run
+Date: Wed, 03 Jun 2009 23:01:14 +0200
+Message-ID: <1244062874.22576.4.camel@johannes.local>
 References: <4to6E2myxvG.A.muC.aIbIKB@chimera>
-	<LEcEO2518_I.A.vNE.TJbIKB@chimera>
+	 <200906012248.49304.rjw@sisk.pl> <1244018021.10665.4.camel@johannes.local>
+	 <200906031116.05114.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-IdtUnO3mScA/j/xAGIRK"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <LEcEO2518_I.A.vNE.TJbIKB@chimera>
+In-Reply-To: <200906031116.05114.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sat, 30 May 2009 21:37:32 +0200 (CEST)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13325
-> Subject		: 2.6.30-rc kills my box hard - and lockdep chains
-> Submitter	: Jonathan Corbet <corbet-T1hC0tSOHrs@public.gmane.org>
-> Date		: 2009-05-14 15:49 (17 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124231630701394&w=4
+--=-IdtUnO3mScA/j/xAGIRK
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-FWIW, I'm no longer able to make this happen.  No idea what has
-changed...  But it seems to be gone, and nobody else has complained, so
-I guess it's a non-issue for 2.6.30.  It can probably be removed from
-the list.
+On Wed, 2009-06-03 at 11:16 +0200, Rafael J. Wysocki wrote:
+> On Wednesday 03 June 2009, Johannes Berg wrote:
+> > On Mon, 2009-06-01 at 22:48 +0200, Rafael J. Wysocki wrote:
+> > > > No, it's now hanging 20 seconds much later, after returning to
+> > > > userspace :( But the dmesg log still has a hang of ~20.5 seconds ju=
+st
+> > > > like before, between two kernel messages...
+> > >=20
+> > > Hmm.  Can you try to comment out suspend_device_irqs() and resume_dev=
+ice_irqs()
+> > > in drivers/base/power/main.c and see what happens?
+> >=20
+> > Oddly, that does seem to help. I'm sure it can't be a solution though :=
+)
+>=20
+> Not really. ;-)
+>=20
+> Still, something like the (untested) patch below can be.  Can you please =
+give
+> it a try?
 
-Thanks,
+Seems to work, though I'm not sure yet whether it really helps, that
+needs some more verification, will let you know tomorrow.
 
-jon
+johannes
+
+--=-IdtUnO3mScA/j/xAGIRK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAABAgAGBQJKJuSXAAoJEODzc/N7+QmaeC8QAJgudr38dsDH26qAriJbbpHO
+bLF+PZPKVjRr/n80RMW15qff0JcgBzDNsZbNkM0z/Oqn4Lt1gWVlce38JVXD89SD
+RaCEbrehN7caQaXa2jJiEOCvmuU7LcF86joApL1VImhrYyWtaPpELMsBvpuGZGGV
+mg8qlfAYOpTuvQopdMSlKS+zrgOUCrnTS9b/NpHlcFzKLFZriwkh73u0828KBGPT
+XBUIOBBAgnJc2hrX4YpMcXjVEC8A368l+RYE1V0VpKPlrgohdnUF9kFRIDqr8pqs
+uSoeXN3eqa7Z3iCOhG85njGwytnWm/z/iTPFgLGU6DBlHImE49trvLjgGUyDoOlQ
+XObID3kSYxOSo51kBGJHKaBC60V//8zSWGQJkSYlevaUc3XXBrwQzTEKJcFJsbyQ
+BdF8MvQvAERq6u6/hzALtn+igOVdMroPWy5m0a8IKlaUItfRpUqCLZ2N3Em/lSty
+OhZfm1dYtVtearG4MAvh9E+WuECMjnu14yo/5BkuGF34dTOLh06+8n2o4itnUeEX
+cSJXtLYtuyPUErBcGoxLyPsEwyD+MK9s3oJVyO8lRlSofgzlR3HMzKcdHfoeviwp
+8xVMPZkpOxW2MMgxm8BXDYe0ab9h6iSs5wS22vUQwoYxnW5ADps0i4qSKFc+CB3n
+uOjbC3ixi7toBMpaOte0
+=br0p
+-----END PGP SIGNATURE-----
+
+--=-IdtUnO3mScA/j/xAGIRK--
