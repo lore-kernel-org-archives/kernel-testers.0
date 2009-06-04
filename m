@@ -1,88 +1,53 @@
-From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-Subject: Re: [Bug #13306] hibernate slow on _second_ run
-Date: Thu, 04 Jun 2009 07:55:18 +0200
-Message-ID: <1244094918.22576.6.camel@johannes.local>
-References: <4to6E2myxvG.A.muC.aIbIKB@chimera>
-	 <200906032305.07551.rjw@sisk.pl> <1244064315.22576.5.camel@johannes.local>
-	 <200906032351.01900.rjw@sisk.pl>
+From: Dave Chinner <david@fromorbit.com>
+Subject: Re: 2.6.30-rc6: BUG at fs/xfs/support/debug.c:109!
+Date: Thu, 4 Jun 2009 19:23:30 +1000
+Message-ID: <20090604092330.GT16929@discord.disaster>
+References: <a4423d670906010822l6e8e112dl3d6f7de9e2179850@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-oFVFyLrKa5StFa/ETwHj"
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200906032351.01900.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <xfs-bounces@oss.sgi.com>
+Content-Disposition: inline
+In-Reply-To: <a4423d670906010822l6e8e112dl3d6f7de9e2179850@mail.gmail.com>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <http://oss.sgi.com/mailman/options/xfs>,
+	<mailto:xfs-request@oss.sgi.com?subject=unsubscribe>
+List-Archive: <http://oss.sgi.com/pipermail/xfs>
+List-Post: <mailto:xfs@oss.sgi.com>
+List-Help: <mailto:xfs-request@oss.sgi.com?subject=help>
+List-Subscribe: <http://oss.sgi.com/mailman/listinfo/xfs>,
+	<mailto:xfs-request@oss.sgi.com?subject=subscribe>
+Sender: xfs-bounces@oss.sgi.com
+Errors-To: xfs-bounces@oss.sgi.com
+To: Alexander Beregalov <a.beregalov@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, xfs@oss.sgi.com
 
+On Mon, Jun 01, 2009 at 07:22:56PM +0400, Alexander Beregalov wrote:
+> Hi
+> 
+> Assertion failed: *nmap >= 1, file: fs/xfs/xfs_bmap.c, line: 4846
+.....
+> Call Trace:
+>  [<ffffffff803d6bad>] xfs_bmapi+0xad/0x1ad0
+>  [<ffffffff803ee5c0>] xfs_dir2_leaf_getdents+0x640/0x7b0
+>  [<ffffffff803e975c>] xfs_readdir+0x12c/0x140
+>  [<ffffffff80430b57>] xfs_file_readdir+0x47/0x70
+>  [<ffffffff802ec500>] vfs_readdir+0xd0/0xf0
+>  [<ffffffff802ec6b6>] sys_getdents+0x96/0x110
+>  [<ffffffff8020ba6b>] system_call_fastpath+0x16/0x1b
 
---=-oFVFyLrKa5StFa/ETwHj
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+I'd say this indicates a corrupted directory.  Can you run
+'xfs_repair -n' over the filesystem and see if it finds a bad
+directory?
 
-On Wed, 2009-06-03 at 23:51 +0200, Rafael J.=20
-> > > Can you please send me /proc/interrupts from the affected box?
-> >=20
-> > $ cat /proc/interrupts=20
-> >             CPU0       CPU1      =20
-> >    0:    1820687          0   IO-APIC-edge      timer
-> >    7:          1          0   IO-APIC-edge   =20
-> >    9:      38721          0   IO-APIC-fasteoi   acpi
-> >   16:        940          0   IO-APIC-fasteoi   HDA Intel
-> >   17:        517          0   IO-APIC-fasteoi   ohci_hcd:usb4
-> >   18:     289829          0   IO-APIC-fasteoi   ohci_hcd:usb3
-> >   19:    2035671          0   IO-APIC-fasteoi   ehci_hcd:usb2
-> >   20:         32          0   IO-APIC-fasteoi   ehci_hcd:usb1
-> >   25:     515569          0   PCI-MSI-edge      ahci
-> >   26:          0          0   PCI-MSI-edge      eth0
-> >  NMI:          0          0   Non-maskable interrupts
-> >  LOC:     152936     638337   Local timer interrupts
-> >  SPU:          0          0   Spurious interrupts
-> >  RES:     317238     581858   Rescheduling interrupts
-> >  CAL:         43        128   Function call interrupts
-> >  TLB:      60645      53553   TLB shootdowns
-> >  TRM:          0          0   Thermal event interrupts
-> >  THR:          0          0   Threshold APIC interrupts
-> >  ERR:          1
-> >  MIS:          0
->=20
-> Hmm.  The patch shouldn't matter for this box, except for one thing:
-> check_irq_resend() on resume.  Interesting.
+Cheers,
 
-Yeah, well, turns out it didn't help anyway:
+Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
 
-[30490.846160] ACPI: Waking up from system sleep state S4
-[30491.371450] HDA Intel 0000:00:08.0: restoring config space at offset 0x1=
- (was 0xb00006, writing 0xb00002)
-[30491.379411] forcedeth 0000:00:0a.0: restoring config space at offset 0x1=
- (was 0xb00003, writing 0xb00007)
-[30491.387352] ahci 0000:00:0b.0: restoring config space at offset 0x1 (was=
- 0xb00403, writing 0xb00407)
-[30511.970606] pci 0000:00:03.2: PME# disabled
-
-The problem doesn't always happen. But now that it happens here again,
-maybe I can try ftrace again...
-
-johannes
-
---=-oFVFyLrKa5StFa/ETwHj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAABAgAGBQJKJ2HCAAoJEODzc/N7+QmaorsP/3EgTATytB5nREXpIGJK+C02
-i3YF4Eox2z+6RQP4p92f6wQV6wSGiJgIF6t8IfT/igK1d6N6ITpiRKW0tNZ5gpWE
-/NvsW+MX/kKVtvAhP5259bCC5aFGW/0LYTqSpf5ff6toFp33/RMn1+hI+T0iaVeF
-Z7JwfBm5+DHpWf/90te5H+bex5eol6mz6yZxqd8yG4fiz+W8gg0O94rj4XujunlM
-df6bMNYzgOnBDo1DcS3nWl933fQ+snwm5KZjeLnVDq8GXG/4JG41CnzITkxJ8vyD
-1RtTvZz/1UfEs2wTPptNLpRb7aCCbXhSOpvSuWyf+VUUrjuf59OTdgeSFn5Z/JZQ
-2Qp4a9+7Zf0JiUKU8OXzwBZXlcyFyIhYeAoR1/7Lvcj7/ZUyrynt9TeQsVZyvZEv
-bq9u4U70Oq6okrmwieY8vAm0pBQTgFZLCxPra+fM86F1wxCdNBllzFdfCWSQ9gVz
-NgKFyKOQ0F6nzyiAV/tYFW1/TMiHUyDaerOgGUqZeFhmJEZmMOZr3EgLLS/UxHYw
-ZFk1YOcQUZ2dtzJcbVYia5B+3/ZI62sXkv23ifXRH96JdNasqp7ToD8JZ1OzDYvI
-v96BJuJ8VwE9wdQTkifYMucu0+J0Mn061PopKNf0xFZ1bv8lR0dsV2lgAXVXEwNu
-JWycHjPqtPKWpxb1MdMY
-=MPyW
------END PGP SIGNATURE-----
-
---=-oFVFyLrKa5StFa/ETwHj--
+_______________________________________________
+xfs mailing list
+xfs@oss.sgi.com
+http://oss.sgi.com/mailman/listinfo/xfs
