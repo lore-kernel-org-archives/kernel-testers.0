@@ -1,53 +1,76 @@
-From: Dave Chinner <david@fromorbit.com>
-Subject: Re: 2.6.30-rc6: BUG at fs/xfs/support/debug.c:109!
-Date: Thu, 4 Jun 2009 19:23:30 +1000
-Message-ID: <20090604092330.GT16929@discord.disaster>
-References: <a4423d670906010822l6e8e112dl3d6f7de9e2179850@mail.gmail.com>
+From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Subject: Re: [Bug #13306] hibernate slow on _second_ run
+Date: Thu, 04 Jun 2009 16:26:10 +0200
+Message-ID: <1244125570.22576.78.camel@johannes.local>
+References: <4to6E2myxvG.A.muC.aIbIKB@chimera>
+	 <200906032305.07551.rjw@sisk.pl> <1244064315.22576.5.camel@johannes.local>
+	 <200906032351.01900.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <xfs-bounces@oss.sgi.com>
-Content-Disposition: inline
-In-Reply-To: <a4423d670906010822l6e8e112dl3d6f7de9e2179850@mail.gmail.com>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <http://oss.sgi.com/mailman/options/xfs>,
-	<mailto:xfs-request@oss.sgi.com?subject=unsubscribe>
-List-Archive: <http://oss.sgi.com/pipermail/xfs>
-List-Post: <mailto:xfs@oss.sgi.com>
-List-Help: <mailto:xfs-request@oss.sgi.com?subject=help>
-List-Subscribe: <http://oss.sgi.com/mailman/listinfo/xfs>,
-	<mailto:xfs-request@oss.sgi.com?subject=subscribe>
-Sender: xfs-bounces@oss.sgi.com
-Errors-To: xfs-bounces@oss.sgi.com
-To: Alexander Beregalov <a.beregalov@gmail.com>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, xfs@oss.sgi.com
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-OowC4ytkJPBWlB463KAI"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200906032351.01900.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Steven Rostedt <srostedt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-On Mon, Jun 01, 2009 at 07:22:56PM +0400, Alexander Beregalov wrote:
-> Hi
-> 
-> Assertion failed: *nmap >= 1, file: fs/xfs/xfs_bmap.c, line: 4846
-.....
-> Call Trace:
->  [<ffffffff803d6bad>] xfs_bmapi+0xad/0x1ad0
->  [<ffffffff803ee5c0>] xfs_dir2_leaf_getdents+0x640/0x7b0
->  [<ffffffff803e975c>] xfs_readdir+0x12c/0x140
->  [<ffffffff80430b57>] xfs_file_readdir+0x47/0x70
->  [<ffffffff802ec500>] vfs_readdir+0xd0/0xf0
->  [<ffffffff802ec6b6>] sys_getdents+0x96/0x110
->  [<ffffffff8020ba6b>] system_call_fastpath+0x16/0x1b
 
-I'd say this indicates a corrupted directory.  Can you run
-'xfs_repair -n' over the filesystem and see if it finds a bad
-directory?
+--=-OowC4ytkJPBWlB463KAI
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+Alright, I have managed to trace this.
 
-Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+http://johannes.sipsolutions.net/files/hibernate-delay-dmesg.txt
 
-_______________________________________________
-xfs mailing list
-xfs@oss.sgi.com
-http://oss.sgi.com/mailman/listinfo/xfs
+has the dmesg, you can clearly see the delay:
+[50265.143330] ACPI: Waking up from system sleep state S4
+[50265.679141] HDA Intel 0000:00:08.0: restoring config space at offset 0x1=
+ (was 0xb00006, writing 0xb00002)
+[50265.689525] forcedeth 0000:00:0a.0: restoring config space at offset 0x1=
+ (was 0xb00003, writing 0xb00007)
+[50265.699775] ahci 0000:00:0b.0: restoring config space at offset 0x1 (was=
+ 0xb00403, writing 0xb00407)
+[50286.294910] pci 0000:00:03.2: PME# disabled
+
+I managed to get an entire function trace between
+
+[50265.143330] ACPI: Waking up from system sleep state S4
+
+and
+
+[50290.439040] Restarting tasks ... done.
+
+which I've uploaded to
+
+http://johannes.sipsolutions.net/files/hibernate-delay-trace.bz2
+
+(WARNING: uncompresses to 574MiB!)
+
+I'm not sure why the timing in there doesn't show the delay, Steven was
+taking a look at that.
+
+johannes
+
+--=-OowC4ytkJPBWlB463KAI
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAABAgAGBQJKJ9l/AAoJEODzc/N7+QmasBsP/ioLk91yR6uHRv9vCjymR0xp
+ICoifV8KWFUqkEc8bnh9WXfKyMU29EzPNkarWalfTec8DryRqzGa1cEZmXEAbFen
+b3qc61md5IGrh1ZNOKJKNcyGBTZ128sV4vj0ss8Q5lymx+0iSJlqmAfAJ5tf0vi7
+XsP2+P8xBbdlwJatsFmX6wa+RwriiB9/JqhJyCxP2w8V/qSeuWePnITxTL4rD/NQ
+MzDDSK6J6Zzz0wjaa9qNd8PNl6Q18dOlc4KrZWbknyhJ3l57TLHTmlpCVys8TGRR
+WvjV8jtFU7rVqMvtalrCZ+K227WAt+dVofGb9G2NYzctYz8o5MkTqK22J5M8ozve
+IPFp2X0qHbglUK9w/DHuzI9UxFTj9G87jBNj+xroOLrlI9lYp7hgJrIK19/To7Ib
+rz7EcG6qUBUh8IFJRBdn83/mfz4BR1zqlB2StlvU1u6eM1IFMcCLrwpjn7VWvdoj
+PeC5BaJFGa4rX7mu9+aQi8QbpkRcVIQ2yeF75vbGlz5lezKqvn/KQnWBNCVQaJ5Q
+fmIJWaB0hX6udXcPNfOOwZ6kj9Xs97DemQw4Y0o+jQe0ae/0cy/vosUtN1ipGe8u
+XP0GRK+nD7/z1ldiK8MdqEXbrfV87TXoKplfIcQtxR9ryZTcp/jLigxcYGARwVm9
+8TeQhYM18sc7IN3Zmqcj
+=OCDZ
+-----END PGP SIGNATURE-----
+
+--=-OowC4ytkJPBWlB463KAI--
