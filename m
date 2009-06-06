@@ -1,146 +1,45 @@
-From: Rui Santos <rsantos-TSnNRl9vlf1Wk0Htik3J/w@public.gmane.org>
-Subject: Re: [WATCHDOG] iTCO_wdt.c - ICH9 reboot issue - testing wanted
-Date: Fri, 05 Jun 2009 19:46:14 +0100
-Message-ID: <4A2967F6.2000303@grupopie.com>
-References: <20090430094918.GC4141@infomag.iguana.be>
+From: Mathias Kretschmer <posting-ZcF2+9dVbKo@public.gmane.org>
+Subject: Re: [Bug #13375] Kernel crash with 2.6.29 + nfs + xfs (radix-tree)
+Date: Sat, 6 Jun 2009 10:11:30 +0200
+Message-ID: <200906061011.34124.posting@blx4.net>
+References: <THxQaUP0K2D.A.QkF.UVbIKB@chimera> <20090605093234.GA30705@infradead.org> <alpine.DEB.1.10.0906051115580.16086@router.windsormachine.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------000906060209040709000403"
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090430094918.GC4141-flHiHfN8CTwhDM6iD19NGrNAH6kLmebB@public.gmane.org>
+In-Reply-To: <alpine.DEB.1.10.0906051115580.16086-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>
-Cc: Stephen Clark <sclark46-ihVZJaRskl1bRRN4PJnoQQ@public.gmane.org>, Denys Fedoryschenko <denys-EpTYZhqHKuJnTudFRACr3A@public.gmane.org>, Johannes Dewender <arch-ArHZ4xy2k9XR7s880joybQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Rutger Nijlunsing <bugzilla.kernel-iCbNM5W9OABowPkYzbXIcw@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andriy Gapon <avg-+43SdJ71VxTsG83rWm+8vg@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Mike Dresser <mdresser_l-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>
+Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Alex Samad <alex-SGFoFqf0RKf0CCvOHzKKcA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
 
-This is a multi-part message in MIME format.
---------------000906060209040709000403
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-
-Wim Van Sebroeck wrote:
-> Hi All,
->   
-Hi Wim, Hi All,
-> I'm looking for people that can test the below patch(es).
-> I'm mainly interested in knowing if you experience any side-effects when using this patch.
-> (See also bugzilla 9868, 10195, 12363 & 12162).
+On Friday 05 June 2009 17:19:06 Mike Dresser wrote:
+> On Fri, 5 Jun 2009, Christoph Hellwig wrote:
+> > I haven't actually measured it, but it shouldn't be that bad.  Mostly
 >
-> For people not using the watchdog or without any reboot problems the driver should
-> work as normal after compilation/installation/...
+> I've enabled that as of yesterday and I'll let it go through it's normal
+> operations.. It did survive the other night without CONFIG_XFS_DEBUG
+> on(and on 2.6.30-rc8), but that sometimes happened anyways.
+
+Is your machine still happy ?
+
+If so, I'll give 2.6.30-rc8 a shot, as well.
+
+-Mathias
+
+> If it makes it through this weekend without crashing then that bodes well
+> for something being fixed in the recent rc's.
 >
-> For people that have the ICH9 reboot problems: load the module with module-parameter
-> gbl_smi_en=0 and test the watchdog functionality again.
->   
-
-With your patch, the Intel DG35EC board will not allow my distribution
-reboot or halt the machine. In order to circumvent that problem, I've
-made a few addition to your previous patch witch allows the restore of
-the changed Bit 0 to it's previous value if the module is unloaded.
-My only doubt is if it should be done every time the gbl_smi_en is zero,
-or in conjunction with nowayout when the value also equals zero. This
-patch has what I described and a commented gbl_smi_en only.
-
-Can anyone share his/her thoughts on this matter.
-
-> Thanks in advance,
-> Wim.
->   
-Regards,
-Rui
-
-
---------------000906060209040709000403
-Content-Type: text/x-patch;
- name="linux-2.6.30-rc8-watchdog.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
- filename="linux-2.6.30-rc8-watchdog.patch"
-
-diff -upr linux-2.6.30-rc8.ori/drivers/watchdog/iTCO_wdt.c linux-2.6.30-rc8.new/drivers/watchdog/iTCO_wdt.c
---- linux-2.6.30-rc8.ori/drivers/watchdog/iTCO_wdt.c	2009-06-05 19:26:07.000000000 +0100
-+++ linux-2.6.30-rc8.new/drivers/watchdog/iTCO_wdt.c	2009-06-05 19:33:03.000000000 +0100
-@@ -63,7 +63,7 @@
- 
- /* Module and version information */
- #define DRV_NAME	"iTCO_wdt"
--#define DRV_VERSION	"1.05"
-+#define DRV_VERSION	"1.06"
- #define PFX		DRV_NAME ": "
- 
- /* Includes */
-@@ -277,6 +277,13 @@ MODULE_PARM_DESC(heartbeat, "Watchdog he
- 	"(2<heartbeat<39 (TCO v1) or 613 (TCO v2), default="
- 				__MODULE_STRING(WATCHDOG_HEARTBEAT) ")");
- 
-+#define GBL_SMI_EN_DEFAULT 1	/* 1 = don't turn GBL_SMI_EN off */
-+static int gbl_smi_en = GBL_SMI_EN_DEFAULT;
-+module_param(gbl_smi_en, int, 0);
-+MODULE_PARM_DESC(gbl_smi_en,
-+	"Turn GBL_SMI_EN off to fix reboot issues on ICH9..., default="
-+				__MODULE_STRING(GBL_SMI_EN_DEFAULT) ")");
-+
- static int nowayout = WATCHDOG_NOWAYOUT;
- module_param(nowayout, int, 0);
- MODULE_PARM_DESC(nowayout,
-@@ -412,6 +419,23 @@ static int iTCO_wdt_keepalive(void)
- 	return 0;
- }
- 
-+static int iTCO_wdt_restore_gbl_smi_en(void)
-+{
-+	unsigned long val32;
-+
-+	/* Remove the TCO_EN bit in SMI_EN register */
-+	if (!request_region(SMI_EN, 4, "iTCO_wdt"))
-+		printk(KERN_ERR PFX "Restore of gbl_smi_en was not successful\n");
-+	else {
-+		val32 = inl(SMI_EN);
-+		val32 |= 0x00000001;
-+		outl(val32, SMI_EN);
-+		release_region(SMI_EN, 4);
-+	}
-+
-+	return 0;
-+}
-+
- static int iTCO_wdt_set_heartbeat(int t)
- {
- 	unsigned int val16;
-@@ -688,9 +712,12 @@ static int __devinit iTCO_wdt_init(struc
- 		ret = -EIO;
- 		goto out;
- 	}
--	/* Bit 13: TCO_EN -> 0 = Disables TCO logic generating an SMI# */
- 	val32 = inl(SMI_EN);
-+	/* Bit 13: TCO_EN     -> 0 = Disables TCO logic generating an SMI#
-+	   Bit  0: GBL_SMI_EN -> 0 = No SMI# will be generated by ICH9. */
- 	val32 &= 0xffffdfff;	/* Turn off SMI clearing watchdog */
-+	if (gbl_smi_en == 0)
-+		val32 &= 0xfffffffe;	/* Turn off GBL_SMI_EN */
- 	outl(val32, SMI_EN);
- 
- 	/* The TCO I/O registers reside in a 32-byte range pointed to
-@@ -733,8 +760,8 @@ static int __devinit iTCO_wdt_init(struc
- 		goto unreg_region;
- 	}
- 
--	printk(KERN_INFO PFX "initialized. heartbeat=%d sec (nowayout=%d)\n",
--							heartbeat, nowayout);
-+	printk(KERN_INFO PFX "initialized. heartbeat=%d sec, gbl_smi_en=%d "
-+		"(nowayout=%d)\n", heartbeat, gbl_smi_en, nowayout);
- 
- 	return 0;
- 
-@@ -847,6 +874,9 @@ unreg_platform_driver:
- 
- static void __exit iTCO_wdt_cleanup_module(void)
- {
-+	//if (gbl_smi_en == 0)
-+	if (gbl_smi_en == 0 && nowayout == 0)
-+		iTCO_wdt_restore_gbl_smi_en();
- 	platform_device_unregister(iTCO_wdt_platform_device);
- 	platform_driver_unregister(&iTCO_wdt_driver);
- 	printk(KERN_INFO PFX "Watchdog Module Unloaded.\n");
-
---------------000906060209040709000403--
+> Doesn't seem to be any slower though, the backups completed around the
+> same time as they always do.
+>
+> Mike
+>
+>
+>
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
