@@ -1,38 +1,24 @@
-From: James Bottomley <James.Bottomley-d9PhHud1JfjCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
-Subject: Re: [Bug #13378] kernel/async.c broke pata_legacy.c
-Date: Sat, 06 Jun 2009 14:23:15 +0000
-Message-ID: <1244298195.14676.6.camel@mulgrave.site>
-References: <4to6E2myxvG.A.muC.aIbIKB@chimera>
-	 <LEcEO2518_I.A.8UD.tIbIKB@chimera>
+From: Mike Dresser <mdresser_l-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>
+Subject: Re: [Bug #13375] Kernel crash with 2.6.29 + nfs + xfs (radix-tree)
+Date: Sat, 6 Jun 2009 11:38:44 -0400 (EDT)
+Message-ID: <alpine.DEB.1.10.0906061138150.9860@router.windsormachine.com>
+References: <THxQaUP0K2D.A.QkF.UVbIKB@chimera> <20090605093234.GA30705@infradead.org> <alpine.DEB.1.10.0906051115580.16086@router.windsormachine.com> <200906061011.34124.posting@blx4.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <LEcEO2518_I.A.8UD.tIbIKB@chimera>
+In-Reply-To: <200906061011.34124.posting-ZcF2+9dVbKo@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, IDE <linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"; format="flowed"
+Content-Transfer-Encoding: 7bit
+To: Mathias Kretschmer <posting-ZcF2+9dVbKo@public.gmane.org>
+Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Alex Samad <alex-SGFoFqf0RKf0CCvOHzKKcA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
 
-On Sat, 2009-05-30 at 21:37 +0200, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.29.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13378
-> Subject		: kernel/async.c broke pata_legacy.c
-> Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-> Date		: 2009-05-24 16:13 (7 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124318186507210&w=4
-> Handled-By	: James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
-> Patch		: http://patchwork.kernel.org/patch/25699/
+On Sat, 6 Jun 2009, Mathias Kretschmer wrote:
 
-Should now be fixed by upstream commit
-45bc955bb1324a46c9539550cc615994e6d0a43d
+> Is your machine still happy ?
+>
+> If so, I'll give 2.6.30-rc8 a shot, as well.
 
-James
+Still running, no crashes or errors so far
 
+Mike
