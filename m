@@ -1,43 +1,41 @@
-From: Mathias Kretschmer <mathias-ZcF2+9dVbKo@public.gmane.org>
-Subject: Re: [Bug #13375] Kernel crash with 2.6.29 + nfs + xfs (radix-tree)
-Date: Sun, 7 Jun 2009 00:00:48 +0200
-Message-ID: <200906070000.48960.mathias@blx4.net>
-References: <THxQaUP0K2D.A.QkF.UVbIKB@chimera> <200906061011.34124.posting@blx4.net> <alpine.DEB.1.10.0906061138150.9860@router.windsormachine.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13378] kernel/async.c broke pata_legacy.c
+Date: Sun, 7 Jun 2009 00:34:03 +0200
+Message-ID: <200906070034.04439.rjw@sisk.pl>
+References: <4to6E2myxvG.A.muC.aIbIKB@chimera> <LEcEO2518_I.A.8UD.tIbIKB@chimera> <1244298195.14676.6.camel@mulgrave.site>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.1.10.0906061138150.9860-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>
+In-Reply-To: <1244298195.14676.6.camel-0iu6Cu4xQGLYCGPCin2YbQ@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Mike Dresser <mdresser_l-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>
-Cc: Mathias Kretschmer <posting-ZcF2+9dVbKo@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Alex Samad <alex-SGFoFqf0RKf0CCvOHzKKcA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, IDE <linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
-On Saturday 06 June 2009 17:38:44 Mike Dresser wrote:
-> On Sat, 6 Jun 2009, Mathias Kretschmer wrote:
-> > Is your machine still happy ?
-> >
-> > If so, I'll give 2.6.30-rc8 a shot, as well.
->
-> Still running, no crashes or errors so far
+On Saturday 06 June 2009, James Bottomley wrote:
+> On Sat, 2009-05-30 at 21:37 +0200, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.29.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13378
+> > Subject		: kernel/async.c broke pata_legacy.c
+> > Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+> > Date		: 2009-05-24 16:13 (7 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=124318186507210&w=4
+> > Handled-By	: James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+> > Patch		: http://patchwork.kernel.org/patch/25699/
+> 
+> Should now be fixed by upstream commit
+> 45bc955bb1324a46c9539550cc615994e6d0a43d
 
-OK. running 2.6.30-rc8-git2.  no crashes, so far.
+Thanks, I've closed the bug.
 
-but, same problem as with 2.6.29: tons of 'reconnect_path: npd != pd" messages 
-and stale NFS handles on the client boxes (i.e. my desktop).
-
-I upgraded from 2.6.25, which worked fine.
-
-The box is an AMD K8 (x86_64) with sata,raid6,lvm,xfs,nfsd.
-
-Mathias
-
-
-> Mike
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> Please read the FAQ at  http://www.tux.org/lkml/
+Best,
+Rafael
