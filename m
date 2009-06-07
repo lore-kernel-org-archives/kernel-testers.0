@@ -1,37 +1,23 @@
-From: Trond Myklebust <trond.myklebust-41N18TsMXrtuMpJDpNschA@public.gmane.org>
-Subject: Re: [Bug #13330] nfs4 NULL pointer dereference in _nfs4_do_setlk
-Date: Sun, 07 Jun 2009 15:28:48 -0400
-Message-ID: <1244402928.5278.7.camel@heimdal.trondhjem.org>
-References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>
-	 <D9VoutSOyXP.A.YjH.5Z7KKB@chimera>
+From: Mike Dresser <mdresser_l-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>
+Subject: Re: [Bug #13375] Kernel crash with 2.6.29 + nfs + xfs (radix-tree)
+Date: Sun, 7 Jun 2009 16:09:23 -0400 (EDT)
+Message-ID: <alpine.DEB.1.10.0906071608010.3914@router.windsormachine.com>
+References: <sIiXQlfwS3D.A.81.dj7KKB@chimera> <AN6kEAA5GQ.A.WDB.xj7KKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <D9VoutSOyXP.A.YjH.5Z7KKB@chimera>
+In-Reply-To: <AN6kEAA5GQ.A.WDB.xj7KKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"; format="flowed"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rich Ercolani <rercola-YxllIAoeIHiVc3sceRu5cw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alex Samad <alex-SGFoFqf0RKf0CCvOHzKKcA@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
 
-On Sun, 2009-06-07 at 11:52 +0200, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.29.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13330
-> Subject		: nfs4 NULL pointer dereference in _nfs4_do_setlk
-> Submitter	: Rich Ercolani <rercola-YxllIAoeIHiVc3sceRu5cw@public.gmane.org>
-> Date		: 2009-05-17 04:44 (22 days old)
-> Handled-By	: Trond Myklebust <trond.myklebust-41N18TsMXrtuMpJDpNschA@public.gmane.org>
+> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> be listed and let me know (either way).
 
-It should still be listed. I do believe I've finally identified the
-cause, and have provided a patch, however that fix has not yet been
-verified by Rich...
+Still testing, but so far 2.6.30-rc8(or another RC) seems to have fixed 
+this.  I'd say to leave this open for now, there's at least one other 
+person testing 2.6.30-rc8 to see if it's fixed or not.
 
-Cheers
-  Trond
+Mike
