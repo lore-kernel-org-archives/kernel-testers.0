@@ -1,34 +1,45 @@
-From: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
-Subject: Re: [Bug #13232] ext3/4 with synchronous writes gets wedged by
-	Postfix
-Date: Sun, 7 Jun 2009 13:14:18 -0400
-Message-ID: <20090607171418.GA22756@mit.edu>
-References: <sIiXQlfwS3D.A.81.dj7KKB@chimera> <AN6kEAA5GQ.A.NkB.9j7KKB@chimera>
+From: Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13072] forcedeth seems to switch off eth on shutdown
+Date: Sun, 07 Jun 2009 11:14:31 -0600
+Message-ID: <4A2BF577.1050003__5454.12572469122$1244394998$gmane$org@gmail.com>
+References: <sIiXQlfwS3D.A.81.dj7KKB@chimera> <AN6kEAA5GQ.A.ELC.ck7KKB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <AN6kEAA5GQ.A.NkB.9j7KKB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=VGhBC+uZO8VgBYJSk42T6DeFZ9YXGVviMRHOHDe8YF4=;
+        b=gceEAETQHwKWgMPFoTXyiYqmiX0sQTaHWTb6l3r466qHa7WcGPwYTzjoT0tYKOWfsV
+         CTVnvBGrOElaZSz17orO5BZhQB7DHUFPQxho3tYVR1FimWxbYg6GlooT8pwhy4+t7LXO
+         BjusrW8lbq3L6sW0bS2eA+uLjNMzFBFYL1a5E=
+In-Reply-To: <AN6kEAA5GQ.A.ELC.ck7KKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Watson <kernel-nospam-yvBcC19sZ6P0OyVTGvYuXB2eb7JE58TQ@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <public-rjw-KKrjLPT3xs0-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org>
+Cc: Linux Kernel Mailing List <public-linux-kernel-u79uwXL29TY76Z2rM5mHXA-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org>, Kernel Testers List <public-kernel-testers-u79uwXL29TY76Z2rM5mHXA-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org>, Daniel Bierstedt <public-daniel.bierstedt-Mmb7MZpHnFY-z5DuStaUktnZ+VzJOa5vwg@public.gmane.org>
 
-On Sun, Jun 07, 2009 at 12:06:22PM +0200, Rafael J. Wysocki wrote:
+
+
+
+Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of regressions introduced between 2.6.28 and 2.6.29.
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13232
-> Subject		: ext3/4 with synchronous writes gets wedged by Postfix
-> Submitter	: David Watson <kernel-nospam-yvBcC19sZ6P0OyVTGvYuXB2eb7JE58TQ@public.gmane.org>
-> Date		: 2009-05-03 19:46 (36 days old)
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13072
+> Subject		: forcedeth seems to switch off eth on shutdown
+> Submitter	: Daniel Bierstedt <daniel.bierstedt-Mmb7MZpHnFY-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+> Date		: 2009-04-12 07:00 (57 days old)
 
-Al Viro has the fix for this in the for-next branch of his vfs-2.6 git
-tree, as commit ID 72a43d63: "ext3/4 with synchronous writes gets
-wedged by Postfix".  I pinged Al previously about pushing this as a
-regression fix for 2.6.30, but never got a response.  At this point we
-might as well wait for it to go into the 2.6.31 merge window, and then
-we can ask for it to go into the 2.6.30.y and 2.6.29.y stable trees.
+Seems like it should be fixed by:
 
-       	       	     	     	 	      	       - Ted
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=5a9a8e32ebe269c71d8d3e78f9435fe7729f38e9
+
