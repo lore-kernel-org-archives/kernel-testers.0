@@ -1,48 +1,37 @@
-From: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
-Subject: Re: [Bug #13475] suspend/hibernate lockdep warning
-Date: Sun, 7 Jun 2009 16:21:32 +0300
-Message-ID: <84144f020906070621r1f480eaeief026d23662df380@mail.gmail.com>
-References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>
-	 <D9VoutSOyXP.A.7vF.2Y7KKB@chimera>
+From: =?UTF-8?B?T3phbiDDh2HEn2xheWFu?= <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>
+Subject: Re: [Bug #13471] Loading parport_pc kills the keyboard if ACPI is
+ enabled
+Date: Sun, 07 Jun 2009 16:25:42 +0300
+Message-ID: <4A2BBFD6.8000002@pardus.org.tr>
+References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera> <D9VoutSOyXP.A.AGG.9Y7KKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:sender:received:in-reply-to
-         :references:date:x-google-sender-auth:message-id:subject:from:to:cc
-         :content-type:content-transfer-encoding;
-        bh=mMZ6Auczn+L+pnuyWLz1iwYBa0yoYNRwWdLbQxg4CZw=;
-        b=oxTOc7WBag87WzV9LYT7jqwsKp2J1QJEVoQcupTQP/PhwZxQZBl+TWQtjFVIMyAkDS
-         YHTmS+TAuUY4GA3MoBbDoN5+6ELSiKVvMCI5BuMEH2hJGNnpGnU75L9+CGLT9a7GnKbT
-         LFeHsoP00ZmGuWKib9hrXz2KbulkPGnPOJjkg=
-In-Reply-To: <D9VoutSOyXP.A.7vF.2Y7KKB@chimera>
+In-Reply-To: <D9VoutSOyXP.A.AGG.9Y7KKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="utf-8"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, trenn-l3A5Bk7waGM@public.gmane.org, sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, ACPI Devel Maling List <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sun, Jun 7, 2009 at 12:52 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
 >
 > The following bug entry is on the current list of known regressions
-> from 2.6.29. =A0Please verify if it still should be listed and let me=
- know
+> from 2.6.29.  Please verify if it still should be listed and let me k=
+now
 > (either way).
 >
 >
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-13475
-> Subject =A0 =A0 =A0 =A0 : suspend/hibernate lockdep warning
-> Submitter =A0 =A0 =A0 : Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-06-02 10:00 (6 days old)
-> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D124393=
-723321241&w=3D4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13471
+> Subject		: Loading parport_pc kills the keyboard if ACPI is enabled
+> Submitter	: Ozan =C3=87a=C4=9Flayan <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>
+> Date		: 2009-06-04 9:12 (4 days old)
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D124410667532558&w=
+=3D4
+>  =20
 
-Looks like a cpufreq locking problem to me. Lets add some
-get_maintainer.pl loving to the cc list. Can you post your .config
-too, btw?
+The problem is still around, no news.
 
-                                 Pekka
+Thanks.
