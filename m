@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13362] rt2x00: slow wifi with correct basic rate bitmap
-Date: Sun,  7 Jun 2009 11:52:52 +0200 (CEST)
-Message-ID: <D9VoutSOyXP.A.SVH.nZ7KKB@chimera>
+Subject: [Bug #13391] Kernel boot hangs at about every second start when kms is activated
+Date: Sun,  7 Jun 2009 11:52:53 +0200 (CEST)
+Message-ID: <D9VoutSOyXP.A.E-G.TZ7KKB@chimera>
 References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alejandro Riveira <ariveira-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Chris Wright <chrisw-69jw2NvuJkxg9hUCZPvPmw@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Martin Bammer <mrb74-RbZlAiThDcE@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,8 @@ from 2.6.29.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13362
-Subject		: rt2x00: slow wifi with correct basic rate bitmap
-Submitter	: Alejandro Riveira <ariveira-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-05-22 13:32 (17 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13391
+Subject		: Kernel boot hangs at about every second start when kms is activated
+Submitter	: Martin Bammer <mrb74-RbZlAiThDcE@public.gmane.org>
+Date		: 2009-05-26 21:47 (13 days old)
 
