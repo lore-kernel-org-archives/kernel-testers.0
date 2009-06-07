@@ -1,40 +1,34 @@
-From: Marc Dionne <marc.c.dionne-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13423] JMicron SATA controller not available
-Date: Sun, 07 Jun 2009 11:23:16 -0400
-Message-ID: <4A2BDB64.6020404@gmail.com>
+From: Martin Bammer <mrb74-RbZlAiThDcE@public.gmane.org>
+Subject: Re: [Bug #13366] About 80% of shutdowns fail (blocking)
+Date: Sun, 07 Jun 2009 18:02:39 +0200
+Message-ID: <1244390559.4219.1.camel@localhost>
 References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>
- <D9VoutSOyXP.A.2oG.IZ7KKB@chimera>
+	 <D9VoutSOyXP.A.NPH.lZ7KKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7BIT
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-reply-to: <D9VoutSOyXP.A.2oG.IZ7KKB@chimera>
+In-Reply-To: <D9VoutSOyXP.A.NPH.lZ7KKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Yu Zhao <yu.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On 06/07/2009 05:52 AM, Rafael J. Wysocki wrote:
+Since i disabled most of the debug options this problem has gone. IMHO
+this issue has been caused by kdbg.
+
+Am Sonntag, den 07.06.2009, 11:52 +0200 schrieb Rafael J. Wysocki:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
->
+> 
 > The following bug entry is on the current list of known regressions
 > from 2.6.29.  Please verify if it still should be listed and let me know
 > (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13423
-> Subject		: JMicron SATA controller not available
-> Submitter	: Marc Dionne<marc.c.dionne-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-05-26 22:56 (13 days old)
-> References	: http://lkml.org/lkml/2009/5/26/687
-> Handled-By	: Yu Zhao<yu.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> Patch		: http://lkml.org/lkml/2009/5/27/402
-
-I verified that the bug is still there in mainline from this morning.
-
-The fix is part of this pull request:
-	http://lkml.org/lkml/2009/6/6/148
-so hopefully it will make it in before the final release.
-
-Marc
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13366
+> Subject		: About 80% of shutdowns fail (blocking)
+> Submitter	: Martin Bammer <mrb74-RbZlAiThDcE@public.gmane.org>
+> Date		: 2009-05-23 00:58 (16 days old)
+> 
+> 
