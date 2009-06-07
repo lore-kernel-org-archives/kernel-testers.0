@@ -1,18 +1,19 @@
 From: Martin Bammer <mrb74-RbZlAiThDcE@public.gmane.org>
-Subject: Re: [Bug #13366] About 80% of shutdowns fail (blocking)
-Date: Sun, 07 Jun 2009 18:02:39 +0200
-Message-ID: <1244390559.4219.1.camel@localhost>
+Subject: Re: [Bug #13391] Kernel boot hangs at about every second start
+ when kms is activated
+Date: Sun, 07 Jun 2009 18:04:01 +0200
+Message-ID: <1244390641.4219.3.camel@localhost>
 References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>
-	 <D9VoutSOyXP.A.NPH.lZ7KKB@chimera>
+	 <D9VoutSOyXP.A.E-G.TZ7KKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <D9VoutSOyXP.A.NPH.lZ7KKB@chimera>
+In-Reply-To: <D9VoutSOyXP.A.E-G.TZ7KKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
 
 Since i disabled most of the debug options this problem has gone. IMHO
 this issue has been caused by kdbg.
@@ -26,9 +27,9 @@ Am Sonntag, den 07.06.2009, 11:52 +0200 schrieb Rafael J. Wysocki:
 > (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13366
-> Subject		: About 80% of shutdowns fail (blocking)
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13391
+> Subject		: Kernel boot hangs at about every second start when kms is activated
 > Submitter	: Martin Bammer <mrb74-RbZlAiThDcE@public.gmane.org>
-> Date		: 2009-05-23 00:58 (16 days old)
+> Date		: 2009-05-26 21:47 (13 days old)
 > 
 > 
