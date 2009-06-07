@@ -1,41 +1,34 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13378] kernel/async.c broke pata_legacy.c
-Date: Sun, 7 Jun 2009 00:34:03 +0200
-Message-ID: <200906070034.04439.rjw@sisk.pl>
-References: <4to6E2myxvG.A.muC.aIbIKB@chimera> <LEcEO2518_I.A.8UD.tIbIKB@chimera> <1244298195.14676.6.camel@mulgrave.site>
+Subject: [Bug #13109] High latency on /sys/class/thermal
+Date: Sun,  7 Jun 2009 11:47:45 +0200 (CEST)
+Message-ID: <D9VoutSOyXP.A.Jz.lb7KKB@chimera>
+References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1244298195.14676.6.camel-0iu6Cu4xQGLYCGPCin2YbQ@public.gmane.org>
+In-Reply-To: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, IDE <linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Content-Type: text/plain; charset="macroman"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>, =?utf-8?q?Tiago=20Sim=C3=B5es=20Batista?= <tiagosbatista-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Saturday 06 June 2009, James Bottomley wrote:
-> On Sat, 2009-05-30 at 21:37 +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.29.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13378
-> > Subject		: kernel/async.c broke pata_legacy.c
-> > Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-> > Date		: 2009-05-24 16:13 (7 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=124318186507210&w=4
-> > Handled-By	: James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
-> > Patch		: http://patchwork.kernel.org/patch/25699/
-> 
-> Should now be fixed by upstream commit
-> 45bc955bb1324a46c9539550cc615994e6d0a43d
+This message has been generated automatically as a part of a report
+of recent regressions.
 
-Thanks, I've closed the bug.
+The following bug entry is on the current list of known regressions
+from 2.6.29.  Please verify if it still should be listed and let me kno=
+w
+(either way).
 
-Best,
-Rafael
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13109
+Subject		: High latency on /sys/class/thermal
+Submitter	: Tiago Sim=C3=B5es Batista <tiagosbatista-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-04-11 14:56 (58 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D123946182301248&w=3D=
+4
+Handled-By	: Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+		  Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>
+
