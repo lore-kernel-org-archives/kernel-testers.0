@@ -1,41 +1,42 @@
-From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
-Date: Mon, 8 Jun 2009 12:03:03 +0100
-Message-ID: <20090608110303.GD15377@csn.ul.ie>
-References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera> <D9VoutSOyXP.A.hvH.Ha7KKB@chimera> <4A2BBC30.2030300@lwfinger.net> <84144f020906070640rf5ab14nbf66d3ca7c97675f@mail.gmail.com> <4A2BCC6F.8090004@redhat.com> <84144f020906070732l31786156r5d9753a0cabfde79@mail.gmail.com> <20090608101739.GA15377@csn.ul.ie> <84144f020906080352k57f12ff9pbd696da5f332ac1a@mail.gmail.com>
+From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [Bug #13411] Barscanner (USB HID Keyboard) stopped functioning
+ in kernels >= 2.6.28
+Date: Mon, 8 Jun 2009 13:04:22 +0200 (CEST)
+Message-ID: <alpine.LNX.2.00.0906081302010.7457@wotan.suse.de>
+References: <sIiXQlfwS3D.A.81.dj7KKB@chimera> <AN6kEAA5GQ.A.g8.vj7KKB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <84144f020906080352k57f12ff9pbd696da5f332ac1a-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AN6kEAA5GQ.A.g8.vj7KKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
-Cc: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Guido <bugzilla.kernel.org-Dy4KJ/v5nlEVgfBnK23ub6xOck334EZe@public.gmane.org>, Remi Cattiau <remi-O/wO+J8fF4JBDgjK7y7TUQ@public.gmane.org>
 
-On Mon, Jun 08, 2009 at 01:52:05PM +0300, Pekka Enberg wrote:
-> On Mon, Jun 8, 2009 at 1:17 PM, Mel Gorman<mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org> wrote:
-> > Pekka, assuming the request size is 800 bytes, and SLUB is using order-1
-> > pages for allocations of that size, what happened order-1 allocations
-> > falling back to order-0 allocations as necessary. That logic exists,
-> > right? If so, could it be broken?
+On Sun, 7 Jun 2009, Rafael J. Wysocki wrote:
+
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.28 and 2.6.29.
 > 
-> That logic is in allocate_slab() and if the higher order allocation
-> fails, we fall-back to struct kmem_cache ->min order. That in turn is
-> set up in calculate_sizes() to get_order(size) so it seems pretty
-> unlikely to me the allocation is 800 bytes. Of course, I could be
-> missing something here and there's a bug in oo_make() or oo_order().
-> Hmm.
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13411
+> Subject		: Barscanner (USB HID Keyboard) stopped functioning in kernels >= 2.6.28
+> Submitter	: Guido <bugzilla.kernel.org-Dy4KJ/v5nlEVgfBnK23ub6xOck334EZe@public.gmane.org>
+> Date		: 2009-05-31 12:21 (8 days old)
 
-Is there any chance you could hatchet together a patch
-slab-allocation-failure that reports on slab allocation failures similar
-to what the page allocator does? Minimally, it should tell us what
-the size of the allocation was but any other information such as the
-same of the slab, the size of pages it normally uses are, etc. would
-also be useful.
+This is apparently caused by vendor releasing two different hardware 
+products under the same VID/PID and just one of them needing blacklist 
+entry. Sigh.
+
+Waiting for verbose lsusb output from Remi, so that we could compare it 
+with the output provided by the bug reporter, to see what else could be 
+done to distinguish the devices from each other.
 
 -- 
-Mel Gorman
-Part-time Phd Student                          Linux Technology Center
-University of Limerick                         IBM Dublin Software Lab
+Jiri Kosina
+SUSE Labs
