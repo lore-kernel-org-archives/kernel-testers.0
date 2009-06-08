@@ -1,42 +1,46 @@
-From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [Bug #13411] Barscanner (USB HID Keyboard) stopped functioning
- in kernels >= 2.6.28
-Date: Mon, 8 Jun 2009 13:04:22 +0200 (CEST)
-Message-ID: <alpine.LNX.2.00.0906081302010.7457@wotan.suse.de>
-References: <sIiXQlfwS3D.A.81.dj7KKB@chimera> <AN6kEAA5GQ.A.g8.vj7KKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13178] Booting very slow
+Date: Mon, 8 Jun 2009 13:12:17 +0200
+Message-ID: <200906081312.18267.rjw@sisk.pl>
+References: <sIiXQlfwS3D.A.81.dj7KKB@chimera> <AN6kEAA5GQ.A.ktB.Gk7KKB@chimera> <712849.19962.qm@web32601.mail.mud.yahoo.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AN6kEAA5GQ.A.g8.vj7KKB@chimera>
+In-Reply-To: <712849.19962.qm-VAEUvbQToQWvuULXzWHTWIglqE1Y4D90QQ4Iyu8u01E@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Guido <bugzilla.kernel.org-Dy4KJ/v5nlEVgfBnK23ub6xOck334EZe@public.gmane.org>, Remi Cattiau <remi-O/wO+J8fF4JBDgjK7y7TUQ@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>, James Owens <JOwens-VXdhtT5mjnY@public.gmane.org>
 
-On Sun, 7 Jun 2009, Rafael J. Wysocki wrote:
-
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.28 and 2.6.29.
+On Monday 08 June 2009, Martin Knoblauch wrote:
 > 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-> be listed and let me know (either way).
+> ----- Original Message ----
 > 
+> > From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> > To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+> > Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>; Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>; Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>; Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+> > Sent: Sunday, June 7, 2009 12:06:22 PM
+> > Subject: [Bug #13178] Booting very slow
+> > 
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.28 and 2.6.29.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.28 and 2.6.29.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=13178
+> > Subject        : Booting very slow
+> > Submitter    : Martin Knoblauch 
+> > Date        : 2009-04-24 12:45 (45 days old)
+> > References    : http://marc.info/?l=linux-kernel&m=124057716231773&w=4
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13411
-> Subject		: Barscanner (USB HID Keyboard) stopped functioning in kernels >= 2.6.28
-> Submitter	: Guido <bugzilla.kernel.org-Dy4KJ/v5nlEVgfBnK23ub6xOck334EZe@public.gmane.org>
-> Date		: 2009-05-31 12:21 (8 days old)
+>  No change since last ping. We ruled out a non-HP NIC in the DL380. HP will try to reproduce in-house.
 
-This is apparently caused by vendor releasing two different hardware 
-products under the same VID/PID and just one of them needing blacklist 
-entry. Sigh.
+Thanks a lot for the update.
 
-Waiting for verbose lsusb output from Remi, so that we could compare it 
-with the output provided by the bug reporter, to see what else could be 
-done to distinguish the devices from each other.
-
--- 
-Jiri Kosina
-SUSE Labs
+Best,
+Rafael
