@@ -1,69 +1,62 @@
-From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
-Date: Mon, 8 Jun 2009 15:12:13 +0100
-Message-ID: <20090608141212.GE15070@csn.ul.ie>
-References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera> <D9VoutSOyXP.A.hvH.Ha7KKB@chimera> <4A2BBC30.2030300@lwfinger.net> <84144f020906070640rf5ab14nbf66d3ca7c97675f@mail.gmail.com> <4A2BCC6F.8090004@redhat.com> <84144f020906070732l31786156r5d9753a0cabfde79@mail.gmail.com> <20090608101739.GA15377@csn.ul.ie> <84144f020906080352k57f12ff9pbd696da5f332ac1a@mail.gmail.com> <20090608110303.GD15377@csn.ul.ie> <Pine.LNX.4.64.0906081657001.7036@melkki.cs.Helsinki.FI>
+From: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13475] suspend/hibernate lockdep warning
+Date: Mon, 8 Jun 2009 10:32:20 -0400
+Message-ID: <20090608143220.GC2516@redhat.com>
+References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera> <D9VoutSOyXP.A.7vF.2Y7KKB@chimera> <84144f020906070621r1f480eaeief026d23662df380@mail.gmail.com> <a8e1da0906080035j9f8b38drb46132de5a515915@mail.gmail.com> <1244447366.13471.4.camel@penberg-laptop> <20090608124844.GA17588@Krystal>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.64.0906081657001.7036-nkv1RstziBCWKadcF5yKzn5wuOn9r4cE@public.gmane.org>
+In-Reply-To: <20090608124844.GA17588@Krystal>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Pekka J Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
-Cc: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+Cc: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, trenn-l3A5Bk7waGM@public.gmane.org, sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org, Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Mon, Jun 08, 2009 at 04:58:10PM +0300, Pekka J Enberg wrote:
-> Hi Mel,
-> 
-> On Mon, 8 Jun 2009, Mel Gorman wrote:
-> > Is there any chance you could hatchet together a patch
-> > slab-allocation-failure that reports on slab allocation failures similar
-> > to what the page allocator does? Minimally, it should tell us what
-> > the size of the allocation was but any other information such as the
-> > same of the slab, the size of pages it normally uses are, etc. would
-> > also be useful.
-> 
-> Would something like this be sufficient? Figuring out the actual _size_ 
-> passed to kmalloc() is pretty difficult as then we would need to do the 
-> NULL test in fastpath code or pass the argument deeper in the call-chain.
-> 
+On Mon, Jun 08, 2009 at 08:48:45AM -0400, Mathieu Desnoyers wrote:
+ 
+ > > > >> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13475
+ > > > >> Subject         : suspend/hibernate lockdep warning
+ > > > >> References      : http://marc.info/?l=linux-kernel&m=124393723321241&w=4
+ > > > 
+ > > > I suspect the following commit, after revert this patch I test 5 times
+ > > > without lockdep warnings.
+ > > > 
+ > > > commit b14893a62c73af0eca414cfed505b8c09efc613c
+ > > > Author: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+ > > > Date:   Sun May 17 10:30:45 2009 -0400
+ > > > 
+ > > > 	[CPUFREQ] fix timer teardown in ondemand governor
+ > > 
+ > > The patch is probably not at fault here. I suspect it's some latent bug
+ > > that simply got exposed by the change to cancel_delayed_work_sync(). In
+ > > any case, Mathieu, can you take a look at this please?
+ > 
+ > Yes, it's been looked at and discussed on the cpufreq ML. The short
+ > answer is that they plan to re-engineer cpufreq and remove the policy
+ > rwlock taken around almost every operations at the cpufreq level.
+ > 
+ > The short-term solution, which is recognised as ugly, would be do to the
+ > following before doing the cancel_delayed_work_sync() :
+ > 
+ > unlock policy rwlock write lock
+ > 
+ > lock policy rwlock write lock
+ > 
+ > It basically works because this rwlock is unneeded for teardown, hence
+ > the future re-work planned.
+ > 
+ > I'm sorry I cannot prepare a patch current... I've got quite a few pages
+ > of Ph.D. thesis due for the beginning of July.
+ 
+I'm kinda scared to touch this code at all for .30 due to the number of
+unexpected gotchas we seem to run into every time we touch something
+locking related.  So I'm inclined to just live with the lockdep warning
+for .30, and see how the real fixes look for .31, and push them back
+as -stable updates if they work out.
 
-It's much better than nothing. In the event of an allocation failure, we'll
-know which kmalloc bucket it's coming out of so we'll have a limited range
-of possible buffer sizes.
 
-I have some suggestions on what we're outputting though.
+Venki, what are your thoughts?
 
-> 			Pekka
-> 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 65ffda5..b5acf18 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -1565,6 +1565,8 @@ new_slab:
->  		c->page = new;
->  		goto load_freelist;
->  	}
-> +	printk(KERN_WARNING "SLUB: unable to satisfy allocation for cache %s (size=%d, node=%d, gfp=%x)\n",
-> +		s->name, s->size, node, gfpflags);
-
-size could be almost anything here for a casual reader. You are
-outputting the size of the object plus its metadata so the name should
-reflect that. I think it would be better to output objsize= and the
-object size without the metadata overhead. What do you think?
-
-In addition, include how many objects there are per-slab and include what
-the order is being passed to the page allocator when allocating new slabs.
-Would that be enough to determine if fallback-to-smaller orders occured?
-
->  	return NULL;
->  debug:
->  	if (!alloc_debug_processing(s, c->page, object, addr))
-> 
-
--- 
-Mel Gorman
-Part-time Phd Student                          Linux Technology Center
-University of Limerick                         IBM Dublin Software Lab
+	Dave
