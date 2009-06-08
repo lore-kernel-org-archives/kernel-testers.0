@@ -1,46 +1,37 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13178] Booting very slow
-Date: Mon, 8 Jun 2009 13:12:17 +0200
-Message-ID: <200906081312.18267.rjw@sisk.pl>
-References: <sIiXQlfwS3D.A.81.dj7KKB@chimera> <AN6kEAA5GQ.A.ktB.Gk7KKB@chimera> <712849.19962.qm@web32601.mail.mud.yahoo.com>
+Subject: Re: [Bug #13306] hibernate slow on _second_ run
+Date: Mon, 8 Jun 2009 13:14:03 +0200
+Message-ID: <200906081314.04356.rjw@sisk.pl>
+References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera> <D9VoutSOyXP.A.u-H.Ra7KKB@chimera> <1244442961.11457.0.camel@johannes.local>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <712849.19962.qm-VAEUvbQToQWvuULXzWHTWIglqE1Y4D90QQ4Iyu8u01E@public.gmane.org>
+In-Reply-To: <1244442961.11457.0.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>, James Owens <JOwens-VXdhtT5mjnY@public.gmane.org>
+To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Monday 08 June 2009, Martin Knoblauch wrote:
-> 
-> ----- Original Message ----
-> 
-> > From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> > To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-> > Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>; Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>; Martin Knoblauch <spamtrap-Ys4E+72pFW0hFhg+JK9F0w@public.gmane.org>; Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
-> > Sent: Sunday, June 7, 2009 12:06:22 PM
-> > Subject: [Bug #13178] Booting very slow
-> > 
+On Monday 08 June 2009, Johannes Berg wrote:
+> On Sun, 2009-06-07 at 11:52 +0200, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.28 and 2.6.29.
+> > of recent regressions.
 > > 
 > > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.28 and 2.6.29.  Please verify if it still should
-> > be listed and let me know (either way).
+> > from 2.6.29.  Please verify if it still should be listed and let me know
+> > (either way).
 > > 
 > > 
-> > Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=13178
-> > Subject        : Booting very slow
-> > Submitter    : Martin Knoblauch 
-> > Date        : 2009-04-24 12:45 (45 days old)
-> > References    : http://marc.info/?l=linux-kernel&m=124057716231773&w=4
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13306
+> > Subject		: hibernate slow on _second_ run
+> > Submitter	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+> > Date		: 2009-05-14 09:34 (25 days old)
 > 
->  No change since last ping. We ruled out a non-HP NIC in the DL380. HP will try to reproduce in-house.
+> I'm still seeing this, did you get a chance to look at the ftrace?
 
-Thanks a lot for the update.
+It's on my todo list, really close to the top.  Will do later today.
 
 Best,
 Rafael
