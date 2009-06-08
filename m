@@ -1,77 +1,35 @@
-From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
-Date: Mon, 08 Jun 2009 12:20:15 -0500
-Message-ID: <4A2D484F.3090209@lwfinger.net>
-References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>	<D9VoutSOyXP.A.hvH.Ha7KKB@chimera>	<4A2BBC30.2030300@lwfinger.net>	<84144f020906070640rf5ab14nbf66d3ca7c97675f@mail.gmail.com>	<4A2BCC6F.8090004@redhat.com>	<84144f020906070732l31786156r5d9753a0cabfde79@mail.gmail.com>	<4A2BEC4F.6020908@lwfinger.net> <20090608173219.0588af26.kamezawa.hiroyu@jp.fujitsu.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13306] hibernate slow on _second_ run
+Date: Mon, 8 Jun 2009 22:54:29 +0200
+Message-ID: <200906082254.30138.rjw@sisk.pl>
+References: <4to6E2myxvG.A.muC.aIbIKB@chimera> <200906032351.01900.rjw@sisk.pl> <1244125570.22576.78.camel@johannes.local>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; q=dns/txt; d=att.net; s=dkim01;
-      i=larry.finger-fOdFMYwuEsI@public.gmane.org; a=rsa-sha256; c=relaxed/relaxed;
-      t=1244481621; h=Content-Transfer-Encoding:Content-Type:
-     In-Reply-To:References:Subject:CC:To:MIME-Version:From:Date:
-     Message-ID; bh=cpgnBBekXA29r2aU0sVBnx4UYEfTvVlQzC3N11OeszQ=; b=n7W
-     7BlRBk/P0eYpAqMQTy8f4is4MgQ7RGXbZLJCBdfLewZKRYE4BCHlrRTahZHb6fmh0ww
-     VzTYS0oatWQTnGCw==
-In-Reply-To: <20090608173219.0588af26.kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1244125570.22576.78.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Cc: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Steven Rostedt <srostedt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-KAMEZAWA Hiroyuki wrote:
-> On Sun, 07 Jun 2009 11:35:27 -0500
-> Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org> wrote:
+On Thursday 04 June 2009, Johannes Berg wrote:
+> Alright, I have managed to trace this.
 > 
->> Pekka Enberg wrote:
->>> On Sun, Jun 7, 2009 at 5:19 PM, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->>>> That is a very strange trace.  The Mem-Info indicates
->>>> that the system has more than enough memory free, and
->>>> also enough memory in higher-order free blocks.
->>>>
->>>> This would indicate a bug somewhere in the page
->>>> allocator - this memory should have been given to this
->>>> allocation request.
->>> Aha, I always have difficulties deciphering the traces. But lets
->>> invite Mel to the party then!
->> I'm happy to see some action on this problem. As usual, I'm happy to
->> test patches and/or provide diagnostic output.
->>
-> One question. 
+> http://johannes.sipsolutions.net/files/hibernate-delay-dmesg.txt
 > 
-> Did your system fragmented in same way as to this
-> (see DMA32, 10052 of order-0 pages) in older kernel ? I think you can check
-> fragmentation status via /proc/buddyinfo.
-> =
-> kernel: Node 0 DMA: 3*4kB 3*8kB 5*16kB 2*32kB 4*64kB 1*128kB 2*256kB 0*512kB
-> 1*1024kB 0*2048kB 0*4096kB = 2100kB
-> kernel: Node 0 DMA32: 10062*4kB 1*8kB 1*16kB 0*32kB 1*64kB 1*128kB 0*256kB
-> 1*512kB 0*1024kB 0*2048kB 0*4096kB = 40976kB
-> ==
+> has the dmesg, you can clearly see the delay:
+> [50265.143330] ACPI: Waking up from system sleep state S4
+> [50265.679141] HDA Intel 0000:00:08.0: restoring config space at offset 0x1 (was 0xb00006, writing 0xb00002)
+> [50265.689525] forcedeth 0000:00:0a.0: restoring config space at offset 0x1 (was 0xb00003, writing 0xb00007)
+> [50265.699775] ahci 0000:00:0b.0: restoring config space at offset 0x1 (was 0xb00403, writing 0xb00407)
+> [50286.294910] pci 0000:00:03.2: PME# disabled
 
-The current system has not been up very long and does not show the
-fragmentation:
+Quite frankly, it looks like resume_device_irqs() itself causes the delay to happen.
 
-finger@larrylap:~/wireless-testing> cat /proc/buddyinfo
-Node 0, zone      DMA      4      5      4      2      4      1      2
-     0      1      0      0
-Node 0, zone    DMA32    261     78     46     55     61     54     37
-    17     14     12    262
+The next step would be to put a couple of printk()s in there and see which part
+of it triggers the delay.
 
-After I did a git pull and a kernel build with the sources on an
-NFS-mounted volume, the fragmentation increased:
-
-Node 0, zone      DMA      4      5      4      2      4      1      2
-     0      1      0      0
-Node 0, zone    DMA32   2213   1924   1292    705    285     81     25
-     8      5      4    141
-
-After a git pull and a kernel build on a second NFS-mounted tree:
-
-Node 0, zone      DMA      4      5      4      2      4      1      2
-     0      1      0      0
-Node 0, zone    DMA32   3127   3058   1989    756    401    142     56
-    14      5      3     12
-
-Larry
+Best,
+Rafael
