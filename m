@@ -1,93 +1,77 @@
-From: Mathieu Desnoyers <mathieu.desnoyers@polymtl.ca>
-Subject: Re: [PATCH] remove rwsem lock from CPUFREQ_GOV_STOP call (second
-	call site)
-Date: Mon, 8 Jun 2009 13:17:31 -0400
-Message-ID: <20090608171731.GA24779@Krystal>
-References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera> <D9VoutSOyXP.A.7vF.2Y7KKB@chimera> <84144f020906070621r1f480eaeief026d23662df380@mail.gmail.com> <a8e1da0906080035j9f8b38drb46132de5a515915@mail.gmail.com> <1244447366.13471.4.camel@penberg-laptop> <20090608124844.GA17588@Krystal> <20090608143220.GC2516@redhat.com> <20090608152316.GA21033@Krystal> <1244480254.4534.265.camel@localhost.localdomain>
+From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
+Date: Mon, 08 Jun 2009 12:20:15 -0500
+Message-ID: <4A2D484F.3090209@lwfinger.net>
+References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>	<D9VoutSOyXP.A.hvH.Ha7KKB@chimera>	<4A2BBC30.2030300@lwfinger.net>	<84144f020906070640rf5ab14nbf66d3ca7c97675f@mail.gmail.com>	<4A2BCC6F.8090004@redhat.com>	<84144f020906070732l31786156r5d9753a0cabfde79@mail.gmail.com>	<4A2BEC4F.6020908@lwfinger.net> <20090608173219.0588af26.kamezawa.hiroyu@jp.fujitsu.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752216AbZFHRRu@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <1244480254.4534.265.camel@localhost.localdomain>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; q=dns/txt; d=att.net; s=dkim01;
+      i=larry.finger-fOdFMYwuEsI@public.gmane.org; a=rsa-sha256; c=relaxed/relaxed;
+      t=1244481621; h=Content-Transfer-Encoding:Content-Type:
+     In-Reply-To:References:Subject:CC:To:MIME-Version:From:Date:
+     Message-ID; bh=cpgnBBekXA29r2aU0sVBnx4UYEfTvVlQzC3N11OeszQ=; b=n7W
+     7BlRBk/P0eYpAqMQTy8f4is4MgQ7RGXbZLJCBdfLewZKRYE4BCHlrRTahZHb6fmh0ww
+     VzTYS0oatWQTnGCw==
+In-Reply-To: <20090608173219.0588af26.kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Pallipadi, Venkatesh" <venkatesh.pallipadi@intel.com>
-Cc: Dave Jones <davej@redhat.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Dave Young <hidave.darkstar@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, "cpufreq@vger.kernel.org" <cpufreq@vger.kernel.org>, Rusty Russell <rusty@rustcorp.com.au>, "trenn@suse.de" <trenn@suse.de>, "sven.wegener@stealer.net" <sven.wegener@stealer.net>, "mingo@elte.hu" <mingo@elte.hu>, "Li, Shaohua" <shaohua.li@intel.com>
+To: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Cc: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 
-OK, here is the re-run, with comment and acked-by added.
+KAMEZAWA Hiroyuki wrote:
+> On Sun, 07 Jun 2009 11:35:27 -0500
+> Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org> wrote:
+> 
+>> Pekka Enberg wrote:
+>>> On Sun, Jun 7, 2009 at 5:19 PM, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+>>>> That is a very strange trace.  The Mem-Info indicates
+>>>> that the system has more than enough memory free, and
+>>>> also enough memory in higher-order free blocks.
+>>>>
+>>>> This would indicate a bug somewhere in the page
+>>>> allocator - this memory should have been given to this
+>>>> allocation request.
+>>> Aha, I always have difficulties deciphering the traces. But lets
+>>> invite Mel to the party then!
+>> I'm happy to see some action on this problem. As usual, I'm happy to
+>> test patches and/or provide diagnostic output.
+>>
+> One question. 
+> 
+> Did your system fragmented in same way as to this
+> (see DMA32, 10052 of order-0 pages) in older kernel ? I think you can check
+> fragmentation status via /proc/buddyinfo.
+> =
+> kernel: Node 0 DMA: 3*4kB 3*8kB 5*16kB 2*32kB 4*64kB 1*128kB 2*256kB 0*512kB
+> 1*1024kB 0*2048kB 0*4096kB = 2100kB
+> kernel: Node 0 DMA32: 10062*4kB 1*8kB 1*16kB 0*32kB 1*64kB 1*128kB 0*256kB
+> 1*512kB 0*1024kB 0*2048kB 0*4096kB = 40976kB
+> ==
 
-Thanks,
+The current system has not been up very long and does not show the
+fragmentation:
 
-Mathieu
+finger@larrylap:~/wireless-testing> cat /proc/buddyinfo
+Node 0, zone      DMA      4      5      4      2      4      1      2
+     0      1      0      0
+Node 0, zone    DMA32    261     78     46     55     61     54     37
+    17     14     12    262
 
+After I did a git pull and a kernel build with the sources on an
+NFS-mounted volume, the fragmentation increased:
 
-remove rwsem lock from CPUFREQ_GOV_STOP call (second call site)
+Node 0, zone      DMA      4      5      4      2      4      1      2
+     0      1      0      0
+Node 0, zone    DMA32   2213   1924   1292    705    285     81     25
+     8      5      4    141
 
-commit	42a06f2166f2f6f7bf04f32b4e823eacdceafdc9
+After a git pull and a kernel build on a second NFS-mounted tree:
 
-Missed a call site for CPUFREQ_GOV_STOP to remove the rwlock taken around the
-teardown. To make a long story short, the rwlock write-lock causes a circular
-dependency with cancel_delayed_work_sync(), because the timer handler takes the
-read lock.
+Node 0, zone      DMA      4      5      4      2      4      1      2
+     0      1      0      0
+Node 0, zone    DMA32   3127   3058   1989    756    401    142     56
+    14      5      3     12
 
-Note that all callers to __cpufreq_set_policy are taking the rwsem. All sysfs
-callers (writers) hold the write rwsem at the earliest sysfs calling stage.
-
-However, the rwlock write-lock is not needed upon governor stop.
-
-Change :
-- Added comment from Venkyi at lock definition site.
-
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@polymtl.ca>
-Acked-by: Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>
-CC: rjw@sisk.pl
-CC: mingo@elte.hu
-CC: Shaohua Li <shaohua.li@intel.com>
-CC: Pekka Enberg <penberg@cs.helsinki.fi>
-CC: Dave Young <hidave.darkstar@gmail.com>
-CC: "Rafael J. Wysocki" <rjw@sisk.pl>
-CC: Rusty Russell <rusty@rustcorp.com.au>
-CC: trenn@suse.de
-CC: sven.wegener@stealer.net
-CC: cpufreq@vger.kernel.org
----
- drivers/cpufreq/cpufreq.c |   13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
-Index: linux-2.6-lttng/drivers/cpufreq/cpufreq.c
-===================================================================
---- linux-2.6-lttng.orig/drivers/cpufreq/cpufreq.c	2009-06-08 12:47:22.000000000 -0400
-+++ linux-2.6-lttng/drivers/cpufreq/cpufreq.c	2009-06-08 12:48:38.000000000 -0400
-@@ -61,6 +61,8 @@ static DEFINE_SPINLOCK(cpufreq_driver_lo
-  *   are concerned with are online after they get the lock.
-  * - Governor routines that can be called in cpufreq hotplug path should not
-  *   take this sem as top level hotplug notifier handler takes this.
-+ * - Lock should not be held across
-+ *     __cpufreq_governor(data, CPUFREQ_GOV_STOP);
-  */
- static DEFINE_PER_CPU(int, policy_cpu);
- static DEFINE_PER_CPU(struct rw_semaphore, cpu_policy_rwsem);
-@@ -1697,8 +1699,17 @@ static int __cpufreq_set_policy(struct c
- 			dprintk("governor switch\n");
- 
- 			/* end old governor */
--			if (data->governor)
-+			if (data->governor) {
-+				/*
-+				 * Need to release the rwsem around governor
-+				 * stop due to lock dependency between
-+				 * cancel_delayed_work_sync and the read lock
-+				 * taken in the delayed work handler.
-+				 */
-+				unlock_policy_rwsem_write(data->cpu);
- 				__cpufreq_governor(data, CPUFREQ_GOV_STOP);
-+				lock_policy_rwsem_write(data->cpu);
-+			}
- 
- 			/* start new governor */
- 			data->governor = policy->governor;
-
--- 
-Mathieu Desnoyers
-OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 A8FE 3BAE 9A68
+Larry
