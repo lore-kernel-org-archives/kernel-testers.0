@@ -1,35 +1,25 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13306] hibernate slow on _second_ run
-Date: Mon, 8 Jun 2009 22:54:29 +0200
-Message-ID: <200906082254.30138.rjw@sisk.pl>
-References: <4to6E2myxvG.A.muC.aIbIKB@chimera> <200906032351.01900.rjw@sisk.pl> <1244125570.22576.78.camel@johannes.local>
+From: Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13116] Can't boot with nosmp
+Date: Mon, 8 Jun 2009 17:04:37 -0700
+Message-ID: <20090608170437.1c2386a5@nehalam>
+References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>
+	<D9VoutSOyXP.A.xm.Vb7KKB@chimera>
+	<20090608091544.53a94235@nehalam>
+	<e9c3a7c20906080929l1a4ec739t7585f6bba54bf684@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1244125570.22576.78.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <e9c3a7c20906080929l1a4ec739t7585f6bba54bf684-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Steven Rostedt <srostedt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Dan Williams <dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Thursday 04 June 2009, Johannes Berg wrote:
-> Alright, I have managed to trace this.
-> 
-> http://johannes.sipsolutions.net/files/hibernate-delay-dmesg.txt
-> 
-> has the dmesg, you can clearly see the delay:
-> [50265.143330] ACPI: Waking up from system sleep state S4
-> [50265.679141] HDA Intel 0000:00:08.0: restoring config space at offset 0x1 (was 0xb00006, writing 0xb00002)
-> [50265.689525] forcedeth 0000:00:0a.0: restoring config space at offset 0x1 (was 0xb00003, writing 0xb00007)
-> [50265.699775] ahci 0000:00:0b.0: restoring config space at offset 0x1 (was 0xb00403, writing 0xb00407)
-> [50286.294910] pci 0000:00:03.2: PME# disabled
+I did some more debugging, and the problem appears to be that
+booting with nosmp still leaves all the CPU's present in the cpu
+possible mask. So code like dma engine (or loopback device), that
+use alloc_percpu get broken.
 
-Quite frankly, it looks like resume_device_irqs() itself causes the delay to happen.
-
-The next step would be to put a couple of printk()s in there and see which part
-of it triggers the delay.
-
-Best,
-Rafael
+Not sure why all the cpu's are still showing up in the possible mask.
+Rusty? do you have an answer.
