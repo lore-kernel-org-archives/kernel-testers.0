@@ -1,22 +1,64 @@
-From: Mike Dresser <mdresser_l-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>
-Subject: Re: [Bug #13375] Kernel crash with 2.6.29 + nfs + xfs (radix-tree)
-Date: Tue, 9 Jun 2009 15:22:16 -0400 (EDT)
-Message-ID: <alpine.DEB.1.10.0906091521470.9067@router.windsormachine.com>
-References: <sIiXQlfwS3D.A.81.dj7KKB@chimera> <200906080940.14650.posting@blx4.net> <alpine.DEB.1.10.0906091457510.28108@router.windsormachine.com> <200906092111.54073.mathias@blx4.net>
+From: Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13116] Can't boot with nosmp
+Date: Tue, 9 Jun 2009 13:58:46 -0700
+Message-ID: <20090609135846.43260595@nehalam>
+References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>
+	<D9VoutSOyXP.A.xm.Vb7KKB@chimera>
+	<20090608091544.53a94235@nehalam>
+	<e9c3a7c20906080929l1a4ec739t7585f6bba54bf684@mail.gmail.com>
+	<20090608170437.1c2386a5@nehalam>
+	<e9c3a7c20906091020m19abf3b5wbbb7f5364b2d4905@mail.gmail.com>
+	<4A2EAA53.7060006@redhat.com>
+	<20090609113656.46ed6335@nehalam>
+	<4A2EAD2F.5010505@redhat.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200906092111.54073.mathias-ZcF2+9dVbKo@public.gmane.org>
+In-Reply-To: <4A2EAD2F.5010505-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"; format="flowed"
-Content-Transfer-Encoding: 7bit
-To: Mathias Kretschmer <mathias-ZcF2+9dVbKo@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alex Samad <alex-SGFoFqf0RKf0CCvOHzKKcA@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Dan Williams <dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tue, 9 Jun 2009, Mathias Kretschmer wrote:
+On Tue, 09 Jun 2009 21:42:55 +0300
+Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
 
-> machine is stable for the last 36 hours with nfs turned off.
+> Stephen Hemminger wrote:
+> 
+>   
+> 
+> >> This only affects reboots.  But yes, the cpumask code has bugs.  Does 
+> >> the .config involved select MAXSMP?
+> >>
+> >>     
+> >
+> > Patch does not fix the problem. Not sure if it is KVM only problem.
+> > Look like possible cpumask always equals what ACPI / SMP tables report.
+> > So currently looking into alloc_percpu which may not handle the possible
+> > but never used cpus.
+> >
+> >   
+> 
+> Right, it shouldn't have.
+> 
+> > It is x86-64 config and does not have MAXSMP set. It does have NR_CPUS set.
+> >   
+> 
+> So it's not cpumask.  Dare I suggest a bisect?
+> 
 
-Is the system load different with nfs off? (no clients accessing it, etc?)
+I did some testing of different versions.
 
-Mike
+* Problem does not exist with 2.6.30-rc8 (so regression should be closed).
+
+* Problem does exist with 2.6.29.4
+
+* Happens with both nosmp and maxcpus=1
+
+
+Given that it is fixed in 2.6.30, at this point there really is no urgency
+to spend more time investigating the issue. There are certainly bigger problems
+to deal with.
+
+-- 
