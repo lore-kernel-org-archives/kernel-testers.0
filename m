@@ -1,51 +1,33 @@
-From: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
 Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
-Date: Wed, 10 Jun 2009 19:06:55 +0300
-Message-ID: <1244650015.23799.29.camel@penberg-laptop>
-References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>
-	 <D9VoutSOyXP.A.hvH.Ha7KKB@chimera> <4A2BBC30.2030300@lwfinger.net>
-	 <84144f020906070640rf5ab14nbf66d3ca7c97675f@mail.gmail.com>
-	 <4A2BCC6F.8090004@redhat.com>
-	 <84144f020906070732l31786156r5d9753a0cabfde79@mail.gmail.com>
-	 <20090608101739.GA15377@csn.ul.ie>
-	 <84144f020906080352k57f12ff9pbd696da5f332ac1a@mail.gmail.com>
-	 <20090608110303.GD15377@csn.ul.ie>
-	 <Pine.LNX.4.64.0906081657001.7036@melkki.cs.Helsinki.FI>
-	 <20090608141212.GE15070@csn.ul.ie> <1244531201.5024.3.camel@penberg-laptop>
-	 <alpine.DEB.2.00.0906090046000.28701@chino.kir.corp.google.com>
-	 <1244534315.5024.34.camel@penberg-laptop>
-	 <alpine.DEB.2.00.0906090105270.28701@chino.kir.corp.google.com>
-	 <1244536124.5024.41.camel@penberg-laptop>  <4A2FC62C.6030407@lwfinger.net>
-	 <1244648659.23799.26.camel@penberg-laptop>
-	 <1244648968.23799.27.camel@penberg-laptop>
-	 <1244649174.6165.0.camel@johannes.local>
+Date: Wed, 10 Jun 2009 11:10:46 -0500
+Message-ID: <4A2FDB06.8020707@lwfinger.net>
+References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>	 <D9VoutSOyXP.A.hvH.Ha7KKB@chimera> <4A2BBC30.2030300@lwfinger.net>	 <84144f020906070640rf5ab14nbf66d3ca7c97675f@mail.gmail.com>	 <4A2BCC6F.8090004@redhat.com>	 <84144f020906070732l31786156r5d9753a0cabfde79@mail.gmail.com>	 <20090608101739.GA15377@csn.ul.ie>	 <84144f020906080352k57f12ff9pbd696da5f332ac1a@mail.gmail.com>	 <20090608110303.GD15377@csn.ul.ie>	 <Pine.LNX.4.64.0906081657001.7036@melkki.cs.Helsinki.FI>	 <20090608141212.GE15070@csn.ul.ie> <1244531201.5024.3.camel@penberg-laptop>	 <alpine.DEB.2.00.0906090046000.28701@chino.kir.corp.google.com>	 <1244534315.5024.34.camel@penberg-laptop>	 <alpine.DEB.2.00.0906090105270.28701@chino.kir.corp.google.com>	 <1244536124.5024.41.camel@penberg-laptop>  <4A2FC62C.6030407@lwfinger.net>	 <124464865
+ 9.23799.26.camel@penberg-laptop> <1244648968.23799.27.camel@penberg-laptop>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1244649174.6165.0.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
+DKIM-Signature: v=1; q=dns/txt; d=att.net; s=dkim01;
+      i=larry.finger-fOdFMYwuEsI@public.gmane.org; a=rsa-sha256; c=relaxed/relaxed;
+      t=1244650253; h=Content-Transfer-Encoding:Content-Type:
+     In-Reply-To:References:Subject:CC:To:MIME-Version:From:Date:
+     Message-ID; bh=jX0WsVxC6f9YXXlo7iLIc9cey9e8fyVb4UKfh+kv+A0=; b=ZbU
+     jChprfsFXXp/qDwynqXlL4MTCLSA8YxLIPH9fq91jZazXVRy2FwlTc4xalsk/4UKFXl
+     pWswjwIPMzOOk/Ow==
+In-Reply-To: <1244648968.23799.27.camel@penberg-laptop>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-Cc: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, npiggin-l3A5Bk7waGM@public.gmane.org, yanmin.zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
+To: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, npiggin-l3A5Bk7waGM@public.gmane.org, yanmin.zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
 
-On Wed, 2009-06-10 at 17:52 +0200, Johannes Berg wrote:
-> On Wed, 2009-06-10 at 18:49 +0300, Pekka Enberg wrote:
-> > On Wed, 2009-06-10 at 18:44 +0300, Pekka Enberg wrote:
-> > 
-> > > Aha, SLUB thinks the minimum order for 4096 is 1. I guess you have
-> > > CONFIG_SLUB_DEBUG enabled? If yes, something like to following should
-> > > help. Christoph, are you okay with this patch?
-> 
-> 
-> > +	if ((size + MAX_DEBUG_SIZE) >= PAGE_SIZE)
-> 
-> && size <= PAGE_SIZE
-> 
-> ? Or is this a path that only happens for small allocations?
+Pekka Enberg wrote:
 
-Anything that's beyond PAGE_SIZE * 2 is passed straight to the page
-allocator and the intent of this patch is to disable debugging for all
-big caches like SLAB does.
+> Argh, that patch has a typo. Please try this one instead.
+> 
+> 			Pekka
 
-			Pekka
+I installed this patch on top of the other one and have started
+testing. It usually takes almost a day for it to occur.
+
+Larry
