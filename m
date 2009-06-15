@@ -1,61 +1,16 @@
-From: Peter Huewe <PeterHuewe-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: Building vmlinux without date/timestamp bits
-Date: Sat, 13 Jun 2009 01:43:18 +0200
-Message-ID: <200906130143.19206.PeterHuewe@gmx.de>
-References: <4A32D37E.40507@gmail.com>
+From: Mike Dresser <mdresser_l-d1V2JtDI1HZNJje9z4SY99BPR1lH4CV8@public.gmane.org>
+Subject: Re: [Bug #13375] Kernel crash with 2.6.29 + nfs + xfs (radix-tree)
+Date: Mon, 15 Jun 2009 13:25:19 -0400
+Message-ID: <4A3683FF.8040500@windsormachine.com>
+References: <sIiXQlfwS3D.A.81.dj7KKB@chimera> <200906080940.14650.posting@blx4.net> <alpine.DEB.1.10.0906091457510.28108@router.windsormachine.com> <200906092111.54073.mathias@blx4.net> <alpine.DEB.1.10.0906091521470.9067@router.windsormachine.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4A32D37E.40507-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <alpine.DEB.1.10.0906091521470.9067-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: John Daiker <daikerjohn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: kernel-janitors-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Mike Dresser <mdresser_l-SDjlOt0KSjdj8tndi7AXdQBQioIGk2LXAL8bYrjMMd8@public.gmane.org>
+Cc: Mathias Kretschmer <mathias-ZcF2+9dVbKo@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alex Samad <alex-SGFoFqf0RKf0CCvOHzKKcA@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
 
-Hi John,
-
-check include/linux/compile.h and scripts/mkcompile_h
-
-In compile.h is exactly your timestamped information which gets built into the 
-kernel (cmp. output of uname -s)
-
-If the include/linux/compile.h is not present or needs an update it is 
-generated using the scripts/mkcompile_h script.
-
---> You can either supply an identical compile.h for both or change the 
-behavior of the mkcompile_h script.
-
-Best regards,
-Peter
-
-
-
-
-Am Samstag 13 Juni 2009 00:15:26 schrieb John Daiker:
-> I'm working on various trivial patches (mainly whitespace and
-> checkpatch.pl cleanups).
->
-> I read quite some time ago that it's best to md5sum the vmlinux file
-> before and after these trivial patches are applied (to ensure that no
-> executable code has changed, modules on a binary level are identical, etc).
->
-> So far, I have no problems producing identical .o and .ko files with my
-> trivial patches.  My problem lies in the resulting vmlinux and vmlinux.o
-> file, though.
->
-> I know the files are different due to date/timestamping the kernel, but
-> I'm not sure where this happens (and how I can prevent it).  Are there
-> pieces of code and/or Makefile that I can comment out so that the
-> resulting vmlinux file isn't timestamped (and thus would be an exactly
-> identical before and after).  I know it can be done... I've done it
-> before (years ago), but seem to have forgotten the trick.
->
-> Thanks for the help!
->
-> John Daiker
-> --
-> To unsubscribe from this list: send the line "unsubscribe kernel-janitors"
-> in the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+2.6.30-rc8 still has issues, even with swapoff -a, it still died in kswapd0
