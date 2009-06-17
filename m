@@ -1,254 +1,268 @@
-From: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
+From: "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 Subject: Re: [Bug #13475] suspend/hibernate lockdep warning
-Date: Wed, 17 Jun 2009 17:29:12 +0200
-Message-ID: <200906171729.16272.trenn@suse.de>
-References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera> <20090611152329.GB28099@Krystal> <20090617003925.GA3900@linux-os.sc.intel.com>
+Date: Wed, 17 Jun 2009 10:03:42 -0700
+Message-ID: <1245258222.4534.8632.camel@localhost.localdomain>
+References: <bCxQpon4SCJ.A.RrF.yY7KKB@chimera>
+	 <20090611152329.GB28099@Krystal>
+	 <20090617003925.GA3900@linux-os.sc.intel.com>
+	 <200906171729.16272.trenn@suse.de>
 Mime-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090617003925.GA3900-UEgXbdCqpo40dzWUSSna/BL4W9x8LtSr@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <200906171729.16272.trenn-l3A5Bk7waGM@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="iso-8859-1"
-To: "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>, Simon Holm =?iso-8859-1?q?Th=F8gersen?= <odie-t5LvXY1cjzpaa/9Udqfwiw@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org" <sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org>
+To: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>, Simon Holm =?ISO-8859-1?Q?Th=F8gersen?= <odie-t5LvXY1cjzpaa/9Udqfwiw@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org" <sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org>
 
-T24gV2VkbmVzZGF5IDE3IEp1bmUgMjAwOSAwMjozOToyNSBQYWxsaXBhZGksIFZlbmthdGVzaCB3
-cm90ZToKPiBPbiBUaHUsIEp1biAxMSwgMjAwOSBhdCAwODoyMzoyOUFNIC0wNzAwLCBNYXRoaWV1
-IERlc25veWVycyB3cm90ZToKPiA+ICogU2ltb24gSG9sbSBUaPhnZXJzZW4gKG9kaWVAY3MuYWF1
-LmRrKSB3cm90ZToKPiA+ID4gbWFuLCAwOCAwNiAyMDA5IGtsLiAxMDozMiAtMDQwMCwgc2tyZXYg
-RGF2ZSBKb25lczogCj4gPiA+ID4gT24gTW9uLCBKdW4gMDgsIDIwMDkgYXQgMDg6NDg6NDVBTSAt
-MDQwMCwgTWF0aGlldSBEZXNub3llcnMgd3JvdGU6Cj4gPiA+ID4gIAo+ID4gPiA+ICA+ID4gPiA+
-PiBCdWctRW50cnkgICAgICAgOiBodHRwOi8vYnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5j
-Z2k/aWQ9MTM0NzUKPiA+ID4gPiAgPiA+ID4gPj4gU3ViamVjdCAgICAgICAgIDogc3VzcGVuZC9o
-aWJlcm5hdGUgbG9ja2RlcCB3YXJuaW5nCj4gPiA+ID4gID4gPiA+ID4+IFJlZmVyZW5jZXMgICAg
-ICA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTI0MzkzNzIzMzIxMjQxJnc9
-NAo+ID4gPiA+ICA+ID4gPiAKPiA+ID4gPiAgPiA+ID4gSSBzdXNwZWN0IHRoZSBmb2xsb3dpbmcg
-Y29tbWl0LCBhZnRlciByZXZlcnQgdGhpcyBwYXRjaCBJIHRlc3QgNSB0aW1lcwo+ID4gPiA+ICA+
-ID4gPiB3aXRob3V0IGxvY2tkZXAgd2FybmluZ3MuCj4gPiA+ID4gID4gPiA+IAo+ID4gPiA+ICA+
-ID4gPiBjb21taXQgYjE0ODkzYTYyYzczYWYwZWNhNDE0Y2ZlZDUwNWI4YzA5ZWZjNjEzYwo+ID4g
-PiA+ICA+ID4gPiBBdXRob3I6IE1hdGhpZXUgRGVzbm95ZXJzIDxtYXRoaWV1LmRlc25veWVyc0Bw
-b2x5bXRsLmNhPgo+ID4gPiA+ICA+ID4gPiBEYXRlOiAgIFN1biBNYXkgMTcgMTA6MzA6NDUgMjAw
-OSAtMDQwMAo+ID4gPiA+ICA+ID4gPiAKPiA+ID4gPiAgPiA+ID4gCVtDUFVGUkVRXSBmaXggdGlt
-ZXIgdGVhcmRvd24gaW4gb25kZW1hbmQgZ292ZXJub3IKPiA+ID4gPiAgPiA+IAo+ID4gPiA+ICA+
-ID4gVGhlIHBhdGNoIGlzIHByb2JhYmx5IG5vdCBhdCBmYXVsdCBoZXJlLiBJIHN1c3BlY3QgaXQn
-cyBzb21lIGxhdGVudCBidWcKPiA+ID4gPiAgPiA+IHRoYXQgc2ltcGx5IGdvdCBleHBvc2VkIGJ5
-IHRoZSBjaGFuZ2UgdG8gY2FuY2VsX2RlbGF5ZWRfd29ya19zeW5jKCkuIEluCj4gPiA+ID4gID4g
-PiBhbnkgY2FzZSwgTWF0aGlldSwgY2FuIHlvdSB0YWtlIGEgbG9vayBhdCB0aGlzIHBsZWFzZT8K
-PiA+ID4gPiAgPiAKPiA+ID4gPiAgPiBZZXMsIGl0J3MgYmVlbiBsb29rZWQgYXQgYW5kIGRpc2N1
-c3NlZCBvbiB0aGUgY3B1ZnJlcSBNTC4gVGhlIHNob3J0Cj4gPiA+ID4gID4gYW5zd2VyIGlzIHRo
-YXQgdGhleSBwbGFuIHRvIHJlLWVuZ2luZWVyIGNwdWZyZXEgYW5kIHJlbW92ZSB0aGUgcG9saWN5
-Cj4gPiA+ID4gID4gcndsb2NrIHRha2VuIGFyb3VuZCBhbG1vc3QgZXZlcnkgb3BlcmF0aW9ucyBh
-dCB0aGUgY3B1ZnJlcSBsZXZlbC4KPiA+ID4gPiAgPiAKPiA+ID4gPiAgPiBUaGUgc2hvcnQtdGVy
-bSBzb2x1dGlvbiwgd2hpY2ggaXMgcmVjb2duaXNlZCBhcyB1Z2x5LCB3b3VsZCBiZSBkbyB0byB0
-aGUKPiA+ID4gPiAgPiBmb2xsb3dpbmcgYmVmb3JlIGRvaW5nIHRoZSBjYW5jZWxfZGVsYXllZF93
-b3JrX3N5bmMoKSA6Cj4gPiA+ID4gID4gCj4gPiA+ID4gID4gdW5sb2NrIHBvbGljeSByd2xvY2sg
-d3JpdGUgbG9jawo+ID4gPiA+ICA+IAo+ID4gPiA+ICA+IGxvY2sgcG9saWN5IHJ3bG9jayB3cml0
-ZSBsb2NrCj4gPiA+ID4gID4gCj4gPiA+ID4gID4gSXQgYmFzaWNhbGx5IHdvcmtzIGJlY2F1c2Ug
-dGhpcyByd2xvY2sgaXMgdW5uZWVkZWQgZm9yIHRlYXJkb3duLCBoZW5jZQo+ID4gPiA+ICA+IHRo
-ZSBmdXR1cmUgcmUtd29yayBwbGFubmVkLgo+ID4gPiA+ICA+IAo+ID4gPiA+ICA+IEknbSBzb3Jy
-eSBJIGNhbm5vdCBwcmVwYXJlIGEgcGF0Y2ggY3VycmVudC4uLiBJJ3ZlIGdvdCBxdWl0ZSBhIGZl
-dyBwYWdlcwo+ID4gPiA+ICA+IG9mIFBoLkQuIHRoZXNpcyBkdWUgZm9yIHRoZSBiZWdpbm5pbmcg
-b2YgSnVseS4KPiA+ID4gPiAgCj4gPiA+ID4gSSdtIGtpbmRhIHNjYXJlZCB0byB0b3VjaCB0aGlz
-IGNvZGUgYXQgYWxsIGZvciAuMzAgZHVlIHRvIHRoZSBudW1iZXIgb2YKPiA+ID4gPiB1bmV4cGVj
-dGVkIGdvdGNoYXMgd2Ugc2VlbSB0byBydW4gaW50byBldmVyeSB0aW1lIHdlIHRvdWNoIHNvbWV0
-aGluZwo+ID4gPiA+IGxvY2tpbmcgcmVsYXRlZC4gIFNvIEknbSBpbmNsaW5lZCB0byBqdXN0IGxp
-dmUgd2l0aCB0aGUgbG9ja2RlcCB3YXJuaW5nCj4gPiA+ID4gZm9yIC4zMCwgYW5kIHNlZSBob3cg
-dGhlIHJlYWwgZml4ZXMgbG9vayBmb3IgLjMxLCBhbmQgcHVzaCB0aGVtIGJhY2sKPiA+ID4gPiBh
-cyAtc3RhYmxlIHVwZGF0ZXMgaWYgdGhleSB3b3JrIG91dC4KPiA+ID4gCj4gPiA+IFVuZm9ydHVu
-YXRlbHkgSSBkb24ndCB0aGluayBpdCBpcyBqdXN0IHRoZW9yZXRpY2FsLCBJJ3ZlIGFjdHVhbGx5
-IGhpdAo+ID4gPiB0aGUgZm9sbG93aW5nICh0aGF0IGhhdmVuJ3QgZ290IGFueXRoaW5nIHRvIGRv
-IHdpdGggc3VzcGVuZC9oaWJlcm5hdGUpCj4gPiA+IAo+ID4gPiBJTkZPOiB0YXNrIGNwdWZyZXFk
-OjQ2NzYgYmxvY2tlZCBmb3IgbW9yZSB0aGFuIDEyMCBzZWNvbmRzLgo+ID4gPiAgImVjaG8gMCA+
-IC9wcm9jL3N5cy9rZXJuZWwvaHVuZ190YXNrX3RpbWVvdXRfc2VjcyIgZGlzYWJsZXMgdGhpcyBt
-ZXNzYWdlLgo+ID4gPiAgY3B1ZnJlcWQgICAgICBEIGVlZTJhYzYwICAgICAwICA0Njc2ICAgICAg
-MQo+ID4gPiAgIGVlMDFiZDY4IDAwMDAwMDg2IGVlZTJhYWQwIGVlZTJhYzYwIDAwMDAwNTMzIGVl
-ZTJhYWQwIGVlZTJhYzYwIDAwMDJiMTZmCj4gPiA+ICAgMDAwMDAwMDAgZWVlMmFjNjAgN2ZmZmZm
-ZmYgN2ZmZmZmZmYgZWVlMmFjNjAgN2ZmZmZmZmYgN2ZmZmZmZmYgMDAwMDAwMDAKPiA+ID4gICBl
-ZTAxYmQ3MCBjMDMxMTdlZSBlZTAxYmRiYyBjMDMxMWMwYyBlZWUyYWFkMCBlZWNmNjkwMCBlZWUy
-YWFkMCBlZWNmNjkwMAo+ID4gPiAgQ2FsbCBUcmFjZToKPiA+ID4gICBbPGMwMzExN2VlPl0gc2No
-ZWR1bGUrMHgxMi8weDI0Cj4gPiA+ICAgWzxjMDMxMWMwYz5dIHNjaGVkdWxlX3RpbWVvdXQrMHgx
-Ny8weDE3MAo+ID4gPiAgIFs8YzAxMWE0Zjc+XSA/IF9fd2FrZV91cCsweDJiLzB4NTEKPiA+ID4g
-ICBbPGMwMzExYWZkPl0gd2FpdF9mb3JfY29tbW9uKzB4YzQvMHgxMzUKPiA+ID4gICBbPGMwMTFh
-Njk0Pl0gPyBkZWZhdWx0X3dha2VfZnVuY3Rpb24rMHgwLzB4ZAo+ID4gPiAgIFs8YzAzMTFiZTA+
-XSB3YWl0X2Zvcl9jb21wbGV0aW9uKzB4MTIvMHgxNAo+ID4gPiAgIFs8YzAxMmJjNmE+XSBfX2Nh
-bmNlbF93b3JrX3RpbWVyKzB4ZmUvMHgxMjkKPiA+ID4gICBbPGMwMTJiNjM1Pl0gPyB3cV9iYXJy
-aWVyX2Z1bmMrMHgwLzB4ZAo+ID4gPiAgIFs8YzAxMmJjYTA+XSBjYW5jZWxfZGVsYXllZF93b3Jr
-X3N5bmMrMHhiLzB4ZAo+ID4gPiAgIFs8ZjIwOTQ4Zjk+XSBjcHVmcmVxX2dvdmVybm9yX2Ricysw
-eDIyZS8weDI5MSBbY3B1ZnJlcV9vbmRlbWFuZF0KPiA+ID4gICBbPGMwMmFmODU3Pl0gX19jcHVm
-cmVxX2dvdmVybm9yKzB4NjUvMHg5ZAo+ID4gPiAgIFs8YzAyYWY5NjA+XSBfX2NwdWZyZXFfc2V0
-X3BvbGljeSsweGQxLzB4MTFmCj4gPiA+ICAgWzxjMDJiMDJhZT5dIHN0b3JlX3NjYWxpbmdfZ292
-ZXJub3IrMHgxOGEvMHgxYjIKPiA+ID4gICBbPGMwMmIwOWE1Pl0gPyBoYW5kbGVfdXBkYXRlKzB4
-MC8weGQKPiA+ID4gICBbPGMwMmIwMTI0Pl0gPyBzdG9yZV9zY2FsaW5nX2dvdmVybm9yKzB4MC8w
-eDFiMgo+ID4gPiAgIFs8YzAyYjA4Yzk+XSBzdG9yZSsweDQ4LzB4NjEKPiA+ID4gICBbPGMwMWFj
-YmY0Pl0gc3lzZnNfd3JpdGVfZmlsZSsweGI0LzB4ZGYKPiA+ID4gICBbPGMwMWFjYjQwPl0gPyBz
-eXNmc193cml0ZV9maWxlKzB4MC8weGRmCj4gPiA+ICAgWzxjMDE3NTUzNT5dIHZmc193cml0ZSsw
-eDhhLzB4MTA0Cj4gPiA+ICAgWzxjMDE3NTY0OD5dIHN5c193cml0ZSsweDNiLzB4NjAKPiA+ID4g
-ICBbPGMwMTAzMTEwPl0gc3lzZW50ZXJfZG9fY2FsbCsweDEyLzB4MmMKPiA+ID4gIElORk86IHRh
-c2sga29uZGVtYW5kLzA6NDk1NiBibG9ja2VkIGZvciBtb3JlIHRoYW4gMTIwIHNlY29uZHMuCj4g
-PiA+ICAiZWNobyAwID4gL3Byb2Mvc3lzL2tlcm5lbC9odW5nX3Rhc2tfdGltZW91dF9zZWNzIiBk
-aXNhYmxlcyB0aGlzIG1lc3NhZ2UuCj4gPiA+ICBrb25kZW1hbmQvMCAgIEQgMDAwMDA1MzMgICAg
-IDAgIDQ5NTYgICAgICAyCj4gPiA+ICAgZWUxZDllZmMgMDAwMDAwNDYgYzAxMTgxNWYgMDAwMDA1
-MzMgMDcxMTQ4ZGUgZWUxZTAwODAgZWUxZTAyMTAgMDAwMDAwMDAKPiA+ID4gICBjMDNmZjQ3OCA5
-MTg5ZTYzMyAwMDAwMDA4MiBjMDNmZjQ3OCBlZTFlMDIxMCBjMDQxNTlmNCBjMDQxNTlmMCAwMDAw
-MDAwMAo+ID4gPiAgIGVlMWQ5ZjA0IGMwMzExN2VlIGVlMWQ5ZjI4IGMwMzEzMTA0IGVlMWQ5ZjMw
-IGMwNDE1OWY0IGVlMWUwMDgwIGMwMTE4M2JlCj4gPiA+ICBDYWxsIFRyYWNlOgo+ID4gPiAgIFs8
-YzAxMTgxNWY+XSA/IHVwZGF0ZV9jdXJyKzB4NmMvMHgxNGIKPiA+ID4gICBbPGMwMzExN2VlPl0g
-c2NoZWR1bGUrMHgxMi8weDI0Cj4gPiA+ICAgWzxjMDMxMzEwND5dIHJ3c2VtX2Rvd25fZmFpbGVk
-X2NvbW1vbisweDE1MC8weDE2ZQo+ID4gPiAgIFs8YzAxMTgzYmU+XSA/IGRlcXVldWVfdGFza19m
-YWlyKzB4NTEvMHg1Ngo+ID4gPiAgIFs8YzAzMTMxM2Q+XSByd3NlbV9kb3duX3dyaXRlX2ZhaWxl
-ZCsweDFiLzB4MjMKPiA+ID4gICBbPGMwMzEzMTdlPl0gY2FsbF9yd3NlbV9kb3duX3dyaXRlX2Zh
-aWxlZCsweDYvMHg4Cj4gPiA+ICAgWzxjMDMxMjVkZD5dID8gZG93bl93cml0ZSsweDE0LzB4MTYK
-PiA+ID4gICBbPGMwMmIwNDYwPl0gbG9ja19wb2xpY3lfcndzZW1fd3JpdGUrMHgxZC8weDMzCj4g
-PiA+ICAgWzxmMjA5NDRhYT5dIGRvX2Ric190aW1lcisweDQ1LzB4MjY2IFtjcHVmcmVxX29uZGVt
-YW5kXQo+ID4gPiAgIFs8YzAxMmI4Zjc+XSB3b3JrZXJfdGhyZWFkKzB4MTY1LzB4MjEyCj4gPiA+
-ICAgWzxmMjA5NDQ2NT5dID8gZG9fZGJzX3RpbWVyKzB4MC8weDI2NiBbY3B1ZnJlcV9vbmRlbWFu
-ZF0KPiA+ID4gICBbPGMwMTJlNjM5Pl0gPyBhdXRvcmVtb3ZlX3dha2VfZnVuY3Rpb24rMHgwLzB4
-MzMKPiA+ID4gICBbPGMwMTJiNzkyPl0gPyB3b3JrZXJfdGhyZWFkKzB4MC8weDIxMgo+ID4gPiAg
-IFs8YzAxMmUyNzg+XSBrdGhyZWFkKzB4NDIvMHg2Nwo+ID4gPiAgIFs8YzAxMmUyMzY+XSA/IGt0
-aHJlYWQrMHgwLzB4NjcKPiA+ID4gICBbPGMwMTAzOGViPl0ga2VybmVsX3RocmVhZF9oZWxwZXIr
-MHg3LzB4MTAKPiA+ID4gCj4gPiA+IEkndmUgb25seSBzZWVuIGl0IG9uY2UgaW4gNSBib290cyBh
-bmQgQ09ORklHX1BST1ZFTE9DS0lORyBkb2VzIG5vdCBnaXZlIGFueQo+ID4gPiB3YXJuaW5ncyBh
-Ym91dCB0aGlzLCB0aG91Z2ggaXQgZG9lcyB5ZWxsIHdoZW4gc3dpdGNoaW5nIGdvdmVybm9yIGFz
-IHJlcG9ydGVkCj4gPiA+IGJ5IG90aGVycyBpbiBidWcgIzEzNDkzLgo+ID4gPiAKPiA+ID4gTGV0
-J3MgaG9wZSBNYXRoaWV1IG5haWxzIGl0LCB0aG91Z2ggSSBrbm93IGhlJ3MgYnVzeSB3aXRoIGhp
-cyB0aGVzaXMuCj4gPiA+IAo+ID4gCj4gPiBUaGFua3MgZm9yIHRoZSBsb2NrZGVwIHJlcG9ydHMs
-Cj4gPiAKPiA+IEknbSBjdXJyZW50bHkgbG9va2luZyBpbnRvIGl0LCBhbmQgaXQncyBub3QgcHJl
-dHR5LiBCYXNpY2FsbHkgd2UgaGF2ZSA6Cj4gPiAKPiA+IEEKPiA+ICAgQgo+ID4gKG1lYW5zIEIg
-bmVzdGVkIGluIEEpCj4gPiAKPiA+IHdvcmsKPiA+ICAgcmVhZCByd2xvY2sgcG9saWN5Cj4gPiAK
-PiA+IGRic19tdXRleAo+ID4gICB3b3JrCj4gPiAgICAgcmVhZCByd2xvY2sgcG9saWN5Cj4gPiAK
-PiA+IHdyaXRlIHJ3bG9jayBwb2xpY3kKPiA+ICAgZGJzX211dGV4Cj4gPiAKPiA+IFNvIHRoZSBh
-ZGRlZCBkYnNfbXV0ZXggPC0gd29yayA8LSByd2xvY2sgcG9saWN5IGRlcGVuZGVuY3kgKGZvciBw
-cm9wZXIKPiA+IHRlYXJkb3duKSBpcyBmaXJpbmcgdGhlIHJldmVyc2UgZGVwZW5kZW5jeSBiZXR3
-ZWVuIHBvbGljeSByd2xvY2sgYW5kCj4gPiBkYnNfbXV0ZXguCj4gPiAKPiA+IFRoZSByZWFsIHdh
-eSB0byBmaXggdGhpcyBpcyB0byBkbyBub3QgdGFrZSB0aGUgcndsb2NrIHBvbGljeSBhcm91bmQK
-PiA+IG5vbi1wb2xpY3ktcmVsYXRlZCBhY3Rpb25zLCBsaWtlIGdvdmVybm9yIFNUQVJUL1NUT1Ag
-ZG9pbmcgd29ya2VyCj4gPiBjcmVhdGlvbi90ZWFyZG93bi4KPiA+IAo+ID4gT25lIHNpbXBsZSBz
-aG9ydC10ZXJtIHNvbHV0aW9uIHdvdWxkIGJlIHRvIHRha2UgYSBtdXRleCBvdXRzaWRlIG9mIHRo
-ZQo+ID4gcG9saWN5IHJ3bG9jayB3cml0ZSBsb2NrIGluIGNwdWZyZXEuYy4gVGhpcyBtdXRleCB3
-b3VsZCBiZSB0aGUKPiA+IGVxdWl2YWxlbnQgb2YgZGJzX211dGV4ICJsaWZ0ZWQiIG91dHNpZGUg
-b2YgdGhlIHJ3bG9jayB3cml0ZSBsb2NrLiBGb3IKPiA+IHRlYXJkb3duLCB3ZSBvbmx5IG5lZWQg
-dG8gaG9sZCB0aGlzIG11dGV4LCBub3QgdGhlIHJ3bG9jayB3cml0ZSBsb2NrLgo+ID4gVGhlbiB3
-ZSBjYW4gcmVtb3ZlIHRoZSBkYnNfbXV0ZXggZnJvbSB0aGUgZ292ZXJub3JzLgo+ID4gCj4gPiBC
-dXQgbG9va2luZyBhdCBjcHVmcmVxLmMncyBjcHVmcmVxX2FkZF9kZXYoKSBpcyB2ZXJ5IG11Y2gg
-bGlrZSBraWNraW5nIGEKPiA+IHdhc3AgbmVzdDogYSBsb3Qgb2YgZXJyb3IgcGF0aHMgYXJlIG5v
-dCBoYW5kbGVkIHByb3Blcmx5LCBhbmQgSSBmZWFyCj4gPiBzb21lb25lIHdpbGwgaGF2ZSB0byBn
-byB0aHJvdWdoIHRoZSBjb2RlLCBmaXggdGhlIGN1cnJlbnRseSBpbmNvcnJlY3QKPiA+IGNvZGUg
-cGF0aHMsIGFuZCB0aGVuIGFkZCB0aGUgbGlmdGVkIG11dGV4Lgo+ID4gCj4gPiBJIGN1cnJlbnRs
-eSBoYXZlIG5vIHRpbWUgZm9yIGltcGxlbWVudGF0aW9uIGR1ZSB0byBteSB0aGVzaXMsIGJ1dCBJ
-J2xsCj4gPiBiZSBoYXBweSB0byByZXZpZXcgYSBwYXRjaC4KPiA+IAo+IAo+IEhvdyBhYm91dCBi
-ZWxvdyBwYXRjaCBvbiB0b3Agb2YgTWF0aGlldSdzIHBhdGNoIGhlcmUKPiBodHRwOi8vbWFyYy5p
-bmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEyNDQ0ODE1MDUyOTgzOCZ3PTIKPiAKPiBbUEFUQ0hdIGNw
-dWZyZXE6IEVsaW1pbmF0ZSBsb2NrZGVwIGlzc3VlIHdpdGggZGJzX211dGV4IGFuZCBwb2xpY3lf
-cndzZW0KPiAKPiBUaGlzIHJlbW92ZXMgdGhlIHVubmVlZGVkIGRlcGVuZGVuY3kgb2YgCj4gd3Jp
-dGUgcndsb2NrIHBvbGljeQo+ICAgZGJzX211dGV4Cj4gCj4gZGJzX211dGV4IGRvZXMgbm90IGhh
-dmUgYW55dGhpbmcgdG8gZG8gd2l0aCB0aW1lcl9pbml0IGFuZCB0aW1lcl9leGl0LiBJdAo+IGlz
-IGp1c3QgdG8gcHJvdGVjdCBkYnMgdHVuYWJsZXMgaW4gc3lzZnMgY3B1ZnJlcS9vbmRlbWFuZApX
-aHkgaXMgc3lzZnMgdHVuYWJsZXMgcHJvdGVjdGlvbiBuZWVkZWQgYXQgYWxsPwoKVGhlIG9uZGVt
-YW5kIGxvY2tpbmcgdmVyeSBtdWNoIGxvb2tzIGxpa2UgdGFrZW4gb3ZlciBmcm9tIHRoZSB1c2Vy
-c3BhY2UKZ292ZXJub3IuIFRoZXJlIHlvdSBuZWVkIHRoZSBsb2NrIGJlY2F1c2UgYSB3cml0ZSB0
-byBzZXRfc3BlZWQgZGlyZWN0bHkKY2FsbHMgLT50YXJnZXQuCgpXaGF0IGlzIHVyZ2VudGx5IG1p
-c3NpbmcgaXMgYSBkZXNjcmlwdGlvbiBmb3Igd2hhdCB0aGUgbG9ja3MgYXJlCnJlYWxseSB1c2Vk
-LCBub3Qgb25seSBpbiB3aGljaCBjYXNlIHRoZXkgZGVhZGxvY2suCgpGcm9tIHlvdXIgY29tbWVu
-dCBhYm92ZToKPiBkYnNfbXV0ZXggZG9lcyBub3QgaGF2ZSBhbnl0aGluZyB0byBkbyB3aXRoIHRp
-bWVyX2luaXQgYW5kIHRpbWVyX2V4aXQuCkJ1dCB0aGlzIGlzIHdoYXQgaXQgc2VlbXMgdG8gZG8/
-CklmIGl0J3Mgbm90IG5lZWRlZCB0byBwcm90ZWN0IGNhbGxpbmcgdGltZXJfaW5pdCB3aGlsZSBp
-biB0aW1lcl9leGl0CihvciB0aGUgb3RoZXIgd2F5IGFyb3VuZCkgYW5kIHN5c2ZzX2NyZWF0ZV9n
-cm91cCB3aGlsZQppbiBzeXNmc19yZW1vdmVfZ3JvdXAgSSB0aGluayB0aGUgbXV0ZXggY2FuIGJl
-IGRlbGV0ZWQuCldoYXQgZG8geW91IHRoaW5rIGFib3V0IHRoaXMgcGF0Y2ggKGNvbXBpbGUgdGVz
-dGVkIG9ubHkgYW5kIG5vdApmb3IgLjMwKT8KCklzIHNvbWVvbmUgYXdhcmUgb2YgYW55IHRlc3Qg
-c2NlbmFyaW9zIEkgY291bGQgcnVuIHRvIHRyeSB3aXRob3V0CnRoZSBtdXRleCBhbmQgcnVuIGlu
-dG8gdHJvdWJsZT8KRG8gSSB0b3RhbGx5IG1pc3Mgc29tZXRoaW5nIGhlcmUgb3IgZG9lcyB0aGlz
-IG1ha2Ugc2Vuc2U/CgpUaGFua3MsCgogICAgICBUaG9tYXMKCi0tLS0tCgpDUFVGUkVRIG9uZGVt
-YW5kOiBSZW1vdmUgdW5uZWVkZWQgZGJzX211dGV4CgpUaGVyZSBpcyBubyBuZWVkIHRvIHByb3Rl
-Y3QgZ2VuZXJhbCAobm90IHBlciBjb3JlKSBvbmRlbWFuZCBzeXNmcyB2YXJpYWJsZXMKYWdhaW5z
-dCBwZXIgY29yZSBnb3Zlcm5vciAoZGUtKWFjdGl2YXRpb24gKEdPVl9TVEFSVC9HT1ZfU1RPUCku
-CgpJdCBtdXN0IGp1c3QgYmUgYXNzdXJlZCB0aGF0IHRoZXNlIGFyZSBvbmx5IGluaXRpYWxpemVk
-IG9uY2UsIGJlZm9yZSB1c2Vyc3BhY2UKY2FuIG1vZGlmeSB0aGVtIChvdGhlcndpc2UgdXNlcnNw
-YWNlIG1vZGlmaWNhdGlvbnMgd2lsbCBiZSBvdmVycmlkZW4gYnkKcmUtaW5pdGlhbGl6aW5nIHRo
-ZSBnZW5lcmFsIHZhcmlhYmxlcykuClRoaXMgc2hvdWxkIGFscmVhZHkgYmUgdGhlIGNhc2UuCgpT
-aWduZWQtb2ZmLWJ5OiBUaG9tYXMgUmVubmluZ2VyIDx0cmVubkBzdXNlLmRlPgoKLS0tCiBkcml2
-ZXJzL2NwdWZyZXEvY3B1ZnJlcV9vbmRlbWFuZC5jIHwgICA2NCArKysrKysrLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgNTEg
-ZGVsZXRpb25zKC0pCgpJbmRleDogbGludXgtMi42LjI5LW1hc3Rlci9kcml2ZXJzL2NwdWZyZXEv
-Y3B1ZnJlcV9vbmRlbWFuZC5jCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tIGxpbnV4LTIuNi4yOS1tYXN0ZXIub3Jp
-Zy9kcml2ZXJzL2NwdWZyZXEvY3B1ZnJlcV9vbmRlbWFuZC5jCisrKyBsaW51eC0yLjYuMjktbWFz
-dGVyL2RyaXZlcnMvY3B1ZnJlcS9jcHVmcmVxX29uZGVtYW5kLmMKQEAgLTE3LDcgKzE3LDYgQEAK
-ICNpbmNsdWRlIDxsaW51eC9jcHUuaD4KICNpbmNsdWRlIDxsaW51eC9qaWZmaWVzLmg+CiAjaW5j
-bHVkZSA8bGludXgva2VybmVsX3N0YXQuaD4KLSNpbmNsdWRlIDxsaW51eC9tdXRleC5oPgogI2lu
-Y2x1ZGUgPGxpbnV4L2hydGltZXIuaD4KICNpbmNsdWRlIDxsaW51eC90aWNrLmg+CiAjaW5jbHVk
-ZSA8bGludXgva3RpbWUuaD4KQEAgLTkxLDE2ICs5MCw2IEBAIHN0YXRpYyBERUZJTkVfUEVSX0NQ
-VShzdHJ1Y3QgY3B1X2Ric19pbmYKIAogc3RhdGljIHVuc2lnbmVkIGludCBkYnNfZW5hYmxlOwkv
-KiBudW1iZXIgb2YgQ1BVcyB1c2luZyB0aGlzIHBvbGljeSAqLwogCi0vKgotICogREVBRExPQ0sg
-QUxFUlQhIFRoZXJlIGlzIGEgb3JkZXJpbmcgcmVxdWlyZW1lbnQgYmV0d2VlbiBjcHVfaG90cGx1
-ZwotICogbG9jayBhbmQgZGJzX211dGV4LiBjcHVfaG90cGx1ZyBsb2NrIHNob3VsZCBhbHdheXMg
-YmUgaGVsZCBiZWZvcmUKLSAqIGRic19tdXRleC4gSWYgYW55IGZ1bmN0aW9uIHRoYXQgY2FuIHBv
-dGVudGlhbGx5IHRha2UgY3B1X2hvdHBsdWcgbG9jawotICogKGxpa2UgX19jcHVmcmVxX2RyaXZl
-cl90YXJnZXQoKSkgaXMgYmVpbmcgY2FsbGVkIHdpdGggZGJzX211dGV4IHRha2VuLCB0aGVuCi0g
-KiBjcHVfaG90cGx1ZyBsb2NrIHNob3VsZCBiZSB0YWtlbiBiZWZvcmUgdGhhdC4gTm90ZSB0aGF0
-IGNwdV9ob3RwbHVnIGxvY2sKLSAqIGlzIHJlY3Vyc2l2ZSBmb3IgdGhlIHNhbWUgcHJvY2Vzcy4g
-LVZlbmtpCi0gKi8KLXN0YXRpYyBERUZJTkVfTVVURVgoZGJzX211dGV4KTsKLQogc3RhdGljIHN0
-cnVjdCB3b3JrcXVldWVfc3RydWN0CSprb25kZW1hbmRfd3E7CiAKIHN0YXRpYyBzdHJ1Y3QgZGJz
-X3R1bmVycyB7CkBAIC0yNjYsMTQgKzI1NSw3IEBAIHN0YXRpYyBzc2l6ZV90IHN0b3JlX3NhbXBs
-aW5nX3JhdGUoc3RydWMKIAlpbnQgcmV0OwogCXJldCA9IHNzY2FuZihidWYsICIldSIsICZpbnB1
-dCk7CiAKLQltdXRleF9sb2NrKCZkYnNfbXV0ZXgpOwotCWlmIChyZXQgIT0gMSkgewotCQltdXRl
-eF91bmxvY2soJmRic19tdXRleCk7Ci0JCXJldHVybiAtRUlOVkFMOwotCX0KIAlkYnNfdHVuZXJz
-X2lucy5zYW1wbGluZ19yYXRlID0gbWF4KGlucHV0LCBtaW5pbXVtX3NhbXBsaW5nX3JhdGUoKSk7
-Ci0JbXV0ZXhfdW5sb2NrKCZkYnNfbXV0ZXgpOwotCiAJcmV0dXJuIGNvdW50OwogfQogCkBAIC0y
-ODQsMTYgKzI2NiwxMiBAQCBzdGF0aWMgc3NpemVfdCBzdG9yZV91cF90aHJlc2hvbGQoc3RydWN0
-CiAJaW50IHJldDsKIAlyZXQgPSBzc2NhbmYoYnVmLCAiJXUiLCAmaW5wdXQpOwogCi0JbXV0ZXhf
-bG9jaygmZGJzX211dGV4KTsKIAlpZiAocmV0ICE9IDEgfHwgaW5wdXQgPiBNQVhfRlJFUVVFTkNZ
-X1VQX1RIUkVTSE9MRCB8fAogCQkJaW5wdXQgPCBNSU5fRlJFUVVFTkNZX1VQX1RIUkVTSE9MRCkg
-ewotCQltdXRleF91bmxvY2soJmRic19tdXRleCk7CiAJCXJldHVybiAtRUlOVkFMOwogCX0KIAog
-CWRic190dW5lcnNfaW5zLnVwX3RocmVzaG9sZCA9IGlucHV0OwotCW11dGV4X3VubG9jaygmZGJz
-X211dGV4KTsKLQogCXJldHVybiBjb3VudDsKIH0KIApAQCAtMzEyLDkgKzI5MCw3IEBAIHN0YXRp
-YyBzc2l6ZV90IHN0b3JlX2lnbm9yZV9uaWNlX2xvYWQoc3QKIAlpZiAoaW5wdXQgPiAxKQogCQlp
-bnB1dCA9IDE7CiAKLQltdXRleF9sb2NrKCZkYnNfbXV0ZXgpOwogCWlmIChpbnB1dCA9PSBkYnNf
-dHVuZXJzX2lucy5pZ25vcmVfbmljZSkgeyAvKiBub3RoaW5nIHRvIGRvICovCi0JCW11dGV4X3Vu
-bG9jaygmZGJzX211dGV4KTsKIAkJcmV0dXJuIGNvdW50OwogCX0KIAlkYnNfdHVuZXJzX2lucy5p
-Z25vcmVfbmljZSA9IGlucHV0OwpAQCAtMzI5LDggKzMwNSw2IEBAIHN0YXRpYyBzc2l6ZV90IHN0
-b3JlX2lnbm9yZV9uaWNlX2xvYWQoc3QKIAkJCWRic19pbmZvLT5wcmV2X2NwdV9uaWNlID0ga3N0
-YXRfY3B1KGopLmNwdXN0YXQubmljZTsKIAogCX0KLQltdXRleF91bmxvY2soJmRic19tdXRleCk7
-Ci0KIAlyZXR1cm4gY291bnQ7CiB9CiAKQEAgLTM0NywxMSArMzIxLDggQEAgc3RhdGljIHNzaXpl
-X3Qgc3RvcmVfcG93ZXJzYXZlX2JpYXMoc3RydQogCWlmIChpbnB1dCA+IDEwMDApCiAJCWlucHV0
-ID0gMTAwMDsKIAotCW11dGV4X2xvY2soJmRic19tdXRleCk7CiAJZGJzX3R1bmVyc19pbnMucG93
-ZXJzYXZlX2JpYXMgPSBpbnB1dDsKIAlvbmRlbWFuZF9wb3dlcnNhdmVfYmlhc19pbml0KCk7Ci0J
-bXV0ZXhfdW5sb2NrKCZkYnNfbXV0ZXgpOwotCiAJcmV0dXJuIGNvdW50OwogfQogCkBAIC01ODAs
-MTYgKzU1MSw2IEBAIHN0YXRpYyBpbnQgY3B1ZnJlcV9nb3Zlcm5vcl9kYnMoc3RydWN0IGMKIAkJ
-aWYgKHRoaXNfZGJzX2luZm8tPmVuYWJsZSkgLyogQWxyZWFkeSBlbmFibGVkICovCiAJCQlicmVh
-azsKIAotCQltdXRleF9sb2NrKCZkYnNfbXV0ZXgpOwotCQlkYnNfZW5hYmxlKys7Ci0KLQkJcmMg
-PSBzeXNmc19jcmVhdGVfZ3JvdXAoJnBvbGljeS0+a29iaiwgJmRic19hdHRyX2dyb3VwKTsKLQkJ
-aWYgKHJjKSB7Ci0JCQlkYnNfZW5hYmxlLS07Ci0JCQltdXRleF91bmxvY2soJmRic19tdXRleCk7
-Ci0JCQlyZXR1cm4gcmM7Ci0JCX0KLQogCQlmb3JfZWFjaF9jcHUoaiwgcG9saWN5LT5jcHVzKSB7
-CiAJCQlzdHJ1Y3QgY3B1X2Ric19pbmZvX3MgKmpfZGJzX2luZm87CiAJCQlqX2Ric19pbmZvID0g
-JnBlcl9jcHUoY3B1X2Ric19pbmZvLCBqKTsKQEAgLTYwNCwxMCArNTY1LDEwIEBAIHN0YXRpYyBp
-bnQgY3B1ZnJlcV9nb3Zlcm5vcl9kYnMoc3RydWN0IGMKIAkJfQogCQl0aGlzX2Ric19pbmZvLT5j
-cHUgPSBjcHU7CiAJCS8qCi0JCSAqIFN0YXJ0IHRoZSB0aW1lcnNjaGVkdWxlIHdvcmssIHdoZW4g
-dGhpcyBnb3Zlcm5vcgotCQkgKiBpcyB1c2VkIGZvciBmaXJzdCB0aW1lCisJCSAqIEluaXRpYWxp
-emUgZ2VuZXJhbCBvbmRlbWFuZCB0dW5hYmxlcyBvbmx5IG9uZXMsIG5vdCBmb3IKKwkJICogZWFj
-aCBjb3JlCiAJCSAqLwotCQlpZiAoZGJzX2VuYWJsZSA9PSAxKSB7CisJCWlmICghZGJzX2VuYWJs
-ZSkgewogCQkJdW5zaWduZWQgaW50IGxhdGVuY3k7CiAJCQkvKiBwb2xpY3kgbGF0ZW5jeSBpcyBp
-biBuUy4gQ29udmVydCBpdCB0byB1UyBmaXJzdCAqLwogCQkJbGF0ZW5jeSA9IHBvbGljeS0+Y3B1
-aW5mby50cmFuc2l0aW9uX2xhdGVuY3kgLyAxMDAwOwpAQCAtNjE5LDMwICs1ODAsMzEgQEAgc3Rh
-dGljIGludCBjcHVmcmVxX2dvdmVybm9yX2RicyhzdHJ1Y3QgYwogCQkJCSAgICBNSU5fU1RBVF9T
-QU1QTElOR19SQVRFKTsKIAogCQkJZGJzX3R1bmVyc19pbnMuc2FtcGxpbmdfcmF0ZSA9IGRlZl9z
-YW1wbGluZ19yYXRlOworCQl9CQkJCisJCXJjID0gc3lzZnNfY3JlYXRlX2dyb3VwKCZwb2xpY3kt
-PmtvYmosICZkYnNfYXR0cl9ncm91cCk7CisJCWlmIChyYykgeworCQkJdGhpc19kYnNfaW5mby0+
-ZW5hYmxlID0gMDsKKwkJCXJldHVybiByYzsKIAkJfQogCQlkYnNfdGltZXJfaW5pdCh0aGlzX2Ri
-c19pbmZvKTsKLQotCQltdXRleF91bmxvY2soJmRic19tdXRleCk7CisJCWRic19lbmFibGUrKzsK
-IAkJYnJlYWs7CiAKIAljYXNlIENQVUZSRVFfR09WX1NUT1A6Ci0JCW11dGV4X2xvY2soJmRic19t
-dXRleCk7Ci0JCWRic190aW1lcl9leGl0KHRoaXNfZGJzX2luZm8pOwotCQlzeXNmc19yZW1vdmVf
-Z3JvdXAoJnBvbGljeS0+a29iaiwgJmRic19hdHRyX2dyb3VwKTsKKwkJaWYgKHRoaXNfZGJzX2lu
-Zm8tPmVuYWJsZSkgeworCQkJZGJzX3RpbWVyX2V4aXQodGhpc19kYnNfaW5mbyk7CisJCQlzeXNm
-c19yZW1vdmVfZ3JvdXAoJnBvbGljeS0+a29iaiwgJmRic19hdHRyX2dyb3VwKTsKKwkJfQogCQlk
-YnNfZW5hYmxlLS07Ci0JCW11dGV4X3VubG9jaygmZGJzX211dGV4KTsKLQogCQlicmVhazsKIAog
-CWNhc2UgQ1BVRlJFUV9HT1ZfTElNSVRTOgotCQltdXRleF9sb2NrKCZkYnNfbXV0ZXgpOwogCQlp
-ZiAocG9saWN5LT5tYXggPCB0aGlzX2Ric19pbmZvLT5jdXJfcG9saWN5LT5jdXIpCiAJCQlfX2Nw
-dWZyZXFfZHJpdmVyX3RhcmdldCh0aGlzX2Ric19pbmZvLT5jdXJfcG9saWN5LAogCQkJCXBvbGlj
-eS0+bWF4LCBDUFVGUkVRX1JFTEFUSU9OX0gpOwogCQllbHNlIGlmIChwb2xpY3ktPm1pbiA+IHRo
-aXNfZGJzX2luZm8tPmN1cl9wb2xpY3ktPmN1cikKIAkJCV9fY3B1ZnJlcV9kcml2ZXJfdGFyZ2V0
-KHRoaXNfZGJzX2luZm8tPmN1cl9wb2xpY3ksCiAJCQkJcG9saWN5LT5taW4sIENQVUZSRVFfUkVM
-QVRJT05fTCk7Ci0JCW11dGV4X3VubG9jaygmZGJzX211dGV4KTsKIAkJYnJlYWs7CiAJfQogCXJl
-dHVybiAwOwoACg==
+On Wed, 2009-06-17 at 08:29 -0700, Thomas Renninger wrote:
+> On Wednesday 17 June 2009 02:39:25 Pallipadi, Venkatesh wrote:
+> > On Thu, Jun 11, 2009 at 08:23:29AM -0700, Mathieu Desnoyers wrote:
+> > > * Simon Holm Th=C3=B8gersen (odie-t5LvXY1cjzpaa/9Udqfwiw@public.gmane.org) wrote:
+> > > > man, 08 06 2009 kl. 10:32 -0400, skrev Dave Jones:
+> > > > > On Mon, Jun 08, 2009 at 08:48:45AM -0400, Mathieu Desnoyers w=
+rote:
+> > > > >
+> > > > >  > > > >> Bug-Entry       : http://bugzilla.kernel.org/show_b=
+ug.cgi?id=3D13475
+> > > > >  > > > >> Subject         : suspend/hibernate lockdep warning
+> > > > >  > > > >> References      : http://marc.info/?l=3Dlinux-kerne=
+l&m=3D124393723321241&w=3D4
+> > > > >  > > >
+> > > > >  > > > I suspect the following commit, after revert this patc=
+h I test 5 times
+> > > > >  > > > without lockdep warnings.
+> > > > >  > > >
+> > > > >  > > > commit b14893a62c73af0eca414cfed505b8c09efc613c
+> > > > >  > > > Author: Mathieu Desnoyers <mathieu.desnoyers@polymtl.c=
+a>
+> > > > >  > > > Date:   Sun May 17 10:30:45 2009 -0400
+> > > > >  > > >
+> > > > >  > > >  [CPUFREQ] fix timer teardown in ondemand governor
+> > > > >  > >
+> > > > >  > > The patch is probably not at fault here. I suspect it's =
+some latent bug
+> > > > >  > > that simply got exposed by the change to cancel_delayed_=
+work_sync(). In
+> > > > >  > > any case, Mathieu, can you take a look at this please?
+> > > > >  >
+> > > > >  > Yes, it's been looked at and discussed on the cpufreq ML. =
+The short
+> > > > >  > answer is that they plan to re-engineer cpufreq and remove=
+ the policy
+> > > > >  > rwlock taken around almost every operations at the cpufreq=
+ level.
+> > > > >  >
+> > > > >  > The short-term solution, which is recognised as ugly, woul=
+d be do to the
+> > > > >  > following before doing the cancel_delayed_work_sync() :
+> > > > >  >
+> > > > >  > unlock policy rwlock write lock
+> > > > >  >
+> > > > >  > lock policy rwlock write lock
+> > > > >  >
+> > > > >  > It basically works because this rwlock is unneeded for tea=
+rdown, hence
+> > > > >  > the future re-work planned.
+> > > > >  >
+> > > > >  > I'm sorry I cannot prepare a patch current... I've got qui=
+te a few pages
+> > > > >  > of Ph.D. thesis due for the beginning of July.
+> > > > >
+> > > > > I'm kinda scared to touch this code at all for .30 due to the=
+ number of
+> > > > > unexpected gotchas we seem to run into every time we touch so=
+mething
+> > > > > locking related.  So I'm inclined to just live with the lockd=
+ep warning
+> > > > > for .30, and see how the real fixes look for .31, and push th=
+em back
+> > > > > as -stable updates if they work out.
+> > > >
+> > > > Unfortunately I don't think it is just theoretical, I've actual=
+ly hit
+> > > > the following (that haven't got anything to do with suspend/hib=
+ernate)
+> > > >
+> > > > INFO: task cpufreqd:4676 blocked for more than 120 seconds.
+> > > >  "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables th=
+is message.
+> > > >  cpufreqd      D eee2ac60     0  4676      1
+> > > >   ee01bd68 00000086 eee2aad0 eee2ac60 00000533 eee2aad0 eee2ac6=
+0 0002b16f
+> > > >   00000000 eee2ac60 7fffffff 7fffffff eee2ac60 7fffffff 7ffffff=
+f 00000000
+> > > >   ee01bd70 c03117ee ee01bdbc c0311c0c eee2aad0 eecf6900 eee2aad=
+0 eecf6900
+> > > >  Call Trace:
+> > > >   [<c03117ee>] schedule+0x12/0x24
+> > > >   [<c0311c0c>] schedule_timeout+0x17/0x170
+> > > >   [<c011a4f7>] ? __wake_up+0x2b/0x51
+> > > >   [<c0311afd>] wait_for_common+0xc4/0x135
+> > > >   [<c011a694>] ? default_wake_function+0x0/0xd
+> > > >   [<c0311be0>] wait_for_completion+0x12/0x14
+> > > >   [<c012bc6a>] __cancel_work_timer+0xfe/0x129
+> > > >   [<c012b635>] ? wq_barrier_func+0x0/0xd
+> > > >   [<c012bca0>] cancel_delayed_work_sync+0xb/0xd
+> > > >   [<f20948f9>] cpufreq_governor_dbs+0x22e/0x291 [cpufreq_ondema=
+nd]
+> > > >   [<c02af857>] __cpufreq_governor+0x65/0x9d
+> > > >   [<c02af960>] __cpufreq_set_policy+0xd1/0x11f
+> > > >   [<c02b02ae>] store_scaling_governor+0x18a/0x1b2
+> > > >   [<c02b09a5>] ? handle_update+0x0/0xd
+> > > >   [<c02b0124>] ? store_scaling_governor+0x0/0x1b2
+> > > >   [<c02b08c9>] store+0x48/0x61
+> > > >   [<c01acbf4>] sysfs_write_file+0xb4/0xdf
+> > > >   [<c01acb40>] ? sysfs_write_file+0x0/0xdf
+> > > >   [<c0175535>] vfs_write+0x8a/0x104
+> > > >   [<c0175648>] sys_write+0x3b/0x60
+> > > >   [<c0103110>] sysenter_do_call+0x12/0x2c
+> > > >  INFO: task kondemand/0:4956 blocked for more than 120 seconds.
+> > > >  "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables th=
+is message.
+> > > >  kondemand/0   D 00000533     0  4956      2
+> > > >   ee1d9efc 00000046 c011815f 00000533 071148de ee1e0080 ee1e021=
+0 00000000
+> > > >   c03ff478 9189e633 00000082 c03ff478 ee1e0210 c04159f4 c04159f=
+0 00000000
+> > > >   ee1d9f04 c03117ee ee1d9f28 c0313104 ee1d9f30 c04159f4 ee1e008=
+0 c01183be
+> > > >  Call Trace:
+> > > >   [<c011815f>] ? update_curr+0x6c/0x14b
+> > > >   [<c03117ee>] schedule+0x12/0x24
+> > > >   [<c0313104>] rwsem_down_failed_common+0x150/0x16e
+> > > >   [<c01183be>] ? dequeue_task_fair+0x51/0x56
+> > > >   [<c031313d>] rwsem_down_write_failed+0x1b/0x23
+> > > >   [<c031317e>] call_rwsem_down_write_failed+0x6/0x8
+> > > >   [<c03125dd>] ? down_write+0x14/0x16
+> > > >   [<c02b0460>] lock_policy_rwsem_write+0x1d/0x33
+> > > >   [<f20944aa>] do_dbs_timer+0x45/0x266 [cpufreq_ondemand]
+> > > >   [<c012b8f7>] worker_thread+0x165/0x212
+> > > >   [<f2094465>] ? do_dbs_timer+0x0/0x266 [cpufreq_ondemand]
+> > > >   [<c012e639>] ? autoremove_wake_function+0x0/0x33
+> > > >   [<c012b792>] ? worker_thread+0x0/0x212
+> > > >   [<c012e278>] kthread+0x42/0x67
+> > > >   [<c012e236>] ? kthread+0x0/0x67
+> > > >   [<c01038eb>] kernel_thread_helper+0x7/0x10
+> > > >
+> > > > I've only seen it once in 5 boots and CONFIG_PROVELOCKING does =
+not give any
+> > > > warnings about this, though it does yell when switching governo=
+r as reported
+> > > > by others in bug #13493.
+> > > >
+> > > > Let's hope Mathieu nails it, though I know he's busy with his t=
+hesis.
+> > > >
+> > >
+> > > Thanks for the lockdep reports,
+> > >
+> > > I'm currently looking into it, and it's not pretty. Basically we =
+have :
+> > >
+> > > A
+> > >   B
+> > > (means B nested in A)
+> > >
+> > > work
+> > >   read rwlock policy
+> > >
+> > > dbs_mutex
+> > >   work
+> > >     read rwlock policy
+> > >
+> > > write rwlock policy
+> > >   dbs_mutex
+> > >
+> > > So the added dbs_mutex <- work <- rwlock policy dependency (for p=
+roper
+> > > teardown) is firing the reverse dependency between policy rwlock =
+and
+> > > dbs_mutex.
+> > >
+> > > The real way to fix this is to do not take the rwlock policy arou=
+nd
+> > > non-policy-related actions, like governor START/STOP doing worker
+> > > creation/teardown.
+> > >
+> > > One simple short-term solution would be to take a mutex outside o=
+f the
+> > > policy rwlock write lock in cpufreq.c. This mutex would be the
+> > > equivalent of dbs_mutex "lifted" outside of the rwlock write lock=
+=2E For
+> > > teardown, we only need to hold this mutex, not the rwlock write l=
+ock.
+> > > Then we can remove the dbs_mutex from the governors.
+> > >
+> > > But looking at cpufreq.c's cpufreq_add_dev() is very much like ki=
+cking a
+> > > wasp nest: a lot of error paths are not handled properly, and I f=
+ear
+> > > someone will have to go through the code, fix the currently incor=
+rect
+> > > code paths, and then add the lifted mutex.
+> > >
+> > > I currently have no time for implementation due to my thesis, but=
+ I'll
+> > > be happy to review a patch.
+> > >
+> >
+> > How about below patch on top of Mathieu's patch here
+> > http://marc.info/?l=3Dlinux-kernel&m=3D124448150529838&w=3D2
+> >
+> > [PATCH] cpufreq: Eliminate lockdep issue with dbs_mutex and policy_=
+rwsem
+> >
+> > This removes the unneeded dependency of
+> > write rwlock policy
+> >   dbs_mutex
+> >
+> > dbs_mutex does not have anything to do with timer_init and timer_ex=
+it. It
+> > is just to protect dbs tunables in sysfs cpufreq/ondemand
+> Why is sysfs tunables protection needed at all?
+>=20
+> The ondemand locking very much looks like taken over from the userspa=
+ce
+> governor. There you need the lock because a write to set_speed direct=
+ly
+> calls ->target.
+>=20
+
+I was looking at the same thing before sending the patch yesterday. I
+don't think the dbs_lock is similar to userspace lock. Infact, I don't
+think we need the lock in userspace case, as we will already be holding
+policy rwsem in cpufreq, before calling setspeed. But thats a different
+story.
+=20
+> What is urgently missing is a description for what the locks are
+> really used, not only in which case they deadlock.
+>=20
+> From your comment above:
+> > dbs_mutex does not have anything to do with timer_init and timer_ex=
+it.
+> But this is what it seems to do?
+> If it's not needed to protect calling timer_init while in timer_exit
+> (or the other way around) and sysfs_create_group while
+> in sysfs_remove_group I think the mutex can be deleted.
+> What do you think about this patch (compile tested only and not
+> for .30)?
+>=20
+> Is someone aware of any test scenarios I could run to try without
+> the mutex and run into trouble?
+> Do I totally miss something here or does this make sense?
+>=20
+
+The reason I left dbs_mutex as is and just removed the init/exit timer
+outside the lock was because of the non typical sysfs usage in ondemand=
+=2E
+We have dbs_attr_group that gets added under each cpu's cpufreq
+directory, but they are controlling a single set of ondemand variables.
+This mutex is just serializing the changes to those variables. I could'=
+t
+think of any functionality issues of not having the lock as such.
+
+Thanks,
+Venki
+
