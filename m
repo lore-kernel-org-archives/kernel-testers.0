@@ -1,34 +1,31 @@
-From: Mathias Kretschmer <mathias-ZcF2+9dVbKo@public.gmane.org>
-Subject: Re: [Bug #13375] Kernel crash with 2.6.29 + nfs + xfs (radix-tree)
-Date: Thu, 25 Jun 2009 08:14:40 +0200
-Message-ID: <200906250814.43337.mathias@blx4.net>
-References: <sIiXQlfwS3D.A.81.dj7KKB@chimera> <200906182355.57100.mathias@blx4.net> <4A42AEEC.9070002@windsormachine.com>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+From: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
+Subject: Fix dead lock in cpufreq for CPU hotplug and suspend for 2.6.30.stable
+Date: Thu, 25 Jun 2009 16:01:23 +0200
+Message-ID: <1245938485-12663-1-git-send-email-trenn@suse.de>
+References: <20090623193215.GA31374@elte.hu>
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4A42AEEC.9070002-d1V2JtDI1HZNJje9z4SY99BPR1lH4CV8@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <20090623193215.GA31374-X9Un+BFzKDI@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Mike Dresser <mdresser_l-d1V2JtDI1HZNJje9z4SY99BPR1lH4CV8@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alex Samad <alex-SGFoFqf0RKf0CCvOHzKKcA@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: kernel-soeCzev1AWYdnm+yROfE0A@public.gmane.org
+Cc: cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org
 
-On Thursday 25 June 2009 00:55:40 Mike Dresser wrote:
-> Tried 2.6.30-git18 the other day, machine jammed up with the usual BUG,
-> though it was on radix-tree.c:464 this time.
+This is about the dead locks happening since cancel_delayed_work_sync()
+got added to the ondemand/conservative governors.
 
-I gave up and went back to 2.6.28.9, as you mentioned before.
+I truncated a bit the CC list to most important people and mailing lists.
 
-> I really should get around to putting an APC masterswitch on this
-> server, since it won't reboot with anything but the power
-> switch/reset(though the system is otherwise fine, interactivity is
-> perfect.. just can't kill processes)
+The patch is intended for 2.6.30 stable, but both patches together did
+not get tested yet. If someone could verify this working now that
+would be great.
 
-Yep, I had that happening a few days ago. The box worked fine, but won't 
-reboot. Just hangs somewhere during unmount. I saw a kernel crash call trace 
-somewhere, but it went by too quickly and I couldn't get it back.
+I first wanted to provide something for .31 and then backport, but
+it wouldn't patch clean anymore anyway and I don't want to wait
+any longer.
 
--Mathias
+Rafael: These should solve the regression bug:
+http://bugzilla.kernel.org/show_bug.cgi?id=13475
 
-> Mike
