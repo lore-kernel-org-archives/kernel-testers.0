@@ -1,36 +1,29 @@
-From: Hannes Eder <hannes-9DqlmsBlHoGFX2APIN6yfw@public.gmane.org>
-Subject: Re: Newbie: howto get mm tree up to date using quilt
-Date: Fri, 26 Jun 2009 08:34:22 +0200
-Message-ID: <154e089b0906252334v59a4630aue14aa4103dd776c@mail.gmail.com>
-References: <1faf47660906252156m425de064p66f60ac942402420@mail.gmail.com>
-	 <4A44585E.20902@xenotime.net>
+From: Pavel Machek <pavel@ucw.cz>
+Subject: Re: 2.6.30-rc1: touchpad disabled on hibernation
+Date: Sun, 28 Jun 2009 12:22:06 +0200
+Message-ID: <20090628102205.GC8673@ucw.cz>
+References: <4A438BA7.9010800@tuffmail.co.uk>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4A44585E.20902-/UHa2rfvQTnk1uMJSBkQmQ@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-input-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <4A438BA7.9010800@tuffmail.co.uk>
+Sender: linux-input-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Charles 'Mack' Rhinelander <mrhinelander-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Randy Dunlap <rdunlap-/UHa2rfvQTnk1uMJSBkQmQ@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kernel Janitors List <kernel-janitors-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Alan Jenkins <alan-jenkins@tuffmail.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-input@vger.kernel.org, linux-pm@lists.linux-foundation.org, jikos@suse.cz
 
-2009/6/26 Randy Dunlap <rdunlap-/UHa2rfvQTnk1uMJSBkQmQ@public.gmane.org>:
-> Charles 'Mack' Rhinelander wrote:
->> I'm running 2.6.28-rc2-mm1, the latest mm tree. I'd like to patch it
->> so it's up to date, and try using the daily snapshots.
->
-> Daily snapshots of what? =C2=A0mm-tree doesn't have daily snapshots.
-> Andrew Morton hasn't released a -mm patchset lately. =C2=A0He's been =
-making
-> "mmotm" (mm of the moment) releases/announcements.
+On Thu 2009-06-25 15:37:27, Alan Jenkins wrote:
+> The synaptics touchpad on my EeePC 701 dies on hibernation.  2.6.30 was
+> fine, and it doesn't happen on suspend to ram either.  There are no
+> obvious error messages, but maybe this boot message is relevant:
+> 
+> Platform driver 'i8042' needs updating, please use dev_pm_ops
 
-Might help see:
-http://lkml.org/lkml/2008/12/16/327
+Just to track regression...
+									Pavel
 
-especially:
-http://git.zen-sources.org/?p=3Dmmotm.git;a=3Dsummary
-
-but I don't know if this is still alive.
-
-hth,
--Hannes
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
