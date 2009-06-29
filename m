@@ -1,53 +1,40 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
-Date: Tue, 30 Jun 2009 01:15:26 +0200
-Message-ID: <200906300115.26749.rjw@sisk.pl>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <5Hhc7UkUKEO.A.fNH.4kASKB@chimera> <4A48F114.1010702@lwfinger.net>
+Subject: Re: [Bug #13512] D43 on 2.6.30 doesn't suspend anymore
+Date: Tue, 30 Jun 2009 01:20:33 +0200
+Message-ID: <200906300120.33817.rjw@sisk.pl>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <5Hhc7UkUKEO.A.uzF.njASKB@chimera> <4A485D71.5020204@mydatex.cz>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4A48F114.1010702-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+In-Reply-To: <4A485D71.5020204-0pWKB23IDFjrBKCeMvbIDA@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+To: Daniel Smolik <marvin-0pWKB23IDFjrBKCeMvbIDA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Monday 29 June 2009, Larry Finger wrote:
-> Rafael J. Wysocki wrote:
+On Monday 29 June 2009, Daniel Smolik wrote:
+> Rafael J. affected napsal(a):
 > > This message has been generated automatically as a part of a report
 > > of regressions introduced between 2.6.29 and 2.6.30.
-> > 
+> >
 > > The following bug entry is on the current list of known regressions
 > > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 > > be listed and let me know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13319
-> > Subject		: Page allocation failures with b43 and p54usb
-> > Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-> > Date		: 2009-04-29 21:01 (61 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=124103897101088&w=4
-> > 		  http://lkml.org/lkml/2009/6/7/136
-> > Handled-By	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-> 
-> The cause of these failures has been determined. The wireless
-> subsystem frequently requests buffers of size 4096, but when SLUB
-> debugging is enabled and the debug info is added, the request becomes
-> of order 1 and memory becomes fragmented.
-> 
-> A controversial "fix" in which SLUB debugging was disabled for
-> allocations where adding such debugging info would increase the order
-> was discussed and tried. With a quick look at the commit list for
-> Linus's tree, I don't see that such a patch is available, but I will
-> be corrected if I missed it.
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13512
+> > Subject		: D43 on 2.6.30 doesn't suspend anymore
+> > Submitter	: Daniel Smolik <marvin-0pWKB23IDFjrBKCeMvbIDA@public.gmane.org>
+> > Date		: 2009-06-11 20:12 (18 days old)
+> >
+> >
+> >   
+> Yes problem still exists. I now bitsecting and I am near to find 
+> affected patch.
 
 Thanks for the update.
-
-Hmm, isn't it suboptimal to use a slab allocator for allocations taking up an
-entire page?  That's the case on some architectures and seems to be the root
-cause of the issue at hand.
 
 Best,
 Rafael
