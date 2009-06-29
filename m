@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13554] linux-image-2.6.30-1-686, KMS enabled: black screen, no X window
-Date: Mon, 29 Jun 2009 02:30:59 +0200 (CEST)
-Message-ID: <5Hhc7UkUKEO.A.urF.bjASKB@chimera>
+Subject: [Bug #13620] acpi_enforce_resources broken - conflicting i2c module loaded on some EeePCs
+Date: Mon, 29 Jun 2009 02:31:00 +0200 (CEST)
+Message-ID: <5Hhc7UkUKEO.A.ukF.UjASKB@chimera>
 References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jos van Wolput <wolput-kN7GrHn7egj0B9fh5IxImPP6llvjuJOh@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Bob Moore <robert.moore-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,9 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13554
-Subject		: linux-image-2.6.30-1-686, KMS enabled: black screen, no X window
-Submitter	: Jos van Wolput <wolput-kN7GrHn7egj0B9fh5IxImPP6llvjuJOh@public.gmane.org>
-Date		: 2009-06-17 06:28 (12 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13620
+Subject		: acpi_enforce_resources broken - conflicting i2c module loaded on some EeePCs
+Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Date		: 2009-06-25 08:31 (4 days old)
+References	: <http://lists.alioth.debian.org/pipermail/debian-eeepc-devel/2009-June/002316.html>
 
