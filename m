@@ -1,51 +1,67 @@
-From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
-Date: Mon, 29 Jun 2009 11:51:32 -0500
-Message-ID: <4A48F114.1010702@lwfinger.net>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <5Hhc7UkUKEO.A.fNH.4kASKB@chimera>
+From: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
+Date: Mon, 29 Jun 2009 19:45:36 +0200
+Message-ID: <200906291945.38821.bzolnier@gmail.com>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <20090629.033730.193709457.davem@davemloft.net> <4A48E307.2010208@numericable.fr>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; q=dns/txt; d=att.net; s=dkim01;
-      i=larry.finger-fOdFMYwuEsI@public.gmane.org; a=rsa-sha256; c=relaxed/relaxed;
-      t=1246294290; h=Content-Transfer-Encoding:Content-Type:
-     In-Reply-To:References:Subject:CC:To:MIME-Version:From:Date:
-     Message-ID; bh=aMxNBFeKOgX22HWxTrCWszKU6oQm6MnM/6gyjPC/cBo=; b=dsh
-     19C8N5yeIxE/vEOVEhsZ5dk3xoP1RGUyA5WlXyBqo/Yysiler5mLecFwRIlLFADVDoy
-     LOlw9RnyqFa4jybg==
-In-Reply-To: <5Hhc7UkUKEO.A.fNH.4kASKB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:from:to:subject:date
+         :user-agent:cc:references:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:message-id;
+        bh=VsfuZcRDINSYaZdabcEahvorzZg6ajFZ501DtByjoGo=;
+        b=oHLHJFv/dvmu/GS+jhtMxe/SPLO2nIU5fr8iPEQCHiWgbTD510LZCPzob4mHsf21mj
+         a4NklsGL8HaXLcnndkahJuAwZa8Cvow6yAgO6Qj59c+X62KncsuN4mrQMpH6ls/GMtTd
+         S47aPf6/oDY5J2CkPN/9oM1FjEV4hSTqkND3o=
+In-Reply-To: <4A48E307.2010208-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.29 and 2.6.30.
+On Monday 29 June 2009 17:51:35 Etienne Basset wrote:
+> David Miller wrote:
+> > From: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+> > Date: Mon, 29 Jun 2009 12:29:09 +0200
+> > 
+> >> yes, patch is not yet upstream;
+> > 
+> > I'll take care of pushing this around today.
+> > 
+> Hi,
 > 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-> be listed and let me know (either way).
+> thank you ; 
+> i ran a new bisection to identify the commit that cause pain after -rc1
+> 
+> etienne@etienne-desktop:~/linux-2.6$ git bisect good        
+> a1317f714af7aed60ddc182d0122477cbe36ee9b is first bad commit
+
+Thanks for finding it.
+
+Dave, please just revert this patch (it wasn't meant for Linus' tree anyway).
+
+> commit a1317f714af7aed60ddc182d0122477cbe36ee9b             
+> Author: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>      
+> Date:   Tue Jun 23 23:52:17 2009 -0700                      
+> 
+>     ide: improve handling of Power Management requests
+>                                                       
+>     Make hwif->rq point to PM request during PM sequence and do not allow
+>     any other types of requests to slip in (the old comment was never correct
+>     as there should be no such requests generated during PM sequence).       
+>                                                                              
+>     Signed-off-by: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>            
+>     Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>   
+> 
+> To have STR/resume work with current git, I have to :
+> 1) apply Bart's patch
+> 2) revert this commit : a1317f714af7aed60ddc182d0122477cbe36ee9b
+> 
+> thanks
+> Etienne           
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13319
-> Subject		: Page allocation failures with b43 and p54usb
-> Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-> Date		: 2009-04-29 21:01 (61 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124103897101088&w=4
-> 		  http://lkml.org/lkml/2009/6/7/136
-> Handled-By	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-
-The cause of these failures has been determined. The wireless
-subsystem frequently requests buffers of size 4096, but when SLUB
-debugging is enabled and the debug info is added, the request becomes
-of order 1 and memory becomes fragmented.
-
-A controversial "fix" in which SLUB debugging was disabled for
-allocations where adding such debugging info would increase the order
-was discussed and tried. With a quick look at the commit list for
-Linus's tree, I don't see that such a patch is available, but I will
-be corrected if I missed it.
-
-Larry
