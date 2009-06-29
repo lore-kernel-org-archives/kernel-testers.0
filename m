@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13661] warning in smp_call_function_single while S2R
+Subject: [Bug #13666] WARNING: at mm/page_alloc.c:1743 __alloc_pages_nodemask
 Date: Mon, 29 Jun 2009 02:11:50 +0200 (CEST)
-Message-ID: <6JJ2m5kyucK.A.yXC.5IASKB@chimera>
+Message-ID: <6JJ2m5kyucK.A.cBC.0IASKB@chimera>
 References: <ij4ZQY4URcP.A.F3B.vIASKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -22,9 +22,9 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13661
-Subject		: warning in smp_call_function_single while S2R
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13666
+Subject		: WARNING: at mm/page_alloc.c:1743 __alloc_pages_nodemask
 Submitter	: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
-Date		: 2009-06-27 17:12 (2 days old)
-References	: http://lkml.org/lkml/2009/6/27/80
+Date		: 2009-06-27 16:15 (2 days old)
+References	: http://lkml.org/lkml/2009/6/27/75
 
