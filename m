@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13620] acpi_enforce_resources broken - conflicting i2c module loaded on some EeePCs
-Date: Mon, 29 Jun 2009 02:31:00 +0200 (CEST)
-Message-ID: <5Hhc7UkUKEO.A.ukF.UjASKB@chimera>
+Subject: [Bug #13634] [drm:drm_wait_vblank] *ERROR* failed to acquire vblank counter, -22
+Date: Mon, 29 Jun 2009 02:31:01 +0200 (CEST)
+Message-ID: <5Hhc7UkUKEO.A.BbF.NjASKB@chimera>
 References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Bob Moore <robert.moore-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,9 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13620
-Subject		: acpi_enforce_resources broken - conflicting i2c module loaded on some EeePCs
-Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Date		: 2009-06-25 08:31 (4 days old)
-References	: <http://lists.alioth.debian.org/pipermail/debian-eeepc-devel/2009-June/002316.html>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13634
+Subject		: [drm:drm_wait_vblank] *ERROR* failed to acquire vblank counter, -22
+Submitter	: Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
+Date		: 2009-06-27 07:02 (2 days old)
 
