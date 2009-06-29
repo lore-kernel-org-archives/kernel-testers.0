@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13407] adb trackpad disappears after suspend to ram
-Date: Mon, 29 Jun 2009 02:30:56 +0200 (CEST)
-Message-ID: <5Hhc7UkUKEO.A.ocG.BkASKB@chimera>
+Subject: [Bug #13471] Loading parport_pc kills the keyboard if ACPI is enabled
+Date: Mon, 29 Jun 2009 02:30:57 +0200 (CEST)
+Message-ID: <5Hhc7UkUKEO.A.EIG.3jASKB@chimera>
 References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, ACPI Devel Maling List <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?utf-8?q?Ozan=20=C3=87a=C4=9Flayan?= <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,11 +22,10 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13407
-Subject		: adb trackpad disappears after suspend to ram
-Submitter	: Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
-Date		: 2009-05-28 7:59 (32 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=2ed8d2b3a81bdbb0418301628ccdb008ac9f40b7
-References	: http://marc.info/?l=linux-kernel&m=124349762314976&w=4
-Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13471
+Subject		: Loading parport_pc kills the keyboard if ACPI is enabled
+Submitter	: Ozan =C3=87a=C4=9Flayan <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>
+Date		: 2009-06-04 9:12 (25 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D124410667532558&w=3D=
+4
 
