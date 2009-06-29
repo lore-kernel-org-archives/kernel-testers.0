@@ -1,67 +1,67 @@
-From: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
-Date: Mon, 29 Jun 2009 19:45:36 +0200
-Message-ID: <200906291945.38821.bzolnier@gmail.com>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <20090629.033730.193709457.davem@davemloft.net> <4A48E307.2010208@numericable.fr>
+From: "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13424] possible deadlock when doing governor switching
+Date: Mon, 29 Jun 2009 11:37:45 -0700
+Message-ID: <1246300665.4534.26170.camel@localhost.localdomain>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
+	 <5Hhc7UkUKEO.A.IOG.9jASKB@chimera>  <20090629012558.GA22666@Krystal>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:from:to:subject:date
-         :user-agent:cc:references:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:content-disposition:message-id;
-        bh=VsfuZcRDINSYaZdabcEahvorzZg6ajFZ501DtByjoGo=;
-        b=oHLHJFv/dvmu/GS+jhtMxe/SPLO2nIU5fr8iPEQCHiWgbTD510LZCPzob4mHsf21mj
-         a4NklsGL8HaXLcnndkahJuAwZa8Cvow6yAgO6Qj59c+X62KncsuN4mrQMpH6ls/GMtTd
-         S47aPf6/oDY5J2CkPN/9oM1FjEV4hSTqkND3o=
-In-Reply-To: <4A48E307.2010208-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <20090629012558.GA22666@Krystal>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
-Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Li, Shaohua" <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 
-On Monday 29 June 2009 17:51:35 Etienne Basset wrote:
-> David Miller wrote:
-> > From: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
-> > Date: Mon, 29 Jun 2009 12:29:09 +0200
+On Sun, 2009-06-28 at 18:25 -0700, Mathieu Desnoyers wrote:
+> * Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.29 and 2.6.30.
 > > 
-> >> yes, patch is not yet upstream;
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> > be listed and let me know (either way).
 > > 
-> > I'll take care of pushing this around today.
-> > 
-> Hi,
 > 
-> thank you ; 
-> i ran a new bisection to identify the commit that cause pain after -rc1
+> Yep, it still exists. Venkatesh Pallipadi from Intel is working on it.
+> We need to figure out a proper way to fix policy rwlock vs dbs_mutex vs
+> timer mutex dependency.
 > 
-> etienne@etienne-desktop:~/linux-2.6$ git bisect good        
-> a1317f714af7aed60ddc182d0122477cbe36ee9b is first bad commit
 
-Thanks for finding it.
+Yes. Still working on it. I thought I had a fix for this. But, over the
+weekend test run resulted in a WARN_ON with sysfs_remove_group as below.
+Looks like I need a day or two more to work through the web of locks
+here..
 
-Dave, please just revert this patch (it wasn't meant for Linus' tree anyway).
+Thanks,
+Venki
 
-> commit a1317f714af7aed60ddc182d0122477cbe36ee9b             
-> Author: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>      
-> Date:   Tue Jun 23 23:52:17 2009 -0700                      
-> 
->     ide: improve handling of Power Management requests
->                                                       
->     Make hwif->rq point to PM request during PM sequence and do not allow
->     any other types of requests to slip in (the old comment was never correct
->     as there should be no such requests generated during PM sequence).       
->                                                                              
->     Signed-off-by: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>            
->     Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>   
-> 
-> To have STR/resume work with current git, I have to :
-> 1) apply Bart's patch
-> 2) revert this commit : a1317f714af7aed60ddc182d0122477cbe36ee9b
-> 
-> thanks
-> Etienne           
-> 
-> 
+[10412.466195] ------------[ cut here ]------------
+[10412.466201] WARNING:
+at /home/venkip/src/linus/linux-2.6/fs/sysfs/group.c:138
+sysfs_remove_group+0x3e/0xa3()
+[10412.466204] Hardware name: Santa Rosa platform
+[10412.466206] sysfs group c16df3b0 not found for kobject 'cpufreq'
+[10412.466207] Modules linked in:
+[10412.466210] Pid: 20609, comm: write_syscpufre Not tainted 2.6.31-rc1
+#195
+[10412.466212] Call Trace:
+[10412.466217]  [<c102a0a4>] warn_slowpath_common+0x60/0x90
+[10412.466220]  [<c102a108>] warn_slowpath_fmt+0x24/0x27
+[10412.466223]  [<c10e0422>] sysfs_remove_group+0x3e/0xa3
+[10412.466227]  [<c131b7fc>] cpufreq_governor_dbs+0x1f7/0x25b
+[10412.466231]  [<c1319469>] __cpufreq_governor+0x7c/0xb3
+[10412.466234]  [<c1319608>] __cpufreq_set_policy+0x13f/0x1c3
+[10412.466238]  [<c1319e74>] store_scaling_governor+0x18a/0x1b2
+[10412.466241]  [<c131aa50>] ? handle_update+0x0/0x28
+[10412.466244]  [<c131a2a5>] ? lock_policy_rwsem_write+0x33/0x5b
+[10412.466247]  [<c1319cea>] ? store_scaling_governor+0x0/0x1b2
+[10412.466250]  [<c131a942>] store+0x48/0x61
+[10412.466254]  [<c10de532>] sysfs_write_file+0xb4/0xdf
+[10412.466265]  [<c10de47e>] ? sysfs_write_file+0x0/0xdf
+[10412.466269]  [<c10a0172>] vfs_write+0x84/0xdf
+[10412.466272]  [<c10a0266>] sys_write+0x3b/0x60
+[10412.466276]  [<c1002a04>] sysenter_do_call+0x12/0x22
+[10412.466278] ---[ end trace 31a730d96cbc1841 ]---
+
