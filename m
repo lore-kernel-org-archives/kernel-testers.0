@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13337] [post 2.6.29 regression] hang during suspend of b44/b43 modules
+Subject: [Bug #13341] Random Oops at boot at loading ip6tables rules
 Date: Mon, 29 Jun 2009 02:30:54 +0200 (CEST)
-Message-ID: <5Hhc7UkUKEO.A.KAH.nkASKB@chimera>
+Message-ID: <5Hhc7UkUKEO.A.a-G.jkASKB@chimera>
 References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, patrick-nxAOmsU53hB6lmGzAMPh1A@public.gmane.org, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,9 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13337
-Subject		: [post 2.6.29 regression] hang during suspend of b44/b43 modules
-Submitter	: Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
-Date		: 2009-05-18 10:59 (42 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13341
+Subject		: Random Oops at boot at loading ip6tables rules
+Submitter	:  <patrick-nxAOmsU53hB6lmGzAMPh1A@public.gmane.org>
+Date		: 2009-05-19 09:08 (41 days old)
+Handled-By	: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 
