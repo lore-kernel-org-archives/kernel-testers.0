@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13328] b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
-Date: Mon, 29 Jun 2009 02:30:54 +0200 (CEST)
-Message-ID: <5Hhc7UkUKEO.A.JGH.tkASKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13424] possible deadlock when doing governor switching
+Date: Mon, 29 Jun 2009 02:30:56 +0200 (CEST)
+Message-ID: <5Hhc7UkUKEO.A.IOG.9jASKB@chimera>
 References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <netdev-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
 Content-Disposition: inline
-Sender: netdev-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Francis Moreau <francis.moro@gmail.com>, netdev <netdev@vger.kernel.org>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>, Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,10 +22,10 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13328
-Subject		: b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
-Submitter	: Francis Moreau <francis.moro@gmail.com>
-Date		: 2009-05-03 16:22 (57 days old)
-References	: http://marc.info/?l=linux-kernel&m=124136778012280&w=4
-
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13424
+Subject		: possible deadlock when doing governor switching
+Submitter	: Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2009-05-31 16:36 (29 days old)
+References	: http://www.spinics.net/lists/cpufreq/msg00711.html
+Handled-By	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
 
