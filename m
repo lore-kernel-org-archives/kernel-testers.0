@@ -1,32 +1,49 @@
-From: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
-Subject: Re: [Bug #13522] BUG: scheduling while atomic
-Date: Mon, 29 Jun 2009 15:41:19 +0100
-Message-ID: <20090629154119.2c61f234@lxorguk.ukuu.org.uk>
-References: <ij4ZQY4URcP.A.F3B.vIASKB@chimera>
-	<6JJ2m5kyucK.A.D2D.VJASKB@chimera>
+From: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
+Date: Mon, 29 Jun 2009 17:51:35 +0200
+Message-ID: <4A48E307.2010208@numericable.fr>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>	<5Hhc7UkUKEO.A.RvE.BjASKB@chimera>	<4A489775.6020102@numericable.fr> <20090629.033730.193709457.davem@davemloft.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <6JJ2m5kyucK.A.D2D.VJASKB@chimera>
+In-Reply-To: <20090629.033730.193709457.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Sergey Senozhatsky <sergey.senozhatsky-A/MS7pq9VAU@public.gmane.org>
+To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-On Mon, 29 Jun 2009 01:51:09 +0200 (CEST)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+David Miller wrote:
+> From: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+> Date: Mon, 29 Jun 2009 12:29:09 +0200
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me know
-> (either way).
+>> yes, patch is not yet upstream;
+> 
+> I'll take care of pushing this around today.
+> 
+Hi,
 
-Yes although getting people seeing to test with might_sleep() checks in
-the tty layer demonstrate the tty layer isn't calling into ppp with irqs
-disabled when it shouldn't so I'm at a loss as to whether this is a
-network bug, a scheduler bug or something else.
+thank you ; 
+i ran a new bisection to identify the commit that cause pain after -rc1
 
-The schedule error in __tasklet_schedule() is itself rather peicular.
+etienne@etienne-desktop:~/linux-2.6$ git bisect good        
+a1317f714af7aed60ddc182d0122477cbe36ee9b is first bad commit
+commit a1317f714af7aed60ddc182d0122477cbe36ee9b             
+Author: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>      
+Date:   Tue Jun 23 23:52:17 2009 -0700                      
+
+    ide: improve handling of Power Management requests
+                                                      
+    Make hwif->rq point to PM request during PM sequence and do not allow
+    any other types of requests to slip in (the old comment was never correct
+    as there should be no such requests generated during PM sequence).       
+                                                                             
+    Signed-off-by: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>            
+    Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>   
+
+To have STR/resume work with current git, I have to :
+1) apply Bart's patch
+2) revert this commit : a1317f714af7aed60ddc182d0122477cbe36ee9b
+
+thanks
+Etienne           
