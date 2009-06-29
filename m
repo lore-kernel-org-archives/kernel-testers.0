@@ -1,43 +1,48 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13655] [Oops] 2.6.31-rc1: tun
-Date: Tue, 30 Jun 2009 01:31:03 +0200
-Message-ID: <200906300131.04324.rjw@sisk.pl>
-References: <ij4ZQY4URcP.A.F3B.vIASKB@chimera> <6JJ2m5kyucK.A.b1C.AJASKB@chimera> <20090629064417.2fd6ac63@mosly.slynet.org>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
+Date: Mon, 29 Jun 2009 16:47:57 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0906291642520.17663@chino.kir.corp.google.com>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <5Hhc7UkUKEO.A.fNH.4kASKB@chimera> <4A48F114.1010702@lwfinger.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090629064417.2fd6ac63-b59k1isJxu/84SrubaaLTA@public.gmane.org>
-Content-Disposition: inline
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1246319282; bh=vmYSAFpvw7PhaTtP1SQRESMpsJE=;
+	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
+	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
+	 Content-Type:X-System-Of-Record; b=eHpQpGm1MKaZz6mkdKOofP8j/nMB7qO
+	VZAnCrbbHddJvCRuqMWUJ/pdz5hoL0EGCs6bGn86D2apx4qX+Zoj+hg==
+In-Reply-To: <4A48F114.1010702-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Sergei Trofimovich <slyich-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Monday 29 June 2009, Sergei Trofimovich wrote:
-> On Mon, 29 Jun 2009 02:11:48 +0200 (CEST)
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Mon, 29 Jun 2009, Larry Finger wrote:
+
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13319
+> > Subject		: Page allocation failures with b43 and p54usb
+> > Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+> > Date		: 2009-04-29 21:01 (61 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=124103897101088&w=4
+> > 		  http://lkml.org/lkml/2009/6/7/136
+> > Handled-By	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 > 
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.30.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13655
-> > Subject		: [Oops] 2.6.31-rc1: tun
-> > Submitter	: Sergei Trofimovich <slyich-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2009-06-25 23:53 (4 days old)
-> > References	: http://lkml.org/lkml/2009/6/25/435
-> > Handled-By	: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
-> > Patch		: http://patchwork.kernel.org/patch/32672/
-> > 
-> > 
-> This bug is a duplicate of http://bugzilla.kernel.org/show_bug.cgi?id=13627
+> The cause of these failures has been determined. The wireless
+> subsystem frequently requests buffers of size 4096, but when SLUB
+> debugging is enabled and the debug info is added, the request becomes
+> of order 1 and memory becomes fragmented.
+> 
+> A controversial "fix" in which SLUB debugging was disabled for
+> allocations where adding such debugging info would increase the order
+> was discussed and tried. With a quick look at the commit list for
+> Linus's tree, I don't see that such a patch is available, but I will
+> be corrected if I missed it.
+> 
 
-Thanks, updated.
-
-Best,
-Rafael
+I'd disagree with disabling slub debugging by default for caches where 
+oo_order(s->min) increases as the result of using it.  This particular 
+page allocation failure is happening for, presumably, kmalloc-4096, and 
+the system has 4K pages.  Disabling debugging for that cache (and any of 
+its aliases) implicitly will lead to errors going undiagnosed as a result.
