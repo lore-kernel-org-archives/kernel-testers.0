@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13621] xfs hangs with assertion failed
+Subject: [Bug #13613] lockups with JFS (inconsistent lock state)
 Date: Mon, 29 Jun 2009 02:31:00 +0200 (CEST)
-Message-ID: <5Hhc7UkUKEO.A.-gF.RjASKB@chimera>
+Message-ID: <5Hhc7UkUKEO.A.emF.WjASKB@chimera>
 References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Engel <jcnengel-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Jan &quot;Yenya&quot; Kasprzak" <kas-0hYGf3jDe+XrBKCeMvbIDA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13621
-Subject		: xfs hangs with assertion failed
-Submitter	: Johannes Engel <jcnengel-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Date		: 2009-06-25 10:07 (4 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13613
+Subject		: lockups with JFS (inconsistent lock state)
+Submitter	: Jan &quot;Yenya&quot; Kasprzak <kas-0hYGf3jDe+XrBKCeMvbIDA@public.gmane.org>
+Date		: 2009-06-24 09:35 (5 days old)
 
