@@ -1,29 +1,42 @@
-From: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
-Date: Tue, 30 Jun 2009 18:18:24 -0400 (EDT)
-Message-ID: <alpine.DEB.1.10.0906301816520.11362@gentwo.org>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>  <5Hhc7UkUKEO.A.fNH.4kASKB@chimera> <4A48F114.1010702@lwfinger.net>  <alpine.DEB.2.00.0906291642520.17663@chino.kir.corp.google.com>  <84144f020906292355o7cf63f7ch47bd19961cf92da3@mail.gmail.com>
- <alpine.DEB.1.10.0906301030260.6124@gentwo.org> <1246374095.8014.28.camel@penberg-laptop> <alpine.DEB.1.10.0906301114450.3879@gentwo.org> <alpine.DEB.2.00.0906301248000.16312@chino.kir.corp.google.com> <alpine.DEB.1.10.0906301632570.22158@gentwo.org>
- <alpine.DEB.2.00.0906301413460.24397@chino.kir.corp.google.com> <alpine.DEB.1.10.0906301722280.17682@gentwo.org> <alpine.DEB.2.00.0906301445070.26290@chino.kir.corp.google.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13592] Root partition is not found
+Date: Wed, 1 Jul 2009 00:43:21 +0200
+Message-ID: <200907010043.22463.rjw@sisk.pl>
+References: <ij4ZQY4URcP.A.F3B.vIASKB@chimera> <6JJ2m5kyucK.A.TzD.RJASKB@chimera> <4A4A6AB0.4030206@tvcablenet.be>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.00.0906301445070.26290-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+In-Reply-To: <4A4A6AB0.4030206-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Content-Type: Text/Plain; charset="utf-8"
+To: =?utf-8?q?Fran=C3=A7ois_Valenduc?= <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-On Tue, 30 Jun 2009, David Rientjes wrote:
+On Tuesday 30 June 2009, Fran=C3=A7ois Valenduc wrote:
+> Rafael J. Wysocki a =C3=A9crit :
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> >
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.30.  Please verify if it still should be listed and let me=
+ know
+> > (either way).
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13592
+> > Subject		: Root partition is not found
+> > Submitter	: Fran=C3=A7ois Valenduc <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org=
+>
+> > Date		: 2009-06-21 08:42 (8 days old)
+> >
+> >
+> >
+> >  =20
+> In fact, this problem is already solved in 2.6.31-rc1.
 
-> I'm curious whether there would ever be any use for disabling debugging on
-> specific caches for reasons other than higher minimum orders for metadata,
-> though, given that we already support things like slub_debug=FZ,cache,
-> which should only enable free debugging and redzoning even with
-> CONFIG_SLUB_DEBUG_ON enabled for cache.
+Thanks, closed.
 
-One of the reasons for disabling debugging is to speed up the kernel. Race
-conditions may vanish due to the additional latency added by the debugging
-code. Ideally you know which slab cache has the race and you only would
-enable it on that one.
+Best,
+Rafael
