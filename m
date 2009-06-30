@@ -1,48 +1,46 @@
-From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
-Date: Mon, 29 Jun 2009 16:47:57 -0700 (PDT)
-Message-ID: <alpine.DEB.2.00.0906291642520.17663@chino.kir.corp.google.com>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <5Hhc7UkUKEO.A.fNH.4kASKB@chimera> <4A48F114.1010702@lwfinger.net>
+From: David Rientjes <rientjes@google.com>
+Subject: Re: [Bug #13648] nfsd: page allocation failure
+Date: Mon, 29 Jun 2009 17:02:55 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0906291659550.17663@chino.kir.corp.google.com>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <5Hhc7UkUKEO.A.KGF.HjASKB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759179AbZF3ADY@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
-	t=1246319282; bh=vmYSAFpvw7PhaTtP1SQRESMpsJE=;
+	t=1246320180; bh=3oSwHiMYEOSAl9iQAO8cxnN5Xe8=;
 	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
 	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
-	 Content-Type:X-System-Of-Record; b=eHpQpGm1MKaZz6mkdKOofP8j/nMB7qO
-	VZAnCrbbHddJvCRuqMWUJ/pdz5hoL0EGCs6bGn86D2apx4qX+Zoj+hg==
-In-Reply-To: <4A48F114.1010702-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+	 Content-Type:X-System-Of-Record; b=x6VEFydeE+6CKSoT0WC6S4mKj8DPS8n
+	SahGPb97IAn/OH4pITqO4TXSxKKeNz0RyZf7WnTqrv2m0K0+2TdxbtQ==
+In-Reply-To: <5Hhc7UkUKEO.A.KGF.HjASKB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: Justin Piszcz <jpiszcz@lucidpixels.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Rik van Riel <riel@redhat.com>
 
-On Mon, 29 Jun 2009, Larry Finger wrote:
+On Mon, 29 Jun 2009, Rafael J. Wysocki wrote:
 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13319
-> > Subject		: Page allocation failures with b43 and p54usb
-> > Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-> > Date		: 2009-04-29 21:01 (61 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=124103897101088&w=4
-> > 		  http://lkml.org/lkml/2009/6/7/136
-> > Handled-By	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.29 and 2.6.30.
 > 
-> The cause of these failures has been determined. The wireless
-> subsystem frequently requests buffers of size 4096, but when SLUB
-> debugging is enabled and the debug info is added, the request becomes
-> of order 1 and memory becomes fragmented.
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> be listed and let me know (either way).
 > 
-> A controversial "fix" in which SLUB debugging was disabled for
-> allocations where adding such debugging info would increase the order
-> was discussed and tried. With a quick look at the commit list for
-> Linus's tree, I don't see that such a patch is available, but I will
-> be corrected if I missed it.
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13648
+> Subject		: nfsd: page allocation failure
+> Submitter	: Justin Piszcz <jpiszcz@lucidpixels.com>
+> Date		: 2009-06-22 12:08 (7 days old)
+> References	: http://lkml.org/lkml/2009/6/22/309
 > 
 
-I'd disagree with disabling slub debugging by default for caches where 
-oo_order(s->min) increases as the result of using it.  This particular 
-page allocation failure is happening for, presumably, kmalloc-4096, and 
-the system has 4K pages.  Disabling debugging for that cache (and any of 
-its aliases) implicitly will lead to errors going undiagnosed as a result.
+I'd be interested to hear from Justin if reducing 
+/proc/sys/vm/dirty_background_ratio as I earlier suggested helps.  
+
+ZONE_NORMAL isn't much larger than ZONE_DMA32 on this machine and both 
+lowmem zones have an abundance of free memory which suggests pdflush's 
+ratio isn't being met to commence background writeout while at the same 
+time ZONE_NORMAL is being depleted as the result of constant nfs 
+GFP_ATOMIC allocations that cannot try direct reclaim.
