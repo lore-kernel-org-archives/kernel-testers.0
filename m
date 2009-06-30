@@ -1,83 +1,80 @@
-From: Sergey Senozhatsky <sergey.senozhatsky-A/MS7pq9VAU@public.gmane.org>
-Subject: Re: [Bug #13522] BUG: scheduling while atomic
-Date: Tue, 30 Jun 2009 10:20:38 +0300
-Message-ID: <20090630072037.GA3276@localdomain.by>
-References: <ij4ZQY4URcP.A.F3B.vIASKB@chimera>
- <6JJ2m5kyucK.A.D2D.VJASKB@chimera>
- <20090629154119.2c61f234@lxorguk.ukuu.org.uk>
- <20090629162853.GB3461@localdomain.by>
- <20090629221509.1d307184@infradead.org>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
+Date: Tue, 30 Jun 2009 00:47:25 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0906300032310.11018@chino.kir.corp.google.com>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <5Hhc7UkUKEO.A.fNH.4kASKB@chimera> <4A48F114.1010702@lwfinger.net> <alpine.DEB.2.00.0906291642520.17663@chino.kir.corp.google.com> <84144f020906292355o7cf63f7ch47bd19961cf92da3@mail.gmail.com>
 Mime-Version: 1.0
+Content-Type: MULTIPART/MIXED; BOUNDARY="497827084-588220262-1246348047=:11018"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090629221509.1d307184-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1246348052; bh=ZE1P4JYah+o9IWz9LUJviJ+KPKM=;
+	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
+	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
+	 Content-Type:X-System-Of-Record; b=MrpISoMW8Se7SlM9wSQCTv7DuORUUNJ
+	NdNVCXh4WDYkRLJRDCpIDmCOzvpccvNxypnkWfnQFl3k9YBwHhYkHMg==
+In-Reply-To: <84144f020906292355o7cf63f7ch47bd19961cf92da3-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Cc: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On (06/29/09 22:15), Arjan van de Ven wrote:
-> > ...
-> > Hello Alan, Rafael,
-> > 
-> > BUG is still here...
-> 
-> 
-> can you enable CONFIG_DEBUG_INFO, and then run this through
-> scripts/markup_oops.pl ? With a bit of luck it'll point to the exact
-> code that's going wrong...
-> 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Hello Arjan. Sure. I'll try.
+--497827084-588220262-1246348047=:11018
+Content-Type: TEXT/PLAIN; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-btw, I've updated bug description:
+On Tue, 30 Jun 2009, Pekka Enberg wrote:
 
-kernel: [  984.626653] BUG: scheduling while atomic: pptpgw/3347/0x10000500
-kernel: [  984.626661] Modules linked in: ppp_deflate zlib_deflate ppp_async crc_ccitt ppp_generic slhc ipv6 fuse loop snd_hda_codec_si3054 snd_hda_codec_realtek snd_hda_intel
-snd_hda_codec snd_pcm snd_seq_midi snd_rawmidi snd_seq_midi_event snd_seq snd_timer snd_seq_device snd soundcore pcspkr psmouse rng_core serio_raw i2c_i801 snd_page_alloc
-asus_laptop evdev usbhid hid sg sr_mod cdrom sd_mod ata_generic pata_acpi ricoh_mmc sdhci_pci uhci_hcd sdhci mmc_core led_class ehci_hcd r8169 mii ata_piix ide_pci_generic usbcore
-kernel: [  984.626763] 
-kernel: [  984.626771] Pid: 3347, comm: pptpgw Not tainted (2.6.31-rc1-dbgnv-git5 #2) F3JC                
-kernel: [  984.626780] EIP: 0060:[<c103a1fc>] EFLAGS: 00200246 CPU: 0
-kernel: [  984.626794] EIP is at finish_task_switch+0x4c/0xc0
-kernel: [  984.626800] EAX: 00000000 EBX: c1eaa380 ECX: 00000001 EDX: c1407ee0
-kernel: [  984.626807] ESI: f5c72200 EDI: f72fc070 EBP: e4f87f20 ESP: e4f87f0c
-kernel: [  984.626813]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
-kernel: [  984.626819] CR0: 8005003b CR2: b6f399ae CR3: 24f80000 CR4: 000006d0
-kernel: [  984.626825] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
-kernel: [  984.626831] DR6: ffff0ff0 DR7: 00000400
-kernel: [  984.626836] Call Trace:
-kernel: [  984.626848]  [<c13fcfef>] schedule+0x41f/0xb20
-kernel: [  984.626859]  [<c10ecdb8>] ? sys_read+0x58/0xa0
-kernel: [  984.626869]  [<c10033a2>] work_resched+0x5/0x1a
-kernel: [ 1051.216759] BUG: scheduling while atomic: pptpgw/3347/0x10000500
-kernel: [ 1051.216768] Modules linked in: ppp_deflate zlib_deflate ppp_async crc_ccitt ppp_generic slhc ipv6 fuse loop snd_hda_codec_si3054 snd_hda_codec_realtek snd_hda_intel
-snd_hda_codec snd_pcm snd_seq_midi snd_rawmidi snd_seq_midi_event snd_seq snd_timer snd_seq_device snd soundcore pcspkr psmouse rng_core serio_raw i2c_i801 snd_page_alloc
-asus_laptop evdev usbhid hid sg sr_mod cdrom sd_mod ata_generic pata_acpi ricoh_mmc sdhci_pci uhci_hcd sdhci mmc_core led_class ehci_hcd r8169 mii ata_piix ide_pci_generic usbcore
-kernel: [ 1051.216869] 
-kernel: [ 1051.216878] Pid: 3347, comm: pptpgw Not tainted (2.6.31-rc1-dbgnv-git5 #2) F3JC                
-kernel: [ 1051.216886] EIP: 0060:[<c1049883>] EFLAGS: 00200246 CPU: 0
-kernel: [ 1051.216901] EIP is at __tasklet_schedule+0x53/0x80
-kernel: [ 1051.216907] EAX: 00000000 EBX: 00200246 ECX: 00000000 EDX: 00000000
-kernel: [ 1051.216914] ESI: 00000000 EDI: e556dd10 EBP: e4f87e70 ESP: e4f87e68
-kernel: [ 1051.216921]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
-kernel: [ 1051.216927] CR0: 8005003b CR2: b7085000 CR3: 24f80000 CR4: 000006d0
-kernel: [ 1051.216934] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
-kernel: [ 1051.216939] DR6: ffff0ff0 DR7: 00000400
-kernel: [ 1051.216945] Call Trace:
-kernel: [ 1051.216960]  [<f80b376c>] ppp_asynctty_receive+0x3dc/0x510 [ppp_async]
-kernel: [ 1051.216975]  [<c12d161d>] pty_write+0x7d/0x90
-kernel: [ 1051.216985]  [<c12cbd13>] n_tty_write+0x303/0x410
-kernel: [ 1051.216996]  [<c103d8f0>] ? default_wake_function+0x0/0x40
-kernel: [ 1051.217005]  [<c12c8ef3>] tty_write+0x173/0x250
-kernel: [ 1051.217015]  [<c10ebcaf>] ? rw_verify_area+0x6f/0xf0
-kernel: [ 1051.217025]  [<c12cba10>] ? n_tty_write+0x0/0x410
-kernel: [ 1051.217034]  [<c10ec89e>] vfs_write+0xbe/0x1c0
-kernel: [ 1051.217043]  [<c12c8d80>] ? tty_write+0x0/0x250
-kernel: [ 1051.217052]  [<c10ecaa8>] sys_write+0x58/0xa0
-kernel: [ 1051.217062]  [<c100324b>] sysenter_do_call+0x12/0x22
+> > I'd disagree with disabling slub debugging by default for caches where
+> > oo_order(s->min) increases as the result of using it. =A0This particular
+> > page allocation failure is happening for, presumably, kmalloc-4096, and
+> > the system has 4K pages. =A0Disabling debugging for that cache (and any=
+ of
+> > its aliases) implicitly will lead to errors going undiagnosed as a resu=
+lt.
+>=20
+> Well, I obviously don't agree here because kmalloc-4096 debugging
+> causes problems in the real world.
 
+I don't think CONFIG_SLUB_DEBUG_ON is generally the configuration used in=20
+the real world.
 
-	Sergey
+The option has a clear and well-defined purpose and that is to enable=20
+debugging on all slab caches.  If you modify its definition, users will=20
+generally ignore the warning about debugging being disabled when "the=20
+minimum possible order at which slab may be allocated is higher than=20
+without."  And unless they check the kernel log for such a warning to boot =
+
+with `slab_debug=3D,kmalloc-4096', we lose testing coverage because we=20
+cannot enable redzoning or tracing after boot.
+
+> Furthermore, SLUB never supported
+> debugging for objects that big historically because of page allocator
+> passthrough. And with Mel Gorman's page allocator optimizations, we
+> might be going back to that.
+>=20
+
+Even when page allocation is fast enough, it would still be helpful to=20
+configure slub to not do passthrough purely for the lightweight debugging=20
+opportunities.
+
+> So we should fix SLUB debugging as outlined by Mel Gorman and
+> Christoph Lameter. I simply haven't had the time to do it. Patches are
+> welcome!
+>=20
+
+You're referring to `slub_debug=3DA'?  I think CONFIG_SLUB_DEBUG_ON should =
+
+continue to enable debugging on all slab caches and in instances where it=20
+causes page allocation failures such in Larry's case because=20
+oo_order(s->min) with debugging on is greater than oo_order(s->min) with=20
+debugging off, you can emit a friendly warning in your recently added=20
+slab_out_of_memory() about using `slab_debug=3D-,<cache>'.
+
+We have a disagreement about which is the default behavior, but I would=20
+opt on the side of adding exemptions to a debug configuration option as=20
+opposed to requiring additional command line parameters to be fully=20
+enabled.
+--497827084-588220262-1246348047=:11018--
