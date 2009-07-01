@@ -1,32 +1,124 @@
-From: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
-Subject: Re: [Bug #13627] Tunnel device ignores TCP/UDP traffic
-Date: Thu, 2 Jul 2009 00:22:48 +0800
-Message-ID: <20090701162248.GB5338@gondor.apana.org.au>
-References: <ij4ZQY4URcP.A.F3B.vIASKB@chimera> <6JJ2m5kyucK.A.AtD.NJASKB@chimera> <b6a2187b0907010734w7e7a5bbfm271f44e57e12d1b4@mail.gmail.com> <20090701151344.GA4372@gondor.apana.org.au> <b6a2187b0907010914x1c68e09k24bc9378e9c0519c@mail.gmail.com>
+From: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
+Date: Wed, 1 Jul 2009 18:29:15 +0200
+Message-ID: <200907011829.16850.bzolnier@gmail.com>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <1246459661.9660.40.camel@falcon> <200907011821.26091.bzolnier@gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:from:to:subject:date
+         :user-agent:cc:references:in-reply-to:mime-version
+         :content-disposition:message-id:content-type
+         :content-transfer-encoding;
+        bh=z1b4hoO9D9Jta4B3k3/fokeTJTR0PBC1Wb+B3cALty0=;
+        b=JjjrfQ0l83Uj4kWucPCXlwLSvfiQ6TdXqqvMZU0CiLjbk8vdme5fIhHF6XSlvv6Vxg
+         2drSGwqgenBdAp1KLHxfbIN/Ms0hbpJ0/l3B2E+guTplLlpBOQqvR6lVpktdj4EMGRAX
+         ttN4eHjNxQghV4VbDaC3BCRc/mxakasE2lDJY=
+In-Reply-To: <200907011821.26091.bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <b6a2187b0907010914x1c68e09k24bc9378e9c0519c-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="hz-gb-2312"
-Content-Transfer-Encoding: base64
-To: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: wuzhangjin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ralf Baechle <ralf-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org>, linux-mips-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org, linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-T24gVGh1LCBKdWwgMDIsIDIwMDkgYXQgMTI6MTQ6MzdBTSArMDgwMCwgSmVmZiBDaHVhIHdyb3Rl
-Ogo+ID4gd29yaz8gRG9lcyByZXZlcnRpbmcgZDU1ZDg3ZmRmZjgyNTJkMGUyZjdjMjhjMmQ0NDNh
-ZWUxN2U5ZDcwZiBoZWxwPwo+IAo+IE15IExpbnV4IGdpdCBhbHJlYWR5IGhhcyB0aGVzZSB0d28g
-Y29tbWl0cywgYW5kIEkgdGVzdGVkIGl0IHdpdGggdnBuYwo+ICgwLjUuMykgYW5kIGl0IGNvbm5l
-Y3RlZCwgYnV0IGNhbid0IHBpbmcgb3Igc3NoIHRvIHJlbW90ZS4gSXQgd2FzCj4gd29ya2luZyBw
-cmlvciB0byAyLjYuMzAuCj4gCj4gVGVzdGVkIHJldmVydGluZyBkNTVkODdmZGZmODI1MmQwZTJm
-N2MyOGMyZDQ0M2FlZTE3ZTlkNzBmLCBidXQgc3RpbGwKPiBubyBnb29kLiBBbHNvIHJldmVydGVk
-IDcxZjlkYWNkMmU0ZDIzMzAyOWU5ZTk1NmNhM2Y3OTUzMWY0MTE4MjcsIHN0aWxsCj4gbm8gZ29v
-ZC4KCk9LIHRoZW4geW91ciBwcm9ibGVtIGlzIGEgY29tcGxldGVseSBkaWZmZXJlbnQgaXNzdWUu
-ICBQbGVhc2UKc3RyYWNlIHZwbmMgYW5kIHNlZSB3aGF0IGl0J3MgZG9pbmcuICBZb3Ugc2hvdWxk
-IGFsc28gdGFrZSBhCnRjcGR1bXAgb24gdGhlIHR1biBpbnRlcmZhY2UgdG8gZ28gd2l0aCB0aGUg
-c3RyYWNlLgoKVGhhbmtzLAotLSAKVmlzaXQgT3BlbnN3YW4gYXQgaHR0cDovL3d3dy5vcGVuc3dh
-bi5vcmcvCkVtYWlsOiBIZXJiZXJ0IFh1IH57UG1WPkhJfn0gPGhlcmJlcnQtbE9BTTJhSzBTclJM
-Qm8xcURFT01ScnB6cTRTMDRuOFFAcHVibGljLmdtYW5lLm9yZz4KSG9tZSBQYWdlOiBodHRwOi8v
-Z29uZG9yLmFwYW5hLm9yZy5hdS9+aGVyYmVydC8KUEdQIEtleTogaHR0cDovL2dvbmRvci5hcGFu
-YS5vcmcuYXUvfmhlcmJlcnQvcHVia2V5LnR4dA==
+On Wednesday 01 July 2009 18:21:25 Bartlomiej Zolnierkiewicz wrote:
+> On Wednesday 01 July 2009 16:47:41 Wu Zhangjin wrote:
+> > On Wed, 2009-07-01 at 22:31 +0800, Jeff Chua wrote:
+> > > On Tue, Jun 30, 2009 at 12:21 AM, Jeff Chua<jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> > > 
+> > > > I just tried, and it "seems" to work. Will try a few more cycles.
+> > > 
+> > > STD/STR survived quite a few cycles now. Patch seems to be doing the
+> > > right thing.
+> > > 
+> > > On Mon, Jun 29, 2009 at 11:51 PM, Etienne
+> > > Basset<etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org> wrote:
+> > > 
+> > > > To have STR/resume work with current git, I have to :
+> > > 
+> > > > 1) apply Bart's patch
+> > > 
+> > > This is not yet in Linus's tree. And much needed to really fix the problem.
+> > > 
+> > > > 2) revert this commit : a1317f714af7aed60ddc182d0122477cbe36ee9b
+> > > 
+> > 
+> > Yes, This commit must be reverted, otherwise, STD/Hibernation will not
+> > work either. I have tested it on two different loongson-based machines:
+> > fuloong2e box and yeeloong2f netbook.(loongson is mips compatiable)
+> 
+> Since it seems like Dave is taking his sweet time with doing the revert
+> I stared at the code a bit more and I think that I finally found the bug
+> (thanks to your debugging work for giving me the right hint!).
+> 
+> The patch needs to take into the account a new code introduced by the recent
+> block layer changes (commit 8f6205cd572fece673da0255d74843680f67f879):
+> 
+> @@ -555,8 +560,11 @@ repeat:
+>                 startstop = start_request(drive, rq);
+>                 spin_lock_irq(&hwif->lock);
+>  
+> -               if (startstop == ide_stopped)
+> +               if (startstop == ide_stopped) {
+> +                       rq = hwif->rq;
+> +                       hwif->rq = NULL;
+>                         goto repeat;
+> +               }
+>         } else
+>                 goto plug_device;
+>  out:
+> 
+> and not zero hwif->rq if the device is blocked. 
+> 
+> Could you try the attached patch and see if it fixes the issue?
+
+Here is the more complete version, also taking into the account changes
+in ide_intr() and ide_timer_expiry():
+
+---
+ drivers/ide/ide-io.c |   15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+Index: b/drivers/ide/ide-io.c
+===================================================================
+--- a/drivers/ide/ide-io.c
++++ b/drivers/ide/ide-io.c
+@@ -532,7 +532,8 @@ repeat:
+ 
+ 		if (startstop == ide_stopped) {
+ 			rq = hwif->rq;
+-			hwif->rq = NULL;
++			if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0)
++				hwif->rq = NULL;
+ 			goto repeat;
+ 		}
+ 	} else
+@@ -679,8 +680,10 @@ void ide_timer_expiry (unsigned long dat
+ 		spin_lock_irq(&hwif->lock);
+ 		enable_irq(hwif->irq);
+ 		if (startstop == ide_stopped && hwif->polling == 0) {
+-			rq_in_flight = hwif->rq;
+-			hwif->rq = NULL;
++			if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0) {
++				rq_in_flight = hwif->rq;
++				hwif->rq = NULL;
++			}
+ 			ide_unlock_port(hwif);
+ 			plug_device = 1;
+ 		}
+@@ -856,8 +859,10 @@ irqreturn_t ide_intr (int irq, void *dev
+ 	 */
+ 	if (startstop == ide_stopped && hwif->polling == 0) {
+ 		BUG_ON(hwif->handler);
+-		rq_in_flight = hwif->rq;
+-		hwif->rq = NULL;
++		if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0) {
++			rq_in_flight = hwif->rq;
++			hwif->rq = NULL;
++		}
+ 		ide_unlock_port(hwif);
+ 		plug_device = 1;
+ 	}
