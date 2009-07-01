@@ -1,89 +1,78 @@
-From: Joao Correia <joaomiguelcorreia-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13660] Crashes during boot on 2.6.30 / 2.6.31-rc, random 
-	programs
-Date: Wed, 1 Jul 2009 21:36:18 +0100
-Message-ID: <a5d9929e0907011336g31599a29hca3c204f1b53b775@mail.gmail.com>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <5Hhc7UkUKEO.A.5zE.DjASKB@chimera>
+From: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
+Date: Wed, 01 Jul 2009 23:30:31 +0200
+Message-ID: <4A4BD577.2080609@numericable.fr>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>	 <1246459661.9660.40.camel@falcon>	 <200907011821.26091.bzolnier@gmail.com>	 <200907011829.16850.bzolnier@gmail.com> <b6a2187b0907011028r27d35be4xc62c7ed4496dfb2f@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :from:date:message-id:subject:to:cc:content-type
-         :content-transfer-encoding;
-        bh=LJP5vRMQRlSZAorFXTm1JTRqQ4My/l5aI0f1GARiX5k=;
-        b=uIL08oXLXkWPIPyUBfX2aL96B7RlbxGJZabTGm2/Zzlh3vuK0lLgI+ylOxFnLhxwow
-         vuzBgzPQvvekevj4pThXV5XJRhBee7TPNcym/hxYVI40h+SGFy01PUetXl8GH0aA8lhL
-         tYBeOcPLy7h7EZ/jQSDbbhpnZtkt1aPXe8Yc8=
-In-Reply-To: <5Hhc7UkUKEO.A.5zE.DjASKB@chimera>
+In-Reply-To: <b6a2187b0907011028r27d35be4xc62c7ed4496dfb2f-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, wuzhangjin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ralf Baechle <ralf-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org>, linux-mips-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org, linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-No formal patch has been sent yet, that i am aware of. I have made
-some changes following suggestion by Americo Wang advise, to the
-following:
-
-(patch by Ingo)
-
-diff --git a/kernel/lockdep_internals.h b/kernel/lockdep_internals.h
-index 699a2ac..031f4c6 100644
---- a/kernel/lockdep_internals.h
-+++ b/kernel/lockdep_internals.h
-@@ -65,7 +65,7 @@ enum {
-  * Stack-trace: tightly packed array of stack backtrace
-  * addresses. Protected by the hash_lock.
-  */
--#define MAX_STACK_TRACE_ENTRIES	262144UL
-+#define MAX_STACK_TRACE_ENTRIES	1048576UL
-
- extern struct list_head all_lock_classes;
- extern struct lock_chain lock_chains[];
-
-and afterwards, a new bug popped up, solved by changing
-
-include/linux/sched.h
-
-# define MAX_LOCK_DEPTH 48UL
-
-to
-
-# define MAX_LOCK_DEPTH 96UL
+Jeff Chua wrote:
+> On Thu, Jul 2, 2009 at 12:29 AM, Bartlomiej
+> Zolnierkiewicz<bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> Here is the more complete version, also taking into the account changes
+>> in ide_intr() and ide_timer_expiry():
+> 
+> This works great for. Survived STR, STD. I just applied on top vanilla
+> latest Linus's git pull. Nothing else to revert.
+> 
+> Thanks,
+> Jeff.
+> 
+> 
+i confirm, this  works for me too :)
+thanks,
+Etienne
 
 
-I have now found a third limit bug, related to MAX_LOCKDEP_CHAINS,
-which was hidden so far, which im trying to raise and replicate. This
-is being discussed in detail in another message exchange on the lkml,
-between me and Americo.
-
-Thank you very much for your time,
-Joao Correia
-Centro de Informatica
-Universidade da Beira Interior
-Portugal
-
-
-
-On Mon, Jun 29, 2009 at 1:31 AM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.29 and 2.6.30.
->
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.29 and 2.6.30. =A0Please verify if it still sh=
-ould
-> be listed and let me know (either way).
->
->
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-13660
-> Subject =A0 =A0 =A0 =A0 : Crashes during boot on 2.6.30 / 2.6.31-rc, =
-random programs
-> Submitter =A0 =A0 =A0 : Joao Correia <joaomiguelcorreia-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-06-27 16:07 (2 days old)
-> References =A0 =A0 =A0: http://lkml.org/lkml/2009/6/27/95
->
->
->
+>> ---
+>>  drivers/ide/ide-io.c |   15 ++++++++++-----
+>>  1 file changed, 10 insertions(+), 5 deletions(-)
+>>
+>> Index: b/drivers/ide/ide-io.c
+>> ===================================================================
+>> --- a/drivers/ide/ide-io.c
+>> +++ b/drivers/ide/ide-io.c
+>> @@ -532,7 +532,8 @@ repeat:
+>>
+>>                if (startstop == ide_stopped) {
+>>                        rq = hwif->rq;
+>> -                       hwif->rq = NULL;
+>> +                       if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0)
+>> +                               hwif->rq = NULL;
+>>                        goto repeat;
+>>                }
+>>        } else
+>> @@ -679,8 +680,10 @@ void ide_timer_expiry (unsigned long dat
+>>                spin_lock_irq(&hwif->lock);
+>>                enable_irq(hwif->irq);
+>>                if (startstop == ide_stopped && hwif->polling == 0) {
+>> -                       rq_in_flight = hwif->rq;
+>> -                       hwif->rq = NULL;
+>> +                       if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0) {
+>> +                               rq_in_flight = hwif->rq;
+>> +                               hwif->rq = NULL;
+>> +                       }
+>>                        ide_unlock_port(hwif);
+>>                        plug_device = 1;
+>>                }
+>> @@ -856,8 +859,10 @@ irqreturn_t ide_intr (int irq, void *dev
+>>         */
+>>        if (startstop == ide_stopped && hwif->polling == 0) {
+>>                BUG_ON(hwif->handler);
+>> -               rq_in_flight = hwif->rq;
+>> -               hwif->rq = NULL;
+>> +               if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0) {
+>> +                       rq_in_flight = hwif->rq;
+>> +                       hwif->rq = NULL;
+>> +               }
+>>                ide_unlock_port(hwif);
+>>                plug_device = 1;
+>>        }
+>>
