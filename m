@@ -1,65 +1,89 @@
-From: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
-Date: Thu, 2 Jul 2009 01:28:18 +0800
-Message-ID: <b6a2187b0907011028r27d35be4xc62c7ed4496dfb2f@mail.gmail.com>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
-	 <1246459661.9660.40.camel@falcon>
-	 <200907011821.26091.bzolnier@gmail.com>
-	 <200907011829.16850.bzolnier@gmail.com>
+From: Joao Correia <joaomiguelcorreia-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13660] Crashes during boot on 2.6.30 / 2.6.31-rc, random 
+	programs
+Date: Wed, 1 Jul 2009 21:36:18 +0100
+Message-ID: <a5d9929e0907011336g31599a29hca3c204f1b53b775@mail.gmail.com>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <5Hhc7UkUKEO.A.5zE.DjASKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
         h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
+         :from:date:message-id:subject:to:cc:content-type
          :content-transfer-encoding;
-        bh=1yGL1iMICOo9aWRD4beDw7N8Qy0gRR1OBWXu+ibEYIw=;
-        b=aXBNdFrmRY1q2oLl5e4bjX2ieqNYwQr9qdSXLETY6uAZBWHxm/fJZKCrTj8JIxwwxS
-         b09Yv0vmotZAFdXa3VcD9DzRMSRH+LyhhPwdHxU1ZYo4DhASZirSTvyBi1NNh5ydm6sR
-         quwwkEVQ6sgm8jUrPMReP+EO1jbFpgnfT/nsA=
-In-Reply-To: <200907011829.16850.bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+        bh=LJP5vRMQRlSZAorFXTm1JTRqQ4My/l5aI0f1GARiX5k=;
+        b=uIL08oXLXkWPIPyUBfX2aL96B7RlbxGJZabTGm2/Zzlh3vuK0lLgI+ylOxFnLhxwow
+         vuzBgzPQvvekevj4pThXV5XJRhBee7TPNcym/hxYVI40h+SGFy01PUetXl8GH0aA8lhL
+         tYBeOcPLy7h7EZ/jQSDbbhpnZtkt1aPXe8Yc8=
+In-Reply-To: <5Hhc7UkUKEO.A.5zE.DjASKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="iso-8859-1"
-To: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: wuzhangjin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ralf Baechle <ralf-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org>, linux-mips-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org, linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-T24gVGh1LCBKdWwgMiwgMjAwOSBhdCAxMjoyOSBBTSwgQmFydGxvbWllagpab2xuaWVya2lld2lj
-ejxiem9sbmllckBnbWFpbC5jb20+IHdyb3RlOgo+IEhlcmUgaXMgdGhlIG1vcmUgY29tcGxldGUg
-dmVyc2lvbiwgYWxzbyB0YWtpbmcgaW50byB0aGUgYWNjb3VudCBjaGFuZ2VzCj4gaW4gaWRlX2lu
-dHIoKSBhbmQgaWRlX3RpbWVyX2V4cGlyeSgpOgoKVGhpcyB3b3JrcyBncmVhdCBmb3IuIFN1cnZp
-dmVkIFNUUiwgU1RELiBJIGp1c3QgYXBwbGllZCBvbiB0b3AgdmFuaWxsYQpsYXRlc3QgTGludXMn
-cyBnaXQgcHVsbC4gTm90aGluZyBlbHNlIHRvIHJldmVydC4KClRoYW5rcywKSmVmZi4KCgo+IC0t
-LQo+IKBkcml2ZXJzL2lkZS9pZGUtaW8uYyB8IKAgMTUgKysrKysrKysrKy0tLS0tCj4goDEgZmls
-ZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQo+Cj4gSW5kZXg6IGIv
-ZHJpdmVycy9pZGUvaWRlLWlvLmMKPiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cj4gLS0tIGEvZHJpdmVycy9pZGUvaWRl
-LWlvLmMKPiArKysgYi9kcml2ZXJzL2lkZS9pZGUtaW8uYwo+IEBAIC01MzIsNyArNTMyLDggQEAg
-cmVwZWF0Ogo+Cj4goCCgIKAgoCCgIKAgoCCgaWYgKHN0YXJ0c3RvcCA9PSBpZGVfc3RvcHBlZCkg
-ewo+IKAgoCCgIKAgoCCgIKAgoCCgIKAgoCCgcnEgPSBod2lmLT5ycTsKPiAtIKAgoCCgIKAgoCCg
-IKAgoCCgIKAgoCBod2lmLT5ycSA9IE5VTEw7Cj4gKyCgIKAgoCCgIKAgoCCgIKAgoCCgIKAgaWYg
-KChkcml2ZS0+ZGV2X2ZsYWdzICYgSURFX0RGTEFHX0JMT0NLRUQpID09IDApCj4gKyCgIKAgoCCg
-IKAgoCCgIKAgoCCgIKAgoCCgIKAgoCBod2lmLT5ycSA9IE5VTEw7Cj4goCCgIKAgoCCgIKAgoCCg
-IKAgoCCgIKBnb3RvIHJlcGVhdDsKPiCgIKAgoCCgIKAgoCCgIKB9Cj4goCCgIKAgoH0gZWxzZQo+
-IEBAIC02NzksOCArNjgwLDEwIEBAIHZvaWQgaWRlX3RpbWVyX2V4cGlyeSAodW5zaWduZWQgbG9u
-ZyBkYXQKPiCgIKAgoCCgIKAgoCCgIKBzcGluX2xvY2tfaXJxKCZod2lmLT5sb2NrKTsKPiCgIKAg
-oCCgIKAgoCCgIKBlbmFibGVfaXJxKGh3aWYtPmlycSk7Cj4goCCgIKAgoCCgIKAgoCCgaWYgKHN0
-YXJ0c3RvcCA9PSBpZGVfc3RvcHBlZCAmJiBod2lmLT5wb2xsaW5nID09IDApIHsKPiAtIKAgoCCg
-IKAgoCCgIKAgoCCgIKAgoCBycV9pbl9mbGlnaHQgPSBod2lmLT5ycTsKPiAtIKAgoCCgIKAgoCCg
-IKAgoCCgIKAgoCBod2lmLT5ycSA9IE5VTEw7Cj4gKyCgIKAgoCCgIKAgoCCgIKAgoCCgIKAgaWYg
-KChkcml2ZS0+ZGV2X2ZsYWdzICYgSURFX0RGTEFHX0JMT0NLRUQpID09IDApIHsKPiArIKAgoCCg
-IKAgoCCgIKAgoCCgIKAgoCCgIKAgoCCgIHJxX2luX2ZsaWdodCA9IGh3aWYtPnJxOwo+ICsgoCCg
-IKAgoCCgIKAgoCCgIKAgoCCgIKAgoCCgIKAgaHdpZi0+cnEgPSBOVUxMOwo+ICsgoCCgIKAgoCCg
-IKAgoCCgIKAgoCCgIH0KPiCgIKAgoCCgIKAgoCCgIKAgoCCgIKAgoGlkZV91bmxvY2tfcG9ydCho
-d2lmKTsKPiCgIKAgoCCgIKAgoCCgIKAgoCCgIKAgoHBsdWdfZGV2aWNlID0gMTsKPiCgIKAgoCCg
-IKAgoCCgIKB9Cj4gQEAgLTg1Niw4ICs4NTksMTAgQEAgaXJxcmV0dXJuX3QgaWRlX2ludHIgKGlu
-dCBpcnEsIHZvaWQgKmRldgo+IKAgoCCgIKAgKi8KPiCgIKAgoCCgaWYgKHN0YXJ0c3RvcCA9PSBp
-ZGVfc3RvcHBlZCAmJiBod2lmLT5wb2xsaW5nID09IDApIHsKPiCgIKAgoCCgIKAgoCCgIKBCVUdf
-T04oaHdpZi0+aGFuZGxlcik7Cj4gLSCgIKAgoCCgIKAgoCCgIHJxX2luX2ZsaWdodCA9IGh3aWYt
-PnJxOwo+IC0goCCgIKAgoCCgIKAgoCBod2lmLT5ycSA9IE5VTEw7Cj4gKyCgIKAgoCCgIKAgoCCg
-IGlmICgoZHJpdmUtPmRldl9mbGFncyAmIElERV9ERkxBR19CTE9DS0VEKSA9PSAwKSB7Cj4gKyCg
-IKAgoCCgIKAgoCCgIKAgoCCgIKAgcnFfaW5fZmxpZ2h0ID0gaHdpZi0+cnE7Cj4gKyCgIKAgoCCg
-IKAgoCCgIKAgoCCgIKAgaHdpZi0+cnEgPSBOVUxMOwo+ICsgoCCgIKAgoCCgIKAgoCB9Cj4goCCg
-IKAgoCCgIKAgoCCgaWRlX3VubG9ja19wb3J0KGh3aWYpOwo+IKAgoCCgIKAgoCCgIKAgoHBsdWdf
-ZGV2aWNlID0gMTsKPiCgIKAgoCCgfQo+Cg==
+No formal patch has been sent yet, that i am aware of. I have made
+some changes following suggestion by Americo Wang advise, to the
+following:
+
+(patch by Ingo)
+
+diff --git a/kernel/lockdep_internals.h b/kernel/lockdep_internals.h
+index 699a2ac..031f4c6 100644
+--- a/kernel/lockdep_internals.h
++++ b/kernel/lockdep_internals.h
+@@ -65,7 +65,7 @@ enum {
+  * Stack-trace: tightly packed array of stack backtrace
+  * addresses. Protected by the hash_lock.
+  */
+-#define MAX_STACK_TRACE_ENTRIES	262144UL
++#define MAX_STACK_TRACE_ENTRIES	1048576UL
+
+ extern struct list_head all_lock_classes;
+ extern struct lock_chain lock_chains[];
+
+and afterwards, a new bug popped up, solved by changing
+
+include/linux/sched.h
+
+# define MAX_LOCK_DEPTH 48UL
+
+to
+
+# define MAX_LOCK_DEPTH 96UL
+
+
+I have now found a third limit bug, related to MAX_LOCKDEP_CHAINS,
+which was hidden so far, which im trying to raise and replicate. This
+is being discussed in detail in another message exchange on the lkml,
+between me and Americo.
+
+Thank you very much for your time,
+Joao Correia
+Centro de Informatica
+Universidade da Beira Interior
+Portugal
+
+
+
+On Mon, Jun 29, 2009 at 1:31 AM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.29 and 2.6.30.
+>
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30. =A0Please verify if it still sh=
+ould
+> be listed and let me know (either way).
+>
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+13660
+> Subject =A0 =A0 =A0 =A0 : Crashes during boot on 2.6.30 / 2.6.31-rc, =
+random programs
+> Submitter =A0 =A0 =A0 : Joao Correia <joaomiguelcorreia-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-06-27 16:07 (2 days old)
+> References =A0 =A0 =A0: http://lkml.org/lkml/2009/6/27/95
+>
+>
+>
