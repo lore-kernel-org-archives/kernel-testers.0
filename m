@@ -1,51 +1,42 @@
 From: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
-Date: Wed, 1 Jul 2009 22:31:24 +0800
-Message-ID: <b6a2187b0907010731k510150b5u1c7fce8cbed7c33b@mail.gmail.com>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
-	 <5Hhc7UkUKEO.A.RvE.BjASKB@chimera> <4A489775.6020102@numericable.fr>
-	 <20090629.033730.193709457.davem@davemloft.net>
-	 <4A48E307.2010208@numericable.fr>
-	 <b6a2187b0906290921w15afd443qccb943ccfd48688b@mail.gmail.com>
+Subject: Re: [Bug #13627] Tunnel device ignores TCP/UDP traffic
+Date: Wed, 1 Jul 2009 22:34:10 +0800
+Message-ID: <b6a2187b0907010734w7e7a5bbfm271f44e57e12d1b4@mail.gmail.com>
+References: <ij4ZQY4URcP.A.F3B.vIASKB@chimera>
+	 <6JJ2m5kyucK.A.AtD.NJASKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
         h=domainkey-signature:mime-version:received:in-reply-to:references
          :date:message-id:subject:from:to:cc:content-type
          :content-transfer-encoding;
-        bh=/YrGF0IDyesHZBsrpbqJ3EjpYHx8wsk4xjgsGUVQOTo=;
-        b=nNAsDi3UnBKeleoIgKOc/e/1nH7DMIcPfEX7s4B06n/Ci7WbdGA0WTKIXrwKCSByUe
-         r0YHjo+vhSbO9OXUUTQpieXUY6Laqb3GAkrYGmjJLRqnvtnMzB/9A33QzCxzfDK3BTTt
-         9v2Ls0azPV7tbgqlKC7220cMr1MnNzgFPmweM=
-In-Reply-To: <b6a2187b0906290921w15afd443qccb943ccfd48688b-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+        bh=fi4E5cnOvhrJGbe/r1VvrUh5wfood3JQDwfim/VHCY8=;
+        b=lDltVsX/NLxNLRdmWomFDHuSwhvxY4sX2/2i/64VnpcrG7sWas3jYTK3nxF2ICXozQ
+         jr8wH72AwkIO9/5iYIxUF5d/6G7+eE/7TONJ8QlWDjILbPZ/eLLa7PmwoCK8DsYs52PU
+         V0evPThXHRsS4yY6G0rDqWhx/LAN34tgmnF9M=
+In-Reply-To: <6JJ2m5kyucK.A.AtD.NJASKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
-Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>, Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 
-On Tue, Jun 30, 2009 at 12:21 AM, Jeff Chua<jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+On Mon, Jun 29, 2009 at 8:11 AM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-> I just tried, and it "seems" to work. Will try a few more cycles.
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+13627
+> Subject =A0 =A0 =A0 =A0 : Tunnel device ignores TCP/UDP traffic
+> Submitter =A0 =A0 =A0 : Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-06-26 14:45 (3 days old)
 
-STD/STR survived quite a few cycles now. Patch seems to be doing the
-right thing.
+I think I'm having the same issue here. Both vpnc and KVM (using tap0)
+not working on 2.6.31-rc1. I think it worked before <2.6.30.
 
-On Mon, Jun 29, 2009 at 11:51 PM, Etienne
-Basset<etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org> wrote:
-
-> To have STR/resume work with current git, I have to :
-
-> 1) apply Bart's patch
-
-This is not yet in Linus's tree. And much needed to really fix the problem.
-
-> 2) revert this commit : a1317f714af7aed60ddc182d0122477cbe36ee9b
-
-This is already in Linus's tree.
-
+i've tried the patches as mentioned in
+http://bugzilla.kernel.org/show_bug.cgi?id=3D13627, but still not
+working.
 
 Thanks,
 Jeff.
