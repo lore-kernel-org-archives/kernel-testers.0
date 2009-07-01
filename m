@@ -1,100 +1,50 @@
-From: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
-Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
-Date: Wed, 1 Jul 2009 18:21:25 +0200
-Message-ID: <200907011821.26091.bzolnier@gmail.com>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <b6a2187b0907010731k510150b5u1c7fce8cbed7c33b@mail.gmail.com> <1246459661.9660.40.camel@falcon>
+From: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: 2.6.30-rc6: BUG at fs/xfs/support/debug.c:109!
+Date: Wed, 1 Jul 2009 20:21:20 +0400
+Message-ID: <a4423d670907010921h7f5a7448x7575836586d7aee7@mail.gmail.com>
+References: <a4423d670906010822l6e8e112dl3d6f7de9e2179850@mail.gmail.com>
+	 <20090604092330.GT16929@discord.disaster>
+	 <a4423d670906050223p4e72ceaaqa1dd942a2e52d1a3@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-ide-owner@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:from:to:subject:date
-         :user-agent:cc:references:in-reply-to:mime-version
-         :content-disposition:message-id:content-type
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
          :content-transfer-encoding;
-        bh=zOjJh9hoWunbw/dAGMndm70LzBljmpJ3fEwAl42viro=;
-        b=u6myhBT+uwkGkgRYDq/KXSeAW5oFTxbC4Bh1is4hxJejH9aCkmxXhd2NN0mxhGnLe2
-         RChxkR1ntXIQoOCht9Icc9at9QIZXZgIwCFsivxYZyO4q7AipSBHptXXt50Ln98QZUtP
-         def+/2uFAf8FA2WcmcbQFHDilBu5dAuHmfAvQ=
-In-Reply-To: <1246459661.9660.40.camel@falcon>
-Content-Disposition: inline
-Sender: linux-ide-owner@vger.kernel.org
+        bh=38TWLhQghkcnwHj4DIpwACcmzjEtABa/+BRxdJLRDFY=;
+        b=a+loPMJqpoqIHeE3s1CS+6DPGSiHhOqfXfVIbGYimWKL3GUnjjJMXRmuDhFdfmsRFs
+         53DzZYn/tmAUpS4K0opjL8oyrB0SR6eVO7nQQx9IHA3S7J9iPJt2iQuXjHRc/NuTs8cw
+         L+bYVVDK0dDZI41KU00ixvkYbOpyr8klHIO+Y=
+In-Reply-To: <a4423d670906050223p4e72ceaaqa1dd942a2e52d1a3-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: wuzhangjin@gmail.com
-Cc: Jeff Chua <jeff.chua.linux@gmail.com>, Etienne Basset <etienne.basset@numericable.fr>, David Miller <davem@davemloft.net>, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>, linux-mips@linux-mips.org, linux-ide@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+To: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
 
-On Wednesday 01 July 2009 16:47:41 Wu Zhangjin wrote:
-> On Wed, 2009-07-01 at 22:31 +0800, Jeff Chua wrote:
-> > On Tue, Jun 30, 2009 at 12:21 AM, Jeff Chua<jeff.chua.linux@gmail.com> wrote:
-> > 
-> > > I just tried, and it "seems" to work. Will try a few more cycles.
-> > 
-> > STD/STR survived quite a few cycles now. Patch seems to be doing the
-> > right thing.
-> > 
-> > On Mon, Jun 29, 2009 at 11:51 PM, Etienne
-> > Basset<etienne.basset@numericable.fr> wrote:
-> > 
-> > > To have STR/resume work with current git, I have to :
-> > 
-> > > 1) apply Bart's patch
-> > 
-> > This is not yet in Linus's tree. And much needed to really fix the problem.
-> > 
-> > > 2) revert this commit : a1317f714af7aed60ddc182d0122477cbe36ee9b
-> > 
-> 
-> Yes, This commit must be reverted, otherwise, STD/Hibernation will not
-> work either. I have tested it on two different loongson-based machines:
-> fuloong2e box and yeeloong2f netbook.(loongson is mips compatiable)
+2009/6/5 Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> 2009/6/4 Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>:
+>> On Mon, Jun 01, 2009 at 07:22:56PM +0400, Alexander Beregalov wrote:
+>>> Hi
+>>>
+>>> Assertion failed: *nmap >=3D 1, file: fs/xfs/xfs_bmap.c, line: 4846
+>> .....
+>>> Call Trace:
+>>> =C2=A0[<ffffffff803d6bad>] xfs_bmapi+0xad/0x1ad0
+>>> =C2=A0[<ffffffff803ee5c0>] xfs_dir2_leaf_getdents+0x640/0x7b0
+>>> =C2=A0[<ffffffff803e975c>] xfs_readdir+0x12c/0x140
+>>> =C2=A0[<ffffffff80430b57>] xfs_file_readdir+0x47/0x70
+>>> =C2=A0[<ffffffff802ec500>] vfs_readdir+0xd0/0xf0
+>>> =C2=A0[<ffffffff802ec6b6>] sys_getdents+0x96/0x110
+>>> =C2=A0[<ffffffff8020ba6b>] system_call_fastpath+0x16/0x1b
+>>
+>> I'd say this indicates a corrupted directory. =C2=A0Can you run
+>> 'xfs_repair -n' over the filesystem and see if it finds a bad
+>> directory?
 
-Since it seems like Dave is taking his sweet time with doing the revert
-I stared at the code a bit more and I think that I finally found the bug
-(thanks to your debugging work for giving me the right hint!).
+Still cannot fix the filesystem. After repairing all corruptions from
+LiveCD it still fails on the same workload.
 
-The patch needs to take into the account a new code introduced by the recent
-block layer changes (commit 8f6205cd572fece673da0255d74843680f67f879):
-
-@@ -555,8 +560,11 @@ repeat:
-                startstop = start_request(drive, rq);
-                spin_lock_irq(&hwif->lock);
- 
--               if (startstop == ide_stopped)
-+               if (startstop == ide_stopped) {
-+                       rq = hwif->rq;
-+                       hwif->rq = NULL;
-                        goto repeat;
-+               }
-        } else
-                goto plug_device;
- out:
-
-and not zero hwif->rq if the device is blocked. 
-
-Could you try the attached patch and see if it fixes the issue?
-
-[ Dave: while I appreciate fast handling of my patches I had strongly
-  suggested giving this particular one some extra testing (because there
-  were a lot of changes in between the time that it has been tested
-  against other kernel subsystems).  Yet, it seems that its linux-next
-  exposure was minimal at best..  :( ]
-
----
- drivers/ide/ide-io.c |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-Index: b/drivers/ide/ide-io.c
-===================================================================
---- a/drivers/ide/ide-io.c
-+++ b/drivers/ide/ide-io.c
-@@ -532,7 +532,8 @@ repeat:
- 
- 		if (startstop == ide_stopped) {
- 			rq = hwif->rq;
--			hwif->rq = NULL;
-+			if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0)
-+				hwif->rq = NULL;
- 			goto repeat;
- 		}
- 	} else
+Do you need metadump or anything else?
