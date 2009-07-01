@@ -1,87 +1,45 @@
-From: Wu Zhangjin <wuzhangjin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
-Date: Wed, 01 Jul 2009 22:47:41 +0800
-Message-ID: <1246459661.9660.40.camel@falcon>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
-	 <5Hhc7UkUKEO.A.RvE.BjASKB@chimera> <4A489775.6020102@numericable.fr>
-	 <20090629.033730.193709457.davem@davemloft.net>
-	 <4A48E307.2010208@numericable.fr>
-	 <b6a2187b0906290921w15afd443qccb943ccfd48688b@mail.gmail.com>
-	 <b6a2187b0907010731k510150b5u1c7fce8cbed7c33b@mail.gmail.com>
-Reply-To: wuzhangjin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+Subject: Re: [Bug #13627] Tunnel device ignores TCP/UDP traffic
+Date: Wed, 1 Jul 2009 23:13:44 +0800
+Message-ID: <20090701151344.GA4372@gondor.apana.org.au>
+References: <ij4ZQY4URcP.A.F3B.vIASKB@chimera> <6JJ2m5kyucK.A.AtD.NJASKB@chimera> <b6a2187b0907010734w7e7a5bbfm271f44e57e12d1b4@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:subject:from:reply-to:to:cc
-         :in-reply-to:references:content-type:organization:date:message-id
-         :mime-version:x-mailer:content-transfer-encoding;
-        bh=9SNE3RoA5diwRl22W/M4Q9oL5HQMHLjqivqM6ZGXK1U=;
-        b=xpT9245YIPL5bAlFazlvdfo1IDGQtddE+Qr8auZ+6Je6fkYHItYk/1jKQQaFMYKPzR
-         2K8PyoCjNuTzTVeWcJ+cZLAALROgwpuXU87ThrOAa++DAaKM1ybG7kdOpdU1c3JDA3D+
-         bkB6LmQ5QWK6M632zFywO/xF6lUD2HO1lCfl4=
-In-Reply-To: <b6a2187b0907010731k510150b5u1c7fce8cbed7c33b-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <b6a2187b0907010734w7e7a5bbfm271f44e57e12d1b4-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="iso-8859-1"
 To: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Ralf Baechle <ralf-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org>, linux-mips-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org, linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 
-On Wed, 2009-07-01 at 22:31 +0800, Jeff Chua wrote:
-> On Tue, Jun 30, 2009 at 12:21 AM, Jeff Chua<jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> 
-> > I just tried, and it "seems" to work. Will try a few more cycles.
-> 
-> STD/STR survived quite a few cycles now. Patch seems to be doing the
-> right thing.
-> 
-> On Mon, Jun 29, 2009 at 11:51 PM, Etienne
-> Basset<etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org> wrote:
-> 
-> > To have STR/resume work with current git, I have to :
-> 
-> > 1) apply Bart's patch
-> 
-> This is not yet in Linus's tree. And much needed to really fix the problem.
-> 
-> > 2) revert this commit : a1317f714af7aed60ddc182d0122477cbe36ee9b
-> 
+On Wed, Jul 01, 2009 at 10:34:10PM +0800, Jeff Chua wrote:
+> On Mon, Jun 29, 2009 at 8:11 AM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote=
+:
+>=20
+> > Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+13627
+> > Subject =A0 =A0 =A0 =A0 : Tunnel device ignores TCP/UDP traffic
+> > Submitter =A0 =A0 =A0 : Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+> > Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-06-26 14:45 (3 days old)
+>=20
+> I think I'm having the same issue here. Both vpnc and KVM (using tap0=
+)
+> not working on 2.6.31-rc1. I think it worked before <2.6.30.
+>=20
+> i've tried the patches as mentioned in
+> http://bugzilla.kernel.org/show_bug.cgi?id=3D13627, but still not
+> working.
 
-Yes, This commit must be reverted, otherwise, STD/Hibernation will not
-work either. I have tested it on two different loongson-based machines:
-fuloong2e box and yeeloong2f netbook.(loongson is mips compatiable)
+So you mean that 71f9dacd2e4d233029e9e956ca3f79531f411827 doesn't
+work? Does reverting d55d87fdff8252d0e2f7c28c2d443aee17e9d70f help?
 
-Here is what i have traced:
+If not can you elaborate on what you mean by not working?
 
-        hibernate(kernel/power/hibernate.c)
-        --> hibernation_snapshot
-        --> dpm_resume_end
-        --> dpm_resume
-        --> device_resume
-        --> dev->bus->resume(generic_ide_resume), dev_name(dev) = 0.0
-        --> blk_execute_rq
-        {
-                DECLARE_COMPLETION_ONSTACK(wait);
-                ...
-                wait_for_completion(&wait);     // stop here
-                ...
-        }
-
-and I have tried to revert this part of the above patch:
-
--
--               WARN_ON_ONCE(hwif->rq);
- repeat:
-                prev_port = hwif->host->cur_port;
-+
-+               if (drive->dev_flags & IDE_DFLAG_BLOCKED)
-+                       rq = hwif->rq;
-+               else
-+                       WARN_ON_ONCE(hwif->rq);
-+
-
-it works! need more time to test!
-
-thanks!
-Wu Zhangjin
+Thanks,
+--=20
+Visit Openswan at http://www.openswan.org/
+Email: Herbert Xu ~{PmV>HI~} <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
