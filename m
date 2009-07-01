@@ -1,59 +1,100 @@
-From: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13627] Tunnel device ignores TCP/UDP traffic
-Date: Thu, 2 Jul 2009 00:14:37 +0800
-Message-ID: <b6a2187b0907010914x1c68e09k24bc9378e9c0519c@mail.gmail.com>
-References: <ij4ZQY4URcP.A.F3B.vIASKB@chimera>
-	 <6JJ2m5kyucK.A.AtD.NJASKB@chimera>
-	 <b6a2187b0907010734w7e7a5bbfm271f44e57e12d1b4@mail.gmail.com>
-	 <20090701151344.GA4372@gondor.apana.org.au>
+From: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
+Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
+Date: Wed, 1 Jul 2009 18:21:25 +0200
+Message-ID: <200907011821.26091.bzolnier@gmail.com>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <b6a2187b0907010731k510150b5u1c7fce8cbed7c33b@mail.gmail.com> <1246459661.9660.40.camel@falcon>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-ide-owner@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
+        h=domainkey-signature:received:received:from:to:subject:date
+         :user-agent:cc:references:in-reply-to:mime-version
+         :content-disposition:message-id:content-type
          :content-transfer-encoding;
-        bh=skSYWh7A/QAN9tECn154KonVqhVF5511gIS4Dwwhcjg=;
-        b=xOaSK8yXAy3qphLtZ86pdGUFmvZV4GyjXeUDcx8K0gwRLjFQi9hqsd+S/rz7rkC2xn
-         /aM4DRFZ7TsRw3kRwDS5PyC8Fz+iiKil2UEme+7VInyFsocVaaybUkP/9rTL5CoIkw+1
-         zfHfflKbqTir3M/oeyEmfrhT5LeRl9FALknyQ=
-In-Reply-To: <20090701151344.GA4372-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+        bh=zOjJh9hoWunbw/dAGMndm70LzBljmpJ3fEwAl42viro=;
+        b=u6myhBT+uwkGkgRYDq/KXSeAW5oFTxbC4Bh1is4hxJejH9aCkmxXhd2NN0mxhGnLe2
+         RChxkR1ntXIQoOCht9Icc9at9QIZXZgIwCFsivxYZyO4q7AipSBHptXXt50Ln98QZUtP
+         def+/2uFAf8FA2WcmcbQFHDilBu5dAuHmfAvQ=
+In-Reply-To: <1246459661.9660.40.camel@falcon>
+Content-Disposition: inline
+Sender: linux-ide-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: wuzhangjin@gmail.com
+Cc: Jeff Chua <jeff.chua.linux@gmail.com>, Etienne Basset <etienne.basset@numericable.fr>, David Miller <davem@davemloft.net>, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>, linux-mips@linux-mips.org, linux-ide@vger.kernel.org
 
-On Wed, Jul 1, 2009 at 11:13 PM, Herbert Xu<herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org> wrote:
+On Wednesday 01 July 2009 16:47:41 Wu Zhangjin wrote:
+> On Wed, 2009-07-01 at 22:31 +0800, Jeff Chua wrote:
+> > On Tue, Jun 30, 2009 at 12:21 AM, Jeff Chua<jeff.chua.linux@gmail.com> wrote:
+> > 
+> > > I just tried, and it "seems" to work. Will try a few more cycles.
+> > 
+> > STD/STR survived quite a few cycles now. Patch seems to be doing the
+> > right thing.
+> > 
+> > On Mon, Jun 29, 2009 at 11:51 PM, Etienne
+> > Basset<etienne.basset@numericable.fr> wrote:
+> > 
+> > > To have STR/resume work with current git, I have to :
+> > 
+> > > 1) apply Bart's patch
+> > 
+> > This is not yet in Linus's tree. And much needed to really fix the problem.
+> > 
+> > > 2) revert this commit : a1317f714af7aed60ddc182d0122477cbe36ee9b
+> > 
+> 
+> Yes, This commit must be reverted, otherwise, STD/Hibernation will not
+> work either. I have tested it on two different loongson-based machines:
+> fuloong2e box and yeeloong2f netbook.(loongson is mips compatiable)
 
-> So you mean that 71f9dacd2e4d233029e9e956ca3f79531f411827 doesn't
-> work? Does reverting d55d87fdff8252d0e2f7c28c2d443aee17e9d70f help?
+Since it seems like Dave is taking his sweet time with doing the revert
+I stared at the code a bit more and I think that I finally found the bug
+(thanks to your debugging work for giving me the right hint!).
 
-My Linux git already has these two commits, and I tested it with vpnc
-(0.5.3) and it connected, but can't ping or ssh to remote. It was
-working prior to 2.6.30.
+The patch needs to take into the account a new code introduced by the recent
+block layer changes (commit 8f6205cd572fece673da0255d74843680f67f879):
 
-Tested reverting d55d87fdff8252d0e2f7c28c2d443aee17e9d70f, but still
-no good. Also reverted 71f9dacd2e4d233029e9e956ca3f79531f411827, still
-no good.
+@@ -555,8 +560,11 @@ repeat:
+                startstop = start_request(drive, rq);
+                spin_lock_irq(&hwif->lock);
+ 
+-               if (startstop == ide_stopped)
++               if (startstop == ide_stopped) {
++                       rq = hwif->rq;
++                       hwif->rq = NULL;
+                        goto repeat;
++               }
+        } else
+                goto plug_device;
+ out:
 
-> If not can you elaborate on what you mean by not working?
+and not zero hwif->rq if the device is blocked. 
 
-It seems the tunnel is not setup correctly, but I'll have to revert
-back to 2.6.29+ to verify.
+Could you try the attached patch and see if it fixes the issue?
 
-On kvm (again, it could be KVM which I'm not 100% sure. kvm-87),  it
-won't ping to/from the guest system with host ... Used to work before
-2.6.31-rc1 with guest net model=e1000 and model=virtio, but with
-2.6.31-rc1, only works with model=virtio. .. This could be an
-_unrelated_ issue though.
+[ Dave: while I appreciate fast handling of my patches I had strongly
+  suggested giving this particular one some extra testing (because there
+  were a lot of changes in between the time that it has been tested
+  against other kernel subsystems).  Yet, it seems that its linux-next
+  exposure was minimal at best..  :( ]
 
-/usr/local/kvm/bin/qemu-system-x86_64 \
-        -localtime \
-        -net nic,vlan=0,model=e1000 \
-        -net tap,script=/root/scripts2/tunx \
+---
+ drivers/ide/ide-io.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-Thanks,
-Jeff.
+Index: b/drivers/ide/ide-io.c
+===================================================================
+--- a/drivers/ide/ide-io.c
++++ b/drivers/ide/ide-io.c
+@@ -532,7 +532,8 @@ repeat:
+ 
+ 		if (startstop == ide_stopped) {
+ 			rq = hwif->rq;
+-			hwif->rq = NULL;
++			if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0)
++				hwif->rq = NULL;
+ 			goto repeat;
+ 		}
+ 	} else
