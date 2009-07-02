@@ -1,78 +1,154 @@
-From: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
+From: Wu Zhangjin <wuzhangjin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
-Date: Wed, 01 Jul 2009 23:30:31 +0200
-Message-ID: <4A4BD577.2080609@numericable.fr>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>	 <1246459661.9660.40.camel@falcon>	 <200907011821.26091.bzolnier@gmail.com>	 <200907011829.16850.bzolnier@gmail.com> <b6a2187b0907011028r27d35be4xc62c7ed4496dfb2f@mail.gmail.com>
+Date: Thu, 02 Jul 2009 09:46:43 +0800
+Message-ID: <1246499203.9660.52.camel@falcon>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
+	 <1246459661.9660.40.camel@falcon> <200907011821.26091.bzolnier@gmail.com>
+	 <200907011829.16850.bzolnier@gmail.com>
+Reply-To: wuzhangjin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b6a2187b0907011028r27d35be4xc62c7ed4496dfb2f-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:subject:from:reply-to:to:cc
+         :in-reply-to:references:content-type:organization:date:message-id
+         :mime-version:x-mailer:content-transfer-encoding;
+        bh=7xsEOcp72isWMSwh6/V5XqI/FtXPTWnPl5IgjfJYIWo=;
+        b=GT4cnpGGDNe1U/DgrZNBWb601fTxiPOEiLlofmsMiyCXEYI1x/bu9Je2HlWMm/hLuV
+         L5kNeVuiMVKwG0uoyC26oqQ0Lco3Rhmy0fZ7PAIJc8fJ9+DS7Z5WBGD5tBt/FQKfrRLj
+         uvaPt+oMrF2FvJRWzW50Gdv4uuNJY9v1u5pW0=
+In-Reply-To: <200907011829.16850.bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, wuzhangjin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ralf Baechle <ralf-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org>, linux-mips-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org, linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ralf Baechle <ralf-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org>, linux-mips-6z/3iImG2C8G8FEW9MqTrA@public.gmane.org, linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Jeff Chua wrote:
-> On Thu, Jul 2, 2009 at 12:29 AM, Bartlomiej
-> Zolnierkiewicz<bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> Here is the more complete version, also taking into the account changes
->> in ide_intr() and ide_timer_expiry():
+On Wed, 2009-07-01 at 18:29 +0200, Bartlomiej Zolnierkiewicz wrote:
+> On Wednesday 01 July 2009 18:21:25 Bartlomiej Zolnierkiewicz wrote:
+> > On Wednesday 01 July 2009 16:47:41 Wu Zhangjin wrote:
+> > > On Wed, 2009-07-01 at 22:31 +0800, Jeff Chua wrote:
+> > > > On Tue, Jun 30, 2009 at 12:21 AM, Jeff Chua<jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> > > > 
+> > > > > I just tried, and it "seems" to work. Will try a few more cycles.
+> > > > 
+> > > > STD/STR survived quite a few cycles now. Patch seems to be doing the
+> > > > right thing.
+> > > > 
+> > > > On Mon, Jun 29, 2009 at 11:51 PM, Etienne
+> > > > Basset<etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org> wrote:
+> > > > 
+> > > > > To have STR/resume work with current git, I have to :
+> > > > 
+> > > > > 1) apply Bart's patch
+> > > > 
+> > > > This is not yet in Linus's tree. And much needed to really fix the problem.
+> > > > 
+> > > > > 2) revert this commit : a1317f714af7aed60ddc182d0122477cbe36ee9b
+> > > > 
+> > > 
+> > > Yes, This commit must be reverted, otherwise, STD/Hibernation will not
+> > > work either. I have tested it on two different loongson-based machines:
+> > > fuloong2e box and yeeloong2f netbook.(loongson is mips compatiable)
+> > 
+> > Since it seems like Dave is taking his sweet time with doing the revert
+> > I stared at the code a bit more and I think that I finally found the bug
+> > (thanks to your debugging work for giving me the right hint!).
+> > 
+> > The patch needs to take into the account a new code introduced by the recent
+> > block layer changes (commit 8f6205cd572fece673da0255d74843680f67f879):
+> > 
+> > @@ -555,8 +560,11 @@ repeat:
+> >                 startstop = start_request(drive, rq);
+> >                 spin_lock_irq(&hwif->lock);
+> >  
+> > -               if (startstop == ide_stopped)
+> > +               if (startstop == ide_stopped) {
+> > +                       rq = hwif->rq;
+> > +                       hwif->rq = NULL;
+> >                         goto repeat;
+> > +               }
+> >         } else
+> >                 goto plug_device;
+> >  out:
+> > 
+> > and not zero hwif->rq if the device is blocked. 
+> > 
+> > Could you try the attached patch and see if it fixes the issue?
 > 
-> This works great for. Survived STR, STD. I just applied on top vanilla
-> latest Linus's git pull. Nothing else to revert.
+> Here is the more complete version, also taking into the account changes
+> in ide_intr() and ide_timer_expiry():
 > 
-> Thanks,
-> Jeff.
-> 
-> 
-i confirm, this  works for me too :)
-thanks,
-Etienne
 
+Sorry, I can not apply this patch directly, which original version did
+you use? I used the one in the master branch of linux-mips development
+git repository.
 
->> ---
->>  drivers/ide/ide-io.c |   15 ++++++++++-----
->>  1 file changed, 10 insertions(+), 5 deletions(-)
->>
->> Index: b/drivers/ide/ide-io.c
->> ===================================================================
->> --- a/drivers/ide/ide-io.c
->> +++ b/drivers/ide/ide-io.c
->> @@ -532,7 +532,8 @@ repeat:
->>
->>                if (startstop == ide_stopped) {
->>                        rq = hwif->rq;
->> -                       hwif->rq = NULL;
->> +                       if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0)
->> +                               hwif->rq = NULL;
->>                        goto repeat;
->>                }
->>        } else
->> @@ -679,8 +680,10 @@ void ide_timer_expiry (unsigned long dat
->>                spin_lock_irq(&hwif->lock);
->>                enable_irq(hwif->irq);
->>                if (startstop == ide_stopped && hwif->polling == 0) {
->> -                       rq_in_flight = hwif->rq;
->> -                       hwif->rq = NULL;
->> +                       if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0) {
->> +                               rq_in_flight = hwif->rq;
->> +                               hwif->rq = NULL;
->> +                       }
->>                        ide_unlock_port(hwif);
->>                        plug_device = 1;
->>                }
->> @@ -856,8 +859,10 @@ irqreturn_t ide_intr (int irq, void *dev
->>         */
->>        if (startstop == ide_stopped && hwif->polling == 0) {
->>                BUG_ON(hwif->handler);
->> -               rq_in_flight = hwif->rq;
->> -               hwif->rq = NULL;
->> +               if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0) {
->> +                       rq_in_flight = hwif->rq;
->> +                       hwif->rq = NULL;
->> +               }
->>                ide_unlock_port(hwif);
->>                plug_device = 1;
->>        }
->>
+commit 5a4f13fad1ab5bd08dea78fc55321e429d83cddf
+Merge: ec9c45d e18ed14
+Author: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Date:   Mon Jun 29 20:07:43 2009 -0700
+
+    Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/ide-2.6
+    
+    * git://git.kernel.org/pub/scm/linux/kernel/git/davem/ide-2.6:
+      ide: memory overrun in ide_get_identity_ioctl() on big endian
+machines using ioctl HDIO_OBSOLETE_IDENTITY
+      ide: fix resume for CONFIG_BLK_DEV_IDEACPI=y
+      ide-cd: handle fragmented packet commands gracefully
+      ide: always kill the whole request on error
+      ide: fix ide_kill_rq() for special ide-{floppy,tape} driver
+requests
+
+it this too old? should i merge another git repository?
+
+I have tried to apply it manually, but unfortunately, also not work. any
+other patch needed?
+
+Thanks!
+Wu Zhangjin
+> ---
+>  drivers/ide/ide-io.c |   15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> Index: b/drivers/ide/ide-io.c
+> ===================================================================
+> --- a/drivers/ide/ide-io.c
+> +++ b/drivers/ide/ide-io.c
+> @@ -532,7 +532,8 @@ repeat:
+>  
+>  		if (startstop == ide_stopped) {
+>  			rq = hwif->rq;
+> -			hwif->rq = NULL;
+> +			if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0)
+> +				hwif->rq = NULL;
+>  			goto repeat;
+>  		}
+>  	} else
+> @@ -679,8 +680,10 @@ void ide_timer_expiry (unsigned long dat
+>  		spin_lock_irq(&hwif->lock);
+>  		enable_irq(hwif->irq);
+>  		if (startstop == ide_stopped && hwif->polling == 0) {
+> -			rq_in_flight = hwif->rq;
+> -			hwif->rq = NULL;
+> +			if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0) {
+> +				rq_in_flight = hwif->rq;
+> +				hwif->rq = NULL;
+> +			}
+>  			ide_unlock_port(hwif);
+>  			plug_device = 1;
+>  		}
+> @@ -856,8 +859,10 @@ irqreturn_t ide_intr (int irq, void *dev
+>  	 */
+>  	if (startstop == ide_stopped && hwif->polling == 0) {
+>  		BUG_ON(hwif->handler);
+> -		rq_in_flight = hwif->rq;
+> -		hwif->rq = NULL;
+> +		if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0) {
+> +			rq_in_flight = hwif->rq;
+> +			hwif->rq = NULL;
+> +		}
+>  		ide_unlock_port(hwif);
+>  		plug_device = 1;
+>  	}
