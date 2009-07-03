@@ -1,223 +1,125 @@
 From: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
-Subject: Re: [patch 1/4] cpufreq: Eliminate the recent lockdep warnings in cpufreq
-Date: Fri, 3 Jul 2009 13:41:17 +0200
-Message-ID: <200907031341.19141.trenn@suse.de>
-References: <20090703000829.735976000@intel.com> <20090703000923.800507000@intel.com>
+Subject: [Announce] cpufreq-bench
+Date: Fri, 3 Jul 2009 14:45:14 +0200
+Message-ID: <200907031445.15513.trenn@suse.de>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090703000923.800507000-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
-Cc: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+To: cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: lkml-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, ckornacker-l3A5Bk7waGM@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Friday 03 July 2009 02:08:30 venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org wrote:
-> Commit b14893a62c73af0eca414cfed505b8c09efc613c although it was very
-> much needed to properly cleanup ondemand timer, opened-up a can of worms
-> related to locking dependencies in cpufreq.
-> 
-> Patch here defines the need for dbs_mutex and cleans up its usage in
-> ondemand governor. This also resolves the lockdep warnings reported here
-I think I get these changes and now dbs_mutex is needed...
-Making sure governor() is always called with rwsem held (hope that is the
-case now) is a good idea. Unfortunately it requires the dbs_mutex in
-do_dbs_timer and it will be hard to ever remove it.
+Hi,
 
-I still do not see the need of "dbs_mutex protects data in dbs_tuners_ins
-from concurrent changes", though. If someone enlightens me, that would
-be appreciated.
+inspired by Rafaels talk about covering kernel code for regression
+testing and the need to be able to debug tunables in the ondemand
+governor, Christian produced this IMO excellent micro code benchmark.
+
+What is this benchmark for:
+  - Identify worst case performance loss when doing dynamic frequency
+    scaling using Linux kernel governors
+  - Identify average reaction time of a governor to CPU load changes
+  - (Stress) Testing whether a cpufreq low level driver or governor works
+    as expected
+  - Identify cpufreq related performance regressions between kernels
+  - Possibly Real time priority testing? -> what happens if there are
+    processes with a higher prio than the governor's kernel thread
+  - ...
+
+What this benchmark does *not* cover:
+  - Power saving related regressions (In fact as better the performance
+    throughput is, the worse the power savings will be, but the first should
+    mostly count more...)
+  - Real world (workloads)
+
+How it works:
+You can specify load (100% CPU load) and sleep (0% CPU load) times in us which
+will be run X time in a row (cycles):
+
+         sleep=25000
+         load=25000
+         cycles=20
+
+This part of the configuration file will create 25ms load/sleep turns, 
+repeated 20 times.
+
+Adding this:
+         sleep_step=25000
+         load_step=25000
+         rounds=5
+Will increase load and sleep time by 25ms 5 times.
+Together you get following test:
+25ms  load/sleep time repeated 20 times (cycles).
+50ms  load/sleep time repeated 20 times (cycles).
+..
+100ms load/sleep time repeated 20 times (cycles).
+
+First it is calibrated how long a specific CPU intensive calculation
+takes on this machine and needs to be run in a loop using the performance 
+governor.
+Then the above test runs are processed using the performance governor
+and the governor to test. The time the calculation really needed
+with the dynamic freq scaling governor is compared with the time needed
+on full performance and you get the overall performance loss.
+
+
+Example of expected results with ondemand governor:
+
+This shows expected results of the first two test run rounds from
+above config, you there have:
+
+100% CPU load (load) | 0 % CPU load (sleep)  | round
+   25 ms             |    25 ms              |   1
+   50 ms             |    50 ms              |   2
+
+For example if ondemand governor is configured to have a 50ms
+sampling rate you get:
+
+In round 1, ondemand should have rather static 50% load and probably
+won't ever switch up (as long as up_threshold is above).
+
+In round 2, if the ondemand sampling times exactly match the load/sleep 
+trigger of the cpufreq-bench, you will see no performance loss (compare with 
+below possible ondemand sample kick ins (1)):
+
+But if ondemand always kicks in in the middle of the load sleep cycles, it 
+will always see 50% loads and you get worst performance impact never 
+switching up (compare with below possible ondemand sample kick ins (2))::
+
+      50     50   50   50ms ->time
+load -----|     |-----|     |-----|     |-----|    
+          |     |     |     |     |     |     |    
+sleep     |-----|     |-----|     |-----|     |----
+    |-----|-----|-----|-----|-----|-----|-----|----  ondemand sampling (1)
+         100    0    100    0    100    0    100     load seen by ondemand(%)
+       |-----|-----|-----|-----|-----|-----|-----|--   ondemand sampling (2)
+      50     50    50    50    50    50    50        load seen by ondemand(%)
+
+You can easily test all kind of load/sleep times and check whether your
+governor in average behaves as expected.
+
+The tool is available here:
+ftp.suse.com/pub/people/ckornacker/cpufreq-bench
+
+If you script a bit with gnuplot you can draw some nice graphs like
+that one showing the performance impact with different ondemand sampling rate
+tuning parameters:
+ftp.suse.com/pub/people/trenn/benchmark_samplingrate_optimized.png
+Hmm, let me quickly comment on the picture:
+The us axis better had been ms. It shows the load/sleep cycles time of each 
+test run, starting with 50ms (50000us) load/sleep cycles and increasing
+in 50ms steps.
+The different sampling lines are the modified sampling_rate of the ondemand
+governor, 40ms, 80ms, 100ms and 500ms ondemand sampling rates are 
+tested/compared.
+
+Comments?
+Could/should this be integrated into some already existing cpufreq related
+project (cpufreq-utils)?
+Can the Linux Testing Project profit by that one?
 
 Thanks,
-
-     Thomas
-
-> http://lkml.indiana.edu/hypermail/linux/kernel/0906.1/01925.html
-> http://lkml.indiana.edu/hypermail/linux/kernel/0907.0/00820.html
-> 
-> and few others..
-> 
-> Signed-off-by: Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> ---
->  drivers/cpufreq/cpufreq.c              |    4 ++--
->  drivers/cpufreq/cpufreq_conservative.c |   27 +++++++++++----------------
->  drivers/cpufreq/cpufreq_ondemand.c     |   27 +++++++++++----------------
->  3 files changed, 24 insertions(+), 34 deletions(-)
-> 
-> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> index 6e2ec0b..c7fe16e 100644
-> --- a/drivers/cpufreq/cpufreq.c
-> +++ b/drivers/cpufreq/cpufreq.c
-> @@ -1070,8 +1070,6 @@ static int __cpufreq_remove_dev(struct sys_device 
-*sys_dev)
->  	spin_unlock_irqrestore(&cpufreq_driver_lock, flags);
->  #endif
->  
-> -	unlock_policy_rwsem_write(cpu);
-> -
->  	if (cpufreq_driver->target)
->  		__cpufreq_governor(data, CPUFREQ_GOV_STOP);
->  
-> @@ -1088,6 +1086,8 @@ static int __cpufreq_remove_dev(struct sys_device 
-*sys_dev)
->  	if (cpufreq_driver->exit)
->  		cpufreq_driver->exit(data);
->  
-> +	unlock_policy_rwsem_write(cpu);
-> +
->  	free_cpumask_var(data->related_cpus);
->  	free_cpumask_var(data->cpus);
->  	kfree(data);
-> diff --git a/drivers/cpufreq/cpufreq_conservative.c 
-b/drivers/cpufreq/cpufreq_conservative.c
-> index 7fc58af..58889f2 100644
-> --- a/drivers/cpufreq/cpufreq_conservative.c
-> +++ b/drivers/cpufreq/cpufreq_conservative.c
-> @@ -70,15 +70,10 @@ static DEFINE_PER_CPU(struct cpu_dbs_info_s, 
-cpu_dbs_info);
->  static unsigned int dbs_enable;	/* number of CPUs using this policy */
->  
->  /*
-> - * DEADLOCK ALERT! There is a ordering requirement between cpu_hotplug
-> - * lock and dbs_mutex. cpu_hotplug lock should always be held before
-> - * dbs_mutex. If any function that can potentially take cpu_hotplug lock
-> - * (like __cpufreq_driver_target()) is being called with dbs_mutex taken, 
-then
-> - * cpu_hotplug lock should be taken before that. Note that cpu_hotplug lock
-> - * is recursive for the same process. -Venki
-> - * DEADLOCK ALERT! (2) : do_dbs_timer() must not take the dbs_mutex, 
-because it
-> - * would deadlock with cancel_delayed_work_sync(), which is needed for 
-proper
-> - * raceless workqueue teardown.
-> + * dbs_mutex protects data in dbs_tuners_ins from concurrent changes on
-> + * different CPUs. It protects dbs_enable in governor start/stop. It also
-> + * serializes governor limit_change with do_dbs_timer. We do not want
-> + * do_dbs_timer to run when user is changing the governor or limits.
->   */
->  static DEFINE_MUTEX(dbs_mutex);
->  
-> @@ -488,18 +483,17 @@ static void do_dbs_timer(struct work_struct *work)
->  
->  	delay -= jiffies % delay;
->  
-> -	if (lock_policy_rwsem_write(cpu) < 0)
-> -		return;
-> +	mutex_lock(&dbs_mutex);
->  
->  	if (!dbs_info->enable) {
-> -		unlock_policy_rwsem_write(cpu);
-> +		mutex_unlock(&dbs_mutex);
->  		return;
->  	}
->  
->  	dbs_check_cpu(dbs_info);
->  
->  	queue_delayed_work_on(cpu, kconservative_wq, &dbs_info->work, delay);
-> -	unlock_policy_rwsem_write(cpu);
-> +	mutex_unlock(&dbs_mutex);
->  }
->  
->  static inline void dbs_timer_init(struct cpu_dbs_info_s *dbs_info)
-> @@ -590,15 +584,16 @@ static int cpufreq_governor_dbs(struct cpufreq_policy 
-*policy,
->  					&dbs_cpufreq_notifier_block,
->  					CPUFREQ_TRANSITION_NOTIFIER);
->  		}
-> -		dbs_timer_init(this_dbs_info);
-> -
->  		mutex_unlock(&dbs_mutex);
->  
-> +		dbs_timer_init(this_dbs_info);
-> +
->  		break;
->  
->  	case CPUFREQ_GOV_STOP:
-> -		mutex_lock(&dbs_mutex);
->  		dbs_timer_exit(this_dbs_info);
-> +
-> +		mutex_lock(&dbs_mutex);
->  		sysfs_remove_group(&policy->kobj, &dbs_attr_group);
->  		dbs_enable--;
->  
-> diff --git a/drivers/cpufreq/cpufreq_ondemand.c 
-b/drivers/cpufreq/cpufreq_ondemand.c
-> index 1911d17..246ae14 100644
-> --- a/drivers/cpufreq/cpufreq_ondemand.c
-> +++ b/drivers/cpufreq/cpufreq_ondemand.c
-> @@ -78,15 +78,10 @@ static DEFINE_PER_CPU(struct cpu_dbs_info_s, 
-cpu_dbs_info);
->  static unsigned int dbs_enable;	/* number of CPUs using this policy */
->  
->  /*
-> - * DEADLOCK ALERT! There is a ordering requirement between cpu_hotplug
-> - * lock and dbs_mutex. cpu_hotplug lock should always be held before
-> - * dbs_mutex. If any function that can potentially take cpu_hotplug lock
-> - * (like __cpufreq_driver_target()) is being called with dbs_mutex taken, 
-then
-> - * cpu_hotplug lock should be taken before that. Note that cpu_hotplug lock
-> - * is recursive for the same process. -Venki
-> - * DEADLOCK ALERT! (2) : do_dbs_timer() must not take the dbs_mutex, 
-because it
-> - * would deadlock with cancel_delayed_work_sync(), which is needed for 
-proper
-> - * raceless workqueue teardown.
-> + * dbs_mutex protects data in dbs_tuners_ins from concurrent changes on
-> + * different CPUs. It protects dbs_enable in governor start/stop. It also
-> + * serializes governor limit_change with do_dbs_timer. We do not want
-> + * do_dbs_timer to run when user is changing the governor or limits.
->   */
->  static DEFINE_MUTEX(dbs_mutex);
->  
-> @@ -494,11 +489,10 @@ static void do_dbs_timer(struct work_struct *work)
->  
->  	delay -= jiffies % delay;
->  
-> -	if (lock_policy_rwsem_write(cpu) < 0)
-> -		return;
-> +	mutex_lock(&dbs_mutex);
->  
->  	if (!dbs_info->enable) {
-> -		unlock_policy_rwsem_write(cpu);
-> +		mutex_unlock(&dbs_mutex);
->  		return;
->  	}
->  
-> @@ -517,7 +511,7 @@ static void do_dbs_timer(struct work_struct *work)
->  			dbs_info->freq_lo, CPUFREQ_RELATION_H);
->  	}
->  	queue_delayed_work_on(cpu, kondemand_wq, &dbs_info->work, delay);
-> -	unlock_policy_rwsem_write(cpu);
-> +	mutex_unlock(&dbs_mutex);
->  }
->  
->  static inline void dbs_timer_init(struct cpu_dbs_info_s *dbs_info)
-> @@ -598,14 +592,15 @@ static int cpufreq_governor_dbs(struct cpufreq_policy 
-*policy,
->  				max(min_sampling_rate,
->  				    latency * LATENCY_MULTIPLIER);
->  		}
-> -		dbs_timer_init(this_dbs_info);
-> -
->  		mutex_unlock(&dbs_mutex);
-> +
-> +		dbs_timer_init(this_dbs_info);
->  		break;
->  
->  	case CPUFREQ_GOV_STOP:
-> -		mutex_lock(&dbs_mutex);
->  		dbs_timer_exit(this_dbs_info);
-> +
-> +		mutex_lock(&dbs_mutex);
->  		sysfs_remove_group(&policy->kobj, &dbs_attr_group);
->  		dbs_enable--;
->  		mutex_unlock(&dbs_mutex);
-> -- 
-> 1.6.0.6
-> 
-> -- 
-> 
-> 
-
+    Thomas
