@@ -1,69 +1,291 @@
-From: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-Subject: Re: [patch 0/4] Take care of cpufreq lockdep issues (take 2)
-Date: Fri, 3 Jul 2009 10:06:37 -0400
-Message-ID: <20090703140637.GB10256@Krystal>
-References: <20090703000829.735976000@intel.com> <20090703065427.GA32687@elte.hu>
+From: "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: RE: [patch 1/4] cpufreq: Eliminate the recent lockdep warnings in
+ cpufreq
+Date: Fri, 3 Jul 2009 07:28:43 -0700
+Message-ID: <7E82351C108FA840AB1866AC776AEC4669BFF050@orsmsx505.amr.corp.intel.com>
+References: <20090703000829.735976000@intel.com>
+ <20090703000923.800507000@intel.com> <200907031341.19141.trenn@suse.de>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090703065427.GA32687-X9Un+BFzKDI@public.gmane.org>
+In-Reply-To: <200907031341.19141.trenn-l3A5Bk7waGM@public.gmane.org>
+Content-Language: en-US
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
+To: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
+Cc: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
 
-* Ingo Molnar (mingo-X9Un+BFzKDI@public.gmane.org) wrote:
-> 
-> * venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org> wrote:
-> 
-> > Since recent chanegs to ondemand and conservative governor, there 
-> > have been multiple reports of lockdep issues in cpufreq. Patch 
-> > series takes care of these problems.
-> > 
-> > This is the next attempt following the one here, which was not a 
-> > complete fix. 
-> > http://lkml.indiana.edu/hypermail/linux/kernel/0906.3/01073.html
-> > 
-> > I am currently running some stress tests to make sure there are no 
-> > issues with these patches. But, wanted to send them out for 
-> > review/comments/testing before I head out for the long weekend.
-> > 
-> > If this patchset seems sane, the first patch in the patchset 
-> > should also get into 30.stable.
-> 
-> Btw., FYI, because my test-systems were frequently triggering those 
-> bugs, i kept testing the following series from you and Mathieu in 
-> -tip:
-> 
->  ecf8b04: cpufreq: Define dbs_mutex purpose and cleanup its usage conservative gov
->  b08c597: cpufreq: Define dbs_mutex purpose and cleanup its usage
->  0807e30: cpufreq: remove rwsem lock from CPUFREQ_GOV_STOP call (second call site)
-> 
-> So that fix-series, while probably not complete (given that you sent 
-> a v2 series), worked well in practice and gets my:
-> 
->  Tested-by: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-> 
-> Is the delta between this (tested) series and your v2 version 
-> significant? If not it might make sense to shape it as a delta patch 
-> to the v1 series, if that looks clean enough - to preserve testing 
-> results.
+ 
 
-The delta is very significant. The purpose of each lock changes quite a
-bit. I'm preparing a patch serie that should just fix the problem
-without significant locking semantic modification.
+>-----Original Message-----
+>From: Thomas Renninger [mailto:trenn-l3A5Bk7waGM@public.gmane.org] 
+>Sent: Friday, July 03, 2009 4:41 AM
+>To: Pallipadi, Venkatesh
+>Cc: Dave Jones; linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; 
+>cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; Ingo 
+>Molnar; Rafael J. Wysocki; Dave Young; Pekka Enberg; Mathieu Desnoyers
+>Subject: Re: [patch 1/4] cpufreq: Eliminate the recent lockdep 
+>warnings in cpufreq
+>
+>On Friday 03 July 2009 02:08:30 venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org wrote:
+>> Commit b14893a62c73af0eca414cfed505b8c09efc613c although it was very
+>> much needed to properly cleanup ondemand timer, opened-up a 
+>can of worms
+>> related to locking dependencies in cpufreq.
+>> 
+>> Patch here defines the need for dbs_mutex and cleans up its usage in
+>> ondemand governor. This also resolves the lockdep warnings 
+>reported here
+>I think I get these changes and now dbs_mutex is needed...
+>Making sure governor() is always called with rwsem held (hope 
+>that is the
+>case now) is a good idea. Unfortunately it requires the dbs_mutex in
+>do_dbs_timer and it will be hard to ever remove it.
 
-(not that I have time to do this, but I end up spending more time
-looking at the proposed solutions than doing it..) ;)
+Yes. Rwsem held for any policy changes from cpufreq core makes this fix
+clean. I did not like the earlier state where rwsem was helt for START
+and not for STOP calls etc.
 
-Mathieu
+Patch 3 and 4 removes dbs_mutex from do_dbs_timer.
 
-> 
-> 	Ingo
-> 
+>I still do not see the need of "dbs_mutex protects data in 
+>dbs_tuners_ins
+>from concurrent changes", though. If someone enlightens me, that would
+>be appreciated.
 
--- 
-Mathieu Desnoyers
-OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 A8FE 3BAE 9A68
+OK. Consider these two happening in parallel.
+echo 0 > /sys/devices/system/cpu/cpu0/cpufreq/ondemand/ignore_nice
+echo 1 > /sys/devices/system/cpu/cpu4/cpufreq/ondemand/ignore_nice
+
+As they are coming from different cpu, rwsem wont protect us and 
+without the dbs_mutex, end state after this can will be unpredictable.
+prev_cpu_idle and prev_cpu_nice can end up with wrong values where
+only one of them is set etc. That will affect the ondemand algorithm.
+
+Thanks,
+Venki
+
+>> http://lkml.indiana.edu/hypermail/linux/kernel/0906.1/01925.html
+>> http://lkml.indiana.edu/hypermail/linux/kernel/0907.0/00820.html
+>> 
+>> and few others..
+>> 
+>> Signed-off-by: Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+>> ---
+>>  drivers/cpufreq/cpufreq.c              |    4 ++--
+>>  drivers/cpufreq/cpufreq_conservative.c |   27 
+>+++++++++++----------------
+>>  drivers/cpufreq/cpufreq_ondemand.c     |   27 
+>+++++++++++----------------
+>>  3 files changed, 24 insertions(+), 34 deletions(-)
+>> 
+>> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+>> index 6e2ec0b..c7fe16e 100644
+>> --- a/drivers/cpufreq/cpufreq.c
+>> +++ b/drivers/cpufreq/cpufreq.c
+>> @@ -1070,8 +1070,6 @@ static int __cpufreq_remove_dev(struct 
+>sys_device 
+>*sys_dev)
+>>  	spin_unlock_irqrestore(&cpufreq_driver_lock, flags);
+>>  #endif
+>>  
+>> -	unlock_policy_rwsem_write(cpu);
+>> -
+>>  	if (cpufreq_driver->target)
+>>  		__cpufreq_governor(data, CPUFREQ_GOV_STOP);
+>>  
+>> @@ -1088,6 +1086,8 @@ static int __cpufreq_remove_dev(struct 
+>sys_device 
+>*sys_dev)
+>>  	if (cpufreq_driver->exit)
+>>  		cpufreq_driver->exit(data);
+>>  
+>> +	unlock_policy_rwsem_write(cpu);
+>> +
+>>  	free_cpumask_var(data->related_cpus);
+>>  	free_cpumask_var(data->cpus);
+>>  	kfree(data);
+>> diff --git a/drivers/cpufreq/cpufreq_conservative.c 
+>b/drivers/cpufreq/cpufreq_conservative.c
+>> index 7fc58af..58889f2 100644
+>> --- a/drivers/cpufreq/cpufreq_conservative.c
+>> +++ b/drivers/cpufreq/cpufreq_conservative.c
+>> @@ -70,15 +70,10 @@ static DEFINE_PER_CPU(struct cpu_dbs_info_s, 
+>cpu_dbs_info);
+>>  static unsigned int dbs_enable;	/* number of CPUs using 
+>this policy */
+>>  
+>>  /*
+>> - * DEADLOCK ALERT! There is a ordering requirement between 
+>cpu_hotplug
+>> - * lock and dbs_mutex. cpu_hotplug lock should always be held before
+>> - * dbs_mutex. If any function that can potentially take 
+>cpu_hotplug lock
+>> - * (like __cpufreq_driver_target()) is being called with 
+>dbs_mutex taken, 
+>then
+>> - * cpu_hotplug lock should be taken before that. Note that 
+>cpu_hotplug lock
+>> - * is recursive for the same process. -Venki
+>> - * DEADLOCK ALERT! (2) : do_dbs_timer() must not take the 
+>dbs_mutex, 
+>because it
+>> - * would deadlock with cancel_delayed_work_sync(), which is 
+>needed for 
+>proper
+>> - * raceless workqueue teardown.
+>> + * dbs_mutex protects data in dbs_tuners_ins from 
+>concurrent changes on
+>> + * different CPUs. It protects dbs_enable in governor 
+>start/stop. It also
+>> + * serializes governor limit_change with do_dbs_timer. We 
+>do not want
+>> + * do_dbs_timer to run when user is changing the governor or limits.
+>>   */
+>>  static DEFINE_MUTEX(dbs_mutex);
+>>  
+>> @@ -488,18 +483,17 @@ static void do_dbs_timer(struct 
+>work_struct *work)
+>>  
+>>  	delay -= jiffies % delay;
+>>  
+>> -	if (lock_policy_rwsem_write(cpu) < 0)
+>> -		return;
+>> +	mutex_lock(&dbs_mutex);
+>>  
+>>  	if (!dbs_info->enable) {
+>> -		unlock_policy_rwsem_write(cpu);
+>> +		mutex_unlock(&dbs_mutex);
+>>  		return;
+>>  	}
+>>  
+>>  	dbs_check_cpu(dbs_info);
+>>  
+>>  	queue_delayed_work_on(cpu, kconservative_wq, 
+>&dbs_info->work, delay);
+>> -	unlock_policy_rwsem_write(cpu);
+>> +	mutex_unlock(&dbs_mutex);
+>>  }
+>>  
+>>  static inline void dbs_timer_init(struct cpu_dbs_info_s *dbs_info)
+>> @@ -590,15 +584,16 @@ static int cpufreq_governor_dbs(struct 
+>cpufreq_policy 
+>*policy,
+>>  					&dbs_cpufreq_notifier_block,
+>>  					CPUFREQ_TRANSITION_NOTIFIER);
+>>  		}
+>> -		dbs_timer_init(this_dbs_info);
+>> -
+>>  		mutex_unlock(&dbs_mutex);
+>>  
+>> +		dbs_timer_init(this_dbs_info);
+>> +
+>>  		break;
+>>  
+>>  	case CPUFREQ_GOV_STOP:
+>> -		mutex_lock(&dbs_mutex);
+>>  		dbs_timer_exit(this_dbs_info);
+>> +
+>> +		mutex_lock(&dbs_mutex);
+>>  		sysfs_remove_group(&policy->kobj, &dbs_attr_group);
+>>  		dbs_enable--;
+>>  
+>> diff --git a/drivers/cpufreq/cpufreq_ondemand.c 
+>b/drivers/cpufreq/cpufreq_ondemand.c
+>> index 1911d17..246ae14 100644
+>> --- a/drivers/cpufreq/cpufreq_ondemand.c
+>> +++ b/drivers/cpufreq/cpufreq_ondemand.c
+>> @@ -78,15 +78,10 @@ static DEFINE_PER_CPU(struct cpu_dbs_info_s, 
+>cpu_dbs_info);
+>>  static unsigned int dbs_enable;	/* number of CPUs using 
+>this policy */
+>>  
+>>  /*
+>> - * DEADLOCK ALERT! There is a ordering requirement between 
+>cpu_hotplug
+>> - * lock and dbs_mutex. cpu_hotplug lock should always be held before
+>> - * dbs_mutex. If any function that can potentially take 
+>cpu_hotplug lock
+>> - * (like __cpufreq_driver_target()) is being called with 
+>dbs_mutex taken, 
+>then
+>> - * cpu_hotplug lock should be taken before that. Note that 
+>cpu_hotplug lock
+>> - * is recursive for the same process. -Venki
+>> - * DEADLOCK ALERT! (2) : do_dbs_timer() must not take the 
+>dbs_mutex, 
+>because it
+>> - * would deadlock with cancel_delayed_work_sync(), which is 
+>needed for 
+>proper
+>> - * raceless workqueue teardown.
+>> + * dbs_mutex protects data in dbs_tuners_ins from 
+>concurrent changes on
+>> + * different CPUs. It protects dbs_enable in governor 
+>start/stop. It also
+>> + * serializes governor limit_change with do_dbs_timer. We 
+>do not want
+>> + * do_dbs_timer to run when user is changing the governor or limits.
+>>   */
+>>  static DEFINE_MUTEX(dbs_mutex);
+>>  
+>> @@ -494,11 +489,10 @@ static void do_dbs_timer(struct 
+>work_struct *work)
+>>  
+>>  	delay -= jiffies % delay;
+>>  
+>> -	if (lock_policy_rwsem_write(cpu) < 0)
+>> -		return;
+>> +	mutex_lock(&dbs_mutex);
+>>  
+>>  	if (!dbs_info->enable) {
+>> -		unlock_policy_rwsem_write(cpu);
+>> +		mutex_unlock(&dbs_mutex);
+>>  		return;
+>>  	}
+>>  
+>> @@ -517,7 +511,7 @@ static void do_dbs_timer(struct 
+>work_struct *work)
+>>  			dbs_info->freq_lo, CPUFREQ_RELATION_H);
+>>  	}
+>>  	queue_delayed_work_on(cpu, kondemand_wq, 
+>&dbs_info->work, delay);
+>> -	unlock_policy_rwsem_write(cpu);
+>> +	mutex_unlock(&dbs_mutex);
+>>  }
+>>  
+>>  static inline void dbs_timer_init(struct cpu_dbs_info_s *dbs_info)
+>> @@ -598,14 +592,15 @@ static int cpufreq_governor_dbs(struct 
+>cpufreq_policy 
+>*policy,
+>>  				max(min_sampling_rate,
+>>  				    latency * LATENCY_MULTIPLIER);
+>>  		}
+>> -		dbs_timer_init(this_dbs_info);
+>> -
+>>  		mutex_unlock(&dbs_mutex);
+>> +
+>> +		dbs_timer_init(this_dbs_info);
+>>  		break;
+>>  
+>>  	case CPUFREQ_GOV_STOP:
+>> -		mutex_lock(&dbs_mutex);
+>>  		dbs_timer_exit(this_dbs_info);
+>> +
+>> +		mutex_lock(&dbs_mutex);
+>>  		sysfs_remove_group(&policy->kobj, &dbs_attr_group);
+>>  		dbs_enable--;
+>>  		mutex_unlock(&dbs_mutex);
+>> -- 
+>> 1.6.0.6
+>> 
+>> -- 
+>> 
+>> 
+>
+>
+>--
+To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
