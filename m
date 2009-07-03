@@ -1,7 +1,7 @@
 From: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
 Subject: [Announce] cpufreq-bench
-Date: Fri, 3 Jul 2009 14:45:14 +0200
-Message-ID: <200907031445.15513.trenn@suse.de>
+Date: Fri, 3 Jul 2009 14:58:27 +0200
+Message-ID: <200907031458.27908.trenn@suse.de>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,7 +10,10 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: lkml-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, ckornacker-l3A5Bk7waGM@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, ckornacker-l3A5Bk7waGM@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+
+Oh dear, again with the correct lkml list address in CC, please
+do not answer on the previous mail...
 
 Hi,
 
