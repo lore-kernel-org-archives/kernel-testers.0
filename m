@@ -1,252 +1,305 @@
-From: "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: RE: [patch 2.6.30 2/4] CPUFREQ: fix (utter) cpufreq_add_dev mess
-Date: Fri, 3 Jul 2009 12:24:43 -0700
-Message-ID: <7E82351C108FA840AB1866AC776AEC4669BFF0F5@orsmsx505.amr.corp.intel.com>
-References: <20090703152514.903448283@polymtl.ca>
- <20090703152714.775719309@polymtl.ca>
+From: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+Subject: Re: [patch 2.6.30 3/4] cpufreq add gov mutex
+Date: Fri, 3 Jul 2009 15:36:55 -0400
+Message-ID: <20090703193655.GA20266@Krystal>
+References: <20090703152514.903448283@polymtl.ca> <20090703152714.953585501@polymtl.ca> <7E82351C108FA840AB1866AC776AEC4669BFF0DE@orsmsx505.amr.corp.intel.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090703152714.775719309-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <7E82351C108FA840AB1866AC776AEC4669BFF0DE-osO9UTpF0URqS6EAlXoojrfspsVTdybXVpNB7YpNyf8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>, cpu
-Cc: "Li, Shaohua" <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org" <sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>, "cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "rjw-KKrjLPT3xs0@public.gmane.org" <rjw-KKrjLPT3xs0@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, "Li, Shaohua" <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org" <sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org>
 
- 
+* Pallipadi, Venkatesh (venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org) wrote:
+>  
+> 
+> >-----Original Message-----
+> >From: Mathieu Desnoyers [mailto:mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org] 
+> >Sent: Friday, July 03, 2009 8:25 AM
+> >To: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; Pallipadi, Venkatesh; Dave 
+> >Jones; Thomas Renninger; cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; 
+> >kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; Ingo Molnar; rjw-KKrjLPT3xs0@public.gmane.org; Dave 
+> >Young; Pekka Enberg
+> >Cc: Mathieu Desnoyers; Li, Shaohua; Rusty Russell; 
+> >sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org
+> >Subject: [patch 2.6.30 3/4] cpufreq add gov mutex
+> >
+> >Using the cpufreq_gov_mutex to protect internal governor data 
+> >structures. The
+> >policy rwsem write lock nests inside this mutex. 
+> 
+> This makes the whole locking in cpufreq upside down. Takes away
+> most of the reason for existence of rwsem lock. Taking a smaller
+> Percpu rwsem lock inside a bigger global mutex doesn't seem right.
+> 
 
->-----Original Message-----
->From: Mathieu Desnoyers [mailto:mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org] 
->Sent: Friday, July 03, 2009 8:25 AM
->To: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; Pallipadi, Venkatesh; Dave 
->Jones; Thomas Renninger; cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; 
->kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; Ingo Molnar; rjw-KKrjLPT3xs0@public.gmane.org; Dave 
->Young; Pekka Enberg
->Cc: Mathieu Desnoyers; Li, Shaohua; Rusty Russell; 
->sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org
->Subject: [patch 2.6.30 2/4] CPUFREQ: fix (utter) cpufreq_add_dev mess
->
->OK, I've tried to clean it up the best I could, but please 
->test this with
->concurrent cpu hotplug and cpufreq add/remove in loops. I'm 
->sure we will make
->other interesting findings.
->
+It permits the timer handler to only take the rwsem write lock. My
+understanding is that the most frequent operation is the timer handler
+being executed, but maybe I'm wrong ?
 
-This is a good and needed cleanup of cpufreq_add_dev.
+I think it ends up being a questions of clearly identifying how
+frequent each data structure access are, and why this per-governor rwsem
+is needed at all. (does it bring any perceivable performance improvement
+on a critical path ? Then maybe we should use RCU ?)
 
+I really wonder if the fact that you switch the timer handler from rwsem
+to a mutex in your patchset will not hurt performance in some way or
+have some unforeseen side-effect. This is why I made my patchset as dumb
+and simple as possible, because this is a bugfix for 2.6.30, not a
+reingineering. Let's make it work, then make it fast.
 
->This is step one of fixing the overall locking dependency mess 
->in cpufreq.
->
->Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
->CC: Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
->CC: rjw-KKrjLPT3xs0@public.gmane.org
->CC: mingo-X9Un+BFzKDI@public.gmane.org
->CC: Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
->CC: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
->CC: Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->CC: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
->CC: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
->CC: sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org
->CC: cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->CC: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
->---
-> drivers/cpufreq/cpufreq.c |   65 
->++++++++++++++++++++++++++++------------------
-> 1 file changed, 40 insertions(+), 25 deletions(-)
->
->Index: linux-2.6-lttng/drivers/cpufreq/cpufreq.c
->===================================================================
->--- linux-2.6-lttng.orig/drivers/cpufreq/cpufreq.c	
->2009-07-02 23:59:08.000000000 -0400
->+++ linux-2.6-lttng/drivers/cpufreq/cpufreq.c	2009-07-02 
->23:59:09.000000000 -0400
->@@ -763,6 +763,10 @@ static struct kobj_type ktype_cpufreq = 
->  * cpufreq_add_dev - add a CPU device
->  *
->  * Adds the cpufreq interface for a CPU device.
->+ *
->+ * The Oracle says: try running cpufreq 
->registration/unregistration concurrently
->+ * with with cpu hotplugging and all hell will break loose. 
->Tried to clean this
->+ * mess up, but more thorough testing is needed. - Mathieu
->  */
-> static int cpufreq_add_dev(struct sys_device *sys_dev)
-> {
->@@ -806,15 +810,12 @@ static int cpufreq_add_dev(struct sys_de
-> 		goto nomem_out;
-> 	}
-> 	if (!alloc_cpumask_var(&policy->cpus, GFP_KERNEL)) {
->-		kfree(policy);
-> 		ret = -ENOMEM;
->-		goto nomem_out;
->+		goto err_free_policy;
-> 	}
-> 	if (!zalloc_cpumask_var(&policy->related_cpus, GFP_KERNEL)) {
->-		free_cpumask_var(policy->cpus);
->-		kfree(policy);
-> 		ret = -ENOMEM;
->-		goto nomem_out;
->+		goto err_free_cpumask;
-> 	}
+> >The policy 
+> >rwsem is taken in
+> >the timer handler, and therefore cannot be held while doing a 
+> >sync teardown of
+> >the timer.  This cpufreq_gov_mutex lock protects init/teardown 
+> >of governor
+> >timers.
 > 
-> 	policy->cpu = cpu;
->@@ -822,7 +823,8 @@ static int cpufreq_add_dev(struct sys_de
+> Why is the protection required for init/teardown of percpu
+> timer with a global mutex? cpufreq rwsem (when held correctly)
+> ensures that there can be only one store_scaling_governor for
+> a cpu at any point in time. I don't see any reason why we need
+> a global mutex to protect timer init teardown.
 > 
-> 	/* Initially set CPU itself as the policy_cpu */
-> 	per_cpu(policy_cpu, cpu) = cpu;
->-	lock_policy_rwsem_write(cpu);
->+	ret = (lock_policy_rwsem_write(cpu) < 0);
->+	WARN_ON(ret);
-> 
-> 	init_completion(&policy->kobj_unregister);
-> 	INIT_WORK(&policy->update, handle_update);
->@@ -835,7 +837,7 @@ static int cpufreq_add_dev(struct sys_de
-> 	ret = cpufreq_driver->init(policy);
-> 	if (ret) {
-> 		dprintk("initialization failed\n");
->-		goto err_out;
->+		goto err_unlock_policy;
-> 	}
-> 	policy->user_policy.min = policy->min;
-> 	policy->user_policy.max = policy->max;
->@@ -860,15 +862,21 @@ static int cpufreq_add_dev(struct sys_de
-> 		/* Check for existing affected CPUs.
-> 		 * They may not be aware of it due to CPU Hotplug.
-> 		 */
->-		managed_policy = cpufreq_cpu_get(j);		
->/* FIXME: Where is this released?  What about error paths? */
->+		managed_policy = cpufreq_cpu_get(j);
-> 		if (unlikely(managed_policy)) {
-> 
-> 			/* Set proper policy_cpu */
-> 			unlock_policy_rwsem_write(cpu);
-> 			per_cpu(policy_cpu, cpu) = managed_policy->cpu;
-> 
->-			if (lock_policy_rwsem_write(cpu) < 0)
->-				goto err_out_driver_exit;
->+			if (lock_policy_rwsem_write(cpu) < 0) {
->+				/* Should not go through policy 
->unlock path */
->+				if (cpufreq_driver->exit)
->+					cpufreq_driver->exit(policy);
->+				ret = -EBUSY;
->+				cpufreq_cpu_put(managed_policy);
->+				goto err_free_cpumask;
->+			}
-> 
-> 			spin_lock_irqsave(&cpufreq_driver_lock, flags);
-> 			cpumask_copy(managed_policy->cpus, 
->policy->cpus);
->@@ -879,12 +887,14 @@ static int cpufreq_add_dev(struct sys_de
-> 			ret = sysfs_create_link(&sys_dev->kobj,
-> 						&managed_policy->kobj,
-> 						"cpufreq");
->-			if (ret)
->-				goto err_out_driver_exit;
->-
->-			cpufreq_debug_enable_ratelimit();
->-			ret = 0;
->-			goto err_out_driver_exit; /* call 
->driver->exit() */
->+			if (!ret)
->+				cpufreq_cpu_put(managed_policy);
 
-Looks like cpufreq_cpu_put is needed both with ret and !ret. No?
+rwsem was previously held in the timer handler. I am not yet convinced
+that simply holding a local dbs_mutex will ensure proper synchronization
+of *all* call paths in the timer handler.
 
-Thanks,
-Venki
+So given I prefer to do the least intrusive modification, I leave the
+rwsem write lock in the timer handler, but it leaves no choice but to
+take a mutex _outside_ of the rwsem lock to synchronize timer
+init/teardown.
 
->+			/*
->+			 * Success. We only needed to be added 
->to the mask.
->+			 * Call driver->exit() because only the 
->cpu parent of
->+			 * the kobj needed to call init().
->+			 */
->+			goto out_driver_exit; /* call driver->exit() */
-> 		}
-> 	}
-> #endif
->@@ -894,25 +904,25 @@ static int cpufreq_add_dev(struct sys_de
-> 	ret = kobject_init_and_add(&policy->kobj, 
->&ktype_cpufreq, &sys_dev->kobj,
-> 				   "cpufreq");
-> 	if (ret)
->-		goto err_out_driver_exit;
->+		goto out_driver_exit;
 > 
-> 	/* set up files for this cpu device */
-> 	drv_attr = cpufreq_driver->attr;
-> 	while ((drv_attr) && (*drv_attr)) {
-> 		ret = sysfs_create_file(&policy->kobj, 
->&((*drv_attr)->attr));
-> 		if (ret)
->-			goto err_out_driver_exit;
->+			goto err_out_kobj_put;
-> 		drv_attr++;
-> 	}
-> 	if (cpufreq_driver->get) {
-> 		ret = sysfs_create_file(&policy->kobj, 
->&cpuinfo_cur_freq.attr);
-> 		if (ret)
->-			goto err_out_driver_exit;
->+			goto err_out_kobj_put;
-> 	}
-> 	if (cpufreq_driver->target) {
-> 		ret = sysfs_create_file(&policy->kobj, 
->&scaling_cur_freq.attr);
-> 		if (ret)
->-			goto err_out_driver_exit;
->+			goto err_out_kobj_put;
-> 	}
+> > This is why this lock, although it protects a data 
+> >structure located
+> >within the governors, is located in cpufreq.c.
 > 
-> 	spin_lock_irqsave(&cpufreq_driver_lock, flags);
->@@ -930,12 +940,14 @@ static int cpufreq_add_dev(struct sys_de
-> 			continue;
+> I think this is taking a step back in terms of locking. A system
+> wide Cpufreq_gov_mutex is being held more frequently now and seems
+> to be providing all the serialization needed. The locks crossing
+> layers of cpufreq core and governor is just going to make
+> situation worse IMO.
+
+Can you prove that my simple bugfix will cause a significant performance
+regression ?
+
 > 
-> 		dprintk("CPU %u already managed, adding link\n", j);
->-		cpufreq_cpu_get(cpu);
->+		managed_policy = cpufreq_cpu_get(cpu);
-> 		cpu_sys_dev = get_cpu_sysdev(j);
-> 		ret = sysfs_create_link(&cpu_sys_dev->kobj, 
->&policy->kobj,
-> 					"cpufreq");
->-		if (ret)
->+		if (ret) {
->+			cpufreq_cpu_put(managed_policy);
-> 			goto err_out_unregister;
->+		}
-> 	}
+> If we really want to pursue this option, we should get rid
+> of rwsem altogether. It is not adding much value
+> and just providing lot more confusion with things like rwsem
+> should be held everywhere else other than CPUFREQ_GOV_STOP.
 > 
-> 	policy->governor = NULL; /* to assure that the starting 
->sequence is
->@@ -967,17 +979,20 @@ err_out_unregister:
-> 		per_cpu(cpufreq_cpu_data, j) = NULL;
-> 	spin_unlock_irqrestore(&cpufreq_driver_lock, flags);
+
+I agree that this rwsem is just odd. But please keep its removal for
+2.6.32, and consider using RCU then if performance really matters.
+
+And please don't try to overengineer a simple bugfix. The bogus mutex
+removal you proposed a few weeks ago turned me into the "cautious" mode.
+And looking at the general code quality of cpufreq (timer teardown
+races, error path not handled, unbalanced locks, cpu hotplug support
+broken) makes me vote for the most utterly simple solution. I currently
+don't care about performance _at all_. I care about something as simple
+as making sure this thing stop blowing up.
+
+Mathieu
+
 > 
->+err_out_kobj_put:
-> 	kobject_put(&policy->kobj);
-> 	wait_for_completion(&policy->kobj_unregister);
+> Thanks,
+> Venki
 > 
->-err_out_driver_exit:
->+out_driver_exit:
-> 	if (cpufreq_driver->exit)
-> 		cpufreq_driver->exit(policy);
-> 
->-err_out:
->+err_unlock_policy:
-> 	unlock_policy_rwsem_write(cpu);
->+err_free_cpumask:
->+	free_cpumask_var(policy->cpus);
->+err_free_policy:
-> 	kfree(policy);
->-
-> nomem_out:
-> 	module_put(cpufreq_driver->owner);
-> module_out:
->
+> >
+> >Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+> >CC: Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> >CC: rjw-KKrjLPT3xs0@public.gmane.org
+> >CC: mingo-X9Un+BFzKDI@public.gmane.org
+> >CC: Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> >CC: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+> >CC: Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> >CC: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+> >CC: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+> >CC: sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org
+> >CC: cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> >CC: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
+> >---
+> > drivers/cpufreq/cpufreq.c |   38 
+> >+++++++++++++++++++++++++++++++++++---
+> > 1 file changed, 35 insertions(+), 3 deletions(-)
+> >
+> >Index: linux-2.6-lttng/drivers/cpufreq/cpufreq.c
+> >===================================================================
+> >--- linux-2.6-lttng.orig/drivers/cpufreq/cpufreq.c	
+> >2009-07-03 09:48:35.000000000 -0400
+> >+++ linux-2.6-lttng/drivers/cpufreq/cpufreq.c	2009-07-03 
+> >10:12:44.000000000 -0400
+> >@@ -133,6 +133,17 @@ pure_initcall(init_cpufreq_transition_no
+> > static LIST_HEAD(cpufreq_governor_list);
+> > static DEFINE_MUTEX(cpufreq_governor_mutex);
+> > 
+> >+/*
+> >+ * Using the cpufreq_gov_mutex to protect internal governor
+> >+ * data structures. The policy rwsem write lock nests inside 
+> >this mutex.
+> >+ * The policy rwsem is taken in the timer handler, and 
+> >therefore cannot be
+> >+ * held while doing a sync teardown of the timer.
+> >+ * This cpufreq_gov_mutex lock protects init/teardown of 
+> >governor timers.
+> >+ * This is why this lock, although it protects a data 
+> >structure located within
+> >+ * the governors, is here.
+> >+ */
+> >+static DEFINE_MUTEX(cpufreq_gov_mutex);
+> >+
+> > struct cpufreq_policy *cpufreq_cpu_get(unsigned int cpu)
+> > {
+> > 	struct cpufreq_policy *data;
+> >@@ -725,6 +736,7 @@ static ssize_t store(struct kobject *kob
+> > 	if (!policy)
+> > 		goto no_policy;
+> > 
+> >+	mutex_lock(&cpufreq_gov_mutex);
+> > 	if (lock_policy_rwsem_write(policy->cpu) < 0)
+> > 		goto fail;
+> > 
+> >@@ -735,6 +747,7 @@ static ssize_t store(struct kobject *kob
+> > 
+> > 	unlock_policy_rwsem_write(policy->cpu);
+> > fail:
+> >+	mutex_unlock(&cpufreq_gov_mutex);
+> > 	cpufreq_cpu_put(policy);
+> > no_policy:
+> > 	return ret;
+> >@@ -823,6 +836,7 @@ static int cpufreq_add_dev(struct sys_de
+> > 
+> > 	/* Initially set CPU itself as the policy_cpu */
+> > 	per_cpu(policy_cpu, cpu) = cpu;
+> >+	mutex_lock(&cpufreq_gov_mutex);
+> > 	ret = (lock_policy_rwsem_write(cpu) < 0);
+> > 	WARN_ON(ret);
+> > 
+> >@@ -875,7 +889,7 @@ static int cpufreq_add_dev(struct sys_de
+> > 					cpufreq_driver->exit(policy);
+> > 				ret = -EBUSY;
+> > 				cpufreq_cpu_put(managed_policy);
+> >-				goto err_free_cpumask;
+> >+				goto err_unlock_gov_mutex;
+> > 			}
+> > 
+> > 			spin_lock_irqsave(&cpufreq_driver_lock, flags);
+> >@@ -964,6 +978,7 @@ static int cpufreq_add_dev(struct sys_de
+> > 	}
+> > 
+> > 	unlock_policy_rwsem_write(cpu);
+> >+	mutex_unlock(&cpufreq_gov_mutex);
+> > 
+> > 	kobject_uevent(&policy->kobj, KOBJ_ADD);
+> > 	module_put(cpufreq_driver->owner);
+> >@@ -989,6 +1004,8 @@ out_driver_exit:
+> > 
+> > err_unlock_policy:
+> > 	unlock_policy_rwsem_write(cpu);
+> >+err_unlock_gov_mutex:
+> >+	mutex_unlock(&cpufreq_gov_mutex);
+> > err_free_cpumask:
+> > 	free_cpumask_var(policy->cpus);
+> > err_free_policy:
+> >@@ -1028,6 +1045,7 @@ static int __cpufreq_remove_dev(struct s
+> > 		spin_unlock_irqrestore(&cpufreq_driver_lock, flags);
+> > 		cpufreq_debug_enable_ratelimit();
+> > 		unlock_policy_rwsem_write(cpu);
+> >+		mutex_unlock(&cpufreq_gov_mutex);
+> > 		return -EINVAL;
+> > 	}
+> > 	per_cpu(cpufreq_cpu_data, cpu) = NULL;
+> >@@ -1045,6 +1063,7 @@ static int __cpufreq_remove_dev(struct s
+> > 		cpufreq_cpu_put(data);
+> > 		cpufreq_debug_enable_ratelimit();
+> > 		unlock_policy_rwsem_write(cpu);
+> >+		mutex_unlock(&cpufreq_gov_mutex);
+> > 		return 0;
+> > 	}
+> > #endif
+> >@@ -1088,9 +1107,13 @@ static int __cpufreq_remove_dev(struct s
+> > #endif
+> > 
+> > 	unlock_policy_rwsem_write(cpu);
+> >-
+> >+	/*
+> >+	 * Calling only with the cpufreq_gov_mutex held because
+> >+	 * sync timer teardown has locking dependency with policy rwsem.
+> >+	 */
+> > 	if (cpufreq_driver->target)
+> > 		__cpufreq_governor(data, CPUFREQ_GOV_STOP);
+> >+	mutex_unlock(&cpufreq_gov_mutex);
+> > 
+> > 	kobject_put(&data->kobj);
+> > 
+> >@@ -1123,6 +1146,7 @@ static int cpufreq_remove_dev(struct sys
+> > 	if (cpu_is_offline(cpu))
+> > 		return 0;
+> > 
+> >+	mutex_lock(&cpufreq_gov_mutex);
+> > 	if (unlikely(lock_policy_rwsem_write(cpu)))
+> > 		BUG();
+> > 
+> >@@ -1506,12 +1530,16 @@ int cpufreq_driver_target(struct cpufreq
+> > 	if (!policy)
+> > 		goto no_policy;
+> > 
+> >-	if (unlikely(lock_policy_rwsem_write(policy->cpu)))
+> >+	mutex_lock(&cpufreq_gov_mutex);
+> >+	if (unlikely(lock_policy_rwsem_write(policy->cpu))) {
+> >+		mutex_unlock(&cpufreq_gov_mutex);
+> > 		goto fail;
+> >+	}
+> > 
+> > 	ret = __cpufreq_driver_target(policy, target_freq, relation);
+> > 
+> > 	unlock_policy_rwsem_write(policy->cpu);
+> >+	mutex_unlock(&cpufreq_gov_mutex);
+> > 
+> > fail:
+> > 	cpufreq_cpu_put(policy);
+> >@@ -1769,7 +1797,9 @@ int cpufreq_update_policy(unsigned int c
+> > 		goto no_policy;
+> > 	}
+> > 
+> >+	mutex_lock(&cpufreq_gov_mutex);
+> > 	if (unlikely(lock_policy_rwsem_write(cpu))) {
+> >+		mutex_unlock(&cpufreq_gov_mutex);
+> > 		ret = -EINVAL;
+> > 		goto fail;
+> > 	}
+> >@@ -1798,6 +1828,7 @@ int cpufreq_update_policy(unsigned int c
+> > 	ret = __cpufreq_set_policy(data, &policy);
+> > 
+> > 	unlock_policy_rwsem_write(cpu);
+> >+	mutex_unlock(&cpufreq_gov_mutex);
+> > 
+> > fail:
+> > 	cpufreq_cpu_put(data);
+> >@@ -1821,6 +1852,7 @@ static int __cpuinit cpufreq_cpu_callbac
+> > 			break;
+> > 		case CPU_DOWN_PREPARE:
+> > 		case CPU_DOWN_PREPARE_FROZEN:
+> >+			mutex_lock(&cpufreq_gov_mutex);
+> > 			if (unlikely(lock_policy_rwsem_write(cpu)))
+> > 				BUG();
+> > 
+> >
+> >-- 
+> >Mathieu Desnoyers
+> >OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 
+> >A8FE 3BAE 9A68
+> >
+
+-- 
+Mathieu Desnoyers
+OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 A8FE 3BAE 9A68
