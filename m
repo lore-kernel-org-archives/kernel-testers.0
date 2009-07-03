@@ -1,128 +1,210 @@
-From: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
-Subject: [Announce] cpufreq-bench
-Date: Fri, 3 Jul 2009 14:58:27 +0200
-Message-ID: <200907031458.27908.trenn@suse.de>
+From: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
+Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
+Date: Fri, 3 Jul 2009 15:08:45 +0200
+Message-ID: <200907031508.47891.bzolnier@gmail.com>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <200907021813.57322.bzolnier@gmail.com> <1246593505.27828.187.camel@falcon>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-ide-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:from:to:subject:date
+         :user-agent:cc:references:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:message-id;
+        bh=WNbbOQM+BLVCVyxRpD+1/8ZlOmiUKRQZNoAao2WzXSg=;
+        b=dAXV7zolHGUNejeV8uO25tlIob4PJSKis7xaDLFEtIlidmhfWHSU/ctdBd+TYU3z7W
+         T7+Es9J2xnUSDNf0UZ8dYW2btGo9t6moyIAxFxoy9Yrix0z1OLjB4vLK5xosXhPjSx2Y
+         pJSa4X52bD7gHcwfT1ijh4ion8pULZF5Ti7Qc=
+In-Reply-To: <1246593505.27828.187.camel@falcon>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-ide-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, ckornacker-l3A5Bk7waGM@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: wuzhangjin@gmail.com
+Cc: Jeff Chua <jeff.chua.linux@gmail.com>, Etienne Basset <etienne.basset@numericable.fr>, David Miller <davem@davemloft.net>, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>, linux-mips@linux-mips.org, linux-ide@vger.kernel.org
 
-Oh dear, again with the correct lkml list address in CC, please
-do not answer on the previous mail...
+On Friday 03 July 2009 05:58:25 Wu Zhangjin wrote:
+> On Thu, 2009-07-02 at 18:13 +0200, Bartlomiej Zolnierkiewicz wrote:
+> > On Thursday 02 July 2009 03:46:43 Wu Zhangjin wrote:
+> > > On Wed, 2009-07-01 at 18:29 +0200, Bartlomiej Zolnierkiewicz wrote:
+> > > > On Wednesday 01 July 2009 18:21:25 Bartlomiej Zolnierkiewicz wrote:
+> > > > > On Wednesday 01 July 2009 16:47:41 Wu Zhangjin wrote:
+> > > > > > On Wed, 2009-07-01 at 22:31 +0800, Jeff Chua wrote:
+> > > > > > > On Tue, Jun 30, 2009 at 12:21 AM, Jeff Chua<jeff.chua.linux@gmail.com> wrote:
+> > > > > > > 
+> > > > > > > > I just tried, and it "seems" to work. Will try a few more cycles.
+> > > > > > > 
+> > > > > > > STD/STR survived quite a few cycles now. Patch seems to be doing the
+> > > > > > > right thing.
+> > > > > > > 
+> > > > > > > On Mon, Jun 29, 2009 at 11:51 PM, Etienne
+> > > > > > > Basset<etienne.basset@numericable.fr> wrote:
+> > > > > > > 
+> > > > > > > > To have STR/resume work with current git, I have to :
+> > > > > > > 
+> > > > > > > > 1) apply Bart's patch
+> > > > > > > 
+> > > > > > > This is not yet in Linus's tree. And much needed to really fix the problem.
+> > > > > > > 
+> > > > > > > > 2) revert this commit : a1317f714af7aed60ddc182d0122477cbe36ee9b
+> > > > > > > 
+> > > > > > 
+> > > > > > Yes, This commit must be reverted, otherwise, STD/Hibernation will not
+> > > > > > work either. I have tested it on two different loongson-based machines:
+> > > > > > fuloong2e box and yeeloong2f netbook.(loongson is mips compatiable)
+> > > > > 
+> > > > > Since it seems like Dave is taking his sweet time with doing the revert
+> > > > > I stared at the code a bit more and I think that I finally found the bug
+> > > > > (thanks to your debugging work for giving me the right hint!).
+> > > > > 
+> > > > > The patch needs to take into the account a new code introduced by the recent
+> > > > > block layer changes (commit 8f6205cd572fece673da0255d74843680f67f879):
+> > > > > 
+> > > > > @@ -555,8 +560,11 @@ repeat:
+> > > > >                 startstop = start_request(drive, rq);
+> > > > >                 spin_lock_irq(&hwif->lock);
+> > > > >  
+> > > > > -               if (startstop == ide_stopped)
+> > > > > +               if (startstop == ide_stopped) {
+> > > > > +                       rq = hwif->rq;
+> > > > > +                       hwif->rq = NULL;
+> > > > >                         goto repeat;
+> > > > > +               }
+> > > > >         } else
+> > > > >                 goto plug_device;
+> > > > >  out:
+> > > > > 
+> > > > > and not zero hwif->rq if the device is blocked. 
+> > > > > 
+> > > > > Could you try the attached patch and see if it fixes the issue?
+> > > > 
+> > > > Here is the more complete version, also taking into the account changes
+> > > > in ide_intr() and ide_timer_expiry():
+> > > > 
+> > > 
+> > > Sorry, I can not apply this patch directly, which original version did
+> > > you use? I used the one in the master branch of linux-mips development
+> > > git repository.
+> > > 
+> > > commit 5a4f13fad1ab5bd08dea78fc55321e429d83cddf
+> > > Merge: ec9c45d e18ed14
+> > > Author: Linus Torvalds <torvalds@linux-foundation.org>
+> > > Date:   Mon Jun 29 20:07:43 2009 -0700
+> > > 
+> > >     Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/ide-2.6
+> > >     
+> > >     * git://git.kernel.org/pub/scm/linux/kernel/git/davem/ide-2.6:
+> > >       ide: memory overrun in ide_get_identity_ioctl() on big endian
+> > > machines using ioctl HDIO_OBSOLETE_IDENTITY
+> > >       ide: fix resume for CONFIG_BLK_DEV_IDEACPI=y
+> > >       ide-cd: handle fragmented packet commands gracefully
+> > >       ide: always kill the whole request on error
+> > >       ide: fix ide_kill_rq() for special ide-{floppy,tape} driver
+> > > requests
+> > > 
+> > > it this too old? should i merge another git repository?
+> > 
+> > Weird, I used linux-next but Linus' tree should also be fine
+> > (as it matches linux-next w.r.t. ide currently).
+> 
+> I just cloned the linux-next git repo, and tested your patch with
+> STD/Hibernation, unfortunately, it also not work :-(
+> 
+> here is the Call Trace:
+> 
+> blk_delete_timer+0x0/0x20
+> blk_requeue_request+0x24/0xd0
+> ide_requeue_and_plug+0x38/0xb0
+> ide_intr+0x120/0x300             --->  ide_intr....
+> handle_IRQ_event+0x94/0x230
+> handle_level_irq+0x7c/0x120
+> mach_irq_dispatch+0xc8/0x158
+> ret_from_irq+0x0/0x4
+> cpu_idle+0x30/0x60
+> start_kernel+0x330/0x34c
+> 
+> If _NOT_ apply your patch and comment this part, it works:
 
-Hi,
+OK, I see another gotcha added by recent changes, we need to explicitly
+initialize rq_in_flight variables now.  Revised patch below..
 
-inspired by Rafaels talk about covering kernel code for regression
-testing and the need to be able to debug tunables in the ondemand
-governor, Christian produced this IMO excellent micro code benchmark.
+From: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
+Subject: [PATCH] ide: make resume work again (for real)
 
-What is this benchmark for:
-  - Identify worst case performance loss when doing dynamic frequency
-    scaling using Linux kernel governors
-  - Identify average reaction time of a governor to CPU load changes
-  - (Stress) Testing whether a cpufreq low level driver or governor works
-    as expected
-  - Identify cpufreq related performance regressions between kernels
-  - Possibly Real time priority testing? -> what happens if there are
-    processes with a higher prio than the governor's kernel thread
-  - ...
+It turns out that commit a1317f714af7aed60ddc182d0122477cbe36ee9b
+("ide: improve handling of Power Management requests") needs to take
+into the account a new code added by the recent block layer changes
+in commit 8f6205cd572fece673da0255d74843680f67f879 ("ide: dequeue
+in-flight request") and prevent clearing of hwif->rq if the device
+is blocked.
 
-What this benchmark does *not* cover:
-  - Power saving related regressions (In fact as better the performance
-    throughput is, the worse the power savings will be, but the first should
-    mostly count more...)
-  - Real world (workloads)
+Thanks to Etienne, Wu and Jeff for help in fixing the issue.
 
-How it works:
-You can specify load (100% CPU load) and sleep (0% CPU load) times in us which
-will be run X time in a row (cycles):
+Reported-and-tested-by: Jeff Chua <jeff.chua.linux@gmail.com>
+Reported-and-tested-by: Etienne Basset <etienne.basset@numericable.fr>
+Reported-by: Wu Zhangjin <wuzhangjin@gmail.com>
+Signed-off-by: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
+---
+Added patch description, no other changes.
 
-         sleep=25000
-         load=25000
-         cycles=20
+ drivers/ide/ide-io.c |   19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-This part of the configuration file will create 25ms load/sleep turns, 
-repeated 20 times.
-
-Adding this:
-         sleep_step=25000
-         load_step=25000
-         rounds=5
-Will increase load and sleep time by 25ms 5 times.
-Together you get following test:
-25ms  load/sleep time repeated 20 times (cycles).
-50ms  load/sleep time repeated 20 times (cycles).
-..
-100ms load/sleep time repeated 20 times (cycles).
-
-First it is calibrated how long a specific CPU intensive calculation
-takes on this machine and needs to be run in a loop using the performance 
-governor.
-Then the above test runs are processed using the performance governor
-and the governor to test. The time the calculation really needed
-with the dynamic freq scaling governor is compared with the time needed
-on full performance and you get the overall performance loss.
-
-
-Example of expected results with ondemand governor:
-
-This shows expected results of the first two test run rounds from
-above config, you there have:
-
-100% CPU load (load) | 0 % CPU load (sleep)  | round
-   25 ms             |    25 ms              |   1
-   50 ms             |    50 ms              |   2
-
-For example if ondemand governor is configured to have a 50ms
-sampling rate you get:
-
-In round 1, ondemand should have rather static 50% load and probably
-won't ever switch up (as long as up_threshold is above).
-
-In round 2, if the ondemand sampling times exactly match the load/sleep 
-trigger of the cpufreq-bench, you will see no performance loss (compare with 
-below possible ondemand sample kick ins (1)):
-
-But if ondemand always kicks in in the middle of the load sleep cycles, it 
-will always see 50% loads and you get worst performance impact never 
-switching up (compare with below possible ondemand sample kick ins (2))::
-
-      50     50   50   50ms ->time
-load -----|     |-----|     |-----|     |-----|    
-          |     |     |     |     |     |     |    
-sleep     |-----|     |-----|     |-----|     |----
-    |-----|-----|-----|-----|-----|-----|-----|----  ondemand sampling (1)
-         100    0    100    0    100    0    100     load seen by ondemand(%)
-       |-----|-----|-----|-----|-----|-----|-----|--   ondemand sampling (2)
-      50     50    50    50    50    50    50        load seen by ondemand(%)
-
-You can easily test all kind of load/sleep times and check whether your
-governor in average behaves as expected.
-
-The tool is available here:
-ftp.suse.com/pub/people/ckornacker/cpufreq-bench
-
-If you script a bit with gnuplot you can draw some nice graphs like
-that one showing the performance impact with different ondemand sampling rate
-tuning parameters:
-ftp.suse.com/pub/people/trenn/benchmark_samplingrate_optimized.png
-Hmm, let me quickly comment on the picture:
-The us axis better had been ms. It shows the load/sleep cycles time of each 
-test run, starting with 50ms (50000us) load/sleep cycles and increasing
-in 50ms steps.
-The different sampling lines are the modified sampling_rate of the ondemand
-governor, 40ms, 80ms, 100ms and 500ms ondemand sampling rates are 
-tested/compared.
-
-Comments?
-Could/should this be integrated into some already existing cpufreq related
-project (cpufreq-utils)?
-Can the Linux Testing Project profit by that one?
-
-Thanks,
-    Thomas
+Index: b/drivers/ide/ide-io.c
+===================================================================
+--- a/drivers/ide/ide-io.c
++++ b/drivers/ide/ide-io.c
+@@ -532,7 +532,8 @@ repeat:
+ 
+ 		if (startstop == ide_stopped) {
+ 			rq = hwif->rq;
+-			hwif->rq = NULL;
++			if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0)
++				hwif->rq = NULL;
+ 			goto repeat;
+ 		}
+ 	} else
+@@ -616,7 +617,7 @@ void ide_timer_expiry (unsigned long dat
+ 	unsigned long	flags;
+ 	int		wait = -1;
+ 	int		plug_device = 0;
+-	struct request	*uninitialized_var(rq_in_flight);
++	struct request	*rq_in_flight = NULL;
+ 
+ 	spin_lock_irqsave(&hwif->lock, flags);
+ 
+@@ -679,8 +680,10 @@ void ide_timer_expiry (unsigned long dat
+ 		spin_lock_irq(&hwif->lock);
+ 		enable_irq(hwif->irq);
+ 		if (startstop == ide_stopped && hwif->polling == 0) {
+-			rq_in_flight = hwif->rq;
+-			hwif->rq = NULL;
++			if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0) {
++				rq_in_flight = hwif->rq;
++				hwif->rq = NULL;
++			}
+ 			ide_unlock_port(hwif);
+ 			plug_device = 1;
+ 		}
+@@ -775,7 +778,7 @@ irqreturn_t ide_intr (int irq, void *dev
+ 	ide_startstop_t startstop;
+ 	irqreturn_t irq_ret = IRQ_NONE;
+ 	int plug_device = 0;
+-	struct request *uninitialized_var(rq_in_flight);
++	struct request *rq_in_flight = NULL;
+ 
+ 	if (host->host_flags & IDE_HFLAG_SERIALIZE) {
+ 		if (hwif != host->cur_port)
+@@ -856,8 +859,10 @@ irqreturn_t ide_intr (int irq, void *dev
+ 	 */
+ 	if (startstop == ide_stopped && hwif->polling == 0) {
+ 		BUG_ON(hwif->handler);
+-		rq_in_flight = hwif->rq;
+-		hwif->rq = NULL;
++		if ((drive->dev_flags & IDE_DFLAG_BLOCKED) == 0) {
++			rq_in_flight = hwif->rq;
++			hwif->rq = NULL;
++		}
+ 		ide_unlock_port(hwif);
+ 		plug_device = 1;
+ 	}
