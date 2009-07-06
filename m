@@ -1,85 +1,190 @@
 From: "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: cpufreq cleanups - .30 vs .31
-Date: Mon, 06 Jul 2009 10:20:25 -0700
-Message-ID: <1246900825.11545.6.camel@localhost.localdomain>
-References: <200907061318.20839.trenn@suse.de>
+Subject: Re: [patch 2.6.30 2/4] CPUFREQ: fix (utter) cpufreq_add_dev mess
+Date: Mon, 06 Jul 2009 11:02:11 -0700
+Message-ID: <1246903331.11545.16.camel@localhost.localdomain>
+References: <20090703152514.903448283@polymtl.ca>
+	 <20090703152714.775719309@polymtl.ca>
+	 <7E82351C108FA840AB1866AC776AEC4669BFF0F5@orsmsx505.amr.corp.intel.com>
+	 <20090703194154.GB20266@Krystal>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200907061318.20839.trenn-l3A5Bk7waGM@public.gmane.org>
+In-Reply-To: <20090703194154.GB20266@Krystal>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
-Cc: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+To: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+Cc: "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>, "cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "rjw-KKrjLPT3xs0@public.gmane.org" <rjw-KKrjLPT3xs0@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, "Li, Shaohua" <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org" <sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org>
 
-On Mon, 2009-07-06 at 04:18 -0700, Thomas Renninger wrote:
-> Hi Dave,
+On Fri, 2009-07-03 at 12:41 -0700, Mathieu Desnoyers wrote:
+> * Pallipadi, Venkatesh (venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org) wrote:
+> >  
+> > 
+> > >-----Original Message-----
+> > >From: Mathieu Desnoyers [mailto:mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org] 
+> > >Sent: Friday, July 03, 2009 8:25 AM
+> > >To: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; Pallipadi, Venkatesh; Dave 
+> > >Jones; Thomas Renninger; cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; 
+> > >kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; Ingo Molnar; rjw-KKrjLPT3xs0@public.gmane.org; Dave 
+> > >Young; Pekka Enberg
+> > >Cc: Mathieu Desnoyers; Li, Shaohua; Rusty Russell; 
+> > >sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org
+> > >Subject: [patch 2.6.30 2/4] CPUFREQ: fix (utter) cpufreq_add_dev mess
+> > >
+> > >OK, I've tried to clean it up the best I could, but please 
+> > >test this with
+> > >concurrent cpu hotplug and cpufreq add/remove in loops. I'm 
+> > >sure we will make
+> > >other interesting findings.
+> > >
+> > 
+> > This is a good and needed cleanup of cpufreq_add_dev.
+> > 
+> > 
+> > >This is step one of fixing the overall locking dependency mess 
+> > >in cpufreq.
+> > >
+> > >Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+> > >CC: Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> > >CC: rjw-KKrjLPT3xs0@public.gmane.org
+> > >CC: mingo-X9Un+BFzKDI@public.gmane.org
+> > >CC: Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> > >CC: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+> > >CC: Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > >CC: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+> > >CC: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+> > >CC: sven.wegener-sQQoR7IzGU7R7s880joybQ@public.gmane.org
+> > >CC: cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> > >CC: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
+> > >---
+> > > drivers/cpufreq/cpufreq.c |   65 
+> > >++++++++++++++++++++++++++++------------------
+> > > 1 file changed, 40 insertions(+), 25 deletions(-)
+> > >
+> > >Index: linux-2.6-lttng/drivers/cpufreq/cpufreq.c
+> > >===================================================================
+> > >--- linux-2.6-lttng.orig/drivers/cpufreq/cpufreq.c	
+> > >2009-07-02 23:59:08.000000000 -0400
+> > >+++ linux-2.6-lttng/drivers/cpufreq/cpufreq.c	2009-07-02 
+> > >23:59:09.000000000 -0400
+> > >@@ -763,6 +763,10 @@ static struct kobj_type ktype_cpufreq = 
+> > >  * cpufreq_add_dev - add a CPU device
+> > >  *
+> > >  * Adds the cpufreq interface for a CPU device.
+> > >+ *
+> > >+ * The Oracle says: try running cpufreq 
+> > >registration/unregistration concurrently
+> > >+ * with with cpu hotplugging and all hell will break loose. 
+> > >Tried to clean this
+> > >+ * mess up, but more thorough testing is needed. - Mathieu
+> > >  */
+> > > static int cpufreq_add_dev(struct sys_device *sys_dev)
+> > > {
+> > >@@ -806,15 +810,12 @@ static int cpufreq_add_dev(struct sys_de
+> > > 		goto nomem_out;
+> > > 	}
+> > > 	if (!alloc_cpumask_var(&policy->cpus, GFP_KERNEL)) {
+> > >-		kfree(policy);
+> > > 		ret = -ENOMEM;
+> > >-		goto nomem_out;
+> > >+		goto err_free_policy;
+> > > 	}
+> > > 	if (!zalloc_cpumask_var(&policy->related_cpus, GFP_KERNEL)) {
+> > >-		free_cpumask_var(policy->cpus);
+> > >-		kfree(policy);
+> > > 		ret = -ENOMEM;
+> > >-		goto nomem_out;
+> > >+		goto err_free_cpumask;
+> > > 	}
+> > > 
+> > > 	policy->cpu = cpu;
+> > >@@ -822,7 +823,8 @@ static int cpufreq_add_dev(struct sys_de
+> > > 
+> > > 	/* Initially set CPU itself as the policy_cpu */
+> > > 	per_cpu(policy_cpu, cpu) = cpu;
+> > >-	lock_policy_rwsem_write(cpu);
+> > >+	ret = (lock_policy_rwsem_write(cpu) < 0);
+> > >+	WARN_ON(ret);
+> > > 
+> > > 	init_completion(&policy->kobj_unregister);
+> > > 	INIT_WORK(&policy->update, handle_update);
+> > >@@ -835,7 +837,7 @@ static int cpufreq_add_dev(struct sys_de
+> > > 	ret = cpufreq_driver->init(policy);
+> > > 	if (ret) {
+> > > 		dprintk("initialization failed\n");
+> > >-		goto err_out;
+> > >+		goto err_unlock_policy;
+> > > 	}
+> > > 	policy->user_policy.min = policy->min;
+> > > 	policy->user_policy.max = policy->max;
+> > >@@ -860,15 +862,21 @@ static int cpufreq_add_dev(struct sys_de
+> > > 		/* Check for existing affected CPUs.
+> > > 		 * They may not be aware of it due to CPU Hotplug.
+> > > 		 */
+> > >-		managed_policy = cpufreq_cpu_get(j);		
+> > >/* FIXME: Where is this released?  What about error paths? */
+> > >+		managed_policy = cpufreq_cpu_get(j);
+> > > 		if (unlikely(managed_policy)) {
+> > > 
+> > > 			/* Set proper policy_cpu */
+> > > 			unlock_policy_rwsem_write(cpu);
+> > > 			per_cpu(policy_cpu, cpu) = managed_policy->cpu;
+> > > 
+> > >-			if (lock_policy_rwsem_write(cpu) < 0)
+> > >-				goto err_out_driver_exit;
+> > >+			if (lock_policy_rwsem_write(cpu) < 0) {
+> > >+				/* Should not go through policy 
+> > >unlock path */
+> > >+				if (cpufreq_driver->exit)
+> > >+					cpufreq_driver->exit(policy);
+> > >+				ret = -EBUSY;
+> > >+				cpufreq_cpu_put(managed_policy);
+> > >+				goto err_free_cpumask;
+> > >+			}
+> > > 
+> > > 			spin_lock_irqsave(&cpufreq_driver_lock, flags);
+> > > 			cpumask_copy(managed_policy->cpus, 
+> > >policy->cpus);
+> > >@@ -879,12 +887,14 @@ static int cpufreq_add_dev(struct sys_de
+> > > 			ret = sysfs_create_link(&sys_dev->kobj,
+> > > 						&managed_policy->kobj,
+> > > 						"cpufreq");
+> > >-			if (ret)
+> > >-				goto err_out_driver_exit;
+> > >-
+> > >-			cpufreq_debug_enable_ratelimit();
+> > >-			ret = 0;
+> > >-			goto err_out_driver_exit; /* call 
+> > >driver->exit() */
+> > >+			if (!ret)
+> > >+				cpufreq_cpu_put(managed_policy);
+> > 
+> > Looks like cpufreq_cpu_put is needed both with ret and !ret. No?
+> > 
 > 
-> this is about Venki's and Mathieu's recently sent cleanups.
-> I'd like to summarize this to help finding a solution:
+> No. ret == 0 path is a "success path" only creating a symlink, and
+> therefore __cpufreq_remove_dev() will take care of calling the
+> cpufreq_cpu_put() to decrement the reference count :
 > 
-> IMO Venki's approach (making .governor() always be called with
-> rwsem held) is the cleaner one and this should be the way to
-> go for .31 and future. This better separates locking responsibilities
-> between cpufreq core and governors and brings back "design" into this.
+> static int __cpufreq_remove_dev(struct sys_device *sys_dev)
+> {
+> ...
 > 
-> One could argue that for .30 Mathieu's is better, because less
-> intrusive. It's up to Dave in the end, but:
-> [patch 2.6.30 1/4] remove rwsem lock from CPUFREQ_GOV_STOP call (second call 
-> site)
-> should not be the way to go for .31 and I'd vote for Venki's
-> approach concerning locking .governor() against multiple calls (done by
-> rwsem) and governor() vs do_dbs_timer calls (governor's job with a governor
-> specific sem).
+>         if (unlikely(cpu != data->cpu)) {
+>                 dprintk("removing link\n");
+>                 cpumask_clear_cpu(cpu, data->cpus);
+>                 spin_unlock_irqrestore(&cpufreq_driver_lock, flags);
+>                 sysfs_remove_link(&sys_dev->kobj, "cpufreq");
+>                 cpufreq_cpu_put(data);
+>                 cpufreq_debug_enable_ratelimit();
+>                 unlock_policy_rwsem_write(cpu);
+>                 return 0;
+>         }
 > 
-> So if not find too intrusive, I'd say:
-> Venkatesh's whole series of:
-> [patch 0/4] Take care of cpufreq lockdep issues (take 2)
-> should be seen in .31.
-> 
-> Depending on how intrusive this is seen, Venki's first patch:
-> [patch 1/4] cpufreq: Eliminate the recent lockdep warnings in cpufreq
-> should then go to .30 (after still waiting a bit?)
-> or Mathieu's approach (I'd vote for Venki's to be consistent for .30 and .31).
-> 
-> The one patch from Mathieu:
-> [patch 2.6.30 2/4] CPUFREQ: fix (utter) cpufreq_add_dev mess
-> is a separate, general cleanup which should show up in .31.
-> 
-> 
-> 
-> I still have two patch specific questions:
-> about Mathieu's (it's a minor issue in the error path):
-> [patch 2.6.30 2/4] CPUFREQ: fix (utter) cpufreq_add_dev mess
-> 
-> +                       if (lock_policy_rwsem_write(cpu) < 0) {
-> +                               /* Should not go through policy unlock path */
-> +                               if (cpufreq_driver->exit)
-> +                                       cpufreq_driver->exit(policy);
-> +                               ret = -EBUSY;
-> +                               cpufreq_cpu_put(managed_policy);
-> Shouldn't:
->  cpufreq_cpu_put(managed_policy);
-> be called before:
->  cpufreq_driver->exit(policy);
-> Just in case the driver itself wants to grab the policy of the
-> managed cpu?
-> 
-> 
-> about Venki's:
-> [patch 3/4] cpufreq: Cleanup locking in ondemand governor
-> Isn't it possible to use only one mutex(timer_mutex) to protect do_dbs_timer 
-> against governor start, stop, limit?
-> Then dbs_mutex would only be used to protect against concurrent sysfs access
-> and can be thrown away as soon as ondemand only provides global sysfs files,
-> not per cpu ones.
+> This is, at least, how I understand what is happening here.
 > 
 
-dbs_mutex (or some other global lock) is also needed at the places where
-dbs_enable is changed and used. Yes having dbs_mutex exclusively for
-dbs_tuners makes code cleaner. I would say, making ondemand providing
-global sysfs/debugfs files is a better thing to do sooner.
+Agreed.
 
 Thanks,
 Venki
