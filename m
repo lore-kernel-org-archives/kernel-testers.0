@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13645] NULL pointer dereference at (null) (level2_spare_pgt)
+Subject: [Bug #13650] Problem with alloc_arch_preferred_bootmem() on powerpc
 Date: Tue,  7 Jul 2009 01:49:28 +0200 (CEST)
-Message-ID: <dWkuWjWDsSB.A.lhF.w0oUKB@chimera>
+Message-ID: <dWkuWjWDsSB.A.8cF.u0oUKB@chimera>
 References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, poornima nayak <mpnayak-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, Sean MacLennan <smaclennan-Qtffpm9i2AVWk0Htik3J/w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13645
-Subject		: NULL pointer dereference at (null) (level2_spare_pgt)
-Submitter	: poornima nayak <mpnayak-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Date		: 2009-06-17 17:56 (20 days old)
-References	: http://lkml.org/lkml/2009/6/17/194
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13650
+Subject		: Problem with alloc_arch_preferred_bootmem() on powerpc
+Submitter	: Sean MacLennan <smaclennan-Qtffpm9i2AVWk0Htik3J/w@public.gmane.org>
+Date		: 2009-06-20 19:48 (17 days old)
+References	: http://marc.info/?l=linuxppc-embedded&m=124552732411775&w=4
 
