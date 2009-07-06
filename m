@@ -1,60 +1,94 @@
-From: Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH 1/2] CPUFREQ: Remove unneeded dbs_mutexes from ondemand
-	and conservative governors
-Date: Sun, 5 Jul 2009 21:46:46 +0200
-Message-ID: <20090705194646.GF17910@elf.ucw.cz>
-References: <20090623193215.GA31374@elte.hu> <1245938485-12663-2-git-send-email-trenn@suse.de> <20090630063339.GF1351@ucw.cz> <200907031210.16828.trenn@suse.de>
+From: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
+Subject: cpufreq cleanups - .30 vs .31
+Date: Mon, 6 Jul 2009 13:18:18 +0200
+Message-ID: <200907061318.20839.trenn@suse.de>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756105AbZGETrI@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <200907031210.16828.trenn@suse.de>
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Thomas Renninger <trenn@suse.de>
-Cc: kernel@stable.org, cpufreq@vger.kernel.org, linux-kernel@vger.kernel.org, mingo@elte.hu, rjw@sisk.pl, hidave.darkstar@gmail.com, penberg@cs.helsinki.fi, kernel-testers@vger.kernel.org, davej@redhat.com, mathieu.desnoyers@polymtl.ca, Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>, Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>, Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Fri 2009-07-03 12:10:15, Thomas Renninger wrote:
-> Hi Pavel,
-> 
-> On Tuesday 30 June 2009 08:33:39 Pavel Machek wrote:
-> > On Thu 2009-06-25 16:01:24, Thomas Renninger wrote:
-> > > Comment from Venkatesh:
-> > > ...
-> > > This mutex is just serializing the changes to those variables. I could't
-> > > think of any functionality issues of not having the lock as such.
-> > > 
-> > > -> rip it out.
-> > > 
-> > > CC: Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>
-> > > Signed-off-by: Thomas Renninger <trenn@suse.de>
-> > 
-> > >  static struct dbs_tuners {
-> > > @@ -236,10 +222,7 @@ static ssize_t store_sampling_down_factor(struct cpufreq_policy *unused,
-> > >  	if (ret != 1 || input > MAX_SAMPLING_DOWN_FACTOR || input < 1)
-> > >  		return -EINVAL;
-> > >  
-> > > -	mutex_lock(&dbs_mutex);
-> > >  	dbs_tuners_ins.sampling_down_factor = input;
-> > > -	mutex_unlock(&dbs_mutex);
-> > > -
-> > 
-> > You'd need to make s_down_factor atomic_t for this to work....
-> Can you provide a userspace scenario (or tell which kind of event must
-> happen in between), that this would cause problems, please.
+Hi Dave,
+
+this is about Venki's and Mathieu's recently sent cleanups.
+I'd like to summarize this to help finding a solution:
+
+IMO Venki's approach (making .governor() always be called with
+rwsem held) is the cleaner one and this should be the way to
+go for .31 and future. This better separates locking responsibilities
+between cpufreq core and governors and brings back "design" into this.
+
+One could argue that for .30 Mathieu's is better, because less
+intrusive. It's up to Dave in the end, but:
+[patch 2.6.30 1/4] remove rwsem lock from CPUFREQ_GOV_STOP call (second=
+ call=20
+site)
+should not be the way to go for .31 and I'd vote for Venki's
+approach concerning locking .governor() against multiple calls (done by
+rwsem) and governor() vs do_dbs_timer calls (governor's job with a gove=
+rnor
+specific sem).
+
+So if not find too intrusive, I'd say:
+Venkatesh's whole series of:
+[patch 0/4] Take care of cpufreq lockdep issues (take 2)
+should be seen in .31.
+
+Depending on how intrusive this is seen, Venki's first patch:
+[patch 1/4] cpufreq: Eliminate the recent lockdep warnings in cpufreq
+should then go to .30 (after still waiting a bit?)
+or Mathieu's approach (I'd vote for Venki's to be consistent for .30 an=
+d .31).
+
+The one patch from Mathieu:
+[patch 2.6.30 2/4] CPUFREQ: fix (utter) cpufreq_add_dev mess
+is a separate, general cleanup which should show up in .31.
 
 
-Imagine 
 
-dbs_tuners_ins.sampling_down_factor = 0xd0000;
-input = 0xabcd;
+I still have two patch specific questions:
+about Mathieu's (it's a minor issue in the error path):
+[patch 2.6.30 2/4] CPUFREQ: fix (utter) cpufreq_add_dev mess
 
-..then other threads can see 0xdabcd; if they read at "bad"
-moment. Not on i386, but this is generic code (right?). Just use
-atomic_t.
-									Pavel   
++=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0i=
+f (lock_policy_rwsem_write(cpu) < 0) {
++=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0/* Should not go through policy unlock path */
++=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0if (cpufreq_driver->exit)
++=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0cpufreq_driver->exit(polic=
+y);
++=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0ret =3D -EBUSY;
++=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0cpufreq_cpu_put(managed_policy);
+Shouldn't:
+ cpufreq_cpu_put(managed_policy);
+be called before:
+ cpufreq_driver->exit(policy);
+Just in case the driver itself wants to grab the policy of the
+managed cpu?
 
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+
+about Venki's:
+[patch 3/4] cpufreq: Cleanup locking in ondemand governor
+Isn't it possible to use only one mutex(timer_mutex) to protect do_dbs_=
+timer=20
+against governor start, stop, limit?
+Then dbs_mutex would only be used to protect against concurrent sysfs a=
+ccess
+and can be thrown away as soon as ondemand only provides global sysfs f=
+iles,
+not per cpu ones.
+
+Hmm, maybe this should just go in? It eases up things, but it's still h=
+ard
+to follow up each detail. Fixes/enhancements can still be put on top
+for .31.
+
+  Thomas
