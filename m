@@ -1,72 +1,32 @@
-From: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.30-rc1: touchpad disabled on hibernation
-Date: Mon, 06 Jul 2009 16:55:17 -0700
-Message-ID: <4A528EE5.5090901@gawab.com>
-References: <4A438BA7.9010800@tuffmail.co.uk> <8db1092f0906251016l5ac85bfdpbac841b939cfac2a@mail.gmail.com> <4A43B1FC.7060609@tuffmail.co.uk> <200907070040.14796.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13659] iwlagn (4965): no wireless due to RFKILL problem
+Date: Tue,  7 Jul 2009 01:49:28 +0200 (CEST)
+Message-ID: <dWkuWjWDsSB.A.0GF.k0oUKB@chimera>
+References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200907070040.14796.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> On Thursday 25 June 2009, Alan Jenkins wrote:
->   
->> Maciej Rutecki wrote:
->>     
->>> 2009/6/25 Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>:
->>>   
->>>       
->>>> The synaptics touchpad on my EeePC 701 dies on hibernation.  2.6.30 was
->>>> fine, and it doesn't happen on suspend to ram either.  There are no
->>>> obvious error messages, but maybe this boot message is relevant:
->>>>
->>>> Platform driver 'i8042' needs updating, please use dev_pm_ops
->>>>
->>>>     
->>>>         
->>> Similar on s2disk, HP/Compaq notebook. Try reload psmouse module. I
->>> reported it, but nobody answer.
->>>   
->>>       
->> That works, thanks.
->>     
->
-> Alan, Maciej, can you both try the patch at
-> http://patchwork.kernel.org/patch/34075/, please?
->
-> Rafael
->
->   
-I've been having the same issue (laptop touchpad not working after resume).
-Your patch seams to fix the problem. I no longer have to reload the 
-psmouse module after resume.
+This message has been generated automatically as a part of a report
+of recent regressions.
 
-$ modinfo psmouse
+The following bug entry is on the current list of known regressions
+from 2.6.30.  Please verify if it still should be listed and let me know
+(either way).
 
-filename:      
-/lib/modules/2.6.31-rc2-git/kernel/drivers/input/mouse/psmouse.ko
-license:        GPL
-description:  PS/2 mouse driver
-author:         Vojtech Pavlik <vojtech-AlSwsSmVLrQ@public.gmane.org>
-alias:            serio:ty05pr*id*ex*
-alias:            serio:ty01pr*id*ex*
-depends:
-vermagic:     2.6.31-rc2-git SMP preempt mod_unload modversions PENTIUM4 
-4KSTACKS
-parm:           proto:Highest protocol extension to probe (bare, imps, 
-exps, any). Useful for KVM switches. (proto_abbrev)
-parm:           resolution:Resolution, in dpi. (uint)
-parm:           rate:Report rate, in reports per second. (uint)
-parm:           smartscroll:Logitech Smartscroll autorepeat, 1 = enabled 
-(default), 0 = disabled. (bool)
-parm:           resetafter:Reset device after so many bad packets (0 = 
-never). (uint)
-parm:           resync_time:How long can mouse stay idle before forcing 
-resync (in seconds, 0 = never). (uint)
 
-Justin Madru
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13659
+Subject		: iwlagn (4965): no wireless due to RFKILL problem
+Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Date		: 2009-06-26 13:36 (11 days old)
+References	: http://lkml.org/lkml/2009/6/26/127
+Handled-By	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Patch		: http://lkml.org/lkml/2009/6/27/35
+
