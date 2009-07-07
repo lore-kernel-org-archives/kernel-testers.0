@@ -1,53 +1,48 @@
-From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Subject: Re: [Bug #13666] WARNING: at mm/page_alloc.c:1743
-	__alloc_pages_nodemask
-Date: Tue, 7 Jul 2009 10:39:07 +0100
-Message-ID: <20090707093906.GC26532@csn.ul.ie>
-References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera> <dWkuWjWDsSB.A.iyE.f0oUKB@chimera> <alpine.DEB.2.00.0907062101330.31794@chino.kir.corp.google.com>
+From: Alejandro Riveira =?UTF-8?B?RmVybsOhbmRleg==?= 
+	<ariveira-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13362] rt2x00: slow wifi with correct basic rate bitmap
+Date: Tue, 7 Jul 2009 12:06:51 +0200
+Message-ID: <20090707120651.063e1b1a@varda>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
+	<bXZeuxPQAWE.A.Nd.YBpUKB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.00.0907062101330.31794-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:in-reply-to:references:x-mailer:mime-version
+         :content-type:content-transfer-encoding;
+        bh=S96p8PA34ygB7J85OjfdGBLgLBsyraKRlLjyAzZ6eJI=;
+        b=lRkHYEg1OFVPDyoVJzXNuuHD9p1w3S7zQg0ayQVG9Hpxq+37B/Hhc9DGetDIuqCBZM
+         PT8heOa2lK3aH0zbp+8kbx25j2sf40p3xU7/kAcJUhxT5yrUQbXmdVgr5kpDFQag+tn+
+         YAbD2s79Gtyeer9WxEcoM6VO7fA60OnEdrrGo=
+In-Reply-To: <bXZeuxPQAWE.A.Nd.YBpUKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>, Arnaldo Carvalho de Melo <acme-f8uhVLnGfZaxAyOMLChx1axOck334EZe@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Wright <chrisw-69jw2NvuJkxg9hUCZPvPmw@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
-On Mon, Jul 06, 2009 at 09:23:03PM -0700, David Rientjes wrote:
-> On Tue, 7 Jul 2009, Rafael J. Wysocki wrote:
-> 
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.30.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13666
-> > Subject		: WARNING: at mm/page_alloc.c:1743 __alloc_pages_nodemask
-> > Submitter	: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
-> > Date		: 2009-06-27 16:15 (10 days old)
-> > References	: http://lkml.org/lkml/2009/6/27/75
-> > 
-> 
-> This should be suppressed with the patchset proposed by Mel on linux-mm:
-> 
-> 	http://marc.info/?l=linux-mm&m=124568542405734
-> 	http://marc.info/?l=linux-mm&m=124568542605738
-> 	http://marc.info/?l=linux-mm&m=124568542905750
-> 	http://marc.info/?l=linux-mm&m=124568543305755
-> 
-> It doesn't appear that these are in linux-next, however.
-> 
+El Tue,  7 Jul 2009 02:00:38 +0200 (CEST)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> escribi=C3=B3:
 
-In the middle of all the discussions, a few candidate patches haven't
-made it upstream. I'm waiting for an mmotm against 2.6.31-rc2 before
-going back to see what has been missed that needs resending.
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.29 and 2.6.30.
+>=20
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still shou=
+ld
+> be listed and let me know (either way).
+>=20
 
--- 
-Mel Gorman
-Part-time Phd Student                          Linux Technology Center
-University of Limerick                         IBM Dublin Software Lab
+ It should be still listed 2.6.30.1 does not fix it. still not tried
+2.6.31-rc* though.
+
+>=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13362
+> Subject		: rt2x00: slow wifi with correct basic rate bitmap
+> Submitter	: Alejandro Riveira <ariveira-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-05-22 13:32 (46 days old)
+>=20
+>=20
