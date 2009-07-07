@@ -1,29 +1,60 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13694] i915 phantom TV
-Date: Tue,  7 Jul 2009 02:01:07 +0200 (CEST)
-Message-ID: <bXZeuxPQAWE.A.ryF.w_oUKB@chimera>
+From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Subject: Re: [Bug #13306] hibernate slow on _second_ run
+Date: Tue, 07 Jul 2009 02:12:18 +0200
+Message-ID: <1246925538.4652.8.camel@johannes.local>
 References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
+	 <bXZeuxPQAWE.A.ZFB.BCpUKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-QZ+6/HFm97PAdglWR1hD"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
-Content-Disposition: inline
+In-Reply-To: <bXZeuxPQAWE.A.ZFB.BCpUKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?utf-8?q?Maciek=20J=C3=B3ziewicz?= <mjoziew-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.29 and 2.6.30.
-
-The following bug entry is on the current list of known regressions
-introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-be listed and let me know (either way).
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13694
-Subject		: i915 phantom TV
-Submitter	: Maciek J=C3=B3ziewicz <mjoziew-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-07-02 12:26 (5 days old)
+--=-QZ+6/HFm97PAdglWR1hD
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, 2009-07-07 at 02:00 +0200, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.29 and 2.6.30.
+>=20
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> be listed and let me know (either way).
+>=20
+>=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13306
+> Subject		: hibernate slow on _second_ run
+> Submitter	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+> Date		: 2009-05-14 09:34 (54 days old)
+
+Still exists in 31-rc2.
+
+johannes
+
+--=-QZ+6/HFm97PAdglWR1hD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAABAgAGBQJKUpLfAAoJEODzc/N7+QmaQAMQAJmrOAFym4WJh94e78RC844c
+rU6anQDsMICG4/VydYGPN3JgxK201K+ebXBZqUi235cWtz/wkv38VVwUqxnMua3b
+RUokgJtGu3UxUprsuFkT5KZR89AcfMAZz0J6fD9aitJAe8oIanTpbVYplhTt3kKg
+v8cwrZxxdkHJdCTUlPi/qgqeCCEyhqIcWiuNwL9+o4E+sPBERC0y62N9Hck9uR4+
+B1IZsnsMsc05EQpCjSmdBSqL38sed3wNXrr+0roWFzuhowxVPIdGGrFYc1jj76jw
+9C9s1nD0GSYq+xbebkQ5zReYtzGKupnqF3TI4Zj2A0TXLf4mTX9waOe1Z9Kpdi4p
+j4Ff/TTLcftB5g5NGXN7wOyItJodg6FVx3Ja9hWkAKgLQoxTF3jnE7NluEmQpiAq
+bOnmX+4+H+McC3h1B9tpPxqsePK952uZTzQHFu0H2JRJMPA4LYcjfH5dhEZ0TBVj
+suH7pmnhd70iiV8rAi7rR5Y2cbKXXD2W+r53h4BPCJg82sQYH8EQ+948tohmpsEX
+ZW/Utn88hnaxuvApD3RbakpnZhZJAlrThl11ggFpX8Gw2cg0P+qrV5vsbIyn8SBZ
+QeaXh2h5xY4Yi0BF6ugCrs6b1z2rC87WO9xmU204tCS2pJK1FATxWUexee7/Adzf
+rOLfxtuDiTHyEEYpljt7
+=ETDA
+-----END PGP SIGNATURE-----
+
+--=-QZ+6/HFm97PAdglWR1hD--
