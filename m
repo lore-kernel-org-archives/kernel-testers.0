@@ -1,26 +1,34 @@
-From: Andres Freund <andres@anarazel.de>
-Subject: Re: 2.6.31-rc2: Reported regressions from 2.6.30
-Date: Tue, 7 Jul 2009 03:25:51 +0200
-Message-ID: <200907070325.51439.andres@anarazel.de>
-References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
+From: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: cpufreq cleanups - .30 vs .31
+Date: Mon, 6 Jul 2009 21:51:15 -0400
+Message-ID: <20090707015115.GB5310@redhat.com>
+References: <200907061318.20839.trenn@suse.de>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <200907061318.20839.trenn-l3A5Bk7waGM@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>, Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-Hi Rafael,
+On Mon, Jul 06, 2009 at 01:18:18PM +0200, Thomas Renninger wrote:
 
-On Tuesday 07 July 2009 01:42:09 Rafael J. Wysocki wrote:
-> If you know of any other unresolved regressions from 2.6.30, please let me
-> know either and I'll add them to the list.  Also, please let me know if any
-> of the entries below are invalid.
-There is also http://lkml.org/lkml/2009/6/30/398 : Soft-Lockup/Race in 
-networking in 2.6.31-rc1+195 (possibly caused by netem)
+ > So if not find too intrusive, I'd say:
+ > Venkatesh's whole series of:
+ > [patch 0/4] Take care of cpufreq lockdep issues (take 2)
+ > should be seen in .31.
+ >  ...
+ > The one patch from Mathieu:
+ > [patch 2.6.30 2/4] CPUFREQ: fix (utter) cpufreq_add_dev mess
+ > is a separate, general cleanup which should show up in .31.
 
+I came to the same conclusion after reading the thread, and looking
+over the patches.  I merged the above, and sent Linus a pull request
+a few minutes ago.
 
-Andres
+Thanks Mathieu and Venki for chasing this down.
+
+	Dave
