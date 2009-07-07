@@ -1,36 +1,40 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13362] rt2x00: slow wifi with correct basic rate bitmap
-Date: Tue, 7 Jul 2009 13:01:43 +0200
-Message-ID: <200907071301.43709.rjw@sisk.pl>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <bXZeuxPQAWE.A.Nd.YBpUKB@chimera> <20090707120651.063e1b1a@varda>
+Subject: Re: [Bug #13647] fb/mmap lockdep report.
+Date: Tue, 7 Jul 2009 13:04:53 +0200
+Message-ID: <200907071304.53782.rjw@sisk.pl>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <bXZeuxPQAWE.A.usG.AApUKB@chimera> <20090707055758.GA3071@ami.dom.local>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090707120651.063e1b1a@varda>
+In-Reply-To: <20090707055758.GA3071-dUp/P3zyUuaNj9Bq2fkWzw@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: Alejandro Riveira =?utf-8?q?Fern=C3=A1ndez?= <ariveira-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Wright <chrisw-69jw2NvuJkxg9hUCZPvPmw@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrea Righi <righi.andrea-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-On Tuesday 07 July 2009, Alejandro Riveira Fern=C3=A1ndez wrote:
-> El Tue,  7 Jul 2009 02:00:38 +0200 (CEST)
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> escribi=C3=B3:
->=20
+On Tuesday 07 July 2009, Jarek Poplawski wrote:
+> On Tue, Jul 07, 2009 at 02:00:51AM +0200, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of regressions introduced between 2.6.29 and 2.6.30.
-> >=20
+> > 
 > > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.29 and 2.6.30.  Please verify if it still sh=
-ould
+> > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 > > be listed and let me know (either way).
-> >=20
->=20
->  It should be still listed 2.6.30.1 does not fix it. still not tried
-> 2.6.31-rc* though.
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13647
+> > Subject		: fb/mmap lockdep report.
+> > Submitter	: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> > Date		: 2009-06-21 13:33 (16 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=513adb58685615b0b1d47a3f0d40f5352beff189
+> > References	: http://lkml.org/lkml/2009/6/21/90
+> > 		  http://lkml.org/lkml/2009/6/21/122
+> 
+> This lockdep report isn't triggered by 2.6.31-rc2 anymore.
 
-Thanks for the update.
+Thanks, I've closed the bug.
 
 Best,
 Rafael
