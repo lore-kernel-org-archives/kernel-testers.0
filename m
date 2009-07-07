@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13408] Performance regression in 2.6.30-rc7
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #13471] Loading parport_pc kills the keyboard if ACPI is enabled
 Date: Tue,  7 Jul 2009 02:00:41 +0200 (CEST)
-Message-ID: <bXZeuxPQAWE.A.C3H.9ApUKB@chimera>
+Message-ID: <bXZeuxPQAWE.A.LqH.1ApUKB@chimera>
 References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-acpi-owner@vger.kernel.org>
 In-Reply-To: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Diego Calleja <diegocg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, =?utf-8?q?Ozan=20=C3=87a=C4=9Flayan?= <ozan@pardus.org.tr>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,9 +22,16 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13408
-Subject		: Performance regression in 2.6.30-rc7
-Submitter	: Diego Calleja <diegocg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-05-30 18:51 (38 days old)
-References	: http://lkml.org/lkml/2009/5/30/146
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13471
+Subject		: Loading parport_pc kills the keyboard if ACPI is enabled
+Submitter	: Ozan =C3=87a=C4=9Flayan <ozan@pardus.org.tr>
+Date		: 2009-06-04 9:12 (33 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D124410667532558&w=3D=
+4
 
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-acpi" i=
+n
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
