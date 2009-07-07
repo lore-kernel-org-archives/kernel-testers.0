@@ -1,40 +1,38 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13647] fb/mmap lockdep report.
-Date: Tue, 7 Jul 2009 13:04:53 +0200
-Message-ID: <200907071304.53782.rjw@sisk.pl>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <bXZeuxPQAWE.A.usG.AApUKB@chimera> <20090707055758.GA3071@ami.dom.local>
+Subject: Re: [Bug #13668] Can't boot 2.6.30 powerpc kernel under qemu.
+Date: Tue, 7 Jul 2009 13:08:07 +0200
+Message-ID: <200907071308.08380.rjw@sisk.pl>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <bXZeuxPQAWE.A.RDG.3_oUKB@chimera> <200907062149.35062.rob@landley.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090707055758.GA3071-dUp/P3zyUuaNj9Bq2fkWzw@public.gmane.org>
+In-Reply-To: <200907062149.35062.rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrea Righi <righi.andrea-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, Jeremy Kerr <jk-mnsaURCQ41sdnm+yROfE0A@public.gmane.org>
 
-On Tuesday 07 July 2009, Jarek Poplawski wrote:
-> On Tue, Jul 07, 2009 at 02:00:51AM +0200, Rafael J. Wysocki wrote:
+On Tuesday 07 July 2009, Rob Landley wrote:
+> On Monday 06 July 2009 19:01:05 Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of regressions introduced between 2.6.29 and 2.6.30.
-> > 
+> >
 > > The following bug entry is on the current list of known regressions
 > > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 > > be listed and let me know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13647
-> > Subject		: fb/mmap lockdep report.
-> > Submitter	: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> > Date		: 2009-06-21 13:33 (16 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=513adb58685615b0b1d47a3f0d40f5352beff189
-> > References	: http://lkml.org/lkml/2009/6/21/90
-> > 		  http://lkml.org/lkml/2009/6/21/122
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13668
+> > Subject		: Can't boot 2.6.30 powerpc kernel under qemu.
+> > Submitter	: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
+> > Date		: 2009-06-27 18:08 (10 days old)
+> > References	: http://lkml.org/lkml/2009/6/27/159
 > 
-> This lockdep report isn't triggered by 2.6.31-rc2 anymore.
+> Resolved, it just required a configuration change.
 
-Thanks, I've closed the bug.
+Thanks, closed.
 
 Best,
 Rafael
