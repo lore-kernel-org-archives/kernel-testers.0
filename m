@@ -1,42 +1,26 @@
-From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Subject: Re: [Bug #13734] regression in 2.6.31-rcX since commit a1091aa
-Date: Mon, 06 Jul 2009 20:06:31 -0500
-Message-ID: <4A529F97.9080206@lwfinger.net>
-References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera> <dWkuWjWDsSB.A.FeD.G0oUKB@chimera>
+From: Andres Freund <andres@anarazel.de>
+Subject: Re: 2.6.31-rc2: Reported regressions from 2.6.30
+Date: Tue, 7 Jul 2009 03:25:51 +0200
+Message-ID: <200907070325.51439.andres@anarazel.de>
+References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; q=dns/txt; d=att.net; s=dkim01;
-      i=larry.finger-fOdFMYwuEsI@public.gmane.org; a=rsa-sha256; c=relaxed/relaxed;
-      t=1246928784; h=Content-Transfer-Encoding:Content-Type:
-     In-Reply-To:References:Subject:CC:To:MIME-Version:From:Date:
-     Message-ID; bh=w1B9CxcA+Fu1gXeclmJBj43+FmyAuRbZyHtG4QVxXn0=; b=G9u
-     5EDA2NNaI0urO5JMKKzQOodnYza827WwbHMEPnENrpkA4MmvqH7mR81y6exEitWBhZq
-     SLIt7bNrMy1enTsA==
-In-Reply-To: <dWkuWjWDsSB.A.FeD.G0oUKB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13734
-> Subject		: regression in 2.6.31-rcX since commit a1091aa
-> Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-> Date		: 2009-07-06 19:07 (1 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124690725130645&w=4
-> Handled-By	: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-> Patch		: http://patchwork.kernel.org/patch/34292/
+Hi Rafael,
 
-It should be OK to close this one as the patch is on its way to Linus.
+On Tuesday 07 July 2009 01:42:09 Rafael J. Wysocki wrote:
+> If you know of any other unresolved regressions from 2.6.30, please let me
+> know either and I'll add them to the list.  Also, please let me know if any
+> of the entries below are invalid.
+There is also http://lkml.org/lkml/2009/6/30/398 : Soft-Lockup/Race in 
+networking in 2.6.31-rc1+195 (possibly caused by netem)
 
-Larry
+
+Andres
