@@ -1,33 +1,35 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13109] High latency on /sys/class/thermal
-Date: Tue,  7 Jul 2009 01:57:18 +0200 (CEST)
-Message-ID: <bXZeuxPQAWE.A.zqB.SDpUKB@chimera>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
+From: Yinghai Lu <yinghai@kernel.org>
+Subject: Re: [Bug #13690] nodes_clear cause hugepage unusable on non-NUMA
+ machine
+Date: Mon, 06 Jul 2009 17:06:24 -0700
+Message-ID: <4A529180.7090104@kernel.org>
+References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera> <dWkuWjWDsSB.A.VeE.Z0oUKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757202AbZGGAEm@vger.kernel.org>
-In-Reply-To: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
-Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755854AbZGGAHH@vger.kernel.org>
+In-Reply-To: <dWkuWjWDsSB.A.VeE.Z0oUKB@chimera>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="macroman"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alexey Starikovskiy <astarikovskiy@suse.de>, =?utf-8?q?Tiago=20Sim=C3=B5es=20Batista?= <tiagosbatista@gmail.com>, Zhang Rui <rui.zhang@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, alexs <alex.shi@intel.com>
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.29 and 2.6.30.
+Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.30.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13690
+> Subject		: nodes_clear cause hugepage unusable on non-NUMA machine
+> Submitter	: alexs <alex.shi@intel.com>
+> Date		: 2009-07-02 01:22 (5 days old)
+> 
 
-The following bug entry is on the current list of known regressions
-introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-be listed and let me know (either way).
 
+http://lkml.org/lkml/2009/7/2/326
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13109
-Subject		: High latency on /sys/class/thermal
-Submitter	: Tiago Sim=C3=B5es Batista <tiagosbatista@gmail.com>
-Date		: 2009-04-11 14:56 (87 days old)
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D123946182301248&w=3D=
-4
-Handled-By	: Zhang Rui <rui.zhang@intel.com>
-		  Alexey Starikovskiy <astarikovskiy@suse.de>
-
+YH
