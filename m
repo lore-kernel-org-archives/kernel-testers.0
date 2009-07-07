@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13401] pktcdvd writing is really slow with CFQ scheduler (bisected)
-Date: Tue,  7 Jul 2009 02:00:40 +0200 (CEST)
-Message-ID: <bXZeuxPQAWE.A.LI.EBpUKB@chimera>
+Subject: [Bug #13337] [post 2.6.29 regression] hang during suspend of b44/b43 modules
+Date: Tue,  7 Jul 2009 02:00:37 +0200 (CEST)
+Message-ID: <bXZeuxPQAWE.A.Ap.lBpUKB@chimera>
 References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Laurent Riffard <laurent.riffard-GANU6spQydw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13401
-Subject		: pktcdvd writing is really slow with CFQ scheduler (bisected)
-Submitter	: Laurent Riffard <laurent.riffard-GANU6spQydw@public.gmane.org>
-Date		: 2009-05-28 18:43 (40 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13337
+Subject		: [post 2.6.29 regression] hang during suspend of b44/b43 modules
+Submitter	: Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
+Date		: 2009-05-18 10:59 (50 days old)
 
