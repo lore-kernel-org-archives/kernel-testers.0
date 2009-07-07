@@ -1,47 +1,165 @@
-From: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
-Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
-Date: Tue, 7 Jul 2009 09:57:36 +0300
-Message-ID: <84144f020907062357m6a75d2eav1589e7f8b4a3d887@mail.gmail.com>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
-	 <bXZeuxPQAWE.A.Y2.2BpUKB@chimera> <4A529F60.7010509@lwfinger.net>
-	 <alpine.DEB.2.00.0907062302540.10840@chino.kir.corp.google.com>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: [patch v2] slub: add option to disable higher order debugging
+ slabs
+Date: Tue, 7 Jul 2009 00:14:14 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0907070013400.14978@chino.kir.corp.google.com>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <1246374095.8014.28.camel@penberg-laptop> <alpine.DEB.1.10.0906301114450.3879@gentwo.org> <alpine.DEB.2.00.0906301248000.16312@chino.kir.corp.google.com> <alpine.DEB.1.10.0906301632570.22158@gentwo.org>
+ <alpine.DEB.2.00.0906301413460.24397@chino.kir.corp.google.com> <alpine.DEB.1.10.0906301722280.17682@gentwo.org> <alpine.DEB.2.00.0906301445070.26290@chino.kir.corp.google.com> <84144f020906302253n2424d4a5k3aaf124838a041df@mail.gmail.com>
+ <alpine.DEB.2.00.0907021016380.30890@chino.kir.corp.google.com> <84144f020907030023v2d09632bt13b6c25f96c0b803@mail.gmail.com> <alpine.DEB.2.00.0907062252500.9699@chino.kir.corp.google.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:sender:received:in-reply-to
-         :references:date:x-google-sender-auth:message-id:subject:from:to:cc
-         :content-type:content-transfer-encoding;
-        bh=iFlGdtWzRJIatXZp08hEzkKwj8bDwy8VkEEoBtrhRUI=;
-        b=WDpb2hp+DzzhECt4OXwxVk1oqg3PaejMqGHmb4cFUPaZabjSOz5QrS94keS5ap2WL8
-         r1QnA0Lp/INMX9j54c3qRba1KJSL34drNdyeWxfw2s/j7CgASyb7cOw1mPQ8+Vu9HWSo
-         2KLFYwd9oO2uTlElE2qv64YOl5XJGHLsv0RNs=
-In-Reply-To: <alpine.DEB.2.00.0907062302540.10840-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1246950862; bh=fTmV1u5DJrbCggRn+fL9aip1FwY=;
+	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
+	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
+	 Content-Type:X-System-Of-Record; b=j/18CT9lgvJvj+/8+H0y+QRoHLCp/rB
+	oEjC/2kNRNiWyEAxCw870VR2oGy/dphc/6eUSWseuq+Lux3ByZJy6ZQ==
+In-Reply-To: <alpine.DEB.2.00.0907062252500.9699-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Cc: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 
-Hi,
+When debugging is enabled, slub requires that additional metadata be
+stored in slabs for certain options: SLAB_RED_ZONE, SLAB_POISON, and
+SLAB_STORE_USER.
 
-On Mon, 6 Jul 2009, Larry Finger wrote:
->> I have not seen the fix yet, but one is being prepared. I think the
->> bug can be closed.
+Consequently, it may require that the minimum possible slab order needed
+to allocate a single object be greater when using these options.  The
+most notable example is for objects that are PAGE_SIZE bytes in size.
 
-On Tue, Jul 7, 2009 at 9:29 AM, David Rientjes<rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org> wrote:
-> http://patchwork.kernel.org/patch/34385 should fix your issue (try with
-> CONFIG_SLUB_DEBUG_ON still enabled and slub_debug=O on the command line).
->
-> Pekka indicated he wanted this fixed in 2.6.31, so he'll probably push it
-> to Linus before the 2.6.31-rc3.
+Higher minimum slab orders may cause page allocation failures when oom or
+under heavy fragmentation.
 
-Yup, if it's not too much trouble Larry, I'd appreciate if you gave it
-a spin before I apply the sucker. Note to regression trackers, I don't
-think this should go to -stable because it depends on other patches in
-mainline and there's an obvious workaround for the problem (disable
-CONFIG_SLUB_DEBUG_ON). Furthermore, it's very unlikely people will hit
-this on production configurations anyway.
+This patch adds a new slub_debug option, which disables debugging by
+default for caches that would have resulted in higher minimum orders:
 
-                        Pekka
+	slub_debug=O
+
+When this option is used on systems with 4K pages, kmalloc-4096, for
+example, will not have debugging enabled by default even if
+CONFIG_SLUB_DEBUG_ON is defined because it would have resulted in a
+order-1 minimum slab order.
+
+Cc: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Signed-off-by: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+---
+
+ V1 -> V2: Removed spurious `goto out'.
+
+ Documentation/vm/slub.txt |   10 ++++++++++
+ mm/slub.c                 |   41 ++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 48 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/vm/slub.txt b/Documentation/vm/slub.txt
+--- a/Documentation/vm/slub.txt
++++ b/Documentation/vm/slub.txt
+@@ -41,6 +41,8 @@ Possible debug options are
+ 	P		Poisoning (object and padding)
+ 	U		User tracking (free and alloc)
+ 	T		Trace (please only use on single slabs)
++	O		Switch debugging off for caches that would have
++			caused higher minimum slab orders
+ 	-		Switch all debugging off (useful if the kernel is
+ 			configured with CONFIG_SLUB_DEBUG_ON)
+ 
+@@ -59,6 +61,14 @@ to the dentry cache with
+ 
+ 	slub_debug=F,dentry
+ 
++Debugging options may require the minimum possible slab order to increase as
++a result of storing the metadata (for example, caches with PAGE_SIZE object
++sizes).  This has a higher liklihood of resulting in slab allocation errors
++in low memory situations or if there's high fragmentation of memory.  To
++switch off debugging for such caches by default, use
++
++	slub_debug=O
++
+ In case you forgot to enable debugging on the kernel command line: It is
+ possible to enable debugging manually when the kernel is up. Look at the
+ contents of:
+diff --git a/mm/slub.c b/mm/slub.c
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -142,6 +142,13 @@
+ 				SLAB_POISON | SLAB_STORE_USER)
+ 
+ /*
++ * Debugging flags that require metadata to be stored in the slab, up to
++ * DEBUG_SIZE in size.
++ */
++#define DEBUG_SIZE_FLAGS (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER)
++#define DEBUG_SIZE (3 * sizeof(void *) + 2 * sizeof(struct track))
++
++/*
+  * Set of flags that will prevent slab merging
+  */
+ #define SLUB_NEVER_MERGE (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER | \
+@@ -326,6 +333,7 @@ static int slub_debug;
+ #endif
+ 
+ static char *slub_debug_slabs;
++static int disable_higher_order_debug;
+ 
+ /*
+  * Object debugging
+@@ -977,6 +985,15 @@ static int __init setup_slub_debug(char *str)
+ 		 */
+ 		goto check_slabs;
+ 
++	if (tolower(*str) == 'o') {
++		/*
++		 * Avoid enabling debugging on caches if its minimum order
++		 * would increase as a result.
++		 */
++		disable_higher_order_debug = 1;
++		goto out;
++	}
++
+ 	slub_debug = 0;
+ 	if (*str == '-')
+ 		/*
+@@ -1023,13 +1040,27 @@ static unsigned long kmem_cache_flags(unsigned long objsize,
+ 	unsigned long flags, const char *name,
+ 	void (*ctor)(void *))
+ {
++	int debug_flags = slub_debug;
++
+ 	/*
+ 	 * Enable debugging if selected on the kernel commandline.
+ 	 */
+-	if (slub_debug && (!slub_debug_slabs ||
+-	    strncmp(slub_debug_slabs, name, strlen(slub_debug_slabs)) == 0))
+-			flags |= slub_debug;
++	if (debug_flags) {
++		if (slub_debug_slabs &&
++		    strncmp(slub_debug_slabs, name, strlen(slub_debug_slabs)))
++			goto out;
++
++		/*
++		 * Disable debugging that increases slab size if the minimum
++		 * slab order would have increased as a result.
++		 */
++		if (disable_higher_order_debug &&
++		    get_order(objsize + DEBUG_SIZE) > get_order(objsize))
++			debug_flags &= ~DEBUG_SIZE_FLAGS;
+ 
++		flags |= debug_flags;
++	}
++out:
+ 	return flags;
+ }
+ #else
+@@ -1561,6 +1592,10 @@ slab_out_of_memory(struct kmem_cache *s, gfp_t gfpflags, int nid)
+ 		"default order: %d, min order: %d\n", s->name, s->objsize,
+ 		s->size, oo_order(s->oo), oo_order(s->min));
+ 
++	if (oo_order(s->min) > get_order(s->objsize))
++		printk(KERN_WARNING "  %s debugging increased min order, use "
++		       "slub_debug=O to disable.\n", s->name);
++
+ 	for_each_online_node(node) {
+ 		struct kmem_cache_node *n = get_node(s, node);
+ 		unsigned long nr_slabs;
