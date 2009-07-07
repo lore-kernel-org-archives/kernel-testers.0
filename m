@@ -1,41 +1,33 @@
-From: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
-Subject: Re: [Bug #13663] suspend to ram regression (IDE related)
-Date: Tue, 07 Jul 2009 20:02:32 +0200
-Message-ID: <4A538DB8.4070202@numericable.fr>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <bXZeuxPQAWE.A.IMG.4_oUKB@chimera>
+From: Frans Pop <elendil@planet.nl>
+Subject: Re: [Bug #13651] Anyone know what happened with PC speaker in 2.6.30?
+Date: Tue, 7 Jul 2009 21:13:17 +0200
+Message-ID: <200907072113.18608.elendil@planet.nl>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <bXZeuxPQAWE.A.nYG.7_oUKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bXZeuxPQAWE.A.IMG.4_oUKB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755833AbZGGTNf@vger.kernel.org>
+In-Reply-To: <bXZeuxPQAWE.A.nYG.7_oUKB@chimera>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jeff Chua <jeff.chua.linux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Ken Witherow <ken@krwtech.com>, Michael Tokarev <mjt@tls.msk.ru>, Takashi Iwai <tiwai@suse.de>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.29 and 2.6.30.
-> 
+On Tuesday 07 July 2009, Rafael J. Wysocki wrote:
 > The following bug entry is on the current list of known regressions
 > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 > be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13663
-> Subject		: suspend to ram regression (IDE related)
-> Submitter	: Etienne Basset <etienne.basset-Bf/eaXMDFuuXqB7oj33eUg@public.gmane.org>
-> Date		: 2009-06-26 17:40 (11 days old)
-> References	: http://lkml.org/lkml/2009/6/26/242
-> 		  http://lkml.org/lkml/2009/6/29/126
-> Handled-By	: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Patch		: http://patchwork.kernel.org/patch/32719/
-> 
-> 
-> 
-hello,
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13651
+> Subject	: Anyone know what happened with PC speaker in 2.6.30?
+> Submitter	: Michael Tokarev <mjt@tls.msk.ru>
+> Date		: 2009-06-15 14:41 (22 days old)
+> References	: http://marc.info/?l=linux-kernel&m=124507695427817&w=4
 
-current git is OK, patch is not yet in 2.6.30-stable
+Given the last comments from Michael I think this should be closed as "not 
+a bug". The observed behavior is intended.
+See: http://lkml.org/lkml/2009/6/29/232.
 
-regards
-Etienne
+Cheers,
+FJP
