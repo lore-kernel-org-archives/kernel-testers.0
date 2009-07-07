@@ -1,33 +1,40 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.31-rc2: Reported regressions from 2.6.30
-Date: Tue, 7 Jul 2009 22:41:52 +0200
-Message-ID: <200907072241.53505.rjw@sisk.pl>
-References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera> <200907072125.47762.elendil@planet.nl>
+From: Maciej Rutecki <maciej.rutecki@gmail.com>
+Subject: Re: 2.6.30-rc1: touchpad disabled on hibernation
+Date: Tue, 7 Jul 2009 23:13:22 +0200
+Message-ID: <8db1092f0907071413s564571f2jc7a5922211535079@mail.gmail.com>
+References: <4A438BA7.9010800@tuffmail.co.uk>
+	 <8db1092f0906251016l5ac85bfdpbac841b939cfac2a@mail.gmail.com>
+	 <4A43B1FC.7060609@tuffmail.co.uk> <200907070040.14796.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200907072125.47762.elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Content-Disposition: inline
-Sender: linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-input-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=3v4ndjip7L4+UvPDY3KIgpWFn6wjqzFrgIaBgwxNyEE=;
+        b=HjlAfjd0aT47R1EfVgiBIOdP1Ob1+uoNC3/+fkKTYYR8hmbTZZ35ose9pF1VjISCRs
+         9oMVXUG24q2eGkexMQgIXtkXuyzTRpy1boHMdMk+yeGbX7pnt7w9MJ4+evf3f27OP/fm
+         wdxKRYWoCG4UmD7vuYRSKfuRcyjNKlyQ7Ddjw=
+In-Reply-To: <200907070040.14796.rjw@sisk.pl>
+Sender: linux-input-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Alan Jenkins <alan-jenkins@tuffmail.co.uk>, linux-kernel <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-input@vger.kernel.org, linux-pm@lists.linux-foundation.org, Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>
 
-On Tuesday 07 July 2009, Frans Pop wrote:
-> > If you know of any other unresolved regressions from 2.6.30, please let
-> > me know either and I'll add them to the list.
-> 
-> Please add: http://lkml.org/lkml/2009/6/29/88
-> 
-> Reinette Chatre is handling the bug and posted a patch in 
-> http://lkml.org/lkml/2009/6/30/224
+2009/7/7 Rafael J. Wysocki <rjw@sisk.pl>:
 
-Added as http://bugzilla.kernel.org/show_bug.cgi?id=13742.
+> Alan, Maciej, can you both try the patch at
+> http://patchwork.kernel.org/patch/34075/, please?
+>
 
-Thanks,
-Rafael
---
-To unsubscribe from this list: send the line "unsubscribe linux-wireless" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Sorry for delay.
+
+Patch solves problem. Thanks.
+
+
+-- 
+Maciej Rutecki
+http://www.maciek.unixy.pl
