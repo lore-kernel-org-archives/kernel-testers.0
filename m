@@ -1,54 +1,32 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.30-rc1: touchpad disabled on hibernation
-Date: Tue, 7 Jul 2009 02:05:46 +0200
-Message-ID: <200907070205.48165.rjw@sisk.pl>
-References: <4A438BA7.9010800@tuffmail.co.uk> <200907070040.14796.rjw@sisk.pl> <4A528EE5.5090901@gawab.com>
+Subject: [Bug #13318] AGP doesn't work anymore on nforce2
+Date: Tue,  7 Jul 2009 02:00:36 +0200 (CEST)
+Message-ID: <bXZeuxPQAWE.A.PDB.4BpUKB@chimera>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4A528EE5.5090901-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
-Cc: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jerome Glisse <glisse-CC+yJ3UmIYqDUpFQwHEjaQ@public.gmane.org>, Karsten Mehrhoff <kawime-Mmb7MZpHnFY@public.gmane.org>, =?utf-8?q?Michel=20D=C3=A4nzer?= <michel-otUistvHUpPR7s880joybQ@public.gmane.org>, Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Tuesday 07 July 2009, Justin Madru wrote:
-> Rafael J. Wysocki wrote:
-> > On Thursday 25 June 2009, Alan Jenkins wrote:
-> >   
-> >> Maciej Rutecki wrote:
-> >>     
-> >>> 2009/6/25 Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>:
-> >>>   
-> >>>       
-> >>>> The synaptics touchpad on my EeePC 701 dies on hibernation.  2.6.30 was
-> >>>> fine, and it doesn't happen on suspend to ram either.  There are no
-> >>>> obvious error messages, but maybe this boot message is relevant:
-> >>>>
-> >>>> Platform driver 'i8042' needs updating, please use dev_pm_ops
-> >>>>
-> >>>>     
-> >>>>         
-> >>> Similar on s2disk, HP/Compaq notebook. Try reload psmouse module. I
-> >>> reported it, but nobody answer.
-> >>>   
-> >>>       
-> >> That works, thanks.
-> >>     
-> >
-> > Alan, Maciej, can you both try the patch at
-> > http://patchwork.kernel.org/patch/34075/, please?
-> >
-> > Rafael
-> >
-> >   
-> I've been having the same issue (laptop touchpad not working after resume).
-> Your patch seams to fix the problem. I no longer have to reload the 
-> psmouse module after resume.
+This message has been generated automatically as a part of a report
+of regressions introduced between 2.6.29 and 2.6.30.
 
-Thanks for testing.
+The following bug entry is on the current list of known regressions
+introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+be listed and let me know (either way).
 
-Best,
-Rafael
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13318
+Subject		: AGP doesn't work anymore on nforce2
+Submitter	: Karsten Mehrhoff <kawime-Mmb7MZpHnFY@public.gmane.org>
+Date		: 2009-04-30 8:51 (68 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=59de2bebabc5027f93df999d59cc65df591c3e6e
+References	: http://marc.info/?l=linux-kernel&m=124108156417560&w=4
+Handled-By	: Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+
