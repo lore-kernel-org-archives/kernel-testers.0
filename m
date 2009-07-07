@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13512] D43 on 2.6.30 doesn't suspend anymore
-Date: Tue,  7 Jul 2009 02:00:43 +0200 (CEST)
-Message-ID: <bXZeuxPQAWE.A.1VH.kApUKB@chimera>
+Subject: [Bug #13581] ath9k doesn't work with newer kernels
+Date: Tue,  7 Jul 2009 02:00:47 +0200 (CEST)
+Message-ID: <bXZeuxPQAWE.A.VJH.TApUKB@chimera>
 References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Daniel Smolik <marvin-0pWKB23IDFjrBKCeMvbIDA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Matteo <rootkit85-whZMOeQn8C0@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13512
-Subject		: D43 on 2.6.30 doesn't suspend anymore
-Submitter	: Daniel Smolik <marvin-0pWKB23IDFjrBKCeMvbIDA@public.gmane.org>
-Date		: 2009-06-11 20:12 (26 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13581
+Subject		: ath9k doesn't work with newer kernels
+Submitter	: Matteo <rootkit85-whZMOeQn8C0@public.gmane.org>
+Date		: 2009-06-19 12:04 (18 days old)
 
