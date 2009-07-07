@@ -1,35 +1,54 @@
-From: Yinghai Lu <yinghai@kernel.org>
-Subject: Re: [Bug #13690] nodes_clear cause hugepage unusable on non-NUMA
- machine
-Date: Mon, 06 Jul 2009 17:06:24 -0700
-Message-ID: <4A529180.7090104@kernel.org>
-References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera> <dWkuWjWDsSB.A.VeE.Z0oUKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: 2.6.30-rc1: touchpad disabled on hibernation
+Date: Tue, 7 Jul 2009 02:05:46 +0200
+Message-ID: <200907070205.48165.rjw@sisk.pl>
+References: <4A438BA7.9010800@tuffmail.co.uk> <200907070040.14796.rjw@sisk.pl> <4A528EE5.5090901@gawab.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755854AbZGGAHH@vger.kernel.org>
-In-Reply-To: <dWkuWjWDsSB.A.VeE.Z0oUKB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4A528EE5.5090901-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, alexs <alex.shi@intel.com>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Justin Madru <jdm64-u1xxEuL7cY4AvxtiuMwx3w@public.gmane.org>
+Cc: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13690
-> Subject		: nodes_clear cause hugepage unusable on non-NUMA machine
-> Submitter	: alexs <alex.shi@intel.com>
-> Date		: 2009-07-02 01:22 (5 days old)
-> 
+On Tuesday 07 July 2009, Justin Madru wrote:
+> Rafael J. Wysocki wrote:
+> > On Thursday 25 June 2009, Alan Jenkins wrote:
+> >   
+> >> Maciej Rutecki wrote:
+> >>     
+> >>> 2009/6/25 Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>:
+> >>>   
+> >>>       
+> >>>> The synaptics touchpad on my EeePC 701 dies on hibernation.  2.6.30 was
+> >>>> fine, and it doesn't happen on suspend to ram either.  There are no
+> >>>> obvious error messages, but maybe this boot message is relevant:
+> >>>>
+> >>>> Platform driver 'i8042' needs updating, please use dev_pm_ops
+> >>>>
+> >>>>     
+> >>>>         
+> >>> Similar on s2disk, HP/Compaq notebook. Try reload psmouse module. I
+> >>> reported it, but nobody answer.
+> >>>   
+> >>>       
+> >> That works, thanks.
+> >>     
+> >
+> > Alan, Maciej, can you both try the patch at
+> > http://patchwork.kernel.org/patch/34075/, please?
+> >
+> > Rafael
+> >
+> >   
+> I've been having the same issue (laptop touchpad not working after resume).
+> Your patch seams to fix the problem. I no longer have to reload the 
+> psmouse module after resume.
 
+Thanks for testing.
 
-http://lkml.org/lkml/2009/7/2/326
-
-YH
+Best,
+Rafael
