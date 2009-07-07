@@ -1,48 +1,59 @@
-From: Alejandro Riveira =?UTF-8?B?RmVybsOhbmRleg==?= 
-	<ariveira-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13362] rt2x00: slow wifi with correct basic rate bitmap
-Date: Tue, 7 Jul 2009 12:06:51 +0200
-Message-ID: <20090707120651.063e1b1a@varda>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
-	<bXZeuxPQAWE.A.Nd.YBpUKB@chimera>
+From: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13726] fio sync read 4k block size 35% regression
+Date: Tue, 7 Jul 2009 18:09:20 +0800
+Message-ID: <20090707100920.GA2457@localhost>
+References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera> <dWkuWjWDsSB.A.lME.S0oUKB@chimera> <1246946802.2560.532.camel@ymzhang>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:in-reply-to:references:x-mailer:mime-version
-         :content-type:content-transfer-encoding;
-        bh=S96p8PA34ygB7J85OjfdGBLgLBsyraKRlLjyAzZ6eJI=;
-        b=lRkHYEg1OFVPDyoVJzXNuuHD9p1w3S7zQg0ayQVG9Hpxq+37B/Hhc9DGetDIuqCBZM
-         PT8heOa2lK3aH0zbp+8kbx25j2sf40p3xU7/kAcJUhxT5yrUQbXmdVgr5kpDFQag+tn+
-         YAbD2s79Gtyeer9WxEcoM6VO7fA60OnEdrrGo=
-In-Reply-To: <bXZeuxPQAWE.A.Nd.YBpUKB@chimera>
+Content-Disposition: inline
+In-Reply-To: <1246946802.2560.532.camel@ymzhang>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Wright <chrisw-69jw2NvuJkxg9hUCZPvPmw@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+To: "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-El Tue,  7 Jul 2009 02:00:38 +0200 (CEST)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> escribi=C3=B3:
+On Tue, Jul 07, 2009 at 02:06:42PM +0800, Zhang, Yanmin wrote:
+> On Tue, 2009-07-07 at 02:01 +0200, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> >=20
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.30.  Please verify if it still should be listed and let me=
+ know
+> > (either way).
+> >=20
+> >=20
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13726
+> > Subject		: fio sync read 4k block size 35% regression
+> > Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> > Date		: 2009-07-01 11:25 (6 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torva=
+lds/linux-2.6.git;a=3Dcommit;h=3D51daa88ebd8e0d437289f589af29d4b39379ea=
+76
+> > References	: http://lkml.org/lkml/2009/6/30/679
+> > Handled-By	: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> Fengguang,
+>=20
+> I'm still working on it now. The new testing against 2.6.31-rc2 is on=
+going.
+> fio sync/mmap read has new behavior. I did collect some data. But sud=
+denly
+> with new created data, the fio_sync_read_4k regression disappeared, w=
+hile
+> fio_mmap_read is still there. Originally, the testing and bisect were=
+ stable.
+> Let me check what happens firstly.
 
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.29 and 2.6.30.
->=20
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.29 and 2.6.30.  Please verify if it still shou=
-ld
-> be listed and let me know (either way).
->=20
+OK, thank you for the update.
 
- It should be still listed 2.6.30.1 does not fix it. still not tried
-2.6.31-rc* though.
+> Just update.
+> =EF=BB=BF
+> How did you test your new readahead patches before sending to LKML?
 
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13362
-> Subject		: rt2x00: slow wifi with correct basic rate bitmap
-> Submitter	: Alejandro Riveira <ariveira-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-05-22 13:32 (46 days old)
->=20
->=20
+I run various workloads and check if the readahead traces are abnormal.
+In this regression case, the readahead traces are in fact normal :)
+
+Thanks,
+=46engguang
