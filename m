@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13554] linux-image-2.6.30-1-686, KMS enabled: black screen, no X window
+Subject: [Bug #13558] Tracelog during resume
 Date: Tue,  7 Jul 2009 02:00:46 +0200 (CEST)
-Message-ID: <bXZeuxPQAWE.A.lOH.aApUKB@chimera>
+Message-ID: <bXZeuxPQAWE.A.1MH.YApUKB@chimera>
 References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jos van Wolput <wolput-kN7GrHn7egj0B9fh5IxImPP6llvjuJOh@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13554
-Subject		: linux-image-2.6.30-1-686, KMS enabled: black screen, no X window
-Submitter	: Jos van Wolput <wolput-kN7GrHn7egj0B9fh5IxImPP6llvjuJOh@public.gmane.org>
-Date		: 2009-06-17 06:28 (20 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13558
+Subject		: Tracelog during resume
+Submitter	: Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
+Date		: 2009-06-17 11:32 (20 days old)
 
