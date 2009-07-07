@@ -1,33 +1,26 @@
-From: Frans Pop <elendil@planet.nl>
-Subject: Re: [Bug #13651] Anyone know what happened with PC speaker in 2.6.30?
-Date: Tue, 7 Jul 2009 21:13:17 +0200
-Message-ID: <200907072113.18608.elendil@planet.nl>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <bXZeuxPQAWE.A.nYG.7_oUKB@chimera>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: 2.6.31-rc2: Reported regressions from 2.6.30
+Date: Tue, 7 Jul 2009 21:25:45 +0200
+Message-ID: <200907072125.47762.elendil@planet.nl>
+References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755833AbZGGTNf@vger.kernel.org>
-In-Reply-To: <bXZeuxPQAWE.A.nYG.7_oUKB@chimera>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-reply-To: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Ken Witherow <ken@krwtech.com>, Michael Tokarev <mjt@tls.msk.ru>, Takashi Iwai <tiwai@suse.de>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Tuesday 07 July 2009, Rafael J. Wysocki wrote:
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-> be listed and let me know (either way).
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13651
-> Subject	: Anyone know what happened with PC speaker in 2.6.30?
-> Submitter	: Michael Tokarev <mjt@tls.msk.ru>
-> Date		: 2009-06-15 14:41 (22 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124507695427817&w=4
+> If you know of any other unresolved regressions from 2.6.30, please let
+> me know either and I'll add them to the list.
 
-Given the last comments from Michael I think this should be closed as "not 
-a bug". The observed behavior is intended.
-See: http://lkml.org/lkml/2009/6/29/232.
+Please add: http://lkml.org/lkml/2009/6/29/88
 
-Cheers,
+Reinette Chatre is handling the bug and posted a patch in 
+http://lkml.org/lkml/2009/6/30/224
+
+Thanks,
 FJP
