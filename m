@@ -1,21 +1,21 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13306] hibernate slow on _second_ run
-Date: Tue, 7 Jul 2009 12:58:33 +0200
-Message-ID: <200907071258.33579.rjw@sisk.pl>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <bXZeuxPQAWE.A.ZFB.BCpUKB@chimera> <1246925538.4652.8.camel@johannes.local>
+Subject: Re: [Bug #13318] AGP doesn't work anymore on nforce2
+Date: Tue, 7 Jul 2009 13:00:11 +0200
+Message-ID: <200907071300.12565.rjw@sisk.pl>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <bXZeuxPQAWE.A.PDB.4BpUKB@chimera> <20090707021254.GA25184@sli10-desk.sh.intel.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1246925538.4652.8.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
+In-Reply-To: <20090707021254.GA25184-U5EdaLXB8smDugQYiPIPGdh3ngVCH38I@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jerome Glisse <glisse-CC+yJ3UmIYqDUpFQwHEjaQ@public.gmane.org>, Karsten Mehrhoff <kawime-Mmb7MZpHnFY@public.gmane.org>, Michel =?iso-8859-1?q?D=E4nzer?= <michel-otUistvHUpPR7s880joybQ@public.gmane.org>
 
-On Tuesday 07 July 2009, Johannes Berg wrote:
-> On Tue, 2009-07-07 at 02:00 +0200, Rafael J. Wysocki wrote:
+On Tuesday 07 July 2009, Shaohua Li wrote:
+> On Tue, Jul 07, 2009 at 08:00:36AM +0800, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of regressions introduced between 2.6.29 and 2.6.30.
 > > 
@@ -24,21 +24,16 @@ On Tuesday 07 July 2009, Johannes Berg wrote:
 > > be listed and let me know (either way).
 > > 
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13306
-> > Subject		: hibernate slow on _second_ run
-> > Submitter	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-> > Date		: 2009-05-14 09:34 (54 days old)
-> 
-> Still exists in 31-rc2.
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13318
+> > Subject		: AGP doesn't work anymore on nforce2
+> > Submitter	: Karsten Mehrhoff <kawime-Mmb7MZpHnFY@public.gmane.org>
+> > Date		: 2009-04-30 8:51 (68 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=59de2bebabc5027f93df999d59cc65df591c3e6e
+> > References	: http://marc.info/?l=linux-kernel&m=124108156417560&w=4
+> > Handled-By	: Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> Can anybody else help look at this issue? I really have no idea why this could
+> happens.
 
-Thanks for the update.
-
-Last time I remember you managed to collect some ftrace output from the failing
-case, but they didn't reveal anything directly.
-
-We know, however, that is [suspend|resume]_device_irqs() in
-driver/base/power/main.c are disabled, the issue doesn't show up.
-
-Is that correct?
+Quirky hardware?
 
 Rafael
