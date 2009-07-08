@@ -1,30 +1,47 @@
-From: Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
-Subject: Re: Intel BIOS - Corrupted low memory at ffff880000004200
-Date: Wed, 8 Jul 2009 12:39:49 +0100
-Message-ID: <20090708113949.GA8960@srcf.ucam.org>
-References: <4A5210A2.2080301@fisher-privat.net> <4A52254F.8080103@fisher-privat.net>
+From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
+Date: Wed, 08 Jul 2009 08:18:19 -0500
+Message-ID: <4A549C9B.4060702@lwfinger.net>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>	 <bXZeuxPQAWE.A.Y2.2BpUKB@chimera> <4A529F60.7010509@lwfinger.net>	 <alpine.DEB.2.00.0907062302540.10840@chino.kir.corp.google.com> <84144f020907062357m6a75d2eav1589e7f8b4a3d887@mail.gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <4A52254F.8080103-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+DKIM-Signature: v=1; q=dns/txt; d=att.net; s=dkim01;
+      i=larry.finger-fOdFMYwuEsI@public.gmane.org; a=rsa-sha256; c=relaxed/relaxed;
+      t=1247059089; h=Content-Transfer-Encoding:Content-Type:
+     In-Reply-To:References:Subject:CC:To:MIME-Version:From:Date:
+     Message-ID; bh=uVRdFiJRYwip7O9Rbk0GczSr58tFWE79MMjv4ML743U=; b=A6F
+     Z9sUQZt+bZFxjcM1LPW9kKDd6W6baXaaZhTnIMQe7pMcJmforbZnSLeHrgAVyaZWm2/
+     tI8rPk5BUTdIOMjg==
+In-Reply-To: <84144f020907062357m6a75d2eav1589e7f8b4a3d887-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Richard A. Holden III" <aciddeath-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+To: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 
-On Mon, Jul 06, 2009 at 06:24:47PM +0200, Alexey Fisher wrote:
-> Hallo Ingo, Richard.
->
-> I'm getting "Corrupted low memory" trace with my Intel DG45ID board
-> after resume. This board  has different dmi-bios-vendor... so probably
-> it will be nice to have it in your patch.
+Pekka Enberg wrote:
+> 
+> Yup, if it's not too much trouble Larry, I'd appreciate if you gave it
+> a spin before I apply the sucker. Note to regression trackers, I don't
+> think this should go to -stable because it depends on other patches in
+> mainline and there's an obvious workaround for the problem (disable
+> CONFIG_SLUB_DEBUG_ON). Furthermore, it's very unlikely people will hit
+> this on production configurations anyway.
 
-I'm beginning to think that we should be doing this on all hardware, 
-perhaps with a kernel option to disable it for embedded devices that 
-really need that 64K. The low-memory corruption issue seems to be very 
-widespread.
+Pekka,
 
--- 
-Matthew Garrett | mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org
+I have been running the patch for ~24 hours with slub_debug=0 as a
+boot option. So far, no problems. My workload has not involved as many
+network operations as some times, but my memory has not fragmented.
+The output of 'cat /proc/buddyinfo' is as follows:
+
+Node 0, zone      DMA      8      5      5      4      5      5      5
+     4      3      0      1
+Node 0, zone    DMA32   1804   1585   3007     36      0      0      0
+     0      1      0      0
+
+As might be expected, the high-order fragments are gone, but the O(1)
+pieces have not been depleted.
+
+Larry
