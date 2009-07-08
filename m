@@ -1,93 +1,76 @@
-From: Gene Heskett <gene.heskett-H+0wwilmMs3R7s880joybQ@public.gmane.org>
-Subject: Re: OOM killer in 2.6.31-rc2
-Date: Wed, 08 Jul 2009 10:22:50 -0400
-Message-ID: <200907081022.52758.gene.heskett@verizon.net>
-References: <200907061056.00229.gene.heskett@verizon.net>
- <20090708051515.GA17156@localhost> <20090708075501.GA1122@localhost>
+From: Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
+Subject: Re: [Bug #13337] [post 2.6.29 regression] hang during suspend of b44/b43 modules
+Date: Thu, 09 Jul 2009 00:02:26 +0200
+Message-ID: <87k52izvd9.fsf@scholz.fias.uni-frankfurt.de>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
+	<bXZeuxPQAWE.A.Ap.lBpUKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-reply-to: <20090708075501.GA1122@localhost>
-Content-disposition: inline
+In-Reply-To: <bXZeuxPQAWE.A.Ap.lBpUKB@chimera> (Rafael J. Wysocki's message of
+	"Tue, 7 Jul 2009 02:00:37 +0200 (CEST)")
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Wu Fengguang <fengguang.wu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel list <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Minchan Kim <minchan.kim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
 
-On Wednesday 08 July 2009, Wu Fengguang wrote:
->On Wed, Jul 08, 2009 at 01:15:15PM +0800, Wu Fengguang wrote:
+Hi,
 
->> I guess you can only use 3G ram because there is a big memory hole.
->> Your HighMem zone spanned 951810 pages, 813013 of which is present.
->> So it's not quite accurate for the OOM message "951810 pages HighMem"
->> to report the spanned pages.
->>
->> Your Normal zone has 221994 present pages, while the OOM message shows
->> "slab:206505", which indicates that the OOM is caused by too much
->> slab pages(they cannot be allocated from HighMem zone).
->>
->> I guess your near 800MB slab cache is somehow under scanned.
+I'm not sure if I experience the same bug on my apple iBook G4 (ppc
+7447A, altivec supported PowerBook6,5) or just something very similar.
+
+With v2.6.30-rc1 I noticed, that suspending to ram does not work if my
+wireless card is 'up'. The wireless card is an apple airport extreme
+card, this is its lspci output:
+
+0001:10:12.0 Network controller: Broadcom Corporation BCM4306 802.11b/g Wireless LAN Controller (rev 03)
+
+I tested suspend like this:
+
+# unload the wireless module
+modprobe -r b43
+echo mem > /sys/power/state
+
+# wake up works fine
+
+#loading b43
+modprobe b43
+echo mem > /sys/power/state
+
+# wake up still works fine
+
+ifconfig wlan0 up
+echo mem > /sys/power/state
+
+# the box does not wake up, I guess it's not really sleeping, because
+# the sleep led is not on
+
+I bisected this and got:
+
+5bb644a0fd25a5e083ecbfaa92a211db99aa6ef7 is first bad commit
+commit 5bb644a0fd25a5e083ecbfaa92a211db99aa6ef7
+Author: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Date:   Sun May 17 11:40:42 2009 +0200
+   
+    mac80211: cancel/restart all timers across suspend/resume
+
+
+Best regards,
+    Jan Scholz
+
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.29 and 2.6.30.
 >
->Gene, can you run .31 with this patch? When OOM happens, it will tell
->us whether the majority slab pages are reclaimable. Another way to
->find things out is to run `slabtop` when your system is moderately loaded.
-
-Yes, as of 9:55am this patch is running, and I have a session of slabtop (and 
-although it is old, it is a new one to me, so I'm not sure what a normal 
-report should look like) running.
-
-This is also without the HIGH_MEM64G, so I only have about 3.5G of ram 
-showing.
-
-There is one line early in the dmesg that needs clarified:
-
-[    0.000000] TOM2: 0000000120000000 aka 4608M
-
-that is more memory than is in the machine unless its somehow counting the DDR 
-ram on the video card, and IIRC that is only 256megs in any event.  Swap is 
-not mounted by that point, much later.
-
-Also from this dmesg:
-[    0.000000] On node 0 totalpages: 917103
-[    0.000000] free_area_init_node: node 0, pgdat c13f5400, node_mem_map 
-c14bf200
-[    0.000000]   DMA zone: 32 pages used for memmap
-[    0.000000]   DMA zone: 0 pages reserved
-[    0.000000]   DMA zone: 3951 pages, LIFO batch:0
-[    0.000000]   Normal zone: 1744 pages used for memmap
-[    0.000000]   Normal zone: 221486 pages, LIFO batch:31
-[    0.000000]   HighMem zone: 5390 pages used for memmap
-[    0.000000]   HighMem zone: 684500 pages, LIFO batch:31
-==================
-is this correct?
-
-From slabtop right now:
-=================
-Active / Total Objects (% used)    : 321146 / 349617 (91.9%)
-Active / Total Slabs (% used)      : 22464 / 22483 (99.9%)
-Active / Total Caches (% used)     : 101 / 163 (62.0%)
-Active / Total Size (% used)       : 81250.57K / 85788.52K (94.7%)
-Minimum / Average / Maximum Object : 0.01K / 0.24K / 4096.00K
-=================
-Humm, that is running in an x terminal, I'll start one on tty2 also.
-I might have a better chance of seeing it after x dies.
-
-FWIW, 2.6.30.1, also built w/o that 64G flag, and with the newest bios, also 
-ran all night, which surprised me.  I half expected to wake up to a dead 
-machine.  I have every time I installed that bios before...
-
-Now we wait...  Thanks, Fengguang
-
-[...]
-
--- 
-Cheers, Gene
-"There are four boxes to be used in defense of liberty:
- soap, ballot, jury, and ammo. Please use in that order."
--Ed Howdershelt (Author)
-The NRA is offering FREE Associate memberships to anyone who wants them.
-<https://www.nrahq.org/nrabonus/accept-membership.asp>
-
-"I'd love to go out with you, but the last time I went out, I never came 
-back."
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> be listed and let me know (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13337
+> Subject		: [post 2.6.29 regression] hang during suspend of b44/b43 modules
+> Submitter	: Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
+> Date		: 2009-05-18 10:59 (50 days old)
+>
