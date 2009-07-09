@@ -1,93 +1,54 @@
-From: Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
-Subject: Re: [Bug #13337] [post 2.6.29 regression] hang during suspend of b44/b43 modules
-Date: Thu, 09 Jul 2009 17:14:20 +0200
-Message-ID: <87y6qxx50z.fsf@scholz.fias.uni-frankfurt.de>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
-	<bXZeuxPQAWE.A.Ap.lBpUKB@chimera>
-	<87k52izvd9.fsf@scholz.fias.uni-frankfurt.de>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
+Subject: Re: [Bug #13667] drm: display arifacts when X.Org is stopped
+Date: Thu, 9 Jul 2009 10:09:14 -0700
+Message-ID: <20090709100914.2502763a@jbarnes-g45>
+References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
+	<200907080700.33120.elendil@planet.nl>
+	<21d7e9970907081642l3ef6df5blde31df656cd74432@mail.gmail.com>
+	<200907090328.53643.elendil@planet.nl>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87k52izvd9.fsf-X87fCqEI3snt2/fatF9ZgSk+o5UQzIjPIRYYPiSvRdM@public.gmane.org> (Jan Scholz's
-	message of "Thu, 09 Jul 2009 00:02:26 +0200")
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753743AbZGIRJ1@vger.kernel.org>
+In-Reply-To: <200907090328.53643.elendil@planet.nl>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
+To: Frans Pop <elendil@planet.nl>
+Cc: Dave Airlie <airlied@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, "Siddha, Suresh B" <suresh.b.siddha@intel.com>, "Pallipadi, Venkatesh" <venkatesh.pallipadi@intel.com>
 
-Hi,
+On Thu, 9 Jul 2009 03:28:52 +0200
+Frans Pop <elendil@planet.nl> wrote:
 
-I have just checked this on v2.6.31-rc1 and v2.6.31-rc2-214-g34f2547
-(I wanted to test this on v2.6.31-rc2 as well, but there I had other
-suspend-issues that are fixed in todays v2.6.31-rc2-214-g34f2547)
+> On Thursday 09 July 2009, Dave Airlie wrote:
+> > > [1] I'd even go so far as to feel it should be a standard test
+> > > case for video driver developers, given that this is the third
+> > > time it's shown regressions :-) For the third case the bug was in
+> > > the X.Org i830 driver:
+> > > http://bugs.freedesktop.org/show_bug.cgi?id=14481.
+> >
+> > It might surprise you to learn this, but vesafb has never been
+> > considered supportable by the X.org community, and you'll notice not
+> > very many distros ship with it enabled, it breaks suspend/resume on
+> > many machines for example.
+> 
+> I beg to disagree.
+> - Debian does have it enabled by default.
+> - I have always used it on all my machines without any problems.
+> - Both my laptops and my desktop suspend and resume perfectly with
+> vesafb and X.Org.
+> - Jesse Barnes seems to disagree with you. To quote from the BR cited
+>   above (comment #11): "and you're right, making things work with
+> vesafb isn't unreasonable".
 
-For both v2.6.31-rc1 and v2.6.31-rc2-214-g34f2547 suspend to ram fails
-with the test procedure described below, but it works fine when I revert
-commit 5bb644a0fd25a5e083ecbfaa92a211db99aa6ef7
- "mac80211: cancel/restart all timers across suspend/resume"
+Since my ears are burning I figured I'd better qualify this: I made
+that statement before we had KMS upstream.  Supporting the case where
+multiple drivers try to bang on the same device has always been a big
+pain.  In a KMS configuration we don't support it at all.
 
-Best regards,
-   Jan
+> Yes, and I really welcome the great progress being made there. But
+> for me it's not yet an option as I run Debian stable on these boxes.
 
-Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org> writes:
+Sounds like that's not an option for you though... which means
+debugging where the interaction is going wrong...
 
-> Hi,
->
-> I'm not sure if I experience the same bug on my apple iBook G4 (ppc
-> 7447A, altivec supported PowerBook6,5) or just something very similar.
->
-> With v2.6.30-rc1 I noticed, that suspending to ram does not work if my
-> wireless card is 'up'. The wireless card is an apple airport extreme
-> card, this is its lspci output:
->
-> 0001:10:12.0 Network controller: Broadcom Corporation BCM4306 802.11b/g Wireless LAN Controller (rev 03)
->
-> I tested suspend like this:
->
-> # unload the wireless module
-> modprobe -r b43
-> echo mem > /sys/power/state
->
-> # wake up works fine
->
-> #loading b43
-> modprobe b43
-> echo mem > /sys/power/state
->
-> # wake up still works fine
->
-> ifconfig wlan0 up
-> echo mem > /sys/power/state
->
-> # the box does not wake up, I guess it's not really sleeping, because
-> # the sleep led is not on
->
-> I bisected this and got:
->
-> 5bb644a0fd25a5e083ecbfaa92a211db99aa6ef7 is first bad commit
-> commit 5bb644a0fd25a5e083ecbfaa92a211db99aa6ef7
-> Author: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-> Date:   Sun May 17 11:40:42 2009 +0200
->    
->     mac80211: cancel/restart all timers across suspend/resume
->
->
-> Best regards,
->     Jan Scholz
->
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
->
->> This message has been generated automatically as a part of a report
->> of regressions introduced between 2.6.29 and 2.6.30.
->>
->> The following bug entry is on the current list of known regressions
->> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
->> be listed and let me know (either way).
->>
->>
->> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13337
->> Subject		: [post 2.6.29 regression] hang during suspend of b44/b43 modules
->> Submitter	: Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
->> Date		: 2009-05-18 10:59 (50 days old)
->>
+Jesse
