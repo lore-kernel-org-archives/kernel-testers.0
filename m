@@ -1,162 +1,53 @@
-From: Gene Heskett <gene.heskett-H+0wwilmMs3R7s880joybQ@public.gmane.org>
-Subject: Re: OOM killer in 2.6.31-rc2
-Date: Thu, 09 Jul 2009 17:03:06 -0400
-Message-ID: <200907091703.06691.gene.heskett@verizon.net>
-References: <200907061056.00229.gene.heskett@verizon.net>
- <200907091042.38022.gene.heskett@verizon.net>
- <19030.22024.132029.196682@stoffel.org>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [patch v2] slub: add option to disable higher order debugging
+ slabs
+Date: Thu, 9 Jul 2009 16:26:36 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0907091620470.16817@chino.kir.corp.google.com>
+References: <etTXaRqGgAC.A.SaE.6iASKB@chimera> <1246374095.8014.28.camel@penberg-laptop> <alpine.DEB.1.10.0906301114450.3879@gentwo.org> <alpine.DEB.2.00.0906301248000.16312@chino.kir.corp.google.com> <alpine.DEB.1.10.0906301632570.22158@gentwo.org>
+ <alpine.DEB.2.00.0906301413460.24397@chino.kir.corp.google.com> <alpine.DEB.1.10.0906301722280.17682@gentwo.org> <alpine.DEB.2.00.0906301445070.26290@chino.kir.corp.google.com> <84144f020906302253n2424d4a5k3aaf124838a041df@mail.gmail.com>
+ <alpine.DEB.2.00.0907021016380.30890@chino.kir.corp.google.com> <84144f020907030023v2d09632bt13b6c25f96c0b803@mail.gmail.com> <alpine.DEB.2.00.0907062252500.9699@chino.kir.corp.google.com> <alpine.DEB.2.00.0907070013400.14978@chino.kir.corp.google.com>
+ <alpine.DEB.1.10.0907071150010.5124@gentwo.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-reply-to: <19030.22024.132029.196682-HgN6juyGXH5AfugRpC6u6w@public.gmane.org>
-Content-disposition: inline
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1247182003; bh=gW6vHOvY5NYtG5gUGqQ1ogBiXW4=;
+	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
+	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
+	 Content-Type:X-System-Of-Record; b=UQvKgFFdenSi+08/HJcskgta772PIAy
+	/egotDJUx185ekmRM01IMiImap1UuzJ64aqM+SG2H8DarR2kXAOCwIQ==
+In-Reply-To: <alpine.DEB.1.10.0907071150010.5124-gkYfJU5Cukgdnm+yROfE0A@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: John Stoffel <john-HgN6juyGXH5AfugRpC6u6w@public.gmane.org>
-Cc: Wu Fengguang <fengguang.wu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel list <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Minchan Kim <minchan.kim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 
-On Thursday 09 July 2009, John Stoffel wrote:
->>>>>> "Gene" == Gene Heskett <gene.heskett-H+0wwilmMs3R7s880joybQ@public.gmane.org> writes:
->
->Gene> On Wednesday 08 July 2009, Wu Fengguang wrote:
->>> On Wed, Jul 08, 2009 at 01:15:15PM +0800, Wu Fengguang wrote:
->>>> On Tue, Jul 07, 2009 at 11:42:07PM -0400, Gene Heskett wrote:
->
->Gene> [...]
->
->>>> I guess your near 800MB slab cache is somehow under scanned.
->>>
->>> Gene, can you run .31 with this patch? When OOM happens, it will tell
->>> us whether the majority slab pages are reclaimable. Another way to
->>> find things out is to run `slabtop` when your system is moderately
->>> loaded.
->
->Gene> Its been running continuously, and after 24 hours is now showing:
->
->Just wondering, is this your M2N-SLI Deluxe board?
-Yes.
->I've got the same
->board, with 4Gb of RAM and I haven't noticed any loss of RAM from my
->looking (quickly) at top output.
+On Tue, 7 Jul 2009, Christoph Lameter wrote:
 
-I am short approximately 500 megs according to top:
-Mem:   3634228k total,  3522984k used,   111244k free,   308096k buffers
-Swap:  8385912k total,      568k used,  8385344k free,  2544716k cached
+> > + * Debugging flags that require metadata to be stored in the slab, up to
+> > + * DEBUG_SIZE in size.
+> > + */
+> > +#define DEBUG_SIZE_FLAGS (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER)
+> > +#define DEBUG_SIZE (3 * sizeof(void *) + 2 * sizeof(struct track))
+> 
+> There is no need for DEBUG_SIZE since slub keeps both the size of the
+> object kmem_cache->objsize and the size with the metadata kmem_cache->size
+> 
+> If the order of both is different then the order would increase.
+> 
 
-From dmesg:
-[    0.000000] TOM2: 0000000120000000 aka 4608M  <what is this?
-[...]
-[    0.000000] 2694MB HIGHMEM available.
-[    0.000000] 887MB LOWMEM available.
+Without DEBUG_SIZE_FLAGS, the only way to determine what flags have 
+increased the size is in calculate_sizes() and then disable them by 
+default if slub_debug=O is specified.  calculate_sizes() is used by 
+the `store', `poison', and `red_zone' callbacks, so the admin still has 
+the ability to enable these options even though slub_debug=O was used.
 
-The bios signon does say 4092M IIRC.
+So we can either mask off the size-increasing debug bits when the cache is 
+created in kmem_cache_flags() like I did, or we can move the logic to 
+calculate_sizes() with an added formal to determine whether this is from 
+kmem_cache_open() or one of the attribute callbacks.
 
->But I also haven't bothered to upgrade the BIOS on this board at all
->since I got it back in March of 2008.  No need in my book so far.
-
-I had been running the original bios, #1502, because 1604 and 1701 had very 
-poor uptimes.  1502 caused an oops about 15 lines into the boot but that 
-triggered a remap and it was bulletproof after that running a 32 bit 64G+PAE 
-kernel.  (I haven't quite made the jump to a 64 bit install, yet...)
-
->> uname -a
->
->Linux sail 2.6.31-rc1 #6 SMP PREEMPT Wed Jun 24 21:40:33 EDT 2009 x86_64
-> GNU/Linux
-
-Linux coyote.coyote.den 2.6.31-rc2 #4 SMP PREEMPT Wed Jul 8 09:37:15 EDT 2009 
-i686 athlon i386 GNU/Linux
->> cat /proc/meminfo
->
->MemTotal:        3987068 kB
->MemFree:          170608 kB
->Buffers:          355272 kB
->Cached:          2034416 kB
->SwapCached:            0 kB
->Active:          1836284 kB
->Inactive:        1482444 kB
->Active(anon):     857076 kB
->Inactive(anon):    86112 kB
->Active(file):     979208 kB
->Inactive(file):  1396332 kB
->Unevictable:        3972 kB
->Mlocked:            3972 kB
->SwapTotal:             0 kB
->SwapFree:              0 kB
->Dirty:                36 kB
->Writeback:             0 kB
->AnonPages:        933160 kB
->Mapped:           141188 kB
->Slab:             398124 kB
->SReclaimable:     348212 kB
->SUnreclaim:        49912 kB
->PageTables:        30916 kB
->NFS_Unstable:          0 kB
->Bounce:                0 kB
->WritebackTmp:          0 kB
->CommitLimit:     1993532 kB
->Committed_AS:    1570980 kB
->VmallocTotal:   34359738367 kB
->VmallocUsed:      116160 kB
->VmallocChunk:   34359584603 kB
->DirectMap4k:        4992 kB
->DirectMap2M:     4188160 kB
-
-MemTotal:        3634228 kB
-MemFree:          114312 kB
-Buffers:          309088 kB
-Cached:          2541864 kB
-SwapCached:           72 kB
-Active:          1584988 kB
-Inactive:        1739508 kB
-Active(anon):     354584 kB
-Inactive(anon):   120072 kB
-Active(file):    1230404 kB
-Inactive(file):  1619436 kB
-Unevictable:         100 kB
-Mlocked:             100 kB
-HighTotal:       2759560 kB
-HighFree:          13020 kB
-LowTotal:         874668 kB
-LowFree:          101292 kB
-SwapTotal:       8385912 kB
-SwapFree:        8385344 kB
-Dirty:                52 kB
-Writeback:             0 kB
-AnonPages:        473576 kB
-Mapped:           111332 kB
-Slab:             143624 kB
-SReclaimable:     127820 kB
-SUnreclaim:        15804 kB
-PageTables:         8776 kB
-NFS_Unstable:          0 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:    10203024 kB
-Committed_AS:    1029032 kB
-VmallocTotal:     122880 kB
-VmallocUsed:       44180 kB
-VmallocChunk:      65924 kB
-HugePages_Total:       0
-HugePages_Free:        0
-HugePages_Rsvd:        0
-HugePages_Surp:        0
-Hugepagesize:       4096 kB
-DirectMap4k:        8184 kB
-DirectMap4M:      901120 kB
-
-Huge diffs it appears. ??
-
-Thanks, John.
-
--- 
-Cheers, Gene
-"There are four boxes to be used in defense of liberty:
- soap, ballot, jury, and ammo. Please use in that order."
--Ed Howdershelt (Author)
-The NRA is offering FREE Associate memberships to anyone who wants them.
-<https://www.nrahq.org/nrabonus/accept-membership.asp>
-
-A Difficulty for Every Solution.
-		-- Motto of the Federal Civil Service
+I think my solution is the cleanest and provides a single entity, 
+DEBUG_SIZE_FLAGS, which specifies the flags that slub_debug=O clears if 
+the minimum order increases.
