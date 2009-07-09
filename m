@@ -1,59 +1,119 @@
-From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Subject: Re: [Bug #13667] drm: display arifacts when X.Org is stopped
-Date: Thu, 9 Jul 2009 03:28:52 +0200
-Message-ID: <200907090328.53643.elendil@planet.nl>
-References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera> <200907080700.33120.elendil@planet.nl> <21d7e9970907081642l3ef6df5blde31df656cd74432@mail.gmail.com>
+From: Gene Heskett <gene.heskett@verizon.net>
+Subject: Re: OOM killer in 2.6.31-rc2
+Date: Thu, 09 Jul 2009 10:42:37 -0400
+Message-ID: <200907091042.38022.gene.heskett@verizon.net>
+References: <200907061056.00229.gene.heskett@verizon.net>
+ <20090708051515.GA17156@localhost> <20090708075501.GA1122@localhost>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <21d7e9970907081642l3ef6df5blde31df656cd74432-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Dave Airlie <airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Siddha, Suresh B" <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Return-path: <owner-linux-mm@kvack.org>
+In-reply-to: <20090708075501.GA1122@localhost>
+Content-disposition: inline
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Wu Fengguang <fengguang.wu@gmail.com>
+Cc: Linux Kernel list <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, Minchan Kim <minchan.kim@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, David Howells <dhowells@redhat.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
 
-On Thursday 09 July 2009, Dave Airlie wrote:
-> > [1] I'd even go so far as to feel it should be a standard test case
-> > for video driver developers, given that this is the third time it's
-> > shown regressions :-) For the third case the bug was in the X.Org
-> > i830 driver: http://bugs.freedesktop.org/show_bug.cgi?id=14481.
+On Wednesday 08 July 2009, Wu Fengguang wrote:
+>On Wed, Jul 08, 2009 at 01:15:15PM +0800, Wu Fengguang wrote:
+>> On Tue, Jul 07, 2009 at 11:42:07PM -0400, Gene Heskett wrote:
+[...]
+>> I guess your near 800MB slab cache is somehow under scanned.
 >
-> It might surprise you to learn this, but vesafb has never been
-> considered supportable by the X.org community, and you'll notice not
-> very many distros ship with it enabled, it breaks suspend/resume on
-> many machines for example.
+>Gene, can you run .31 with this patch? When OOM happens, it will tell
+>us whether the majority slab pages are reclaimable. Another way to
+>find things out is to run `slabtop` when your system is moderately loaded.
 
-I beg to disagree.
-- Debian does have it enabled by default.
-- I have always used it on all my machines without any problems.
-- Both my laptops and my desktop suspend and resume perfectly with vesafb
-  and X.Org.
-- Jesse Barnes seems to disagree with you. To quote from the BR cited
-  above (comment #11): "and you're right, making things work with vesafb
-  isn't unreasonable".
+Its been running continuously, and after 24 hours is now showing:
 
-I do know intelfb is considered to be terminally broken, but have always 
-understood the use of vesafb to be accepted.
+ Active / Total Objects (% used)    : 578136 / 869737 (66.5%)
+ Active / Total Slabs (% used)      : 35832 / 35836 (100.0%)
+ Active / Total Caches (% used)     : 104 / 163 (63.8%)
+ Active / Total Size (% used)       : 115103.39K / 135776.88K (84.8%)
+ Minimum / Average / Maximum Object : 0.01K / 0.16K / 4096.00K
 
-> As I said having two drivers thinking they own the GPU is a recipe for
-> total disaster and thats why we've designed the new KMS code so you can
-> get cool bootup logos and avoid the insanity dance.
+  OBJS ACTIVE  USE OBJ SIZE  SLABS OBJ/SLAB CACHE SIZE NAME
+439989 179391  40%    0.05K   6567       67     26268K buffer_head
+126237 126222  99%    0.13K   4353       29     17412K dentry
+121296 121296 100%    0.48K  15162        8     60648K ext3_inode_cache
+ 64779  47350  73%    0.28K   4983       13     19932K radix_tree_node
+ 17158  16014  93%    0.08K    373       46      1492K vm_area_struct
+ 14250  14250 100%    0.12K    475       30      1900K size-128
+ 12600  12544  99%    0.04K    150       84       600K sysfs_dir_cache
+ 11187  10813  96%    0.03K     99      113       396K size-32
+  9170   9170 100%    0.36K    917       10      3668K proc_inode_cache
+  8820   7560  85%    0.12K    294       30      1176K filp
+  8791   6107  69%    0.06K    149       59       596K size-64
+  6858   5532  80%    0.01K     27      254       108K anon_vma
+  3213   3157  98%    0.06K     51       63       204K 
+inotify_inode_mark_entry
+  2392   2319  96%    0.04K     26       92       104K Acpi-Operand
+  2020    778  38%    0.19K    101       20       404K skbuff_head_cache
+  1467   1442  98%    0.43K    163        9       652K shmem_inode_cache
+  1352   1212  89%    0.02K      8      169        32K Acpi-Namespace
+  1350    579  42%    0.12K     45       30       180K cred_jar
+  1288   1252  97%    0.50K    161        8       644K size-512
+  1121   1062  94%    0.06K     19       59        76K pid
+   998    990  99%    2.00K    499        2      1996K size-2048
+   780    665  85%    0.05K     10       78        40K ext3_xattr
+   702    653  93%    0.14K     27       26       108K idr_layer_cache
+   668    567  84%    1.00K    167        4       668K size-1024
+   650    547  84%    0.38K     65       10       260K sock_inode_cache
+   594    442  74%    0.44K     66        9       264K UNIX
+   585    474  81%    0.25K     39       15       156K size-256
+   560    526  93%    0.19K     28       20       112K size-192
+   555    272  49%    0.25K     37       15       148K ip_dst_cache
+   539    423  78%    0.34K     49       11       196K inode_cache
+   452    198  43%    0.03K      4      113        16K fs_cache
 
-Yes, and I really welcome the great progress being made there. But for me 
-it's not yet an option as I run Debian stable on these boxes.
+Is there anything unusual there?
 
-> However we shall endeavour to fix this issues as it may be systemic of
-> something else going wrong in the new PAT/AGP code.
+>Thanks,
+>Fengguang
+>---
+>From: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
+>
+>Subject: [PATCH] add per-zone statistics to show_free_areas()
+>
+>Currently, show_free_area() mainly display system memory usage. but it
+>doesn't display per-zone memory usage information.
+>
+>However, if DMA zone OOM occur, Administrator definitely need to know
+>per-zone memory usage information.
+[...]
+To Wu Fengguang, David H., Rafael W., lkml:
 
-Great. Thanks in advance, I do appreciate it.
+With this patch, the newest bios for this board, and without the 
+CONFIG_HIGHMEM64G in the config, 2.6.31-rc2 has achieved a full days uptime.
+I did do a swapoff -a; swapon -a about an hour into the boot to zero the swap, 
+and in nearly 24 hours it hasn't used any.  No oom's that I can find in the 
+logs.
 
-BTW, today I noticed another regression, but I have not yet looked into it 
-deeply. When I suspend I normally see at least some console messages from 
-the suspend procedure on the framebuffer console, but with .31-rc2 I only 
-see a cursor. It does not really affect the suspend/resume.
-Could possibly be related. Will investigate further.
+If the 64G highmem option, and this bios meet on this machine, the crash is at 
+least 20 hours overdue.  But it appears to be 100% normal yet.
 
-Cheers,
-FJP
+My opinion is that the 64G, long address memory handling may be broken 
+somewhere.  Running w/o it costs me about half a gig of ram, but in this case, 
+the loss is well worth it.
+
+What is the reason that setting the 4G of memory option results in only 
+approximately 3.5G being shown again?
+
+Many Thanks to all of you, I have a stable machine now.
+
+-- 
+Cheers, Gene
+"There are four boxes to be used in defense of liberty:
+ soap, ballot, jury, and ammo. Please use in that order."
+-Ed Howdershelt (Author)
+The NRA is offering FREE Associate memberships to anyone who wants them.
+<https://www.nrahq.org/nrabonus/accept-membership.asp>
+
+People are like onions -- you cut them up, and they make you cry.
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
