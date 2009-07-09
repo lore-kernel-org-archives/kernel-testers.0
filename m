@@ -1,119 +1,93 @@
-From: Gene Heskett <gene.heskett@verizon.net>
-Subject: Re: OOM killer in 2.6.31-rc2
-Date: Thu, 09 Jul 2009 10:42:37 -0400
-Message-ID: <200907091042.38022.gene.heskett@verizon.net>
-References: <200907061056.00229.gene.heskett@verizon.net>
- <20090708051515.GA17156@localhost> <20090708075501.GA1122@localhost>
+From: Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
+Subject: Re: [Bug #13337] [post 2.6.29 regression] hang during suspend of b44/b43 modules
+Date: Thu, 09 Jul 2009 17:14:20 +0200
+Message-ID: <87y6qxx50z.fsf@scholz.fias.uni-frankfurt.de>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
+	<bXZeuxPQAWE.A.Ap.lBpUKB@chimera>
+	<87k52izvd9.fsf@scholz.fias.uni-frankfurt.de>
 Mime-Version: 1.0
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <87k52izvd9.fsf-X87fCqEI3snt2/fatF9ZgSk+o5UQzIjPIRYYPiSvRdM@public.gmane.org> (Jan Scholz's
+	message of "Thu, 09 Jul 2009 00:02:26 +0200")
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-reply-to: <20090708075501.GA1122@localhost>
-Content-disposition: inline
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Wu Fengguang <fengguang.wu@gmail.com>
-Cc: Linux Kernel list <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, Minchan Kim <minchan.kim@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, David Howells <dhowells@redhat.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
+To: Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
 
-On Wednesday 08 July 2009, Wu Fengguang wrote:
->On Wed, Jul 08, 2009 at 01:15:15PM +0800, Wu Fengguang wrote:
->> On Tue, Jul 07, 2009 at 11:42:07PM -0400, Gene Heskett wrote:
-[...]
->> I guess your near 800MB slab cache is somehow under scanned.
+Hi,
+
+I have just checked this on v2.6.31-rc1 and v2.6.31-rc2-214-g34f2547
+(I wanted to test this on v2.6.31-rc2 as well, but there I had other
+suspend-issues that are fixed in todays v2.6.31-rc2-214-g34f2547)
+
+For both v2.6.31-rc1 and v2.6.31-rc2-214-g34f2547 suspend to ram fails
+with the test procedure described below, but it works fine when I revert
+commit 5bb644a0fd25a5e083ecbfaa92a211db99aa6ef7
+ "mac80211: cancel/restart all timers across suspend/resume"
+
+Best regards,
+   Jan
+
+Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org> writes:
+
+> Hi,
 >
->Gene, can you run .31 with this patch? When OOM happens, it will tell
->us whether the majority slab pages are reclaimable. Another way to
->find things out is to run `slabtop` when your system is moderately loaded.
-
-Its been running continuously, and after 24 hours is now showing:
-
- Active / Total Objects (% used)    : 578136 / 869737 (66.5%)
- Active / Total Slabs (% used)      : 35832 / 35836 (100.0%)
- Active / Total Caches (% used)     : 104 / 163 (63.8%)
- Active / Total Size (% used)       : 115103.39K / 135776.88K (84.8%)
- Minimum / Average / Maximum Object : 0.01K / 0.16K / 4096.00K
-
-  OBJS ACTIVE  USE OBJ SIZE  SLABS OBJ/SLAB CACHE SIZE NAME
-439989 179391  40%    0.05K   6567       67     26268K buffer_head
-126237 126222  99%    0.13K   4353       29     17412K dentry
-121296 121296 100%    0.48K  15162        8     60648K ext3_inode_cache
- 64779  47350  73%    0.28K   4983       13     19932K radix_tree_node
- 17158  16014  93%    0.08K    373       46      1492K vm_area_struct
- 14250  14250 100%    0.12K    475       30      1900K size-128
- 12600  12544  99%    0.04K    150       84       600K sysfs_dir_cache
- 11187  10813  96%    0.03K     99      113       396K size-32
-  9170   9170 100%    0.36K    917       10      3668K proc_inode_cache
-  8820   7560  85%    0.12K    294       30      1176K filp
-  8791   6107  69%    0.06K    149       59       596K size-64
-  6858   5532  80%    0.01K     27      254       108K anon_vma
-  3213   3157  98%    0.06K     51       63       204K 
-inotify_inode_mark_entry
-  2392   2319  96%    0.04K     26       92       104K Acpi-Operand
-  2020    778  38%    0.19K    101       20       404K skbuff_head_cache
-  1467   1442  98%    0.43K    163        9       652K shmem_inode_cache
-  1352   1212  89%    0.02K      8      169        32K Acpi-Namespace
-  1350    579  42%    0.12K     45       30       180K cred_jar
-  1288   1252  97%    0.50K    161        8       644K size-512
-  1121   1062  94%    0.06K     19       59        76K pid
-   998    990  99%    2.00K    499        2      1996K size-2048
-   780    665  85%    0.05K     10       78        40K ext3_xattr
-   702    653  93%    0.14K     27       26       108K idr_layer_cache
-   668    567  84%    1.00K    167        4       668K size-1024
-   650    547  84%    0.38K     65       10       260K sock_inode_cache
-   594    442  74%    0.44K     66        9       264K UNIX
-   585    474  81%    0.25K     39       15       156K size-256
-   560    526  93%    0.19K     28       20       112K size-192
-   555    272  49%    0.25K     37       15       148K ip_dst_cache
-   539    423  78%    0.34K     49       11       196K inode_cache
-   452    198  43%    0.03K      4      113        16K fs_cache
-
-Is there anything unusual there?
-
->Thanks,
->Fengguang
->---
->From: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
+> I'm not sure if I experience the same bug on my apple iBook G4 (ppc
+> 7447A, altivec supported PowerBook6,5) or just something very similar.
 >
->Subject: [PATCH] add per-zone statistics to show_free_areas()
+> With v2.6.30-rc1 I noticed, that suspending to ram does not work if my
+> wireless card is 'up'. The wireless card is an apple airport extreme
+> card, this is its lspci output:
 >
->Currently, show_free_area() mainly display system memory usage. but it
->doesn't display per-zone memory usage information.
+> 0001:10:12.0 Network controller: Broadcom Corporation BCM4306 802.11b/g Wireless LAN Controller (rev 03)
 >
->However, if DMA zone OOM occur, Administrator definitely need to know
->per-zone memory usage information.
-[...]
-To Wu Fengguang, David H., Rafael W., lkml:
-
-With this patch, the newest bios for this board, and without the 
-CONFIG_HIGHMEM64G in the config, 2.6.31-rc2 has achieved a full days uptime.
-I did do a swapoff -a; swapon -a about an hour into the boot to zero the swap, 
-and in nearly 24 hours it hasn't used any.  No oom's that I can find in the 
-logs.
-
-If the 64G highmem option, and this bios meet on this machine, the crash is at 
-least 20 hours overdue.  But it appears to be 100% normal yet.
-
-My opinion is that the 64G, long address memory handling may be broken 
-somewhere.  Running w/o it costs me about half a gig of ram, but in this case, 
-the loss is well worth it.
-
-What is the reason that setting the 4G of memory option results in only 
-approximately 3.5G being shown again?
-
-Many Thanks to all of you, I have a stable machine now.
-
--- 
-Cheers, Gene
-"There are four boxes to be used in defense of liberty:
- soap, ballot, jury, and ammo. Please use in that order."
--Ed Howdershelt (Author)
-The NRA is offering FREE Associate memberships to anyone who wants them.
-<https://www.nrahq.org/nrabonus/accept-membership.asp>
-
-People are like onions -- you cut them up, and they make you cry.
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+> I tested suspend like this:
+>
+> # unload the wireless module
+> modprobe -r b43
+> echo mem > /sys/power/state
+>
+> # wake up works fine
+>
+> #loading b43
+> modprobe b43
+> echo mem > /sys/power/state
+>
+> # wake up still works fine
+>
+> ifconfig wlan0 up
+> echo mem > /sys/power/state
+>
+> # the box does not wake up, I guess it's not really sleeping, because
+> # the sleep led is not on
+>
+> I bisected this and got:
+>
+> 5bb644a0fd25a5e083ecbfaa92a211db99aa6ef7 is first bad commit
+> commit 5bb644a0fd25a5e083ecbfaa92a211db99aa6ef7
+> Author: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+> Date:   Sun May 17 11:40:42 2009 +0200
+>    
+>     mac80211: cancel/restart all timers across suspend/resume
+>
+>
+> Best regards,
+>     Jan Scholz
+>
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+>
+>> This message has been generated automatically as a part of a report
+>> of regressions introduced between 2.6.29 and 2.6.30.
+>>
+>> The following bug entry is on the current list of known regressions
+>> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+>> be listed and let me know (either way).
+>>
+>>
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13337
+>> Subject		: [post 2.6.29 regression] hang during suspend of b44/b43 modules
+>> Submitter	: Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
+>> Date		: 2009-05-18 10:59 (50 days old)
+>>
