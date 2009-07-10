@@ -1,52 +1,80 @@
-From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Subject: Re: Intel BIOS - Corrupted low memory at ffff880000004200
-Date: Fri, 10 Jul 2009 15:05:19 +0200 (CEST)
-Message-ID: <alpine.LFD.2.00.0907101504030.2768@localhost.localdomain>
-References: <4A5210A2.2080301@fisher-privat.net> <4A52254F.8080103@fisher-privat.net> <20090708113949.GA8960@srcf.ucam.org> <20090710115238.GA8812@elte.hu> <4A573131.40601@fisher-privat.net>
+From: "John Stoffel" <john@stoffel.org>
+Subject: Re: OOM killer in 2.6.31-rc2
+Date: Fri, 10 Jul 2009 09:09:48 -0400
+Message-ID: <19031.15772.404288.544946@stoffel.org>
+References: <200907061056.00229.gene.heskett@verizon.net>
+	<200907091042.38022.gene.heskett@verizon.net>
+	<19030.22024.132029.196682@stoffel.org>
+	<200907091703.06691.gene.heskett@verizon.net>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4A573131.40601-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Suresh Siddha <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Richard A. Holden III" <aciddeath-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <200907091703.06691.gene.heskett@verizon.net>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Gene Heskett <gene.heskett@verizon.net>
+Cc: John Stoffel <john@stoffel.org>, Wu Fengguang <fengguang.wu@gmail.com>, Linux Kernel list <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, Minchan Kim <minchan.kim@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, David Howells <dhowells@redhat.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
 
-On Fri, 10 Jul 2009, Alexey Fisher wrote:
-> Ingo Molnar schrieb:
-> > * Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org> wrote:
-> > 
-> > > On Mon, Jul 06, 2009 at 06:24:47PM +0200, Alexey Fisher wrote:
-> > > > Hallo Ingo, Richard.
-> > > > 
-> > > > I'm getting "Corrupted low memory" trace with my Intel DG45ID board
-> > > > after resume. This board has different dmi-bios-vendor... so probably it
-> > > > will be nice to have it in your patch.
-> > > I'm beginning to think that we should be doing this on all hardware,
-> > > perhaps with a kernel option to disable it for embedded devices that
-> > > really need that 64K. The low-memory corruption issue seems to be very
-> > > widespread.
-> > 
-> > The problem is that the BIOS corrupted memory that it also marked as
-> > 'usable' in its E820 map it gave to the kernel. If that memory is not
-> > usable, it should not have been marked as such. Also, some of the reports
-> > showed corruption beyond this range so the workaround is not universal.
-> > 
-> > So i'd really like to know what is happening there, instead of just zapping
-> > support for 64K of RAM on the majority of Linux systems.
-> > 
-> > We might end up doing the same thing in the end (i.e. disable that 64k of
-> > RAM) - but it should be an informed decision, not a wild stab in the dark.
-> > 
-> > 	Ingo
-> 
-> If i make memory dump like "dd if=/dev/mem of=memdump.dd bs=64k count=1"
-> before and after suspend. Will it help you find out whats happening.
+>>>>> "Gene" == Gene Heskett <gene.heskett@verizon.net> writes:
 
-The corrupted low memory printks contain the modifications. Can you
-post them please ?
+Gene> On Thursday 09 July 2009, John Stoffel wrote:
+>>>>>>> "Gene" == Gene Heskett <gene.heskett@verizon.net> writes:
+>> 
+Gene> On Wednesday 08 July 2009, Wu Fengguang wrote:
+>>>> On Wed, Jul 08, 2009 at 01:15:15PM +0800, Wu Fengguang wrote:
+>>>>> On Tue, Jul 07, 2009 at 11:42:07PM -0400, Gene Heskett wrote:
+>> 
+Gene> [...]
+>> 
+>>>>> I guess your near 800MB slab cache is somehow under scanned.
+>>>> 
+>>>> Gene, can you run .31 with this patch? When OOM happens, it will tell
+>>>> us whether the majority slab pages are reclaimable. Another way to
+>>>> find things out is to run `slabtop` when your system is moderately
+>>>> loaded.
+>> 
+Gene> Its been running continuously, and after 24 hours is now showing:
+>> 
+>> Just wondering, is this your M2N-SLI Deluxe board?
+Gene> Yes.
+>> I've got the same
+>> board, with 4Gb of RAM and I haven't noticed any loss of RAM from my
+>> looking (quickly) at top output.
 
-Thanks,
+Gene> I am short approximately 500 megs according to top:
+Gene> Mem:   3634228k total,  3522984k used,   111244k free,   308096k buffers
+Gene> Swap:  8385912k total,      568k used,  8385344k free,  2544716k cached
 
-	tglx
+Gene> From dmesg:
+Gene> [    0.000000] TOM2: 0000000120000000 aka 4608M  <what is this?
+Gene> [...]
+Gene> [    0.000000] 2694MB HIGHMEM available.
+Gene> [    0.000000] 887MB LOWMEM available.
+
+Gene> The bios signon does say 4092M IIRC.
+
+>> But I also haven't bothered to upgrade the BIOS on this board at all
+>> since I got it back in March of 2008.  No need in my book so far.
+
+Gene> I had been running the original bios, #1502, because 1604 and
+Gene> 1701 had very poor uptimes.  1502 caused an oops about 15 lines
+Gene> into the boot but that triggered a remap and it was bulletproof
+Gene> after that running a 32 bit 64G+PAE kernel.  (I haven't quite
+Gene> made the jump to a 64 bit install, yet...)
+
+Why haven't you made the laep to 64bit yet?  To me, that seems to be
+the real solution here, not hacks like the HIGHMEM4G and HIGHMEM64G,
+esp when your hardware is 64Bit by default.  
+
+I've made the leap and I've never looked back.  Haven't missed any
+32bit only apps, and if I really needed them, I'd just load the 32bit
+libraries if need be.
+
+John
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
