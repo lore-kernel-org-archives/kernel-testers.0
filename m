@@ -1,61 +1,49 @@
-From: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
-Subject: Re: [patch v2] slub: add option to disable higher order debugging
- slabs
-Date: Fri, 10 Jul 2009 09:54:39 +0300
-Message-ID: <1247208879.19026.2.camel@penberg-laptop>
-References: <etTXaRqGgAC.A.SaE.6iASKB@chimera>
-	 <1246374095.8014.28.camel@penberg-laptop>
-	 <alpine.DEB.1.10.0906301114450.3879@gentwo.org>
-	 <alpine.DEB.2.00.0906301248000.16312@chino.kir.corp.google.com>
-	 <alpine.DEB.1.10.0906301632570.22158@gentwo.org>
-	 <alpine.DEB.2.00.0906301413460.24397@chino.kir.corp.google.com>
-	 <alpine.DEB.1.10.0906301722280.17682@gentwo.org>
-	 <alpine.DEB.2.00.0906301445070.26290@chino.kir.corp.google.com>
-	 <84144f020906302253n2424d4a5k3aaf124838a041df@mail.gmail.com>
-	 <alpine.DEB.2.00.0907021016380.30890@chino.kir.corp.google.com>
-	 <84144f020907030023v2d09632bt13b6c25f96c0b803@mail.gmail.com>
-	 <alpine.DEB.2.00.0907062252500.9699@chino.kir.corp.google.com>
-	 <alpine.DEB.2.00.0907070013400.14978@chino.kir.corp.google.com>
-	 <alpine.DEB.1.10.0907071150010.5124@gentwo.org>
-	 <alpine.DEB.2.00.0907091620470.16817@chino.kir.corp.google.com>
+From: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13726] fio sync read 4k block size 35% regression
+Date: Fri, 10 Jul 2009 14:37:30 +0800
+Message-ID: <20090710063730.GA23814@localhost>
+References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera> <dWkuWjWDsSB.A.lME.S0oUKB@chimera> <1246946802.2560.532.camel@ymzhang>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.00.0907091620470.16817-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1246946802.2560.532.camel@ymzhang>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tue, 7 Jul 2009, Christoph Lameter wrote:
-> > > + * Debugging flags that require metadata to be stored in the slab, up to
-> > > + * DEBUG_SIZE in size.
-> > > + */
-> > > +#define DEBUG_SIZE_FLAGS (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER)
-> > > +#define DEBUG_SIZE (3 * sizeof(void *) + 2 * sizeof(struct track))
+On Tue, Jul 07, 2009 at 02:06:42PM +0800, Zhang, Yanmin wrote:
+> On Tue, 2009-07-07 at 02:01 +0200, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
 > > 
-> > There is no need for DEBUG_SIZE since slub keeps both the size of the
-> > object kmem_cache->objsize and the size with the metadata kmem_cache->size
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.30.  Please verify if it still should be listed and let me know
+> > (either way).
 > > 
-> > If the order of both is different then the order would increase.
-
-On Thu, 2009-07-09 at 16:26 -0700, David Rientjes wrote:
-> Without DEBUG_SIZE_FLAGS, the only way to determine what flags have 
-> increased the size is in calculate_sizes() and then disable them by 
-> default if slub_debug=O is specified.  calculate_sizes() is used by 
-> the `store', `poison', and `red_zone' callbacks, so the admin still has 
-> the ability to enable these options even though slub_debug=O was used.
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13726
+> > Subject		: fio sync read 4k block size 35% regression
+> > Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> > Date		: 2009-07-01 11:25 (6 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=51daa88ebd8e0d437289f589af29d4b39379ea76
+> > References	: http://lkml.org/lkml/2009/6/30/679
+> > Handled-By	: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> Fengguang,
 > 
-> So we can either mask off the size-increasing debug bits when the cache is 
-> created in kmem_cache_flags() like I did, or we can move the logic to 
-> calculate_sizes() with an added formal to determine whether this is from 
-> kmem_cache_open() or one of the attribute callbacks.
-> 
-> I think my solution is the cleanest and provides a single entity, 
-> DEBUG_SIZE_FLAGS, which specifies the flags that slub_debug=O clears if 
-> the minimum order increases.
+> I'm still working on it now. The new testing against 2.6.31-rc2 is ongoing.
+> fio sync/mmap read has new behavior. I did collect some data. But suddenly
+> with new created data, the fio_sync_read_4k regression disappeared, while
 
-Yup, agreed. I applied the patch, thanks everyone!
+Do you mean the fio_sync_read_4k regression disappeared because we are
+collecting data with lots of printks?
 
-			Pekka
+> fio_mmap_read is still there. Originally, the testing and bisect were stable.
+> Let me check what happens firstly.
+
+Thanks! What's your fio_mmap_read job file and the readahead traces?
+
+Thanks,
+Fengguang
