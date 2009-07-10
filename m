@@ -1,7 +1,7 @@
 From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
 Subject: Re: Intel BIOS - Corrupted low memory at ffff880000004200
-Date: Fri, 10 Jul 2009 16:04:12 +0200
-Message-ID: <4A574A5C.5060400@fisher-privat.net>
+Date: Fri, 10 Jul 2009 16:44:56 +0200
+Message-ID: <4A5753E8.9040704@fisher-privat.net>
 References: <4A5210A2.2080301@fisher-privat.net> <4A52254F.8080103@fisher-privat.net> <20090708113949.GA8960@srcf.ucam.org> <20090710115238.GA8812@elte.hu> <4A573131.40601@fisher-privat.net> <alpine.LFD.2.00.0907101504030.2768@localhost.localdomain>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,37 +50,19 @@ Thomas Gleixner schrieb:
 > 
 > 	tglx
 
-[  120.816090] Corrupted low memory at ffff880000004200 (4200 phys) = 
-00420301
-[  120.816095] ------------[ cut here ]------------
-[  120.816102] WARNING: at arch/x86/kernel/check.c:134 
-check_for_bios_corruption+0xe4/0xf0()
-[  120.816104] Hardware name:
-[  120.816106] Memory corruption detected in low memory
-[  120.816107] Modules linked in: binfmt_misc kvm_intel kvm 
-snd_hda_codec_intelhdmi snd_hda_codec_idt snd_hda_intel snd_hda_codec 
-snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi 
-snd_rawmidi snd_seq_midi_event snd_seq snd_timer snd_seq_device psmouse 
-snd serio_raw iTCO_wdt iTCO_vendor_support soundcore snd_page_alloc e1000e
-[  120.816129] Pid: 9, comm: events/0 Tainted: G        W 
-2.6.31-rc1-25446-g1ae8c0a-dirty #2
-[  120.816131] Call Trace:
-[  120.816136]  [<ffffffff8104a8e8>] warn_slowpath_common+0x78/0xb0
-[  120.816139]  [<ffffffff8104a97c>] warn_slowpath_fmt+0x3c/0x40
-[  120.816142]  [<ffffffff8102aff4>] check_for_bios_corruption+0xe4/0xf0
-[  120.816146]  [<ffffffff8102b000>] ? check_corruption+0x0/0x30
-[  120.816148]  [<ffffffff8102b009>] check_corruption+0x9/0x30
-[  120.816152]  [<ffffffff8105e4d4>] worker_thread+0x144/0x260
-[  120.816155]  [<ffffffff810635c0>] ? autoremove_wake_function+0x0/0x40
-[  120.816158]  [<ffffffff8105e390>] ? worker_thread+0x0/0x260
-[  120.816161]  [<ffffffff810631e6>] kthread+0x96/0xa0
-[  120.816165]  [<ffffffff8100c69a>] child_rip+0xa/0x20
-[  120.816168]  [<ffffffff81063150>] ? kthread+0x0/0xa0
-[  120.816171]  [<ffffffff8100c690>] ? child_rip+0x0/0x20
-[  120.816173] ---[ end trace 11e2979285be7426 ]---
+I dumped all between 0000000 - 00ffff0
+and there is changes at:
+0004200 ->  this know one
+003c000 - 003fff0 -> this was empty and now it looks like VBIOS
+00d18a0 -> i don't know
 
-
-> --
-> To unsubscribe from this list: send the line "unsubscribe kernel-testers" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+cat /proc/iomem
+00000000-0000ffff : reserved
+00010000-0009e7ff : System RAM
+0009e800-0009ffff : reserved
+000e0000-000fffff : reserved
+00100000-bd90dfff : System RAM
+   01000000-014b1f1b : Kernel code
+   014b1f1c-0171265f : Kernel data
+   01794000-01842c07 : Kernel bss
+.....
