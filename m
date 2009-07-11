@@ -1,76 +1,113 @@
-From: Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
-Subject: Re: [Bug #13337] [post 2.6.29 regression] hang during suspend of b44/b43 modules
-Date: Sat, 11 Jul 2009 19:20:45 +0200
-Message-ID: <8763dznnki.fsf@scholz.fias.uni-frankfurt.de>
+From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Subject: Re: [Bug #13337] [post 2.6.29 regression] hang during suspend of
+ b44/b43 modules
+Date: Sat, 11 Jul 2009 19:47:44 +0200
+Message-ID: <1247334464.30647.109.camel@johannes.local>
 References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
-	<87k52izvd9.fsf@scholz.fias.uni-frankfurt.de>
-	<87y6qxx50z.fsf@scholz.fias.uni-frankfurt.de>
-	<200907092203.10294.rjw@sisk.pl>
-	<1247171295.1905.5.camel@johannes.local>
-	<87prc78ga9.fsf@scholz.fias.uni-frankfurt.de>
-	<1247322985.30647.108.camel@johannes.local>
+	 <87k52izvd9.fsf@scholz.fias.uni-frankfurt.de>
+	 <87y6qxx50z.fsf@scholz.fias.uni-frankfurt.de>
+	 <200907092203.10294.rjw@sisk.pl> <1247171295.1905.5.camel@johannes.local>
+	 <87prc78ga9.fsf@scholz.fias.uni-frankfurt.de>
+	 <1247322985.30647.108.camel@johannes.local>
+	 <8763dznnki.fsf@scholz.fias.uni-frankfurt.de>
 Mime-Version: 1.0
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-1KOfra4iopVe4GXK2l1w"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1247322985.30647.108.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org> (Johannes Berg's
-	message of "Sat, 11 Jul 2009 16:36:25 +0200")
+In-Reply-To: <8763dznnki.fsf-X87fCqEI3snt2/fatF9ZgSk+o5UQzIjPIRYYPiSvRdM@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-Cc: Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+To: Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
-Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org> writes:
 
-> On Sat, 2009-07-11 at 16:07 +0200, Jan Scholz wrote:
->
->> > Jan, can you run with console_suspend=0 (or whatever it is now, Rafael
->> > will correct me if I'm wrong) that should work on your platform, and put
->> > a bunch of printk calls into __ieee80211_suspend in net/mac80211/pm.c to
->> > see where in there it's hanging?
->> 
->> Did that, seems like it hangs in
->>   drv_remove_interface(local, &conf);
->
-> Ok, thanks! I was going to suggest doing the same in
-> b43_op_remove_interface in drivers/net/wireless/b43/main.c, but I think
-> the problem is just that we have an ordering problem and call drv_stop
-> before drv_remove_interface. I'll try to come up with a fix soon --
-> might not be able to today though, in the meantime I guess you can just
-> move the drv_stop call to the end of the function and tell me if that
-> works -- that would be racy but should be ok most of the time.
+--=-1KOfra4iopVe4GXK2l1w
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-I moved drv_stop to the end of the function (see patch below) and now
-suspend works fine.
+On Sat, 2009-07-11 at 19:20 +0200, Jan Scholz wrote:
+> Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org> writes:
+>=20
+> > On Sat, 2009-07-11 at 16:07 +0200, Jan Scholz wrote:
+> >
+> >> > Jan, can you run with console_suspend=3D0 (or whatever it is now, Ra=
+fael
+> >> > will correct me if I'm wrong) that should work on your platform, and=
+ put
+> >> > a bunch of printk calls into __ieee80211_suspend in net/mac80211/pm.=
+c to
+> >> > see where in there it's hanging?
+> >>=20
+> >> Did that, seems like it hangs in
+> >>   drv_remove_interface(local, &conf);
+> >
+> > Ok, thanks! I was going to suggest doing the same in
+> > b43_op_remove_interface in drivers/net/wireless/b43/main.c, but I think
+> > the problem is just that we have an ordering problem and call drv_stop
+> > before drv_remove_interface. I'll try to come up with a fix soon --
+> > might not be able to today though, in the meantime I guess you can just
+> > move the drv_stop call to the end of the function and tell me if that
+> > works -- that would be racy but should be ok most of the time.
+>=20
+> I moved drv_stop to the end of the function (see patch below) and now
+> suspend works fine.
 
-Jan
+Thanks, that's what I suspected -- I'll take a closer look into what is
+required to make it race-free against RX.
 
-diff --git a/net/mac80211/pm.c b/net/mac80211/pm.c
-index 7a549f9..0ac15fb 100644
---- a/net/mac80211/pm.c
-+++ b/net/mac80211/pm.c
-@@ -58,12 +58,6 @@ int __ieee80211_suspend(struct ieee80211_hw *hw)
- 	/* flush again, in case driver queued work */
- 	flush_workqueue(local->hw.workqueue);
- 
--	/* stop hardware - this must stop RX */
--	if (local->open_count) {
--		ieee80211_led_radio(local, false);
--		drv_stop(local);
--	}
--
- 	/* remove STAs */
- 	spin_lock_irqsave(&local->sta_lock, flags);
- 	list_for_each_entry(sta, &local->sta_list, list) {
-@@ -111,6 +105,12 @@ int __ieee80211_suspend(struct ieee80211_hw *hw)
- 		drv_remove_interface(local, &conf);
- 	}
- 
-+	/* stop hardware - this must stop RX */
-+	if (local->open_count) {
-+		ieee80211_led_radio(local, false);
-+		drv_stop(local);
-+	}
-+
- 	local->suspended = true;
- 	local->quiescing = false;
+johannes
+
+> Jan
+>=20
+> diff --git a/net/mac80211/pm.c b/net/mac80211/pm.c
+> index 7a549f9..0ac15fb 100644
+> --- a/net/mac80211/pm.c
+> +++ b/net/mac80211/pm.c
+> @@ -58,12 +58,6 @@ int __ieee80211_suspend(struct ieee80211_hw *hw)
+>  	/* flush again, in case driver queued work */
+>  	flush_workqueue(local->hw.workqueue);
+> =20
+> -	/* stop hardware - this must stop RX */
+> -	if (local->open_count) {
+> -		ieee80211_led_radio(local, false);
+> -		drv_stop(local);
+> -	}
+> -
+>  	/* remove STAs */
+>  	spin_lock_irqsave(&local->sta_lock, flags);
+>  	list_for_each_entry(sta, &local->sta_list, list) {
+> @@ -111,6 +105,12 @@ int __ieee80211_suspend(struct ieee80211_hw *hw)
+>  		drv_remove_interface(local, &conf);
+>  	}
+> =20
+> +	/* stop hardware - this must stop RX */
+> +	if (local->open_count) {
+> +		ieee80211_led_radio(local, false);
+> +		drv_stop(local);
+> +	}
+> +
+>  	local->suspended =3D true;
+>  	local->quiescing =3D false;
+>=20
+
+--=-1KOfra4iopVe4GXK2l1w
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAABAgAGBQJKWNA9AAoJEODzc/N7+QmaqvIP/1ZOSyhAGiJeS8bmczgysKD9
+tx73CdXCONQV1mF1Ty3FM1Q2zjS5Vl1gv/pzOMixcBcgai50WZL2UoY8KZsaN//x
+3FAEextpoUCoJm0v/IZjI5AzW8sAcQttuJVhp5/IMO3a296QPjX6TTS3KPtNn3lu
+gW+IvFVe+ozjjo6AiL1KrcyGbDiAqCEst/KaN+h78ksQdDu6OhjzDUMpJMehKguF
+LFztQBIHb4XbW1tlHoXdD4s4v/g4msuqWXyciH5lzVAQNrpF+CtfVnqsLbPWuHRI
+5zn0xzjC/NX4WItiZ+If5E1wVNwhwUOqwWouL/8DOx4rjYnXxd24Plq5fV1WbaMH
+wLG4zJh4QElL5xWESw8ysZX88QAYvMnE45jDj9MFOkEK4Qqf+8WG27Jilkq0SRqX
+NFLsR2Adzb+SStJiOMJV4yasRw9mULys5P7l+MxWDdjLhgR8AUhUhToKWu2CZEec
+MsiNtrTlk2M3pil4qCVE66gB3LUYU0PJw+7VjJ6ca2XPB+pBDN/Clkp85PiVC4vo
+7TIvqNCqE+0Gw/d6O02MV4Ou7NnNk7UBv1IOxZgLNGT2Ike7xPZ4QG+9QoAVTe82
+4XelpBwi6vE820Avl9aSV74STKr1MRHiB1PdtDUJ/eCj4naHM6vSdzXvTUpZkMMn
+/TVavKEotqpBi4wACCDR
+=oIz7
+-----END PGP SIGNATURE-----
+
+--=-1KOfra4iopVe4GXK2l1w--
