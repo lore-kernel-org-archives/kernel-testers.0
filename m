@@ -1,19 +1,19 @@
-From: Tarkan Erimer <tarkan.erimer@turknet.net.tr>
-Subject: Re: [Bug #13727] Cannot Recognize Empty DVD Media
-Date: Wed, 15 Jul 2009 10:19:06 +0300
-Message-ID: <4A5D82EA.1070002@turknet.net.tr>
-References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera> <dWkuWjWDsSB.A.8EE.Q0oUKB@chimera>
+From: Tarkan Erimer <tarkan.erimer-AMZSHK9Z0TXlajqSnzHT9w@public.gmane.org>
+Subject: Re: [Bug #13657] Linux-2.6.31-rc1 Fails To Recognize Some USB Disks
+Date: Wed, 15 Jul 2009 10:42:38 +0300
+Message-ID: <4A5D886E.4070707@turknet.net.tr>
+References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera> <dWkuWjWDsSB.A.iLF.m0oUKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752736AbZGOHTL@vger.kernel.org>
-In-Reply-To: <dWkuWjWDsSB.A.8EE.Q0oUKB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <dWkuWjWDsSB.A.iLF.m0oUKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On 07/07/2009 03:01 AM, Rafael J. Wysocki wrote:
+On 07/07/2009 03:00 AM, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
 >
@@ -22,13 +22,13 @@ On 07/07/2009 03:01 AM, Rafael J. Wysocki wrote:
 > (either way).
 >
 >
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13727
-> Subject		: Cannot Recognize Empty DVD Media
-> Submitter	: Tarkan Erimer<tarkan.erimer@turknet.net.tr>
-> Date		: 2009-07-02 16:23 (5 days old)
-> References	: http://lkml.org/lkml/2009/7/2/178
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13657
+> Subject		: Linux-2.6.31-rc1 Fails To Recognize Some USB Disks
+> Submitter	: Tarkan Erimer<tarkan.erimer-AMZSHK9Z0TXlajqSnzHT9w@public.gmane.org>
+> Date		: 2009-06-26 10:03 (11 days old)
+> References	: http://lkml.org/lkml/2009/6/26/34
 >
 >
 >    
 
-I confirm that, as of Linux-2.6.31-rc3, it's fixed.
+I confirm that, as of Linux-2.6.31-rc3, this bug still exists.
