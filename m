@@ -1,7 +1,7 @@
 From: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [Bug #13727] Cannot Recognize Empty DVD Media
-Date: Wed, 15 Jul 2009 19:53:14 +0200
-Message-ID: <8db1092f0907151053v5731f409ydd81465d20c929f8@mail.gmail.com>
+Date: Wed, 15 Jul 2009 19:56:37 +0200
+Message-ID: <8db1092f0907151056u6654cf4bp2fe36d3fa4081a07@mail.gmail.com>
 References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
 	 <dWkuWjWDsSB.A.8EE.Q0oUKB@chimera> <4A5D82EA.1070002@turknet.net.tr>
 Mime-Version: 1.0
@@ -13,9 +13,9 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :date:message-id:subject:from:to:cc:content-type
          :content-transfer-encoding;
         bh=k6OIHJd5GeAqLYr5x4vmnAoHkScFz2dTZGCMcXgDbKw=;
-        b=T9N8I1cyow1KFqZ3oaKL8jBsn6zJxMlKjHPot+l1I4gd1B3pBkVPCeYG6H5bW2DWVo
-         rj58GVZPzgCzr9goGj6KA6QQIF7hATrYp374VgYBPgY3Wz3dLfPRIEENg6bAMisniFuc
-         X7/0wX9HsOUmqDK9RNZcNdfjLktMeeN4/u4jc=
+        b=CEMuGBmBrQf2Ovrp9vbrTa+kIdChDiNZox5a4XWhthgOtF7v4KxUvnHjR31MRer5KR
+         p4vwUGiBk+IXKCFlb0ZIsm7Hf+aSLfVZ1uAgF5RbZR0EleDssYH8NUpssVz+jwiOjGOP
+         7x+aHyqNFX5V3d8j1J25c+929P2+hI9tx8vOk=
 In-Reply-To: <4A5D82EA.1070002-AMZSHK9Z0TXlajqSnzHT9w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
