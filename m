@@ -1,58 +1,35 @@
-From: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13727] Cannot Recognize Empty DVD Media
-Date: Wed, 15 Jul 2009 19:56:37 +0200
-Message-ID: <8db1092f0907151056u6654cf4bp2fe36d3fa4081a07@mail.gmail.com>
-References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera>
-	 <dWkuWjWDsSB.A.8EE.Q0oUKB@chimera> <4A5D82EA.1070002@turknet.net.tr>
+From: Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>
+Subject: Re: [PATCH] x86: _edata should include all .data.* sections on
+	X86_64
+Date: Thu, 16 Jul 2009 22:23:00 +0200
+Message-ID: <20090716202300.GA6096@merkur.ravnborg.org>
+References: <4A5C20E5.6010203@fisher-privat.net> <84144f020907140019g511723dctb541f6333d1a082b@mail.gmail.com> <4A5C41C8.7040904@fisher-privat.net> <1247564356.28240.30.camel@pc1117.cambridge.arm.com> <1247565175.28240.37.camel@pc1117.cambridge.arm.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=k6OIHJd5GeAqLYr5x4vmnAoHkScFz2dTZGCMcXgDbKw=;
-        b=CEMuGBmBrQf2Ovrp9vbrTa+kIdChDiNZox5a4XWhthgOtF7v4KxUvnHjR31MRer5KR
-         p4vwUGiBk+IXKCFlb0ZIsm7Hf+aSLfVZ1uAgF5RbZR0EleDssYH8NUpssVz+jwiOjGOP
-         7x+aHyqNFX5V3d8j1J25c+929P2+hI9tx8vOk=
-In-Reply-To: <4A5D82EA.1070002-AMZSHK9Z0TXlajqSnzHT9w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1247565175.28240.37.camel-hhZApKj8DF/YkXV2EHHjLW3o5bpOHsLO@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Tarkan Erimer <tarkan.erimer-AMZSHK9Z0TXlajqSnzHT9w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Catalin Marinas <catalin.marinas-5wv7dgnIgG8@public.gmane.org>
+Cc: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
 
-2009/7/15 Tarkan Erimer <tarkan.erimer-AMZSHK9Z0TXlajqSnzHT9w@public.gmane.org>:
-> On 07/07/2009 03:01 AM, Rafael J. Wysocki wrote:
->>
->> This message has been generated automatically as a part of a report
->> of recent regressions.
->>
->> The following bug entry is on the current list of known regressions
->> from 2.6.30. =C2=A0Please verify if it still should be listed and le=
-t me know
->> (either way).
->>
->>
->> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug=
-=2Ecgi?id=3D13727
->> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : Cannot Recognize Empty DVD Med=
-ia
->> Submitter =C2=A0 =C2=A0 =C2=A0 : Tarkan Erimer<tarkan.erimer@turknet=
-=2Enet.tr>
->> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-07-02 16:23 (5 =
-days old)
->> References =C2=A0 =C2=A0 =C2=A0: http://lkml.org/lkml/2009/7/2/178
->>
->>
->>
->
-> I confirm that, as of Linux-2.6.31-rc3, it's fixed.
+On Tue, Jul 14, 2009 at 10:52:55AM +0100, Catalin Marinas wrote:
+> The .data.read_mostly and .data.cacheline_aligned sections aren't
+> covered by the _sdata .. _edata range on X86_64. This affects the
+> kmemleak reporting leading to possible false positives by not scanning
+> all the whole data section.
+> 
+> Signed-off-by: Catalin Marinas <catalin.marinas-5wv7dgnIgG8@public.gmane.org>
+> Cc: Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>
+> Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+> ---
 
-I also confirm, that -rc3 works OK.
+To do so was on my todo list when I looked at vmlinux.lds.S for x86, but
+as I got sidetracked I never got to it. Which I see was bad..
+This patch has my:
 
-Thanks
---=20
-Maciej Rutecki
-http://www.maciek.unixy.pl
+Acked-by: Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>
+
+	Sam
