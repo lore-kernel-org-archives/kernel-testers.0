@@ -1,99 +1,41 @@
-From: Catalin Marinas <catalin.marinas-5wv7dgnIgG8@public.gmane.org>
-Subject: Re: ext4 memory leak (was Re: [PATCH] x86: _edata should include
- all .data.* sections on X86_64)
-Date: Sat, 18 Jul 2009 23:44:16 +0100
-Message-ID: <1247957056.4236.20.camel@toshiba-laptop>
-References: <84144f020907140019g511723dctb541f6333d1a082b@mail.gmail.com>
-	 <4A5C41C8.7040904@fisher-privat.net>
-	 <1247564356.28240.30.camel@pc1117.cambridge.arm.com>
-	 <1247565175.28240.37.camel@pc1117.cambridge.arm.com>
-	 <4A5C5A59.5080304@fisher-privat.net>
-	 <1247567499.28240.48.camel@pc1117.cambridge.arm.com>
-	 <4A5C5FD0.3020204@fisher-privat.net>
-	 <1247574390.28240.67.camel@pc1117.cambridge.arm.com>
-	 <20090715080336.GA4823@skywalker> <4A5D9939.3000500@fisher-privat.net>
-	 <20090718115556.GA31007@elte.hu>  <4A61CE59.3030905@fisher-privat.net>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13648] nfsd: page allocation failure
+Date: Sun, 19 Jul 2009 14:36:28 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0907191433360.14636@chino.kir.corp.google.com>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <bXZeuxPQAWE.A.BkG.-_oUKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4A61CE59.3030905-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1248039396; bh=J5U0g5tz3ROPz8735fuq87Q8pSs=;
+	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
+	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
+	 Content-Type:X-System-Of-Record; b=Z2nd/hKECnTU9eVq30HV3pyUxvp/+Us
+	v4Wm/7ai++IKX5FAC6lWeVJMYDs6bHeXYrifrlNyjU9cXrUN7gGrIxg==
+In-Reply-To: <bXZeuxPQAWE.A.BkG.-_oUKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Aneesh Kumar K.V" <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>, linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>, Stephan von Krawcynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>
 
-On Sat, 2009-07-18 at 15:30 +0200, Alexey Fisher wrote:
-> suddenly my kernel is not warning free... i have still warning about 
-> acpi_init, cpufreg, intel_gem and inoitfy on my PC and about firmware 
-> loader on my laptop. So i think there is still some job to do. I will 
-> report this warnings soon.
+On Tue, 7 Jul 2009, Rafael J. Wysocki wrote:
 
-Mine is not warning free either but they look like real leaks. There are
-also a few more leaks reported by Jaswinder.
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.29 and 2.6.30.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13648
+> Subject		: nfsd: page allocation failure
+> Submitter	: Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>
+> Date		: 2009-06-22 12:08 (15 days old)
+> References	: http://lkml.org/lkml/2009/6/22/309
+> 
 
-The inotify one was fixed but not in mainline yet (a fix was included in
-my kmemleak-fixes branch).
-
-What I get consistently:
-
-unreferenced object 0xf72a9a80 (size 64):
-  comm "swapper", pid 1, jiffies 4294892557
-  hex dump (first 32 bytes):
-    00 00 00 00 38 00 00 00 00 00 00 00 00 00 00 00  ....8...........
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<c056aa8d>] kmemleak_alloc+0x3d/0x70
-    [<c01e234d>] __kmalloc+0x10d/0x210
-    [<c0351122>] kzalloc+0xb/0xd
-    [<c0351798>] acpi_add_single_object+0x609/0xe65
-    [<c03521c6>] acpi_bus_scan+0xfd/0x174
-    [<c07c1629>] acpi_scan_init+0xb5/0xd5
-    [<c07c140b>] acpi_init+0x21e/0x262
-    [<c010112b>] do_one_initcall+0x2b/0x160
-    [<c0799355>] kernel_init+0x150/0x1aa
-    [<c0103e57>] kernel_thread_helper+0x7/0x10
-    [<ffffffff>] 0xffffffff
-
-Every time I kill the X server (reported here -
-http://lkml.org/lkml/2009/7/8/422)
-
-unreferenced object 0xcb5a6600 (size 44):
-  comm "gdm", pid 5246, jiffies 4960
-  hex dump (first 32 bytes):
-    02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 e4 b5 2d ca 90 4e 15 c0 83 14 00 00  ......-..N......
-  backtrace:
-    [<c056aa8d>] kmemleak_alloc+0x3d/0x70
-    [<c01e0be6>] kmem_cache_alloc+0x156/0x1a0
-    [<c01552f9>] alloc_pid+0x19/0x350
-    [<c013e6f0>] copy_process+0x800/0x1230
-    [<c013f18f>] do_fork+0x6f/0x370
-    [<c0101986>] sys_clone+0x36/0x40
-    [<c010319c>] sysenter_do_call+0x12/0x38
-    [<ffffffff>] 0xffffffff
-
-And quite a lot of these (also reported here -
-http://lkml.org/lkml/2009/7/9/110 - but the first one was fixed by
-Jaswinder and included in my kmemleak-fixes branch):
-
-unreferenced object 0xcb0166c0 (size 148):
-  comm "Xorg", pid 5251, jiffies 5784
-  hex dump (first 32 bytes):
-    ff ff ff ff 30 7f 98 c3 00 80 18 cb 90 80 18 cb  ....0...........
-    20 81 18 cb b0 81 18 cb 40 82 18 cb d0 82 18 cb   .......@.......
-  backtrace:
-    [<c056aa8d>] kmemleak_alloc+0x3d/0x70
-    [<c01e0be6>] kmem_cache_alloc+0x156/0x1a0
-    [<c0317bf0>] idr_pre_get+0x50/0x70
-    [<fa448ff4>] drm_gem_handle_create+0x24/0x90 [drm]
-    [<fa8b34ad>] i915_gem_create_ioctl+0x5d/0xb0 [i915]
-    [<fa4477c2>] drm_ioctl+0x192/0x3a0 [drm]
-    [<c01f8339>] vfs_ioctl+0x79/0x90
-    [<c01f849a>] do_vfs_ioctl+0x6a/0x5e0
-    [<c01f8a73>] sys_ioctl+0x63/0x70
-    [<c010319c>] sysenter_do_call+0x12/0x38
-    [<ffffffff>] 0xffffffff
-
--- 
-Catalin
+Stephan von Krawczynski has this problem with e1000e (but not e1000 or 
+tg3) at least as far back as 2.6.28, so this doesn't appear to be a 
+regression introduced in 2.6.30.
