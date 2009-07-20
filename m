@@ -1,41 +1,45 @@
-From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #13648] nfsd: page allocation failure
-Date: Sun, 19 Jul 2009 14:36:28 -0700 (PDT)
-Message-ID: <alpine.DEB.2.00.0907191433360.14636@chino.kir.corp.google.com>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <bXZeuxPQAWE.A.BkG.-_oUKB@chimera>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
+Subject: Re: [Bug #12765] i915 VT switch with AIGLX causes X lock up
+Date: Mon, 20 Jul 2009 11:11:01 -0700
+Message-ID: <20090720111101.659a9099@jbarnes-g45>
+References: <sIiXQlfwS3D.A.81.dj7KKB@chimera>
+	<AN6kEAA5GQ.A.Q7C.Vm7KKB@chimera>
+	<20090628201129.GA1546@sucs.org>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
-	t=1248039396; bh=J5U0g5tz3ROPz8735fuq87Q8pSs=;
-	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
-	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
-	 Content-Type:X-System-Of-Record; b=Z2nd/hKECnTU9eVq30HV3pyUxvp/+Us
-	v4Wm/7ai++IKX5FAC6lWeVJMYDs6bHeXYrifrlNyjU9cXrUN7gGrIxg==
-In-Reply-To: <bXZeuxPQAWE.A.BkG.-_oUKB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>, Stephan von Krawcynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753418AbZGTSLJ@vger.kernel.org>
+In-Reply-To: <20090628201129.GA1546@sucs.org>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Sitsofe Wheeler <sitsofe@yahoo.com>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.sourceforge.net>, Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>
 
-On Tue, 7 Jul 2009, Rafael J. Wysocki wrote:
+On Sun, 28 Jun 2009 21:11:30 +0100
+Sitsofe Wheeler <sitsofe@yahoo.com> wrote:
 
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.29 and 2.6.30.
+> On Sun, Jun 07, 2009 at 12:06:18PM +0200, Rafael J. Wysocki wrote:
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12765
+> > Subject		: i915 VT switch with AIGLX causes X lock up
+> > Submitter	: Sitsofe Wheeler <sitsofe@yahoo.com>
+> > Date		: 2009-02-21 15:38 (107 days old)
+> > First-Bad-Commit:
+> > http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=14d200c5e5bd19219d930bbb9a5a22758c8f5bec
+> > References	:
+> > http://marc.info/?l=linux-kernel&m=123523074304955&w=4
+> > http://lkml.org/lkml/2009/4/27/317 Handled-By	: Jesse Barnes
+> > <jbarnes@virtuousgeek.org> Patch		:
+> > http://patchwork.kernel.org/patch/20197/
 > 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-> be listed and let me know (either way).
+> Still here on 2.6.31-rc1 but...
 > 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13648
-> Subject		: nfsd: page allocation failure
-> Submitter	: Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>
-> Date		: 2009-06-22 12:08 (15 days old)
-> References	: http://lkml.org/lkml/2009/6/22/309
-> 
+> ...this seems to be tied to the version of the Intel X drivers I have.
+> On another install with more recent Intel X drivers I cannot reproduce
+> this issue.
 
-Stephan von Krawczynski has this problem with e1000e (but not e1000 or 
-tg3) at least as far back as 2.6.28, so this doesn't appear to be a 
-regression introduced in 2.6.30.
+I guess we can mark it closed then, though I don't have the commit id
+of the fix handy...
+
+-- 
+Jesse Barnes, Intel Open Source Technology Center
