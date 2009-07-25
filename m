@@ -1,55 +1,36 @@
-From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [Bug #13554] linux-image-2.6.30-1-686, KMS enabled: black
- screen, no X window
-Date: Mon, 20 Jul 2009 14:35:49 -0700
-Message-ID: <20090720143549.b0aee3a9.akpm@linux-foundation.org>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
-	<bXZeuxPQAWE.A.lOH.aApUKB@chimera>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [Bug #13667] drm: display arifacts when X.Org is stopped
+Date: Sat, 25 Jul 2009 18:33:40 +0200
+Message-ID: <200907251833.42598.elendil@planet.nl>
+References: <35kKlbXMqWN.A.RXD.D0oUKB@chimera> <21d7e9970907081642l3ef6df5blde31df656cd74432@mail.gmail.com> <200907090328.53643.elendil@planet.nl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bXZeuxPQAWE.A.lOH.aApUKB@chimera>
+In-Reply-To: <200907090328.53643.elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, wolput-kN7GrHn7egj0B9fh5IxImPP6llvjuJOh@public.gmane.org, Nico Schottelius <nico-linux-20090706-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org
+To: Dave Airlie <airlied-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Siddha, Suresh B" <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Tue,  7 Jul 2009 02:00:46 +0200 (CEST)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Thursday 09 July 2009, Frans Pop wrote:
+> > However we shall endeavour to fix this issues as it may be systemic
+> > of something else going wrong in the new PAT/AGP code.
+>
+> Great. Thanks in advance, I do appreciate it.
 
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.29 and 2.6.30.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13554
-> Subject		: linux-image-2.6.30-1-686, KMS enabled: black screen, no X window
-> Submitter	: Jos van Wolput <wolput-kN7GrHn7egj0B9fh5IxImPP6llvjuJOh@public.gmane.org>
-> Date		: 2009-06-17 06:28 (20 days old)
+Any news on this?
 
-Nico reported a black-screen regression too.  Subject:
+> BTW, today I noticed another regression, but I have not yet looked into
+> it deeply. When I suspend I normally see at least some console messages
+> from the suspend procedure on the framebuffer console, but with .31-rc2
+> I only see a cursor. It does not really affect the suspend/resume.
+> Could possibly be related. Will investigate further.
 
-	2.6.31-r2: Xorg: Black screen
+This turned out to be unrelated, and is actually an improvement. It's a 
+logical result of a printk patch I submitted (for .32):
+http://lkml.org/lkml/2009/7http://lkml.org/lkml/2009/7/6/108/6/108
 
-
-  Compared to the other normal brightness problems, with 2.6.31-r2
-  xorg starts, but there is no image displayed (neither on internal nor
-  external monitor).
-
-  Switching back to console does not change the status, though
-  hitting ctrlaltdel reboots the system (i.e.  still up and running
-  fine).
-
-  It works with 2.6.30-rc7 (besides sometimes the brightness is
-  broken there).
-
-
-This looks like it might be a post-2.6.30 regression, in which case it
-might have a separate cause.
-
-
-We're having a lot of problems in this area.
+Cheers,
+FJP
