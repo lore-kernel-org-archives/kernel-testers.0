@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13848] iwlwifi (4965) regression since 2.6.30
-Date: Sun, 26 Jul 2009 22:28:31 +0200 (CEST)
-Message-ID: <3zAHs5O6maO.A.n_.6GObKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13838] kernel BUG at include/net/netns/generic.h:41!
+Date: Sun, 26 Jul 2009 22:28:29 +0200 (CEST)
+Message-ID: <3zAHs5O6maO.A.B5B.IHObKB@chimera>
 References: <Jya1GruKQpD.A.16.2GObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754779AbZGZXVD@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <Jya1GruKQpD.A.16.2GObKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Lukas Hejtmanek <xhejtman@ics.muni.cz>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Luca Tettamanti <kronos.it-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13848
-Subject		: iwlwifi (4965) regression since 2.6.30
-Submitter	: Lukas Hejtmanek <xhejtman@ics.muni.cz>
-Date		: 2009-07-26 7:57 (1 days old)
-References	: http://marc.info/?l=linux-kernel&m=124859658502866&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13838
+Subject		: kernel BUG at include/net/netns/generic.h:41!
+Submitter	: Luca Tettamanti <kronos.it-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-07-20 15:27 (7 days old)
+References	: http://lkml.org/lkml/2009/7/20/105
 
