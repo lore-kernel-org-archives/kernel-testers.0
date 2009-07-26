@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13806] system does not boot due to device-mapper error
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13770] System freeze on XFS filesystem recovery on an external disk
 Date: Sun, 26 Jul 2009 22:28:24 +0200 (CEST)
-Message-ID: <3zAHs5O6maO.A.IVD.fHObKB@chimera>
+Message-ID: <3zAHs5O6maO.A.oYD.jHObKB@chimera>
 References: <Jya1GruKQpD.A.16.2GObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754439AbZGZXSx@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <Jya1GruKQpD.A.16.2GObKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Roman Shtylman <shtylman@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jean-Luc Coulon <jean.luc.coulon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,8 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13806
-Subject		: system does not boot due to device-mapper error
-Submitter	: Roman Shtylman <shtylman@gmail.com>
-Date		: 2009-07-21 00:03 (6 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13770
+Subject		: System freeze on XFS filesystem recovery on an external disk
+Submitter	: Jean-Luc Coulon <jean.luc.coulon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-07-14 10:31 (13 days old)
 
