@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13751] oops on HP/Compaq 6910p lid closure
-Date: Sun, 26 Jul 2009 22:45:35 +0200 (CEST)
-Message-ID: <H5-1lZIIeYK.A.QsF.wWObKB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #13669] Kernel bug with dock driver
+Date: Sun, 26 Jul 2009 22:45:34 +0200 (CEST)
+Message-ID: <H5-1lZIIeYK.A.uCG.7WObKB@chimera>
 References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755514AbZGZXhJ@vger.kernel.org>
 In-Reply-To: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Henrique de Moraes Holschuh <hmh@hmh.eng.br>, Joerg Platte <jplatte@naasa.net>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,10 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13751
-Subject		: oops on HP/Compaq 6910p lid closure
-Submitter	: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
-Date		: 2009-07-09 15:17 (18 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13669
+Subject		: Kernel bug with dock driver
+Submitter	: Joerg Platte <jplatte@naasa.net>
+Date		: 2009-06-14 21:00 (43 days old)
+References	: http://lkml.org/lkml/2009/6/14/216
+Handled-By	: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
 
