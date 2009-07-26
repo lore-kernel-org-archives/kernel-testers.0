@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13472] Oops with minicom and USB serial
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13554] linux-image-2.6.30-1-686, KMS enabled: black screen, no X window
 Date: Sun, 26 Jul 2009 22:45:30 +0200 (CEST)
-Message-ID: <H5-1lZIIeYK.A.sQH.6XObKB@chimera>
+Message-ID: <H5-1lZIIeYK.A.v6G.hXObKB@chimera>
 References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755319AbZGZXfu@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Peter Chubb <peterc@gelato.unsw.edu.au>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Jos van Wolput <wolput-kN7GrHn7egj0B9fh5IxImPP6llvjuJOh@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,10 +22,9 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13472
-Subject		: Oops with minicom and USB serial
-Submitter	: Peter Chubb <peterc@gelato.unsw.edu.au>
-Date		: 2009-06-05 1:37 (52 days old)
-References	: http://marc.info/?l=linux-kernel&m=124416901026700&w=4
-Handled-By	: Alan Stern <stern@rowland.harvard.edu>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13554
+Subject		: linux-image-2.6.30-1-686, KMS enabled: black screen, no X window
+Submitter	: Jos van Wolput <wolput-kN7GrHn7egj0B9fh5IxImPP6llvjuJOh@public.gmane.org>
+Date		: 2009-06-17 06:28 (40 days old)
+References	: http://marc.info/?l=linux-kernel&m=124686965407853&w=4
 
