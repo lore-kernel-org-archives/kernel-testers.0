@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13518] slab grows with NFS write activity.
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #13472] Oops with minicom and USB serial
 Date: Sun, 26 Jul 2009 22:45:30 +0200 (CEST)
-Message-ID: <H5-1lZIIeYK.A.f9G.nXObKB@chimera>
+Message-ID: <H5-1lZIIeYK.A.sQH.6XObKB@chimera>
 References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755319AbZGZXfu@vger.kernel.org>
 In-Reply-To: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Randrianasulu <randrik-JGs/UdohzUI@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Peter Chubb <peterc@gelato.unsw.edu.au>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,10 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13518
-Subject		: slab grows with NFS write activity.
-Submitter	: Andrew Randrianasulu <randrik-JGs/UdohzUI@public.gmane.org>
-Date		: 2009-06-12 09:51 (45 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13472
+Subject		: Oops with minicom and USB serial
+Submitter	: Peter Chubb <peterc@gelato.unsw.edu.au>
+Date		: 2009-06-05 1:37 (52 days old)
+References	: http://marc.info/?l=linux-kernel&m=124416901026700&w=4
+Handled-By	: Alan Stern <stern@rowland.harvard.edu>
 
