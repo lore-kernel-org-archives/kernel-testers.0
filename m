@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13502] GPE storm causes polling mode, which causes /proc/acpi/battery read to take 4 seconds - MacBookPro4,1
-Date: Sun, 26 Jul 2009 22:45:30 +0200 (CEST)
-Message-ID: <H5-1lZIIeYK.A.1DH.yXObKB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #13583] pdflush uses 5% CPU on otherwise idle system
+Date: Sun, 26 Jul 2009 22:45:31 +0200 (CEST)
+Message-ID: <H5-1lZIIeYK.A.qxG.XXObKB@chimera>
 References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755430AbZGZXg2@vger.kernel.org>
 In-Reply-To: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, sveina-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Paul Martin <pm@debian.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13502
-Subject		: GPE storm causes polling mode, which causes /proc/acpi/battery read to take 4 seconds - MacBookPro4,1
-Submitter	:  <sveina-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-06-10 20:04 (47 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13583
+Subject		: pdflush uses 5% CPU on otherwise idle system
+Submitter	: Paul Martin <pm@debian.org>
+Date		: 2009-06-19 13:33 (38 days old)
 
