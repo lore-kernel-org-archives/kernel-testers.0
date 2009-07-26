@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13682] The webcam stopped working when upgrading from 2.6.29 to 2.6.30
-Date: Sun, 26 Jul 2009 22:45:34 +0200 (CEST)
-Message-ID: <H5-1lZIIeYK.A.l1F.2WObKB@chimera>
+Subject: [Bug #13795] abnormal boot and no suspend due to 'async' (fastboot)
+Date: Sun, 26 Jul 2009 22:45:35 +0200 (CEST)
+Message-ID: <H5-1lZIIeYK.A.6mF.qWObKB@chimera>
 References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755538AbZGZXhQ@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755596AbZGZXh4@vger.kernel.org>
 In-Reply-To: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Nathanael Schaeffer <nathanael.schaeffer@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Arjan van de Ven <arjan@linux.intel.com>, Rafal Kaczynski <fscnoboot@wp.pl>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13682
-Subject		: The webcam stopped working when upgrading from 2.6.29 to 2.6.30
-Submitter	: Nathanael Schaeffer <nathanael.schaeffer@gmail.com>
-Date		: 2009-06-30 13:34 (27 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13795
+Subject		: abnormal boot and no suspend due to 'async' (fastboot)
+Submitter	: Rafal Kaczynski <fscnoboot@wp.pl>
+Date		: 2009-07-18 17:19 (9 days old)
 
