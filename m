@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13694] i915 phantom TV
-Date: Sun, 26 Jul 2009 22:45:34 +0200 (CEST)
-Message-ID: <H5-1lZIIeYK.A.1zF.zWObKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13512] D43 on 2.6.30 doesn't suspend anymore
+Date: Sun, 26 Jul 2009 22:45:30 +0200 (CEST)
+Message-ID: <H5-1lZIIeYK.A._BH.sXObKB@chimera>
 References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755611AbZGZXin@vger.kernel.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, =?utf-8?q?Maciek=20J=C3=B3ziewicz?= <mjoziew@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Daniel Smolik <marvin-0pWKB23IDFjrBKCeMvbIDA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13694
-Subject		: i915 phantom TV
-Submitter	: Maciek J=C3=B3ziewicz <mjoziew@gmail.com>
-Date		: 2009-07-02 12:26 (25 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13512
+Subject		: D43 on 2.6.30 doesn't suspend anymore
+Submitter	: Daniel Smolik <marvin-0pWKB23IDFjrBKCeMvbIDA@public.gmane.org>
+Date		: 2009-06-11 20:12 (46 days old)
 
