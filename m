@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13319] Page allocation failures with b43 and p54usb
-Date: Sun, 26 Jul 2009 22:45:26 +0200 (CEST)
-Message-ID: <H5-1lZIIeYK.A.Pi.BZObKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13351] 2.6.30 corrupts my system after suspend resume with readonly mounted hard disk
+Date: Sun, 26 Jul 2009 22:45:27 +0200 (CEST)
+Message-ID: <H5-1lZIIeYK.A.CQ.pYObKB@chimera>
 References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755145AbZGZXey@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Johannes Berg <johannes@sipsolutions.net>, Larry Finger <Larry.Finger@lwfinger.net>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, unggnu-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org, Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,11 +22,10 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13319
-Subject		: Page allocation failures with b43 and p54usb
-Submitter	: Larry Finger <Larry.Finger@lwfinger.net>
-Date		: 2009-04-29 21:01 (89 days old)
-References	: http://marc.info/?l=linux-kernel&m=124103897101088&w=4
-		  http://lkml.org/lkml/2009/6/7/136
-Handled-By	: Johannes Berg <johannes@sipsolutions.net>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13351
+Subject		: 2.6.30 corrupts my system after suspend resume with readonly mounted hard disk
+Submitter	:  <unggnu-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Date		: 2009-05-20 14:09 (68 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=78a8b35bc7abf8b8333d6f625e08c0f7cc1c3742
+Handled-By	: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
