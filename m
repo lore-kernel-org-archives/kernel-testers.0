@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13713] [drm/i915] Possible regression due to commit "Change GEM throttling to be 20ms (...)"
-Date: Sun, 26 Jul 2009 22:28:21 +0200 (CEST)
-Message-ID: <3zAHs5O6maO.A.TYE._HObKB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #13729] kernel BUG at fs/notify/notification.c:93!
+Date: Sun, 26 Jul 2009 22:28:22 +0200 (CEST)
+Message-ID: <3zAHs5O6maO.A.ODE.4HObKB@chimera>
 References: <Jya1GruKQpD.A.16.2GObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754855AbZGZX0r@vger.kernel.org>
 In-Reply-To: <Jya1GruKQpD.A.16.2GObKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, kazikcz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Eric Paris <eparis@redhat.com>, "Mikko C." <mikko.cal@gmail.com>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13713
-Subject		: [drm/i915] Possible regression due to commit "Change GEM throttling to be 20ms (...)"
-Submitter	:  <kazikcz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-07-05 10:49 (22 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b962442e46a9340bdbc6711982c59ff0cc2b5afb
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13729
+Subject		: kernel BUG at fs/notify/notification.c:93!
+Submitter	: Mikko C. <mikko.cal@gmail.com>
+Date		: 2009-06-04 10:16 (53 days old)
+References	: http://lkml.org/lkml/2009/7/4/12
+Handled-By	: Eric Paris <eparis@redhat.com>
 
