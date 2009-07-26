@@ -1,32 +1,33 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13726] fio sync read 4k block size 35% regression
-Date: Sun, 26 Jul 2009 22:28:21 +0200 (CEST)
-Message-ID: <3zAHs5O6maO.A.uRE.8HObKB@chimera>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera>
+Subject: [Bug #13109] High latency on /sys/class/thermal
+Date: Sun, 26 Jul 2009 22:41:09 +0200 (CEST)
+Message-ID: <H5-1lZIIeYK.A.3DB.faObKB@chimera>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Jya1GruKQpD.A.16.2GObKB@chimera>
+In-Reply-To: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="macroman"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>, =?utf-8?q?Tiago=20Sim=C3=B5es=20Batista?= <tiagosbatista-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
-of recent regressions.
+of regressions introduced between 2.6.29 and 2.6.30.
 
 The following bug entry is on the current list of known regressions
-from 2.6.30.  Please verify if it still should be listed and let me know
-(either way).
+introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13726
-Subject		: fio sync read 4k block size 35% regression
-Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Date		: 2009-07-01 11:25 (26 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=51daa88ebd8e0d437289f589af29d4b39379ea76
-References	: http://lkml.org/lkml/2009/6/30/679
-Handled-By	: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13109
+Subject		: High latency on /sys/class/thermal
+Submitter	: Tiago Sim=C3=B5es Batista <tiagosbatista-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-04-11 14:56 (107 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D123946182301248&w=3D=
+4
+Handled-By	: Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+		  Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>
 
