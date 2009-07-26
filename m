@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13837] Input : regression - touchpad not detected
-Date: Sun, 26 Jul 2009 22:28:29 +0200 (CEST)
-Message-ID: <3zAHs5O6maO.A.u-B.KHObKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13844] i915 errors
+Date: Sun, 26 Jul 2009 22:28:30 +0200 (CEST)
+Message-ID: <3zAHs5O6maO.A.wXB._GObKB@chimera>
 References: <Jya1GruKQpD.A.16.2GObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754684AbZGZXU3@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <Jya1GruKQpD.A.16.2GObKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Dave Young <hidave.darkstar@gmail.com>, Jiri Kosina <jkosina@suse.cz>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13837
-Subject		: Input : regression - touchpad not detected
-Submitter	: Dave Young <hidave.darkstar@gmail.com>
-Date		: 2009-07-17 07:13 (10 days old)
-References	: http://marc.info/?l=linux-kernel&m=124780763701571&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13844
+Subject		: i915 errors
+Submitter	: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-07-25 9:30 (2 days old)
+References	: http://marc.info/?l=linux-kernel&m=124851427612720&w=4
 
