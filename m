@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13742] iwlagn (4965): regression when hardware rf switch is used
-Date: Sun, 26 Jul 2009 22:28:23 +0200 (CEST)
-Message-ID: <3zAHs5O6maO.A.1lD.pHObKB@chimera>
+Subject: [Bug #13835] e1000e massive packet loss
+Date: Sun, 26 Jul 2009 22:28:28 +0200 (CEST)
+Message-ID: <3zAHs5O6maO.A.IKC.MHObKB@chimera>
 References: <Jya1GruKQpD.A.16.2GObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754478AbZGZXTR@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754595AbZGZXUI@vger.kernel.org>
 In-Reply-To: <Jya1GruKQpD.A.16.2GObKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Frans Pop <elendil@planet.nl>, Reinette Chatre <reinette.chatre@intel.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Caleb Cushing <xenoterracide@gmail.com>, Eric Dumazet <dada1@cosmosbay.com>, Linux Netdev List <netdev@vger.kernel.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,9 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13742
-Subject		: iwlagn (4965): regression when hardware rf switch is used
-Submitter	: Frans Pop <elendil@planet.nl>
-Date		: 2009-06-29 11:28 (28 days old)
-References	: http://lkml.org/lkml/2009/6/29/88
-Handled-By	: Reinette Chatre <reinette.chatre@intel.com>
-Patch		: http://lkml.org/lkml/2009/6/30/224
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13835
+Subject		: e1000e massive packet loss
+Submitter	: Caleb Cushing <xenoterracide@gmail.com>
+Date		: 2009-07-16 09:49 (11 days old)
+References	: http://marc.info/?l=linux-kernel&m=124773057917887&w=4
 
