@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13624] usb: wrong autosuspend initialization
-Date: Sun, 26 Jul 2009 22:45:32 +0200 (CEST)
-Message-ID: <H5-1lZIIeYK.A.UqG.MXObKB@chimera>
+Subject: [Bug #13471] Loading parport_pc kills the keyboard if ACPI is enabled
+Date: Sun, 26 Jul 2009 22:45:29 +0200 (CEST)
+Message-ID: <H5-1lZIIeYK.A.dWH.9XObKB@chimera>
 References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, list-2tUql6aCh3Vfq8cQ1yknNg@public.gmane.org
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, ACPI Devel Maling List <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?utf-8?q?Ozan=20=C3=87a=C4=9Flayan?= <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,10 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13624
-Subject		: usb: wrong autosuspend initialization
-Submitter	:  <list-2tUql6aCh3Vfq8cQ1yknNg@public.gmane.org>
-Date		: 2009-06-25 18:18 (32 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13471
+Subject		: Loading parport_pc kills the keyboard if ACPI is enabled
+Submitter	: Ozan =C3=87a=C4=9Flayan <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>
+Date		: 2009-06-04 9:12 (53 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D124410667532558&w=3D=
+4
 
