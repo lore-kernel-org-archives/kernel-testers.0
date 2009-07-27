@@ -1,45 +1,43 @@
-From: Niel Lambrechts <niel.lambrechts-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13733] 2.6.31-rc2: irq 16: nobody cared
-Date: Mon, 27 Jul 2009 19:54:28 +0200
-Message-ID: <4A6DE9D4.406@gmail.com>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.ZsD.yHObKB@chimera>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
+Date: Mon, 27 Jul 2009 11:16:16 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0907271113460.8408@chino.kir.corp.google.com>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.Pi.BZObKB@chimera> <4A6CF220.7080605@lwfinger.net> <alpine.DEB.2.00.0907261722140.21259@chino.kir.corp.google.com> <84144f020907270008h2a985278of68e70ff1ee9265c@mail.gmail.com>
+ <alpine.DEB.2.00.0907270227420.15760@chino.kir.corp.google.com> <alpine.DEB.1.10.0907271320130.13513@gentwo.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=wP1pu3X96ODPmmGxQBKXmst1p3FEyqkzplIN6GkjUmI=;
-        b=p3v5J1GaKso5tHotiH8HreMnQURAcZZjlDetQ//I9mhTmnmxmfDNJ2sVJQq/oKK71q
-         NrJJLboBY7Arv1t9rywIw9+rlPzSbAmABh71jc7cQsIU6MTz7/+CRYWc6wOTxGMKoxOI
-         uux5W6TSoqoPR7EqPgyvVDI+4fnJjccw955dQ=
-In-Reply-To: <3zAHs5O6maO.A.ZsD.yHObKB@chimera>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1248718585; bh=B2tZ/gH2lrIjNUdxOSpwRkYzgOA=;
+	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
+	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
+	 Content-Type:X-System-Of-Record; b=DTPt4br5Q9lceAvbpsW30glQHUcLxl1
+	ET7HqlUZkRHtTT4oJjfatMaQj2AD0NpJrJPD1eE98XNeaQNkA9b9utw==
+In-Reply-To: <alpine.DEB.1.10.0907271320130.13513-gkYfJU5Cukgdnm+yROfE0A@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 
-On 07/26/2009 10:28 PM, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me know
-> (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13733
-> Subject		: 2.6.31-rc2: irq 16: nobody cared
-> Submitter	: Niel Lambrechts<niel.lambrechts-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-07-06 18:32 (21 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124690524027166&w=4
->    
-Hi,
+On Mon, 27 Jul 2009, Christoph Lameter wrote:
 
-Bug is still evident on kernels up to 2.6.31-rc4.
+> On Mon, 27 Jul 2009, David Rientjes wrote:
+> 
+> > We need DEBUG_FLAGS to determine which flags to mask off to reduce the
+> > minimum order, so I don't see DEBUG_FLAGS_SIZE as troublesome.
+> >
+> > Christoph?
+> 
+> Post a patch? Otherwise just go ahead.
+> 
+> 
 
-Regards,
-Niel
+My patch is already in Pekka's slab-2.6.git tree at 
+http://git.kernel.org/?p=linux/kernel/git/penberg/slab-2.6.git;a=commit;h=fa5ec8a1f66f3c2a3af723abcf8085509c9ee682
+
+You had proposed http://marc.info/?l=linux-kernel&m=124725166205814, which 
+moves the mask to kmem_cache_open() and calls calculate_sizes() twice.  
+That eliminates DEBUG_FLAGS_SIZE, but I don't see that define as being 
+troublesome since we must define DEBUG_FLAGS to specify what options add 
+metdata anyway.
