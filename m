@@ -1,23 +1,21 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13648] nfsd: page allocation failure
-Date: Tue, 28 Jul 2009 00:04:47 +0200
-Message-ID: <200907280004.47852.rjw@sisk.pl>
-References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.HXG.DXObKB@chimera> <20090727130420.1514cf5c.skraw@ithnet.com>
+Subject: Re: [Bug #13649] Bad page state in process with various applications
+Date: Tue, 28 Jul 2009 00:06:49 +0200
+Message-ID: <200907280006.50647.rjw@sisk.pl>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.aOG.BXObKB@chimera> <20090727090514.GA5618@cmpxchg.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090727130420.1514cf5c.skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <20090727090514.GA5618-druUgvl0LCNAfugRpC6u6w@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>
+To: Johannes Weiner <hannes-druUgvl0LCNAfugRpC6u6w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 
-On Monday 27 July 2009, Stephan von Krawczynski wrote:
-> On Sun, 26 Jul 2009 22:45:33 +0200 (CEST)
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
+On Monday 27 July 2009, Johannes Weiner wrote:
+> On Sun, Jul 26, 2009 at 10:45:33PM +0200, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of regressions introduced between 2.6.29 and 2.6.30.
 > > 
@@ -26,22 +24,16 @@ On Monday 27 July 2009, Stephan von Krawczynski wrote:
 > > be listed and let me know (either way).
 > > 
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13648
-> > Subject		: nfsd: page allocation failure
-> > Submitter	: Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>
-> > Date		: 2009-06-22 12:08 (35 days old)
-> > References	: http://lkml.org/lkml/2009/6/22/309
-> > 		  http://marc.info/?l=linux-kernel&m=124748600712853&w=4
-> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13649
+> > Subject		: Bad page state in process with various applications
+> > Submitter	: Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date		: 2009-06-20 15:27 (37 days old)
+> > References	: http://marc.info/?l=linux-mm&m=124551168828090&w=4
+> > Handled-By	: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+> > Patch		: http://patchwork.kernel.org/patch/33130/
 > 
-> This is no regression between 2.6.29 and 2.6.30.
-> In fact we could reproduce the problem with kernel versions:
-> 
-> 2.6.27.26 < X <= 2.6.30.3
-> 
-> (Meaning 2.6.27.26 is the last one _not_ showing the problem).
+> Fixed in mainline: c277331d5fbaae5772ed19862feefa91f4e477d3
 
-Thanks, moved to the list of regressions from 2.6.27.
+Thanks, closed.
 
-Best,
 Rafael
