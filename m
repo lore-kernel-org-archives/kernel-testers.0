@@ -1,63 +1,62 @@
-From: Luca Tettamanti <kronos.it-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13838] kernel BUG at include/net/netns/generic.h:41!
-Date: Tue, 28 Jul 2009 10:30:46 +0200
-Message-ID: <68676e00907280130tbbf5672x83182641b0c977b3@mail.gmail.com>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera>
-	 <3zAHs5O6maO.A.B5B.IHObKB@chimera>
-	 <2375c9f90907262229t2def934emb9340c31d3efdc21@mail.gmail.com>
+From: =?iso-8859-1?Q?J=F6rg?= Sommer <joerg-au2b9oQwubsjnolme5KbmQ@public.gmane.org>
+Subject: Re: [Bug #13797] iBook G4 doesn't suspend since 2ed8d2b3a8
+Date: Tue, 28 Jul 2009 00:23:53 +0200
+Message-ID: <20090727222353.GA23932@alea.gnuu.de>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
+ <H5-1lZIIeYK.A.ZjF.nWObKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=roQ19uG3eE/wAMfkwNssLHttW1jw6aL2EzTHojElwi8=;
-        b=bL+oOpPtAkgtpW/az0Xsem35iHxcB8NHFUZehIEIB9oPutNwGWTOlBjTdlRHOolp98
-         RVvvOfjJOxhsDpVTjBwb/DUyWHUydHjfdyNKYgc5Iluz6kh0PQNZ49ObsYE+1/MA3Wi2
-         BniYiR2FCff3jIk7RIMNQllLFRNqePEt0b3qE=
-In-Reply-To: <2375c9f90907262229t2def934emb9340c31d3efdc21-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=gnuu.de; s=banki;
+	t=1248769603; i=@alea.gnuu.de; bh=NbjVvKzf7CVuhdDbA1kpFc+QPlMaI+stt
+	SDB8j/TCfQ=; h=Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To; b=XIiHPbmIurAYniS9oTppjoXux
+	+ORTES8K9iPO+DPlGMWeB0BhUWUdkqtutzxanNwst2sRscfIS00CWrOdzzfxmE9YSKK
+	qjaeaOdzxBCLUBMwe5K4dALXHYivjrg1HAC5Z5xOhxvP/ha/4TjLnZiJ+5gyVg2XUG9
+	Z49q1U4dquj0=
+Content-Disposition: inline
+In-Reply-To: <H5-1lZIIeYK.A.ZjF.nWObKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: =?UTF-8?Q?Am=C3=A9rico_Wang?= <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org, Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, Jul 27, 2009 at 7:29 AM, Am=C3=A9rico Wang<xiyou.wangcong@gmail=
-=2Ecom> wrote:
-> On Mon, Jul 27, 2009 at 4:28 AM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote=
-:
->> This message has been generated automatically as a part of a report
->> of recent regressions.
->>
->> The following bug entry is on the current list of known regressions
->> from 2.6.30. =C2=A0Please verify if it still should be listed and le=
-t me know
->> (either way).
->>
->>
->> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug=
-=2Ecgi?id=3D13838
->> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : kernel BUG at include/net/netn=
-s/generic.h:41!
->> Submitter =C2=A0 =C2=A0 =C2=A0 : Luca Tettamanti <kronos.it-Re5JQEeQqe8@public.gmane.org=
-m>
->> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-07-20 15:27 (7 =
-days old)
->> References =C2=A0 =C2=A0 =C2=A0: http://lkml.org/lkml/2009/7/20/105
->
-> Hmm, it looks like that 'pfkey_net_id' is still zero after ipsec_pfke=
-y_init()...
->
-> Add Herbert and net-dev into Cc.
->
-> Luca, would you mind to provide your .config and the steps to reprodu=
-ce this?
 
-I cannot reproduce it anymore with the current git kernel. The BUG was
-triggered by racoon at startup.
-Should I go back to an older kernel to investigate or can we consider
-it "fixed"?
+--SUOF0GtieIMvvwua
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Luca
+Hi Rafael,
+
+Rafael J. Wysocki hat am Sun 26. Jul, 22:45 (+0200) geschrieben:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.29 and 2.6.30.
+>=20
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> be listed and let me know (either way).
+
+Yes, the bug still exists. I can't put my iBook asleep using 2.6.30-rc4.
+
+Regards, J=F6rg.
+--=20
+Da w=FCrde ich auch lieber den Panzerf=FChrerschein machen als den MCSE.
+Bringt mehr, d=FCrfte das gleiche kosten und macht sicher mehr Spa=DF.
+                                   Jens Dittmar in de.comp.security
+
+--SUOF0GtieIMvvwua
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature http://en.wikipedia.org/wiki/OpenPGP
+Content-Disposition: inline
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEARECAAYFAkpuKPkACgkQwe0mZwH1VIAr5ACgxP8gJu+9Lz40cM8uE+X3VH4A
+HtUAnjL2jKHMTjlDkIU59R2Ny0HcxhRW
+=bins
+-----END PGP SIGNATURE-----
+
+--SUOF0GtieIMvvwua--
