@@ -1,41 +1,33 @@
-From: Peter Zijlstra <a.p.zijlstra@chello.nl>
-Subject: Re: [Bug #13730] hitting lockdep limits...
-Date: Mon, 27 Jul 2009 08:21:40 +0200
-Message-ID: <1248675700.6987.1416.camel@twins>
+From: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
+Subject: Re: [Bug #13728] 2.6.31-rc2 soft lockups, RPC-related
+Date: Mon, 27 Jul 2009 18:44:51 +1200
+Message-ID: <87y6qa7hgc.fsf@bulky.wgtn.ondioline.org>
 References: <Jya1GruKQpD.A.16.2GObKB@chimera>
-	 <3zAHs5O6maO.A.c9D.3HObKB@chimera>
+	<3zAHs5O6maO.A.AKE.6HObKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752898AbZG0GTX@vger.kernel.org>
-In-Reply-To: <3zAHs5O6maO.A.c9D.3HObKB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <3zAHs5O6maO.A.AKE.6HObKB@chimera> (Rafael J. Wysocki's message
+	of "Sun, 26 Jul 2009 22:28:21 +0200 (CEST)")
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Daniel J Blueman <daniel.blueman@gmail.com>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Trond Myklebust <Trond.Myklebust-HgOvQuBEEgTQT0dZR+AlfA@public.gmane.org>
 
-On Sun, 2009-07-26 at 22:28 +0200, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13730
-> Subject		: hitting lockdep limits...
-> Submitter	: Daniel J Blueman <daniel.blueman@gmail.com>
-> Date		: 2009-07-05 18:19 (22 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124681799023782&w=4
-> 
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13728
+> Subject		: 2.6.31-rc2 soft lockups, RPC-related
+> Submitter	: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
+> Date		: 2009-07-05 7:17 (22 days old)
+> References	: http://marc.info/?l=linux-kernel&m=124677884816794&w=4
 
-Is this still a problem after?
+So far it's looking like this problem is no longer present in
+2.6.31-rc4.
 
-commit b0a5b83ee0fce9dbf8ff5fe1f8c9ae7dfafe458c
-Author: Ingo Molnar <mingo@elte.hu>
-Date:   Tue Jun 16 16:11:14 2009 +0200
+-- 
+Paul Collins
+Wellington, New Zealand
 
-    dma-debug: Put all hash-chain locks into the same lock class
-
+Dag vijandelijk luchtschip de huismeester is dood
