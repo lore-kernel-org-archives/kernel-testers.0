@@ -1,58 +1,47 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13839] xc5000 no longer works with Myth-0.21-fixes branch
-Date: Tue, 28 Jul 2009 00:46:13 +0200
-Message-ID: <200907280046.13881.rjw@sisk.pl>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.Y0B.HHObKB@chimera> <4A6D0D5B.2000607@rtr.ca>
+Subject: Re: [Bug #13841] 2.6.31-rc4 boot failure
+Date: Tue, 28 Jul 2009 00:49:26 +0200
+Message-ID: <200907280049.26580.rjw@sisk.pl>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.olB.EHObKB@chimera> <200907270020.23019.gene.heskett@verizon.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4A6D0D5B.2000607-gsilrlXbHYg@public.gmane.org>
+In-Reply-To: <200907270020.23019.gene.heskett-H+0wwilmMs3R7s880joybQ@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Mark Lord <lkml-gsilrlXbHYg@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Devin Heitmueller <dheitmueller-eb9eJ82Ua7k9XoPSrs7Ehg@public.gmane.org>
+To: Gene Heskett <gene.heskett-H+0wwilmMs3R7s880joybQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Monday 27 July 2009, Mark Lord wrote:
-> Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.30.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13839
-> > Subject		: xc5000 no longer works with Myth-0.21-fixes branch
-> > Submitter	: Mark Lord <lkml-gsilrlXbHYg@public.gmane.org>
-> > Date		: 2009-07-19 15:15 (8 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=124814394016848&w=4
-> > Handled-By	: Devin Heitmueller <dheitmueller-eb9eJ82Ua7k9XoPSrs7Ehg@public.gmane.org>
-> ..
+On Monday 27 July 2009, Gene Heskett wrote:
+> On Sunday 26 July 2009, Rafael J. Wysocki wrote:
+> >This message has been generated automatically as a part of a report
+> >of recent regressions.
+> >
+> >The following bug entry is on the current list of known regressions
+> >from 2.6.30.  Please verify if it still should be listed and let me know
+> >(either way).
+> >
+> Yes.  I have nuked the odd stuff in my rc.local file, and rebuilt this kernel 
+> with several mods that I thought might be related, but it is still failing in 
+> the same manner.  The error messages (apparently from lp:, but long after cups 
+> has been started) do NOT make it to the messages log file either, so its 
+> totally blown up at that point.
 > 
-> There is definitely a regression, in that it doesn't work without
-> config changes to Myth.  This is due to the new way that firmware uploads
-> are implemented in xc5000:  slower, and more often than before.
+> Note, that this is a regression from 2.6 31-rc3, which works fine.  So the 
+> thing shouldn't be that hard to find.  But in looking over the changelog, 
+> nothing obviously reaches out and grabs me.
 > 
-> But the MythTV workaround required is simple:
+> I'm not really equipt to do a bisect here either, my git from F10 is at least 
+> 2 versions old now.  And I'm crippled by a way too small /boot partition which 
+> can't hold more than 12-14 kernels.  The disk partitioning tool in F10 is 
+> nothing short of fscking broken IMO. But fedora isn't interested in that 
+> either, cuz its existed since at least Fedora 2.  Here, fedora is on its way 
+> out, 64 bit mandriva sure looks nice.  And DiskDrake Just Works(TM).
 > 
-> > 3. In mythtv-setup -> CaptureCards -> DVB:1 -> RecordingOptions
-> > there is a tickbox for "Open DVB Card on Demand".  It was ticked,
-> > so I un-ticked that box.  Everything now works!
-> > 
-> > When that tickbox was selected, the xc5000 took five (5) seconds to "open",
-> > as it did the firmware upload every time.  This appeared to exceed some
-> > timeout inside myth.
-> > 
-> > With the tickbox NOT ticked, myth just opens the tuner once at startup,
-> > and keeps it open, so no more delay when it wants to use it. 
-> 
-> 
-> Dunno what to say about this one.
+> Thanks Rafael, I thought it was being ignored.
 
-Well, let's close it as 'documented'.
+You're welcome, thanks for the update.
 
-Thanks,
 Rafael
