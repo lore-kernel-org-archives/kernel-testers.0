@@ -1,55 +1,44 @@
-From: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-Subject: Re: [Bug #13475] suspend/hibernate lockdep warning
-Date: Mon, 27 Jul 2009 12:52:28 -0400
-Message-ID: <20090727165228.GC25626@Krystal>
-References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.0KH.4XObKB@chimera>
+From: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+Subject: Re: [Bisected] [Bug #13821] Replugging USB serial converter uses
+ new device node
+Date: Mon, 27 Jul 2009 17:55:25 +0100
+Message-ID: <20090727175525.20ac4869@lxorguk.ukuu.org.uk>
+References: <87zlaqcec1.fsf@tac.ki.iif.hu>
+	<Pine.LNX.4.44L0.0907271217441.5217-100000@iolanthe.rowland.org>
+	<20090727164857.GA8908@Pilar.aei.mpg.de>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <H5-1lZIIeYK.A.0KH.4XObKB@chimera>
+In-Reply-To: <20090727164857.GA8908-8NNKxJcwqxqHjx4iBuKRcg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Carlos R. Mafra" <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>, Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, USB list <linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 
-It should be fixed now by recents commits to the cpufreq tree, which got  
-into mainline: 
+> > Another thing to check is whether this patch (not yet merged) fixes it:
+> > 
+> > 	http://marc.info/?l=linux-usb&m=124825571403844&w=2
+> 
+> No, unfortunately it does not fix it. I've just tested it.
 
-42a06f2166f2f6f7bf04f32b4e823eacdceafdc9
-b253d2b2d28ead6fed012feb54694b3d0562839a
-b14893a62c73af0eca414cfed505b8c09efc613c
-7d26e2d5e2da37e92c6c7644b26b294dedd8c982
-37c90e8887efd218dc4af949b7f498ca2da4af9f
-5a75c82828e7c088ca6e7b4827911dc29cc8e774
-ee88415caf736b89500f16e0a545614541a45005
-3f4a782b5ce2698b1870b5a7b573cd721d4fce33
-5e1596f75395e7a402e1059c518e633d2732dcf8
+I wouldn't expect it to.
 
-Mathieu
+In the ppp case you have this occuring on an unplug
 
+	USB layer
+		unplug
+		hangup tty
+	PPPD
+		SIGHUP
+		ouch
+		log stuff
+		close down
 
-* Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.29 and 2.6.30.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13475
-> Subject		: suspend/hibernate lockdep warning
-> Submitter	: Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-06-02 10:00 (55 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124393723321241&w=4
-> Handled-By	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-> Patch		: http://patchwork.kernel.org/patch/28660/
-> 
-> 
-> 
+However at the same time that PPPD is logging stuff and closing down th
+USB layer is going to see the replug if you just unplug/replug quickly
+and in that case you will get ttyUSB1. That aspect is timing dependant.
 
--- 
-Mathieu Desnoyers
-OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 A8FE 3BAE 9A68
+If everything has closed down and given the port back before you replug
+it you should get ttyUSB0 again.
+#
