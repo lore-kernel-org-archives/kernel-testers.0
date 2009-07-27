@@ -1,41 +1,40 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13806] system does not boot due to device-mapper error
-Date: Tue, 28 Jul 2009 00:37:11 +0200
-Message-ID: <200907280037.12326.rjw@sisk.pl>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.IVD.fHObKB@chimera> <2375c9f90907261858l13abb28fk961aa5e4e71d0cda@mail.gmail.com>
+From: David Rientjes <rientjes@google.com>
+Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
+Date: Mon, 27 Jul 2009 15:38:03 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0907271533070.23587@chino.kir.corp.google.com>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.Pi.BZObKB@chimera> <4A6CF220.7080605@lwfinger.net> <alpine.DEB.2.00.0907261722140.21259@chino.kir.corp.google.com> <84144f020907270008h2a985278of68e70ff1ee9265c@mail.gmail.com>
+ <alpine.DEB.2.00.0907270227420.15760@chino.kir.corp.google.com> <alpine.DEB.1.10.0907271320130.13513@gentwo.org> <alpine.DEB.2.00.0907271113460.8408@chino.kir.corp.google.com> <alpine.DEB.1.10.0907271740090.27697@gentwo.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <2375c9f90907261858l13abb28fk961aa5e4e71d0cda-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755436AbZG0WiR@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1248734292; bh=uYSvtPO+I2rC+iKe+bGTDwuuQvQ=;
+	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
+	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
+	 Content-Type:X-System-Of-Record; b=Yjs3l9ANNkdRaSAZ8OFit+C2LWNsoKr
+	YZ3jnAfuxdXBv8KIqMREDNmMh8VZIcvKxeH1kakUngmGgnk13JkOIbg==
+In-Reply-To: <alpine.DEB.1.10.0907271740090.27697@gentwo.org>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="iso-8859-1"
-To: =?utf-8?q?Am=C3=A9rico_Wang?= <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Roman Shtylman <shtylman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Christoph Lameter <cl@linux-foundation.org>
+Cc: Pekka Enberg <penberg@cs.helsinki.fi>, Larry Finger <Larry.Finger@lwfinger.net>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Johannes Berg <johannes@sipsolutions.net>
 
-On Monday 27 July 2009, Am=C3=A9rico Wang wrote:
-> On Mon, Jul 27, 2009 at 4:28 AM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote=
-:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.30.  Please verify if it still should be listed and let me=
- know
-> > (either way).
-> >
-> >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D1380=
-6
-> > Subject         : system does not boot due to device-mapper error
-> > Submitter       : Roman Shtylman <shtylman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date            : 2009-07-21 00:03 (6 days old)
->=20
-> Proposed patch:
->=20
-> http://patchwork.kernel.org/patch/33534/
+On Mon, 27 Jul 2009, Christoph Lameter wrote:
 
-Thanks, updated.
+> My prosal was to use the size and objsize parameters. You would only have
+> to call calculate_sizes() twice when the comparison of the order of size
+> and objsize would be different.
+> 
+> Doing so would simplify additing future flags. If you do your own
+> calculations (like in the patch) then you have to replicate the size
+> calculation from calculate_sizes() somehow. Is the duplicate calculation
+> really accurate regarding alignment and other special casing?
+> 
 
-Rafael
+Ok, fair enough.  It seems like a matter of taste in implementation but 
+your proposal is also more extendable than mine, and I'm definitely not 
+going to argue your taste vs. mine when it comes to slub :)
+
+I'll write an incremental patch on top of Pekka's for-next branch to 
+implement your idea.
