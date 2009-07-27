@@ -1,31 +1,59 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13728] 2.6.31-rc2 soft lockups, RPC-related
-Date: Tue, 28 Jul 2009 00:26:12 +0200
-Message-ID: <200907280026.12922.rjw@sisk.pl>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.AKE.6HObKB@chimera> <87y6qa7hgc.fsf@bulky.wgtn.ondioline.org>
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [Bug #13643] Touchpad lost synchronization after resume from
+	suspend to RAM
+Date: Mon, 27 Jul 2009 15:25:51 -0700
+Message-ID: <20090727225946.048A3526EC9@mailhub.coreip.homeip.net>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.JcF.gIObKB@chimera> <20090726233331.GA4712@vespa.holoscopio.com> <200907280015.56826.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87y6qa7hgc.fsf-5OL5Ig5HWxBLdt5/z87VRY6ehsQQaF5K@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755376AbZG0W0H@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent:message-id;
+        bh=aIjmJtew+A+UWlySqbw+LRzUn5QC0JLipLguTEmtm5A=;
+        b=utXQpGI+pOHZxBXVwtRvTxLWxGRYoZHxUva/a27Vx6ddBNjFnTBa79jbSm/yhXJpOr
+         jyRsDy6xbGp20ojJw7dc/5rGmtB9omZSuqn1SWaXfIimNZ/42Wyu8FhmG4u8aPaMPUOm
+         GBA26wihrRf+vYyh+WZEgIe4qu2B2z051Io5Q=
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <200907280015.56826.rjw@sisk.pl>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Trond Myklebust <Trond.Myklebust-HgOvQuBEEgTQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Jenkins <alan-jenkins@tuffmail.co.uk>, Cijoml Cijomlovic Cijomlov <cijoml@volny.cz>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-On Monday 27 July 2009, Paul Collins wrote:
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+On Tue, Jul 28, 2009 at 12:15:54AM +0200, Rafael J. Wysocki wrote:
+> On Monday 27 July 2009, Thadeu Lima de Souza Cascardo wrote:
+> > On Sun, Jul 26, 2009 at 10:23:34PM +0200, Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of recent regressions.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.30.  Please verify if it still should be listed and let me know
+> > > (either way).
+> > > 
+> > > 
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13643
+> > > Subject		: Touchpad lost synchronization after resume from suspend to RAM
+> > > Submitter	: Cijoml Cijomlovic Cijomlov <cijoml@volny.cz>
+> > > Date		: 2009-06-28 10:42 (29 days old)
+> > > References	: http://lkml.org/lkml/2009/6/23/365
+> > > 		  2.6.30-rc1: touchpad disabled
+> > > 		  http://lkml.org/lkml/2009/6/25/256
+> > > Handled-By	: Thadeu Lima de Souza Cascardo <cascardo@holoscopio.com>
+> > > Patch		: http://patchwork.kernel.org/patch/34075/
+> > > 
+> > > 
+> > 
+> > I guess my patch did fix it and we had other confirmations as well,
+> > didn't we?
 > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13728
-> > Subject		: 2.6.31-rc2 soft lockups, RPC-related
-> > Submitter	: Paul Collins <paul-dsjeNyW6Qm/D+ROgJ3VA+kB+6BGkLq7r@public.gmane.org>
-> > Date		: 2009-07-05 7:17 (22 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=124677884816794&w=4
+> Yes, we did.  It's waiting in the Dmirty's tree for Linus to take it AFAICS.
 > 
-> So far it's looking like this problem is no longer present in
-> 2.6.31-rc4.
 
-Thanks, closed.
+I believe it is in -rc4 actually.
 
-Rafael
+-- 
+Dmitry
