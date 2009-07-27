@@ -1,33 +1,41 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13475] suspend/hibernate lockdep warning
-Date: Mon, 27 Jul 2009 23:57:38 +0200
-Message-ID: <200907272357.38609.rjw@sisk.pl>
-References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.0KH.4XObKB@chimera> <20090727165228.GC25626@Krystal>
+Subject: Re: [Bug #13624] usb: wrong autosuspend initialization
+Date: Mon, 27 Jul 2009 23:59:21 +0200
+Message-ID: <200907272359.22268.rjw@sisk.pl>
+References: <Pine.LNX.4.44L0.0907271041040.5614-100000@iolanthe.rowland.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090727165228.GC25626@Krystal>
+In-Reply-To: <Pine.LNX.4.44L0.0907271041040.5614-100000-IYeN2dnnYyZXsRXLowluHWD2FQJk+8+b@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Cc: Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, list-2tUql6aCh3Vfq8cQ1yknNg@public.gmane.org
 
-On Monday 27 July 2009, Mathieu Desnoyers wrote:
-> It should be fixed now by recents commits to the cpufreq tree, which got  
-> into mainline: 
+On Monday 27 July 2009, Alan Stern wrote:
+> On Sun, 26 Jul 2009, Rafael J. Wysocki wrote:
 > 
-> 42a06f2166f2f6f7bf04f32b4e823eacdceafdc9
-> b253d2b2d28ead6fed012feb54694b3d0562839a
-> b14893a62c73af0eca414cfed505b8c09efc613c
-> 7d26e2d5e2da37e92c6c7644b26b294dedd8c982
-> 37c90e8887efd218dc4af949b7f498ca2da4af9f
-> 5a75c82828e7c088ca6e7b4827911dc29cc8e774
-> ee88415caf736b89500f16e0a545614541a45005
-> 3f4a782b5ce2698b1870b5a7b573cd721d4fce33
-> 5e1596f75395e7a402e1059c518e633d2732dcf8
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.29 and 2.6.30.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13624
+> > Subject		: usb: wrong autosuspend initialization
+> > Submitter	:  <list-2tUql6aCh3Vfq8cQ1yknNg@public.gmane.org>
+> > Date		: 2009-06-25 18:18 (32 days old)
+> 
+> There's some question as to whether this should be considered a kernel 
+> bug.  The kernel isn't doing anything wrong; the problem is that 
+> various userspace programs enable autosuspend for devices that can't 
+> support it properly.
 
-Thanks, closed.
+OK, I'll drop it from the list of recent regressions.
 
+Thanks,
 Rafael
