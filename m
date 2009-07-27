@@ -1,53 +1,46 @@
-From: Mark Lord <lkml-gsilrlXbHYg@public.gmane.org>
-Subject: Re: [Bug #13839] xc5000 no longer works with Myth-0.21-fixes branch
-Date: Sun, 26 Jul 2009 22:13:47 -0400
-Message-ID: <4A6D0D5B.2000607@rtr.ca>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.Y0B.HHObKB@chimera>
+From: "Carlos R. Mafra" <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [Bisected] [Bug #13821] Replugging USB serial converter uses new
+	device node
+Date: Mon, 27 Jul 2009 04:26:23 +0200
+Message-ID: <20090727022623.GA6614@Pilar.aei.mpg.de>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.p7C.WHObKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <3zAHs5O6maO.A.Y0B.HHObKB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=RixEappee3fvWxbwvKi7R+uJZ5bLTO88lkcxOlSkMhY=;
+        b=n2JlvaX/U66XNUDmQroWSCpuwLwbz+SsQoeUdVCybyz36U3ADMxyB5MmEHkEwRF+X1
+         uI76UsxSn6RnAAgYnGlKoUhkjuZPAPNzkGiVlrGVbjebR/IT/dVN2HF16weAf04/A4y6
+         DJu63ASZTZovDIARcq8Y26jW3aAovhPGJyKZI=
+Content-Disposition: inline
+In-Reply-To: <3zAHs5O6maO.A.p7C.WHObKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Devin Heitmueller <dheitmueller-eb9eJ82Ua7k9XoPSrs7Ehg@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>, Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13839
-> Subject		: xc5000 no longer works with Myth-0.21-fixes branch
-> Submitter	: Mark Lord <lkml-gsilrlXbHYg@public.gmane.org>
-> Date		: 2009-07-19 15:15 (8 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124814394016848&w=4
-> Handled-By	: Devin Heitmueller <dheitmueller-eb9eJ82Ua7k9XoPSrs7Ehg@public.gmane.org>
-..
+On Sun 26.Jul'09 at 22:28:27 +0200, Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13821
+> Subject		: Replugging USB serial converter uses new device node
+> Submitter	: Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>
+> Date		: 2009-07-18 20:04 (9 days old)
+> References	: http://marc.info/?l=linux-kernel&m=124794754015776&w=4
 
-There is definitely a regression, in that it doesn't work without
-config changes to Myth.  This is due to the new way that firmware uploads
-are implemented in xc5000:  slower, and more often than before.
+I was scanning the regressions list and noticed that I could reproduce
+this bug.
 
-But the MythTV workaround required is simple:
+So I bisected it to commit 335f8514f200e63d689113d29cb7253a5c282967
+("tty: Bring the usb tty port structure into more use"), from Alan
+Cox.
 
-> 3. In mythtv-setup -> CaptureCards -> DVB:1 -> RecordingOptions
-> there is a tickbox for "Open DVB Card on Demand".  It was ticked,
-> so I un-ticked that box.  Everything now works!
-> 
-> When that tickbox was selected, the xc5000 took five (5) seconds to "open",
-> as it did the firmware upload every time.  This appeared to exceed some
-> timeout inside myth.
-> 
-> With the tickbox NOT ticked, myth just opens the tuner once at startup,
-> and keeps it open, so no more delay when it wants to use it. 
+I did not double check if reverting it from -rc4 fixes the issue,
+but I noticed that this patch touches drivers/usb/serial/option.c, which
+is the driver I used to test this problem.
 
-
-Dunno what to say about this one.
-
-Cheers
+If there is anything else I can do (give more info, test patches etc),
+please let me know.
