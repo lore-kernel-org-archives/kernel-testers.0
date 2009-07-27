@@ -1,45 +1,32 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13643] Touchpad lost synchronization after resume from suspend to RAM
-Date: Tue, 28 Jul 2009 00:15:54 +0200
-Message-ID: <200907280015.56826.rjw@sisk.pl>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.JcF.gIObKB@chimera> <20090726233331.GA4712@vespa.holoscopio.com>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #13659] iwlagn (4965): no wireless due to RFKILL problem
+Date: Tue, 28 Jul 2009 00:17:41 +0200
+Message-ID: <200907280017.42250.rjw@sisk.pl>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.2_E.TIObKB@chimera> <200907270123.31384.elendil@planet.nl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090726233331.GA4712-StA3NKSgq9XYLCA8tIpKU1aTQe2KTcn/@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755287AbZG0WRI@vger.kernel.org>
+In-Reply-To: <200907270123.31384.elendil@planet.nl>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Frans Pop <elendil@planet.nl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Johannes Berg <johannes@sipsolutions.net>
 
-On Monday 27 July 2009, Thadeu Lima de Souza Cascardo wrote:
-> On Sun, Jul 26, 2009 at 10:23:34PM +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
+On Monday 27 July 2009, Frans Pop wrote:
+> On Sunday 26 July 2009, Rafael J. Wysocki wrote:
 > > The following bug entry is on the current list of known regressions
-> > from 2.6.30.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13643
-> > Subject		: Touchpad lost synchronization after resume from suspend to RAM
-> > Submitter	: Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
-> > Date		: 2009-06-28 10:42 (29 days old)
-> > References	: http://lkml.org/lkml/2009/6/23/365
-> > 		  2.6.30-rc1: touchpad disabled
-> > 		  http://lkml.org/lkml/2009/6/25/256
-> > Handled-By	: Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>
-> > Patch		: http://patchwork.kernel.org/patch/34075/
-> > 
-> > 
+> > from 2.6.30.  Please verify if it still should be listed and let me
+> > know (either way).
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13659
+> > Subject	: iwlagn (4965): no wireless due to RFKILL problem
 > 
-> I guess my patch did fix it and we had other confirmations as well,
-> didn't we?
+> Fixed in mainline by: 76d8b64e536362e16e38ee1c279c965ebfe094cc
 
-Yes, we did.  It's waiting in the Dmirty's tree for Linus to take it AFAICS.
+Thanks, closed.
 
-Thanks,
+Best,
 Rafael
