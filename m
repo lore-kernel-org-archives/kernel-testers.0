@@ -1,68 +1,48 @@
-From: Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>
-Subject: Re: [Bisected] [Bug #13821] Replugging USB serial converter uses new device node
-Date: Mon, 27 Jul 2009 17:53:18 +0200
-Message-ID: <87zlaqcec1.fsf@tac.ki.iif.hu>
-References: <Pine.LNX.4.44L0.0907271131100.5217-100000@iolanthe.rowland.org>
+From: Alan Stern <stern@rowland.harvard.edu>
+Subject: Re: [Bisected] [Bug #13821] Replugging USB serial converter uses
+ new device node
+Date: Mon, 27 Jul 2009 12:18:36 -0400 (EDT)
+Message-ID: <Pine.LNX.4.44L0.0907271217441.5217-100000@iolanthe.rowland.org>
+References: <87zlaqcec1.fsf@tac.ki.iif.hu>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Pine.LNX.4.44L0.0907271131100.5217-100000-IYeN2dnnYyZXsRXLowluHWD2FQJk+8+b@public.gmane.org>
-	(Alan Stern's message of "Mon, 27 Jul 2009 11:34:55 -0400 (EDT)")
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752953AbZG0QSh@vger.kernel.org>
+In-Reply-To: <87zlaqcec1.fsf@tac.ki.iif.hu>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Cc: "Carlos R. Mafra" <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, USB list <linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+To: Ferenc Wagner <wferi@niif.hu>
+Cc: "Carlos R. Mafra" <crmafra2@gmail.com>, Greg KH <greg@kroah.com>, Alan Cox <alan@lxorguk.ukuu.org.uk>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>, Kay Sievers <kay.sievers@vrfy.org>, "Rafael J. Wysocki" <rjw@sisk.pl>
 
-Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org> writes:
+On Mon, 27 Jul 2009, Ferenc Wagner wrote:
 
-> On Mon, 27 Jul 2009, Carlos R. Mafra wrote:
->
->> On Sun 26.Jul'09 at 22:28:27 +0200, Rafael J. Wysocki wrote:
->>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13821
->>> Subject		: Replugging USB serial converter uses new device node
->>> Submitter	: Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>
->>> Date		: 2009-07-18 20:04 (9 days old)
->>> References	: http://marc.info/?l=linux-kernel&m=124794754015776&w=4
->> 
->> I was scanning the regressions list and noticed that I could reproduce
->> this bug.
->> 
->> So I bisected it to commit 335f8514f200e63d689113d29cb7253a5c282967
->> ("tty: Bring the usb tty port structure into more use"), from Alan
->> Cox.
->> 
->> I did not double check if reverting it from -rc4 fixes the issue,
->> but I noticed that this patch touches drivers/usb/serial/option.c, which
->> is the driver I used to test this problem.
->> 
->> If there is anything else I can do (give more info, test patches etc),
->> please let me know.
->
-> Are you certain this really is a regression?  Under 2.6.30 and 2.6.27
-> the same thing happened if I unplugged a USB serial device while it was
-> in use.
+> > Are you certain this really is a regression?  Under 2.6.30 and 2.6.27
+> > the same thing happened if I unplugged a USB serial device while it was
+> > in use.
+> 
+> My original report is about unplugging the USB servial device *after*
+> using it.
+> 
+> > Can you check whether the device is still being used when you unplug 
+> > it?  For instance, is there still a pppd process trying to communicate 
+> > with the device?
+> 
+> I checked and rechecked that the pppd process is already dead by the
+> time I unplug the device.  However, the minor number did not increase
+> if I unplugged the device without using it beforehand, as expected.
+> 
+> > In short, it seems likely that this is not new behavior but rather the 
+> > way usb-serial has worked all along.
+> 
+> I didn't experience this problem with 2.6.30: my ppp script was
+> hardwired to use ttyUSB0 and it always worked.  Now with 2.6.31-rc3 it
+> does not, as the device node keeps changing.
+> 
+> I'll test this with opening ttyUSB directly from the shell, instead of
+> via pppd, and report back whether it makes a difference.
 
-My original report is about unplugging the USB servial device *after*
-using it.
+Another thing to check is whether this patch (not yet merged) fixes it:
 
-> Can you check whether the device is still being used when you unplug 
-> it?  For instance, is there still a pppd process trying to communicate 
-> with the device?
+	http://marc.info/?l=linux-usb&m=124825571403844&w=2
 
-I checked and rechecked that the pppd process is already dead by the
-time I unplug the device.  However, the minor number did not increase
-if I unplugged the device without using it beforehand, as expected.
-
-> In short, it seems likely that this is not new behavior but rather the 
-> way usb-serial has worked all along.
-
-I didn't experience this problem with 2.6.30: my ppp script was
-hardwired to use ttyUSB0 and it always worked.  Now with 2.6.31-rc3 it
-does not, as the device node keeps changing.
-
-I'll test this with opening ttyUSB directly from the shell, instead of
-via pppd, and report back whether it makes a difference.
--- 
-Regards,
-Feri.
+Alan Stern
