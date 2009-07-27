@@ -1,59 +1,45 @@
-From: Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>
-Subject: Re: [Bug #13750] Load average flatlines after returning from hibernate
-Date: Mon, 27 Jul 2009 02:21:24 -0700
-Message-ID: <200907270221.24667.1i5t5.duncan@cox.net>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.DfD.oHObKB@chimera> <1248675666.6987.1415.camel@twins>
+From: Stephan von Krawczynski <skraw@ithnet.com>
+Subject: Re: [Bug #13648] nfsd: page allocation failure
+Date: Mon, 27 Jul 2009 13:04:20 +0200
+Message-ID: <20090727130420.1514cf5c.skraw@ithnet.com>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
+	<H5-1lZIIeYK.A.HXG.DXObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1248675666.6987.1415.camel@twins>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756055AbZG0LE0@vger.kernel.org>
+In-Reply-To: <H5-1lZIIeYK.A.HXG.DXObKB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, David Rientjes <rientjes@google.com>, Justin Piszcz <jpiszcz@lucidpixels.com>
 
-On Sunday 26 July 2009 23:21:06 Peter Zijlstra wrote:
-> On Sun, 2009-07-26 at 22:28 +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.30.  Please verify if it still should be listed and let me know
-> > (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13750
-> > Subject		: Load average flatlines after returning from hibernate
-> > Submitter	: Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>
-> > Date		: 2009-07-09 15:14 (18 days old)
->
-> commit 6301cb95c119ebf324bb96ee226fa9ddffad80a7
-> Author: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-> Date:   Fri Jul 17 14:15:47 2009 +0200
->
->     sched: fix nr_uninterruptible accounting of frozen tasks really
->
->
-> commit a468d389349a7560249b355cdb6d2097ea1616c9
-> Author: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-> Date:   Fri Jul 17 14:15:46 2009 +0200
->
->     sched: fix load average accounting vs. cpu hotplug
+On Sun, 26 Jul 2009 22:45:33 +0200 (CEST)
+"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
 
-[replied to all]
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.29 and 2.6.30.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13648
+> Subject		: nfsd: page allocation failure
+> Submitter	: Justin Piszcz <jpiszcz@lucidpixels.com>
+> Date		: 2009-06-22 12:08 (35 days old)
+> References	: http://lkml.org/lkml/2009/6/22/309
+> 		  http://marc.info/?l=linux-kernel&m=124748600712853&w=4
+> 
 
-That's presumably correct, as rc4 (on-tag at last git pull) resolved it.
+This is no regression between 2.6.29 and 2.6.30.
+In fact we could reproduce the problem with kernel versions:
 
-Just updated the bug.
+2.6.27.26 < X <= 2.6.30.3
 
-(I didn't know whether CODE_FIX or PATCH_ALREADY_AVAILABLE was correct, and 
-the status link is to the generic bugzilla resolutions, so not much help.  I 
-picked CODE_FIX.  I guess that's the next bug I file, on bugzilla.kernel.org 
-itself.)
+(Meaning 2.6.27.26 is the last one _not_ showing the problem).
 
 -- 
-Duncan - List replies preferred.   No HTML msgs.
-"Every nonfree program has a lord, a master --
-and if you use the program, he is your master."  Richard Stallman
+Regards,
+Stephan
