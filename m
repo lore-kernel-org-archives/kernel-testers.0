@@ -1,45 +1,38 @@
-From: Stephan von Krawczynski <skraw@ithnet.com>
-Subject: Re: [Bug #13648] nfsd: page allocation failure
-Date: Mon, 27 Jul 2009 13:04:20 +0200
-Message-ID: <20090727130420.1514cf5c.skraw@ithnet.com>
-References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
-	<H5-1lZIIeYK.A.HXG.DXObKB@chimera>
+From: Tobias Diedrich <ranma-YxUgxmcw2FPQD6PfKP4TzA@public.gmane.org>
+Subject: Re: [Bug #13826] thinkpad boots with backlight low
+Date: Mon, 27 Jul 2009 13:06:51 +0200
+Message-ID: <20090727110651.GA4496@yamamaya.is-a-geek.org>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.KtC.THObKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756055AbZG0LE0@vger.kernel.org>
-In-Reply-To: <H5-1lZIIeYK.A.HXG.DXObKB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <3zAHs5O6maO.A.KtC.THObKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, David Rientjes <rientjes@google.com>, Justin Piszcz <jpiszcz@lucidpixels.com>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
 
-On Sun, 26 Jul 2009 22:45:33 +0200 (CEST)
-"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
-
+Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.29 and 2.6.30.
+> of recent regressions.
 > 
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13648
-> Subject		: nfsd: page allocation failure
-> Submitter	: Justin Piszcz <jpiszcz@lucidpixels.com>
-> Date		: 2009-06-22 12:08 (35 days old)
-> References	: http://lkml.org/lkml/2009/6/22/309
-> 		  http://marc.info/?l=linux-kernel&m=124748600712853&w=4
-> 
+> from 2.6.30.  Please verify if it still should be listed and let me know
+> (either way).
 
-This is no regression between 2.6.29 and 2.6.30.
-In fact we could reproduce the problem with kernel versions:
+Yes, this still applies to 2.6.31-rc4.
+If I  don't add brightness_mode=2 the backlight controls don't work
+properly.
 
-2.6.27.26 < X <= 2.6.30.3
-
-(Meaning 2.6.27.26 is the last one _not_ showing the problem).
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13826
+> Subject		: thinkpad boots with backlight low
+> Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+> Date		: 2009-07-15 15:13 (12 days old)
+> References	: http://marc.info/?l=linux-kernel&m=124756359126830&w=4
+> Handled-By	: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
+> 
 
 -- 
-Regards,
-Stephan
+Tobias						PGP: http://9ac7e0bc.uguu.de
