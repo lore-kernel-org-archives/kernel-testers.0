@@ -1,87 +1,53 @@
 From: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
-Subject: Re: cpufreq cleanups - .30 vs .31
-Date: Mon, 27 Jul 2009 12:37:37 -0400
-Message-ID: <20090727163736.GA25626@Krystal>
-References: <200907061318.20839.trenn@suse.de> <20090707015115.GB5310@redhat.com> <20090727142532.GA22503@Krystal> <1248712266.11545.8824.camel@localhost.localdomain>
+Subject: Re: [Bug #13424] possible deadlock when doing governor switching
+Date: Mon, 27 Jul 2009 12:48:14 -0400
+Message-ID: <20090727164814.GB25626@Krystal>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.hdH.DYObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <1248712266.11545.8824.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+In-Reply-To: <H5-1lZIIeYK.A.hdH.DYObKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Pallipadi, Venkatesh" <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-* Pallipadi, Venkatesh (venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org) wrote:
-> On Mon, 2009-07-27 at 07:25 -0700, Mathieu Desnoyers wrote:
-> > * Dave Jones (davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org) wrote:
-> > > On Mon, Jul 06, 2009 at 01:18:18PM +0200, Thomas Renninger wrote:
-> > > 
-> > >  > So if not find too intrusive, I'd say:
-> > >  > Venkatesh's whole series of:
-> > >  > [patch 0/4] Take care of cpufreq lockdep issues (take 2)
-> > >  > should be seen in .31.
-> > >  >  ...
-> > >  > The one patch from Mathieu:
-> > >  > [patch 2.6.30 2/4] CPUFREQ: fix (utter) cpufreq_add_dev mess
-> > >  > is a separate, general cleanup which should show up in .31.
-> > > 
-> > > I came to the same conclusion after reading the thread, and looking
-> > > over the patches.  I merged the above, and sent Linus a pull request
-> > > a few minutes ago.
-> > > 
-> > > Thanks Mathieu and Venki for chasing this down.
-> > > 
-> > > 	Dave
-> > 
-> > Given I never got an answer to this question, I'm re-asking a question I
-> > asked in a previous thread about Venki's patchset:
-> > 
-> > [CPUFREQ] Cleanup locking in ondemand governor
-> > commit	5a75c82828e7c088ca6e7b4827911dc29cc8e774
-> > 
-> > From the earlier thread:
-> > Subject: Re: [patch 2.6.30 3/4] cpufreq add gov mutex
-> > 
-> > I am worried about potential races between add_dev/remove_dev, which
-> > currently lock the rwsem as mean of protection, and execution of timer
-> > handler that would not take the rwsem to protect itself anymore, due to
-> > your changes.
-> > 
-> > I'm especially worried about the call to
-> > 
-> >               __cpufreq_driver_target(dbs_info->cur_policy,
-> >                         dbs_info->freq_lo, CPUFREQ_RELATION_H);
-> > 
-> > which seems to depend on policy-level information, protected at the
-> > rwsem-level.
-> > 
-> > By removing the rwsem from the timer handler, I don't see how you plan
-> > to protect this information from add_dev/remove_dev execution.
-> > 
-> 
-> Sorry I missed the question earlier.
-> 
-> The invariant here is that the timer routine will not be running while
-> policy is inconsistent due to add/remove. The cpufreq layer calls START
-> at the end of add_dev when all policy stuff has been setup, which starts
-> the timer. And STOP along remove_dev before cleaning up policy which
-> stops the timer.
-> 
-> If you are thinking of races with other cpufreq sysfs interfaces, they
-> go through the per cpu rwsem along with add/remove.
-> 
+It should be fixed now by recents commits to the cpufreq tree, which got
+into mainline:
 
-Great, that makes sense.
-
-Thanks !
+42a06f2166f2f6f7bf04f32b4e823eacdceafdc9
+b253d2b2d28ead6fed012feb54694b3d0562839a
+b14893a62c73af0eca414cfed505b8c09efc613c
+7d26e2d5e2da37e92c6c7644b26b294dedd8c982
+37c90e8887efd218dc4af949b7f498ca2da4af9f
+5a75c82828e7c088ca6e7b4827911dc29cc8e774
+ee88415caf736b89500f16e0a545614541a45005
+3f4a782b5ce2698b1870b5a7b573cd721d4fce33
+5e1596f75395e7a402e1059c518e633d2732dcf8
 
 Mathieu
 
-> Thanks,
-> Venki
+
+* Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.29 and 2.6.30.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13424
+> Subject		: possible deadlock when doing governor switching
+> Submitter	: Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-05-31 16:36 (57 days old)
+> References	: http://www.spinics.net/lists/cpufreq/msg00711.html
+> 		  http://lkml.org/lkml/2009/6/28/405
+> Handled-By	: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+> 
+> 
 > 
 
 -- 
