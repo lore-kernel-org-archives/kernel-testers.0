@@ -1,40 +1,39 @@
-From: David Rientjes <rientjes@google.com>
-Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
-Date: Mon, 27 Jul 2009 15:38:03 -0700 (PDT)
-Message-ID: <alpine.DEB.2.00.0907271533070.23587@chino.kir.corp.google.com>
-References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.Pi.BZObKB@chimera> <4A6CF220.7080605@lwfinger.net> <alpine.DEB.2.00.0907261722140.21259@chino.kir.corp.google.com> <84144f020907270008h2a985278of68e70ff1ee9265c@mail.gmail.com>
- <alpine.DEB.2.00.0907270227420.15760@chino.kir.corp.google.com> <alpine.DEB.1.10.0907271320130.13513@gentwo.org> <alpine.DEB.2.00.0907271113460.8408@chino.kir.corp.google.com> <alpine.DEB.1.10.0907271740090.27697@gentwo.org>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13826] thinkpad boots with backlight low
+Date: Tue, 28 Jul 2009 00:42:26 +0200
+Message-ID: <200907280042.27190.rjw@sisk.pl>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.KtC.THObKB@chimera> <20090727110651.GA4496@yamamaya.is-a-geek.org>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755436AbZG0WiR@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
-	t=1248734292; bh=uYSvtPO+I2rC+iKe+bGTDwuuQvQ=;
-	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
-	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
-	 Content-Type:X-System-Of-Record; b=Yjs3l9ANNkdRaSAZ8OFit+C2LWNsoKr
-	YZ3jnAfuxdXBv8KIqMREDNmMh8VZIcvKxeH1kakUngmGgnk13JkOIbg==
-In-Reply-To: <alpine.DEB.1.10.0907271740090.27697@gentwo.org>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Christoph Lameter <cl@linux-foundation.org>
-Cc: Pekka Enberg <penberg@cs.helsinki.fi>, Larry Finger <Larry.Finger@lwfinger.net>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Johannes Berg <johannes@sipsolutions.net>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20090727110651.GA4496-LEnv4NkkRI/kz0gr9c1H3IV7twrRs5iQ@public.gmane.org>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Tobias Diedrich <ranma-YxUgxmcw2FPQD6PfKP4TzA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
 
-On Mon, 27 Jul 2009, Christoph Lameter wrote:
-
-> My prosal was to use the size and objsize parameters. You would only have
-> to call calculate_sizes() twice when the comparison of the order of size
-> and objsize would be different.
+On Monday 27 July 2009, Tobias Diedrich wrote:
+> Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.30.  Please verify if it still should be listed and let me know
+> > (either way).
 > 
-> Doing so would simplify additing future flags. If you do your own
-> calculations (like in the patch) then you have to replicate the size
-> calculation from calculate_sizes() somehow. Is the duplicate calculation
-> really accurate regarding alignment and other special casing?
+> Yes, this still applies to 2.6.31-rc4.
+> If I  don't add brightness_mode=2 the backlight controls don't work
+> properly.
 > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13826
+> > Subject		: thinkpad boots with backlight low
+> > Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+> > Date		: 2009-07-15 15:13 (12 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=124756359126830&w=4
+> > Handled-By	: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
 
-Ok, fair enough.  It seems like a matter of taste in implementation but 
-your proposal is also more extendable than mine, and I'm definitely not 
-going to argue your taste vs. mine when it comes to slub :)
+Thanks for the update.
 
-I'll write an incremental patch on top of Pekka's for-next branch to 
-implement your idea.
+Rafael
