@@ -1,39 +1,30 @@
-From: Wu Fengguang <fengguang.wu@intel.com>
-Subject: Re: [Bug #13665] commit 69c854817566 causes OOMs
-Date: Mon, 27 Jul 2009 08:48:51 +0800
-Message-ID: <20090727004851.GA10495@localhost>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.44E.QIObKB@chimera>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [Bug #13389] Warning 'Invalid throttling state, reset' gets displayed when it should not be
+Date: Mon, 27 Jul 2009 03:22:42 +0200
+Message-ID: <200907270322.47523.elendil@planet.nl>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.f0H.XYObKB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755195AbZG0Asz@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <H5-1lZIIeYK.A.f0H.XYObKB@chimera>
 Content-Disposition: inline
-In-Reply-To: <3zAHs5O6maO.A.44E.QIObKB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, David Howells <dhowells@redhat.com>, MinChan Kim <minchan.kim@gmail.com>, "kosaki.motohiro@jp.fujitsu.com" <kosaki.motohiro@jp.fujitsu.com>, Rik van Riel <riel@redhat.com>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 
-On Mon, Jul 27, 2009 at 04:28:20AM +0800, Rafael J. Wysocki wrote:
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13665
-> Subject		: commit 69c854817566 causes OOMs
-> Submitter	: David Howells <dhowells@redhat.com>
-> Date		: 2009-06-27 08:12 (30 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=69c854817566db82c362797b4a6521d0b00fe1d8
-> References	: http://lkml.org/lkml/2009/6/27/28
+On Sunday 26 July 2009, Rafael J. Wysocki wrote:
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> be listed and let me know (either way).
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13389
+> Subject	: Warning 'Invalid throttling state, reset' gets displayed
+>		  when it should not be
+> Patch		: http://bugzilla.kernel.org/attachment.cgi?id=21671
+> 		  http://bugzilla.kernel.org/attachment.cgi?id=21672
 
-Both patches from KOSAKI and Rik can fix the OOM in my tests:
+Rui has acked the patches [1], but AFAIK Len has not yet picked them up.
 
-http://lkml.org/lkml/2009/7/7/104
-http://patchwork.kernel.org/patch/34740/
-
-The latter one has been included in -mm
-
-> Handled-By	: Wu Fengguang <fengguang.wu@intel.com>
-> Patch		: http://patchwork.kernel.org/patch/32740/
-
-This patch is also in -mm.
-
-Thanks,
-Fengguang
+[1] http://lkml.org/lkml/2009/7/7/474
