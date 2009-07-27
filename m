@@ -1,39 +1,45 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13649] Bad page state in process with various applications
-Date: Tue, 28 Jul 2009 00:06:49 +0200
-Message-ID: <200907280006.50647.rjw@sisk.pl>
-References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.aOG.BXObKB@chimera> <20090727090514.GA5618@cmpxchg.org>
+Subject: Re: [Bug #13643] Touchpad lost synchronization after resume from suspend to RAM
+Date: Tue, 28 Jul 2009 00:15:54 +0200
+Message-ID: <200907280015.56826.rjw@sisk.pl>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.JcF.gIObKB@chimera> <20090726233331.GA4712@vespa.holoscopio.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090727090514.GA5618-druUgvl0LCNAfugRpC6u6w@public.gmane.org>
+In-Reply-To: <20090726233331.GA4712-StA3NKSgq9XYLCA8tIpKU1aTQe2KTcn/@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Johannes Weiner <hannes-druUgvl0LCNAfugRpC6u6w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+To: Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Monday 27 July 2009, Johannes Weiner wrote:
-> On Sun, Jul 26, 2009 at 10:45:33PM +0200, Rafael J. Wysocki wrote:
+On Monday 27 July 2009, Thadeu Lima de Souza Cascardo wrote:
+> On Sun, Jul 26, 2009 at 10:23:34PM +0200, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.29 and 2.6.30.
+> > of recent regressions.
 > > 
 > > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-> > be listed and let me know (either way).
+> > from 2.6.30.  Please verify if it still should be listed and let me know
+> > (either way).
 > > 
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13649
-> > Subject		: Bad page state in process with various applications
-> > Submitter	: Maxim Levitsky <maximlevitsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2009-06-20 15:27 (37 days old)
-> > References	: http://marc.info/?l=linux-mm&m=124551168828090&w=4
-> > Handled-By	: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-> > Patch		: http://patchwork.kernel.org/patch/33130/
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13643
+> > Subject		: Touchpad lost synchronization after resume from suspend to RAM
+> > Submitter	: Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
+> > Date		: 2009-06-28 10:42 (29 days old)
+> > References	: http://lkml.org/lkml/2009/6/23/365
+> > 		  2.6.30-rc1: touchpad disabled
+> > 		  http://lkml.org/lkml/2009/6/25/256
+> > Handled-By	: Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>
+> > Patch		: http://patchwork.kernel.org/patch/34075/
+> > 
+> > 
 > 
-> Fixed in mainline: c277331d5fbaae5772ed19862feefa91f4e477d3
+> I guess my patch did fix it and we had other confirmations as well,
+> didn't we?
 
-Thanks, closed.
+Yes, we did.  It's waiting in the Dmirty's tree for Linus to take it AFAICS.
 
+Thanks,
 Rafael
