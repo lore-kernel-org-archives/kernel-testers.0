@@ -1,21 +1,20 @@
-From: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
-Subject: Re: [Bug #13826] thinkpad boots with backlight low
-Date: Mon, 27 Jul 2009 19:42:40 -0300
-Message-ID: <20090727224240.GA6932@khazad-dum.debian.net>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera>
- <3zAHs5O6maO.A.KtC.THObKB@chimera>
- <20090727110651.GA4496@yamamaya.is-a-geek.org>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #13833] Kernel Oops when trying to suspend with ubifs mounted on block2mtd mtd device
+Date: Tue, 28 Jul 2009 00:43:50 +0200
+Message-ID: <200907280043.51688.rjw@sisk.pl>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.gfC.QHObKB@chimera> <20090727091623.GA16229@yamamaya.is-a-geek.org>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090727110651.GA4496-LEnv4NkkRI/kz0gr9c1H3IV7twrRs5iQ@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Tobias Diedrich <ranma-YxUgxmcw2FPQD6PfKP4TzA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755499AbZG0WnS@vger.kernel.org>
+In-Reply-To: <20090727091623.GA16229@yamamaya.is-a-geek.org>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Tobias Diedrich <ranma@tdiedrich.de>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, David Brownell <david-b@pacbell.net>, David Woodhouse <David.Woodhouse@intel.com>, Eric Miao <eric.y.miao@gmail.com>, Pavel Machek <pavel@ucw.cz>
 
-On Mon, 27 Jul 2009, Tobias Diedrich wrote:
+On Monday 27 July 2009, Tobias Diedrich wrote:
 > Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
@@ -24,14 +23,11 @@ On Mon, 27 Jul 2009, Tobias Diedrich wrote:
 > > from 2.6.30.  Please verify if it still should be listed and let me know
 > > (either way).
 > 
-> Yes, this still applies to 2.6.31-rc4.
-> If I  don't add brightness_mode=2 the backlight controls don't work
-> properly.
+> 
+> Well, the patch reverting the commit still applies to 2.6.31-rc4, so
+> I assume the issue persists,but I have not tried an unpatched
+> 2.6.31-rc4.
 
-Patch ready. Will send to linux-acpi soon.
+Thanks for the update.
 
--- 
-  "One disk to rule them all, One disk to find them. One disk to bring
-  them all and in the darkness grind them. In the Land of Redmond
-  where the shadows lie." -- The Silicon Valley Tarot
-  Henrique Holschuh
+Rafael
