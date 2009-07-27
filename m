@@ -1,30 +1,66 @@
-From: "Carlos R. Mafra" <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bisected] [Bug #13821] Replugging USB serial converter uses
-	new device node
-Date: Mon, 27 Jul 2009 14:01:42 +0200
-Message-ID: <20090727120142.GA13407@Pilar.aei.mpg.de>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.p7C.WHObKB@chimera> <20090727022623.GA6614@Pilar.aei.mpg.de>
+From: Mathieu Desnoyers <mathieu.desnoyers-scC8bbJcJLCw5LPnMra/2Q@public.gmane.org>
+Subject: Re: cpufreq cleanups - .30 vs .31
+Date: Mon, 27 Jul 2009 10:25:32 -0400
+Message-ID: <20090727142532.GA22503@Krystal>
+References: <200907061318.20839.trenn@suse.de> <20090707015115.GB5310@redhat.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20090727022623.GA6614-8NNKxJcwqxqHjx4iBuKRcg@public.gmane.org>
+In-Reply-To: <20090707015115.GB5310-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>, Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+To: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Thomas Renninger <trenn-l3A5Bk7waGM@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, cpufreq-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, R
 
-On Mon 27.Jul'09 at  4:26:23 +0200, Carlos R. Mafra wrote:
+* Dave Jones (davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org) wrote:
+> On Mon, Jul 06, 2009 at 01:18:18PM +0200, Thomas Renninger wrote:
 > 
-> So I bisected it to commit 335f8514f200e63d689113d29cb7253a5c282967
-> ("tty: Bring the usb tty port structure into more use"), from Alan
-> Cox.
+>  > So if not find too intrusive, I'd say:
+>  > Venkatesh's whole series of:
+>  > [patch 0/4] Take care of cpufreq lockdep issues (take 2)
+>  > should be seen in .31.
+>  >  ...
+>  > The one patch from Mathieu:
+>  > [patch 2.6.30 2/4] CPUFREQ: fix (utter) cpufreq_add_dev mess
+>  > is a separate, general cleanup which should show up in .31.
 > 
-> I did not double check if reverting it from -rc4 fixes the issue,
-> but I noticed that this patch touches drivers/usb/serial/option.c, which
-> is the driver I used to test this problem.
+> I came to the same conclusion after reading the thread, and looking
+> over the patches.  I merged the above, and sent Linus a pull request
+> a few minutes ago.
+> 
+> Thanks Mathieu and Venki for chasing this down.
+> 
+> 	Dave
 
-It doesn't revert cleanly from -rc4, but I solved the conflicts in
-option.c and usb-serial.c (I wanted to learn how to do it) 
-and the problem gets fixed indeed.
+Given I never got an answer to this question, I'm re-asking a question I
+asked in a previous thread about Venki's patchset:
+
+[CPUFREQ] Cleanup locking in ondemand governor
+commit	5a75c82828e7c088ca6e7b4827911dc29cc8e774
+
+From the earlier thread:
+Subject: Re: [patch 2.6.30 3/4] cpufreq add gov mutex
+
+I am worried about potential races between add_dev/remove_dev, which
+currently lock the rwsem as mean of protection, and execution of timer
+handler that would not take the rwsem to protect itself anymore, due to
+your changes.
+
+I'm especially worried about the call to
+
+              __cpufreq_driver_target(dbs_info->cur_policy,
+                        dbs_info->freq_lo, CPUFREQ_RELATION_H);
+
+which seems to depend on policy-level information, protected at the
+rwsem-level.
+
+By removing the rwsem from the timer handler, I don't see how you plan
+to protect this information from add_dev/remove_dev execution.
+
+
+Mathieu
+
+-- 
+Mathieu Desnoyers
+OpenPGP key fingerprint: 8CD5 52C3 8E3C 4140 715F  BA06 3F25 A8FE 3BAE 9A68
