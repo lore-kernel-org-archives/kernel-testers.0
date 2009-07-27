@@ -1,41 +1,25 @@
-From: Jesse Barnes <jbarnes@virtuousgeek.org>
-Subject: Re: [Bug #13844] i915 errors
-Date: Mon, 27 Jul 2009 10:11:43 -0700
-Message-ID: <20090727101143.158ef471@jbarnes-g45>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera>
-	<3zAHs5O6maO.A.wXB._GObKB@chimera>
+From: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #13319] Page allocation failures with b43 and p54usb
+Date: Mon, 27 Jul 2009 13:20:29 -0400 (EDT)
+Message-ID: <alpine.DEB.1.10.0907271320130.13513@gentwo.org>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.Pi.BZObKB@chimera> <4A6CF220.7080605@lwfinger.net> <alpine.DEB.2.00.0907261722140.21259@chino.kir.corp.google.com> <84144f020907270008h2a985278of68e70ff1ee9265c@mail.gmail.com>
+ <alpine.DEB.2.00.0907270227420.15760@chino.kir.corp.google.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753398AbZG0RLs@vger.kernel.org>
-In-Reply-To: <3zAHs5O6maO.A.wXB._GObKB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.00.0907270227420.15760-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+Content-ID: <alpine.DEB.1.10.0907271320132.13513-gkYfJU5Cukgdnm+yROfE0A@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Fabio Comolli <fabio.comolli@gmail.com>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 
-On Sun, 26 Jul 2009 22:28:30 +0200 (CEST)
-"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+On Mon, 27 Jul 2009, David Rientjes wrote:
 
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me
-> know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13844
-> Subject		: i915 errors
-> Submitter	: Fabio Comolli <fabio.comolli@gmail.com>
-> Date		: 2009-07-25 9:30 (2 days old)
-> References	:
-> http://marc.info/?l=linux-kernel&m=124851427612720&w=4
+> We need DEBUG_FLAGS to determine which flags to mask off to reduce the
+> minimum order, so I don't see DEBUG_FLAGS_SIZE as troublesome.
+>
+> Christoph?
 
-I probably wasn't clear enough in my last mail about this one.  The
-errors have always been present, we just report them now.  I think this
-particular one is harmless, but we should still try to fix it (now that
-we have more data about it).
-
--- 
-Jesse Barnes, Intel Open Source Technology Center
+Post a patch? Otherwise just go ahead.
