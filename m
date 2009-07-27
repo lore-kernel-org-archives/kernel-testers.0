@@ -1,38 +1,30 @@
-From: Tobias Diedrich <ranma-YxUgxmcw2FPQD6PfKP4TzA@public.gmane.org>
-Subject: Re: [Bug #13826] thinkpad boots with backlight low
-Date: Mon, 27 Jul 2009 13:06:51 +0200
-Message-ID: <20090727110651.GA4496@yamamaya.is-a-geek.org>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.KtC.THObKB@chimera>
+From: "Carlos R. Mafra" <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bisected] [Bug #13821] Replugging USB serial converter uses
+	new device node
+Date: Mon, 27 Jul 2009 14:01:42 +0200
+Message-ID: <20090727120142.GA13407@Pilar.aei.mpg.de>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera> <3zAHs5O6maO.A.p7C.WHObKB@chimera> <20090727022623.GA6614@Pilar.aei.mpg.de>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <3zAHs5O6maO.A.KtC.THObKB@chimera>
+In-Reply-To: <20090727022623.GA6614-8NNKxJcwqxqHjx4iBuKRcg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+To: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>, Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+On Mon 27.Jul'09 at  4:26:23 +0200, Carlos R. Mafra wrote:
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me know
-> (either way).
-
-Yes, this still applies to 2.6.31-rc4.
-If I  don't add brightness_mode=2 the backlight controls don't work
-properly.
-
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13826
-> Subject		: thinkpad boots with backlight low
-> Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-> Date		: 2009-07-15 15:13 (12 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124756359126830&w=4
-> Handled-By	: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
+> So I bisected it to commit 335f8514f200e63d689113d29cb7253a5c282967
+> ("tty: Bring the usb tty port structure into more use"), from Alan
+> Cox.
 > 
+> I did not double check if reverting it from -rc4 fixes the issue,
+> but I noticed that this patch touches drivers/usb/serial/option.c, which
+> is the driver I used to test this problem.
 
--- 
-Tobias						PGP: http://9ac7e0bc.uguu.de
+It doesn't revert cleanly from -rc4, but I solved the conflicts in
+option.c and usb-serial.c (I wanted to learn how to do it) 
+and the problem gets fixed indeed.
