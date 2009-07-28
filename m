@@ -1,67 +1,102 @@
-From: Eric Dumazet <eric.dumazet@gmail.com>
-Subject: Re: [Bug #13838] kernel BUG at include/net/netns/generic.h:41!
-Date: Tue, 28 Jul 2009 14:46:54 +0200
-Message-ID: <4A6EF33E.6080408@gmail.com>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera>	 <3zAHs5O6maO.A.B5B.IHObKB@chimera>	 <2375c9f90907262229t2def934emb9340c31d3efdc21@mail.gmail.com> <68676e00907280130tbbf5672x83182641b0c977b3@mail.gmail.com>
+From: Jan Scholz <scholz@fias.uni-frankfurt.de>
+Subject: Re: [Bug #13337] [post 2.6.29 regression] hang during suspend of b44/b43 modules
+Date: Tue, 28 Jul 2009 16:40:36 +0200
+Message-ID: <87my6ovpjv.fsf@scholz.fias.uni-frankfurt.de>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera>
+	<87k52izvd9.fsf@scholz.fias.uni-frankfurt.de>
+	<87y6qxx50z.fsf@scholz.fias.uni-frankfurt.de>
+	<200907092203.10294.rjw@sisk.pl>
+	<1247171295.1905.5.camel@johannes.local>
+	<87prc78ga9.fsf@scholz.fias.uni-frankfurt.de>
+	<1247322985.30647.108.camel@johannes.local>
+	<8763dznnki.fsf@scholz.fias.uni-frankfurt.de>
+	<1247334464.30647.109.camel@johannes.local>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <68676e00907280130tbbf5672x83182641b0c977b3@mail.gmail.com>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752458AbZG1OlN@vger.kernel.org>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera>
+In-Reply-To: <1247334464.30647.109.camel@johannes.local> (Johannes Berg's
+	message of "Sat, 11 Jul 2009 19:47:44 +0200")
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Luca Tettamanti <kronos.it@gmail.com>
-Cc: =?UTF-8?B?QW3DqXJpY28gV2FuZw==?= <xiyou.wangcong@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, netdev@vger.kernel.org, herbert@gondor.apana.org.au, Alexey Dobriyan <adobriyan@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: Jan Scholz <scholz@fias.uni-frankfurt.de>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Tomas Janousek <tomi@nomi.cz>, "John W. Linville" <linville@tuxdriver.com>
 
-Luca Tettamanti a =C3=A9crit :
-> On Mon, Jul 27, 2009 at 7:29 AM, Am=C3=A9rico Wang<xiyou.wangcong@gma=
-il.com> wrote:
->> On Mon, Jul 27, 2009 at 4:28 AM, Rafael J. Wysocki<rjw@sisk.pl> wrot=
-e:
->>> This message has been generated automatically as a part of a report
->>> of recent regressions.
->>>
->>> The following bug entry is on the current list of known regressions
->>> from 2.6.30.  Please verify if it still should be listed and let me=
- know
->>> (either way).
->>>
->>>
->>> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D1383=
-8
->>> Subject         : kernel BUG at include/net/netns/generic.h:41!
->>> Submitter       : Luca Tettamanti <kronos.it@gmail.com>
->>> Date            : 2009-07-20 15:27 (7 days old)
->>> References      : http://lkml.org/lkml/2009/7/20/105
->> Hmm, it looks like that 'pfkey_net_id' is still zero after ipsec_pfk=
-ey_init()...
->>
->> Add Herbert and net-dev into Cc.
->>
->> Luca, would you mind to provide your .config and the steps to reprod=
-uce this?
->=20
-> I cannot reproduce it anymore with the current git kernel. The BUG wa=
-s
-> triggered by racoon at startup.
-> Should I go back to an older kernel to investigate or can we consider
-> it "fixed"?
->=20
+Johannes Berg <johannes@sipsolutions.net> writes:
 
-This should be fixed by following patch (submitted for bug 13760, but s=
-hould apply)
+> On Sat, 2009-07-11 at 19:20 +0200, Jan Scholz wrote:
+>> Johannes Berg <johannes@sipsolutions.net> writes:
+>> 
+>> > On Sat, 2009-07-11 at 16:07 +0200, Jan Scholz wrote:
+>> >
+>> >> > Jan, can you run with console_suspend=0 (or whatever it is now, Rafael
+>> >> > will correct me if I'm wrong) that should work on your platform, and put
+>> >> > a bunch of printk calls into __ieee80211_suspend in net/mac80211/pm.c to
+>> >> > see where in there it's hanging?
+>> >> 
+>> >> Did that, seems like it hangs in
+>> >>   drv_remove_interface(local, &conf);
+>> >
+>> > Ok, thanks! I was going to suggest doing the same in
+>> > b43_op_remove_interface in drivers/net/wireless/b43/main.c, but I think
+>> > the problem is just that we have an ordering problem and call drv_stop
+>> > before drv_remove_interface. I'll try to come up with a fix soon --
+>> > might not be able to today though, in the meantime I guess you can just
+>> > move the drv_stop call to the end of the function and tell me if that
+>> > works -- that would be racy but should be ok most of the time.
+>> 
+>> I moved drv_stop to the end of the function (see patch below) and now
+>> suspend works fine.
+>
+> Thanks, that's what I suspected -- I'll take a closer look into what is
+> required to make it race-free against RX.
+>
 
-diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
-index b7292a2..1972830 100644
---- a/net/core/net_namespace.c
-+++ b/net/core/net_namespace.c
-@@ -488,7 +488,7 @@ int net_assign_generic(struct net *net, int id, voi=
-d *data)
- 	 */
-=20
- 	ng->len =3D id;
--	memcpy(&ng->ptr, &old_ng->ptr, old_ng->len);
-+	memcpy(&ng->ptr, &old_ng->ptr, old_ng->len * sizeof(void *));
-=20
- 	rcu_assign_pointer(net->gen, ng);
- 	call_rcu(&old_ng->rcu, net_generic_release);
+Hi,
+
+The bug is still present in v2.6.31-rc4, it's still fixed by the patch
+(see below) suggested as a test by Johannes.
+
+Regards,
+   Jan
+
+>> diff --git a/net/mac80211/pm.c b/net/mac80211/pm.c
+>> index 7a549f9..0ac15fb 100644
+>> --- a/net/mac80211/pm.c
+>> +++ b/net/mac80211/pm.c
+>> @@ -58,12 +58,6 @@ int __ieee80211_suspend(struct ieee80211_hw *hw)
+>>  	/* flush again, in case driver queued work */
+>>  	flush_workqueue(local->hw.workqueue);
+>>  
+>> -	/* stop hardware - this must stop RX */
+>> -	if (local->open_count) {
+>> -		ieee80211_led_radio(local, false);
+>> -		drv_stop(local);
+>> -	}
+>> -
+>>  	/* remove STAs */
+>>  	spin_lock_irqsave(&local->sta_lock, flags);
+>>  	list_for_each_entry(sta, &local->sta_list, list) {
+>> @@ -111,6 +105,12 @@ int __ieee80211_suspend(struct ieee80211_hw *hw)
+>>  		drv_remove_interface(local, &conf);
+>>  	}
+>>  
+>> +	/* stop hardware - this must stop RX */
+>> +	if (local->open_count) {
+>> +		ieee80211_led_radio(local, false);
+>> +		drv_stop(local);
+>> +	}
+>> +
+>>  	local->suspended = true;
+>>  	local->quiescing = false;
+>> 
+
+-- 
+ Jan Scholz                                ____  ____    __    ___ 
+                                          ( ___)(_  _)  /__\  / __)
+ Frankfurt Institute for Advanced Studies  )__)  _)(_  /(__)\ \__ \
+                                          (__)  (____)(__)(__)(___/
+ Goethe Universitaet Frankfurt
+ Ruth-Moufang-Str. 1                             Tel. 069-798-47534
+ 60438 Frankfurt am Main
