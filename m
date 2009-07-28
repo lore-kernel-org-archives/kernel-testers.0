@@ -1,45 +1,29 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bisected] [Bug #13821] Replugging USB serial converter uses new device node
-Date: Tue, 28 Jul 2009 23:07:52 +0200
-Message-ID: <200907282307.53927.rjw@sisk.pl>
-References: <20090727175525.20ac4869@lxorguk.ukuu.org.uk> <20090728003120.500c5cf0@lxorguk.ukuu.org.uk> <874osxj7jb.fsf@tac.ki.iif.hu>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #13337] [post 2.6.29 regression] hang during suspend of b44/b43 modules
+Date: Tue, 28 Jul 2009 23:15:53 +0200
+Message-ID: <200907282315.54085.rjw@sisk.pl>
+References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <87my6ovpjv.fsf@scholz.fias.uni-frankfurt.de> <1248794777.8113.13.camel@johannes.local>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <874osxj7jb.fsf-/U8DR9OPLL8grVaPS+uXcA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754871AbZG1VPm@vger.kernel.org>
+In-Reply-To: <1248794777.8113.13.camel@johannes.local>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>
-Cc: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, "Carlos R. Mafra" <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, USB list <linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
+To: Johannes Berg <johannes@sipsolutions.net>
+Cc: Jan Scholz <scholz@fias.uni-frankfurt.de>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Tomas Janousek <tomi@nomi.cz>, "John W. Linville" <linville@tuxdriver.com>
 
-On Tuesday 28 July 2009, Ferenc Wagner wrote:
-> Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> writes:
+On Tuesday 28 July 2009, Johannes Berg wrote:
+> On Tue, 2009-07-28 at 16:40 +0200, Jan Scholz wrote:
 > 
-> > commit 3f40612e940971ecec29d5375cdcc9f9c9a9f46e
-> > Author: Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> > Date:   Tue Jul 28 00:23:39 2009 +0100
-> >
-> >     tty: USB lock/refcounting fixes
-> >     
-> >     This fixes
-> >     - locking bug that was hidden by ecc2e05e739c30870c8e4f252b63a0c4041f2724
-> >     - Regression #13821
-> >     - Spurious warning when closing and blocking for data write out
-> >     
-> >     With these changes my PL2303 always ends up as ttyUSB0 when it should and
-> >     the module refcounts stay correct.
-> >     
-> >     I'll do a more wholesale split & tidy of _open in the next release or two
-> >     as we get a standard tty_port_open and port->ops->init port->ops->shutdown
-> >     call backs.
-> >     
-> >     Signed-off-by: Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> > The bug is still present in v2.6.31-rc4, it's still fixed by the patch
+> > (see below) suggested as a test by Johannes.
 > 
-> I confirm that current git (containing the above patch) has regression
-> #13821 fixed, as well as the open bug discovered by Alan Stern.
+> Sorry, this completely dropped off my radar, I'll take a look today.
+> Thanks for reminding me.
 
-Thanks, closed.
+Thanks for the patch Johannes!
 
+Best,
 Rafael
