@@ -1,33 +1,63 @@
-From: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
-Subject: Re: [patch] slub: use size and objsize orders to disable debug flags
-Date: Tue, 28 Jul 2009 10:53:43 +0300
-Message-ID: <4A6EAE87.9020006@cs.helsinki.fi>
-References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.Pi.BZObKB@chimera> <4A6CF220.7080605@lwfinger.net> <alpine.DEB.2.00.0907261722140.21259@chino.kir.corp.google.com> <84144f020907270008h2a985278of68e70ff1ee9265c@mail.gmail.com> <alpine.DEB.2.00.0907270227420.15760@chino.kir.corp.google.com> <alpine.DEB.1.10.0907271320130.13513@gentwo.org> <alpine.DEB.2.00.0907271113460.8408@chino.kir.corp.google.com> <alpine.DEB.1.10.0907271740090.27697@gentwo.org> <alpine.DEB.2.00.0907271533070.23587@chino.kir.corp.google.com> <alpine.DEB.2.00.0907271830010.7634@chino.kir.corp.google.com>
+From: Luca Tettamanti <kronos.it-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13838] kernel BUG at include/net/netns/generic.h:41!
+Date: Tue, 28 Jul 2009 10:30:46 +0200
+Message-ID: <68676e00907280130tbbf5672x83182641b0c977b3@mail.gmail.com>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera>
+	 <3zAHs5O6maO.A.B5B.IHObKB@chimera>
+	 <2375c9f90907262229t2def934emb9340c31d3efdc21@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.00.0907271830010.7634-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=roQ19uG3eE/wAMfkwNssLHttW1jw6aL2EzTHojElwi8=;
+        b=bL+oOpPtAkgtpW/az0Xsem35iHxcB8NHFUZehIEIB9oPutNwGWTOlBjTdlRHOolp98
+         RVvvOfjJOxhsDpVTjBwb/DUyWHUydHjfdyNKYgc5Iluz6kh0PQNZ49ObsYE+1/MA3Wi2
+         BniYiR2FCff3jIk7RIMNQllLFRNqePEt0b3qE=
+In-Reply-To: <2375c9f90907262229t2def934emb9340c31d3efdc21-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: =?UTF-8?Q?Am=C3=A9rico_Wang?= <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org, Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-David Rientjes wrote:
-> This patch moves the masking of debugging flags which increase a cache's
-> min order due to metadata when `slub_debug=O' is used from
-> kmem_cache_flags() to kmem_cache_open().
-> 
-> Instead of defining the maximum metadata size increase in a preprocessor
-> macro, this approach uses the cache's ->size and ->objsize members to
-> determine if the min order increased due to debugging options.  If so,
-> the flags specified in the more appropriately named DEBUG_METADATA_FLAGS
-> are masked off.
-> 
-> This approach was suggested by Christoph Lameter
-> <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>.
-> 
-> Cc: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-> Signed-off-by: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+On Mon, Jul 27, 2009 at 7:29 AM, Am=C3=A9rico Wang<xiyou.wangcong@gmail=
+=2Ecom> wrote:
+> On Mon, Jul 27, 2009 at 4:28 AM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote=
+:
+>> This message has been generated automatically as a part of a report
+>> of recent regressions.
+>>
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.30. =C2=A0Please verify if it still should be listed and le=
+t me know
+>> (either way).
+>>
+>>
+>> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug=
+=2Ecgi?id=3D13838
+>> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : kernel BUG at include/net/netn=
+s/generic.h:41!
+>> Submitter =C2=A0 =C2=A0 =C2=A0 : Luca Tettamanti <kronos.it-Re5JQEeQqe8@public.gmane.org=
+m>
+>> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-07-20 15:27 (7 =
+days old)
+>> References =C2=A0 =C2=A0 =C2=A0: http://lkml.org/lkml/2009/7/20/105
+>
+> Hmm, it looks like that 'pfkey_net_id' is still zero after ipsec_pfke=
+y_init()...
+>
+> Add Herbert and net-dev into Cc.
+>
+> Luca, would you mind to provide your .config and the steps to reprodu=
+ce this?
 
-Applied, thanks!
+I cannot reproduce it anymore with the current git kernel. The BUG was
+triggered by racoon at startup.
+Should I go back to an older kernel to investigate or can we consider
+it "fixed"?
+
+Luca
