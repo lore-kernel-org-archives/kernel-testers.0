@@ -1,60 +1,44 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13643] Touchpad lost synchronization after resume from suspend to RAM
-Date: Tue, 28 Jul 2009 23:05:28 +0200
-Message-ID: <200907282305.29552.rjw@sisk.pl>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <20090727225946.048A3526EC9@mailhub.coreip.homeip.net> <20090728000945.GA13815@vespa.holoscopio.com>
+Subject: Re: [Bisected] [Bug #13821] Replugging USB serial converter uses new device node
+Date: Tue, 28 Jul 2009 23:07:52 +0200
+Message-ID: <200907282307.53927.rjw@sisk.pl>
+References: <20090727175525.20ac4869@lxorguk.ukuu.org.uk> <20090728003120.500c5cf0@lxorguk.ukuu.org.uk> <874osxj7jb.fsf@tac.ki.iif.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090728000945.GA13815-StA3NKSgq9XYLCA8tIpKU1aTQe2KTcn/@public.gmane.org>
+In-Reply-To: <874osxj7jb.fsf-/U8DR9OPLL8grVaPS+uXcA@public.gmane.org>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>
-Cc: Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>
+Cc: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, "Carlos R. Mafra" <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, USB list <linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
 
-On Tuesday 28 July 2009, Thadeu Lima de Souza Cascardo wrote:
-> On Mon, Jul 27, 2009 at 03:25:51PM -0700, Dmitry Torokhov wrote:
-> > On Tue, Jul 28, 2009 at 12:15:54AM +0200, Rafael J. Wysocki wrote:
-> > > On Monday 27 July 2009, Thadeu Lima de Souza Cascardo wrote:
-> > > > On Sun, Jul 26, 2009 at 10:23:34PM +0200, Rafael J. Wysocki wrote:
-> > > > > This message has been generated automatically as a part of a report
-> > > > > of recent regressions.
-> > > > > 
-> > > > > The following bug entry is on the current list of known regressions
-> > > > > from 2.6.30.  Please verify if it still should be listed and let me know
-> > > > > (either way).
-> > > > > 
-> > > > > 
-> > > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13643
-> > > > > Subject		: Touchpad lost synchronization after resume from suspend to RAM
-> > > > > Submitter	: Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
-> > > > > Date		: 2009-06-28 10:42 (29 days old)
-> > > > > References	: http://lkml.org/lkml/2009/6/23/365
-> > > > > 		  2.6.30-rc1: touchpad disabled
-> > > > > 		  http://lkml.org/lkml/2009/6/25/256
-> > > > > Handled-By	: Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>
-> > > > > Patch		: http://patchwork.kernel.org/patch/34075/
-> > > > > 
-> > > > > 
-> > > > 
-> > > > I guess my patch did fix it and we had other confirmations as well,
-> > > > didn't we?
-> > > 
-> > > Yes, we did.  It's waiting in the Dmirty's tree for Linus to take it AFAICS.
-> > > 
-> > 
-> > I believe it is in -rc4 actually.
-> > 
-> > -- 
-> > Dmitry
+On Tuesday 28 July 2009, Ferenc Wagner wrote:
+> Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> writes:
 > 
-> It entered in v2.6.31-rc3. Thanks, Dimitry.
+> > commit 3f40612e940971ecec29d5375cdcc9f9c9a9f46e
+> > Author: Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> > Date:   Tue Jul 28 00:23:39 2009 +0100
+> >
+> >     tty: USB lock/refcounting fixes
+> >     
+> >     This fixes
+> >     - locking bug that was hidden by ecc2e05e739c30870c8e4f252b63a0c4041f2724
+> >     - Regression #13821
+> >     - Spurious warning when closing and blocking for data write out
+> >     
+> >     With these changes my PL2303 always ends up as ttyUSB0 when it should and
+> >     the module refcounts stay correct.
+> >     
+> >     I'll do a more wholesale split & tidy of _open in the next release or two
+> >     as we get a standard tty_port_open and port->ops->init port->ops->shutdown
+> >     call backs.
+> >     
+> >     Signed-off-by: Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 > 
-> cascardo@vespa:~/linux$ git log1 --author=cascardo v2.6.31-rc2..v2.6.31-rc3
-> ddaa43433dd77535e4e132787f199f58ce224f44 Input: mark serio and i8042 as suspende
-> cascardo@vespa:~/linux$
+> I confirm that current git (containing the above patch) has regression
+> #13821 fixed, as well as the open bug discovered by Alan Stern.
 
 Thanks, closed.
 
