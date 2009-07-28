@@ -1,69 +1,67 @@
-From: saeed bishara <saeed.bishara-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13833] Kernel Oops when trying to suspend with ubifs 
-	mounted on block2mtd mtd device
-Date: Tue, 28 Jul 2009 14:33:16 +0300
-Message-ID: <c70ff3ad0907280433n528a2078tfd0bcf8be5be4b24@mail.gmail.com>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera>
-	 <3zAHs5O6maO.A.gfC.QHObKB@chimera>
-	 <20090727091623.GA16229@yamamaya.is-a-geek.org>
-	 <200907280043.51688.rjw@sisk.pl>
+From: Eric Dumazet <eric.dumazet@gmail.com>
+Subject: Re: [Bug #13838] kernel BUG at include/net/netns/generic.h:41!
+Date: Tue, 28 Jul 2009 14:46:54 +0200
+Message-ID: <4A6EF33E.6080408@gmail.com>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera>	 <3zAHs5O6maO.A.B5B.IHObKB@chimera>	 <2375c9f90907262229t2def934emb9340c31d3efdc21@mail.gmail.com> <68676e00907280130tbbf5672x83182641b0c977b3@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=l3lzcF1DtpgkV7P6TPIQmENVmHjgxi1V009r8JbGpLA=;
-        b=IAQFT2pSQZARlAHL+pCkDNY2R2SFcSTA4LTJSAN0z2gTJXpMR/FQhMzCbsNe6QdQsO
-         sasfAEN5wMIWP2YwgtOg8vHFhc9MeOkiq30qqmaiiCpGwHwcFd63tDPBb28fmMZPguF6
-         ITntLBcgqXRC7t/OWnkSpmNMkVOCjJ66hPJ4E=
-In-Reply-To: <200907280043.51688.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <68676e00907280130tbbf5672x83182641b0c977b3@mail.gmail.com>
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Woodhouse <David.Woodhouse-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: Tobias Diedrich <ranma-YxUgxmcw2FPQD6PfKP4TzA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Brownell <david-b-yBeKhBN/0LDR7s880joybQ@public.gmane.org>, Eric Miao <eric.y.miao-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+To: Luca Tettamanti <kronos.it@gmail.com>
+Cc: =?UTF-8?B?QW3DqXJpY28gV2FuZw==?= <xiyou.wangcong@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, netdev@vger.kernel.org, herbert@gondor.apana.org.au, Alexey Dobriyan <adobriyan@gmail.com>
 
-Hi
-This patch crashes my system, when issue suspend to ram, the kernel
-crashes mtd_cls_suspend when the mtd device is mtdXro, the problem is
-the the mtdXro devices are of mtd_class, and the suspend function of
-this class assumes that the "dev" is contained in mtd_into structure
-(dev_to_mtd(dev)), but, the mtdXro device created using
-device_create() so the dev is not contained in valid mtd_info
-structure.
-
-saeed
-
-
-On Tue, Jul 28, 2009 at 1:43 AM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> On Monday 27 July 2009, Tobias Diedrich wrote:
->> Rafael J. Wysocki wrote:
->> > This message has been generated automatically as a part of a repor=
-t
->> > of recent regressions.
->> >
->> > The following bug entry is on the current list of known regression=
+Luca Tettamanti a =C3=A9crit :
+> On Mon, Jul 27, 2009 at 7:29 AM, Am=C3=A9rico Wang<xiyou.wangcong@gma=
+il.com> wrote:
+>> On Mon, Jul 27, 2009 at 4:28 AM, Rafael J. Wysocki<rjw@sisk.pl> wrot=
+e:
+>>> This message has been generated automatically as a part of a report
+>>> of recent regressions.
+>>>
+>>> The following bug entry is on the current list of known regressions
+>>> from 2.6.30.  Please verify if it still should be listed and let me=
+ know
+>>> (either way).
+>>>
+>>>
+>>> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D1383=
+8
+>>> Subject         : kernel BUG at include/net/netns/generic.h:41!
+>>> Submitter       : Luca Tettamanti <kronos.it@gmail.com>
+>>> Date            : 2009-07-20 15:27 (7 days old)
+>>> References      : http://lkml.org/lkml/2009/7/20/105
+>> Hmm, it looks like that 'pfkey_net_id' is still zero after ipsec_pfk=
+ey_init()...
+>>
+>> Add Herbert and net-dev into Cc.
+>>
+>> Luca, would you mind to provide your .config and the steps to reprod=
+uce this?
+>=20
+> I cannot reproduce it anymore with the current git kernel. The BUG wa=
 s
->> > from 2.6.30. =C2=A0Please verify if it still should be listed and =
-let me know
->> > (either way).
->>
->>
->> Well, the patch reverting the commit still applies to 2.6.31-rc4, so
->> I assume the issue persists,but I have not tried an unpatched
->> 2.6.31-rc4.
->
-> Thanks for the update.
->
-> Rafael
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kerne=
-l" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at =C2=A0http://vger.kernel.org/majordomo-info.ht=
-ml
-> Please read the FAQ at =C2=A0http://www.tux.org/lkml/
->
+> triggered by racoon at startup.
+> Should I go back to an older kernel to investigate or can we consider
+> it "fixed"?
+>=20
+
+This should be fixed by following patch (submitted for bug 13760, but s=
+hould apply)
+
+diff --git a/net/core/net_namespace.c b/net/core/net_namespace.c
+index b7292a2..1972830 100644
+--- a/net/core/net_namespace.c
++++ b/net/core/net_namespace.c
+@@ -488,7 +488,7 @@ int net_assign_generic(struct net *net, int id, voi=
+d *data)
+ 	 */
+=20
+ 	ng->len =3D id;
+-	memcpy(&ng->ptr, &old_ng->ptr, old_ng->len);
++	memcpy(&ng->ptr, &old_ng->ptr, old_ng->len * sizeof(void *));
+=20
+ 	rcu_assign_pointer(net->gen, ng);
+ 	call_rcu(&old_ng->rcu, net_generic_release);
