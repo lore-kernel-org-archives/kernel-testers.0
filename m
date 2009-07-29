@@ -1,29 +1,29 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #13337] [post 2.6.29 regression] hang during suspend of b44/b43 modules
-Date: Tue, 28 Jul 2009 23:15:53 +0200
-Message-ID: <200907282315.54085.rjw@sisk.pl>
-References: <tSdKBEwEOhE.A.2wF.s_oUKB@chimera> <87my6ovpjv.fsf@scholz.fias.uni-frankfurt.de> <1248794777.8113.13.camel@johannes.local>
+From: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Subject: Re: [Bug #13732] tty layer instabilities
+Date: Wed, 29 Jul 2009 11:04:34 +0200
+Message-ID: <19056.4258.69647.653192@pilspetsen.it.uu.se>
+References: <Jya1GruKQpD.A.16.2GObKB@chimera>
+	<3zAHs5O6maO.A.GyD.0HObKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754871AbZG1VPm@vger.kernel.org>
-In-Reply-To: <1248794777.8113.13.camel@johannes.local>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <3zAHs5O6maO.A.GyD.0HObKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: Jan Scholz <scholz@fias.uni-frankfurt.de>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Tomas Janousek <tomi@nomi.cz>, "John W. Linville" <linville@tuxdriver.com>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
 
-On Tuesday 28 July 2009, Johannes Berg wrote:
-> On Tue, 2009-07-28 at 16:40 +0200, Jan Scholz wrote:
+Rafael J. Wysocki wrote:
+> The following bug entry is on the current list of known regressions
+> from 2.6.30.  Please verify if it still should be listed and let me know
+> (either way).
 > 
-> > The bug is still present in v2.6.31-rc4, it's still fixed by the patch
-> > (see below) suggested as a test by Johannes.
 > 
-> Sorry, this completely dropped off my radar, I'll take a look today.
-> Thanks for reminding me.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13732
+> Subject		: tty layer instabilities
+> Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+> Date		: 2009-07-06 13:43 (21 days old)
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D124688781732419&w=3D4
 
-Thanks for the patch Johannes!
-
-Best,
-Rafael
+This specific bug appears to be gone in 2.6.31-rc4.
