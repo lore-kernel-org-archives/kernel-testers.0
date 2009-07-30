@@ -1,52 +1,42 @@
-From: David Rientjes <rientjes@google.com>
-Subject: Re: [Bug #13648] nfsd: page allocation failure
-Date: Thu, 30 Jul 2009 14:30:42 -0700 (PDT)
-Message-ID: <alpine.DEB.2.00.0907301423250.18531@chino.kir.corp.google.com>
-References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.HXG.DXObKB@chimera> <20090727130420.1514cf5c.skraw@ithnet.com>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13780] NULL pointer dereference loading powernowk8
+Date: Thu, 30 Jul 2009 15:16:17 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0907301514510.18807@chino.kir.corp.google.com>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.qoF.sWObKB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753089AbZG3Vax@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
-	t=1248989450; bh=lCh61RIqpgKtxFks2JsR5IIjHSw=;
+	t=1248992182; bh=Jq/DQco4e1iVmVrpU1kDl/T4VJ4=;
 	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
 	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
-	 Content-Type:X-System-Of-Record; b=jNTTeNmKr6UxiII2jCzK/BYnnDZJfIg
-	L/jWBgJTv9dOf0rSiOGG14wrmczG5W4fAMZqykIz4D57m2FpaQejIMg==
-In-Reply-To: <20090727130420.1514cf5c.skraw@ithnet.com>
-Sender: linux-kernel-owner@vger.kernel.org
+	 Content-Type:X-System-Of-Record; b=qF1YrTWkGIW7pxPVvhfXaj5+YgRKFhV
+	/QGMcS4z1UQPIATvqCwJrZNI+Wkeju69Ru8DABtI8Qw1VSdNnnVDEZw==
+In-Reply-To: <H5-1lZIIeYK.A.qoF.sWObKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Stephan von Krawczynski <skraw@ithnet.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Justin Piszcz <jpiszcz@lucidpixels.com>, Jeff Kirsher <jeffrey.t.kirsher@intel.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, "David S. Miller" <davem@davemloft.com>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kurt Roeckx <kurt-burXGKnpAKGzQB+pC5nmwQ@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 
-On Mon, 27 Jul 2009, Stephan von Krawczynski wrote:
+On Sun, 26 Jul 2009, Rafael J. Wysocki wrote:
 
-> This is no regression between 2.6.29 and 2.6.30.
-> In fact we could reproduce the problem with kernel versions:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.29 and 2.6.30.
 > 
-> 2.6.27.26 < X <= 2.6.30.3
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> be listed and let me know (either way).
 > 
-> (Meaning 2.6.27.26 is the last one _not_ showing the problem).
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13780
+> Subject		: NULL pointer dereference loading powernowk8
+> Submitter	: Kurt Roeckx <kurt-burXGKnpAKGzQB+pC5nmwQ@public.gmane.org>
+> Date		: 2009-07-15 18:00 (12 days old)
 > 
 
-And 2.6.28.10 is showing the exact same problem as initially reported, 
-right?
+powernowk8_cpu_init() has since been largely modified for cpumask changes 
+commit 1ff6e97f1d993dff2f9b6f4a9173687370660232.  
 
-I noticed your /var/log/messages is showing you're using slub as opposed 
-to slab (which Justin was using, and causing order-0 allocations errors).  
-SLUB uses order-1 allocations for this cache growth and it's failing 
-because of memory fragmentation, not because you're truly oom.
-
-The only thing that is immediately apparent that changed in this path over 
-these kernel versions (there were significant changes to e1000e) is the 
-CRC stripping.  If it's loaded as a module, perhaps you could try
-
-	modprobe e1000e CrcStripping=0,0
-
-(assuming you have two adapters).
-
-I've cc'd some relevant e1000e driver people in the hopes they'll be able 
-to diagnose this problem.  Memory fragmentation as the result of page 
-group changes wouldn't affect order-0 allocations such as this on slab, so 
-it's doubtful the VM regressed if you can reproduce the problem with 
-CONFIG_SLAB.
+Kurt, could you try 2.6.31-rc4?  If it still hits a bug, please post the 
+dmesg and your .config.
