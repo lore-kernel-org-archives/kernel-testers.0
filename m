@@ -1,33 +1,52 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13666] WARNING: at mm/page_alloc.c:1743 __alloc_pages_nodemask
-Date: Thu, 30 Jul 2009 22:46:17 +0200
-Message-ID: <200907302246.17742.rjw@sisk.pl>
-References: <Jya1GruKQpD.A.16.2GObKB@chimera> <200907280021.26320.rjw@sisk.pl> <alpine.DEB.2.00.0907300021330.7540@chino.kir.corp.google.com>
+From: David Rientjes <rientjes@google.com>
+Subject: Re: [Bug #13648] nfsd: page allocation failure
+Date: Thu, 30 Jul 2009 14:30:42 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0907301423250.18531@chino.kir.corp.google.com>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.HXG.DXObKB@chimera> <20090727130420.1514cf5c.skraw@ithnet.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.00.0907300021330.7540-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753089AbZG3Vax@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1248989450; bh=lCh61RIqpgKtxFks2JsR5IIjHSw=;
+	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
+	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
+	 Content-Type:X-System-Of-Record; b=jNTTeNmKr6UxiII2jCzK/BYnnDZJfIg
+	L/jWBgJTv9dOf0rSiOGG14wrmczG5W4fAMZqykIz4D57m2FpaQejIMg==
+In-Reply-To: <20090727130420.1514cf5c.skraw@ithnet.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Stephan von Krawczynski <skraw@ithnet.com>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Justin Piszcz <jpiszcz@lucidpixels.com>, Jeff Kirsher <jeffrey.t.kirsher@intel.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, "David S. Miller" <davem@davemloft.com>
 
-On Thursday 30 July 2009, David Rientjes wrote:
-> On Tue, 28 Jul 2009, Rafael J. Wysocki wrote:
+On Mon, 27 Jul 2009, Stephan von Krawczynski wrote:
+
+> This is no regression between 2.6.29 and 2.6.30.
+> In fact we could reproduce the problem with kernel versions:
 > 
-> > > This is fixed in mmotm with the following patches, waiting for Andrew's 
-> > > push to Linus:
-> > > 
-> > > 	page-allocator-allow-too-high-order-warning-messages-to-be-suppressed-with-__gfp_nowarn.patch
-> > > 	net-dccp-suppress-warning-about-large-allocations-from-dccp.patch
-> > 
-> > Thanks, updated.
-> > 
+> 2.6.27.26 < X <= 2.6.30.3
 > 
-> These patches have made it to Linus' tree, so this issue is resolved.
+> (Meaning 2.6.27.26 is the last one _not_ showing the problem).
+> 
 
-Thanks, bug closed.
+And 2.6.28.10 is showing the exact same problem as initially reported, 
+right?
 
-Rafael
+I noticed your /var/log/messages is showing you're using slub as opposed 
+to slab (which Justin was using, and causing order-0 allocations errors).  
+SLUB uses order-1 allocations for this cache growth and it's failing 
+because of memory fragmentation, not because you're truly oom.
+
+The only thing that is immediately apparent that changed in this path over 
+these kernel versions (there were significant changes to e1000e) is the 
+CRC stripping.  If it's loaded as a module, perhaps you could try
+
+	modprobe e1000e CrcStripping=0,0
+
+(assuming you have two adapters).
+
+I've cc'd some relevant e1000e driver people in the hopes they'll be able 
+to diagnose this problem.  Memory fragmentation as the result of page 
+group changes wouldn't affect order-0 allocations such as this on slab, so 
+it's doubtful the VM regressed if you can reproduce the problem with 
+CONFIG_SLAB.
