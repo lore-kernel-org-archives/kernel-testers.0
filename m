@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13848] iwlwifi (4965) regression since 2.6.30
-Date: Sun,  2 Aug 2009 20:58:31 +0200 (CEST)
-Message-ID: <iZB3Pj-uj3M.A.2MC.zcgdKB@chimera>
+Subject: [Bug #13869] Radeon framebuffer (w/o KMS) corruption at boot.
+Date: Sun,  2 Aug 2009 20:58:32 +0200 (CEST)
+Message-ID: <iZB3Pj-uj3M.A.TEC.vcgdKB@chimera>
 References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,8 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13848
-Subject		: iwlwifi (4965) regression since 2.6.30
-Submitter	: Lukas Hejtmanek <xhejtman-8qz54MUs51PtwjQa/ONI9g@public.gmane.org>
-Date		: 2009-07-26 7:57 (8 days old)
-References	: http://marc.info/?l=linux-kernel&m=124859658502866&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13869
+Subject		: Radeon framebuffer (w/o KMS) corruption at boot.
+Submitter	: Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>
+Date		: 2009-07-29 16:44 (5 days old)
 
