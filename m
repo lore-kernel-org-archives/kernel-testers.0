@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13318] AGP doesn't work anymore on nforce2
-Date: Sun,  2 Aug 2009 21:09:24 +0200 (CEST)
-Message-ID: <7ixSg7D88bK.A._jH.NsgdKB@chimera>
+Subject: [Bug #13337] [post 2.6.29 regression] hang during suspend of b44/b43 modules
+Date: Sun,  2 Aug 2009 21:09:25 +0200 (CEST)
+Message-ID: <7ixSg7D88bK.A.1FH.6rgdKB@chimera>
 References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jerome Glisse <glisse-CC+yJ3UmIYqDUpFQwHEjaQ@public.gmane.org>, Karsten Mehrhoff <kawime-Mmb7MZpHnFY@public.gmane.org>, =?utf-8?q?Michel=20D=C3=A4nzer?= <michel-otUistvHUpPR7s880joybQ@public.gmane.org>, Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,11 +22,10 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13318
-Subject		: AGP doesn't work anymore on nforce2
-Submitter	: Karsten Mehrhoff <kawime-Mmb7MZpHnFY@public.gmane.org>
-Date		: 2009-04-30 8:51 (95 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=59de2bebabc5027f93df999d59cc65df591c3e6e
-References	: http://marc.info/?l=linux-kernel&m=124108156417560&w=4
-Handled-By	: Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13337
+Subject		: [post 2.6.29 regression] hang during suspend of b44/b43 modules
+Submitter	: Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
+Date		: 2009-05-18 10:59 (77 days old)
+Handled-By	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Patch		: http://patchwork.kernel.org/patch/37837/
 
