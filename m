@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13502] GPE storm causes polling mode, which causes /proc/acpi/battery read to take 4 seconds - MacBookPro4,1
-Date: Sun,  2 Aug 2009 21:09:28 +0200 (CEST)
-Message-ID: <7ixSg7D88bK.A.zQG._qgdKB@chimera>
+Subject: [Bug #13621] xfs hangs with assertion failed
+Date: Sun,  2 Aug 2009 21:09:31 +0200 (CEST)
+Message-ID: <7ixSg7D88bK.A.y7F.ZqgdKB@chimera>
 References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754508AbZHBWBr@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754550AbZHBWCR@vger.kernel.org>
 In-Reply-To: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, sveina@gmail.com
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Johannes Engel <jcnengel@googlemail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13502
-Subject		: GPE storm causes polling mode, which causes /proc/acpi/battery read to take 4 seconds - MacBookPro4,1
-Submitter	:  <sveina@gmail.com>
-Date		: 2009-06-10 20:04 (54 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13621
+Subject		: xfs hangs with assertion failed
+Submitter	: Johannes Engel <jcnengel@googlemail.com>
+Date		: 2009-06-25 10:07 (39 days old)
 
