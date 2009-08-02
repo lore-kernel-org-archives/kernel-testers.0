@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13842] Oops when writing to /sys/block/ram0/queue/max_sectors_kb
-Date: Sun,  2 Aug 2009 20:58:31 +0200 (CEST)
-Message-ID: <iZB3Pj-uj3M.A.dWC.4cgdKB@chimera>
+Subject: [Bug #13894] intermittent hibernation problem
+Date: Sun,  2 Aug 2009 20:58:32 +0200 (CEST)
+Message-ID: <iZB3Pj-uj3M.A.YxB.pcgdKB@chimera>
 References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754268AbZHBVxA@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754253AbZHBVvp@vger.kernel.org>
 In-Reply-To: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Jens Rosenboom <jens@mcbone.net>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Ferenc Wagner <wferi@niif.hu>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13842
-Subject		: Oops when writing to /sys/block/ram0/queue/max_sectors_kb
-Submitter	: Jens Rosenboom <jens@mcbone.net>
-Date		: 2009-07-23 15:30 (11 days old)
-References	: http://marc.info/?l=linux-kernel&m=124836574403032&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13894
+Subject		: intermittent hibernation problem
+Submitter	: Ferenc Wagner <wferi@niif.hu>
+Date		: 2009-07-30 13:29 (4 days old)
+References	: https://lists.linux-foundation.org/pipermail/linux-pm/2009-July/022095.html
 
