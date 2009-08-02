@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13739] 2.6.30 leaking keys on console switch
-Date: Sun,  2 Aug 2009 21:09:33 +0200 (CEST)
-Message-ID: <7ixSg7D88bK.A.gcF._pgdKB@chimera>
+Subject: [Bug #13564] random general protection fault at boot time caused by khubd.
+Date: Sun,  2 Aug 2009 21:09:30 +0200 (CEST)
+Message-ID: <7ixSg7D88bK.A.4EG.nqgdKB@chimera>
 References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pauli <suokkos-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,10 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13739
-Subject		: 2.6.30 leaking keys on console switch
-Submitter	: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Date		: 2009-07-07 8:44 (27 days old)
-References	: http://marc.info/?l=linux-kernel&m=124695628924382&w=4
-Handled-By	: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13564
+Subject		: random general protection fault at boot time caused by khubd.
+Submitter	: Pauli <suokkos-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-06-18 12:44 (46 days old)
 
