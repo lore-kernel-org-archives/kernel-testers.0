@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13645] NULL pointer dereference at (null) (level2_spare_pgt)
-Date: Sun,  2 Aug 2009 20:49:48 +0200 (CEST)
-Message-ID: <iZB3Pj-uj3M.A.ejE.NegdKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13716] The AIC-7892P controller does not work any more
+Date: Sun,  2 Aug 2009 20:58:24 +0200 (CEST)
+Message-ID: <iZB3Pj-uj3M.A.lKE.ydgdKB@chimera>
 References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753935AbZHBVlP@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, poornima nayak <mpnayak@linux.vnet.ibm.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrej Podzimek <andrej-+Hii8LNHG6Ng9hUCZPvPmw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,8 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13645
-Subject		: NULL pointer dereference at (null) (level2_spare_pgt)
-Submitter	: poornima nayak <mpnayak@linux.vnet.ibm.com>
-Date		: 2009-06-17 17:56 (47 days old)
-References	: http://lkml.org/lkml/2009/6/17/194
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13716
+Subject		: The AIC-7892P controller does not work any more
+Submitter	: Andrej Podzimek <andrej-+Hii8LNHG6Ng9hUCZPvPmw@public.gmane.org>
+Date		: 2009-07-05 19:23 (29 days old)
 
