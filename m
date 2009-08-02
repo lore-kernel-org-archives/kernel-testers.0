@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13781] System freeze at resume after suspend to RAM
-Date: Sun,  2 Aug 2009 20:58:26 +0200 (CEST)
-Message-ID: <iZB3Pj-uj3M.A.dnD.YdgdKB@chimera>
+Subject: [Bug #13713] [drm/i915] Possible regression due to commit "Change GEM throttling to be 20ms (...)"
+Date: Sun,  2 Aug 2009 20:58:24 +0200 (CEST)
+Message-ID: <iZB3Pj-uj3M.A.aPE.zdgdKB@chimera>
 References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>, Zhao Yakui <yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, kazikcz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,9 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13781
-Subject		: System freeze at resume after suspend to RAM
-Submitter	: Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
-Date		: 2009-07-15 18:42 (19 days old)
-Handled-By	: Zhao Yakui <yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Patch		: http://bugzilla.kernel.org/attachment.cgi?id=22463
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13713
+Subject		: [drm/i915] Possible regression due to commit "Change GEM throttling to be 20ms (...)"
+Submitter	:  <kazikcz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-07-05 10:49 (29 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b962442e46a9340bdbc6711982c59ff0cc2b5afb
 
