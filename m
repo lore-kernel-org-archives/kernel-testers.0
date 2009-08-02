@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13109] High latency on /sys/class/thermal
-Date: Sun,  2 Aug 2009 21:06:37 +0200 (CEST)
-Message-ID: <7ixSg7D88bK.A.q9H.stgdKB@chimera>
+Subject: [Bug #13319] Page allocation failures with b43 and p54usb
+Date: Sun,  2 Aug 2009 21:09:25 +0200 (CEST)
+Message-ID: <7ixSg7D88bK.A.dYH.LsgdKB@chimera>
 References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="macroman"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>, =?utf-8?q?Tiago=20Sim=C3=B5es=20Batista?= <tiagosbatista-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,12 +22,14 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13109
-Subject		: High latency on /sys/class/thermal
-Submitter	: Tiago Sim=C3=B5es Batista <tiagosbatista-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-04-11 14:56 (114 days old)
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D123946182301248&w=3D=
-4
-Handled-By	: Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-		  Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13319
+Subject		: Page allocation failures with b43 and p54usb
+Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Date		: 2009-04-29 21:01 (96 days old)
+References	: http://marc.info/?l=linux-kernel&m=124103897101088&w=4
+		  http://lkml.org/lkml/2009/6/7/136
+		  http://lkml.org/lkml/2009/7/26/213
+Handled-By	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+		  David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Patch		: http://patchwork.kernel.org/patch/37655/
 
