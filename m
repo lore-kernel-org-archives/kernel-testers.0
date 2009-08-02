@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13742] iwlagn (4965): regression when hardware rf switch is used
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13740] X server crashes with 2.6.31-rc2 when options are changed
 Date: Sun,  2 Aug 2009 20:58:25 +0200 (CEST)
-Message-ID: <iZB3Pj-uj3M.A.i0D.fdgdKB@chimera>
+Message-ID: <iZB3Pj-uj3M.A.S2D.idgdKB@chimera>
 References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754163AbZHBVzA@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Frans Pop <elendil@planet.nl>, Reinette Chatre <reinette.chatre@intel.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Michael S. Tsirkin" <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,8 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13742
-Subject		: iwlagn (4965): regression when hardware rf switch is used
-Submitter	: Frans Pop <elendil@planet.nl>
-Date		: 2009-06-29 11:28 (35 days old)
-References	: http://lkml.org/lkml/2009/6/29/88
-Handled-By	: Reinette Chatre <reinette.chatre@intel.com>
-Patch		: http://lkml.org/lkml/2009/6/30/224
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13740
+Subject		: X server crashes with 2.6.31-rc2 when options are changed
+Submitter	: Michael S. Tsirkin <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-07-07 15:19 (27 days old)
 
