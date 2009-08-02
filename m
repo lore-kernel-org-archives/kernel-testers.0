@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13898] Intel 3945ABG - problems on 2.6.30.X
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #13886] Suspend to disk no longer works in 2.6.30.2 with an EIDE drive
 Date: Sun,  2 Aug 2009 21:09:35 +0200 (CEST)
-Message-ID: <7ixSg7D88bK.A.otE.wpgdKB@chimera>
+Message-ID: <7ixSg7D88bK.A.qAF.zpgdKB@chimera>
 References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754711AbZHBWDo@vger.kernel.org>
 In-Reply-To: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, dienet <dienet-IjDXvh/HVVUAvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, akwatts@ymail.com, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,9 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13898
-Subject		: Intel 3945ABG - problems on 2.6.30.X
-Submitter	: dienet <dienet-IjDXvh/HVVUAvxtiuMwx3w@public.gmane.org>
-Date		: 2009-07-31 15:17 (3 days old)
-References	: http://marc.info/?l=linux-kernel&m=124905346729959&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13886
+Subject		: Suspend to disk no longer works in 2.6.30.2 with an EIDE drive
+Submitter	:  <akwatts@ymail.com>
+Date		: 2009-08-01 10:12 (2 days old)
 
