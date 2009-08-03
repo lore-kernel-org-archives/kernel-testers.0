@@ -1,21 +1,24 @@
-From: "Aneesh Kumar K.V" <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: Re: [Bug #13815] emacs -nw compilation doesn't show the error
-	message
-Date: Mon, 3 Aug 2009 08:25:49 +0530
-Message-ID: <20090803025548.GA4403@skywalker>
-References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera> <iZB3Pj-uj3M.A.EVD.QdgdKB@chimera>
+From: Paul Rolland <rol@as2917.net>
+Subject: Re: [Bug #13895] 2.6.31-rc4 - slab entry tak_delay_info leaking ???
+Date: Mon, 3 Aug 2009 08:19:16 +0200
+Message-ID: <20090803081916.4189bad4@tux.DEF.witbe.net>
+References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera>
+	<iZB3Pj-uj3M.A.tsB.ocgdKB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <iZB3Pj-uj3M.A.EVD.QdgdKB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752088AbZHCGTe@vger.kernel.org>
+In-Reply-To: <iZB3Pj-uj3M.A.tsB.ocgdKB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Sun, Aug 02, 2009 at 08:58:27PM +0200, Rafael J. Wysocki wrote:
+Hello Rafael,
+
+On Sun,  2 Aug 2009 20:58:32 +0200 (CEST)
+"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+
 > This message has been generated automatically as a part of a report
 > of recent regressions.
 > 
@@ -24,14 +27,15 @@ On Sun, Aug 02, 2009 at 08:58:27PM +0200, Rafael J. Wysocki wrote:
 > (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13815
-> Subject		: emacs -nw compilation doesn't show the error message
-> Submitter	: Aneesh Kumar K.V <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> Date		: 2009-07-23 06:22 (11 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d945cb9cce20ac7143c2de8d88b187f62db99bdc
-> 
-> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13895
+> Subject		: 2.6.31-rc4 - slab entry tak_delay_info
+> leaking ??? Submitter	: Paul Rolland <rol@as2917.net>
+> Date		: 2009-07-29 08:20 (5 days old)
+> References	: http://marc.info/?l=linux-kernel&m=124884847925375&w=4
 
-This is fixed upstream (Linus's tree) by e043e42bdb66885b3ac10d27a01ccb9972e2b0a3
+Still trying to reproduce with kmemleak enabled, but so far no luck.
 
--aneesh
+Will soon switch to 2.6.31-rc5-no-kmemleak to check if still present.
+
+Regards,
+Paul
