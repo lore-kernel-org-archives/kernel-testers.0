@@ -1,110 +1,62 @@
-From: Gene Heskett <gene.heskett-H+0wwilmMs3R7s880joybQ@public.gmane.org>
-Subject: Re: [Bug #13899] Oops from tar, 2.6.31-rc5, 32 bit on quad core phenom.
-Date: Sun, 02 Aug 2009 20:34:41 -0400
-Message-ID: <200908022034.41252.gene.heskett@verizon.net>
-References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera>
- <iZB3Pj-uj3M.A.TjB.lcgdKB@chimera>
+From: =?ISO-8859-1?Q?Fr=E9d=E9ric_Weisbecker?= <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13374] reiserfs blocked for more than 120secs
+Date: Mon, 3 Aug 2009 03:01:22 +0200
+Message-ID: <c62985530908021801r2e302dfel86f69f62143cabc0@mail.gmail.com>
+References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>
+	 <7ixSg7D88bK.A.guG.mrgdKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-reply-to: <iZB3Pj-uj3M.A.TjB.lcgdKB@chimera>
-Content-disposition: inline
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=Ioa1wpebriSkRMHfJOyHEeNo7fj8dQMpffqn2i+mkiM=;
+        b=rKz6v2TP4tixnusbOKsRMo/6vlpszXt5k4LZCOOFSOozHnodtAZd/uHuToQ2b31TBg
+         YTGKsswiNtmFlF7o/mKJALr7jcjNT6XzYe3gY1596vtur+uiSIeV0aowlXa+ED9YdKn9
+         gUErfSKyMWYxeefi25kdRbKWlwT5D4v7FTISk=
+In-Reply-To: <7ixSg7D88bK.A.guG.mrgdKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Harald Dunkel <harald.dunkel-zqRNUXuvxA0b1SvskN2V4Q@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>
 
-On Sunday 02 August 2009, Rafael J. Wysocki wrote:
->This message has been generated automatically as a part of a report
->of recent regressions.
+Harald,
+
+Does it still happen with 2.6.31-rc5 ?
+
+If so, do you have further informations that could help us reproducing =
+it?
+
+Thanks,
+=46rederic.
+
+2009/8/2 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.29 and 2.6.30.
 >
->The following bug entry is on the current list of known regressions
->from 2.6.30.  Please verify if it still should be listed and let me know
->(either way).
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30. =A0Please verify if it still sh=
+ould
+> be listed and let me know (either way).
 >
 >
->Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13899
->Subject		: Oops from tar, 2.6.31-rc5, 32 bit on quad core phenom.
->Submitter	: Gene Heskett <gene.heskett-H+0wwilmMs3R7s880joybQ@public.gmane.org>
->Date		: 2009-08-01 13:04 (2 days old)
->References	: http://marc.info/?l=linux-kernel&m=124913190304149&w=4
-At this time I am not sure about this one.  Amanda ran normally AFAIK this 
-morning.
-
-The machine does not appear to be affected, but I did just find this,
-in /var/log/messages: (I think this is the one I posted)
-
-Aug  1 01:15:01 coyote xinetd[2316]: START: amanda pid=18959 from=::ffff:192.168.71.3                                                  
-Aug  1 01:16:17 coyote kernel: [ 7423.221754] BUG: Bad page state in process tar  pfn:a1293                                            
-Aug  1 01:16:17 coyote kernel: [ 7423.221760] page:c28fc260 flags:80004000 count:0 mapcount:0 mapping:(null) index:0                   
-Aug  1 01:16:17 coyote kernel: [ 7423.221764] Pid: 19211, comm: tar Not tainted 2.6.31-rc5 #1                                          
-Aug  1 01:16:17 coyote kernel: [ 7423.221766] Call Trace:                                                                              
-Aug  1 01:16:17 coyote kernel: [ 7423.221774]  [<c130b0e3>] ? printk+0x23/0x40                                                         
-Aug  1 01:16:17 coyote kernel: [ 7423.221780]  [<c1083d6f>] bad_page+0xcf/0x150                                                        
-Aug  1 01:16:17 coyote kernel: [ 7423.221784]  [<c1084e0d>] get_page_from_freelist+0x37d/0x480                                         
-Aug  1 01:16:17 coyote kernel: [ 7423.221788]  [<c107ed54>] ? add_to_page_cache_lru+0x84/0x90                                          
-Aug  1 01:16:17 coyote kernel: [ 7423.221791]  [<c10850ef>] __alloc_pages_nodemask+0xdf/0x520                                          
-Aug  1 01:16:17 coyote kernel: [ 7423.221795]  [<c1087954>] __do_page_cache_readahead+0x104/0x220                                      
-Aug  1 01:16:17 coyote kernel: [ 7423.221798]  [<c1087aa4>] ra_submit+0x34/0x50                                                        
-Aug  1 01:16:17 coyote kernel: [ 7423.221801]  [<c1087d00>] ondemand_readahead+0x120/0x240                                             
-Aug  1 01:16:17 coyote kernel: [ 7423.221804]  [<c1087ebc>] page_cache_async_readahead+0x9c/0xb0                                       
-Aug  1 01:16:17 coyote kernel: [ 7423.221807]  [<c10806ac>] generic_file_aio_read+0x33c/0x6a0                                          
-Aug  1 01:16:17 coyote kernel: [ 7423.221830]  [<c10b09c9>] do_sync_read+0xe9/0x140                                                    
-Aug  1 01:16:17 coyote kernel: [ 7423.221835]  [<c104e400>] ? autoremove_wake_function+0x0/0x60                                        
-Aug  1 01:16:17 coyote kernel: [ 7423.221839]  [<c115211e>] ? security_file_permission+0x1e/0x40                                       
-Aug  1 01:16:17 coyote kernel: [ 7423.221842]  [<c10b0a80>] ? rw_verify_area+0x60/0xe0                                                 
-Aug  1 01:16:17 coyote kernel: [ 7423.221845]  [<c10b1827>] vfs_read+0xb7/0x180                                                        
-Aug  1 01:16:17 coyote kernel: [ 7423.221848]  [<c10b08e0>] ? do_sync_read+0x0/0x140                                                   
-Aug  1 01:16:17 coyote kernel: [ 7423.221850]  [<c10b19f8>] sys_read+0x58/0xa0                                                         
-Aug  1 01:16:17 coyote kernel: [ 7423.221854]  [<c10031b7>] sysenter_do_call+0x12/0x22                                                 
-Aug  1 01:16:17 coyote kernel: [ 7423.221856] Disabling lock debugging due to kernel taint                                             
-Aug  1 01:20:31 coyote xinetd[2316]: EXIT: amanda status=0 pid=18959 duration=330(sec)                                                 
-Aug  1 01:20:34 coyote xinetd[2316]: START: amanda pid=19523 from=::ffff:192.168.71.3         
-
-[snip extraneous stuff from my router that goes to syslog]
-
-Aug  1 02:45:05 coyote xinetd[2316]: EXIT: amanda status=0 pid=19523 duration=5071(sec)                                                
-Aug  1 02:45:07 coyote xinetd[2316]: START: amanda pid=21465 from=::ffff:192.168.71.3                                                  
-Aug  1 02:46:07 coyote xinetd[2316]: EXIT: amanda status=0 pid=21465 duration=60(sec)                                                  
-Aug  1 02:46:19 coyote xinetd[2316]: START: amanda pid=21545 from=::ffff:192.168.71.3                                                  
-Aug  1 02:46:49 coyote xinetd[2316]: EXIT: amanda status=0 pid=21545 duration=30(sec)                                                  
-Aug  1 02:46:50 coyote xinetd[2316]: START: amanda pid=21572 from=::ffff:192.168.71.3                                                  
-Aug  1 02:47:20 coyote xinetd[2316]: EXIT: amanda status=0 pid=21572 duration=30(sec)                                                  
-Aug  1 02:47:21 coyote xinetd[2316]: START: amanda pid=21604 from=::ffff:192.168.71.3                                                  
-Aug  1 02:48:51 coyote xinetd[2316]: EXIT: amanda status=0 pid=21604 duration=90(sec)
-[then this morning]
-Aug  2 01:36:10 coyote xinetd[2316]: EXIT: amanda status=0 pid=11552 duration=540(sec)                                                 
-Aug  2 01:36:11 coyote xinetd[2316]: START: amanda pid=11801 from=::ffff:192.168.71.3
-Aug  2 01:54:41 coyote xinetd[2316]: EXIT: amanda status=0 pid=11801 duration=1110(sec)                                                
-Aug  2 01:54:46 coyote xinetd[2316]: START: amanda pid=12247 from=::ffff:192.168.71.3                                                  
-Aug  2 01:57:16 coyote xinetd[2316]: EXIT: amanda status=0 pid=12247 duration=150(sec)                                                 
-Aug  2 01:57:30 coyote xinetd[2316]: START: amanda pid=12360 from=::ffff:192.168.71.3                                                  
-Aug  2 01:58:00 coyote xinetd[2316]: EXIT: amanda status=0 pid=12360 duration=30(sec)                                                  
-Aug  2 01:58:00 coyote xinetd[2316]: START: amanda pid=12387 from=::ffff:192.168.71.3                                                  
-Aug  2 01:58:30 coyote xinetd[2316]: EXIT: amanda status=0 pid=12387 duration=30(sec)                                                  
-Aug  2 01:58:30 coyote xinetd[2316]: START: amanda pid=12414 from=::ffff:192.168.71.3                                                  
-Aug  2 01:59:30 coyote xinetd[2316]: EXIT: amanda status=0 pid=12414 duration=60(sec)                                                  
-Aug  2 01:59:45 coyote xinetd[2316]: START: amanda pid=12482 from=::ffff:192.168.71.3                                                  
-Aug  2 02:00:15 coyote xinetd[2316]: EXIT: amanda status=0 pid=12482 duration=30(sec)                                                  
-Aug  2 02:00:30 coyote xinetd[2316]: START: amanda pid=12535 from=::ffff:192.168.71.3                                                  
-Aug  2 02:01:00 coyote xinetd[2316]: EXIT: amanda status=0 pid=12535 duration=30(sec)
-
-So it did not repeat the Ooops this morning.  I wish I had more clues to offer.
-Let it ride as is for another 4 or 5 days, during which time I may have a good
-excuse to reboot & restart this -rc5 from scratch.  Or maybe someone else might also
-note it, but if not watching the log, I think its otherwise silent & may go by
-un-noticed.
-
-Thanks Rafael.
-
--- 
-Cheers, Gene
-"There are four boxes to be used in defense of liberty:
- soap, ballot, jury, and ammo. Please use in that order."
--Ed Howdershelt (Author)
-The NRA is offering FREE Associate memberships to anyone who wants them.
-<https://www.nrahq.org/nrabonus/accept-membership.asp>
-
-Q:	What is printed on the bottom of beer bottles in Minnesota?
-A:	Open other end.
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+13374
+> Subject =A0 =A0 =A0 =A0 : reiserfs blocked for more than 120secs
+> Submitter =A0 =A0 =A0 : Harald Dunkel <harald.dunkel-zqRNUXuvxA0b1SvskN2V4Q@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-05-23 8:52 (72 days old)
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D124306=
+880410811&w=3D4
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0http://lkml.org/lkml/2009/5/29/389
+>
+>
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kerne=
+l" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at =A0http://www.tux.org/lkml/
+>
