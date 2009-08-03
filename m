@@ -1,113 +1,33 @@
-From: "Luis R. Rodriguez" <mcgrof-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.31-rc5: Reported regressions 2.6.29 -> 2.6.30
-Date: Mon, 3 Aug 2009 08:16:39 -0700
-Message-ID: <43e72e890908030816n187cda20keda2c9ba1b15a89c@mail.gmail.com>
-References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13865] Can only resume with HP_WMI selected on compaq nc6000 when 4c395bdd3f2ca8f7e8efad881e16071182c3b8ca is reverted
+Date: Mon, 3 Aug 2009 17:18:42 +0200
+Message-ID: <200908031718.42937.rjw@sisk.pl>
+References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera> <7ixSg7D88bK.A.qOF.3pgdKB@chimera> <200908030053.27869.elendil@planet.nl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :from:date:message-id:subject:to:cc:content-type
-         :content-transfer-encoding;
-        bh=IB3FbWHbr16MR2cEQyucvAm2oOOGWI6eKzuWQJ0dU9c=;
-        b=vOhuURuwicayWNVcvJBRbHUXrWsMrjh60SF6IDX0xquGUVNzgMSJtxkRinJKnF8pdP
-         CDqHLC4U5IwcH5+9bek4ghVBmZ4lFOtQFZskcFOWUtuT74XFBkqseJr4lHa0JnKXCKqZ
-         wz6HQgPxZmVvSfnvATJydlCJmqn1DvUQPcxww=
-In-Reply-To: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>
-Sender: linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200908030053.27869.elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, rootkit85-whZMOeQn8C0@public.gmane.org
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, cedric <cedric-x1Cn44Nr1HaZIoH1IeqzKA@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-Here are the wireless ones:
+On Monday 03 August 2009, Frans Pop wrote:
+> On Sunday 02 August 2009, Rafael J. Wysocki wrote:
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> > be listed and let me know (either way).
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13865
+> > Subject	: Can only resume with HP_WMI selected on compaq nc6000 when
+> >		  4c395bdd3f2ca8f7e8efad881e16071182c3b8ca is reverted
+> > Submitter	: cedric <cedric-x1Cn44Nr1HaZIoH1IeqzKA@public.gmane.org>
+> > Date		: 2009-07-29 12:47 (5 days old)
+> 
+> Fix just made it into mainline: daed953721850381673687c59f3a0df553eb6626
 
-On Sun, Aug 2, 2009 at 12:06 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+Thanks, closed.
 
-> Unresolved regressions
-> ----------------------
->
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D13898
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : Intel 3945ABG - problems on 2.6=
-=2E30.X
-> Submitter =C2=A0 =C2=A0 =C2=A0 : dienet <dienet-IjDXvh/HVVUAvxtiuMwx3w@public.gmane.org>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-07-31 15:17 (3 d=
-ays old)
-> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
-=3D124905346729959&w=3D4
-
-
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D13638
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : rt2870 driver is broken for (so=
-me) cards
-> Submitter =C2=A0 =C2=A0 =C2=A0 : jakob gruber <jakob.gruber@kabelnet.=
-at>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-06-27 17:33 (37 =
-days old)
-
-
-
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D13581
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : ath9k doesn't work with newer k=
-ernels
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Matteo <rootkit85-whZMOeQn8C0@public.gmane.org>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-06-19 12:04 (45 =
-days old)
-
-Issue looks more like a the user has rfkill enabled rather than a
-driver issue. Waiting on user feedback since 2009-07-27.
-
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D13362
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : rt2x00: slow wifi with correct =
-basic rate bitmap
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Alejandro Riveira <ariveira-Re5JQEeQqe8@public.gmane.org=
-m>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-05-22 13:32 (73 =
-days old)
-
-
-
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D13337
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : [post 2.6.29 regression] hang d=
-uring suspend of b44/b43 modules
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Tomas Janousek <tomi-YoqI/XImC7s@public.gmane.org>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-05-18 10:59 (77 =
-days old)
-> Handled-By =C2=A0 =C2=A0 =C2=A0: Johannes Berg <johannes@sipsolutions=
-=2Enet>
-> Patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : http://patchwork.kernel.or=
-g/patch/37837/
-
-
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D13319
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : Page allocation failures with b=
-43 and p54usb
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Larry Finger <Larry.Finger@lwfinger.=
-net>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-04-29 21:01 (96 =
-days old)
-> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
-=3D124103897101088&w=3D4
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0http://=
-lkml.org/lkml/2009/6/7/136
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0http://=
-lkml.org/lkml/2009/7/26/213
-> Handled-By =C2=A0 =C2=A0 =C2=A0: Johannes Berg <johannes@sipsolutions=
-=2Enet>
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0David R=
-ientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-> Patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : http://patchwork.kernel.or=
-g/patch/37655/
---
-To unsubscribe from this list: send the line "unsubscribe linux-wireles=
-s" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Rafael
