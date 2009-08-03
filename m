@@ -1,50 +1,37 @@
-From: Johannes Weiner <hannes@cmpxchg.org>
-Subject: Re: 2.6.31-rc5: Reported regressions from 2.6.30
-Date: Mon, 3 Aug 2009 16:31:08 +0200
-Message-ID: <20090803143108.GA12041@cmpxchg.org>
-References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera> <alpine.LFD.2.01.0908021456430.3352@localhost.localdomain>
+From: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [patch] slub: use size and objsize orders to disable debug
+ flags
+Date: Mon, 3 Aug 2009 10:56:42 -0400 (EDT)
+Message-ID: <alpine.DEB.1.10.0908031054180.22135@gentwo.org>
+References: <DizPU9GBfHF.A.kgF.iWObKB@chimera> <H5-1lZIIeYK.A.Pi.BZObKB@chimera> <4A6CF220.7080605@lwfinger.net> <alpine.DEB.2.00.0907261722140.21259@chino.kir.corp.google.com> <84144f020907270008h2a985278of68e70ff1ee9265c@mail.gmail.com>
+ <alpine.DEB.2.00.0907270227420.15760@chino.kir.corp.google.com> <alpine.DEB.1.10.0907271320130.13513@gentwo.org> <alpine.DEB.2.00.0907271113460.8408@chino.kir.corp.google.com> <alpine.DEB.1.10.0907271740090.27697@gentwo.org>
+ <alpine.DEB.2.00.0907271533070.23587@chino.kir.corp.google.com> <alpine.DEB.2.00.0907271830010.7634@chino.kir.corp.google.com>
 Mime-Version: 1.0
-Return-path: <netdev-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.LFD.2.01.0908021456430.3352@localhost.localdomain>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.00.0907271830010.7634-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>, Mikael Pettersson <mikpe@it.uu.se>
+To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 
-On Sun, Aug 02, 2009 at 03:22:01PM -0700, Linus Torvalds wrote:
 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13815
-> > Subject		: emacs -nw compilation doesn't show the error message
-> > Submitter	: Aneesh Kumar K.V <aneesh.kumar@linux.vnet.ibm.com>
-> > Date		: 2009-07-23 06:22 (11 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d945cb9cce20ac7143c2de8d88b187f62db99bdc
-> 
-> Same old pty bug, same fix: commit e043e42bdb.
-> 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13813
-> > Subject		: Hangups in n_tty_read()
-> > Submitter	: Johannes Weiner <hannes@cmpxchg.org>
-> > Date		: 2009-07-16 18:48 (18 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=124777019920579&w=4
-> 
-> Hmm. Worth testing that same fix, although the symptoms here are not 
-> exactly the same.
+Acked-by: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-Hm, I had no debugging enabled, but I think a silent hang in
+On Mon, 27 Jul 2009, David Rientjes wrote:
+> @@ -2488,6 +2474,18 @@ static int kmem_cache_open(struct kmem_cache *s, gfp_t gfpflags,
+>
+>  	if (!calculate_sizes(s, -1))
+>  		goto error;
+> +	if (disable_higher_order_debug) {
+> +		/*
+> +		 * Disable debugging flags that store metadata if the min slab
+> +		 * order increased.
+> +		 */
+> +		if (get_order(s->size) > get_order(s->objsize)) {
+> +			s->flags &= ~DEBUG_METADATA_FLAGS;
 
-	pty_write()
-	  tty_flip_buffer_push()
-	    flush_to_ldisc()
+> +			s->offset = 0;
 
-can cause the receiving side
-
-	tty_read()
-	  n_tty_read()
-
-to wait forever for updates.  I haven't looked closely.  It seems to
-be gone with your latest master in any case.
-
-	Hannes
+Hmmm... Move this line into calculate_sizes()?
