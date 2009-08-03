@@ -1,55 +1,63 @@
-From: Harald Dunkel <harald.dunkel-zqRNUXuvxA0b1SvskN2V4Q@public.gmane.org>
-Subject: Re: [Bug #13374] reiserfs blocked for more than 120secs
-Date: Mon, 03 Aug 2009 19:43:15 +0200
-Message-ID: <4A7721B3.3060300@t-online.de>
-References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>	 <7ixSg7D88bK.A.guG.mrgdKB@chimera> <c62985530908021801r2e302dfel86f69f62143cabc0@mail.gmail.com>
+From: Chris Clayton <chris2553-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [Bug #13846] Possible regression in rt61pci driver
+Date: Mon, 3 Aug 2009 19:31:27 +0100
+Message-ID: <200908031931.27427.chris2553@googlemail.com>
+References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera> <iZB3Pj-uj3M.A.pRC.1cgdKB@chimera>
+Reply-To: chris2553-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature";
- boundary="------------enig60B127A1A9B5027D02397445"
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <c62985530908021801r2e302dfel86f69f62143cabc0-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=gamma;
+        h=domainkey-signature:received:received:from:reply-to:to:subject:date
+         :user-agent:cc:references:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:message-id;
+        bh=xfK/qgtdsg2nz3tBVUZK07jYAwVg99M0tQiN0LKuxTM=;
+        b=nIquEY23ljV2VwHFhqd1HUNelOWrWgriUQrtD+QYdiIu7KdnUsmVxwgRn1aCiAmPQX
+         w70aUpVCsNlSVpSfs0pMVks3mIURv6zZJoDWWjSGjxxIkPKfnx0zykh9p08MVYE3+PhV
+         nImVls+If1rhsJT7nZYMqAGpMcJAdZNiPMyu8=
+In-Reply-To: <iZB3Pj-uj3M.A.pRC.1cgdKB@chimera>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: =?ISO-8859-1?Q?Fr=E9d=E9ric_Weisbecker?= <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-This is an OpenPGP/MIME signed message (RFC 2440 and 3156)
---------------enig60B127A1A9B5027D02397445
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Hi Rafael,
 
-Fr=E9d=E9ric Weisbecker wrote:
-> Harald,
->=20
-> Does it still happen with 2.6.31-rc5 ?
->=20
+On Sunday 02 August 2009, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.30.  Please verify if it still should be listed and let me know
+> (either way).
+>
 
-Using 2.6.30.x kernels (x>=3D0) I haven't seen this problem anymore.
-If it is still in, then it seems to be very hard to reproduce.
+The folks on the wireless project have concluded that the problem I reported is down to a hardware 
+problem when power saving is switched on on for my Belkin cardbus wireless adapter, so now I simply 
+turn power-saving off when wlan0 comes up. I did, however, ask whether anyone was going to fix the 
+fact that once power-saving turns the LEDs off, they never come back on again, but I haven't had an 
+answer. Is that a regression? I guess the answer is no, because power saving in the rt61pci driver 
+is feature that is new to 2.6.31. Should it be fixed? I think the answer is yes, but being unable 
+to do it myself, I probably don't have a vote :-)
 
-As suggested I am moving to 2.6.31-rc5. I will mail immediately if
-the problem comes back.
+All I can do is report that I now know how to avoid my laptop freezing and leave the decision as to 
+whether it should stay on the regression list to you and the folks from the wireless project.
+
+Thanks,
+
+Chris
+
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13846
+> Subject		: Possible regression in rt61pci driver
+> Submitter	: Chris Clayton <chris2553-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+> Date		: 2009-07-13 8:27 (21 days old)
+> References	: http://marc.info/?l=linux-kernel&m=124747418828398&w=4
 
 
-Regards
-
-Harri
-
-
-
---------------enig60B127A1A9B5027D02397445
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org
-
-iEYEARECAAYFAkp3IbgACgkQUTlbRTxpHjemEQCbBLiH7fQiOz+DhP2kBLNlBLwX
-GRgAmQHrFQ/qCkBYaxSLYaK6ecPKGopW
-=RpkA
------END PGP SIGNATURE-----
-
---------------enig60B127A1A9B5027D02397445--
+-- 
+No, Sir; there is nothing which has yet been contrived by man, by which so much happiness is 
+produced as by a good tavern or inn - Doctor Samuel Johnson
