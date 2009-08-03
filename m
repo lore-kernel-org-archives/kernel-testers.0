@@ -1,53 +1,55 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.31-rc5: Reported regressions from 2.6.30
-Date: Mon, 3 Aug 2009 18:09:58 +0200
-Message-ID: <200908031810.00505.rjw@sisk.pl>
-References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera> <alpine.LFD.2.01.0908021456430.3352@localhost.localdomain> <20090803143108.GA12041@cmpxchg.org>
+From: Harald Dunkel <harald.dunkel-zqRNUXuvxA0b1SvskN2V4Q@public.gmane.org>
+Subject: Re: [Bug #13374] reiserfs blocked for more than 120secs
+Date: Mon, 03 Aug 2009 19:43:15 +0200
+Message-ID: <4A7721B3.3060300@t-online.de>
+References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera>	 <7ixSg7D88bK.A.guG.mrgdKB@chimera> <c62985530908021801r2e302dfel86f69f62143cabc0@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature";
+ boundary="------------enig60B127A1A9B5027D02397445"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090803143108.GA12041-druUgvl0LCNAfugRpC6u6w@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <c62985530908021801r2e302dfel86f69f62143cabc0-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Johannes Weiner <hannes-druUgvl0LCNAfugRpC6u6w@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+To: =?ISO-8859-1?Q?Fr=E9d=E9ric_Weisbecker?= <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>
 
-On Monday 03 August 2009, Johannes Weiner wrote:
-> On Sun, Aug 02, 2009 at 03:22:01PM -0700, Linus Torvalds wrote:
-> 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13815
-> > > Subject		: emacs -nw compilation doesn't show the error message
-> > > Submitter	: Aneesh Kumar K.V <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> > > Date		: 2009-07-23 06:22 (11 days old)
-> > > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d945cb9cce20ac7143c2de8d88b187f62db99bdc
-> > 
-> > Same old pty bug, same fix: commit e043e42bdb.
-> > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13813
-> > > Subject		: Hangups in n_tty_read()
-> > > Submitter	: Johannes Weiner <hannes-druUgvl0LCNAfugRpC6u6w@public.gmane.org>
-> > > Date		: 2009-07-16 18:48 (18 days old)
-> > > References	: http://marc.info/?l=linux-kernel&m=124777019920579&w=4
-> > 
-> > Hmm. Worth testing that same fix, although the symptoms here are not 
-> > exactly the same.
-> 
-> Hm, I had no debugging enabled, but I think a silent hang in
-> 
-> 	pty_write()
-> 	  tty_flip_buffer_push()
-> 	    flush_to_ldisc()
-> 
-> can cause the receiving side
-> 
-> 	tty_read()
-> 	  n_tty_read()
-> 
-> to wait forever for updates.  I haven't looked closely.  It seems to
-> be gone with your latest master in any case.
+This is an OpenPGP/MIME signed message (RFC 2440 and 3156)
+--------------enig60B127A1A9B5027D02397445
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, closed (in fact I closed it earlier already).
+Fr=E9d=E9ric Weisbecker wrote:
+> Harald,
+>=20
+> Does it still happen with 2.6.31-rc5 ?
+>=20
 
-Rafael
+Using 2.6.30.x kernels (x>=3D0) I haven't seen this problem anymore.
+If it is still in, then it seems to be very hard to reproduce.
+
+As suggested I am moving to 2.6.31-rc5. I will mail immediately if
+the problem comes back.
+
+
+Regards
+
+Harri
+
+
+
+--------------enig60B127A1A9B5027D02397445
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org
+
+iEYEARECAAYFAkp3IbgACgkQUTlbRTxpHjemEQCbBLiH7fQiOz+DhP2kBLNlBLwX
+GRgAmQHrFQ/qCkBYaxSLYaK6ecPKGopW
+=RpkA
+-----END PGP SIGNATURE-----
+
+--------------enig60B127A1A9B5027D02397445--
