@@ -1,149 +1,30 @@
-From: Chris Clayton <chris2553@googlemail.com>
-Subject: Re: [Bug #13846] Possible regression in rt61pci driver
-Date: Tue, 4 Aug 2009 17:04:10 +0100
-Message-ID: <c6b1100b0908040904q158bd08ex5d570b7c0624c295@mail.gmail.com>
-References: <Su1q3S6JjyO.A.jeB.hcgdKB@chimera>
-	 <iZB3Pj-uj3M.A.pRC.1cgdKB@chimera>
-	 <200908031931.27427.chris2553@googlemail.com>
-	 <200908032217.19947.IvDoorn@gmail.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13669] Kernel bug with dock driver
+Date: Tue, 4 Aug 2009 18:23:25 +0200
+Message-ID: <200908041823.26303.rjw@sisk.pl>
+References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera> <7ixSg7D88bK.A.BmF.KqgdKB@chimera> <20090803235517.GB3298@khazad-dum.debian.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S932961AbZHDQEP@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=tAJjkeFLcab7GuRQXV1oMqQRdn5Ri08kHWk30kPtXAA=;
-        b=NDXQE3MEcGGzn1wa2choRJe+HmD1GJ6e8M3X5M07fimdRBMw8JuQ92ttrAXEh4O0vB
-         t/M1avPmb2DHXuPgakWwFMwvu2mLUyyhrNS0kA3IwrSnLzyJvVeU1s38mZFbwHxH6DPK
-         0pS4HqA+2jln8uzuejmflGaSnE8JjRqU8N2rs=
-In-Reply-To: <200908032217.19947.IvDoorn@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20090803235517.GB3298-ZGHd14iZgfaRjzvQDGKj+xxZW9W5cXbT@public.gmane.org>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Ivo van Doorn <ivdoorn@gmail.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, linux-wireless@vger.kernel.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Joerg Platte <jplatte-v18Uk5sXZWJeoWH0uzbU5w@public.gmane.org>
 
-Thanks Ivo,
+On Tuesday 04 August 2009, Henrique de Moraes Holschuh wrote:
+> On Sun, 02 Aug 2009, Rafael J. Wysocki wrote:
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13669
+> > Subject		: Kernel bug with dock driver
+> > Submitter	: Joerg Platte <jplatte-v18Uk5sXZWJeoWH0uzbU5w@public.gmane.org>
+> > Date		: 2009-06-14 21:00 (50 days old)
+> > References	: http://lkml.org/lkml/2009/6/14/216
+> > Handled-By	: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
+> 
+> Already fixed in mainline, data in bug report.
 
-2009/8/3 Ivo van Doorn <ivdoorn@gmail.com>:
-> Hi,
->
->> On Sunday 02 August 2009, Rafael J. Wysocki wrote:
->> > This message has been generated automatically as a part of a repor=
-t
->> > of recent regressions.
->> >
->> > The following bug entry is on the current list of known regression=
-s
->> > from 2.6.30. =A0Please verify if it still should be listed and let=
- me know
->> > (either way).
->> >
->>
->> The folks on the wireless project have concluded that the problem I =
-reported is down to a hardware
->> problem when power saving is switched on on for my Belkin cardbus wi=
-reless adapter, so now I simply
->> turn power-saving off when wlan0 comes up. I did, however, ask wheth=
-er anyone was going to fix the
->> fact that once power-saving turns the LEDs off, they never come back=
- on again, but I haven't had an
->> answer. Is that a regression? I guess the answer is no, because powe=
-r saving in the rt61pci driver
->> is feature that is new to 2.6.31. Should it be fixed? I think the an=
-swer is yes, but being unable
->> to do it myself, I probably don't have a vote :-)
->
-> Can't recall this issue was ever reported, but that might just be me =
-having overlooked some emails
-> or have completely forgotten all about it. But here is a test patch t=
-o see if this helps in the issue,
-> it is not really correct for upstream, but if it works I can see if t=
-here is a better solution.
->
-> Thanks,
->
+Thanks, closed.
 
-I've tried the patch without success. The card doesn't seem to wake up
-again when I attempt network activity after PS has activated.
-(Actually, There are two assumptions I should check out here. Firstly,
-the LEDS going out is a sign that PS has activated and secondly, that
-the card should "wake up" if I attempt network activity after PS has
-activated).
-
-A cut and paste from the console window:
-
-[chris:~]$ iwconfig
-lo        no wireless extensions.
-
-wmaster0  no wireless extensions.
-
-wlan0     IEEE 802.11bg  ESSID:"SKY28767"
-          Mode:Managed  Frequency:2.412 GHz  Access Point: 00:1F:33:80:=
-09:44
-          Bit Rate=3D1 Mb/s   Tx-Power=3D10 dBm
-          Retry  long limit:7   RTS thr:off   Fragment thr:off
-          Power Management:on
-          Link Quality=3D50/70  Signal level=3D-60 dBm
-          Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
-          Tx excessive retries:0  Invalid misc:0   Missed beacon:0
-
-[chris:~]$ echo "waiting for leds to go out"
-waiting for leds to go out
-[chris:~]$ ping router
-PING router.local.lan (192.168.0.1) from 192.168.0.30 : 56(84) bytes of=
- data.
-=46rom laptop.local.lan (192.168.0.30): Destination Host Unreachable
-=46rom laptop.local.lan (192.168.0.30): Destination Host Unreachable
-=46rom laptop.local.lan (192.168.0.30): Destination Host Unreachable
-=46rom laptop.local.lan (192.168.0.30): Destination Host Unreachable
-=46rom laptop.local.lan (192.168.0.30): Destination Host Unreachable
-=46rom laptop.local.lan (192.168.0.30): Destination Host Unreachable
-=46rom laptop.local.lan (192.168.0.30): Destination Host Unreachable
-=46rom laptop.local.lan (192.168.0.30): Destination Host Unreachable
-=46rom laptop.local.lan (192.168.0.30): Destination Host Unreachable
-^C
---- router.local.lan ping statistics ---
-11 packets transmitted, 0 packets received, +9 errors, 100% packet loss
-[chris:~]$
-
-To get the card going again I had to physically remove and reinsert it.
-
-Chris
-
-> Ivo
-> ---
-> diff --git a/drivers/net/wireless/rt2x00/rt2x00config.c b/drivers/net=
-/wireless/rt2x00/rt2x00config.c
-> index 3845316..6fe70b1 100644
-> --- a/drivers/net/wireless/rt2x00/rt2x00config.c
-> +++ b/drivers/net/wireless/rt2x00/rt2x00config.c
-> @@ -196,6 +196,12 @@ void rt2x00lib_config(struct rt2x00_dev *rt2x00d=
-ev,
-> =A0 =A0 =A0 =A0 */
-> =A0 =A0 =A0 =A0rt2x00dev->ops->lib->config(rt2x00dev, &libconf, ieee8=
-0211_flags);
->
-> + =A0 =A0 =A0 if (ieee80211_flags & IEEE80211_CONF_CHANGE_PS) {
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 rt2x00led_led_activity(rt2x00dev, !(con=
-f->flags & IEEE80211_CONF_PS));
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 rt2x00leds_led_assoc(rt2x00dev, !(conf-=
->flags & IEEE80211_CONF_PS));
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 rt2x00leds_led_radio(rt2x00dev, !(conf-=
->flags & IEEE80211_CONF_PS));
-> + =A0 =A0 =A0 }
-> +
-> =A0 =A0 =A0 =A0/*
-> =A0 =A0 =A0 =A0 * Some configuration changes affect the link quality
-> =A0 =A0 =A0 =A0 * which means we need to reset the link tuner.
->
-
-
-
---=20
-No, Sir; there is nothing which has yet been contrived by man, by which
-so much happiness is produced as by a good tavern or inn - Doctor Samue=
-l
-Johnson
+Rafael
