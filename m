@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13797] iBook G4 doesn't suspend since 2ed8d2b3a8
-Date: Sun,  9 Aug 2009 23:10:29 +0200 (CEST)
-Message-ID: <pRuaDVjxFBG.A.ctE.iD2fKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13660] Crashes during boot on 2.6.30 / 2.6.31-rc, random programs
+Date: Sun,  9 Aug 2009 23:10:26 +0200 (CEST)
+Message-ID: <pRuaDVjxFBG.A._CF.-D2fKB@chimera>
 References: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755274AbZHJALN@vger.kernel.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, =?utf-8?q?J=C3=B6rg=20Sommer?= <joerg@alea.gnuu.de>, "Rafael J. Wysocki" <rjw@sisk.pl>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Joao Correia <joaomiguelcorreia-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,9 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13797
-Subject		: iBook G4 doesn't suspend since 2ed8d2b3a8
-Submitter	: J=C3=B6rg Sommer <joerg@alea.gnuu.de>
-Date		: 2009-07-18 20:18 (23 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13660
+Subject		: Crashes during boot on 2.6.30 / 2.6.31-rc, random programs
+Submitter	: Joao Correia <joaomiguelcorreia-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-06-27 16:07 (44 days old)
+References	: http://lkml.org/lkml/2009/6/27/95
 
