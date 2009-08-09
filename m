@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13373] fbcon, intelfb, i915: INFO: possible circular locking dependency detected
-Date: Sun,  9 Aug 2009 23:10:21 +0200 (CEST)
-Message-ID: <pRuaDVjxFBG.A.bBG.tF2fKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13328] b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
+Date: Sun,  9 Aug 2009 23:10:20 +0200 (CEST)
+Message-ID: <pRuaDVjxFBG.A.TWG.KG2fKB@chimera>
 References: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754849AbZHJAPv@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Miles Lane <miles.lane@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,9 +22,9 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13373
-Subject		: fbcon, intelfb, i915: INFO: possible circular locking dependency detected
-Submitter	: Miles Lane <miles.lane@gmail.com>
-Date		: 2009-05-23 5:08 (79 days old)
-References	: http://marc.info/?l=linux-kernel&m=124305538130702&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13328
+Subject		: b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
+Submitter	: Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-05-03 16:22 (99 days old)
+References	: http://marc.info/?l=linux-kernel&m=124136778012280&w=4
 
