@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13935] 2.6.31-rcX breaks Apple MightyMouse (Bluetooth version)
-Date: Sun,  9 Aug 2009 22:44:26 +0200 (CEST)
-Message-ID: <u1L1PAbl8zG.A.eKD.hj1fKB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #13946] x86 MCE malfunction on Thinkpad T42p
+Date: Sun,  9 Aug 2009 22:44:27 +0200 (CEST)
+Message-ID: <u1L1PAbl8zG.A.ppC.Yj1fKB@chimera>
 References: <AuPdDySr74O.A.5LC.Pj1fKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754430AbZHIXkF@vger.kernel.org>
 In-Reply-To: <AuPdDySr74O.A.5LC.Pj1fKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Ulrich <kernel-4ZM2p5qjiQGewZBzVTKGGg@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Johannes Stezenbach <js@sig21.net>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,11 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13935
-Subject		: 2.6.31-rcX breaks Apple MightyMouse (Bluetooth version)
-Submitter	: Adrian Ulrich <kernel-4ZM2p5qjiQGewZBzVTKGGg@public.gmane.org>
-Date		: 2009-08-08 22:08 (2 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=fa047e4f6fa63a6e9d0ae4d7749538830d14a343
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13946
+Subject		: x86 MCE malfunction on Thinkpad T42p
+Submitter	: Johannes Stezenbach <js@sig21.net>
+Date		: 2009-08-07 17:09 (3 days old)
+References	: http://marc.info/?l=linux-kernel&m=124966500232399&w=4
+Handled-By	: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
+Patch		: http://patchwork.kernel.org/patch/37908/
 
