@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13770] System freeze on XFS filesystem recovery on an external disk
-Date: Sun,  9 Aug 2009 23:10:28 +0200 (CEST)
-Message-ID: <pRuaDVjxFBG.A.e0E.qD2fKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13694] i915 phantom TV
+Date: Sun,  9 Aug 2009 23:10:27 +0200 (CEST)
+Message-ID: <pRuaDVjxFBG.A.J8E.yD2fKB@chimera>
 References: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754978AbZHJAGN@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Jean-Luc Coulon <jean.luc.coulon@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?utf-8?q?Maciek=20J=C3=B3ziewicz?= <mjoziew-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13770
-Subject		: System freeze on XFS filesystem recovery on an external disk
-Submitter	: Jean-Luc Coulon <jean.luc.coulon@gmail.com>
-Date		: 2009-07-14 10:31 (27 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13694
+Subject		: i915 phantom TV
+Submitter	: Maciek J=C3=B3ziewicz <mjoziew-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-07-02 12:26 (39 days old)
 
