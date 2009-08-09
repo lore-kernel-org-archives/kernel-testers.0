@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13836] suspend script fails, related to stdout?
-Date: Sun,  9 Aug 2009 22:44:23 +0200 (CEST)
-Message-ID: <u1L1PAbl8zG.A.DuD.Bk1fKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13819] system freeze when switching to console
+Date: Sun,  9 Aug 2009 22:44:22 +0200 (CEST)
+Message-ID: <u1L1PAbl8zG.A.mAE.Nk1fKB@chimera>
 References: <AuPdDySr74O.A.5LC.Pj1fKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754199AbZHIXjA@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <AuPdDySr74O.A.5LC.Pj1fKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, "Tomas M." <tmezzadra@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, "ling.ma-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org" <ling.ma-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Ma Ling <ling.ma-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,8 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13836
-Subject		: suspend script fails, related to stdout?
-Submitter	: Tomas M. <tmezzadra@gmail.com>
-Date		: 2009-07-17 21:24 (24 days old)
-References	: http://marc.info/?l=linux-kernel&m=124785853811667&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13819
+Subject		: system freeze when switching to console
+Submitter	: Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2009-07-23 17:57 (18 days old)
 
