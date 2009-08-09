@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13408] Performance regression in 2.6.30-rc7
-Date: Sun,  9 Aug 2009 23:10:22 +0200 (CEST)
-Message-ID: <pRuaDVjxFBG.A.slF.PF2fKB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #13318] AGP doesn't work anymore on nforce2
+Date: Sun,  9 Aug 2009 23:10:19 +0200 (CEST)
+Message-ID: <pRuaDVjxFBG.A.UuG.YG2fKB@chimera>
 References: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754552AbZHJAQ4@vger.kernel.org>
 In-Reply-To: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Diego Calleja <diegocg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Dave Airlie <airlied@redhat.com>, Jerome Glisse <glisse@freedesktop.org>, Karsten Mehrhoff <kawime@gmx.de>, =?utf-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>, Shaohua Li <shaohua.li@intel.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,9 +22,11 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13408
-Subject		: Performance regression in 2.6.30-rc7
-Submitter	: Diego Calleja <diegocg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-05-30 18:51 (72 days old)
-References	: http://lkml.org/lkml/2009/5/30/146
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13318
+Subject		: AGP doesn't work anymore on nforce2
+Submitter	: Karsten Mehrhoff <kawime@gmx.de>
+Date		: 2009-04-30 8:51 (102 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=59de2bebabc5027f93df999d59cc65df591c3e6e
+References	: http://marc.info/?l=linux-kernel&m=124108156417560&w=4
+Handled-By	: Shaohua Li <shaohua.li@intel.com>
 
