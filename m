@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13739] 2.6.30 leaking keys on console switch
-Date: Sun,  9 Aug 2009 23:10:27 +0200 (CEST)
-Message-ID: <pRuaDVjxFBG.A.Q6E.sD2fKB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #13945] Kernel freezes dual pentium-3 system
+Date: Sun,  9 Aug 2009 23:10:35 +0200 (CEST)
+Message-ID: <pRuaDVjxFBG.A.plE.YD2fKB@chimera>
 References: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755197AbZHJAHm@vger.kernel.org>
 In-Reply-To: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, devzero <devzero@web.de>, Martin Rogge <marogge@onlinehome.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,10 +22,9 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13739
-Subject		: 2.6.30 leaking keys on console switch
-Submitter	: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Date		: 2009-07-07 8:44 (34 days old)
-References	: http://marc.info/?l=linux-kernel&m=124695628924382&w=4
-Handled-By	: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13945
+Subject		: Kernel freezes dual pentium-3 system
+Submitter	: Martin Rogge <marogge@onlinehome.de>
+Date		: 2009-08-03 16:25 (7 days old)
+References	: http://marc.info/?l=linux-kernel&m=124931667320530&w=4
 
