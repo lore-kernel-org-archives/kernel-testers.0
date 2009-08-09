@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13694] i915 phantom TV
-Date: Sun,  9 Aug 2009 23:10:27 +0200 (CEST)
-Message-ID: <pRuaDVjxFBG.A.J8E.yD2fKB@chimera>
+Subject: [Bug #13558] Tracelog during resume
+Date: Sun,  9 Aug 2009 23:10:23 +0200 (CEST)
+Message-ID: <pRuaDVjxFBG.A.GYF.jE2fKB@chimera>
 References: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?utf-8?q?Maciek=20J=C3=B3ziewicz?= <mjoziew-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13694
-Subject		: i915 phantom TV
-Submitter	: Maciek J=C3=B3ziewicz <mjoziew-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-07-02 12:26 (39 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13558
+Subject		: Tracelog during resume
+Submitter	: Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
+Date		: 2009-06-17 11:32 (54 days old)
 
