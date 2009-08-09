@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13660] Crashes during boot on 2.6.30 / 2.6.31-rc, random programs
-Date: Sun,  9 Aug 2009 23:10:26 +0200 (CEST)
-Message-ID: <pRuaDVjxFBG.A._CF.-D2fKB@chimera>
+Subject: [Bug #13564] random general protection fault at boot time caused by khubd.
+Date: Sun,  9 Aug 2009 23:10:23 +0200 (CEST)
+Message-ID: <pRuaDVjxFBG.A.WWF.hE2fKB@chimera>
 References: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Joao Correia <joaomiguelcorreia-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pauli <suokkos-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,9 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13660
-Subject		: Crashes during boot on 2.6.30 / 2.6.31-rc, random programs
-Submitter	: Joao Correia <joaomiguelcorreia-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-06-27 16:07 (44 days old)
-References	: http://lkml.org/lkml/2009/6/27/95
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13564
+Subject		: random general protection fault at boot time caused by khubd.
+Submitter	: Pauli <suokkos-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-06-18 12:44 (53 days old)
 
