@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13328] b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
+Subject: [Bug #13341] Random Oops at boot at loading ip6tables rules
 Date: Sun,  9 Aug 2009 23:10:20 +0200 (CEST)
-Message-ID: <pRuaDVjxFBG.A.TWG.KG2fKB@chimera>
+Message-ID: <pRuaDVjxFBG.A.OQG.9F2fKB@chimera>
 References: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, patrick-nxAOmsU53hB6lmGzAMPh1A@public.gmane.org, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,9 +22,9 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13328
-Subject		: b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
-Submitter	: Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-05-03 16:22 (99 days old)
-References	: http://marc.info/?l=linux-kernel&m=124136778012280&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13341
+Subject		: Random Oops at boot at loading ip6tables rules
+Submitter	:  <patrick-nxAOmsU53hB6lmGzAMPh1A@public.gmane.org>
+Date		: 2009-05-19 09:08 (83 days old)
+Handled-By	: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 
