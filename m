@@ -1,58 +1,47 @@
-From: Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13837] Input : regression - touchpad not detected
-Date: Mon, 10 Aug 2009 10:14:49 +0800
-Message-ID: <a8e1da0908091914s151469e8w826a726254276fce@mail.gmail.com>
+From: Gene Heskett <gene.heskett-H+0wwilmMs3R7s880joybQ@public.gmane.org>
+Subject: Re: [Bug #13899] Oops from tar, 2.6.31-rc5, 32 bit on quad core phenom.
+Date: Sun, 09 Aug 2009 23:42:43 -0400
+Message-ID: <200908092342.43656.gene.heskett@verizon.net>
 References: <AuPdDySr74O.A.5LC.Pj1fKB@chimera>
-	 <u1L1PAbl8zG.A.bpD.Ak1fKB@chimera>
+ <u1L1PAbl8zG.A.1SD.pj1fKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=O++/OdVHJLcdRRMvtM5qelBIuwLiCka+s3yslu259OQ=;
-        b=oF6K4C0dims3VcWQIGP8f6/n8Eum9+XsXKht2HKbocQUqwDmUQswH9gXXr7UtZ1e+y
-         Z4IiwQvRYfEUTUmHajHERF/4bAbuPgHZU1Hscr+L8+T6W+MI9tzlwJ1GNtNSFWk5OW4o
-         IhnsKnCtHB3OdqQrFI2YT63SuPwJCg0BIj9CI=
-In-Reply-To: <u1L1PAbl8zG.A.bpD.Ak1fKB@chimera>
+In-reply-to: <u1L1PAbl8zG.A.1SD.pj1fKB@chimera>
+Content-disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: Text/Plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, Aug 10, 2009 at 5:10 AM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+On Sunday 09 August 2009, Rafael J. Wysocki wrote:
+>This message has been generated automatically as a part of a report
+>of recent regressions.
 >
-> The following bug entry is on the current list of known regressions
-> from 2.6.30. =C2=A0Please verify if it still should be listed and let=
- me know
-> (either way).
-
-Rafael, I can not produce the bug recent days. I upgraded dell bios to
-A12, don't know if it is related.
-
+>The following bug entry is on the current list of known regressions
+>from 2.6.30.  Please verify if it still should be listed and let me know
+>(either way).
 >
 >
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D13837
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : Input : regression - touchpad n=
-ot detected
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Dave Young <hidave.darkstar-Re5JQEeQqe8@public.gmane.org=
-m>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-07-17 07:13 (24 =
-days old)
-> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
-=3D124780763701571&w=3D4
->
->
->
+>Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13899
+>Subject		: Oops from tar, 2.6.31-rc5, 32 bit on quad core phenom.
+>Submitter	: Gene Heskett <gene.heskett-H+0wwilmMs3R7s880joybQ@public.gmane.org>
+>Date		: 2009-08-01 13:04 (9 days old)
+>References	: http://marc.info/?l=linux-kernel&m=124913190304149&w=4
 
+Yes, it is still doing it to rc5 but only on the first invocation after the 
+bootup.  Strangely, it apparently has no other effect, either on the machine, 
+or how amanda itself works.
 
+-- 
+Cheers, Gene
+"There are four boxes to be used in defense of liberty:
+ soap, ballot, jury, and ammo. Please use in that order."
+-Ed Howdershelt (Author)
+The NRA is offering FREE Associate memberships to anyone who wants them.
+<https://www.nrahq.org/nrabonus/accept-membership.asp>
 
---=20
-Regards
-dave
+If I set here and stare at nothing long enough, people might think
+I'm an engineer working on something.
+		-- S.R. McElroy
