@@ -1,48 +1,30 @@
-From: Mike Snitzer <snitzer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #13944] MD raid regression
-Date: Mon, 10 Aug 2009 10:21:31 -0400
-Message-ID: <20090810142130.GA15956@redhat.com>
-References: <AuPdDySr74O.A.5LC.Pj1fKB@chimera> <u1L1PAbl8zG.A.RyC.aj1fKB@chimera> <19071.30809.398179.900584@notabene.brown> <200908101611.07170.rjw@sisk.pl>
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+Subject: Re: 2.6.31-rc5-git5: Reported regressions from 2.6.30
+Date: Mon, 10 Aug 2009 09:30:43 -0500
+Message-ID: <1249914643.4089.3.camel@mulgrave.site>
+References: <AuPdDySr74O.A.5LC.Pj1fKB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <200908101611.07170.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <AuPdDySr74O.A.5LC.Pj1fKB@chimera>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Neil Brown <neilb-l3A5Bk7waGM@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-On Mon, Aug 10 2009 at 10:11am -0400,
-Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Sun, 2009-08-09 at 22:36 +0200, Rafael J. Wysocki wrote:
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13716
+> Subject         : The AIC-7892P controller does not work any more
+> Submitter       : Andrej Podzimek <andrej@podzimek.org>
+> Date            : 2009-07-05 19:23 (36 days old)
 
-> On Monday 10 August 2009, Neil Brown wrote:
-> > On Sunday August 9, rjw-KKrjLPT3xs0@public.gmane.org wrote:
-> > > This message has been generated automatically as a part of a report
-> > > of recent regressions.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > from 2.6.30.  Please verify if it still should be listed and let me know
-> > > (either way).
-> > 
-> > Yes, it still should be listed.  The first patch didn't quite fix it.
-> > A second one probably does.
-> 
-> Thanks for the update.
-> 
-> Is the patch listed below the right one?
-> 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13944
-> > > Subject		: MD raid regression
-> > > Submitter	: Mike Snitzer <snitzer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> > > Date		: 2009-08-05 15:06 (5 days old)
-> > > Handled-By	: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-> > > Patch		: http://patchwork.kernel.org/patch/39521/
+This one sounds like an IRQ routing error, so probably ACPI, but we've
+been totally unsuccessful at getting any further information out of the
+submitter.  Use your own time judgement on this, but if he hasn't been
+responding to you either for 36 days, I'd suggest closing this as
+unresponsive.
 
-The updated patch is here:
-http://patchwork.kernel.org/patch/40328/
+James
 
-I haven't yet tested it but will do so shortly.
 
-Mike
