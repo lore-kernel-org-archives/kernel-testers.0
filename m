@@ -1,39 +1,31 @@
-From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #13780] NULL pointer dereference loading powernowk8
-Date: Mon, 10 Aug 2009 03:28:07 -0700 (PDT)
-Message-ID: <alpine.DEB.2.00.0908100323370.17129@chino.kir.corp.google.com>
-References: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera> <pRuaDVjxFBG.A.tyE.pD2fKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13837] Input : regression - touchpad not detected
+Date: Mon, 10 Aug 2009 16:03:30 +0200
+Message-ID: <200908101603.30433.rjw@sisk.pl>
+References: <AuPdDySr74O.A.5LC.Pj1fKB@chimera> <u1L1PAbl8zG.A.bpD.Ak1fKB@chimera> <a8e1da0908091914s151469e8w826a726254276fce@mail.gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
-	t=1249900096; bh=UsUjQuUVaTbN7lQOSE+/NTG+Up4=;
-	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
-	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
-	 Content-Type:X-System-Of-Record; b=jnr2kDLBb6ekUn9G2wDASKdCvXiWFJ7
-	nkySK4/+WlHARZZ3jdVTg0snZBizy7gjfyN7lkz3pBVEcca3ub9Yyhw==
-In-Reply-To: <pRuaDVjxFBG.A.tyE.pD2fKB@chimera>
+In-Reply-To: <a8e1da0908091914s151469e8w826a726254276fce-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kurt Roeckx <kurt-burXGKnpAKGzQB+pC5nmwQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Dave Young <hidave.darkstar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
 
-On Sun, 9 Aug 2009, Rafael J. Wysocki wrote:
+On Monday 10 August 2009, Dave Young wrote:
+> On Mon, Aug 10, 2009 at 5:10 AM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> >
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.30.  Please verify if it still should be listed and let me know
+> > (either way).
+> 
+> Rafael, I can not produce the bug recent days. I upgraded dell bios to
+> A12, don't know if it is related.
 
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.29 and 2.6.30.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13780
-> Subject		: NULL pointer dereference loading powernowk8
-> Submitter	: Kurt Roeckx <kurt-burXGKnpAKGzQB+pC5nmwQ@public.gmane.org>
-> Date		: 2009-07-15 18:00 (26 days old)
-> 
+OK, I closed the bug as not reproducible.
 
-Kurt, could you post the stack trace and your .config from the 2.6.31-rc5 
-try?
+Thanks,
+Rafael
