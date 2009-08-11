@@ -1,29 +1,82 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #13407] adb trackpad disappears after suspend to ram
-Date: Tue, 11 Aug 2009 17:35:49 +0200
-Message-ID: <200908111735.49832.rjw@sisk.pl>
-References: <YCu3FOC0QrC.A.MaE.RD2fKB@chimera> <pRuaDVjxFBG.A.ZuF.QF2fKB@chimera> <87ab261lfy.fsf@scholz.fias.uni-frankfurt.de>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13935] 2.6.31-rcX breaks Apple MightyMouse (Bluetooth version)
+Date: Tue, 11 Aug 2009 17:39:36 +0200
+Message-ID: <200908111739.36791.rjw@sisk.pl>
+References: <AuPdDySr74O.A.5LC.Pj1fKB@chimera> <u1L1PAbl8zG.A.eKD.hj1fKB@chimera> <87hbwewlk4.fsf@scholz.fias.uni-frankfurt.de>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752857AbZHKPfC@vger.kernel.org>
-In-Reply-To: <87ab261lfy.fsf@scholz.fias.uni-frankfurt.de>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <87hbwewlk4.fsf-X87fCqEI3snt2/fatF9ZgSk+o5UQzIjPIRYYPiSvRdM@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Jan Scholz <scholz@fias.uni-frankfurt.de>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To: Jan Scholz <scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Ulrich <kernel-4ZM2p5qjiQGewZBzVTKGGg@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 On Tuesday 11 August 2009, Jan Scholz wrote:
 > Hi,
 > 
-> The bug is still present in v2.6.31-rc5, it is fixed by commenting out
-> {suspend,resume}_device_irqs() in drivers/base/power/main.c as suggested
-> by Rafael.
-> Recently I find the info
-> "Platform driver 'snd_powermac' needs updating - please use dev_pm_ops"
-> in dmesg, could this be related?
+> I can confirm the reported bug, but for me reverting fa047e4f6fa63a6 is
+> not sufficient. I have to remove the device id of the mighty mouse from
+> the hid_blacklist list in drivers/hid/hid-core.c as well, see the patch below.
+> 
+> Concerning the need for the quirks: I think there might be some
+> dependence on the version of X that is used. If I recall correctly, with
+> xorg-server-1.3 the quirk "APPLE_INVERT_HWHEEL" was necessary, but this
+> changed when I switched to xorg-server-1.5.3, where now horizontal
+> scrolling moves in directions you'd expect from vertical scrolling.
+> ...but I wouldn't bet on my memory regarding things with xorg-server-1.3
+> since it's been quite some time ago and I never really liked the
+> horizontal scrolling anyway.
 
-No, it's totally unrelated.
+Thanks for the information.
 
 Best,
 Rafael
+
+
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+> 
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> >
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.30.  Please verify if it still should be listed and let me know
+> > (either way).
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13935
+> > Subject		: 2.6.31-rcX breaks Apple MightyMouse (Bluetooth version)
+> > Submitter	: Adrian Ulrich <kernel-4ZM2p5qjiQGewZBzVTKGGg@public.gmane.org>
+> > Date		: 2009-08-08 22:08 (2 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=fa047e4f6fa63a6e9d0ae4d7749538830d14a343
+> >
+> 
+> From b7393ed6dfe00c9e126a2dd34659156548df15cc Mon Sep 17 00:00:00 2001
+> From: Jan Scholz <Scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
+> Date: Tue, 11 Aug 2009 14:33:27 +0200
+> Subject: [PATCH] HID: commit fa047e4f is incomplete
+> 
+> Commit fa047e4f6fa63a6e9d0ae4d7749538830d14a343 "HID: fix inverted
+> wheel for bluetooth version of apple mighty mouse" is incomplete. If
+> we remove Apple MightyMouse (bluetooth version) from the list of
+> apple_devices in drivers/hid/hid-apple.c we have to remove it from
+> hid_blacklist in drivers/hid/hid-core.c as well.
+> 
+> Signed-off-by: Jan Scholz <Scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
+> ---
+>  drivers/hid/hid-core.c |    1 -
+>  1 files changed, 0 insertions(+), 1 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> index 5eb10c2..047844d 100644
+> --- a/drivers/hid/hid-core.c
+> +++ b/drivers/hid/hid-core.c
+> @@ -1319,7 +1319,6 @@ static const struct hid_device_id hid_blacklist[] = {
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_ZEROPLUS, 0x0005) },
+>  	{ HID_USB_DEVICE(USB_VENDOR_ID_ZEROPLUS, 0x0030) },
+>  
+> -	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, 0x030c) },
+>  	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_PRESENTER_8K_BT) },
+>  	{ }
+>  };
