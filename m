@@ -1,48 +1,53 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13944] MD raid regression
-Date: Tue, 11 Aug 2009 17:40:10 +0200
-Message-ID: <200908111740.10506.rjw@sisk.pl>
-References: <AuPdDySr74O.A.5LC.Pj1fKB@chimera> <200908101611.07170.rjw@sisk.pl> <20090810142130.GA15956@redhat.com>
+From: Harald Dunkel <harald.dunkel@t-online.de>
+Subject: Re: [Bug #13374] reiserfs blocked for more than 120secs
+Date: Wed, 12 Aug 2009 22:43:26 +0200
+Message-ID: <4A83296E.6010700@t-online.de>
+References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera> <c62985530908021801r2e302dfel86f69f62143cabc0@mail.gmail.com> <4A7721B3.3060300@t-online.de> <200908032113.46588.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090810142130.GA15956-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature";
+ boundary="------------enigB0F156A4561509BD36195AB2"
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755049AbZHLUoI@vger.kernel.org>
+In-Reply-To: <200908032113.46588.rjw@sisk.pl>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Mike Snitzer <snitzer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Neil Brown <neilb-l3A5Bk7waGM@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: =?ISO-8859-2?Q?Fr=E9d=E9ric_Weisbecker?= <fweisbec@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jeff Mahoney <jeffm@suse.com>
 
-On Monday 10 August 2009, Mike Snitzer wrote:
-> On Mon, Aug 10 2009 at 10:11am -0400,
-> Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > On Monday 10 August 2009, Neil Brown wrote:
-> > > On Sunday August 9, rjw-KKrjLPT3xs0@public.gmane.org wrote:
-> > > > This message has been generated automatically as a part of a report
-> > > > of recent regressions.
-> > > > 
-> > > > The following bug entry is on the current list of known regressions
-> > > > from 2.6.30.  Please verify if it still should be listed and let me know
-> > > > (either way).
-> > > 
-> > > Yes, it still should be listed.  The first patch didn't quite fix it.
-> > > A second one probably does.
-> > 
-> > Thanks for the update.
-> > 
-> > Is the patch listed below the right one?
-> > 
-> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13944
-> > > > Subject		: MD raid regression
-> > > > Submitter	: Mike Snitzer <snitzer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> > > > Date		: 2009-08-05 15:06 (5 days old)
-> > > > Handled-By	: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-> > > > Patch		: http://patchwork.kernel.org/patch/39521/
-> 
-> The updated patch is here:
-> http://patchwork.kernel.org/patch/40328/
+This is an OpenPGP/MIME signed message (RFC 2440 and 3156)
+--------------enigB0F156A4561509BD36195AB2
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, bug entry updated.
+Rafael J. Wysocki wrote:
+>=20
+> Please let us know either way.
+>=20
 
-Rafael
+I am running 2.6.31-rc5 for amd64 on 2 systems. By now I haven't
+seen this problem on the new kernel yet, but since I saw it only
+once for an older kernel I cannot say whether it is really gone.
+
+
+Regards
+
+Harri
+
+
+
+
+--------------enigB0F156A4561509BD36195AB2
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org
+
+iEYEARECAAYFAkqDKXMACgkQUTlbRTxpHjeZYQCfboND9gZ78CZKzeR2KxG6Kpxz
+uE0An1xTnMvziWUtC2cxmQ9DZkurYSJk
+=V8ES
+-----END PGP SIGNATURE-----
+
+--------------enigB0F156A4561509BD36195AB2--
