@@ -1,53 +1,31 @@
-From: Harald Dunkel <harald.dunkel@t-online.de>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 Subject: Re: [Bug #13374] reiserfs blocked for more than 120secs
-Date: Wed, 12 Aug 2009 22:43:26 +0200
-Message-ID: <4A83296E.6010700@t-online.de>
-References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera> <c62985530908021801r2e302dfel86f69f62143cabc0@mail.gmail.com> <4A7721B3.3060300@t-online.de> <200908032113.46588.rjw@sisk.pl>
+Date: Wed, 12 Aug 2009 23:15:09 +0200
+Message-ID: <200908122315.09420.rjw@sisk.pl>
+References: <upey9ZSfnaF.A.-oE.rpgdKB@chimera> <200908032113.46588.rjw@sisk.pl> <4A83296E.6010700@t-online.de>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature";
- boundary="------------enigB0F156A4561509BD36195AB2"
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755049AbZHLUoI@vger.kernel.org>
-In-Reply-To: <200908032113.46588.rjw@sisk.pl>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4A83296E.6010700-zqRNUXuvxA0b1SvskN2V4Q@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: =?ISO-8859-2?Q?Fr=E9d=E9ric_Weisbecker?= <fweisbec@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jeff Mahoney <jeffm@suse.com>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Harald Dunkel <harald.dunkel-zqRNUXuvxA0b1SvskN2V4Q@public.gmane.org>
+Cc: =?iso-8859-2?q?Fr=E9d=E9ric_Weisbecker?= <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>
 
-This is an OpenPGP/MIME signed message (RFC 2440 and 3156)
---------------enigB0F156A4561509BD36195AB2
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: quoted-printable
+On Wednesday 12 August 2009, Harald Dunkel wrote:
+> Rafael J. Wysocki wrote:
+> > 
+> > Please let us know either way.
+> > 
+> 
+> I am running 2.6.31-rc5 for amd64 on 2 systems. By now I haven't
+> seen this problem on the new kernel yet, but since I saw it only
+> once for an older kernel I cannot say whether it is really gone.
 
-Rafael J. Wysocki wrote:
->=20
-> Please let us know either way.
->=20
+I closed the bug as not reproducible.
 
-I am running 2.6.31-rc5 for amd64 on 2 systems. By now I haven't
-seen this problem on the new kernel yet, but since I saw it only
-once for an older kernel I cannot say whether it is really gone.
+Please go to the Bugzilla and reopen the bug entry if you see it again.
 
-
-Regards
-
-Harri
-
-
-
-
---------------enigB0F156A4561509BD36195AB2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org
-
-iEYEARECAAYFAkqDKXMACgkQUTlbRTxpHjeZYQCfboND9gZ78CZKzeR2KxG6Kpxz
-uE0An1xTnMvziWUtC2cxmQ9DZkurYSJk
-=V8ES
------END PGP SIGNATURE-----
-
---------------enigB0F156A4561509BD36195AB2--
+Thanks,
+Rafael
