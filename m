@@ -1,104 +1,58 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #13941] x86 Geode issue
-Date: Sun, 16 Aug 2009 23:34:07 +0200
-Message-ID: <20090816213407.GA30245@elte.hu>
-References: <AuPdDySr74O.A.5LC.Pj1fKB@chimera> <200908131654.45227.rjw@sisk.pl> <11fae7c70908130800q7b4a5293t5c373613d736d74@mail.gmail.com> <200908132034.34951.rjw@sisk.pl> <11fae7c70908161217p33830075p783880315a31b2e5@mail.gmail.com> <20090816205706.GB3463@elte.hu> <11fae7c70908161412v61fd233au5166e18f4c4d0931@mail.gmail.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [PATCH 5/5] PM/Hibernate: Do not release preallocated memory unnecessarily (rev. 2)
+Date: Mon, 17 Aug 2009 00:48:01 +0200
+Message-ID: <200908170048.01609.rjw@sisk.pl>
+References: <nY3-4PrO6XH.A.xtB.yw85JB@chimera> <200905060105.10800.rjw@sisk.pl> <20090816134610.GA6266@localhost>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <11fae7c70908161412v61fd233au5166e18f4c4d0931-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20090816134610.GA6266@localhost>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: =?iso-8859-1?Q?Martin-=C9ric?= Racine <q-funk-X3B1VOXEql0@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Alexander Viro <viro-rfM+Q5joDG/XmaaqVzeoHQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: "linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org" <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "pavel-+ZI9xUNit7I@public.gmane.org" <pavel-+ZI9xUNit7I@public.gmane.org>, "torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org" <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org" <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org" <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
+On Sunday 16 August 2009, Wu Fengguang wrote:
+> On Wed, May 06, 2009 at 07:05:09AM +0800, Rafael J. Wysocki wrote:
+> > On Tuesday 05 May 2009, Wu Fengguang wrote:
+> > > On Mon, May 04, 2009 at 08:22:38AM +0800, Rafael J. Wysocki wrote:
+> > > > From: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+> > > > 
+> > > > Since the hibernation code is now going to use allocations of memory
+> > > > to create enough room for the image, it can also use the page frames
+> > > > allocated at this stage as image page frames.  The low-level
+> > > > hibernation code needs to be rearranged for this purpose, but it
+> > > > allows us to avoid freeing a great number of pages and allocating
+> > > > these same pages once again later, so it generally is worth doing.
+> > > > 
+> > > > [rev. 2: Change the strategy of preallocating memory to allocate as
+> > > >  many pages as needed to get the right image size in one shot (the
+> > > >  excessive allocated pages are released afterwards).]
+> > > 
+> > > Rafael, I tried out your patches and found doubled memory shrink speed!
+> > >
+> > > [  579.641781] PM: Preallocating image memory ... done (allocated 383900 pages, 128000 image pages kept)
+> > > [  583.087875] PM: Allocated 1535600 kbytes in 3.43 seconds (447.69 MB/s)
+> > 
+> > Unfortunately, I'm observing a regression and a huge one.
+> > 
+> > On my Atom-based test box with 1 GB of RAM after a fresh boot and starting X
+> > with KDE 4 there are ~256 MB free.  To create an image we need to free ~300 MB
+> > and that takes ~2 s with the old code and ~15 s with the new one.
+> > 
+> > It helps to call shrink_all_memory() once with a sufficiently large argument
+> > before the preallocation.
+> 
+> The 10 fold slowdown may be related to swapping IO:
 
-* Martin-=C9ric Racine <q-funk-X3B1VOXEql0@public.gmane.org> wrote:
+I guess it is.
 
-> 2009/8/16 Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>:
-> >
-> > * Martin-=C9ric Racine <q-funk-X3B1VOXEql0@public.gmane.org> wrote:
-> >
-> >> On Thu, Aug 13, 2009 at 9:34 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wr=
-ote:
-> >> > On Thursday 13 August 2009, Martin-=C9ric Racine wrote:
-> >> >> On Thu, Aug 13, 2009 at 5:54 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org>=
- wrote:
-> >> >> > On Thursday 13 August 2009, Martin-=C9ric Racine wrote:
-> >> >> >> 2009/8/13 Martin-=C9ric Racine <q-funk-X3B1VOXEql0@public.gmane.org>:
-> >> >> >> > On Thu, Aug 13, 2009 at 12:07 PM, Ingo Molnar<mingo@elte.h=
-u> wrote:
-> >> >> >> >> * Martin-=C9ric Racine <q-funk-X3B1VOXEql0@public.gmane.org> wrote:
-> >> >> >> >>> Yes, this bug is still valid.
-> >> >> >> >>>
-> >> >> >> >>> Ubuntu kernel team member Leann Ogasawara and I are slow=
-ly
-> >> >> >> >>> bisecting our way through the changes that took place si=
-nce 2.6.30
-> >> >> >> >>> to find the commit that introduced this regression. Plea=
-se stay
-> >> >> >> >>> tuned.
-> >> >> >> >>
-> >> >> >> >> hm, the only outright Geode related commit was:
-> >> >> >> >>
-> >> >> >> >> =A0d6c585a: x86: geode: Mark mfgpt irq IRQF_TIMER to prev=
-ent resume failure
-> >> >> >> >>
-> >> >> >> >> the jpg at:
-> >> >> >> >>
-> >> >> >> >> =A0http://launchpadlibrarian.net/28892781/00002.jpg
-> >> >> >> >>
-> >> >> >> >> is very out of focus - but what i could decypher suggests=
- a
-> >> >> >> >> pagefault crash in the VFS code, in generic_delete_inode(=
-).
-> >> >> >>
-> >> >> >> This one might be a bit better:
-> >> >> >>
-> >> >> >> http://launchpadlibrarian.net/30267494/2.6.31-5.24.jpg
-> >> >
-> >> > Hmm. =A0This looks like a sysfs oops to my untrained eye.
-> >>
-> >> The bisect I did with Leann Ogasawara has narrowed the kernel pani=
-c
-> >> down to the following:
-> >>
-> >> commit f19d4a8fa6f9b6ccf54df0971c97ffcaa390b7b0
-> >> Author: Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
-> >> Date: Mon Jun 8 19:50:45 2009 -0400
-> >>
-> >> =A0 =A0 add caching of ACLs in struct inode
-> >>
-> >> =A0 =A0 No helpers, no conversions yet.
-> >>
-> >> =A0 =A0 Signed-off-by: Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
-> >
-> > Weird. If the functions do what their name suggests, i.e. if
-> > inode_init_always() is an always called constructor and if
-> > destroy_inode() is an unconditional destructor then this patch
-> > should have no functional effect on the VFS side.
-> >
-> > It increases the size of struct inode, so if you have some old
-> > module (built to an older version of fs.h) still around it might
-> > corrupt your inode data structure.
-> >
-> > Or the size change might trigger some dormant bug. It might move a
-> > critical inode right into the path of a pre-existing (but not
-> > visibly crash-triggering) data corruption.
-> >
-> > The possibilities on the 'weird bug' front are endless - the=20
-> > crash/oops itself should be turned into text, posted here and=20
-> > analyzed.
->=20
-> If you mean something else than the large-size snapshot of the=20
-> whole panic output that was linked earlier in this thread, I'd=20
-> appreciate instructions on how to turn that crash into text.
+> shrink_all_memory() tends to be reclaiming less anon pages.
+> 
+> Is this box running on SSD? (Which can be slow on random writes.)
 
-it's still a JPG - posting the transcribed oops in email text would=20
-certainly help more folks looking over it.
+No, on a normal spinning-plate HDD (2.5'').
 
-(painful i know ...)
-
-	Ingo
+Thanks,
+Rafael
