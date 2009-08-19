@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14012] latest git fried my x86_64 imac
-Date: Wed, 19 Aug 2009 22:27:01 +0200 (CEST)
-Message-ID: <ADSuNT6McuD.A.y0H.rNIjKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14014] kernel bug at shut down
+Date: Wed, 19 Aug 2009 22:27:02 +0200 (CEST)
+Message-ID: <ADSuNT6McuD.A.YqH.oNIjKB@chimera>
 References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753786AbZHSXZu@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <jCYznkTxcLB.A.EPH.eNIjKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, "Justin P. Mattock" <justinmattock@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14012
-Subject		: latest git fried my x86_64 imac
-Submitter	: Justin P. Mattock <justinmattock@gmail.com>
-Date		: 2009-08-13 07:20 (7 days old)
-References	: http://marc.info/?l=linux-kernel&m=125014080427090&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14014
+Subject		: kernel bug at shut down
+Submitter	: Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
+Date		: 2009-08-14 9:11 (6 days old)
+References	: http://marc.info/?l=linux-kernel&m=125024112418870&w=4
 
