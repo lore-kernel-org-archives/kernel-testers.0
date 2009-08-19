@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13351] 2.6.30 - 2.6.31 corrupts my system after suspend resume with readonly mounted hard disk
+Subject: [Bug #13362] rt2x00: slow wifi with correct basic rate bitmap
 Date: Wed, 19 Aug 2009 22:40:40 +0200 (CEST)
-Message-ID: <Era7U-todKF.A._iD.0nIjKB@chimera>
+Message-ID: <Era7U-todKF.A.icD.tnIjKB@chimera>
 References: <xDf-7eSwYsC.A.-6B.klIjKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, unggnu-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org, Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alejandro Riveira <ariveira-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Chris Wright <chrisw-69jw2NvuJkxg9hUCZPvPmw@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,10 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13351
-Subject		: 2.6.30 - 2.6.31 corrupts my system after suspend resume with readonly mounted hard disk
-Submitter	:  <unggnu-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Date		: 2009-05-20 14:09 (92 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=78a8b35bc7abf8b8333d6f625e08c0f7cc1c3742
-Handled-By	: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13362
+Subject		: rt2x00: slow wifi with correct basic rate bitmap
+Submitter	: Alejandro Riveira <ariveira-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-05-22 13:32 (90 days old)
 
