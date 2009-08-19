@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13899] Oops from tar, 2.6.31-rc5, 32 bit on quad core phenom.
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13906] Huawei E169 GPRS connection causes Ooops
 Date: Wed, 19 Aug 2009 22:26:52 +0200 (CEST)
-Message-ID: <ADSuNT6McuD.A.-IB.NOIjKB@chimera>
+Message-ID: <ADSuNT6McuD.A.MEB.JOIjKB@chimera>
 References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753568AbZHSXYq@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <jCYznkTxcLB.A.EPH.eNIjKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Gene Heskett <gene.heskett@verizon.net>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Clemens Eisserer <linuxhippy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,8 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13899
-Subject		: Oops from tar, 2.6.31-rc5, 32 bit on quad core phenom.
-Submitter	: Gene Heskett <gene.heskett@verizon.net>
-Date		: 2009-08-01 13:04 (19 days old)
-References	: http://marc.info/?l=linux-kernel&m=124913190304149&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13906
+Subject		: Huawei E169 GPRS connection causes Ooops
+Submitter	: Clemens Eisserer <linuxhippy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-08-04 09:02 (16 days old)
 
