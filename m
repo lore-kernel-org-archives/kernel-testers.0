@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13408] Performance regression in 2.6.30-rc7
-Date: Wed, 19 Aug 2009 22:40:43 +0200 (CEST)
-Message-ID: <Era7U-todKF.A.7AD.PnIjKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13514] acer_wmi causes stack corruption
+Date: Wed, 19 Aug 2009 22:40:44 +0200 (CEST)
+Message-ID: <Era7U-todKF.A.y1C.2mIjKB@chimera>
 References: <xDf-7eSwYsC.A.-6B.klIjKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753952AbZHSXia@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <xDf-7eSwYsC.A.-6B.klIjKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Diego Calleja <diegocg@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rus <harbour-K87ZgELTUEPsG83rWm+8vg@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,9 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13408
-Subject		: Performance regression in 2.6.30-rc7
-Submitter	: Diego Calleja <diegocg@gmail.com>
-Date		: 2009-05-30 18:51 (82 days old)
-References	: http://lkml.org/lkml/2009/5/30/146
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13514
+Subject		: acer_wmi causes stack corruption
+Submitter	: Rus <harbour-K87ZgELTUEPsG83rWm+8vg@public.gmane.org>
+Date		: 2009-06-12 08:13 (69 days old)
 
