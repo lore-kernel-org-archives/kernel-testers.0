@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13694] i915 phantom TV
-Date: Wed, 19 Aug 2009 22:40:46 +0200 (CEST)
-Message-ID: <Era7U-todKF.A.pdC.HmIjKB@chimera>
+Subject: [Bug #13583] pdflush uses 5% CPU on otherwise idle system
+Date: Wed, 19 Aug 2009 22:40:45 +0200 (CEST)
+Message-ID: <Era7U-todKF.A.muC.lmIjKB@chimera>
 References: <xDf-7eSwYsC.A.-6B.klIjKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <xDf-7eSwYsC.A.-6B.klIjKB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?utf-8?q?Maciek=20J=C3=B3ziewicz?= <mjoziew-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13694
-Subject		: i915 phantom TV
-Submitter	: Maciek J=C3=B3ziewicz <mjoziew-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-07-02 12:26 (49 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13583
+Subject		: pdflush uses 5% CPU on otherwise idle system
+Submitter	: Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Date		: 2009-06-19 13:33 (62 days old)
 
