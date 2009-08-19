@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13558] Tracelog during resume
-Date: Wed, 19 Aug 2009 22:40:44 +0200 (CEST)
-Message-ID: <Era7U-todKF.A.2zC.tmIjKB@chimera>
+Subject: [Bug #13620] acpi_enforce_resources broken - conflicting i2c module loaded on some EeePCs
+Date: Wed, 19 Aug 2009 22:40:45 +0200 (CEST)
+Message-ID: <Era7U-todKF.A.wsC.gmIjKB@chimera>
 References: <xDf-7eSwYsC.A.-6B.klIjKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753988AbZHSXjI@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753994AbZHSXjL@vger.kernel.org>
 In-Reply-To: <xDf-7eSwYsC.A.-6B.klIjKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Cijoml Cijomlovic Cijomlov <cijoml@volny.cz>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Jenkins <alan-jenkins@tuffmail.co.uk>, Bob Moore <robert.moore@intel.com>, Lin Ming <ming.m.lin@intel.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,11 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13558
-Subject		: Tracelog during resume
-Submitter	: Cijoml Cijomlovic Cijomlov <cijoml@volny.cz>
-Date		: 2009-06-17 11:32 (64 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13620
+Subject		: acpi_enforce_resources broken - conflicting i2c module loaded on some EeePCs
+Submitter	: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
+Date		: 2009-06-25 08:31 (56 days old)
+References	: <http://lists.alioth.debian.org/pipermail/debian-eeepc-devel/2009-June/002316.html>
+Handled-By	: Lin Ming <ming.m.lin@intel.com>
+Patch		: http://patchwork.kernel.org/patch/33626/
 
