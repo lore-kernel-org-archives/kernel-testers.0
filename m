@@ -1,39 +1,40 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: 2.6.31-rc6-git5: Reported regressions from 2.6.30
-Date: Thu, 20 Aug 2009 23:28:24 +0200
-Message-ID: <200908202328.24252.rjw@sisk.pl>
-References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera> <1250801571.7176.10.camel@Maple>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13942] Troubles with AoE and uninitialized object
+Date: Thu, 20 Aug 2009 23:29:33 +0200
+Message-ID: <200908202329.33695.rjw@sisk.pl>
+References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera> <ADSuNT6McuD.A.1t.BOIjKB@chimera> <20090820212959.0ece42e3@neptune.home>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755478AbZHTV1f@vger.kernel.org>
-In-Reply-To: <1250801571.7176.10.camel@Maple>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20090820212959.0ece42e3-hY15tx4IgV39zxVx7UNMDg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: John Dykstra <john.dykstra1@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
+Content-Type: Text/Plain; charset="utf-8"
+To: Bruno =?utf-8?q?Pr=C3=A9mont?= <bonbons-ud5FBsm0p/xEiooADzr8i9i2O/JbrIOy@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Thursday 20 August 2009, John Dykstra wrote:
-> On Wed, 2009-08-19 at 22:20 +0200, Rafael J. Wysocki wrote:
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14002
-> > Subject         : WARNING: at net/ipv4/af_inet.c:154
-> > inet_sock_destruct+0x164/0x1c0()
-> > Submitter       : Ralf Hildebrandt <ralf.hildebrandt@charite.de>
-> > Date            : 2009-08-18 12:37 (2 days old)
-> 
-> That looks similar to the WARNING discussed in [1].
-> 
-> There was no resolution to that thread.  However, [2] points out
-> possible other occurrences of the problem in 2.6.27, 28 and 29.
-> 
-> --  John
-> 
-> [1]  http://www.spinics.net/lists/netdev/msg103267.html
-> [2]  http://www.spinics.net/lists/netdev/msg104120.html
+On Thursday 20 August 2009, Bruno Pr=C3=A9mont wrote:
+> On Wed, 19 August 2009 "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> >=20
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.30.  Please verify if it still should be listed and let me
+> > know (either way).
+> >=20
+> >=20
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13942
+> > Subject		: Troubles with AoE and uninitialized object
+> > Submitter	: Bruno Pr=C3=A9mont <bonbons-ud5FBsm0p/xEiooADzr8i9i2O/JbrIOy@public.gmane.org>
+> > Date		: 2009-08-04 10:12 (16 days old)
+> > References	:
+> > http://marc.info/?l=3Dlinux-kernel&m=3D124938117104811&w=3D4
+> >=20
+>=20
+> This one is still valid for 2.6.31-rc6 though I have not yet taken
+> the time to attempt bisecting it. I will probably bisect over the
+> week-end.
 
-Thanks for the information.
+Thanks for the update.
 
-So I'll drop this from the list, since it most probably is not a recent thing.
-
-Best,
 Rafael
