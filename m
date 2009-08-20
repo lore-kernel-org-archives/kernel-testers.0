@@ -1,53 +1,59 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13634] [drm:drm_wait_vblank] *ERROR* failed to acquire vblank counter, -22
-Date: Thu, 20 Aug 2009 21:02:00 +0200
-Message-ID: <200908202102.00850.rjw@sisk.pl>
-References: <xDf-7eSwYsC.A.-6B.klIjKB@chimera> <200908202019.23819.rjw@sisk.pl> <20090820115130.6f824b8a@jbarnes-g45>
+From: Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13941] x86 Geode issue
+Date: Thu, 20 Aug 2009 23:08:04 +0400
+Message-ID: <20090820190804.GA7271@lenovo>
+References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera> <ADSuNT6McuD.A.R0.COIjKB@chimera> <11fae7c70908200033k7c28561eh28e1195ce4a692f8@mail.gmail.com> <200908201704.06553.rjw@sisk.pl> <20090820183635.GB8517@lenovo>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090820115130.6f824b8a@jbarnes-g45>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=SqGH29pIXaNMdUqbctQ+ZAehfduCC2cvqMIBEyl0/5g=;
+        b=Bj0mEZqXNm+1dyGGHiRY6PRVHPCkGl6FXoMyoK9AlBE7xsmysyRrByyGHOUAaxeozh
+         mt+H5slrkYC81b+kMNhbn6FV/gRyHRNR5PzjH7Zz87wTBBGD2Hk551D08p3K6Wklzs2H
+         PgHHzTjGuIywDTTdUNzLsYcdDTmJ+pus6EDME=
+Content-Disposition: inline
+In-Reply-To: <20090820183635.GB8517@lenovo>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, q-funk-X3B1VOXEql0@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Al Viro <viro@zeniv.l>
 
-On Thursday 20 August 2009, Jesse Barnes wrote:
-> On Thu, 20 Aug 2009 20:19:23 +0200
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > On Thursday 20 August 2009, Jesse Barnes wrote:
-> > > On Wed, 19 Aug 2009 22:40:45 +0200 (CEST)
-> > > "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > > 
-> > > > This message has been generated automatically as a part of a
-> > > > report of regressions introduced between 2.6.29 and 2.6.30.
-> > > > 
-> > > > The following bug entry is on the current list of known
-> > > > regressions introduced between 2.6.29 and 2.6.30.  Please verify
-> > > > if it still should be listed and let me know (either way).
-> > > > 
-> > > > 
-> > > > Bug-Entry	:
-> > > > http://bugzilla.kernel.org/show_bug.cgi?id=13634
-> > > > Subject		: [drm:drm_wait_vblank] *ERROR* failed to
-> > > > acquire vblank counter, -22 Submitter	: Cijoml Cijomlovic
-> > > > Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org> Date		: 2009-06-27 07:02
-> > > > (54 days old)
-> > > 
-> > > Patches to fix this have been queued.
-> > 
-> > Thanks for the update.
-> > 
-> > Can you please give me a pointer to the patch?
-> 
-> commit 8d3457ec3198a569dd14dc9e3ae8b6163bcaa0b5
-> Author: Paul Rolland <rol-hQZ2c1jdYO6sTnJN9+BGXg@public.gmane.org>
-> Date:   Sun Aug 9 12:24:01 2009 +1000
-> 
-> Already in Linus's tree actually.
+[Cyrill Gorcunov - Thu, Aug 20, 2009 at 10:36:35PM +0400]
+=2E..
+| | > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+13941
+| | > > Subject         : x86 Geode issue
+| | > > Submitter       : Martin-=C9ric Racine <q-funk-X3B1VOXEql0@public.gmane.org>
+| | > > Date            : 2009-08-03 12:58 (17 days old)
+| | > > References      : http://marc.info/?l=3Dlinux-kernel&m=3D124930=
+434732481&w=3D4
+| |=20
+| | Rafael
+| |=20
+|=20
+| Hi,
+|=20
+| may I post a thought?
+|=20
+| It seems strange to me that alloc_inode may set=20
+|=20
+| #ifdef CONFIG_FS_POSIX_ACL
+| 	inode->i_acl =3D inode->i_default_acl =3D ACL_NOT_CACHED;
+| #endif
+|=20
+| [where ACL_NOT_CACHED is #define ACL_NOT_CACHED ((void *)(-1))]
+|=20
+| meanwhile say jffs2_init_acl_post use ACL_NOT_CACHED
+| as a valid value and trying to parse it.
+|=20
+| But perhaps, I miss something.
+|=20
+| 	-- Cyrill
 
-Thanks, closed.
+Sorry, this is unrelated and wrong. Drop this message.
 
-Rafael
+	-- Cyrill
