@@ -1,38 +1,34 @@
-From: Bruno =?UTF-8?B?UHLDqW1vbnQ=?= <bonbons-ud5FBsm0p/xEiooADzr8i9i2O/JbrIOy@public.gmane.org>
-Subject: Re: [Bug #13942] Troubles with AoE and uninitialized object
-Date: Thu, 20 Aug 2009 21:29:59 +0200
-Message-ID: <20090820212959.0ece42e3@neptune.home>
+From: Johannes Stezenbach <js@sig21.net>
+Subject: Re: [Bug #13946] x86 MCE malfunction on Thinkpad T42p
+Date: Thu, 20 Aug 2009 22:22:26 +0200
+Message-ID: <20090820202226.GA4444@sig21.net>
 References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera>
-	<ADSuNT6McuD.A.1t.BOIjKB@chimera>
+ <ADSuNT6McuD.A.Rj.9NIjKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <ADSuNT6McuD.A.1t.BOIjKB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755328AbZHTUVH@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <ADSuNT6McuD.A.Rj.9NIjKB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="macroman"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
 
-On Wed, 19 August 2009 "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->=20
-> The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me
-> know (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13942
-> Subject		: Troubles with AoE and uninitialized object
-> Submitter	: Bruno Pr=C3=A9mont <bonbons-ud5FBsm0p/xEiooADzr8i9i2O/JbrIOy@public.gmane.org>
-> Date		: 2009-08-04 10:12 (16 days old)
-> References	:
-> http://marc.info/?l=3Dlinux-kernel&m=3D124938117104811&w=3D4
->=20
+On Wed, Aug 19, 2009 at 10:26:57PM +0200, Rafael J. Wysocki wrote:
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13946
+> Subject		: x86 MCE malfunction on Thinkpad T42p
+> Submitter	: Johannes Stezenbach <js@sig21.net>
+> Date		: 2009-08-07 17:09 (13 days old)
+> References	: http://marc.info/?l=linux-kernel&m=124966500232399&w=4
+> Handled-By	: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
+> Patch		: http://patchwork.kernel.org/patch/37908/
 
-This one is still valid for 2.6.31-rc6 though I have not yet taken
-the time to attempt bisecting it. I will probably bisect over the
-week-end.
+This is fixed in v2.6.31-rc6-223-g6c30c53 by
+commit c7f6fa44115d401e89db730f357629d39f8e4ba6
+"x86, mce: don't log boot MCEs on Pentium M (model == 13) CPUs".
 
-Bruno
+
+Thanks
+Johannes
