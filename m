@@ -1,33 +1,33 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13946] x86 MCE malfunction on Thinkpad T42p
-Date: Thu, 20 Aug 2009 23:32:57 +0200
-Message-ID: <200908202332.57566.rjw@sisk.pl>
-References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera> <ADSuNT6McuD.A.Rj.9NIjKB@chimera> <20090820202226.GA4444@sig21.net>
+Subject: Re: [Bug #13948] ath5k broken after suspend-to-ram
+Date: Thu, 20 Aug 2009 23:33:32 +0200
+Message-ID: <200908202333.32416.rjw@sisk.pl>
+References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera> <ADSuNT6McuD.A.IT.5NIjKB@chimera> <20090820203240.GB4444@sig21.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090820202226.GA4444-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <20090820203240.GB4444-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
 To: Johannes Stezenbach <js-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>, Nick Kossifidis <mickflemm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Luis R. Rodriguez" <lrodriguez-DlyHzToyqoxBDgjK7y7TUQ@public.gmane.org>, Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 On Thursday 20 August 2009, Johannes Stezenbach wrote:
-> On Wed, Aug 19, 2009 at 10:26:57PM +0200, Rafael J. Wysocki wrote:
+> On Wed, Aug 19, 2009 at 10:26:59PM +0200, Rafael J. Wysocki wrote:
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13946
-> > Subject		: x86 MCE malfunction on Thinkpad T42p
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13948
+> > Subject		: ath5k broken after suspend-to-ram
 > > Submitter	: Johannes Stezenbach <js-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org>
-> > Date		: 2009-08-07 17:09 (13 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=124966500232399&w=4
-> > Handled-By	: Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Patch		: http://patchwork.kernel.org/patch/37908/
+> > Date		: 2009-08-07 21:51 (13 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=124968192727854&w=4
+> > Handled-By	: Nick Kossifidis <mickflemm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Patch		: http://patchwork.kernel.org/patch/38550/
 > 
-> This is fixed in v2.6.31-rc6-223-g6c30c53 by
-> commit c7f6fa44115d401e89db730f357629d39f8e4ba6
-> "x86, mce: don't log boot MCEs on Pentium M (model == 13) CPUs".
+> I cannot test this at the moment, but there have been no
+> changes to ath5k since I reported the bug, and the
+> patch still applies.  Please keep this listed.
 
-Thanks, closed.
+OK, thanks for the update.
 
 Rafael
