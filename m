@@ -1,40 +1,36 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13328] b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
-Date: Thu, 20 Aug 2009 16:52:23 +0200
-Message-ID: <200908201652.23574.rjw@sisk.pl>
-References: <xDf-7eSwYsC.A.-6B.klIjKB@chimera> <Era7U-todKF.A.-rD.DoIjKB@chimera> <38b2ab8a0908200038k2702109bp7e2d4b50e511d365@mail.gmail.com>
+Subject: Re: [Bug #13819] system freeze when switching to console
+Date: Thu, 20 Aug 2009 16:55:15 +0200
+Message-ID: <200908201655.15256.rjw@sisk.pl>
+References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera> <ADSuNT6McuD.A.cdB.vOIjKB@chimera> <1250724928.30019.14331.camel@rc-desk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <38b2ab8a0908200038k2702109bp7e2d4b50e511d365-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1250724928.30019.14331.camel@rc-desk>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: reinette chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, "Ma, Ling" <ling.ma-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Thursday 20 August 2009, Francis Moreau wrote:
-> Hello,
-> 
-> On Wed, Aug 19, 2009 at 10:40 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Thursday 20 August 2009, reinette chatre wrote:
+> On Wed, 2009-08-19 at 13:26 -0700, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.29 and 2.6.30.
-> >
+> > of recent regressions.
+> > 
 > > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-> > be listed and let me know (either way).
-> >
-> >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13328
-> > Subject         : b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
-> > Submitter       : Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date            : 2009-05-03 16:22 (109 days old)
-> > References      : http://marc.info/?l=linux-kernel&m=124136778012280&w=4
-> >
+> > from 2.6.30.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13819
+> > Subject		: system freeze when switching to console
+> > Submitter	: Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> > Date		: 2009-07-23 17:57 (28 days old)
 > 
-> It hasn't triggered on 2.6.31-rc5 after a couple of days.
+> This issue is still present in 2.6.31-rc6. Unfortunately the patches I
+> reverted to get a working system does not revert cleanly anymore.
 
-Great, let's assume it's fixed, then.
+Thanks for the update.
 
-Thanks,
 Rafael
