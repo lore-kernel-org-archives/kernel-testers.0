@@ -1,40 +1,37 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #13947] Libertas: Association request to the driver failed
-Date: Fri, 21 Aug 2009 18:46:07 +0200
-Message-ID: <200908211846.07750.rjw@sisk.pl>
-References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera> <200908201710.32147.rjw@sisk.pl> <1250868934.2505.46.camel@localhost.localdomain>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Subject: Re: 2.6.31-rc6-git5: Reported regressions from 2.6.30
+Date: Fri, 21 Aug 2009 16:34:06 -0500
+Message-ID: <4A8F12CE.9090601@lwfinger.net>
+References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera>
 Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S932522AbZHUQpR@vger.kernel.org>
-In-Reply-To: <1250868934.2505.46.camel@localhost.localdomain>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Dan Williams <dcbw@redhat.com>
-Cc: roel kluin <roel.kluin@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Daniel Mack <daniel@caiaq.de>, "John W. Linville" <linville@tuxdriver.com>
+Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+In-Reply-To: <jCYznkTxcLB.A.EPH.eNIjKB@chimera>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
+List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
+List-Post: <mailto:linux-pm@lists.linux-foundation.org>
+List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
+List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
+Sender: linux-pm-bounces@lists.linux-foundation.org
+Errors-To: linux-pm-bounces@lists.linux-foundation.org
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Adrian Bunk <bunk@kernel.org>, DRI <dri-devel@lists.sourceforge.net>, Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Natalie Protasevich <protasnb@gmail.com>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>
 
-On Friday 21 August 2009, Dan Williams wrote:
-> On Thu, 2009-08-20 at 17:10 +0200, Rafael J. Wysocki wrote:
-> > On Thursday 20 August 2009, roel kluin wrote:
-> > > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13947
-> > > > Subject         : Libertas: Association request to the driver failed
-> > > > Submitter       : Daniel Mack <daniel@caiaq.de>
-> > > > Date            : 2009-08-07 19:11 (13 days old)
-> > > > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=57921c312e8cef72ba35a4cfe870b376da0b1b87
-> > > > References      : http://marc.info/?l=linux-kernel&m=124967234311481&w=4
-> > > > Handled-By      : Roel Kluin <roel.kluin@gmail.com>
-> > > 
-> > > I think this should be fixed with patch of Dan Williams found here:
-> > > 
-> > > http://lkml.org/lkml/2009/8/12/299
-> > 
-> > Thanks, bug entry updated.
-> 
-> Rebased tested and posted to linux-wireless officially:
-> 
-> Subject: [PATCH] libertas: clean up and clarify get_common_rates
-> Date:    Fri, 21 Aug 2009 09:35:20 -0500
+Rafael J. Wysocki wrote:
 
-Thanks, updated.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13960
+> Subject		: rtl8187 not connect to wifi
+> Submitter	: okias <d.okias@gmail.com>
+> Date		: 2009-08-10 19:16 (10 days old)
 
-Rafael
+The patch for this one was sent from Linville to DaveM earlier today,
+and should be sent to mainline in the near future.
+
+AFAIK, the OP has not yet tested the patch, but I think I was able to
+reproduce the problem, and the patch did fit it for me.
+
+Larry
