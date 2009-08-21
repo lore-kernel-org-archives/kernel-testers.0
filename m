@@ -1,46 +1,40 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13620] acpi_enforce_resources broken - conflicting i2c module loaded on some EeePCs
-Date: Fri, 21 Aug 2009 18:44:49 +0200
-Message-ID: <200908211844.49475.rjw@sisk.pl>
-References: <xDf-7eSwYsC.A.-6B.klIjKB@chimera> <Era7U-todKF.A.wsC.gmIjKB@chimera> <9b2b86520908210235l7961410ag74200291c7f8e3a5@mail.gmail.com>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #13947] Libertas: Association request to the driver failed
+Date: Fri, 21 Aug 2009 18:46:07 +0200
+Message-ID: <200908211846.07750.rjw@sisk.pl>
+References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera> <200908201710.32147.rjw@sisk.pl> <1250868934.2505.46.camel@localhost.localdomain>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <9b2b86520908210235l7961410ag74200291c7f8e3a5-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S932522AbZHUQpR@vger.kernel.org>
+In-Reply-To: <1250868934.2505.46.camel@localhost.localdomain>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bob Moore <robert.moore-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: Dan Williams <dcbw@redhat.com>
+Cc: roel kluin <roel.kluin@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Daniel Mack <daniel@caiaq.de>, "John W. Linville" <linville@tuxdriver.com>
 
-On Friday 21 August 2009, Alan Jenkins wrote:
-> On 8/19/09, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.29 and 2.6.30.
-> >
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-> > be listed and let me know (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13620
-> > Subject		: acpi_enforce_resources broken - conflicting i2c module loaded on
-> > some EeePCs
-> > Submitter	: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-> > Date		: 2009-06-25 08:31 (56 days old)
-> > References	:
-> > <http://lists.alioth.debian.org/pipermail/debian-eeepc-devel/2009-June/002316.html>
-> > Handled-By	: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> > Patch		: http://patchwork.kernel.org/patch/33626/
+On Friday 21 August 2009, Dan Williams wrote:
+> On Thu, 2009-08-20 at 17:10 +0200, Rafael J. Wysocki wrote:
+> > On Thursday 20 August 2009, roel kluin wrote:
+> > > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13947
+> > > > Subject         : Libertas: Association request to the driver failed
+> > > > Submitter       : Daniel Mack <daniel@caiaq.de>
+> > > > Date            : 2009-08-07 19:11 (13 days old)
+> > > > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=57921c312e8cef72ba35a4cfe870b376da0b1b87
+> > > > References      : http://marc.info/?l=linux-kernel&m=124967234311481&w=4
+> > > > Handled-By      : Roel Kluin <roel.kluin@gmail.com>
+> > > 
+> > > I think this should be fixed with patch of Dan Williams found here:
+> > > 
+> > > http://lkml.org/lkml/2009/8/12/299
+> > 
+> > Thanks, bug entry updated.
 > 
-> This must have been fixed in -rc6, because someone just complained
-> about it working again :-).
-> <http://article.gmane.org/gmane.linux.acpi.devel/40999/>
+> Rebased tested and posted to linux-wireless officially:
 > 
-> I confirmed this on my own EeePC; i2c-i801 is now correctly denied
-> access to the IO resources claimed by ACPI.  Please remove this
-> regression from your list.
+> Subject: [PATCH] libertas: clean up and clarify get_common_rates
+> Date:    Fri, 21 Aug 2009 09:35:20 -0500
 
-Thanks, closed.
+Thanks, updated.
 
 Rafael
