@@ -1,34 +1,46 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: 2.6.31-rc6-git5: Reported regressions from 2.6.30
-Date: Sat, 22 Aug 2009 00:02:03 +0200
-Message-ID: <200908220002.03707.rjw@sisk.pl>
-References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera> <4A8F12CE.9090601@lwfinger.net>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13328] b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
+Date: Mon, 24 Aug 2009 20:30:14 +0200
+Message-ID: <200908242030.14414.rjw@sisk.pl>
+References: <xDf-7eSwYsC.A.-6B.klIjKB@chimera> <200908201652.23574.rjw@sisk.pl> <38b2ab8a0908240041s7d9707eftb6e8078d7b6ad553@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <4A8F12CE.9090601@lwfinger.net>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <38b2ab8a0908240041s7d9707eftb6e8078d7b6ad553-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
+To: Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Friday 21 August 2009, Larry Finger wrote:
-> Rafael J. Wysocki wrote:
+On Monday 24 August 2009, Francis Moreau wrote:
+> On Thu, Aug 20, 2009 at 4:52 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > On Thursday 20 August 2009, Francis Moreau wrote:
+> >> Hello,
+> >>
+> >> On Wed, Aug 19, 2009 at 10:40 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> >> > This message has been generated automatically as a part of a report
+> >> > of regressions introduced between 2.6.29 and 2.6.30.
+> >> >
+> >> > The following bug entry is on the current list of known regressions
+> >> > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> >> > be listed and let me know (either way).
+> >> >
+> >> >
+> >> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13328
+> >> > Subject         : b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
+> >> > Submitter       : Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> >> > Date            : 2009-05-03 16:22 (109 days old)
+> >> > References      : http://marc.info/?l=linux-kernel&m=124136778012280&w=4
+> >> >
+> >>
+> >> It hasn't triggered on 2.6.31-rc5 after a couple of days.
+> >
+> > Great, let's assume it's fixed, then.
 > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13960
-> > Subject		: rtl8187 not connect to wifi
-> > Submitter	: okias <d.okias@gmail.com>
-> > Date		: 2009-08-10 19:16 (10 days old)
-> 
-> The patch for this one was sent from Linville to DaveM earlier today,
-> and should be sent to mainline in the near future.
-> 
-> AFAIK, the OP has not yet tested the patch, but I think I was able to
-> reproduce the problem, and the patch did fit it for me.
+> Sorry but it did happen this weekend.
 
-Thanks for the update.
+That's OK, I'll reopen the bug.
 
-Can you please close the bug when the patch is merged?
-
+Thanks,
 Rafael
