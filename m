@@ -1,46 +1,41 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13328] b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
-Date: Mon, 24 Aug 2009 20:30:14 +0200
-Message-ID: <200908242030.14414.rjw@sisk.pl>
-References: <xDf-7eSwYsC.A.-6B.klIjKB@chimera> <200908201652.23574.rjw@sisk.pl> <38b2ab8a0908240041s7d9707eftb6e8078d7b6ad553@mail.gmail.com>
+Subject: Re: [Bug #14015] pty regressed again, breaking expect and gcc's testsuite
+Date: Mon, 24 Aug 2009 20:32:10 +0200
+Message-ID: <200908242032.11065.rjw@sisk.pl>
+References: <jCYznkTxcLB.A.EPH.eNIjKB@chimera> <ADSuNT6McuD.A.wlH.nNIjKB@chimera> <19090.26298.630328.344190@pilspetsen.it.uu.se>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <38b2ab8a0908240041s7d9707eftb6e8078d7b6ad553-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <19090.26298.630328.344190-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Monday 24 August 2009, Francis Moreau wrote:
-> On Thu, Aug 20, 2009 at 4:52 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > On Thursday 20 August 2009, Francis Moreau wrote:
-> >> Hello,
-> >>
-> >> On Wed, Aug 19, 2009 at 10:40 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> >> > This message has been generated automatically as a part of a report
-> >> > of regressions introduced between 2.6.29 and 2.6.30.
-> >> >
-> >> > The following bug entry is on the current list of known regressions
-> >> > introduced between 2.6.29 and 2.6.30.  Please verify if it still should
-> >> > be listed and let me know (either way).
-> >> >
-> >> >
-> >> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13328
-> >> > Subject         : b44: eth0: BUG! Timeout waiting for bit 00000002 of register 42c to clear.
-> >> > Submitter       : Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> >> > Date            : 2009-05-03 16:22 (109 days old)
-> >> > References      : http://marc.info/?l=linux-kernel&m=124136778012280&w=4
-> >> >
-> >>
-> >> It hasn't triggered on 2.6.31-rc5 after a couple of days.
-> >
-> > Great, let's assume it's fixed, then.
+On Monday 24 August 2009, Mikael Pettersson wrote:
+> On Wed, 19 Aug 2009 22:27:02 +0200 (CEST), Rafael J. Wysocki wrote:
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.30.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14015
+> > Subject		: pty regressed again, breaking expect and gcc's testsuite
+> > Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+> > Date		: 2009-08-14 23:41 (6 days old)
+> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D125029329805643&w=3D4
 > 
-> Sorry but it did happen this weekend.
+> The good news is that I don't see this issue any more with 2.6.31-rc7
+> on x86. The bad news is that the first time I reported this issue, for
+> -rc3 or -rc4 I think, I thought it was fixed in -rc5 only to see it
+> reappear in -rc6 on x86 and in -rc5 on ARM. So I'd like to keep this
+> open another week while I run more regression tests on non-x86 platforms.
+> 
+> While I don't suspect any arch-specific problems in the pty/tty code,
+> I do suspect timing/race-type problems which are obviously affected
+> by platform speed etc.
 
-That's OK, I'll reopen the bug.
+OK, thanks for the update.
 
-Thanks,
 Rafael
