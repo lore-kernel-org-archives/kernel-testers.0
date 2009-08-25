@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13408] Performance regression in 2.6.30-rc7
-Date: Tue, 25 Aug 2009 23:05:03 +0200 (CEST)
-Message-ID: <Cg6cQYLdUxG.A.JLC.c1GlKB@chimera>
+Subject: [Bug #13351] 2.6.30 - 2.6.31 corrupts my system after suspend resume with readonly mounted hard disk
+Date: Tue, 25 Aug 2009 23:05:01 +0200 (CEST)
+Message-ID: <Cg6cQYLdUxG.A.roC.81GlKB@chimera>
 References: <JuOd1ZASH0B.A.YGB.0zGlKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Diego Calleja <diegocg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, unggnu-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org, Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,9 +22,10 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13408
-Subject		: Performance regression in 2.6.30-rc7
-Submitter	: Diego Calleja <diegocg-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-05-30 18:51 (88 days old)
-References	: http://lkml.org/lkml/2009/5/30/146
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13351
+Subject		: 2.6.30 - 2.6.31 corrupts my system after suspend resume with readonly mounted hard disk
+Submitter	:  <unggnu-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Date		: 2009-05-20 14:09 (98 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=78a8b35bc7abf8b8333d6f625e08c0f7cc1c3742
+Handled-By	: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
