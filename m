@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13940] iwlagn and sky2 stopped working, ACPI-related
-Date: Tue, 25 Aug 2009 22:34:49 +0200 (CEST)
-Message-ID: <_yaHeGjHEzG.A.UX.YtGlKB@chimera>
+Subject: [Bug #13740] X server crashes with 2.6.31-rc2 when options are changed
+Date: Tue, 25 Aug 2009 22:34:46 +0200 (CEST)
+Message-ID: <_yaHeGjHEzG.A.-2.WuGlKB@chimera>
 References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ricardo Jorge da Fonseca Marques Ferreira <storm-cOTmPFJTJjbk1uMJSBkQmQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Michael S. Tsirkin" <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,8 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13940
-Subject		: iwlagn and sky2 stopped working, ACPI-related
-Submitter	: Ricardo Jorge da Fonseca Marques Ferreira <storm-cOTmPFJTJjbk1uMJSBkQmQ@public.gmane.org>
-Date		: 2009-08-07 22:33 (19 days old)
-References	: http://marc.info/?l=linux-kernel&m=124968457731107&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13740
+Subject		: X server crashes with 2.6.31-rc2 when options are changed
+Submitter	: Michael S. Tsirkin <m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-07-07 15:19 (50 days old)
 
