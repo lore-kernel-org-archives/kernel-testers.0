@@ -1,44 +1,35 @@
-From: Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #14011] Kernel paging request failed in kmem_cache_alloc
-Date: Wed, 26 Aug 2009 11:08:21 -0400
-Message-ID: <1251299301.2308.31.camel@dhcp231-106.rdu.redhat.com>
-References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera>
-	 <_yaHeGjHEzG.A.2bH.CtGlKB@chimera>
-	 <84144f020908252317j202aa459u27c40eed34debd6@mail.gmail.com>
-	 <200908261601.05734.ml_kernel@mortal-soul.de>
-	 <84144f020908260759q6554971dva6cc89a0ad9821b@mail.gmail.com>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: 2.6.31-rc7-git2: Reported regressions 2.6.29 -> 2.6.30
+Date: Wed, 26 Aug 2009 18:33:34 +0200
+Message-ID: <200908261833.37310.elendil@planet.nl>
+References: <JuOd1ZASH0B.A.YGB.0zGlKB@chimera> <b170af450908260147o60427997ne6b9872198893c41@mail.gmail.com> <b170af450908260147o60427997ne6b9872198893c41@mail.gmail.com> <20090826075337.4230d82c.akpm@linux-foundation.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <84144f020908260759q6554971dva6cc89a0ad9821b-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-reply-To: <20090826075337.4230d82c.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
-Cc: Matthias Dahl <ml_kernel-Rk1lLwyeSiSCvTm3UDtA3g@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
 
-On Wed, 2009-08-26 at 17:59 +0300, Pekka Enberg wrote:
-> On Wed, Aug 26, 2009 at 5:01 PM, Matthias Dahl<ml_kernel-Rk1lLwyeSiSCvTm3UDtA3g@public.gmane.org> wrote:
-> >> Can you reproduce the bug without the proprietary nvidia module that
-> >> seems to be loaded?
-> >
-> > I am sorry but I forgot to test that and right now I am not very keen on
-> > trying again since this is my primary machine and I had quite some fs
-> > corruption (ext4 on md raid5 -> no barriers) the last times. :-( But this also
-> > happened w/o Xorg ever being run during that session (though naturally the
-> > nvidia kernel module was still loaded).
+(Dropped unrelated CCs.)
+
+Andrew Morton wrote:
+> I'm not seeing any linux-acpi emails from Len since August 14.
 > 
-> Sure, I can understand that. The bug looks like regular slab
-> corruption which could have been caused the nvidia blob. So I think
-> the issue should be closed unless someone can reproduce it without the
-> blob.
+> So I merged this patch and shall send it along with
 > 
-> That said, sys_inotify_add_watch() also appears in the trace and
-> there's been quite a few bug fixes in that area recently so I guess we
-> should CC Eric Paris just in case the oops rings a bell to him.
+> thermal_sys-check-get_temp-return-value.patch
+> acpi-dont-call-acpi_processor_init-if-acpi-is-disabled.patch
 
-Nope, no bells here  :(   That slab cache is declared globally and
-allocated at __init time.  I haven't seen any reports of writes off the
-ends of marks which might mess up a chache...  sorry.....
+Thanks for that Andrew. Could you please do the same for my patches in
+http://bugzilla.kernel.org/show_bug.cgi?id=13389 (or
+http://lkml.org/lkml/2009/8/17/169)?
 
--Eric
+That BR is on the regression list for 2.6.30. The patches apply cleanly to 
+current mainline.
+
+Thanks,
+FJP
