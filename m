@@ -1,40 +1,39 @@
-From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.31-rc7-git2: Reported regressions 2.6.29 -> 2.6.30
-Date: Wed, 26 Aug 2009 10:47:13 +0200
-Message-ID: <b170af450908260147o60427997ne6b9872198893c41@mail.gmail.com>
-References: <JuOd1ZASH0B.A.YGB.0zGlKB@chimera>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [Bug #13389] Warning 'Invalid throttling state, reset' gets displayed when it should not be
+Date: Wed, 26 Aug 2009 11:29:38 +0200
+Message-ID: <200908261129.39250.elendil@planet.nl>
+References: <JuOd1ZASH0B.A.YGB.0zGlKB@chimera> <Cg6cQYLdUxG.A.TcC.r1GlKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=UjcAUhVPRPDjfvJnXZvpEfbKCKm1g+d1lFMgqVkwVJ0=;
-        b=WmelDp7m3iFARTBdR8HJeSC1tvf2qO2fZcDowYiHPvbacCf2B2Hez/TKKPvcZ3AbcS
-         iw8LqSFNvJ7OF7D4LdUWJU985ISRxYQPwM/qQ3evR41ZF2KKqiqAzAH5BGCeiWdUhhyf
-         UYoAYIbSR5jmxTzz9PSAmRQkUbcPuBOP9sJfY=
-In-Reply-To: <JuOd1ZASH0B.A.YGB.0zGlKB@chimera>
+In-Reply-To: <Cg6cQYLdUxG.A.TcC.r1GlKB@chimera>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-2009/8/25 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D13514
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : acer_wmi causes stack corruptio=
-n
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Rus <harbour-K87ZgELTUEPsG83rWm+8vg@public.gmane.org>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-06-12 08:13 (75 =
-days old)
+On Tuesday 25 August 2009, Rafael J. Wysocki wrote:
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> be listed and let me know (either way).
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13389
+> Subject	: Warning 'Invalid throttling state, reset' gets displayed
+>		  when it should not be
+> Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org> 
+> Date		: 2009-05-26 15:24 (92 days old)
+> Handled-By	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+> Patch		: http://bugzilla.kernel.org/attachment.cgi?id=21671
+> 		  http://bugzilla.kernel.org/attachment.cgi?id=21672
 
-It has patch, just Len doesn't seem to... don't know, read the topic?
-http://patchwork.kernel.org/patch/29082/
+Still waiting for Len (or somebody) to pick them up.
 
-Can we ping Len somehow to push this patch directly to Linus's tree?
+Slightly improved versions of the patches (as also sent to the mailing 
+list recently) are at:
+- http://bugzilla.kernel.org/attachment.cgi?id=22857
+- http://bugzilla.kernel.org/attachment.cgi?id=22858
 
---=20
-Rafa=C5=82 Mi=C5=82ecki
+Cheers,
+FJP
