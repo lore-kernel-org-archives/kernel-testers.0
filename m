@@ -1,41 +1,37 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13941] x86 Geode issue
-Date: Wed, 26 Aug 2009 22:59:34 +0200
-Message-ID: <200908262259.34121.rjw@sisk.pl>
-References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera> <_yaHeGjHEzG.A.sS.WtGlKB@chimera> <11fae7c70908251637p2fe53296g1c2e65b9fca5e5a1@mail.gmail.com>
+Subject: Re: [Bug #13943] WARNING: at net/mac80211/mlme.c:2292 with ath5k
+Date: Wed, 26 Aug 2009 23:00:40 +0200
+Message-ID: <200908262300.40402.rjw@sisk.pl>
+References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera> <_yaHeGjHEzG.A.YH.TtGlKB@chimera> <b637ec0b0908252339u20b7b2c6od3601697cb7aee43@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <11fae7c70908251637p2fe53296g1c2e65b9fca5e5a1-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <b637ec0b0908252339u20b7b2c6od3601697cb7aee43-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: q-funk-X3B1VOXEql0@public.gmane.org
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Luis R. Rodriguez" <mcgrof-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Wednesday 26 August 2009, Martin-=C3=89ric Racine wrote:
-> Yes, it still is valid.
+On Wednesday 26 August 2009, Fabio Comolli wrote:
+> Still present as of -rc6-git7 (didn't try -rc7)
 
 Thanks for the update.
 
 Rafael
 
-=20
-> On Tue, Aug 25, 2009 at 11:34 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrot=
-e:
+
+> On Tue, Aug 25, 2009 at 10:34 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
 > >
 > > The following bug entry is on the current list of known regressions
-> > from 2.6.30.  Please verify if it still should be listed and let me=
- know
+> > from 2.6.30.  Please verify if it still should be listed and let me know
 > > (either way).
 > >
 > >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D1394=
-1
-> > Subject         : x86 Geode issue
-> > Submitter       : Martin-=C3=89ric Racine <q-funk-X3B1VOXEql0@public.gmane.org>
-> > Date            : 2009-08-03 12:58 (23 days old)
-> > References      : http://marc.info/?l=3Dlinux-kernel&m=3D1249304347=
-32481&w=3D4
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13943
+> > Subject         : WARNING: at net/mac80211/mlme.c:2292 with ath5k
+> > Submitter       : Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2009-08-06 20:15 (20 days old)
+> > References      : http://marc.info/?l=linux-kernel&m=124958978600600&w=4
