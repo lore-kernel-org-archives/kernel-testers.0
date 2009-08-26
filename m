@@ -1,63 +1,40 @@
-From: Johannes Weiner <hannes@cmpxchg.org>
-Subject: Re: [Bug #14016] mm/ipw2200 regression
-Date: Wed, 26 Aug 2009 10:27:41 +0200
-Message-ID: <20090826082741.GA25955@cmpxchg.org>
-References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera> <_yaHeGjHEzG.A.FIH.7sGlKB@chimera> <84144f020908252309u5cff8afdh2214577ca4db9b5d@mail.gmail.com>
+From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: 2.6.31-rc7-git2: Reported regressions 2.6.29 -> 2.6.30
+Date: Wed, 26 Aug 2009 10:47:13 +0200
+Message-ID: <b170af450908260147o60427997ne6b9872198893c41@mail.gmail.com>
+References: <JuOd1ZASH0B.A.YGB.0zGlKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netdev-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <84144f020908252309u5cff8afdh2214577ca4db9b5d@mail.gmail.com>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=UjcAUhVPRPDjfvJnXZvpEfbKCKm1g+d1lFMgqVkwVJ0=;
+        b=WmelDp7m3iFARTBdR8HJeSC1tvf2qO2fZcDowYiHPvbacCf2B2Hez/TKKPvcZ3AbcS
+         iw8LqSFNvJ7OF7D4LdUWJU985ISRxYQPwM/qQ3evR41ZF2KKqiqAzAH5BGCeiWdUhhyf
+         UYoAYIbSR5jmxTzz9PSAmRQkUbcPuBOP9sJfY=
+In-Reply-To: <JuOd1ZASH0B.A.YGB.0zGlKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
-To: Pekka Enberg <penberg@cs.helsinki.fi>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Mel Gorman <mel@skynet.ie>, Andrew Morton <akpm@linux-foundation.org>, netdev@vger.kernel.org, linux-mm@kvack.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
 
-[Cc netdev]
+2009/8/25 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
+cgi?id=3D13514
+> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : acer_wmi causes stack corruptio=
+n
+> Submitter =C2=A0 =C2=A0 =C2=A0 : Rus <harbour-K87ZgELTUEPsG83rWm+8vg@public.gmane.org>
+> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-06-12 08:13 (75 =
+days old)
 
-On Wed, Aug 26, 2009 at 09:09:44AM +0300, Pekka Enberg wrote:
-> On Tue, Aug 25, 2009 at 11:34 PM, Rafael J. Wysocki<rjw@sisk.pl> wrot=
-e:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.30. =C2=A0Please verify if it still should be listed and l=
-et me know
-> > (either way).
-> >
-> > Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bu=
-g.cgi?id=3D14016
-> > Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : mm/ipw2200 regression
-> > Submitter =C2=A0 =C2=A0 =C2=A0 : Bartlomiej Zolnierkiewicz <bzolnie=
-r@gmail.com>
-> > Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-08-15 16:56 (1=
-1 days old)
-> > References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel=
-&m=3D125036437221408&w=3D4
->=20
-> If am reading the page allocator dump correctly, there's plenty of
-> pages left but we're unable to satisfy an order 6 allocation. There's
-> no slab allocator involved so the page allocator changes that went
-> into 2.6.31 seem likely. Mel, ideas?
+It has patch, just Len doesn't seem to... don't know, read the topic?
+http://patchwork.kernel.org/patch/29082/
 
-It's an atomic order-6 allocation, the chances for this to succeed
-after some uptime become infinitesimal.  The chunks > order-2 are
-pretty much exhausted on this dump.
+Can we ping Len somehow to push this patch directly to Linus's tree?
 
-64 pages, presumably 256k, for fw->boot_size while current ipw
-firmware images have ~188k.  I don't know jack squat about this
-driver, but given the field name and the struct:
-
-	struct ipw_fw {
-		__le32 ver;
-		__le32 boot_size;
-		__le32 ucode_size;
-		__le32 fw_size;
-		u8 data[0];
-	};
-
-fw->boot_size alone being that big sounds a bit fishy to me.
-
-	Hannes
+--=20
+Rafa=C5=82 Mi=C5=82ecki
