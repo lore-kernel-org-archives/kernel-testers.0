@@ -1,36 +1,44 @@
-From: Johannes Weiner <hannes-druUgvl0LCNAfugRpC6u6w@public.gmane.org>
-Subject: Re: [Bug #14016] mm/ipw2200 regression
-Date: Wed, 26 Aug 2009 11:51:18 +0200
-Message-ID: <20090826095118.GA26280@cmpxchg.org>
-References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera> <_yaHeGjHEzG.A.FIH.7sGlKB@chimera> <84144f020908252309u5cff8afdh2214577ca4db9b5d@mail.gmail.com> <20090826082741.GA25955@cmpxchg.org>
+From: "Tomas M." <tmezzadra-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13836] suspend script fails, related to stdout?
+Date: Wed, 26 Aug 2009 08:10:48 -0300
+Message-ID: <4A951838.4090803@gmail.com>
+References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera> <_yaHeGjHEzG.A.es.4tGlKB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090826082741.GA25955-druUgvl0LCNAfugRpC6u6w@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=IAlZ7J/0qBd/UzGhIcrKseMKYplFFI+BNzfko6EVOBY=;
+        b=DdNBlWuC88sGuGpa1C8T2STLsOKcTFsrW365Y1cXdkkbd72IuwTzMwEQhjLArYGVkH
+         Or/IG2XuPta/I016M+8Iyyw+6amkkohlpnMxQlMbYOKiOqiB1kUTjJr1jd9v5o+1x+Xa
+         +RnWJ7qveUIr4Ipg92tihfwdbpIjdRZPLoUnY=
+In-Reply-To: <_yaHeGjHEzG.A.es.4tGlKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mel Gorman <mel-wJa12IhQEiizQB+pC5nmwQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Wed, Aug 26, 2009 at 10:27:41AM +0200, Johannes Weiner wrote:
+yes, this is still the case, the same script (netcfg from archlinux) 
+fails during boot too.
 
-> 64 pages, presumably 256k, for fw->boot_size while current ipw
-> firmware images have ~188k.  I don't know jack squat about this
-> driver, but given the field name and the struct:
-> 
-> 	struct ipw_fw {
-> 		__le32 ver;
-> 		__le32 boot_size;
-> 		__le32 ucode_size;
-> 		__le32 fw_size;
-> 		u8 data[0];
-> 	};
-> 
-> fw->boot_size alone being that big sounds a bit fishy to me.
+Rafael J. Wysocki wrote:
 
-Scrap that, I just noticed the second call to ipw_load_firmware() a
-few lines later... :)
+This message has been generated automatically as a part of a report
+of recent regressions.
 
-	Hannes 'when logic and proportion have fallen sloppy dead...'
+The following bug entry is on the current list of known regressions
+from 2.6.30.  Please verify if it still should be listed and let me know
+(either way).
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13836
+Subject		: suspend script fails, related to stdout?
+Submitter	: Tomas M. <tmezzadra-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-07-17 21:24 (40 days old)
+References	: http://marc.info/?l=linux-kernel&m=124785853811667&w=4
+
+
