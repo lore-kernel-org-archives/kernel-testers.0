@@ -1,158 +1,37 @@
-From: Andrew Morton <akpm@linux-foundation.org>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
 Subject: Re: 2.6.31-rc7-git2: Reported regressions 2.6.29 -> 2.6.30
-Date: Wed, 26 Aug 2009 12:36:47 -0700
-Message-ID: <20090826123647.e60d9555.akpm@linux-foundation.org>
-References: <JuOd1ZASH0B.A.YGB.0zGlKB@chimera>
-	<b170af450908260147o60427997ne6b9872198893c41@mail.gmail.com>
-	<b170af450908260147o60427997ne6b9872198893c41@mail.gmail.com>
-	<20090826075337.4230d82c.akpm@linux-foundation.org>
-	<200908261833.37310.elendil@planet.nl>
+Date: Wed, 26 Aug 2009 22:11:39 +0200
+Message-ID: <200908262211.39228.rjw@sisk.pl>
+References: <JuOd1ZASH0B.A.YGB.0zGlKB@chimera> <b170af450908260147o60427997ne6b9872198893c41@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <200908261833.37310.elendil@planet.nl>
-Sender: linux-acpi-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-scsi-owner@vger.kernel.org>
+In-Reply-To: <b170af450908260147o60427997ne6b9872198893c41@mail.gmail.com>
+Sender: linux-scsi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Frans Pop <elendil@planet.nl>
-Cc: zajec5@gmail.com, rjw@sisk.pl, linux-kernel@vger.kernel.org, protasnb@gmail.com, linux-acpi@vger.kernel.org, kernel-testers@vger.kernel.org, torvalds@linux-foundation.org, Zhang Rui <rui.zhang@intel.com>, Len Brown <lenb@kernel.org>, Rusty Russell <rusty@rustcorp.com.au>, Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: Text/Plain; charset="utf-8"
+To: =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>, Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Natalie Protasevich <protasnb@gmail.com>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Len Brown <lenb@kernel.org>
 
-On Wed, 26 Aug 2009 18:33:34 +0200
-Frans Pop <elendil@planet.nl> wrote:
+On Wednesday 26 August 2009, Rafa=C5=82 Mi=C5=82ecki wrote:
+> 2009/8/25 Rafael J. Wysocki <rjw@sisk.pl>:
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D1351=
+4
+> > Subject         : acer_wmi causes stack corruption
+> > Submitter       : Rus <harbour@sfinx.od.ua>
+> > Date            : 2009-06-12 08:13 (75 days old)
+>=20
+> It has patch, just Len doesn't seem to... don't know, read the topic?
+> http://patchwork.kernel.org/patch/29082/
+>=20
+> Can we ping Len somehow to push this patch directly to Linus's tree?
 
-> (Dropped unrelated CCs.)
-> 
-> Andrew Morton wrote:
-> > I'm not seeing any linux-acpi emails from Len since August 14.
-> > 
-> > So I merged this patch and shall send it along with
-> > 
-> > thermal_sys-check-get_temp-return-value.patch
-> > acpi-dont-call-acpi_processor_init-if-acpi-is-disabled.patch
-> 
-> Thanks for that Andrew. Could you please do the same for my patches in
-> http://bugzilla.kernel.org/show_bug.cgi?id=13389 (or
-> http://lkml.org/lkml/2009/8/17/169)?
-> 
-> That BR is on the regression list for 2.6.30. The patches apply cleanly to 
-> current mainline.
-> 
+I have updated the bug entry, hopefully Len will notice it now.
 
-OK, shall do, thanks.
-
-
-
-These patches make rather a big mess in linux-next.
-
-Rusty's strangely-named patch:
-
-commit 6949d7cbb26476cbf1ee7b45ac74faacc9eb7cdf
-Author:     Rusty Russell <rusty@rustcorp.com.au>
-AuthorDate: Thu Aug 13 10:26:38 2009 +1000
-Commit:     Stephen Rothwell <sfr@canb.auug.org.au>
-CommitDate: Thu Aug 13 10:26:38 2009 +1000
-
-    misc:work_on_cpu-acpi
-
-is now in the acpi tree.  It changes the throttling code so that
-set/get_throttling is performed via smp_call_function_single() rather
-than via cpumask fiddling.
-
-So in my tree I reworked it so that the new `force' arg gets passed
-through appropriately.  It compiles cleanly but I'd suggest that Len
-simply drop "misc:work_on_cpu-acpi" and we send it back to Rusty for
-some rechecking (sorry).
-
-Rusty/Len: please work out why the title for that patch went silly.
-
-Rusty, please self-administer smackings for
-
-		struct set_throttling_info sti
-			= { pr, p_throttling, t_state.target_state };
-
-these things always start out simple and end up not-simple, so some poor
-schmuck has to clean them up so stuff doesn't break.
-
-		struct set_throttling_info sti = {
-			.pr = pr,
-			.p_throttling = p_throttling,
-			.target_state = t_state.target_state,
-			.force = force
-		};
-
-is better!
-
-
-My linux-next repair job:
-
- drivers/acpi/processor_throttling.c |   39 +++++++++++++++++++-------
- 1 file changed, 29 insertions(+), 10 deletions(-)
-
-diff -puN drivers/acpi/processor_throttling.c~linux-next-fixup drivers/acpi/processor_throttling.c
---- a/drivers/acpi/processor_throttling.c~linux-next-fixup
-+++ a/drivers/acpi/processor_throttling.c
-@@ -1015,10 +1015,25 @@ static int acpi_processor_set_throttling
- 	return 0;
- }
- 
-+struct set_throttling_info {
-+	struct acpi_processor *pr;
-+	struct acpi_processor_throttling *p_throttling;
-+	int target_state;
-+	bool force;
-+	int ret;
-+};
-+
-+static void set_throttling(void *_sti)
-+{
-+	struct set_throttling_info *s = _sti;
-+
-+	s->ret = s->p_throttling->acpi_processor_set_throttling(s->pr,
-+						s->target_state, s->force);
-+}
-+
- int acpi_processor_set_throttling(struct acpi_processor *pr,
- 						int state, bool force)
- {
--	cpumask_var_t saved_mask;
- 	int ret = 0;
- 	unsigned int i;
- 	struct acpi_processor *match_pr;
-@@ -1059,10 +1074,13 @@ int acpi_processor_set_throttling(struct
- 	 * it can be called only for the cpu pointed by pr.
- 	 */
- 	if (p_throttling->shared_type == DOMAIN_COORD_TYPE_SW_ANY) {
--		/* FIXME: use work_on_cpu() */
--		set_cpus_allowed_ptr(current, cpumask_of(pr->id));
--		ret = p_throttling->acpi_processor_set_throttling(pr,
--						t_state.target_state, force);
-+		struct set_throttling_info sti = {
-+			.pr = pr,
-+			.p_throttling = p_throttling,
-+			.target_state = t_state.target_state,
-+			.force = force };
-+		smp_call_function_single(pr->id, set_throttling, &sti, 1);
-+		ret = sti.ret;
- 	} else {
- 		/*
- 		 * When the T-state coordination is SW_ALL or HW_ALL,
-@@ -1093,11 +1111,12 @@ int acpi_processor_set_throttling(struct
- 				continue;
- 			}
- 			t_state.cpu = i;
--			/* FIXME: use work_on_cpu() */
--			set_cpus_allowed_ptr(current, cpumask_of(i));
--			ret = match_pr->throttling.
--				acpi_processor_set_throttling(
--				match_pr, t_state.target_state, force);
-+			sti.pr = match_pr;
-+			sti.p_throttling = &match_pr->throttling;
-+			sti.target_state = t_state.target_state;
-+			sti.force = force;
-+			smp_call_function_single(i, set_throttling, &sti, 1);
-+			ret = sti.ret;
- 		}
- 	}
- 	/*
-_
-
+Thanks,
+Rafael
+--
+To unsubscribe from this list: send the line "unsubscribe linux-scsi" i=
+n
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
