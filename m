@@ -1,60 +1,43 @@
-From: "Stefan Lippers-Hollmann" <s.L-H-Mmb7MZpHnFY@public.gmane.org>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 Subject: Re: [Bug #14031] dvb_usb_af9015: Oops on hotplugging
-Date: Wed, 26 Aug 2009 01:57:45 +0200
-Message-ID: <200908260157.48560.s.L-H@gmx.de>
-References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera> <_yaHeGjHEzG.A.RvG.1sGlKB@chimera>
+Date: Wed, 26 Aug 2009 02:03:16 +0200
+Message-ID: <200908260203.16548.rjw@sisk.pl>
+References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera> <_yaHeGjHEzG.A.RvG.1sGlKB@chimera> <200908260157.48560.s.L-H@gmx.de>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <_yaHeGjHEzG.A.RvG.1sGlKB@chimera>
+In-Reply-To: <200908260157.48560.s.L-H-Mmb7MZpHnFY@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+To: Stefan Lippers-Hollmann <s.L-H-Mmb7MZpHnFY@public.gmane.org>
 Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Hi
-
-On Wednesday 26 August 2009, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+On Wednesday 26 August 2009, Stefan Lippers-Hollmann wrote:
+> Hi
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me know
-> (either way).
+> On Wednesday 26 August 2009, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.30.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14031
+> > Subject		: dvb_usb_af9015: Oops on hotplugging
+> > Submitter	: Stefan Lippers-Hollmann <s.L-H-Mmb7MZpHnFY@public.gmane.org>
+> > Date		: 2009-08-05 20:32 (21 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=124949716608828&w=4
 > 
+> This issue does not exist in 2.6.31-rc7(-git2) anymore. 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14031
-> Subject		: dvb_usb_af9015: Oops on hotplugging
-> Submitter	: Stefan Lippers-Hollmann <s.L-H-Mmb7MZpHnFY@public.gmane.org>
-> Date		: 2009-08-05 20:32 (21 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124949716608828&w=4
+> Unfortunately I've been away from my system and with limited testing 
+> abilities recently, so I can't pinpoint the actual patch that fixed this 
+> (it was not in the first DVB pull request following that report, but maybe 
+> in the second or third), but it does work very well again. Thank you.
 
-This issue does not exist in 2.6.31-rc7(-git2) anymore. 
+Thanks, bug closed.
 
-Unfortunately I've been away from my system and with limited testing 
-abilities recently, so I can't pinpoint the actual patch that fixed this 
-(it was not in the first DVB pull request following that report, but maybe 
-in the second or third), but it does work very well again. Thank you.
-
-Regards
-	Stefan Lippers-Hollmann
-
-usb 1-6: new high speed USB device using ehci_hcd and address 4
-usb 1-6: New USB device found, idVendor=0ccd, idProduct=0069
-usb 1-6: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-usb 1-6: Product: Cinergy T USB XE Ver.2
-usb 1-6: Manufacturer: TerraTec
-usb 1-6: SerialNumber: 10012007
-usb 1-6: configuration #1 chosen from 1 choice
-dvb-usb: found a 'TerraTec Cinergy T USB XE' in cold state, will try to load a firmware
-usb 1-6: firmware: requesting dvb-usb-af9015.fw
-dvb-usb: downloading firmware from file 'dvb-usb-af9015.fw'
-dvb-usb: found a 'TerraTec Cinergy T USB XE' in warm state.
-dvb-usb: will pass the complete MPEG2 transport stream to the software demuxer.
-DVB: registering new adapter (TerraTec Cinergy T USB XE)
-af9013: firmware version:4.95.0
-DVB: registering adapter 0 frontend 0 (Afatech AF9013 DVB-T)...
-mc44s803: successfully identified (ID = 14)
-dvb-usb: TerraTec Cinergy T USB XE successfully initialized and connected.
-usbcore: registered new interface driver dvb_usb_af9015
+Rafael
