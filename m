@@ -1,56 +1,64 @@
-From: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
-Subject: Re: ipw2200: firmware DMA loading rework
-Date: Sun, 30 Aug 2009 14:37:42 +0200
-Message-ID: <200908301437.42133.bzolnier@gmail.com>
-References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera> <20090826074409.606b5124.akpm@linux-foundation.org> <1251430951.3704.181.camel@debian>
+From: Mikael Pettersson <mikpe@it.uu.se>
+Subject: Re: [Bug #14015] pty regressed again, breaking expect and gcc's testsuite
+Date: Mon, 31 Aug 2009 15:22:43 +0200
+Message-ID: <19099.52899.620345.326521@pilspetsen.it.uu.se>
+References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera>
+	<19096.15539.205951.931871@pilspetsen.it.uu.se>
+	<19097.14413.89047.384281@pilspetsen.it.uu.se>
+	<200908292101.38800.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:from:to:subject:date
-         :user-agent:cc:references:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:message-id;
-        bh=MMUaqBeO2KHYEYI02fK74xB1e1RqeMPHCJ47NYWf+w8=;
-        b=jm1dnlwzADMiCXVL0sA3nxZNV/7YwYXbk8alcFkbv4GvMimh8rYZKZ8agcwj9fQ5ri
-         AmP4RIyXjSuxSyiG3LCGFOP95fbZx1TYKgp+Fy5vuKbr1DgEv56r8MW4Je6IIqZBx01U
-         ZBlCwY36qhGkNyt5kE3iCMKzLOVjL9fbix/pc=
-In-Reply-To: <1251430951.3704.181.camel@debian>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Zhu Yi <yi.zhu@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Mel Gorman <mel@csn.ul.ie>, Johannes Weiner <hannes@cmpxchg.org>, Pekka Enberg <penberg@cs.helsinki.fi>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Mel Gorman <mel@skynet.ie>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, James Ketrenos <jketreno@linux.intel.com>, "Chatre, Reinette" <reinette.chatre@intel.com>, "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "ipw2100-devel@lists.sourceforge.net" <ipw2100-devel@lists.sourceforge.net>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753519AbZHaN0j@vger.kernel.org>
+In-Reply-To: <200908292101.38800.rjw@sisk.pl>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Mikael Pettersson <mikpe@it.uu.se>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Friday 28 August 2009 05:42:31 Zhu Yi wrote:
-> Bartlomiej Zolnierkiewicz reported an atomic order-6 allocation failure
-> for ipw2200 firmware loading in kernel 2.6.30. High order allocation is
+Rafael J. Wysocki writes:
+ > On Saturday 29 August 2009, Mikael Pettersson wrote:
+ > > Mikael Pettersson writes:
+ > >  > Rafael J. Wysocki writes:
+ > >  >  > On Thursday 27 August 2009, Mikael Pettersson wrote:
+ > >  >  > > On Tue, 25 Aug 2009 22:34:53 +0200 (CEST), Rafael J. Wysocki wrote:
+ > >  >  > > > The following bug entry is on the current list of known regressions
+ > >  >  > > > from 2.6.30.  Please verify if it still should be listed and let me know
+ > >  >  > > > (either way).
+ > >  >  > > > 
+ > >  >  > > > 
+ > >  >  > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14015
+ > >  >  > > > Subject		: pty regressed again, breaking expect and gcc's testsuite
+ > >  >  > > > Submitter	: Mikael Pettersson <mikpe@it.uu.se>
+ > >  >  > > > Date		: 2009-08-14 23:41 (12 days old)
+ > >  >  > > > References	: http://marc.info/?l=3Dlinux-kernel&m=3D125029329805643&w=3D4
+ > >  >  > > 
+ > >  >  > > Not fixed. With 2.6.31-rc7 I'm still seeing repeatable testsuite
+ > >  >  > > failures on powerpc64. Reverting to 2.6.30 makes the failures go away.
+ > >  >  > 
+ > >  >  > Thanks for the update.
+ > >  >  > 
+ > >  >  > I guess 2.6.31-rc8 doesn't make any difference, does it?
+ > >  > 
+ > >  > I've scheduled a number of gcc bootstraps and testsuite runs
+ > >  > with -rc8 on x86, powerpc64, and arm. I'll post an update in
+ > >  > a day or so.
+ > > 
+ > > 2.6.31-rc8 results in bogus testsuite failures on all three platforms.
+ > 
+ > That may be a result of the known inotify borkage in -rc8 that has been fixed
+ > in the current Linus' tree.
 
-s/2.6.30/2.6.31-rc6/
+No, it's the same old semi-random pty breakage. My kernels are built
+without inotify.
 
-The issue has always been there but it was some recent change that
-explicitly triggered the allocation failures (after 2.6.31-rc1).
+A bisection has identified Alan's
 
-> likely to fail and should always be avoided.
-> 
-> The patch fixes this problem by replacing the original order-6
-> pci_alloc_consistent() with an array of order-1 pages from a pci pool.
-> This utilized the ipw2200 DMA command blocks (up to 64 slots). The
-> maximum firmware size support remains the same (64*8K).
-> 
-> This patch fixes bug http://bugzilla.kernel.org/show_bug.cgi?id=14016
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Mel Gorman <mel@csn.ul.ie>
-> Signed-off-by: Zhu Yi <yi.zhu@intel.com>
+pty: Rework the pty layer to use the normal buffering logic
+d945cb9cce20ac7143c2de8d88b187f62db99bdc 
 
-Thanks for the fix (also kudos to other people helping with the bugreport),
-it works fine so far and looks OK to me:
+as the culprit. This patch introduces a massive number of bogus
+failures in the gcc testsuite. Subsequent pty/tty patches do fix
+most of those failures, but clearly not all.
 
-Tested-and-reviewed-by: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+/Mikael
