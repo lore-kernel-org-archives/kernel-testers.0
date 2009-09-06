@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13819] system freeze when switching to console
-Date: Sun,  6 Sep 2009 19:24:50 +0200 (CEST)
-Message-ID: <Vm51Upp4EV.A.r-D.mgBpKB@chimera>
+Subject: [Bug #13940] iwlagn and sky2 stopped working, ACPI-related
+Date: Sun,  6 Sep 2009 19:24:51 +0200 (CEST)
+Message-ID: <Vm51Upp4EV.A.9nD.8fBpKB@chimera>
 References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, "ling.ma-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org" <ling.ma-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Ma Ling <ling.ma-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ricardo Jorge da Fonseca Marques Ferreira <storm-cOTmPFJTJjbk1uMJSBkQmQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,9 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13819
-Subject		: system freeze when switching to console
-Submitter	: Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Date		: 2009-07-23 17:57 (46 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13940
+Subject		: iwlagn and sky2 stopped working, ACPI-related
+Submitter	: Ricardo Jorge da Fonseca Marques Ferreira <storm-cOTmPFJTJjbk1uMJSBkQmQ@public.gmane.org>
+Date		: 2009-08-07 22:33 (31 days old)
+References	: http://marc.info/?l=linux-kernel&m=124968457731107&w=4
 
