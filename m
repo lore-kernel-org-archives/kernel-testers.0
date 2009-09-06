@@ -1,33 +1,29 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13950] Oops when USB Serial disconnected while in use
-Date: Sun,  6 Sep 2009 19:24:53 +0200 (CEST)
-Message-ID: <Vm51Upp4EV.A._8C.ufBpKB@chimera>
+Subject: [Bug #14043] System sometimes hangs during boot
+Date: Sun,  6 Sep 2009 19:24:55 +0200 (CEST)
+Message-ID: <Vm51Upp4EV.A.EgC.YfBpKB@chimera>
 References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758500AbZIFU2j@vger.kernel.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758539AbZIFU3A@vger.kernel.org>
 In-Reply-To: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="macroman"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>, =?utf-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Bart Van Assche <bart.vanassche@gmail.com>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.30.  Please verify if it still should be listed and let me kno=
-w
+from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13950
-Subject		: Oops when USB Serial disconnected while in use
-Submitter	: Bruno Pr=C3=A9mont <bonbons@linux-vserver.org>
-Date		: 2009-08-08 17:47 (30 days old)
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D124975432900466&w=3D=
-4
-Handled-By	: Alan Stern <stern@rowland.harvard.edu>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14043
+Subject		: System sometimes hangs during boot
+Submitter	: Bart Van Assche <bart.vanassche@gmail.com>
+Date		: 2009-08-23 18:04 (15 days old)
 
