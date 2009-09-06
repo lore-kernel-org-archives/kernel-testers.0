@@ -1,44 +1,104 @@
-From: OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
-Subject: Re: [Bug #14015] pty regressed again, breaking expect and gcc's testsuite
-Date: Sun, 06 Sep 2009 07:46:51 +0900
-Message-ID: <87y6ot3t7o.fsf@devron.myhome.or.jp>
-References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera>
-	<19099.52899.620345.326521@pilspetsen.it.uu.se>
-	<19100.31254.666066.755541@pilspetsen.it.uu.se>
-	<200909012042.59856.rjw@sisk.pl>
-	<alpine.LFD.2.00.0909021429360.3590@eeepc.linux-foundation.org>
-	<19105.5352.28380.230615@pilspetsen.it.uu.se>
-	<alpine.LFD.2.00.0909040729490.5232@eeepc.linux-foundation.org>
-	<alpine.LFD.2.00.0909040739060.17375@eeepc.linux-foundation.org>
-	<alpine.LFD.2.00.0909040753370.17375@eeepc.linux-foundation.org>
-	<alpine.LFD.2.00.0909040804450.23850@eeepc.linux-foundation.org>
-	<alpine.LFD.2.00.0909040910140.4537@eeepc.linux-foundation.org>
-	<87pra55nsr.fsf@devron.myhome.or.jp>
-	<20090905225642.79251527@lxorguk.ukuu.org.uk>
+From: Ian Campbell <ijc-KcIKpvwj1kUDXYZnReoRVg@public.gmane.org>
+Subject: Re: [Bug #14057] Strange network timeouts w/ e100
+Date: Sun, 06 Sep 2009 12:22:58 +0100
+Message-ID: <1252236178.7811.28024.camel@localhost.localdomain>
+References: <828279661.71251246859811.JavaMail.root@mail.holmansrus.com>
+	 <200908262312.04000.rjw@sisk.pl>
+	 <20090826.151153.169388217.davem@davemloft.net>
 Mime-Version: 1.0
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-0RQE40nOC8Xf3v/rpvxh"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090905225642.79251527-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> (Alan Cox's message
-	of "Sat, 5 Sep 2009 22:56:42 +0100")
+In-Reply-To: <20090826.151153.169388217.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Greg KH <gregkh-l3A5Bk7waGM@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+Cc: rjw-KKrjLPT3xs0@public.gmane.org, walt-Wo+ox+avW/9ByuSxxbvQtw@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, khc-9GfyWEdoJtJmR6Xm/wNWPw@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> writes:
 
->> So, it will use the 64kb limit at least few paths, and I'm not sure
->> though, non-n_tty path (e.g. ppp) doesn't use tty_write_room() check
->> always. It may not be consistent if we removed pty_space() in pty_write().
->
-> The correct behaviour for most network protocols to overflow is to drop
-> packets so the behaviour of not checking was intentional.
+--=-0RQE40nOC8Xf3v/rpvxh
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I see. I meant, ppp doesn't check (64kb) on write, but post-process(?)
-checks (8kb). If there is this situation, I just worried it becomes the
-cause of wrong behavior.
+On Wed, 2009-08-26 at 15:11 -0700, David Miller wrote:=20
+> From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+> Date: Wed, 26 Aug 2009 23:12:03 +0200
+>=20
+> >> Krzysztof has a patch which has corrected this issue for me.  Thanks,
+> >=20
+> > Thanks for the update.
+> >=20
+> > Do you have a pointer to the patch, please?
+>=20
+> commit 6ff9c2e7fa8ca63a575792534b63c5092099c286
+> Author: Krzysztof Ha=C5=82asa <khc-9GfyWEdoJtJmR6Xm/wNWPw@public.gmane.org>
+> Date:   Sun Aug 23 19:02:13 2009 -0700
+>=20
+>     E100: fix interaction with swiotlb on X86.
 
-Thanks.
--- 
-OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+This fixes 303d67c2 which has been included in at least the 2.6.27.29
+and 2.6.30.5 stable releases so I think this should be a candidate for
+those stable branches too.
+
+Ian.
+
+>=20
+>     E100 places it's RX packet descriptors inside skb->data and uses them
+>     with bidirectional streaming DMA mapping. Data in descriptors is
+>     accessed simultaneously by the chip (writing status and size when
+>     a packet is received) and CPU (reading to check if the packet was
+>     received). This isn't a valid usage of PCI DMA API, which requires us=
+e
+>     of the coherent (consistent) memory for such purpose. Unfortunately e=
+100
+>     chips working in "simplified" RX mode have to store received data
+>     directly after the descriptor. Fixing the driver to conform to the AP=
+I
+>     would require using unsupported "flexible" RX mode or receiving data
+>     into a coherent memory and using CPU to copy it to network buffers.
+>    =20
+>     This patch, while not yet making the driver conform to the PCI DMA AP=
+I,
+>     allows it to work correctly on X86 with swiotlb (while not breaking
+>     other architectures).
+>    =20
+>     Signed-off-by: Krzysztof Ha=C5=82asa <khc-9GfyWEdoJtJmR6Xm/wNWPw@public.gmane.org>
+>     Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+>=20
+> diff --git a/drivers/net/e100.c b/drivers/net/e100.c
+> index 41b648a..3a6735d 100644
+> --- a/drivers/net/e100.c
+> +++ b/drivers/net/e100.c
+> @@ -1899,7 +1899,7 @@ static int e100_rx_indicate(struct nic *nic, struct=
+ rx *rx,
+>  				nic->ru_running =3D RU_SUSPENDED;
+>  		pci_dma_sync_single_for_device(nic->pdev, rx->dma_addr,
+>  					       sizeof(struct rfd),
+> -					       PCI_DMA_BIDIRECTIONAL);
+> +					       PCI_DMA_FROMDEVICE);
+>  		return -ENODATA;
+>  	}
+> =20
+> NrybX=C7=A7v^)=DE=BA{.n+{zX=DC=A8}=C6=A0z&j:+vzZ++zfh~izw?&)=DF=A2f^j=C7=
+=ABym@Aa=7F0hi=7F
+--=20
+Ian Campbell
+
+Q:	Why did the chicken cross the road?
+A:	To see his friend Gregory peck.
+
+Q:	Why did the chicken cross the playground?
+A:	To get to the other slide.
+
+--=-0RQE40nOC8Xf3v/rpvxh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEABECAAYFAkqjm5IACgkQM0+0qS9rzVm3HACgoiyLCat7BfO441pbsQNOabH2
+s10An2P4RfjoXeDPvHF/8SE/8Ap+UWJm
+=ienr
+-----END PGP SIGNATURE-----
+
+--=-0RQE40nOC8Xf3v/rpvxh--
