@@ -1,30 +1,33 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13943] WARNING: at net/mac80211/mlme.c:2292 with ath5k
-Date: Sun,  6 Sep 2009 19:24:52 +0200 (CEST)
-Message-ID: <Vm51Upp4EV.A.OYD.1fBpKB@chimera>
+Subject: [Bug #13950] Oops when USB Serial disconnected while in use
+Date: Sun,  6 Sep 2009 19:24:53 +0200 (CEST)
+Message-ID: <Vm51Upp4EV.A._8C.ufBpKB@chimera>
 References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758496AbZIFU2R@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758500AbZIFU2j@vger.kernel.org>
 In-Reply-To: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="macroman"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Fabio Comolli <fabio.comolli@gmail.com>, "Luis R. Rodriguez" <mcgrof@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>, =?utf-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.30.  Please verify if it still should be listed and let me know
+from 2.6.30.  Please verify if it still should be listed and let me kno=
+w
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13943
-Subject		: WARNING: at net/mac80211/mlme.c:2292 with ath5k
-Submitter	: Fabio Comolli <fabio.comolli@gmail.com>
-Date		: 2009-08-06 20:15 (32 days old)
-References	: http://marc.info/?l=linux-kernel&m=124958978600600&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13950
+Subject		: Oops when USB Serial disconnected while in use
+Submitter	: Bruno Pr=C3=A9mont <bonbons@linux-vserver.org>
+Date		: 2009-08-08 17:47 (30 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D124975432900466&w=3D=
+4
+Handled-By	: Alan Stern <stern@rowland.harvard.edu>
 
