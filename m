@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14070] lockdep warning triggered by dup_fd
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14058] Oops in fsnotify
 Date: Sun,  6 Sep 2009 19:24:55 +0200 (CEST)
-Message-ID: <Vm51Upp4EV.A.MYC.OfBpKB@chimera>
+Message-ID: <Vm51Upp4EV.A.LeC.SfBpKB@chimera>
 References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758550AbZIFU3I@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Bart Van Assche <bart.vanassche@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Paris <eparis-FjpueFixGhCM4zKIHC2jIg@public.gmane.org>, Grant Wilson <grant.wilson-1HOZaDBbGgxaa/9Udqfwiw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.30.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14070
-Subject		: lockdep warning triggered by dup_fd
-Submitter	: Bart Van Assche <bart.vanassche@gmail.com>
-Date		: 2009-08-23 09:36 (15 days old)
-References	: http://lkml.org/lkml/2009/8/23/8
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14058
+Subject		: Oops in fsnotify
+Submitter	: Grant Wilson <grant.wilson-1HOZaDBbGgxaa/9Udqfwiw@public.gmane.org>
+Date		: 2009-08-20 15:48 (18 days old)
+References	: http://marc.info/?l=linux-kernel&m=125078450923133&w=4
 
