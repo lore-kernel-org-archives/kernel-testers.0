@@ -1,29 +1,32 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13809] oprofile: possible circular locking dependency detected
-Date: Sun,  6 Sep 2009 19:24:50 +0200 (CEST)
-Message-ID: <Vm51Upp4EV.A.tAE.sgBpKB@chimera>
+Subject: [Bug #13942] Troubles with AoE and uninitialized object
+Date: Sun,  6 Sep 2009 19:24:52 +0200 (CEST)
+Message-ID: <Vm51Upp4EV.A.5cD.2fBpKB@chimera>
 References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758679AbZIFUeH@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758678AbZIFUdv@vger.kernel.org>
 In-Reply-To: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="macroman"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Jerome Marchand <jmarchan@redhat.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, =?utf-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.30.  Please verify if it still should be listed and let me know
+from 2.6.30.  Please verify if it still should be listed and let me kno=
+w
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13809
-Subject		: oprofile: possible circular locking dependency detected
-Submitter	: Jerome Marchand <jmarchan@redhat.com>
-Date		: 2009-07-22 13:35 (47 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13942
+Subject		: Troubles with AoE and uninitialized object
+Submitter	: Bruno Pr=C3=A9mont <bonbons@linux-vserver.org>
+Date		: 2009-08-04 10:12 (34 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D124938117104811&w=3D=
+4
 
