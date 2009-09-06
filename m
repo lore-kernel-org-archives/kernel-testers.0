@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13401] pktcdvd writing is really slow with CFQ scheduler (bisected)
-Date: Sun,  6 Sep 2009 20:11:49 +0200 (CEST)
-Message-ID: <hKF51Pczj6N.A.-r.A5BpKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13583] pdflush uses 5% CPU on otherwise idle system
+Date: Sun,  6 Sep 2009 20:11:50 +0200 (CEST)
+Message-ID: <hKF51Pczj6N.A.uO.O4BpKB@chimera>
 References: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758837AbZIFVO4@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Jens Axboe <jens.axboe@oracle.com>, Laurent Riffard <laurent.riffard@free.fr>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13401
-Subject		: pktcdvd writing is really slow with CFQ scheduler (bisected)
-Submitter	: Laurent Riffard <laurent.riffard@free.fr>
-Date		: 2009-05-28 18:43 (102 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13583
+Subject		: pdflush uses 5% CPU on otherwise idle system
+Submitter	: Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Date		: 2009-06-19 13:33 (80 days old)
 
