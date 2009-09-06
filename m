@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13341] Random Oops at boot at loading ip6tables rules
+Subject: [Bug #13318] AGP doesn't work anymore on nforce2
 Date: Sun,  6 Sep 2009 20:11:48 +0200 (CEST)
-Message-ID: <hKF51Pczj6N.A.p7.f5BpKB@chimera>
+Message-ID: <hKF51Pczj6N.A.2PB.55BpKB@chimera>
 References: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758816AbZIFVOm@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758805AbZIFVOk@vger.kernel.org>
 In-Reply-To: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, patrick@ostenberg.de, Rusty Russell <rusty@rustcorp.com.au>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Dave Airlie <airlied@redhat.com>, Jerome Glisse <glisse@freedesktop.org>, Karsten Mehrhoff <kawime@gmx.de>, =?utf-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>, Shaohua Li <shaohua.li@intel.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,9 +22,11 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13341
-Subject		: Random Oops at boot at loading ip6tables rules
-Submitter	:  <patrick@ostenberg.de>
-Date		: 2009-05-19 09:08 (111 days old)
-Handled-By	: Rusty Russell <rusty@rustcorp.com.au>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13318
+Subject		: AGP doesn't work anymore on nforce2
+Submitter	: Karsten Mehrhoff <kawime@gmx.de>
+Date		: 2009-04-30 8:51 (130 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=59de2bebabc5027f93df999d59cc65df591c3e6e
+References	: http://marc.info/?l=linux-kernel&m=124108156417560&w=4
+Handled-By	: Shaohua Li <shaohua.li@intel.com>
 
