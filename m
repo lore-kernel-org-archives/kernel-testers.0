@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13558] Tracelog during resume
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #13682] The webcam stopped working when upgrading from 2.6.29 to 2.6.30
 Date: Sun,  6 Sep 2009 20:11:50 +0200 (CEST)
-Message-ID: <hKF51Pczj6N.A.LU.W4BpKB@chimera>
+Message-ID: <hKF51Pczj6N.A.kL.03BpKB@chimera>
 References: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758966AbZIFVRs@vger.kernel.org>
 In-Reply-To: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Nathanael Schaeffer <nathanael.schaeffer@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,8 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13558
-Subject		: Tracelog during resume
-Submitter	: Cijoml Cijomlovic Cijomlov <cijoml-VIXq6x/3rUk@public.gmane.org>
-Date		: 2009-06-17 11:32 (82 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13682
+Subject		: The webcam stopped working when upgrading from 2.6.29 to 2.6.30
+Submitter	: Nathanael Schaeffer <nathanael.schaeffer@gmail.com>
+Date		: 2009-06-30 13:34 (69 days old)
 
