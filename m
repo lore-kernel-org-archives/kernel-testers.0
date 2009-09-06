@@ -1,24 +1,22 @@
-From: Ricardo Jorge da Fonseca Marques Ferreira <storm-cOTmPFJTJjbk1uMJSBkQmQ@public.gmane.org>
-Subject: Re: [Bug #13940] iwlagn and sky2 stopped working, ACPI-related
-Date: Sun, 6 Sep 2009 21:55:07 +0100
-Message-ID: <200909062155.07450.storm@sys49152.net>
-References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera> <Vm51Upp4EV.A.9nD.8fBpKB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13941] x86 Geode issue
+Date: Sun, 6 Sep 2009 23:12:25 +0200
+Message-ID: <200909062312.25876.rjw@sisk.pl>
+References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera> <Vm51Upp4EV.A.VjD.4fBpKB@chimera> <11fae7c70909061330h11c33ef3vc8ed4b7a0778874e@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Vm51Upp4EV.A.9nD.8fBpKB@chimera>
+In-Reply-To: <11fae7c70909061330h11c33ef3vc8ed4b7a0778874e-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="windows-1252"
+To: q-funk-X3B1VOXEql0@public.gmane.org
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
 
-On Sunday 06 September 2009, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me know
-> (either way).
+On Sunday 06 September 2009, Martin-=C3=89ric Racine wrote:
+> Yes, it should still be listed, for as long as it hasn't been resolve=
+d.
 
-Yes, the regression is still present.
+Thanks for the update.
+
+Rafael
