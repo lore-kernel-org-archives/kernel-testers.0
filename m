@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13581] ath9k doesn't work with newer kernels
-Date: Sun,  6 Sep 2009 20:11:50 +0200 (CEST)
-Message-ID: <hKF51Pczj6N.A.fQ.Q4BpKB@chimera>
+Subject: [Bug #13739] 2.6.30 leaking keys on console switch
+Date: Sun,  6 Sep 2009 20:11:51 +0200 (CEST)
+Message-ID: <hKF51Pczj6N.A.oJ.u3BpKB@chimera>
 References: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758896AbZIFVPY@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758905AbZIFVP3@vger.kernel.org>
 In-Reply-To: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Matteo <rootkit85@yahoo.it>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Andi Kleen <andi@firstfloor.org>, Jiri Kosina <jkosina@suse.cz>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.29 and 2.6.30.
@@ -22,8 +22,10 @@ introduced between 2.6.29 and 2.6.30.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13581
-Subject		: ath9k doesn't work with newer kernels
-Submitter	: Matteo <rootkit85@yahoo.it>
-Date		: 2009-06-19 12:04 (80 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13739
+Subject		: 2.6.30 leaking keys on console switch
+Submitter	: Andi Kleen <andi@firstfloor.org>
+Date		: 2009-07-07 8:44 (62 days old)
+References	: http://marc.info/?l=linux-kernel&m=124695628924382&w=4
+Handled-By	: Jiri Kosina <jkosina@suse.cz>
 
