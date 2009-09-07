@@ -1,37 +1,26 @@
-From: Bob Tracy <rct@gherkin.frus.com>
-Subject: Re: [Bug #14136] readcd Oops
-Date: Mon, 7 Sep 2009 00:38:33 -0500
-Message-ID: <20090907053833.GA15287@gherkin.frus.com>
-References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera> <Vm51Upp4EV.A.p8B.DfBpKB@chimera>
+From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [Bug #13949] XFS regression
+Date: Mon, 7 Sep 2009 11:25:53 -0400
+Message-ID: <20090907152553.GA21768@infradead.org>
+References: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera> <hKF51Pczj6N.A.bvH.Y3BpKB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758912AbZIGFid@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <Vm51Upp4EV.A.p8B.DfBpKB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+In-Reply-To: <hKF51Pczj6N.A.bvH.Y3BpKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Michal Schmidt <mschmidt@redhat.com>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Felix Blyakher <felixb-sJ/iWh9BUns@public.gmane.org>, Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>
 
-On Sun, Sep 06, 2009 at 07:24:57PM +0200, Rafael J. Wysocki wrote:
+On Sun, Sep 06, 2009 at 08:11:51PM +0200, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
-> of recent regressions.
+> of regressions introduced between 2.6.29 and 2.6.30.
 > 
 > The following bug entry is on the current list of known regressions
-> from 2.6.30.  Please verify if it still should be listed and let me know
-> (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14136
-> Subject		: readcd Oops
-> Submitter	: Bob Tracy <rct@gherkin.frus.com>
-> Date		: 2009-09-03 3:39 (4 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125195043617418&w=4
-> Handled-By	: Michal Schmidt <mschmidt@redhat.com>
-> Patch		: http://patchwork.kernel.org/patch/45347/
+> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> be listed and let me know (either way).
 
-I ack'd the fix a few days ago: please remove this bug entry from the
-list of 2.6.30 regressions.
-
---Bob
+While this still isn't fixed it has been tracked down to a regression
+in the loop driver.  Care to adjust the subject?
