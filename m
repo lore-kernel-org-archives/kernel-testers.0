@@ -1,34 +1,24 @@
-From: Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>
-Subject: Re: [Bug #13949] Cryptoloop stuck I/O issue on partition or loopback
- device
-Date: Tue, 8 Sep 2009 10:30:55 -0400 (EDT)
-Message-ID: <alpine.DEB.2.00.0909081029050.7636@p34.internal.lan>
-References: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera> <hKF51Pczj6N.A.bvH.Y3BpKB@chimera> <20090907152553.GA21768@infradead.org>
+From: reinette chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #13819] system freeze when switching to console
+Date: Tue, 08 Sep 2009 09:29:35 -0700
+Message-ID: <1252427375.14735.130.camel@rc-desk>
+References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
+	 <Vm51Upp4EV.A.r-D.mgBpKB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090907152553.GA21768-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+In-Reply-To: <Vm51Upp4EV.A.r-D.mgBpKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"; format="flowed"
-Content-Transfer-Encoding: 7bit
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Felix Blyakher <felixb-sJ/iWh9BUns@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, "Ma, Ling" <ling.ma-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
+On Sun, 2009-09-06 at 10:24 -0700, Rafael J. Wysocki wrote:
+> Please verify if it still should be listed and let me know
+> (either way).
 
+Issue is still present in 2.6.31-rc8.
 
-On Mon, 7 Sep 2009, Christoph Hellwig wrote:
+Reinette
 
-> On Sun, Sep 06, 2009 at 08:11:51PM +0200, Rafael J. Wysocki wrote:
->> This message has been generated automatically as a part of a report
->> of regressions introduced between 2.6.29 and 2.6.30.
->>
->> The following bug entry is on the current list of known regressions
->> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
->> be listed and let me know (either way).
->
-> While this still isn't fixed it has been tracked down to a regression
-> in the loop driver.  Care to adjust the subject?
->
-
-Unsure how to edit on the kernel bugtracker but updating this thread to 
-correct the subject.
