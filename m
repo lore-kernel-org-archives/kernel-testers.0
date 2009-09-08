@@ -1,68 +1,43 @@
-From: Simon Kitching <simon.kitching@chello.at>
-Subject: Re: ipw2200: firmware DMA loading rework
-Date: Tue, 08 Sep 2009 22:39:26 +0200
-Message-ID: <1252442366.9812.3.camel@simon-laptop>
-References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera>
-	 <1251430951.3704.181.camel@debian> <200908301437.42133.bzolnier@gmail.com>
-	 <200909021948.13262.bzolnier@gmail.com>
-	 <43e72e890909021102g7f844c79xefccf305f5f5c5b6@mail.gmail.com>
-	 <20090903124913.GA26110@csn.ul.ie> <20090905142837.GI16217@mit.edu>
-	 <20090908110041.GE28127@csn.ul.ie>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #13819] system freeze when switching to console
+Date: Tue, 8 Sep 2009 15:06:21 -0700 (PDT)
+Message-ID: <alpine.LFD.2.01.0909081502510.7458@localhost.localdomain>
+References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera> <Vm51Upp4EV.A.r-D.mgBpKB@chimera> <1252427375.14735.130.camel@rc-desk> <alpine.LFD.2.01.0909080943030.7458@localhost.localdomain> <1252431375.14735.139.camel@rc-desk> <alpine.LFD.2.01.0909081039300.7458@localhost.localdomain>
+ <20090908112014.002a35af@jbarnes-g45> <alpine.LFD.2.01.0909081219130.7458@localhost.localdomain> <20090908123151.1f2b18fe@jbarnes-g45>
 Mime-Version: 1.0
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20090908123151.1f2b18fe@jbarnes-g45>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20090908110041.GE28127@csn.ul.ie>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: Theodore Tso <tytso@mit.edu>, "Luis R. Rodriguez" <mcgrof@gmail.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>, Zhu Yi <yi.zhu@intel.com>, Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, Pekka Enberg <penberg@cs.helsinki.fi>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Mel Gorman <mel@skynet.ie>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, James Ketrenos <jketreno@linux.intel.com>, "Chatre, Reinette" <reinette.chatre@intel.com>, "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "ipw2100-devel@lists.sourceforge.net" <ipw2100- devel@lists.sourceforge.net>
+To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: reinette chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, "Ma, Ling" <ling.ma-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org" <bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org>
 
-On Tue, 2009-09-08 at 12:00 +0100, Mel Gorman wrote:
-> On Sat, Sep 05, 2009 at 10:28:37AM -0400, Theodore Tso wrote:
-> > On Thu, Sep 03, 2009 at 01:49:14PM +0100, Mel Gorman wrote:
-> > > > 
-> > > > This looks very similar to the kmemleak ext4 reports upon a mount. If
-> > > > it is the same issue, which from the trace it seems it is, then this
-> > > > is due to an extra kmalloc() allocation and this apparently will not
-> > > > get fixed on 2.6.31 due to the closeness of the merge window and the
-> > > > non-criticalness this issue has been deemed.
-> > 
-> > No, it's a different problem.
-> > 
-> > > I suspect the more pressing concern is why is this kmalloc() resulting in
-> > > an order-5 allocation request? What size is the buffer being requested?
-> > > Was that expected?  What is the contents of /proc/slabinfo in case a buffer
-> > > that should have required order-1 or order-2 is using a higher order for
-> > > some reason.
-> > 
-> > It's allocating 68,000 bytes for the mb_history structure, which is
-> > used for debugging purposes.  That's why it's optional and we continue
-> > if it's not allocated.  We should fix it to use vmalloc()
+
+
+On Tue, 8 Sep 2009, Jesse Barnes wrote:
 > 
-> You could call with kmalloc(FLAGS|GFP_NOWARN) with a fallback to
-> vmalloc() and a disable if vmalloc() fails as well.  Maybe check out what
-> kernel/profile.c#profile_init() to allocate a large buffer and do something
-> similar?
-> 
-> > and I'm
-> > inclined to turn it off by default since it's not worth the overhead,
-> > and most ext4 users won't find it useful or interesting.
-> > 
-> 
-> I can't comment as I don't know what sort of debugging it's useful for.
-> 
+> Yeah, saw that.  I don't think that's the root cause though.  If we see
+> a user interrupt after gem_idle is called we may have serious issues in
+> our command handling code.
 
-Perhaps this is a suitable use for the new proposed flex_array? From an
-initial glance, I can't see why the allocated memory has to be
-contiguous..
+Quite frankly, I do not understand why you seem to be making excuses for 
+code that causes a very nasty and undebuggable oops, causing the machine 
+to die. 
 
-http://lwn.net/Articles/345273/
+This regression is almost two months old, and apparently the Intel 
+graphics people DID ABSOLUTELY NOTHING about it during those two months, 
+because they couldn't be bothered to look at it.
 
-Cheers, Simon
+And now, when I pinpointed exactly where the oops happens, and what the 
+cause is, you seem to be trying to hold things up. I wanted to do the 
+final 2.6.31 release yesterday, quite frankly I'm not in the _least_ 
+interested in excuses, I'm interested in something that at least gets us 
+back to the 2.6.30 state that doesn't oops!
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+Get me a patch, please. If disabling the interrupts early won't work, get 
+me something else. Stop delaying it - it's been pending for 48 days 
+already.
+
+		Linus
