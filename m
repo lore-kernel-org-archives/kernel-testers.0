@@ -1,50 +1,68 @@
-From: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13943] WARNING: at net/mac80211/mlme.c:2292 with ath5k
-Date: Tue, 8 Sep 2009 21:30:44 +0200
-Message-ID: <b637ec0b0909081230y1b9d2abbo258662343cca7932@mail.gmail.com>
-References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
-	 <Vm51Upp4EV.A.OYD.1fBpKB@chimera>
+From: Simon Kitching <simon.kitching@chello.at>
+Subject: Re: ipw2200: firmware DMA loading rework
+Date: Tue, 08 Sep 2009 22:39:26 +0200
+Message-ID: <1252442366.9812.3.camel@simon-laptop>
+References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera>
+	 <1251430951.3704.181.camel@debian> <200908301437.42133.bzolnier@gmail.com>
+	 <200909021948.13262.bzolnier@gmail.com>
+	 <43e72e890909021102g7f844c79xefccf305f5f5c5b6@mail.gmail.com>
+	 <20090903124913.GA26110@csn.ul.ie> <20090905142837.GI16217@mit.edu>
+	 <20090908110041.GE28127@csn.ul.ie>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=MYI2VQGKiSFiO53mxYZLFF4deKuDjdAnNhyrHT9D1Ks=;
-        b=mA9dEk8q4SvOx7NbiKf52bBukyUr7/S5WKkksD3cpFGWBtYoShYWINZIPv8TlYKYy3
-         uOgC8JrVh4OBF+3ZFJ0XENT5DylxAjLJfBudQqsmRIIH9Jy43a7GYev+CzEtFFEWWmCT
-         7OoVv4UsgAkVxQxJ/hunP6cu8uGOJPcTAPKPM=
-In-Reply-To: <Vm51Upp4EV.A.OYD.1fBpKB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Luis R. Rodriguez" <mcgrof-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <20090908110041.GE28127@csn.ul.ie>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Mel Gorman <mel@csn.ul.ie>
+Cc: Theodore Tso <tytso@mit.edu>, "Luis R. Rodriguez" <mcgrof@gmail.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>, Zhu Yi <yi.zhu@intel.com>, Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, Pekka Enberg <penberg@cs.helsinki.fi>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Mel Gorman <mel@skynet.ie>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, James Ketrenos <jketreno@linux.intel.com>, "Chatre, Reinette" <reinette.chatre@intel.com>, "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "ipw2100-devel@lists.sourceforge.net" <ipw2100- devel@lists.sourceforge.net>
 
-Still present in -rc9
+On Tue, 2009-09-08 at 12:00 +0100, Mel Gorman wrote:
+> On Sat, Sep 05, 2009 at 10:28:37AM -0400, Theodore Tso wrote:
+> > On Thu, Sep 03, 2009 at 01:49:14PM +0100, Mel Gorman wrote:
+> > > > 
+> > > > This looks very similar to the kmemleak ext4 reports upon a mount. If
+> > > > it is the same issue, which from the trace it seems it is, then this
+> > > > is due to an extra kmalloc() allocation and this apparently will not
+> > > > get fixed on 2.6.31 due to the closeness of the merge window and the
+> > > > non-criticalness this issue has been deemed.
+> > 
+> > No, it's a different problem.
+> > 
+> > > I suspect the more pressing concern is why is this kmalloc() resulting in
+> > > an order-5 allocation request? What size is the buffer being requested?
+> > > Was that expected?  What is the contents of /proc/slabinfo in case a buffer
+> > > that should have required order-1 or order-2 is using a higher order for
+> > > some reason.
+> > 
+> > It's allocating 68,000 bytes for the mb_history structure, which is
+> > used for debugging purposes.  That's why it's optional and we continue
+> > if it's not allocated.  We should fix it to use vmalloc()
+> 
+> You could call with kmalloc(FLAGS|GFP_NOWARN) with a fallback to
+> vmalloc() and a disable if vmalloc() fails as well.  Maybe check out what
+> kernel/profile.c#profile_init() to allocate a large buffer and do something
+> similar?
+> 
+> > and I'm
+> > inclined to turn it off by default since it's not worth the overhead,
+> > and most ext4 users won't find it useful or interesting.
+> > 
+> 
+> I can't comment as I don't know what sort of debugging it's useful for.
+> 
 
-On Sun, Sep 6, 2009 at 7:24 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.30. =C2=A0Please verify if it still should be listed and let=
- me know
-> (either way).
->
->
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D13943
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : WARNING: at net/mac80211/mlme.c=
-:2292 with ath5k
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Fabio Comolli <fabio.comolli@gmail.c=
-om>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-08-06 20:15 (32 =
-days old)
-> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
-=3D124958978600600&w=3D4
->
->
->
+Perhaps this is a suitable use for the new proposed flex_array? From an
+initial glance, I can't see why the allocated memory has to be
+contiguous..
+
+http://lwn.net/Articles/345273/
+
+Cheers, Simon
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
