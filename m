@@ -1,182 +1,38 @@
-From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Subject: Re: [Bug #13819] system freeze when switching to console
-Date: Tue, 8 Sep 2009 11:20:14 -0700
-Message-ID: <20090908112014.002a35af@jbarnes-g45>
-References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
-	<Vm51Upp4EV.A.r-D.mgBpKB@chimera>
-	<1252427375.14735.130.camel@rc-desk>
-	<alpine.LFD.2.01.0909080943030.7458@localhost.localdomain>
-	<1252431375.14735.139.camel@rc-desk>
-	<alpine.LFD.2.01.0909081039300.7458@localhost.localdomain>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13949] Cryptoloop stuck I/O issue on partition or loopback device
+Date: Tue, 8 Sep 2009 21:05:13 +0200
+Message-ID: <200909082105.13124.rjw@sisk.pl>
+References: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera> <20090907152553.GA21768@infradead.org> <alpine.DEB.2.00.0909081029050.7636@p34.internal.lan>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.01.0909081039300.7458-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.00.0909081029050.7636-0qmrozcXWo8bm2hyYBkBBg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: reinette chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, "Ma, Ling" <ling.ma-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org" <bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Justin Piszcz <jpiszcz-BP4nVm5VUdNhbmWW9KSYcQ@public.gmane.org>
+Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Felix Blyakher <felixb-sJ/iWh9BUns@public.gmane.org>
 
-On Tue, 8 Sep 2009 11:06:21 -0700 (PDT)
-Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
+On Tuesday 08 September 2009, Justin Piszcz wrote:
+> 
+> On Mon, 7 Sep 2009, Christoph Hellwig wrote:
+> 
+> > On Sun, Sep 06, 2009 at 08:11:51PM +0200, Rafael J. Wysocki wrote:
+> >> This message has been generated automatically as a part of a report
+> >> of regressions introduced between 2.6.29 and 2.6.30.
+> >>
+> >> The following bug entry is on the current list of known regressions
+> >> introduced between 2.6.29 and 2.6.30.  Please verify if it still should
+> >> be listed and let me know (either way).
+> >
+> > While this still isn't fixed it has been tracked down to a regression
+> > in the loop driver.  Care to adjust the subject?
+> >
+> 
+> Unsure how to edit on the kernel bugtracker but updating this thread to 
+> correct the subject.
 
-> 
-> 
-> On Tue, 8 Sep 2009, reinette chatre wrote:
-> > 
-> > As you can see from the kernel version it is not a build of a
-> > vanilla kernel. It only contains changes related to the wireless
-> > networking work I am doing.
-> > 
-> > Here is the output:
-> 
-> Thanks, this is great. It pinpoints the problem very effectively.
-> 
-> > [  352.803960] BUG: unable to handle kernel NULL pointer
-> > dereference at 0000000000000084 [  352.804006] IP:
-> > [<ffffffffa03ecaab>] i915_driver_irq_handler+0x26b/0xd20 [i915]
-> 
-> The code here is
-> 
-> 	  16:	48 8b 80 00 01 00 00 	mov
-> 0x100(%rax),%rax 1d:	48 8b 50 08          	mov
-> 0x8(%rax),%rdx 21:	48 85 d2             	test
-> %rdx,%rdx 24:	74 11                	je     0x37
-> 	  26:	49 8b 44 24 78       	mov
-> 0x78(%r12),%rax 2b:*	8b 80 84 00 00 00    	mov
-> 0x84(%rax),%eax     <-- trapping instruction 31:	89 82 08 08
-> 00 00    	mov    %eax,0x808(%rdx) 37:	f6 45 a0
-> 02          	testb  $0x2,-0x60(%rbp)
-> 
-> and that "testb $0x2, -0x60(%rbp)" seems to be the
-> 
-> 	if (iir & I915_USER_INTERRUPT) {
-> 
-> test if I'm reading things right. Although it could also be the
-> 
-> 	if (eir & I915_ERROR_MEMORY_REFRESH) {
-> 
-> thing. The disassembly is totally impossible to read, because the
-> stupid i915 driver is chock-full of crap like
-> 
-> 	if (IS_G4X(dev)) {
-> 		..
-> 
-> which expands to insane amounts of code that check the PCI ID's one
-> by one.
-> 
-> Intel guys: could you _please_ stop doing that. Create a capability
-> mask in the device or something, so that you can test for "is this a
-> G4x" with a single bit test, rather than have code like this:
-> 
->         mov    0x31c(%rsi),%eax
->         cmp    $0x2982,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
->         cmp    $0x2972,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
->         cmp    $0x2992,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
->         cmp    $0x29a2,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
->         cmp    $0x2a02,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
->         cmp    $0x2a12,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
->         cmp    $0x2a42,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
->         cmp    $0x2e02,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
->         cmp    $0x2e12,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
->         cmp    $0x2e22,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
->         cmp    $0x2e32,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
->         cmp    $0x42,%eax
->         je     0xffffffff8124b669 <i915_driver_irq_handler+177>
-> 
-> for that IS_G4X() thing (I'm not kidding - that's exactly a hundred
-> bytes of code for that _stupid_ test, and it's inlined!)
+I've changed the subject and moved the bug to I/O & storage.
 
-Yeah things are getting a bit out of hand there...  We've moved to
-feature tests for some things, but they're still PCI ID based; however
-they should be easy to convert.
-
-> 
-> Anyway, we're getting that DRM irq, and it has a normal IRQ stack
-> trace:
-> 
-> > [  352.804006] Process Xorg (pid: 4424, threadinfo
-> > ffff8800b6b1a000, task ffff880037373c00) [  352.804006] Call Trace:
-> > [  352.804006]  <IRQ> 
-> > [  352.804006]  [<ffffffff8106db7d>] ? mark_held_locks+0x6d/0x90
-> > [  352.804006]  [<ffffffff81098ee8>] handle_IRQ_event+0x68/0x170
-> > [  352.804006]  [<ffffffff8109ac01>] handle_edge_irq+0xc1/0x160
-> > [  352.804006]  [<ffffffff8100e76f>] handle_irq+0x1f/0x30
-> > [  352.804006]  [<ffffffff8100dc6a>] do_IRQ+0x6a/0xf0
-> > [  352.804006]  [<ffffffff8100c793>] ret_from_intr+0x0/0xf
-> 
-> .. but it happened just as we're tearing down the DRM irq handling:
-> 
-> > [  352.804006]  <EOI> 
-> > [  352.804006]  [<ffffffff81070b88>] ? lock_acquire+0xe8/0x100
-> > [  352.804006]  [<ffffffffa03c0b85>] ? drm_irq_uninstall+0x65/0x180
-> > [drm] [  352.804006]  [<ffffffff8132d7b5>] ?
-> > mutex_lock_nested+0x45/0x320 [  352.804006]  [<ffffffffa03c0b85>] ?
-> > drm_irq_uninstall+0x65/0x180 [drm] [  352.804006]
-> > [<ffffffff8106de85>] ? trace_hardirqs_on_caller+0x145/0x190
-> > [  352.804006]  [<ffffffff8106dedd>] ? trace_hardirqs_on+0xd/0x10
-> > [  352.804006]  [<ffffffffa03c0b85>] ? drm_irq_uninstall+0x65/0x180
-> > [drm] [  352.804006]  [<ffffffffa03f3335>] ?
-> > i915_gem_idle+0x225/0x330 [i915] [  352.804006]
-> > [<ffffffffa03f34c7>] ? i915_gem_leavevt_ioctl+0x37/0x50 [i915]
-> > [  352.804006]  [<ffffffffa03bdafd>] ? drm_ioctl+0x17d/0x3c0 [drm]
-> > [  352.804006]  [<ffffffffa03f3490>] ?
-> > i915_gem_leavevt_ioctl+0x0/0x50 [i915]
-> 
-> so what is going on is that the i915 driver has obviously torn down
-> some state before it uninstalls the irq, so the irq happens when the
-> state has already been torn down, and the irq handler is not ready
-> for that.
-> 
-> This patch *may* fix it - simply by getting rid of the irq early.
-> However, I did not check whether maybe something in i915_gem_idle()
-> actually needs the interrupt to be able to happen, so this is TOTALLY
-> UNTESTED!
-> 
-> 		Linus
-> ---
->  drivers/gpu/drm/i915/i915_gem.c |    6 +-----
->  1 files changed, 1 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_gem.c
-> b/drivers/gpu/drm/i915/i915_gem.c index 7edb5b9..80e5ba4 100644
-> --- a/drivers/gpu/drm/i915/i915_gem.c
-> +++ b/drivers/gpu/drm/i915/i915_gem.c
-> @@ -4232,15 +4232,11 @@ int
->  i915_gem_leavevt_ioctl(struct drm_device *dev, void *data,
->  		       struct drm_file *file_priv)
->  {
-> -	int ret;
-> -
->  	if (drm_core_check_feature(dev, DRIVER_MODESET))
->  		return 0;
->  
-> -	ret = i915_gem_idle(dev);
->  	drm_irq_uninstall(dev);
-> -
-> -	return ret;
-> +	return i915_gem_idle(dev);
->  }
-
-Theoretically i915_gem_idle should prevent any user interrupts from
-coming in.  If we uninstall the IRQ first we i915_gem_idle probably
-won't work anymore, since it queues an interrupt and waits for it.
-
-Eric, any thoughts on this?  We shouldn't be racing to queue new work
-after the idle call since we suspend GEM at that point, so we must be
-failing to manage our active lists properly somehow?
-
--- 
-Jesse Barnes, Intel Open Source Technology Center
+Thanks,
+Rafael
