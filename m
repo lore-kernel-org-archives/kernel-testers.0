@@ -1,65 +1,43 @@
-From: Christoph Thielecke <christoph.thielecke-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [Bug #14018] kernel freezes, inotify problem
-Date: Wed, 9 Sep 2009 07:58:32 +0200
-Message-ID: <200909090758.40514.christoph.thielecke@gmx.de>
-References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera> <1252273078.27723.0.camel@dhcp231-106.rdu.redhat.com> <200909062351.02664.rjw@sisk.pl>
-Reply-To: christoph.thielecke-Mmb7MZpHnFY@public.gmane.org
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [Bug #14141] order 2 page allocation failures
+Date: Wed, 9 Sep 2009 16:22:06 +0100
+Message-ID: <20090909152206.GJ24614@csn.ul.ie>
+References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera> <Vm51Upp4EV.A.RWB.7eBpKB@chimera>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart2844453.UKP6nlZWuT";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200909062351.02664.rjw-KKrjLPT3xs0@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <Vm51Upp4EV.A.RWB.7eBpKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Paris <eparis-FjpueFixGhCM4zKIHC2jIg@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
 
---nextPart2844453.UKP6nlZWuT
-Content-Type: text/plain;
-  charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+On Sun, Sep 06, 2009 at 07:24:58PM +0200, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.30.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14141
+> Subject		: order 2 page allocation failures
+> Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+> Date		: 2009-09-06 7:40 (1 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125222287419691&w=4
+> Handled-By	: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+> 
 
-Hello,
-> > > The following bug entry is on the current list of known regressions
-> > > from 2.6.30.  Please verify if it still should be listed and let me
-> > > know (either way).
-> > >
-> > >
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14018
-> > > Subject		: kernel freezes, inotify problem
-> > > Submitter	: Christoph Thielecke <christoph.thielecke-Mmb7MZpHnFY@public.gmane.org>
-> > > Date		: 2009-08-19 12:48 (19 days old)
-> > > References	: http://marc.info/?l=3Dlinux-kernel&m=3D125068616818353&w=
-=3D4
-> > > Handled-By	: Eric Paris <eparis-FjpueFixGhCM4zKIHC2jIg@public.gmane.org>
-> >
-> > This should be marked as fixed.
->
-> Yeah, I forgot to close it.  Thanks for the heads up.
-Right, seems working fine (sorry for the delay I tested a while).
+AFAIK, this is still a problem. Have requested more information in
+relation to the bug. 
 
+As an aside, the subject seems to have lost the iwlagn aspect of this
+bug.
 
-With best regards
-
-Christoph
-=2D-=20
-Linux User Group Wernigerode
-http://www.lug-wr.de/
-
---nextPart2844453.UKP6nlZWuT
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEABECAAYFAkqnRAsACgkQd9JRTD5SjRg8GQCeJCznPmVi9TGzGkOvEEI6G0YI
-WxIAoKS1tBgCopLWM/WsfvN9w+JIieDS
-=zgyW
------END PGP SIGNATURE-----
-
---nextPart2844453.UKP6nlZWuT--
+-- 
+Mel Gorman
+Part-time Phd Student                          Linux Technology Center
+University of Limerick                         IBM Dublin Software Lab
