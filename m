@@ -1,38 +1,31 @@
-From: Stefan Schmidt <stefan-OrPQZGeq07wqhVmZOOOmNx2eb7JE58TQ@public.gmane.org>
-Subject: Re: [Bug #14103] cdc_acm gives I/O error
-Date: Wed, 9 Sep 2009 18:49:12 +0200
-Message-ID: <20090909164912.GD4992@dodger.lab.datenfreihafen.org>
-References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
- <Vm51Upp4EV.A.yPC.KfBpKB@chimera>
+From: Chuck Ebbert <cebbert@redhat.com>
+Subject: Re: [Bug #13949] Cryptoloop stuck I/O issue on partition or
+ loopback device
+Date: Wed, 9 Sep 2009 17:26:47 -0400
+Message-ID: <20090909172647.29e52b47@dhcp-100-2-144.bos.redhat.com>
+References: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera>
+	<20090907152553.GA21768@infradead.org>
+	<alpine.DEB.2.00.0909081029050.7636@p34.internal.lan>
+	<200909082105.13124.rjw@sisk.pl>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <Vm51Upp4EV.A.yPC.KfBpKB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754401AbZIIV2K@vger.kernel.org>
+In-Reply-To: <200909082105.13124.rjw@sisk.pl>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>, Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Justin Piszcz <jpiszcz@lucidpixels.com>, Christoph Hellwig <hch@infradead.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Felix Blyakher <felixb@sgi.com>
 
-Hello.
+On Tue, 8 Sep 2009 21:05:13 +0200
+"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
 
-On Sun, 2009-09-06 at 19:24, Rafael J. Wysocki wrote:
+> On Tuesday 08 September 2009, Justin Piszcz wrote:
+> > Unsure how to edit on the kernel bugtracker but updating this thread to 
+> > correct the subject.
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14103
-> Subject		: cdc_acm gives I/O error
-> Submitter	: Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-> Date		: 2009-09-01 13:30 (6 days old)
-> Handled-By	: Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>
+> I've changed the subject and moved the bug to I/O & storage.
+> 
 
-I had the same problem here at least since -rc4. Oliver already did a two-liner
-patch to fix the issue. Can be found here:
-
-http://bugzilla.kernel.org/attachment.cgi?id=23046
-
-It fixes the issue for me on two different cdc_acm devices. Don't know if it is
-already in the USB tre, but I had to apply it to linus HEAD from today. Would
-be good to get this in before the -final as it would cause a real regression.
-
-regards
-Stefan Schmidt
+Should we just revert that barrier support in loopback, like I
+suggested in bugzilla?
