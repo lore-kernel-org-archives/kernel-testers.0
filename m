@@ -1,36 +1,65 @@
-From: reinette chatre <reinette.chatre@intel.com>
-Subject: Re: [Bug #13819] system freeze when switching to console
-Date: Tue, 08 Sep 2009 16:56:22 -0700
-Message-ID: <1252454182.30150.68.camel@rc-desk>
-References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera>
-	 <Vm51Upp4EV.A.r-D.mgBpKB@chimera>	<1252427375.14735.130.camel@rc-desk>
-	 <alpine.LFD.2.01.0909080943030.7458@localhost.localdomain>
-	 <1252431375.14735.139.camel@rc-desk>
-	 <alpine.LFD.2.01.0909081039300.7458@localhost.localdomain>
-	 <20090908112014.002a35af@jbarnes-g45>
-	 <alpine.LFD.2.01.0909081219130.7458@localhost.localdomain>
-	 <20090908123151.1f2b18fe@jbarnes-g45>
-	 <alpine.LFD.2.01.0909081502510.7458@localhost.localdomain>
-	 <20090908160523.715a7412@jbarnes-g45>
+From: Christoph Thielecke <christoph.thielecke-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [Bug #14018] kernel freezes, inotify problem
+Date: Wed, 9 Sep 2009 07:58:32 +0200
+Message-ID: <200909090758.40514.christoph.thielecke@gmx.de>
+References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera> <1252273078.27723.0.camel@dhcp231-106.rdu.redhat.com> <200909062351.02664.rjw@sisk.pl>
+Reply-To: christoph.thielecke-Mmb7MZpHnFY@public.gmane.org
 Mime-Version: 1.0
+Content-Type: multipart/signed;
+  boundary="nextPart2844453.UKP6nlZWuT";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752662AbZIHX4X@vger.kernel.org>
-In-Reply-To: <20090908160523.715a7412@jbarnes-g45>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200909062351.02664.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Jesse Barnes <jbarnes@virtuousgeek.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Eric Anholt <eric@anholt.net>, "Ma, Ling" <ling.ma@intel.com>, "bugzilla-daemon@bugzilla.kernel.org" <bugzilla-daemon@bugzilla.kernel.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Paris <eparis-FjpueFixGhCM4zKIHC2jIg@public.gmane.org>
 
-On Tue, 2009-09-08 at 16:05 -0700, Jesse Barnes wrote:
-> Any chance you could
-> give it a try Reinette?
+--nextPart2844453.UKP6nlZWuT
+Content-Type: text/plain;
+  charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-This patch also solves the issue for me. 
+Hello,
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.30.  Please verify if it still should be listed and let me
+> > > know (either way).
+> > >
+> > >
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14018
+> > > Subject		: kernel freezes, inotify problem
+> > > Submitter	: Christoph Thielecke <christoph.thielecke-Mmb7MZpHnFY@public.gmane.org>
+> > > Date		: 2009-08-19 12:48 (19 days old)
+> > > References	: http://marc.info/?l=3Dlinux-kernel&m=3D125068616818353&w=
+=3D4
+> > > Handled-By	: Eric Paris <eparis-FjpueFixGhCM4zKIHC2jIg@public.gmane.org>
+> >
+> > This should be marked as fixed.
+>
+> Yeah, I forgot to close it.  Thanks for the heads up.
+Right, seems working fine (sorry for the delay I tested a while).
 
-Tested-by: Reinette Chatre <reinette.chatre@intel.com>
 
-Thank you very much
+With best regards
 
-Reinette
+Christoph
+=2D-=20
+Linux User Group Wernigerode
+http://www.lug-wr.de/
 
+--nextPart2844453.UKP6nlZWuT
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEABECAAYFAkqnRAsACgkQd9JRTD5SjRg8GQCeJCznPmVi9TGzGkOvEEI6G0YI
+WxIAoKS1tBgCopLWM/WsfvN9w+JIieDS
+=zgyW
+-----END PGP SIGNATURE-----
+
+--nextPart2844453.UKP6nlZWuT--
