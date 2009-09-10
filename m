@@ -1,24 +1,24 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13836] suspend script fails, related to stdout?
-Date: Thu, 10 Sep 2009 23:05:48 +0200
-Message-ID: <200909102305.48285.rjw@sisk.pl>
-References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera> <Vm51Upp4EV.A.b4D.bgBpKB@chimera> <4AA47DF8.80302@gmail.com>
+Subject: Re: [Bug #13943] WARNING: at net/mac80211/mlme.c:2292 with ath5k
+Date: Thu, 10 Sep 2009 23:09:44 +0200
+Message-ID: <200909102309.44218.rjw@sisk.pl>
+References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera> <Vm51Upp4EV.A.OYD.1fBpKB@chimera> <b637ec0b0909081230y1b9d2abbo258662343cca7932@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4AA47DF8.80302-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <b637ec0b0909081230y1b9d2abbo258662343cca7932-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: "Tomas M." <tmezzadra-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Luis R. Rodriguez" <mcgrof-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Monday 07 September 2009, Tomas M. wrote:
-> tested rc9 and its still there.
+On Tuesday 08 September 2009, Fabio Comolli wrote:
+> Still present in -rc9
 
 Thanks for the update.
 
-> Rafael J. Wysocki wrote:
+> On Sun, Sep 6, 2009 at 7:24 PM, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
 > >
@@ -27,10 +27,10 @@ Thanks for the update.
 > > (either way).
 > >
 > >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13836
-> > Subject		: suspend script fails, related to stdout?
-> > Submitter	: Tomas M. <tmezzadra-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2009-07-17 21:24 (52 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=124785853811667&w=4
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13943
+> > Subject         : WARNING: at net/mac80211/mlme.c:2292 with ath5k
+> > Submitter       : Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2009-08-06 20:15 (32 days old)
+> > References      : http://marc.info/?l=linux-kernel&m=124958978600600&w=4
 
 Rafael
