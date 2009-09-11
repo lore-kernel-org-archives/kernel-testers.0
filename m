@@ -1,44 +1,37 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14141] order 2 page allocation failures
-Date: Thu, 10 Sep 2009 23:14:59 +0200
-Message-ID: <200909102315.00052.rjw@sisk.pl>
-References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera> <Vm51Upp4EV.A.RWB.7eBpKB@chimera> <20090909152206.GJ24614@csn.ul.ie>
+From: Bob Tracy <rct-GsGdjl1a1FBK+8ot1e1MDQ@public.gmane.org>
+Subject: Re: [Bug #14136] readcd Oops
+Date: Fri, 11 Sep 2009 00:02:53 -0500
+Message-ID: <20090911050253.GA31423@gherkin.frus.com>
+References: <2ehA7xoGvXL.A.4PB.3eBpKB@chimera> <Vm51Upp4EV.A.p8B.DfBpKB@chimera> <20090907053833.GA15287@gherkin.frus.com> <200909102311.26544.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090909152206.GJ24614-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <200909102311.26544.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, reinette chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michal Schmidt <mschmidt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-On Wednesday 09 September 2009, Mel Gorman wrote:
-> On Sun, Sep 06, 2009 at 07:24:58PM +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
+On Thu, Sep 10, 2009 at 11:11:26PM +0200, Rafael J. Wysocki wrote:
+> On Monday 07 September 2009, Bob Tracy wrote:
+> > On Sun, Sep 06, 2009 at 07:24:57PM +0200, Rafael J. Wysocki wrote:
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14136
+> > > Subject		: readcd Oops
+> > > Submitter	: Bob Tracy <rct-GsGdjl1a1FBK+8ot1e1MDQ@public.gmane.org>
+> > > Date		: 2009-09-03 3:39 (4 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=125195043617418&w=4
+> > > Handled-By	: Michal Schmidt <mschmidt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> > > Patch		: http://patchwork.kernel.org/patch/45347/
 > > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.30.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14141
-> > Subject		: order 2 page allocation failures
-> > Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-> > Date		: 2009-09-06 7:40 (1 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=125222287419691&w=4
-> > Handled-By	: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
-> > 
+> > I ack'd the fix a few days ago: please remove this bug entry from the
+> > list of 2.6.30 regressions.
 > 
-> AFAIK, this is still a problem. Have requested more information in
-> relation to the bug. 
-> 
-> As an aside, the subject seems to have lost the iwlagn aspect of this
-> bug.
+> Hmm.  Has the fix been merged already?
 
-Fixed.  I also moved the bug to "drivers/network-wireless" as it seems to
-be specific to iwlagn.
+Good question: I don't think so.  It's not in mainline as of 2.6.31.
+Looks like we need to keep this bug open a while longer...  Sorry 'bout
+that.
 
-Thanks,
-Rafael
+--Bob
