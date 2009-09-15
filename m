@@ -1,50 +1,67 @@
-From: Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13328] b44: eth0: BUG! Timeout waiting for bit 00000002 of 
-	register 42c to clear.
-Date: Sat, 12 Sep 2009 21:27:11 +0200
-Message-ID: <38b2ab8a0909121227k6b6af281i3eaf5213c0ef25a1@mail.gmail.com>
-References: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera>
-	 <hKF51Pczj6N.A.1CB.q5BpKB@chimera>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #13780] NULL pointer dereference loading powernowk8
+Date: Tue, 15 Sep 2009 16:45:37 -0700 (PDT)
+Message-ID: <alpine.DEB.1.00.0909151642100.24059@chino.kir.corp.google.com>
+References: <aIL9jMAYJnG.A.WjH.M3BpKB@chimera> <200909080112.14997.rjw@sisk.pl> <20090908194653.GA3517@roeckx.be> <200909102259.15144.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=0rEykO2BAAxXRT63aU3vxSlKk4LJE5WwSiHQSzr1/gE=;
-        b=DJAACwWD1pjLEO6iXXVLigm8oiDUVuQcrDwej0r/W/GX+1KMWmlkcwRUJUEVgvqCou
-         Q2fv+T9HcUH+uUzrFD6B7W4TMWHFj8NCQAVHaxRkinDSYNOgIdGzucm4kqQZb3PvmxXe
-         /ED4bnwBdoD+Um9miOlliDMi2p47cj5NVsHTw=
-In-Reply-To: <hKF51Pczj6N.A.1CB.q5BpKB@chimera>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1253058346; bh=tgvtOARu0771DV5v4JiLE3Tue5Q=;
+	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
+	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
+	 Content-Type:X-System-Of-Record; b=qP/A/omSvzdPWMvD0A/jtN7LrGVFNgK
+	PJpOPx9XvYoGNsH88TvdRxv3hv11N03E6gYpiIuwpM8D/jrx56b+fZQ==
+In-Reply-To: <200909102259.15144.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kurt Roeckx <kurt-burXGKnpAKGzQB+pC5nmwQ@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mark Langsdorf <mark.langsdorf-5C7GfCeVMHo@public.gmane.org>, Naga Chumbalkar <nagananda.chumbalkar-VXdhtT5mjnY@public.gmane.org>
 
-On Sun, Sep 6, 2009 at 8:11 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.29 and 2.6.30.
->
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.29 and 2.6.30. =A0Please verify if it still sh=
-ould
-> be listed and let me know (either way).
->
->
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-13328
-> Subject =A0 =A0 =A0 =A0 : b44: eth0: BUG! Timeout waiting for bit 000=
-00002 of register 42c to clear.
-> Submitter =A0 =A0 =A0 : Francis Moreau <francis.moro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-05-03 16:22 (127 days old)
-> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D124136=
-778012280&w=3D4
->
+On Thu, 10 Sep 2009, Rafael J. Wysocki wrote:
 
-still in 2.6.31
+> > So I did a biset, and this is the result:
+> > $ git bisect good
+> > 0e64a0c982c06a6b8f5e2a7f29eb108fdf257b2f is first bad commit
+> > commit 0e64a0c982c06a6b8f5e2a7f29eb108fdf257b2f
+> > Author: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> > Date:   Wed Feb 4 14:37:50 2009 -0500
+> > 
+> >     [CPUFREQ] checkpatch cleanups for powernow-k8
+> > 
+> >     This driver has so many long function names, and deep nested if's
+> >     The remaining warnings will need some code restructuring to clean up.
+> > 
+> >     Signed-off-by: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> > 
+> > :040000 040000 45d8e325663e62e0833cf4e1cb8b27fa4a9b3a56 affb6fab44cb22aca8a33ca0d767797831fc2bae M      arch
+> > 
+> > 2.6.29-rc5 is good, -rc7 is bad.
+> 
+> Thanks for the update and for doing the bisection.
+> 
 
---=20
-=46rancis
+0e64a0c has this cleanup, which isn't equivalent to the previous code:
+
+@@ -779,11 +834,12 @@ static int powernow_k8_cpu_init_acpi(struct powernow_k8_data *data)
+ 		goto err_out;
+ 	}
+ 
+-	if ((data->acpi_data.control_register.space_id != ACPI_ADR_SPACE_FIXED_HARDWARE) ||
+-		(data->acpi_data.status_register.space_id != ACPI_ADR_SPACE_FIXED_HARDWARE)) {
++	space_id = data->acpi_data.control_register.space_id;
++	if ((space_id != ACPI_ADR_SPACE_FIXED_HARDWARE) ||
++		(space_id != ACPI_ADR_SPACE_FIXED_HARDWARE)) {
+ 		dprintk("Invalid control/status registers (%x - %x)\n",
+ 			data->acpi_data.control_register.space_id,
+-			data->acpi_data.status_register.space_id);
++			space_id);
+ 		goto err_out;
+ 	}
+ 
+This got fixed in 2c701b1 in 2.6.31-rc8, so this is most likely the 
+problem that Kurt was encountering.
+
+Kurt, could you try 2.6.31 and see if you still experience the issue?  If 
+not, this can be closed.
