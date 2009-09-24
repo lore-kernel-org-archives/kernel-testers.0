@@ -1,89 +1,134 @@
-From: Mel Gorman <mel@csn.ul.ie>
-Subject: Re: ipw2200: firmware DMA loading rework
-Date: Mon, 21 Sep 2009 14:37:04 +0100
-Message-ID: <20090921133704.GO12726@csn.ul.ie>
-References: <riPp5fx5ECC.A.2IG.qsGlKB@chimera> <200909211246.34774.bzolnier@gmail.com> <1253530608.5216.17.camel@penberg-laptop> <200909211512.14785.bzolnier@gmail.com>
+From: Christoph Thielecke <christoph.thielecke-Mmb7MZpHnFY@public.gmane.org>
+Subject: console access lost after deregistering oti6858 module
+Date: Thu, 24 Sep 2009 09:58:36 +0200
+Message-ID: <200909240958.39383.christoph.thielecke@gmx.de>
+Reply-To: christoph.thielecke-Mmb7MZpHnFY@public.gmane.org
 Mime-Version: 1.0
-Return-path: <owner-linux-mm@kvack.org>
-Content-Disposition: inline
-In-Reply-To: <200909211512.14785.bzolnier@gmail.com>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed;
+  boundary="nextPart4157812.MlDVcoHxhH";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
-To: Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>
-Cc: Pekka Enberg <penberg@cs.helsinki.fi>, "Luis R. Rodriguez" <mcgrof@gmail.com>, Tso Ted <tytso@mit.edu>, "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>, Zhu Yi <yi.zhu@intel.com>, Andrew Morton <akpm@linux-foundation.org>, Johannes Weiner <hannes@cmpxchg.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Mel Gorman <mel@skynet.ie>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, James Ketrenos <jketreno@linux.intel.com>, "Chatre, Reinette" <reinette.chatre@intel.com>, "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, "ipw2100-devel@lists.sourceforge.net" <ipw2100-devel@lists.sourceforge.net>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, Sep 21, 2009 at 03:12:14PM +0200, Bartlomiej Zolnierkiewicz wrote:
-> On Monday 21 September 2009 12:56:48 Pekka Enberg wrote:
-> > On Mon, 2009-09-21 at 12:46 +0200, Bartlomiej Zolnierkiewicz wrote:
-> > > > > I don't know why people don't see it but for me it has a memory management
-> > > > > regression and reliability issue written all over it.
-> > > > 
-> > > > Possibly but drivers that reload their firmware as a response to an
-> > > > error condition is relatively new and loading network drivers while the
-> > > > system is already up and running a long time does not strike me as
-> > > > typical system behaviour.
-> > > 
-> > > Loading drivers after boot is a typical desktop/laptop behavior, please
-> > > think about hotplug (the hardware in question is an USB dongle).
-> > 
-> > Yeah, I wonder what broke things. Did the wireless stack change in
-> > 2.6.31-rc1 too? IIRC Mel ruled out page allocator changes as a suspect.
-> 
-> The thing is that the mm behavior change has been narrowed down already
-> over a month ago to -mm merge in 2.6.31-rc1 (as has been noted in my initial
-> reports), I first though that that it was -next breakage but it turned out
-> that it came the other way around (because -mm is not even pulled into -next
-> currently -- great way to set an example for other kernel maintainers BTW).
-> 
+--nextPart4157812.MlDVcoHxhH
+Content-Type: text/plain;
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-Is there a reliable reproduction case for this that narrowed it down to
-2.6.31-rc1? That is the window where a number of page-allocator optimisation
-patches made it in. None of them should have affected the allocator from a
-fragmentation perspective though.
+Hello,
 
-If you have a reliable reproduction case, testing between commits
-d239171e4f6efd58d7e423853056b1b6a74f1446..a1dd268cf6306565a31a48deff8bf4f6b4b105f7
-would be nice, particularly if it can be bisected within that small
-window rather than a full bisect of an rc1 which I know can be a major
-mess.
+I found a problem with the oti6858 usbserial driver. Sometimes something go=
+es=20
+wrong and I lost completly the console access. I can type chars in a=20
+application like firefox but not in any console window (xterm or real tty).=
+=20
+ssh login succeedes partly but I dont get a prompt in this case. After=20
+examining the syslog I found that:
 
-> I understand that behavior change may be justified and technically correct
-> in itself.  I also completely agree that high order allocations in certain
-> drivers need fixing anyway.
-> 
-> However there is something wrong with the big picture and the way changes
-> are happening.  I'm not saying that I'm surprised though, especially given
-> the recent decline in the quality assurance and the paradigm shift that
-> I'm seeing (some influential top level people talking that -rc1 is fine for
-> testing new code now or the "new kernel new hardware" thing).
-> 
+=2D---- syslog begin ------
+Sep 24 09:27:48 develop kernel: usbcore: deregistering interface driver=20
+oti6858
+Sep 24 09:27:48 develop kernel: ------------[ cut here ]------------
+Sep 24 09:27:48 develop kernel: WARNING: at kernel/workqueue.c:368=20
+flush_cpu_workqueue+0x68/0x6a()
+Sep 24 09:27:48 develop kernel: Hardware name: MP061
+Sep 24 09:27:48 develop kernel: Modules linked in: oti6858(-) nvidia(P)=20
+binfmt_misc ppdev lp parport rfcomm l2cap bluetooth tun vboxnetadp vboxnetf=
+lt=20
+vboxdrv pppol2tp pppox ppp_generic slhc ipv6 capifs acpi_cpufreq=20
+cpufreq_ondemand cpufr
+eq_powersave cpufreq_stats freq_table cpufreq_userspace cpufreq_conservativ=
+e=20
+nfsd nfs lockd fscache nfs_acl auth_rpcgss sunrpc deflate zlib_deflate ctr=
+=20
+twofish twofish_common camellia serpent blowfish cast5 des_generic cbc=20
+aes_i586 aes_g
+eneric xcbc rmd160 sha256_generic sha1_generic crypto_null af_key=20
+nls_iso8859_1 nls_cp437 vfat fat fuse dm_snapshot dm_mirror dm_region_hash=
+=20
+dm_log coretemp loop pl2303 snd_hda_codec_idt usbhid snd_hda_intel hid=20
+snd_hda_codec snd_hwdep s
+nd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy arc4 snd_seq_oss ecb=20
+snd_seq_midi snd_rawmidi iwl3945 snd_seq_midi_event usbserial dm9601 snd_se=
+q=20
+iwlcore sdhci_pci firewire_ohci usb_storage asix usbnet snd_timer sdhci=20
+snd_seq_device intel
+_agp rtc_cmos b44 mmc_core firewire_core mac80211 snd crc_itu_t agpgart=20
+iTCO_wdt iTCO_vendor_support rtc_core rtc_lib ssb ohci1394 soundcore=20
+snd_page_alloc joydev led_class pcmcia pcmcia_core mii ieee1394 ricoh_mmc=20
+button battery ac vide
+o processor cfg80211 sg i2c_i801 i2c_core uhci_hcd ehci_hcd evdev usbcore=20
+psmouse wmi dell_laptop sr_mod serio_raw output cdrom rfkill dm_mod thermal=
+=20
+fan ide_pci_generic
+Sep 24 09:27:48 develop kernel: Pid: 7, comm: events/0 Tainted: P  R       =
+=20
+2.6.31 #1
+Sep 24 09:27:48 develop kernel: Call Trace:
+Sep 24 09:27:48 develop kernel: [<c133a780>] ? printk+0x18/0x20
+Sep 24 09:27:48 develop kernel: [<c1042fe4>] ? flush_cpu_workqueue+0x68/0x6a
+Sep 24 09:27:48 develop kernel: [<c1032761>] warn_slowpath_common+0x66/0xae
+Sep 24 09:27:48 develop kernel: [<c1042fe4>] ? flush_cpu_workqueue+0x68/0x6a
+Sep 24 09:27:48 develop kernel: [<c10327be>] warn_slowpath_null+0x15/0x17
+Sep 24 09:27:48 develop kernel: [<c1042fe4>] flush_cpu_workqueue+0x68/0x6a
+Sep 24 09:27:48 develop kernel: [<c10290e1>] ? default_wake_function+0xb/0xd
+Sep 24 09:27:48 develop kernel: [<c103bf43>] ? lock_timer_base+0x1f/0x40
+Sep 24 09:27:48 develop kernel: [<c10431be>] flush_workqueue+0x2e/0x4c
+Sep 24 09:27:48 develop kernel: [<c10431e9>] flush_scheduled_work+0xd/0xf
+Sep 24 09:27:48 develop kernel: [<f805bf96>] oti6858_close+0x74/0x10a=20
+[oti6858]
+Sep 24 09:27:48 develop kernel: [<f8a777d9>] serial_do_down+0x33/0x3f=20
+[usbserial]
+Sep 24 09:27:48 develop kernel: [<f8a777f6>] serial_hangup+0x11/0x1c=20
+[usbserial]
+Sep 24 09:27:48 develop kernel: [<c1232568>] do_tty_hangup+0xbf/0x325
+Sep 24 09:27:48 develop kernel: [<c10429c2>] worker_thread+0x153/0x22c
+Sep 24 09:27:48 develop kernel: [<c1023141>] ? __wake_up_common+0x3f/0x63
+Sep 24 09:27:48 develop kernel: [<c12324a9>] ? do_tty_hangup+0x0/0x325
+Sep 24 09:27:48 develop kernel: [<c1046baf>] ?=20
+autoremove_wake_function+0x0/0x3a
+Sep 24 09:27:48 develop kernel: [<c104286f>] ? worker_thread+0x0/0x22c
+Sep 24 09:27:48 develop kernel: [<c1046896>] kthread+0x74/0x76
+Sep 24 09:27:48 develop kernel: [<c1046822>] ? kthread+0x0/0x76
+Sep 24 09:27:48 develop kernel: [<c1004127>] kernel_thread_helper+0x7/0x10
+Sep 24 09:27:48 develop kernel: ---[ end trace ca500da836b73c70 ]---
+Sep 24 09:27:48 develop kernel: oti6858 ttyUSB1: oti6858 converter now=20
+disconnected from ttyUSB1
+Sep 24 09:27:48 develop kernel: oti6858 4-1:1.0: device disconnected
+Sep 24 09:27:48 develop kernel: USB Serial deregistering driver oti6858
+Sep 24 09:27:49 develop chipcardd[28322]: devicemanager.c: 3356: Changes in=
+=20
+hardware list
+=2D---- syslog end ------
 
-The quality assurance comment is a bit unfair with respect to the page
-allocator. There are a lot of things that can have changed that would hose
-order-6 atomic allocations. Furthermore, test cases used for mm patches
-would not have taken into account such allocations as being critical. Even
-if it was considered, it would have been dismissed as "it makes no sense
-for drivers to be doing order-6 GFP_ATOMIC" allocations.
+I think this should fixed. I'm not an basic user and can test a lot and fin=
+d a=20
+way to help me but its very nasty to do a hard shutdown (system hangs on=20
+reboot).
 
-> Sorry but I have no more time currently to narrow down the issue some more
-> (guess what, there are other kernel bugs standing in the way to bisect it
-> and I would have to provide some reliable way to reproduce it first) so I
-> see no more point in wasting people's time on this.  I can certainly get by
-> with allocation failure here and there.  Not a big deal for me personally..
-> 
+With best regards
 
-That is somewhat unfortunate. Even testing within the window above if
-possible would be very helpful if you get the chance.
+Christoph
+=2D-=20
+Linux User Group Wernigerode
+http://www.lug-wr.de/
 
--- 
-Mel Gorman
-Part-time Phd Student                          Linux Technology Center
-University of Limerick                         IBM Dublin Software Lab
+--nextPart4157812.MlDVcoHxhH
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEABECAAYFAkq7Jq0ACgkQd9JRTD5SjRhDqACeNpfgiqfxx1xYXeiWZE+S6zer
+KZAAniVakA+CB55uvrLiAKonMMNpuo7S
+=Md/O
+-----END PGP SIGNATURE-----
+
+--nextPart4157812.MlDVcoHxhH--
