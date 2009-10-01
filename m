@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14277] Caught 8-bit read from freed memory in b43 driver at association
+Subject: [Bug #14279] Suspend to RAM freeze totally since 2.6.32-rc1
 Date: Thu,  1 Oct 2009 21:38:45 +0200 (CEST)
-Message-ID: <Q3xT3CnoTGE.A._zG.O4SxKB@chimera>
+Message-ID: <Q3xT3CnoTGE.A.OuG.L4SxKB@chimera>
 References: <9UCePxij8cB.A.VCG.-3SxKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -22,8 +22,8 @@ from 2.6.31.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14277
-Subject		: Caught 8-bit read from freed memory in b43 driver at association
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14279
+Subject		: Suspend to RAM freeze totally since 2.6.32-rc1
 Submitter	: Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
-Date		: 2009-09-30 18:06 (2 days old)
+Date		: 2009-09-30 18:14 (2 days old)
 
