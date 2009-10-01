@@ -1,25 +1,31 @@
-From: James Bottomley <James.Bottomley-l3A5Bk7waGM@public.gmane.org>
-Subject: Re: 2.6.32-rc1-git2: Reported regressions from 2.6.31
-Date: Thu, 01 Oct 2009 17:48:56 -0500
-Message-ID: <1254437336.3885.68.camel@mulgrave.site>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14260] T400 suspend/resume regression
+Date: Thu,  1 Oct 2009 21:38:45 +0200 (CEST)
+Message-ID: <Q3xT3CnoTGE.A.2DH.Y4SxKB@chimera>
 References: <9UCePxij8cB.A.VCG.-3SxKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <9UCePxij8cB.A.VCG.-3SxKB@chimera>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
 
-On Thu, 2009-10-01 at 21:26 +0200, Rafael J. Wysocki wrote:
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14214
-> Subject         : BUG at drivers/scsi/scsi_lib.c:1108!
-> Submitter       : Plamen Petrov <pvp-lsts-Xdw7EbNJKi3354cJYj5R/Q@public.gmane.org>
-> Date            : 2009-09-23 11:13 (9 days old)
+This message has been generated automatically as a part of a report
+of recent regressions.
 
-This one is fixed (as confirmed by the bug report).
+The following bug entry is on the current list of known regressions
+from 2.6.31.  Please verify if it still should be listed and let me know
+(either way).
 
-James
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14260
+Subject		: T400 suspend/resume regression
+Submitter	: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
+Date		: 2009-09-26 6:57 (6 days old)
+References	: http://marc.info/?l=linux-kernel&m=125394827806011&w=4
+Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
 
