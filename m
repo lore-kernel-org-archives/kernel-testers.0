@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14279] Suspend to RAM freeze totally since 2.6.32-rc1
+Subject: [Bug #14278] New message "NOHZ: local_softirq_pending 08" at each ping request
 Date: Thu,  1 Oct 2009 21:38:45 +0200 (CEST)
-Message-ID: <Q3xT3CnoTGE.A.OuG.L4SxKB@chimera>
+Message-ID: <Q3xT3CnoTGE.A.JyG.M4SxKB@chimera>
 References: <9UCePxij8cB.A.VCG.-3SxKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>, Michael Buesch <mb-fseUSCV1ubazQB+pC5nmwQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,10 @@ from 2.6.31.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14279
-Subject		: Suspend to RAM freeze totally since 2.6.32-rc1
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14278
+Subject		: New message "NOHZ: local_softirq_pending 08" at each ping request
 Submitter	: Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
-Date		: 2009-09-30 18:14 (2 days old)
+Date		: 2009-09-30 18:12 (2 days old)
+Handled-By	: Michael Buesch <mb-fseUSCV1ubazQB+pC5nmwQ@public.gmane.org>
+Patch		: http://bugzilla.kernel.org/attachment.cgi?id=23220
 
