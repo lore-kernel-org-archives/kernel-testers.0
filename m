@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14294] kernel BUG at drivers/ide/ide-disk.c:187
-Date: Thu,  1 Oct 2009 21:56:06 +0200 (CEST)
-Message-ID: <COE24pZSBH.A.ekH.uMTxKB@chimera>
+Subject: [Bug #14267] Disassociating atheros wlan
+Date: Thu,  1 Oct 2009 21:56:04 +0200 (CEST)
+Message-ID: <COE24pZSBH.A.oyH.yMTxKB@chimera>
 References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756525AbZJAXLj@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756114AbZJAXOL@vger.kernel.org>
 In-Reply-To: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, David Miller <davem@davemloft.net>, Santiago Garcia Mantinan <manty@manty.net>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, "Justin P. Mattock" <justinmattock@gmail.com>, Kristoffer Ericson <kristoffer.ericson@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,10 +22,9 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14294
-Subject		: kernel BUG at drivers/ide/ide-disk.c:187
-Submitter	: Santiago Garcia Mantinan <manty@manty.net>
-Date		: 2009-09-30 11:05 (2 days old)
-References	: http://marc.info/?l=linux-kernel&m=125430926311466&w=4
-Handled-By	: David Miller <davem@davemloft.net>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14267
+Subject		: Disassociating atheros wlan
+Submitter	: Kristoffer Ericson <kristoffer.ericson@gmail.com>
+Date		: 2009-09-24 10:16 (8 days old)
+References	: http://marc.info/?l=linux-kernel&m=125378723723384&w=4
 
