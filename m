@@ -1,29 +1,25 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14214] BUG at drivers/scsi/scsi_lib.c:1108!
-Date: Thu,  1 Oct 2009 21:27:06 +0200 (CEST)
-Message-ID: <Q3xT3CnoTGE.A.QTH.f4SxKB@chimera>
+From: James Bottomley <James.Bottomley-l3A5Bk7waGM@public.gmane.org>
+Subject: Re: 2.6.32-rc1-git2: Reported regressions from 2.6.31
+Date: Thu, 01 Oct 2009 17:48:56 -0500
+Message-ID: <1254437336.3885.68.camel@mulgrave.site>
 References: <9UCePxij8cB.A.VCG.-3SxKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753866AbZJAWiF@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <9UCePxij8cB.A.VCG.-3SxKB@chimera>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Plamen Petrov <pvp-lsts@fs.ru.acad.bg>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of recent regressions.
+On Thu, 2009-10-01 at 21:26 +0200, Rafael J. Wysocki wrote:
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14214
+> Subject         : BUG at drivers/scsi/scsi_lib.c:1108!
+> Submitter       : Plamen Petrov <pvp-lsts-Xdw7EbNJKi3354cJYj5R/Q@public.gmane.org>
+> Date            : 2009-09-23 11:13 (9 days old)
 
-The following bug entry is on the current list of known regressions
-from 2.6.31.  Please verify if it still should be listed and let me know
-(either way).
+This one is fixed (as confirmed by the bug report).
 
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14214
-Subject		: BUG at drivers/scsi/scsi_lib.c:1108!
-Submitter	: Plamen Petrov <pvp-lsts@fs.ru.acad.bg>
-Date		: 2009-09-23 11:13 (9 days old)
+James
 
