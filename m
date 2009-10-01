@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14017] _end symbol missing from Symbol.map
-Date: Thu,  1 Oct 2009 21:55:55 +0200 (CEST)
-Message-ID: <COE24pZSBH.A.IbC.9NTxKB@chimera>
+Subject: [Bug #13941] x86 Geode issue
+Date: Thu,  1 Oct 2009 21:55:54 +0200 (CEST)
+Message-ID: <COE24pZSBH.A.JED.ZOTxKB@chimera>
 References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756672AbZJAXTl@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754753AbZJAXUY@vger.kernel.org>
 In-Reply-To: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="windows-1252"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Hannes Reinecke <hare@suse.de>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, =?utf-8?q?Martin-=C3=89ric=20Racine?= <q-funk@iki.fi>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,12 +22,10 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14017
-Subject		: _end symbol missing from Symbol.map
-Submitter	: Hannes Reinecke <hare@suse.de>
-Date		: 2009-08-13 6:45 (50 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=091e52c3551d3031343df24b573b770b4c6c72b6
-References	: http://marc.info/?l=linux-kernel&m=125014649102253&w=4
-Handled-By	: Hannes Reinecke <hare@suse.de>
-Patch		: http://marc.info/?l=linux-kernel&m=125014649102253&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13941
+Subject		: x86 Geode issue
+Submitter	: Martin-=C3=89ric Racine <q-funk@iki.fi>
+Date		: 2009-08-03 12:58 (60 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D124930434732481&w=3D=
+4
 
