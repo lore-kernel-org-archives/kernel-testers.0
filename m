@@ -1,46 +1,53 @@
-From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #13942] Troubles with AoE and uninitialized object
-Date: Fri, 2 Oct 2009 12:57:05 -0700 (PDT)
-Message-ID: <alpine.DEB.1.00.0910021256170.14641@chino.kir.corp.google.com>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.t9C.XOTxKB@chimera>
+From: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
+Date: Fri, 2 Oct 2009 22:01:43 +0200
+Message-ID: <20091002200143.GA3845@bizet.domek.prywatny>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.k2B.ZNTxKB@chimera> <200910021111.55749.elendil@planet.nl> <20091002093226.GJ21906@csn.ul.ie>
 Mime-Version: 1.0
-Content-Type: MULTIPART/MIXED; BOUNDARY="531381004-1395773377-1254513426=:14641"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
-	t=1254513431; bh=PGlbQYJqt442vaVimwlQ5QiCZjQ=;
-	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
-	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
-	 Content-Type:X-System-Of-Record; b=q6CTPlGrJICkGlHAsajYvN8Fz6cQRGq
-	0kDS/uDgSa44EmQD1RemL8UxTswLCbAv+OgPVnq2acBtWIeZD7yiYGA==
-In-Reply-To: <COE24pZSBH.A.t9C.XOTxKB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=R0pDIAZNciS4CM5Dama/aSCJFYRGt1OniWraFn2Lc5c=;
+        b=HpH5KK819IPyRBIdN3QmttCGMM6D7zC8BRFg7J4kGZCtHQvLb0PNAIeAw6gAmZA+sv
+         YMMm4NfeZo38y/UzAprBJ9+yDFIhWj/I8c5dc2XNqeOwZ4zDD7j8hlAxb2V2ogtqgOkc
+         tNCBd+avxo7UqQ6JRxFoPmSBHDQTF1/CEmXaU=
+Content-Disposition: inline
+In-Reply-To: <20091002093226.GJ21906-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, onbons-ud5FBsm0p/yTtf5O82r8kh2eb7JE58TQ@public.gmane.org, Ed Cashin <ecashin-kFqnmIA2sJXQT0dZR+AlfA@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Cc: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---531381004-1395773377-1254513426=:14641
-Content-Type: TEXT/PLAIN; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-On Thu, 1 Oct 2009, Rafael J. Wysocki wrote:
-
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.30 and 2.6.31.
+On Fri, Oct 02, 2009 at 10:32:26AM +0100, Mel Gorman wrote:
+> On Fri, Oct 02, 2009 at 11:11:52AM +0200, Frans Pop wrote:
+> > My own feeling is that Bartlomiej is correct and that something has changed 
+> > since .29 and that on average we do have less higher order areas available 
+> > after the system has been in use for some time, but I can't substantiate 
+> > that. I do know that before .30 I had never seen the SKB allocation 
+> > errors.
+> > 
+> > Main problem is that it's hard to deliberately and reproducibly get the 
+> > system in a state where the errors occur.
+> > 
 > 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13942
-> Subject		: Troubles with AoE and uninitialized object
-> Submitter	: Bruno Prémont <bonbons-ud5FBsm0p/xEiooADzr8i9i2O/JbrIOy@public.gmane.org>
-> Date		: 2009-08-04 10:12 (59 days old)
-> References	: http://marc.info/?l=linux-kernel&m=124938117104811&w=4
-> 
+> Apparently, Karol Lewandowski (cc added) has a reliable
+> reproduction case for when the firmware loading problem occurs
+> (http://lkml.org/lkml/2009/9/30/242). While it's not the same problem exactly,
+> it's probable they're related. I'm hoping the problem commit can be identified
+> by his bisection whenever he gets around to it.
 
-This should be fixed with 18d8217 in Linus' tree.
---531381004-1395773377-1254513426=:14641--
+Unfortunately, I've had little success with bisecting this problem.
+I've spend fair amount of time today trying to reproduce this problem,
+but I'm unable to do so even on kernels that failed "easily" before.
+
+Nothing has changed in hardware/software.  I've changed methodology
+somewhat from suspend-and-look-for-failure-on-resume to rmmod, fill
+memory, modprobe-and-see-it-fail... but well, few days ago it failed
+in either case.
+
+Damn.
