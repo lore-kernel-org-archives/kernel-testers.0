@@ -1,50 +1,56 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13943] WARNING: at net/mac80211/mlme.c:2292 with ath5k
-Date: Fri, 2 Oct 2009 23:42:47 +0200
-Message-ID: <200910022342.47977.rjw@sisk.pl>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910021917.31509.rjw@sisk.pl> <b637ec0b0910021437l5a011f13qfa4dd541607a6dfb@mail.gmail.com>
+From: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+Subject: Re: [Bug #14261] e1000e jumbo frames no longer work:
+	'Unsupported MTU setting'
+Date: Fri, 2 Oct 2009 15:13:07 -0700
+Message-ID: <9929d2390910021513t51827031k16a5bfc538640cbf@mail.gmail.com>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.jd.5MTxKB@chimera>
+	<877hvd8rj5.fsf@spindle.srvr.nix> <200910022331.35916.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b637ec0b0910021437l5a011f13qfa4dd541607a6dfb-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Luis R. Rodriguez" <mcgrof-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Return-path: <e1000-devel-bounces@lists.sourceforge.net>
+In-Reply-To: <200910022331.35916.rjw@sisk.pl>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/e1000-devel>, 
+	<mailto:e1000-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=e1000-devel>
+List-Post: <mailto:e1000-devel@lists.sourceforge.net>
+List-Help: <mailto:e1000-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/e1000-devel>,
+	<mailto:e1000-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: e1000-devel-bounces@lists.sourceforge.net
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: e1000-devel@lists.sourceforge.net, Network Development <netdev@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Alexander Duyck <alexander.duyck@gmail.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, Nix <nix@esperi.org.uk>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Friday 02 October 2009, Fabio Comolli wrote:
-> Hi.
-> 
-> On Fri, Oct 2, 2009 at 7:17 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > On Friday 02 October 2009, Fabio Comolli wrote:
-> >> Hi.
-> >> I suppose this is still valid. I had to work around it by rfkill-ing
-> >> the device during the suspend process and reenabling at resume time.
-> >
-> > Thanks for the update.
-> >
-> >> I can try to reproduce it with 2.6.31.1 if you want it.
-> >
-> > In fact I'm more interested in whether or not it's still present in the Linus'
-> > tree.
-> >
-> 
-> Well, I just tried 2.6.32-rc1-git3 and I have to say that it's mostly
-> useless with my eeepc. The warning didn't show up after resume but it
-> was impossible to reassociate with my AP and after some tentative the
-> screen went blank.
-> 
-> I was able to poweroff the netbook using the power button but I'm a
-> little scared to try again.
-
-It shouldn't kill the system cold dead, so as long as you have your data
-backed up, you can do some debugging IMHO.
-
-> Maybe I'll try with -rc3 or something.
-
-I guess you should report the issues you have at the moment.  Then, it's
-actually more likely that someone will take care of fixing them.
-
-Thanks,
-Rafael
+T24gRnJpLCBPY3QgMiwgMjAwOSBhdCAxNDozMSwgUmFmYWVsIEouIFd5c29ja2kgPHJqd0BzaXNr
+LnBsPiB3cm90ZToKPiBPbiBGcmlkYXkgMDIgT2N0b2JlciAyMDA5LCBOaXggd3JvdGU6Cj4+IE9u
+IDEgT2N0IDIwMDksIFJhZmFlbCBKLiBXeXNvY2tpIHN0YXRlZDoKPj4KPj4gPiBUaGUgZm9sbG93
+aW5nIGJ1ZyBlbnRyeSBpcyBvbiB0aGUgY3VycmVudCBsaXN0IG9mIGtub3duIHJlZ3Jlc3Npb25z
+Cj4+ID4gaW50cm9kdWNlZCBiZXR3ZWVuIDIuNi4zMCBhbmQgMi42LjMxLiDCoFBsZWFzZSB2ZXJp
+ZnkgaWYgaXQgc3RpbGwgc2hvdWxkCj4+ID4gYmUgbGlzdGVkIGFuZCBsZXQgbWUga25vdyAoZWl0
+aGVyIHdheSkuCj4+Cj4+IFRoZSBwYXRjaCBmaXhlcyBpdC4KPj4KPj4gPiBCdWctRW50cnkgwqAg
+OiBodHRwOi8vYnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTQyNjEKPj4gPiBT
+dWJqZWN0IMKgIMKgIMKgIMKgIMKgIMKgIDogZTEwMDBlIGp1bWJvIGZyYW1lcyBubyBsb25nZXIg
+d29yazogJ1Vuc3VwcG9ydGVkIE1UVSBzZXR0aW5nJwo+PiA+IFN1Ym1pdHRlciDCoCA6IE5peCA8
+bml4QGVzcGVyaS5vcmcudWs+Cj4+ID4gRGF0ZSDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoDogMjAw
+OS0wOS0yNiAxMToxNiAoNiBkYXlzIG9sZCkKPj4gPiBSZWZlcmVuY2VzIMKgOiBodHRwOi8vbWFy
+Yy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEyNTM5NjQzMzMyMTM0MiZ3PTQKPj4gPiBIYW5kbGVk
+LUJ5IMKgOiBBbGV4YW5kZXIgRHV5Y2sgPGFsZXhhbmRlci5kdXlja0BnbWFpbC5jb20+Cj4+ID4g
+UGF0Y2ggwqAgwqAgwqAgwqAgwqAgwqAgwqAgOiBodHRwOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcv
+cGF0Y2gvNTAyNzcvCj4+Cj4+IChQb3NzaWJseSBhIHN0YWJsZSBjYW5kaWRhdGU/IEl0J3Mgbm90
+IGluIDIuNi4zMS4yLXRvLWJlLCBwZXJoYXBzIHRoZQo+PiBvbmx5IHBhdGNoIHRoYXQgaXNuJ3Qu
+IDspICkKPgo+IE1vc3QgbGlrZWx5IGJlY2F1c2UgaXQncyBub3QgaW4gdGhlIExpbnVzJyB0cmVl
+IHlldC4KPgo+IFtlMTAwMGUgbWFpbnRhaW5lcnMsIHdlIGhhdmUgYSByZWdyZXNzaW9uIGZpeCB0
+byBtZXJnZSwgcGxlYXNlLl0KPgo+IFRoYW5rcywKPiBSYWZhZWwKClNvcnJ5LCBJIGZvcmdvdCB0
+byBzZW5kIHRoaXMgcGF0Y2ggb3V0IGxhc3QgbmlnaHQuICBJIHdpbGwgc2VuZCBpdCBub3cuCgot
+LSAKQ2hlZXJzLApKZWZmCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KQ29tZSBidWlsZCB3aXRoIHVz
+ISBUaGUgQmxhY2tCZXJyeSZyZWc7IERldmVsb3BlciBDb25mZXJlbmNlIGluIFNGLCBDQQppcyB0
+aGUgb25seSBkZXZlbG9wZXIgZXZlbnQgeW91IG5lZWQgdG8gYXR0ZW5kIHRoaXMgeWVhci4gSnVt
+cHN0YXJ0IHlvdXIKZGV2ZWxvcGluZyBza2lsbHMsIHRha2UgQmxhY2tCZXJyeSBtb2JpbGUgYXBw
+bGljYXRpb25zIHRvIG1hcmtldCBhbmQgc3RheSAKYWhlYWQgb2YgdGhlIGN1cnZlLiBKb2luIHVz
+IGZyb20gTm92ZW1iZXIgOSYjNDU7MTIsIDIwMDkuIFJlZ2lzdGVyIG5vdyYjMzM7Cmh0dHA6Ly9w
+LnNmLm5ldC9zZnUvZGV2Y29uZgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpFMTAwMC1kZXZlbCBtYWlsaW5nIGxpc3QKRTEwMDAtZGV2ZWxAbGlzdHMuc291
+cmNlZm9yZ2UubmV0Cmh0dHBzOi8vbGlzdHMuc291cmNlZm9yZ2UubmV0L2xpc3RzL2xpc3RpbmZv
+L2UxMDAwLWRldmVsCg==
