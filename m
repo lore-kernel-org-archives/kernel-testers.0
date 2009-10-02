@@ -1,31 +1,118 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13941] x86 Geode issue
-Date: Thu,  1 Oct 2009 21:55:54 +0200 (CEST)
-Message-ID: <COE24pZSBH.A.JED.ZOTxKB@chimera>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #14255] WARNING: at drivers/char/tty_io.c:1267
+Date: Thu, 1 Oct 2009 17:05:18 -0700 (PDT)
+Message-ID: <alpine.LFD.2.01.0910011643370.6996@localhost.localdomain>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.f1._MTxKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754753AbZJAXUY@vger.kernel.org>
-In-Reply-To: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <COE24pZSBH.A.f1._MTxKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="windows-1252"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, =?utf-8?q?Martin-=C3=89ric=20Racine?= <q-funk@iki.fi>
-
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.30 and 2.6.31.
-
-The following bug entry is on the current list of known regressions
-introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-be listed and let me know (either way).
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13941
-Subject		: x86 Geode issue
-Submitter	: Martin-=C3=89ric Racine <q-funk@iki.fi>
-Date		: 2009-08-03 12:58 (60 days old)
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D124930434732481&w=3D=
-4
 
+On Thu, 1 Oct 2009, Rafael J. Wysocki wrote:
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14255
+> Subject		: WARNING: at drivers/char/tty_io.c:1267
+> Submitter	: Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>
+> Date		: 2009-09-20 11:37 (12 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125344629506309&w=4
+> 		  http://lkml.org/lkml/2009/9/8/393
+> Handled-By	: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+
+So the real problem here is that horrible workqueue deadlock, but it turns 
+out that I think that we should be able to safely do a
+
+	cancel_delayed_work_sync(&tty->buf.work);
+
+in tty_ldisc_halt(), because cancel_delayed_work_sync() should never wait 
+for any other work than the exact work in question. And the buf.work thing 
+is flush_to_ldisc(), so waiting for _that_ is safe - the problematic thing 
+was always waiting for the (unrelated) tty->hangup_work, which can (and 
+does) take the semaphore for do_tty_hangup.
+
+So doing that synchronous version of the delayed work cancel means that we 
+can now rest easy after tty_ldisc_halt(), and we don't need to worry about 
+buf.work still being pending. We _do_ in general need to worry about 
+hangup_work, which will call do_tty_hangup, which will call 
+tty_ldisc_hangup, but that's actually the routine we are in right now, so 
+for the _very_ special case of tty_ldisc_hangup that is a non-issue too.
+
+Did that sound subtle to you? 
+
+It should.
+
+It's subtle as hell, and I don't like it, but I think that the two subtle 
+rules above means that the following two-liner patch is safe - it can't 
+cause any new deadlocks, and getting rid of a the flush_scheduled_work is 
+safe in this one case.
+
+So please give it a whirl. I'm not happy about the subtlety, but I also 
+hope that we'll get rid of that in the long run, so as a short-term hack 
+this looks acceptable.
+
+To recap:
+
+ - tty_ldisc_halt() _can_ be called under the ldisc_mutex, because while 
+   it waits for the work, it never waits for _other_ work, and buf.work 
+   itself doesn't need the ldisc_mutex. So no deadlock.
+
+ - The flush_scheduled_work() after tty_ldisc_halt() is normally needed to 
+   not just flush the buf.work (which is now done by tty_ldisc_halt() 
+   itself), but to also make sure that there isn't any hangup work
+   pending.
+
+   So we can't remove that in general, and the other cases will still need 
+   to flush all scheduled work (and worry about deadlocks with 
+   ldisc_mutex). HOWEVER, in the special case of tty_ldisc_hangup() we 
+   know that we are inside the hangup work, and thus don't need to wait 
+   for ourselves, so we can just get rid of it there - just nowhere else.
+
+ - The other cases of dropping the ldisc_mutex in the middle are 
+   long-standing, and have that TTY_LDISC_CHANGING vs TTY_HUPPED hackery 
+   to take care of the races that it opens. I'd love to get rid of that 
+   too, but they all seem to work. And they have never apparently 
+   triggered the WARN_ON in this bugzilla.
+
+I'm not proud of this patch, and I'm not signing off on it until the 
+people who have seen this warning have tried it and report that it seems 
+to work..
+
+		Linus
+
+---
+ drivers/char/tty_ldisc.c |    7 ++-----
+ 1 files changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/char/tty_ldisc.c b/drivers/char/tty_ldisc.c
+index aafdbae..feb5507 100644
+--- a/drivers/char/tty_ldisc.c
++++ b/drivers/char/tty_ldisc.c
+@@ -518,7 +518,7 @@ static void tty_ldisc_restore(struct tty_struct *tty, struct tty_ldisc *old)
+ static int tty_ldisc_halt(struct tty_struct *tty)
+ {
+ 	clear_bit(TTY_LDISC, &tty->flags);
+-	return cancel_delayed_work(&tty->buf.work);
++	return cancel_delayed_work_sync(&tty->buf.work);
+ }
+ 
+ /**
+@@ -756,12 +756,9 @@ void tty_ldisc_hangup(struct tty_struct *tty)
+ 	 * N_TTY.
+ 	 */
+ 	if (tty->driver->flags & TTY_DRIVER_RESET_TERMIOS) {
+-		/* Make sure the old ldisc is quiescent */
+-		tty_ldisc_halt(tty);
+-		flush_scheduled_work();
+-
+ 		/* Avoid racing set_ldisc or tty_ldisc_release */
+ 		mutex_lock(&tty->ldisc_mutex);
++		tty_ldisc_halt(tty);
+ 		if (tty->ldisc) {	/* Not yet closed */
+ 			/* Switch back to N_TTY */
+ 			tty_ldisc_reinit(tty);
