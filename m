@@ -1,43 +1,45 @@
-From: Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [Bug #14297] console resume broken since ba15ab0e8d
-Date: Fri, 2 Oct 2009 08:27:40 +0200
-Message-ID: <20091002062740.GG27039@pengutronix.de>
-References: <9UCePxij8cB.A.VCG.-3SxKB@chimera> <Q3xT3CnoTGE.A.slG.H4SxKB@chimera>
+From: Jaswinder Singh Rajput <jaswinder-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: [Bug #14133] WARNING: at arch/x86/kernel/smp.c:117
+ native_smp_send_reschedule
+Date: Fri, 02 Oct 2009 12:30:55 +0530
+Message-ID: <1254466855.3531.6.camel@ht.satnam>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
+	 <COE24pZSBH.A.oEC.lNTxKB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756894AbZJBG1k@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <Q3xT3CnoTGE.A.slG.H4SxKB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <COE24pZSBH.A.oEC.lNTxKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Cox <alan@linux.intel.com>, Deepak Saxena <dsaxena@laptop.org>, Greg Kroah-Hartman <gregkh@suse.de>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?ISO-8859-1?Q?Am=E9rico?= Wang <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, x86 maintainers <x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Gautham R Shenoy <ego-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
 
-Hi Rafael,
+Hello Jens,
 
-On Thu, Oct 01, 2009 at 09:38:46PM +0200, Rafael J. Wysocki wrote:
+On Thu, 2009-10-01 at 21:55 +0200, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
-> of recent regressions.
+> of regressions introduced between 2.6.30 and 2.6.31.
 > 
 > The following bug entry is on the current list of known regressions
-> from 2.6.31.  Please verify if it still should be listed and let me know
-> (either way).
+> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+> be listed and let me know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14297
-> Subject		: console resume broken since ba15ab0e8d
-> Submitter	: Sascha Hauer <s.hauer@pengutronix.de>
-> Date		: 2009-09-30 15:11 (2 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125432349404060&w=4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14133
+> Subject		: WARNING: at arch/x86/kernel/smp.c:117 native_smp_send_reschedule
+> Submitter	: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+> Date		: 2009-08-31 20:43 (32 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125175143918050&w=4
+> 
+> 
 
-Thanks for reporting this. Yes, the entry is still valid.
+Are you still getting this warning in latest -tip. If yes, can you do
+git bisect and specify the commit.
 
-Sascha
+Thanks,
+--
+JSR
 
 
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
