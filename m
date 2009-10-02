@@ -1,43 +1,27 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 Subject: Re: 2.6.32-rc1-git2: Reported regressions from 2.6.31
-Date: Fri, 2 Oct 2009 19:32:27 +0200
-Message-ID: <200910021932.27789.rjw@sisk.pl>
-References: <9UCePxij8cB.A.VCG.-3SxKB@chimera> <1254469139.3531.19.camel@ht.satnam> <4AC5F975.6060505@s5r6.in-berlin.de>
+Date: Fri, 2 Oct 2009 19:34:40 +0200
+Message-ID: <200910021934.40289.rjw@sisk.pl>
+References: <9UCePxij8cB.A.VCG.-3SxKB@chimera> <1254437336.3885.68.camel@mulgrave.site>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <4AC5F975.6060505@s5r6.in-berlin.de>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1254437336.3885.68.camel-0iu6Cu4xQGLYCGPCin2YbQ@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Stefan Richter <stefanr@s5r6.in-berlin.de>
-Cc: Jaswinder Singh Rajput <jaswinder@kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
+To: James Bottomley <James.Bottomley-l3A5Bk7waGM@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Friday 02 October 2009, Stefan Richter wrote:
-> Jaswinder Singh Rajput wrote:
-> > If you add one more entry say "Suspected commit :" then it will be great
-> > and will solve regressions much faster.
+On Friday 02 October 2009, James Bottomley wrote:
+> On Thu, 2009-10-01 at 21:26 +0200, Rafael J. Wysocki wrote:
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14214
+> > Subject         : BUG at drivers/scsi/scsi_lib.c:1108!
+> > Submitter       : Plamen Petrov <pvp-lsts-Xdw7EbNJKi3354cJYj5R/Q@public.gmane.org>
+> > Date            : 2009-09-23 11:13 (9 days old)
 > 
-> Will?  Might.
+> This one is fixed (as confirmed by the bug report).
 
-In fact I add the "First-Bad-Commit" annotation where there is a bisection
-result or it's possible to fix things by reverting a specific commit.
+Thanks, closed.
 
-> > You can request submitter to
-> > submit 'suspected commit' by git bisect and also specify git bisect
-> > links like : (for more information about git bisect check
-> > http://kerneltrap.org/node/11753)
-> 
-> I disagree.  A reporter should only be asked to bisect (using git or
-> other tools) /if/ a developer determined that bisection may speed up the
-> debugging process or is the only remaining option to make progress with
-> a bug.
-> 
-> It would be wrong to steal a reporter's valuable time by asking for
-> bisection before anybody familiar with the matter even had a first look
-> at the report.
-
-Agreed.
-
-Thanks,
 Rafael
