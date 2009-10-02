@@ -1,45 +1,39 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14133] WARNING: at arch/x86/kernel/smp.c:117 native_smp_send_reschedule
-Date: Fri, 2 Oct 2009 19:21:28 +0200
-Message-ID: <200910021921.28374.rjw@sisk.pl>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <1254466855.3531.6.camel@ht.satnam> <20091002073425.GA14918@kernel.dk>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #14258] Memory leak in SCSI initialization
+Date: Fri, 2 Oct 2009 19:26:46 +0200
+Message-ID: <200910021926.46532.rjw@sisk.pl>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.Vk.6MTxKB@chimera> <200910022158.JBD48969.MOSVQOFHJOLtFF@I-love.SAKURA.ne.jp>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091002073425.GA14918-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757808AbZJBRZX@vger.kernel.org>
+In-Reply-To: <200910022158.JBD48969.MOSVQOFHJOLtFF@I-love.SAKURA.ne.jp>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Cc: Jaswinder Singh Rajput <jaswinder-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?iso-8859-1?q?Am=E9rico_Wang?= <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, x86 maintainers <x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Gautham R Shenoy <ego-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: James.Bottomley@steeleye.com, michael@ellerman.id.au, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org
 
-On Friday 02 October 2009, Jens Axboe wrote:
-> On Fri, Oct 02 2009, Jaswinder Singh Rajput wrote:
-> > Hello Jens,
+On Friday 02 October 2009, Tetsuo Handa wrote:
+> Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.30 and 2.6.31.
+> This memory leak might exist in all releases since 23 Sep 2005.
+> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h=6f3a20242db2597312c50abc11f1e747c5d2326a
 > > 
-> > On Thu, 2009-10-01 at 21:55 +0200, Rafael J. Wysocki wrote:
-> > > This message has been generated automatically as a part of a report
-> > > of regressions introduced between 2.6.30 and 2.6.31.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> > > be listed and let me know (either way).
-> > > 
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14133
-> > > Subject		: WARNING: at arch/x86/kernel/smp.c:117 native_smp_send_reschedule
-> > > Submitter	: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-> > > Date		: 2009-08-31 20:43 (32 days old)
-> > > References	: http://marc.info/?l=linux-kernel&m=125175143918050&w=4
-> > > 
-> > > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+> > be listed and let me know (either way).
+> As of now, the patch is not yet merged into Linus's tree.
+> It still should be listed.
 > > 
-> > Are you still getting this warning in latest -tip. If yes, can you do
-> > git bisect and specify the commit.
-> 
-> Nope, it seems to have disappeared.
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14258
+> > Subject		: Memory leak in SCSI initialization
+> > Submitter	: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+> > Date		: 2009-09-22 4:18 (10 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=125359311312243&w=4
+> > Handled-By	: Michael Ellerman <michael@ellerman.id.au>
+> > Patch		: http://patchwork.kernel.org/patch/49258/
 
-OK, closed.
+Thanks for the update.
 
-Thanks,
 Rafael
