@@ -1,37 +1,44 @@
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Subject: Re: [Bug #14258] Memory leak in SCSI initialization
-Date: Fri, 2 Oct 2009 21:58:03 +0900
-Message-ID: <200910022158.JBD48969.MOSVQOFHJOLtFF@I-love.SAKURA.ne.jp>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
-	<COE24pZSBH.A.Vk.6MTxKB@chimera>
+From: Stefan Richter <stefanr-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
+Subject: Re: 2.6.32-rc1-git2: Reported regressions from 2.6.31
+Date: Fri, 02 Oct 2009 15:00:37 +0200
+Message-ID: <4AC5F975.6060505@s5r6.in-berlin.de>
+References: <9UCePxij8cB.A.VCG.-3SxKB@chimera> <1254469139.3531.19.camel@ht.satnam>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757766AbZJBM6H@vger.kernel.org>
-In-Reply-To: <COE24pZSBH.A.Vk.6MTxKB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1254469139.3531.19.camel-6Ww87KsxWewAvxtiuMwx3w@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: rjw@sisk.pl, James.Bottomley@SteelEye.com
-Cc: michael@ellerman.id.au, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org
+To: Jaswinder Singh Rajput <jaswinder-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.30 and 2.6.31.
-This memory leak might exist in all releases since 23 Sep 2005.
-http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h=6f3a20242db2597312c50abc11f1e747c5d2326a
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> be listed and let me know (either way).
-As of now, the patch is not yet merged into Linus's tree.
-It still should be listed.
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14258
-> Subject		: Memory leak in SCSI initialization
-> Submitter	: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-> Date		: 2009-09-22 4:18 (10 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125359311312243&w=4
-> Handled-By	: Michael Ellerman <michael@ellerman.id.au>
-> Patch		: http://patchwork.kernel.org/patch/49258/
-> 
-Regards.
+Jaswinder Singh Rajput wrote:
+> If you add one more entry say "Suspected commit :" then it will be great
+> and will solve regressions much faster.
+
+Will?  Might.
+
+> You can request submitter to
+> submit 'suspected commit' by git bisect and also specify git bisect
+> links like : (for more information about git bisect check
+> http://kerneltrap.org/node/11753)
+
+I disagree.  A reporter should only be asked to bisect (using git or
+other tools) /if/ a developer determined that bisection may speed up the
+debugging process or is the only remaining option to make progress with
+a bug.
+
+It would be wrong to steal a reporter's valuable time by asking for
+bisection before anybody familiar with the matter even had a first look
+at the report.
+
+Remember:
+  - Not all bugs can be economically narrowed down by bisection.
+  - Bisection requires skills, rigor, and time.
+  - Alas there are considerable sections in our kernel history which
+    are not bisectable.
+-- 
+Stefan Richter
+-=====-==--= =-=- ---=-
+http://arcgraph.de/sr/
