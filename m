@@ -1,27 +1,61 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.32-rc1-git2: Reported regressions from 2.6.31
-Date: Fri, 2 Oct 2009 19:34:40 +0200
-Message-ID: <200910021934.40289.rjw@sisk.pl>
-References: <9UCePxij8cB.A.VCG.-3SxKB@chimera> <1254437336.3885.68.camel@mulgrave.site>
+From: Bruno =?UTF-8?B?UHLDqW1vbnQ=?= <bonbons-ud5FBsm0p/xEiooADzr8i9i2O/JbrIOy@public.gmane.org>
+Subject: Re: [Bug #13950] Oops when USB Serial disconnected while in use
+Date: Fri, 2 Oct 2009 21:45:50 +0200
+Message-ID: <20091002214550.6727df5c@neptune.home>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
+ <COE24pZSBH.A.VqC.POTxKB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1254437336.3885.68.camel-0iu6Cu4xQGLYCGPCin2YbQ@public.gmane.org>
+In-Reply-To: <COE24pZSBH.A.VqC.POTxKB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: James Bottomley <James.Bottomley-l3A5Bk7waGM@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="macroman"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
 
-On Friday 02 October 2009, James Bottomley wrote:
-> On Thu, 2009-10-01 at 21:26 +0200, Rafael J. Wysocki wrote:
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14214
-> > Subject         : BUG at drivers/scsi/scsi_lib.c:1108!
-> > Submitter       : Plamen Petrov <pvp-lsts-Xdw7EbNJKi3354cJYj5R/Q@public.gmane.org>
-> > Date            : 2009-09-23 11:13 (9 days old)
-> 
-> This one is fixed (as confirmed by the bug report).
+On Thu, 01 October 2009 "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.30 and 2.6.31.
+>=20
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.30 and 2.6.31.  Please verify if it still
+> should be listed and let me know (either way).
+>=20
+>=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13950
+> Subject	: Oops when USB Serial disconnected while in
+> use Submitter	: Bruno Pr=C3=A9mont <bonbons-ud5FBsm0p/xEiooADzr8i9i2O/JbrIOy@public.gmane.org>
+> Date		: 2009-08-08 17:47 (55 days old)
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D124975432900466&w=
+=3D4
+> Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
 
-Thanks, closed.
+This has been adressed with following commits:
+  41bd34ddd7aa46dbc03b5bb33896e0fa8100fe7b
+  usb-serial: change referencing of port and serial structures
 
-Rafael
+  f5b0953a89fa3407fb293cc54ead7d8feec489e4
+  usb-serial: put subroutines in logical order
+
+  8bc2c1b2daf95029658868cb1427baea2da87139
+  usb-serial: change logic of serial lookups
+
+  cc56cd0157753c04a987888a2f793803df661a40
+  usb-serial: acquire references when a new tty is installed
+
+  7e29bb4b779f4f35385e6f21994758845bf14d23
+  usb-serial: fix termios initialization logic
+
+  74556123e034c8337b69a3ebac2f3a5fc0a97032
+  usb-serial: rename subroutines
+
+  ff8324df1187b7280e507c976777df76c73a1ef1
+  usb-serial: add missing tests and debug lines
+
+  320348c8d5c9b591282633ddb8959b42f7fc7a1c
+  usb-serial: straighten out serial_open
+
+They went into 2.6.32-rc1 and are probably queued for 2.6.31.2 stable.
+
+Bruno
