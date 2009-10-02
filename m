@@ -1,38 +1,43 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14297] console resume broken since ba15ab0e8d
-Date: Fri, 2 Oct 2009 19:29:10 +0200
-Message-ID: <200910021929.10341.rjw@sisk.pl>
-References: <9UCePxij8cB.A.VCG.-3SxKB@chimera> <Q3xT3CnoTGE.A.slG.H4SxKB@chimera> <20091002062740.GG27039@pengutronix.de>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: 2.6.32-rc1-git2: Reported regressions from 2.6.31
+Date: Fri, 2 Oct 2009 19:32:27 +0200
+Message-ID: <200910021932.27789.rjw@sisk.pl>
+References: <9UCePxij8cB.A.VCG.-3SxKB@chimera> <1254469139.3531.19.camel@ht.satnam> <4AC5F975.6060505@s5r6.in-berlin.de>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091002062740.GG27039-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <4AC5F975.6060505@s5r6.in-berlin.de>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Sascha Hauer <s.hauer-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Deepak Saxena <dsaxena-2X9k7bc8m7Mdnm+yROfE0A@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>
+To: Stefan Richter <stefanr@s5r6.in-berlin.de>
+Cc: Jaswinder Singh Rajput <jaswinder@kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-On Friday 02 October 2009, Sascha Hauer wrote:
-> Hi Rafael,
+On Friday 02 October 2009, Stefan Richter wrote:
+> Jaswinder Singh Rajput wrote:
+> > If you add one more entry say "Suspected commit :" then it will be great
+> > and will solve regressions much faster.
 > 
-> On Thu, Oct 01, 2009 at 09:38:46PM +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.31.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14297
-> > Subject		: console resume broken since ba15ab0e8d
-> > Submitter	: Sascha Hauer <s.hauer-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
-> > Date		: 2009-09-30 15:11 (2 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=125432349404060&w=4
+> Will?  Might.
+
+In fact I add the "First-Bad-Commit" annotation where there is a bisection
+result or it's possible to fix things by reverting a specific commit.
+
+> > You can request submitter to
+> > submit 'suspected commit' by git bisect and also specify git bisect
+> > links like : (for more information about git bisect check
+> > http://kerneltrap.org/node/11753)
 > 
-> Thanks for reporting this. Yes, the entry is still valid.
+> I disagree.  A reporter should only be asked to bisect (using git or
+> other tools) /if/ a developer determined that bisection may speed up the
+> debugging process or is the only remaining option to make progress with
+> a bug.
+> 
+> It would be wrong to steal a reporter's valuable time by asking for
+> bisection before anybody familiar with the matter even had a first look
+> at the report.
 
-Thanks for the update.
+Agreed.
 
+Thanks,
 Rafael
