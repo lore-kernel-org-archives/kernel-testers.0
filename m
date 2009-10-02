@@ -1,43 +1,38 @@
-From: Cyrill Gorcunov <gorcunov@gmail.com>
-Subject: Re: [Bug #14270] Cannot boot on a PIII Celeron
-Date: Fri, 2 Oct 2009 18:05:13 +0400
-Message-ID: <20091002140512.GA5645@lenovo>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.7sH.xMTxKB@chimera> <aa79d98a0910020130p4d3c5b5fh9597ea435db7f872@mail.gmail.com> <4AC5C42E.9070909@msgid.tls.msk.ru> <4AC5D810.3080307@msgid.tls.msk.ru> <aa79d98a0910020355r31b37ea0v1fef7286f7a71508@mail.gmail.com> <4AC5DCFD.4010107@msgid.tls.msk.ru>
+From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [Bug #13935] 2.6.31-rcX breaks Apple MightyMouse (Bluetooth
+ version)
+Date: Fri, 2 Oct 2009 17:58:06 +0200 (CEST)
+Message-ID: <alpine.LSU.2.00.0910021757390.10941@wotan.suse.de>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.DPD.fOTxKB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753769AbZJBOFQ@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:received:date:from:to:cc
-         :subject:message-id:references:mime-version:content-type
-         :content-disposition:in-reply-to:user-agent;
-        bh=BKkxB+1arogLkMzdMb0u8FZ/nvlZMviWQThsLGbOipc=;
-        b=qam5aQ2P+B3NvHIVmqnvNkoInUtkoE2aswnH7Q4F772ii1swDyza0BsRbJix5BqATT
-         sOtRN+I/I96l0HCBfue94nL4b1EK+WNytmldVlzoXE75YqJh3dyvB4/8f0AA8wVqr2ZB
-         CDN2LjgOQDwQBcC5qMVCvB1fJ+aWrloXhHGSA=
-Content-Disposition: inline
-In-Reply-To: <4AC5DCFD.4010107@msgid.tls.msk.ru>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <COE24pZSBH.A.DPD.fOTxKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Michael Tokarev <mjt@tls.msk.ru>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Ulrich <kernel-4ZM2p5qjiQGewZBzVTKGGg@public.gmane.org>, Jan Scholz <Scholz-wOpdxP1gw6Cc+IqHO83+wjjhTm2NLCe8@public.gmane.org>
 
-[Michael Tokarev - Fri, Oct 02, 2009 at 02:59:09PM +0400]
-...
->
-> Please hold on for a while.
->
-> I switched to BZIP2, it booted fine.  I switched back to LZMA -
-> and that one now boots too.  Original bzImage, which were built
-> by the same compiler from the same source using the same
-> options reboots.
->
-> So um... I'm now trying to reproduce it ;)
->
-> /mjt
->
+On Thu, 1 Oct 2009, Rafael J. Wysocki wrote:
 
-ok, perhaps it was indirect error or cosmic rays
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.30 and 2.6.31.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13935
+> Subject		: 2.6.31-rcX breaks Apple MightyMouse (Bluetooth version)
+> Submitter	: Adrian Ulrich <kernel-4ZM2p5qjiQGewZBzVTKGGg@public.gmane.org>
+> Date		: 2009-08-08 22:08 (55 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=fa047e4f6fa63a6e9d0ae4d7749538830d14a343
 
-	-- Cyrill
+Fixed now in Linus' tree (42960a13) and submitted for stable. Please 
+close.
+
+-- 
+Jiri Kosina
+SUSE Labs, Novell Inc.
