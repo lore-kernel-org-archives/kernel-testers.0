@@ -1,56 +1,161 @@
-From: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
-Subject: Re: [Bug #14261] e1000e jumbo frames no longer work:
-	'Unsupported MTU setting'
-Date: Fri, 2 Oct 2009 15:13:07 -0700
-Message-ID: <9929d2390910021513t51827031k16a5bfc538640cbf@mail.gmail.com>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.jd.5MTxKB@chimera>
-	<877hvd8rj5.fsf@spindle.srvr.nix> <200910022331.35916.rjw@sisk.pl>
+From: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14301] WARNING: at net/ipv4/af_inet.c:154
+Date: Sat, 03 Oct 2009 10:36:48 +0200
+Message-ID: <4AC70D20.4060009@gmail.com>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.mdH.sMTxKB@chimera>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Return-path: <e1000-devel-bounces@lists.sourceforge.net>
-In-Reply-To: <200910022331.35916.rjw@sisk.pl>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/e1000-devel>, 
-	<mailto:e1000-devel-request@lists.sourceforge.net?subject=unsubscribe>
-List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=e1000-devel>
-List-Post: <mailto:e1000-devel@lists.sourceforge.net>
-List-Help: <mailto:e1000-devel-request@lists.sourceforge.net?subject=help>
-List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/e1000-devel>,
-	<mailto:e1000-devel-request@lists.sourceforge.net?subject=subscribe>
-Errors-To: e1000-devel-bounces@lists.sourceforge.net
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: e1000-devel@lists.sourceforge.net, Network Development <netdev@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Alexander Duyck <alexander.duyck@gmail.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, Nix <nix@esperi.org.uk>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <COE24pZSBH.A.mdH.sMTxKB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>, Linux Netdev List <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Wei Yongjun <yjwei-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 
-T24gRnJpLCBPY3QgMiwgMjAwOSBhdCAxNDozMSwgUmFmYWVsIEouIFd5c29ja2kgPHJqd0BzaXNr
-LnBsPiB3cm90ZToKPiBPbiBGcmlkYXkgMDIgT2N0b2JlciAyMDA5LCBOaXggd3JvdGU6Cj4+IE9u
-IDEgT2N0IDIwMDksIFJhZmFlbCBKLiBXeXNvY2tpIHN0YXRlZDoKPj4KPj4gPiBUaGUgZm9sbG93
-aW5nIGJ1ZyBlbnRyeSBpcyBvbiB0aGUgY3VycmVudCBsaXN0IG9mIGtub3duIHJlZ3Jlc3Npb25z
-Cj4+ID4gaW50cm9kdWNlZCBiZXR3ZWVuIDIuNi4zMCBhbmQgMi42LjMxLiDCoFBsZWFzZSB2ZXJp
-ZnkgaWYgaXQgc3RpbGwgc2hvdWxkCj4+ID4gYmUgbGlzdGVkIGFuZCBsZXQgbWUga25vdyAoZWl0
-aGVyIHdheSkuCj4+Cj4+IFRoZSBwYXRjaCBmaXhlcyBpdC4KPj4KPj4gPiBCdWctRW50cnkgwqAg
-OiBodHRwOi8vYnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTQyNjEKPj4gPiBT
-dWJqZWN0IMKgIMKgIMKgIMKgIMKgIMKgIDogZTEwMDBlIGp1bWJvIGZyYW1lcyBubyBsb25nZXIg
-d29yazogJ1Vuc3VwcG9ydGVkIE1UVSBzZXR0aW5nJwo+PiA+IFN1Ym1pdHRlciDCoCA6IE5peCA8
-bml4QGVzcGVyaS5vcmcudWs+Cj4+ID4gRGF0ZSDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoDogMjAw
-OS0wOS0yNiAxMToxNiAoNiBkYXlzIG9sZCkKPj4gPiBSZWZlcmVuY2VzIMKgOiBodHRwOi8vbWFy
-Yy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEyNTM5NjQzMzMyMTM0MiZ3PTQKPj4gPiBIYW5kbGVk
-LUJ5IMKgOiBBbGV4YW5kZXIgRHV5Y2sgPGFsZXhhbmRlci5kdXlja0BnbWFpbC5jb20+Cj4+ID4g
-UGF0Y2ggwqAgwqAgwqAgwqAgwqAgwqAgwqAgOiBodHRwOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcv
-cGF0Y2gvNTAyNzcvCj4+Cj4+IChQb3NzaWJseSBhIHN0YWJsZSBjYW5kaWRhdGU/IEl0J3Mgbm90
-IGluIDIuNi4zMS4yLXRvLWJlLCBwZXJoYXBzIHRoZQo+PiBvbmx5IHBhdGNoIHRoYXQgaXNuJ3Qu
-IDspICkKPgo+IE1vc3QgbGlrZWx5IGJlY2F1c2UgaXQncyBub3QgaW4gdGhlIExpbnVzJyB0cmVl
-IHlldC4KPgo+IFtlMTAwMGUgbWFpbnRhaW5lcnMsIHdlIGhhdmUgYSByZWdyZXNzaW9uIGZpeCB0
-byBtZXJnZSwgcGxlYXNlLl0KPgo+IFRoYW5rcywKPiBSYWZhZWwKClNvcnJ5LCBJIGZvcmdvdCB0
-byBzZW5kIHRoaXMgcGF0Y2ggb3V0IGxhc3QgbmlnaHQuICBJIHdpbGwgc2VuZCBpdCBub3cuCgot
-LSAKQ2hlZXJzLApKZWZmCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KQ29tZSBidWlsZCB3aXRoIHVz
-ISBUaGUgQmxhY2tCZXJyeSZyZWc7IERldmVsb3BlciBDb25mZXJlbmNlIGluIFNGLCBDQQppcyB0
-aGUgb25seSBkZXZlbG9wZXIgZXZlbnQgeW91IG5lZWQgdG8gYXR0ZW5kIHRoaXMgeWVhci4gSnVt
-cHN0YXJ0IHlvdXIKZGV2ZWxvcGluZyBza2lsbHMsIHRha2UgQmxhY2tCZXJyeSBtb2JpbGUgYXBw
-bGljYXRpb25zIHRvIG1hcmtldCBhbmQgc3RheSAKYWhlYWQgb2YgdGhlIGN1cnZlLiBKb2luIHVz
-IGZyb20gTm92ZW1iZXIgOSYjNDU7MTIsIDIwMDkuIFJlZ2lzdGVyIG5vdyYjMzM7Cmh0dHA6Ly9w
-LnNmLm5ldC9zZnUvZGV2Y29uZgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpFMTAwMC1kZXZlbCBtYWlsaW5nIGxpc3QKRTEwMDAtZGV2ZWxAbGlzdHMuc291
-cmNlZm9yZ2UubmV0Cmh0dHBzOi8vbGlzdHMuc291cmNlZm9yZ2UubmV0L2xpc3RzL2xpc3RpbmZv
-L2UxMDAwLWRldmVsCg==
+Rafael J. Wysocki a =C3=A9crit :
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.30 and 2.6.31.
+>=20
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.30 and 2.6.31.  Please verify if it still shou=
+ld
+> be listed and let me know (either way).
+>=20
+>=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14301
+> Subject		: WARNING: at net/ipv4/af_inet.c:154
+> Submitter	: Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>
+> Date		: 2009-09-30 12:24 (2 days old)
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D125431350218137&w=
+=3D4
+>=20
+>=20
+
+If commit d99927f4d93f36553699573b279e0ff98ad7dea6
+(net: Fix sock_wfree() race) doesnt fix this problem, then
+maybe we should take a look at an old patch.
+
+< data mining... running... output results to lkml/netdev >
+
+Random guesses
+
+ 1) : commit d55d87fdff8252d0e2f7c28c2d443aee17e9d70f
+(net: Move rx skb_orphan call to where needed)
+
+A similar problem on SCTP was fixed by commit=20
+1bc4ee4088c9a502db0e9c87f675e61e57fa1734
+(sctp: fix warning at inet_sock_destruct() while release sctp socket)
+
+2) CORK and UDP sockets
+  It seems we can leave an UDP socket with a frame in sk_write_queue
+  Purge of this queue is done by udp_flush_pending_frames()
+   This calls ip_flush_pending_frames()
+   But this function only calls kfree_skb(), not sk_wmem_free_skb()...
+
+
+Could you try following patch ?
+
+Thanks
+
+[PATCH] net: UDP should not use ip_flush_pending_frames()
+
+Now xmit UDP messages are charged, we must take care of calling right
+skb freeing function.
+
+In case a close() is performed on a socket where CORKED frame
+is still queued in sk_write_queue, calling ip_flush_pending_frames()
+leads to sk_forward_alloc leak.
+
+Reported-by: Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>
+Signed-off-by: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
+ include/net/sock.h  |   10 ++++++++++
+ include/net/tcp.h   |   10 ----------
+ net/ipv4/tcp.c      |    2 +-
+ net/ipv4/tcp_ipv4.c |    2 +-
+ net/ipv4/udp.c      |    2 +-
+ 5 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/include/net/sock.h b/include/net/sock.h
+index 1621935..7c80fec 100644
+--- a/include/net/sock.h
++++ b/include/net/sock.h
+@@ -882,6 +882,16 @@ static inline void sk_wmem_free_skb(struct sock *s=
+k, struct sk_buff *skb)
+ 	__kfree_skb(skb);
+ }
+=20
++/* write queue abstraction */
++static inline void sk_write_queue_purge(struct sock *sk)
++{
++	struct sk_buff *skb;
++
++	while ((skb =3D __skb_dequeue(&sk->sk_write_queue)) !=3D NULL)
++		sk_wmem_free_skb(sk, skb);
++	sk_mem_reclaim(sk);
++}
++
+ /* Used by processes to "lock" a socket state, so that
+  * interrupts and bottom half handlers won't change it
+  * from under us. It essentially blocks any incoming
+diff --git a/include/net/tcp.h b/include/net/tcp.h
+index 03a49c7..4c7036a 100644
+--- a/include/net/tcp.h
++++ b/include/net/tcp.h
+@@ -1220,16 +1220,6 @@ static inline void		tcp_put_md5sig_pool(void)
+ 	put_cpu();
+ }
+=20
+-/* write queue abstraction */
+-static inline void tcp_write_queue_purge(struct sock *sk)
+-{
+-	struct sk_buff *skb;
+-
+-	while ((skb =3D __skb_dequeue(&sk->sk_write_queue)) !=3D NULL)
+-		sk_wmem_free_skb(sk, skb);
+-	sk_mem_reclaim(sk);
+-}
+-
+ static inline struct sk_buff *tcp_write_queue_head(struct sock *sk)
+ {
+ 	return skb_peek(&sk->sk_write_queue);
+diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+index 64d0af6..0124f5b 100644
+--- a/net/ipv4/tcp.c
++++ b/net/ipv4/tcp.c
+@@ -1992,7 +1992,7 @@ int tcp_disconnect(struct sock *sk, int flags)
+=20
+ 	tcp_clear_xmit_timers(sk);
+ 	__skb_queue_purge(&sk->sk_receive_queue);
+-	tcp_write_queue_purge(sk);
++	sk_write_queue_purge(sk);
+ 	__skb_queue_purge(&tp->out_of_order_queue);
+ #ifdef CONFIG_NET_DMA
+ 	__skb_queue_purge(&sk->sk_async_wait_queue);
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index 7cda24b..76e59df 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -1845,7 +1845,7 @@ void tcp_v4_destroy_sock(struct sock *sk)
+ 	tcp_cleanup_congestion_control(sk);
+=20
+ 	/* Cleanup up the write buffer. */
+-	tcp_write_queue_purge(sk);
++	sk_write_queue_purge(sk);
+=20
+ 	/* Cleans up our, hopefully empty, out_of_order_queue. */
+ 	__skb_queue_purge(&tp->out_of_order_queue);
+diff --git a/net/ipv4/udp.c b/net/ipv4/udp.c
+index 6ec6a8a..58007d1 100644
+--- a/net/ipv4/udp.c
++++ b/net/ipv4/udp.c
+@@ -464,7 +464,7 @@ void udp_flush_pending_frames(struct sock *sk)
+ 	if (up->pending) {
+ 		up->len =3D 0;
+ 		up->pending =3D 0;
+-		ip_flush_pending_frames(sk);
++		sk_write_queue_purge(sk);
+ 	}
+ }
+ EXPORT_SYMBOL(udp_flush_pending_frames);
