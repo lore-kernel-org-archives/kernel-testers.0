@@ -1,69 +1,58 @@
-From: Frans Pop <elendil@planet.nl>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Mon, 5 Oct 2009 23:34:16 +0200
-Message-ID: <200910052334.23833.elendil@planet.nl>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910050851.02056.elendil@planet.nl> <20091005085739.GB5452@csn.ul.ie>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: 2.6.32-rc1: various BUGs on resume from hibernation
+Date: Tue, 6 Oct 2009 00:48:41 +0200
+Message-ID: <200910060048.41615.rjw@sisk.pl>
+References: <4AC8B4A8.3050601@tuffmail.co.uk> <4ACA50DD.9050801@tuffmail.co.uk>
+	<4ACA5E3D.1020108@tuffmail.co.uk>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20091005085739.GB5452@csn.ul.ie>
-Content-Disposition: inline
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, linux-mm@kvack.org, David Rientjes <rientjes@google.com>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+In-Reply-To: <4ACA5E3D.1020108@tuffmail.co.uk>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
+List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
+List-Post: <mailto:linux-pm@lists.linux-foundation.org>
+List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
+List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
+Sender: linux-pm-bounces@lists.linux-foundation.org
+Errors-To: linux-pm-bounces@lists.linux-foundation.org
+To: Alan Jenkins <alan-jenkins@tuffmail.co.uk>
+Cc: pm list <linux-pm@lists.linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Jesse Barnes <jbarnes@virtuousgeek.org>, Stefan Seyfried <stefan.seyfried@googlemail.com>
 
-On Monday 05 October 2009, Mel Gorman wrote:
-> On Mon, Oct 05, 2009 at 08:50:58AM +0200, Frans Pop wrote:
-> > On Monday 05 October 2009, Frans Pop wrote:
-> > > I'll dig into this a bit more as it looks like this should be
-> > > reproducible, probably even without the kernel build. Next step is
-> > > to see how .30 behaves in the same situation.
+On Monday 05 October 2009, Alan Jenkins wrote:
+> Alan Jenkins wrote:
+> > Stefan Seyfried wrote:
+> >> On Sun, 4 Oct 2009 22:47:43 +0200
+> >> "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+> >>> On Sunday 04 October 2009, Alan Jenkins wrote:
+> >>>> Alan Jenkins wrote:
+> >>>>> I'm seeing a variety of BUGs on my EeePC 701 after hibernation. 
+> >>>>> Sometimes they cause a hang during resume; sometimes they happen
+> >>>>> just after resume. It doesn't happen all the time either - I've
+> >>>>> just hibernated three times in a row with no problems. It's most
+> >>>>> perplexing.
+> >>
+> >>> As I already asked in the Bugzilla, can you verify that this is
+> >>> reproducible without KMS?
 > >
-> > This looks conclusive. I tested .30 and .32-rc3 from clean reboots and
-> > only starting gitk. I only started music playing in the background
-> > (amarok) from an NFS share to ensure network activity.
+> > No. I couldn't reproduce it without KMS. Then I re-enabled KMS, 
+> > hibernated a couple of times, and had another resume hang (different 
+> > again - this time in the freezer).
 > >
-> > With .32-rc3 I got 4 SKB allocation errors while starting the *second*
-> > gitk instance. And the system was completely frozen with music stopped
-> > until gitk finished loading.
-> >
-> > With .30 I was able to start *three* gitk's (which meant 2 of them got
-> > (partially) swapped out) without any allocation errors. And with the
-> > system remaining relatively responsive. There was a short break in the
-> > music while I started the 2nd instance, but it just continued playing
-> > afterwards. There was also some mild latency in the mouse cursor, but
-> > nothing like the full desktop freeze I get with .32-rc3.
-> >
-> > One thing I should mention: my swap is an LVM volume that's in a VG
-> > that's on a LUKS encrypted partition.
-> >
-> > Does this give you enough info to go on, or should I try a bisection?
->
-> I'll be trying to reproduce it, but it's unlikely I'll manage to
-> reproduce it reliably as there may be a specific combination of hardware
-> necessary as well. What I'm going to try is writing a module that
-> allocates order-5 every second GFP_ATOMIC and see can I reproduce using
-> scenarios similar to yours but it'll take some time with no guarantee of
-> success. If you could bisect it, it would be fantastic.
+> 
+> Perhaps this GEM backtrace is more relevant than the others, or perhaps 
+> not. I closed the lid during resume from hibernation; the screen stayed 
+> black when I re-opened it, but syslogd recorded the following. (Again, 
+> I've done the exact thing before and often nothing unusual happens) -
 
-And the winner is:
-2ff05b2b4eac2e63d345fc731ea151a060247f53 is first bad commit
-commit 2ff05b2b4eac2e63d345fc731ea151a060247f53
-Author: David Rientjes <rientjes@google.com>
-Date:   Tue Jun 16 15:32:56 2009 -0700
+OK, let's assume it's related to KMS, then.
 
-    oom: move oom_adj value from task_struct to mm_struct
+1. Do we already have a Bugzilla entry for it?
+2. Did it work with 2.6.31 (and with KMS)?
+3. Are you aware of http://marc.info/?l=linux-kernel&m=125452324520623&w=4 ?
 
-I'm confident that the bisection is good. The test case was very reliable 
-while zooming in on the merge from akpm.
-
-Cheers,
-FJP
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+Thanks,
+Rafael
