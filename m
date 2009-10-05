@@ -1,68 +1,44 @@
-From: Frans Pop <elendil@planet.nl>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Mon, 5 Oct 2009 08:50:58 +0200
-Message-ID: <200910050851.02056.elendil@planet.nl>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910021111.55749.elendil@planet.nl> <200910050714.01908.elendil@planet.nl>
+From: Stefan Seyfried <stefan.seyfried@googlemail.com>
+Subject: Re: 2.6.32-rc1: various BUGs on resume from hibernation
+Date: Mon, 5 Oct 2009 09:53:27 +0200
+Message-ID: <20091005095327.5ea9831b@strolchi>
+References: <4AC8B4A8.3050601@tuffmail.co.uk> <4AC8D568.9090103@tuffmail.co.uk>
+	<200910042247.43528.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <200910050714.01908.elendil@planet.nl>
-Content-Disposition: inline
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, linux-mm@kvack.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+In-Reply-To: <200910042247.43528.rjw@sisk.pl>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
+List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
+List-Post: <mailto:linux-pm@lists.linux-foundation.org>
+List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
+List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
+Sender: linux-pm-bounces@lists.linux-foundation.org
+Errors-To: linux-pm-bounces@lists.linux-foundation.org
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: pm list <linux-pm@lists.linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Jenkins <alan-jenkins@tuffmail.co.uk>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 
-On Monday 05 October 2009, Frans Pop wrote:
-> I'll dig into this a bit more as it looks like this should be
-> reproducible, probably even without the kernel build. Next step is to
-> see how .30 behaves in the same situation.
+On Sun, 4 Oct 2009 22:47:43 +0200
+"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+> On Sunday 04 October 2009, Alan Jenkins wrote:
+> > Alan Jenkins wrote:
+> > > I'm seeing a variety of BUGs on my EeePC 701 after hibernation.  
+> > > Sometimes they cause a hang during resume; sometimes they happen
+> > > just after resume.  It doesn't happen all the time either -  I've
+> > > just hibernated three times in a row with no problems.  It's most
+> > > perplexing.
 
-This looks conclusive. I tested .30 and .32-rc3 from clean reboots and
-only starting gitk. I only started music playing in the background
-(amarok) from an NFS share to ensure network activity.
+> As I already asked in the Bugzilla, can you verify that this is
+> reproducible without KMS?
 
-With .32-rc3 I got 4 SKB allocation errors while starting the *second* gitk
-instance. And the system was completely frozen with music stopped until gitk
-finished loading.
+This is important, there *are* hibernation issues with intel/KMS,
+e.g. http://bugs.freedesktop.org/show_bug.cgi?id=23701
+-- 
+Stefan Seyfried
 
-With .30 I was able to start *three* gitk's (which meant 2 of them got
-(partially) swapped out) without any allocation errors. And with the system
-remaining relatively responsive. There was a short break in the music while
-I started the 2nd instance, but it just continued playing afterwards. There
-was also some mild latency in the mouse cursor, but nothing like the full
-desktop freeze I get with .32-rc3.
-
-With .30 I looked at /proc/buddyinfo while the 3rd gitk was being started,
-and that looked fairly healthy all the time:
-Node 0, zone      DMA      5      9     22     20     21     11      0      0      0      0      1
-Node 0, zone    DMA32    579     67     25      8      5      1      1      0      1      1      0
-Node 0, zone      DMA      5      9     22     20     21     11      0      0      0      0      1
-Node 0, zone    DMA32    276     54     13     15      8     10      3      1      1      1      0
-Node 0, zone      DMA      4      9     22     20     21     11      0      0      0      0      1
-Node 0, zone    DMA32    119     45     24     18     12      4      5      2      1      1      0
-Node 0, zone      DMA      4      9     22     20     21     11      0      0      0      0      1
-Node 0, zone    DMA32    527     13      9      5      5      3      2      1      1      1      0
-Node 0, zone      DMA      5      9     22     20     21     11      0      0      0      0      1
-Node 0, zone    DMA32   1375     24      7      7      8      5      1      1      0      1      0
-Node 0, zone      DMA      5      9     22     20     21     11      0      0      0      0      1
-Node 0, zone    DMA32    329     21      3      3     17      8      5      1      0      1      0
-
-With .32 it was obviously impossible to get that info due to the total
-freeze of the desktop. Not sure if the scheduler changes in .32 contribute
-to this. Guess I could find out by doing the same test with .31.
-
-One thing I should mention: my swap is an LVM volume that's in a VG that's
-on a LUKS encrypted partition.
-
-Does this give you enough info to go on, or should I try a bisection?
-
-Cheers,
-FJP
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+"Any ideas, John?"
+"Well, surrounding them's out." 
