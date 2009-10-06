@@ -1,44 +1,63 @@
-From: David Rientjes <rientjes@google.com>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Mon, 5 Oct 2009 17:04:55 -0700 (PDT)
-Message-ID: <alpine.DEB.1.00.0910051700440.31688@chino.kir.corp.google.com>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910050851.02056.elendil@planet.nl> <20091005085739.GB5452@csn.ul.ie> <200910052334.23833.elendil@planet.nl>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: 2.6.32-rc1: various BUGs on resume from hibernation
+Date: Tue, 6 Oct 2009 02:06:49 +0200
+Message-ID: <200910060206.49500.rjw@sisk.pl>
+References: <4AC8B4A8.3050601@tuffmail.co.uk> <4ACA5E3D.1020108@tuffmail.co.uk>
+	<200910060048.41615.rjw@sisk.pl>
 Mime-Version: 1.0
-Return-path: <owner-linux-mm@kvack.org>
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
-	t=1254787501; bh=boJget6TNjhvt46GsK4xKB6Ylw8=;
-	h=DomainKey-Signature:Date:From:X-X-Sender:To:cc:Subject:
-	 In-Reply-To:Message-ID:References:User-Agent:MIME-Version:
-	 Content-Type:X-System-Of-Record; b=Es8S8VMoswRyEVtIAIf8Xh6ZqnPwW4W
-	8IIYWHS6GXd/TiajanzmLrCSPHRbCi2Yqeu8/SemtxbilUk2mF/f+Tw==
-In-Reply-To: <200910052334.23833.elendil@planet.nl>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Frans Pop <elendil@planet.nl>
-Cc: Mel Gorman <mel@csn.ul.ie>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, linux-mm@kvack.org
+Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+In-Reply-To: <200910060048.41615.rjw@sisk.pl>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
+List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
+List-Post: <mailto:linux-pm@lists.linux-foundation.org>
+List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
+List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
+Sender: linux-pm-bounces@lists.linux-foundation.org
+Errors-To: linux-pm-bounces@lists.linux-foundation.org
+To: linux-pm@lists.linux-foundation.org
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Jenkins <alan-jenkins@tuffmail.co.uk>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Jesse Barnes <jbarnes@virtuousgeek.org>, Stefan Seyfried <stefan.seyfried@googlemail.com>
 
-On Mon, 5 Oct 2009, Frans Pop wrote:
-
-> And the winner is:
-> 2ff05b2b4eac2e63d345fc731ea151a060247f53 is first bad commit
-> commit 2ff05b2b4eac2e63d345fc731ea151a060247f53
-> Author: David Rientjes <rientjes@google.com>
-> Date:   Tue Jun 16 15:32:56 2009 -0700
+On Tuesday 06 October 2009, Rafael J. Wysocki wrote:
+> On Monday 05 October 2009, Alan Jenkins wrote:
+> > Alan Jenkins wrote:
+> > > Stefan Seyfried wrote:
+> > >> On Sun, 4 Oct 2009 22:47:43 +0200
+> > >> "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+> > >>> On Sunday 04 October 2009, Alan Jenkins wrote:
+> > >>>> Alan Jenkins wrote:
+> > >>>>> I'm seeing a variety of BUGs on my EeePC 701 after hibernation. 
+> > >>>>> Sometimes they cause a hang during resume; sometimes they happen
+> > >>>>> just after resume. It doesn't happen all the time either - I've
+> > >>>>> just hibernated three times in a row with no problems. It's most
+> > >>>>> perplexing.
+> > >>
+> > >>> As I already asked in the Bugzilla, can you verify that this is
+> > >>> reproducible without KMS?
+> > >
+> > > No. I couldn't reproduce it without KMS. Then I re-enabled KMS, 
+> > > hibernated a couple of times, and had another resume hang (different 
+> > > again - this time in the freezer).
+> > >
+> > 
+> > Perhaps this GEM backtrace is more relevant than the others, or perhaps 
+> > not. I closed the lid during resume from hibernation; the screen stayed 
+> > black when I re-opened it, but syslogd recorded the following. (Again, 
+> > I've done the exact thing before and often nothing unusual happens) -
 > 
->     oom: move oom_adj value from task_struct to mm_struct
+> OK, let's assume it's related to KMS, then.
 > 
-> I'm confident that the bisection is good. The test case was very reliable 
-> while zooming in on the merge from akpm.
-> 
+> 1. Do we already have a Bugzilla entry for it?
 
-I doubt it for two reasons: (i) this commit was reverted in 0753ba0 since 
-2.6.31-rc7 and is no longer in the kernel, and (ii) these are GFP_ATOMIC 
-allocations which would be unaffected by oom killer scores.
+Ah, yes, we do, http://bugzilla.kernel.org/show_bug.cgi?id=14320 (I tend to
+forget about these things).
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+> 2. Did it work with 2.6.31 (and with KMS)?
+> 3. Are you aware of http://marc.info/?l=linux-kernel&m=125452324520623&w=4 ?
+
+Thanks,
+Rafael
