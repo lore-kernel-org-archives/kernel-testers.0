@@ -1,18 +1,20 @@
-From: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
+From: Mel Gorman <mel@csn.ul.ie>
 Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Tue,  6 Oct 2009 10:25:40 +0900 (JST)
-Message-ID: <20091006102110.5F9D.A69D9226@jp.fujitsu.com>
-References: <200910052334.23833.elendil@planet.nl> <alpine.DEB.1.00.0910051700440.31688@chino.kir.corp.google.com>
+Date: Tue, 6 Oct 2009 09:53:45 +0100
+Message-ID: <20091006085345.GA18185@csn.ul.ie>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910050851.02056.elendil@planet.nl> <20091005085739.GB5452@csn.ul.ie> <200910052334.23833.elendil@planet.nl> <alpine.DEB.1.00.0910051700440.31688@chino.kir.corp.google.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <owner-linux-mm@kvack.org>
+Content-Disposition: inline
 In-Reply-To: <alpine.DEB.1.00.0910051700440.31688@chino.kir.corp.google.com>
 Sender: owner-linux-mm@kvack.org
 List-Id: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: David Rientjes <rientjes@google.com>
-Cc: kosaki.motohiro@jp.fujitsu.com, Frans Pop <elendil@planet.nl>, Mel Gorman <mel@csn.ul.ie>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, linux-mm@kvack.org
+Cc: Frans Pop <elendil@planet.nl>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, linux-mm@kvack.org
 
+On Mon, Oct 05, 2009 at 05:04:55PM -0700, David Rientjes wrote:
 > On Mon, 5 Oct 2009, Frans Pop wrote:
 > 
 > > And the winner is:
@@ -30,10 +32,31 @@ Cc: kosaki.motohiro@jp.fujitsu.com, Frans Pop <elendil@planet.nl>, Mel Gorman <m
 > I doubt it for two reasons: (i) this commit was reverted in 0753ba0 since 
 > 2.6.31-rc7 and is no longer in the kernel, and (ii) these are GFP_ATOMIC 
 > allocations which would be unaffected by oom killer scores.
+> 
 
-I agree. this patch is pretty obvious correct. it was reverted by
-one unfortunately regression.
+However, the problem was reported to start showing up in 2.6.31-rc1 so
+while it might not be *the* patch, it might be making the type of change
+that caused more fragmentation. This patch adjusted the size of
+mm_struct and maybe it was enough to change the "order" required for the
+slab. Maybe there are other slabs that have changed size as well in that
+timeframe.
 
+Frans, what is the size of mm_struct before and after this patch was
+applied? Find it with either
+
+grep mm_struct /proc/slabinfo
+
+and if the information is not available there, try
+
+cat /sys/kernel/slab/mm_struct/slab_size and
+/sys/kernel/slab/mm_struct/order
+
+Thanks
+
+-- 
+Mel Gorman
+Part-time Phd Student                          Linux Technology Center
+University of Limerick                         IBM Dublin Software Lab
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-mm' in
