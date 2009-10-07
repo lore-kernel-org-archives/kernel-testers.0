@@ -1,32 +1,98 @@
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Subject: Re: [Bug #14258] Memory leak in SCSI initialization
-Date: Wed, 7 Oct 2009 23:04:47 +0900
-Message-ID: <200910072304.BAB43294.JLOFHtSVMQOOFF@I-love.SAKURA.ne.jp>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
-	<COE24pZSBH.A.Vk.6MTxKB@chimera>
-	<200910022158.JBD48969.MOSVQOFHJOLtFF@I-love.SAKURA.ne.jp>
-	<200910021926.46532.rjw@sisk.pl>
+From: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14301] WARNING: at net/ipv4/af_inet.c:154
+Date: Wed, 07 Oct 2009 17:41:50 +0200
+Message-ID: <4ACCB6BE.5040602@gmail.com>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.mdH.sMTxKB@chimera> <4AC70D20.4060009@gmail.com> <4AC710DF.5070705@gmail.com> <4AC78F7C.40908@gmail.com>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759212AbZJGOF0@vger.kernel.org>
-In-Reply-To: <200910021926.46532.rjw@sisk.pl>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4AC78F7C.40908-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: rjw@sisk.pl, kernel-testers@vger.kernel.org
-Cc: James.Bottomley@suse.de, michael@ellerman.id.au, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+To: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Netdev List <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Wei Yongjun <yjwei-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Takahiro Yasui <tyasui-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Hideo Aoki <haoki-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14258
-> > > Subject		: Memory leak in SCSI initialization
-> > > Submitter	: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-> > > Date		: 2009-09-22 4:18 (10 days old)
-> > > References	: http://marc.info/?l=linux-kernel&m=125359311312243&w=4
-> > > Handled-By	: Michael Ellerman <michael@ellerman.id.au>
-> > > Patch		: http://patchwork.kernel.org/patch/49258/
-> 
-> Thanks for the update.
-http://patchwork.kernel.org/patch/49258/ would be replaced by
-an updated patch at http://lkml.org/lkml/2009/10/2/335
+Eric Dumazet a =C3=A9crit :
+> Eric Dumazet a =C3=A9crit :
+>> Eric Dumazet a =C3=A9crit :
+>>> Rafael J. Wysocki a =C3=A9crit :
+>>>> This message has been generated automatically as a part of a repor=
+t
+>>>> of regressions introduced between 2.6.30 and 2.6.31.
+>>>>
+>>>> The following bug entry is on the current list of known regression=
+s
+>>>> introduced between 2.6.30 and 2.6.31.  Please verify if it still s=
+hould
+>>>> be listed and let me know (either way).
+>>>>
+>>>>
+>>>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14301
+>>>> Subject		: WARNING: at net/ipv4/af_inet.c:154
+>>>> Submitter	: Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>
+>>>> Date		: 2009-09-30 12:24 (2 days old)
+>>>> References	: http://marc.info/?l=3Dlinux-kernel&m=3D12543135021813=
+7&w=3D4
+>>>>
+>=20
+> Investigation still needed...
+>=20
 
-Regards.
+OK, my last (buggy ???) feeling is about commit 95766fff6b9a78d1
+
+[UDP]: Add memory accounting.
+
+(Its a two years old patch, oh well...)
+
+Problem is the udp_poll() :
+
+We check the first frame to be dequeued from sk_receive_queue has a goo=
+d checksum.
+
+If it doesnt, we drop the frame ( calling kfree_skb(skb); )
+
+Problem is now we perform memory accounting on UDP, this kfree_skb()
+should be done with socket locked, but we are allowed to
+call lock_sock() from this udp_poll() context
+
+unsigned int udp_poll(struct file *file, struct socket *sock, poll_tabl=
+e *wait)
+{
+        unsigned int mask =3D datagram_poll(file, sock, wait);
+        struct sock *sk =3D sock->sk;
+        int     is_lite =3D IS_UDPLITE(sk);
+
+        /* Check for false positives due to checksum errors */
+        if ((mask & POLLRDNORM) &&
+            !(file->f_flags & O_NONBLOCK) &&
+            !(sk->sk_shutdown & RCV_SHUTDOWN)) {
+                struct sk_buff_head *rcvq =3D &sk->sk_receive_queue;
+                struct sk_buff *skb;
+
+                spin_lock_bh(&rcvq->lock);
+                while ((skb =3D skb_peek(rcvq)) !=3D NULL &&
+                       udp_lib_checksum_complete(skb)) {
+                        UDP_INC_STATS_BH(sock_net(sk),
+                                        UDP_MIB_INERRORS, is_lite);
+                        __skb_unlink(skb, rcvq);
+<<HERE>>                kfree_skb(skb);
+                }
+                spin_unlock_bh(&rcvq->lock);
+
+
+
+David, Herbert, any idea how to solve this problem ?
+
+1) Allow false positives
+
+Or
+
+2) Maybe we should finally convert sk_forward_alloc to an atomic_t afte=
+r all...
+   This would make things easier, and speedup UDP (no more need to lock=
+_sock())
+
+Or=20
+
+3) ???
