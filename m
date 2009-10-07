@@ -1,98 +1,48 @@
-From: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14301] WARNING: at net/ipv4/af_inet.c:154
-Date: Wed, 07 Oct 2009 17:41:50 +0200
-Message-ID: <4ACCB6BE.5040602@gmail.com>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.mdH.sMTxKB@chimera> <4AC70D20.4060009@gmail.com> <4AC710DF.5070705@gmail.com> <4AC78F7C.40908@gmail.com>
+From: Theodore Tso <tytso@mit.edu>
+Subject: Re: [Bug #14261] e1000e jumbo frames no longer work:
+	'Unsupported	MTU setting'
+Date: Wed, 7 Oct 2009 14:34:53 -0400
+Message-ID: <20091007183453.GD12971@mit.edu>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.jd.5MTxKB@chimera>
+	<877hvd8rj5.fsf@spindle.srvr.nix> <200910022331.35916.rjw@sisk.pl>
+	<9929d2390910021513t51827031k16a5bfc538640cbf@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4AC78F7C.40908-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Netdev List <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Wei Yongjun <yjwei-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Takahiro Yasui <tyasui-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Hideo Aoki <haoki-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+Return-path: <e1000-devel-bounces@lists.sourceforge.net>
+Content-Disposition: inline
+In-Reply-To: <9929d2390910021513t51827031k16a5bfc538640cbf@mail.gmail.com>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/e1000-devel>, 
+	<mailto:e1000-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=e1000-devel>
+List-Post: <mailto:e1000-devel@lists.sourceforge.net>
+List-Help: <mailto:e1000-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/e1000-devel>,
+	<mailto:e1000-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: e1000-devel-bounces@lists.sourceforge.net
+To: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+Cc: Nix <nix@esperi.org.uk>, e1000-devel@lists.sourceforge.net, Network Development <netdev@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Alexander Duyck <alexander.duyck@gmail.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-Eric Dumazet a =C3=A9crit :
-> Eric Dumazet a =C3=A9crit :
->> Eric Dumazet a =C3=A9crit :
->>> Rafael J. Wysocki a =C3=A9crit :
->>>> This message has been generated automatically as a part of a repor=
-t
->>>> of regressions introduced between 2.6.30 and 2.6.31.
->>>>
->>>> The following bug entry is on the current list of known regression=
-s
->>>> introduced between 2.6.30 and 2.6.31.  Please verify if it still s=
-hould
->>>> be listed and let me know (either way).
->>>>
->>>>
->>>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14301
->>>> Subject		: WARNING: at net/ipv4/af_inet.c:154
->>>> Submitter	: Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>
->>>> Date		: 2009-09-30 12:24 (2 days old)
->>>> References	: http://marc.info/?l=3Dlinux-kernel&m=3D12543135021813=
-7&w=3D4
->>>>
->=20
-> Investigation still needed...
->=20
+On Fri, Oct 02, 2009 at 03:13:07PM -0700, Jeff Kirsher wrote:
+> >> > Patch =A0 =A0 =A0 =A0 =A0 =A0 =A0 : http://patchwork.kernel.org/patc=
+h/50277/
+> >>
+> > Most likely because it's not in the Linus' tree yet.
+> >
+> > [e1000e maintainers, we have a regression fix to merge, please.]
+>
+> Sorry, I forgot to send this patch out last night.  I will send it now.
 
-OK, my last (buggy ???) feeling is about commit 95766fff6b9a78d1
+Do we have a status on this progress of this patch to mainline?   Thanks,
 
-[UDP]: Add memory accounting.
+      	     	       	    	     	- Ted
 
-(Its a two years old patch, oh well...)
+---------------------------------------------------------------------------=
+---
+Come build with us! The BlackBerry(R) Developer Conference in SF, CA
+is the only developer event you need to attend this year. Jumpstart your
+developing skills, take BlackBerry mobile applications to market and stay =
 
-Problem is the udp_poll() :
-
-We check the first frame to be dequeued from sk_receive_queue has a goo=
-d checksum.
-
-If it doesnt, we drop the frame ( calling kfree_skb(skb); )
-
-Problem is now we perform memory accounting on UDP, this kfree_skb()
-should be done with socket locked, but we are allowed to
-call lock_sock() from this udp_poll() context
-
-unsigned int udp_poll(struct file *file, struct socket *sock, poll_tabl=
-e *wait)
-{
-        unsigned int mask =3D datagram_poll(file, sock, wait);
-        struct sock *sk =3D sock->sk;
-        int     is_lite =3D IS_UDPLITE(sk);
-
-        /* Check for false positives due to checksum errors */
-        if ((mask & POLLRDNORM) &&
-            !(file->f_flags & O_NONBLOCK) &&
-            !(sk->sk_shutdown & RCV_SHUTDOWN)) {
-                struct sk_buff_head *rcvq =3D &sk->sk_receive_queue;
-                struct sk_buff *skb;
-
-                spin_lock_bh(&rcvq->lock);
-                while ((skb =3D skb_peek(rcvq)) !=3D NULL &&
-                       udp_lib_checksum_complete(skb)) {
-                        UDP_INC_STATS_BH(sock_net(sk),
-                                        UDP_MIB_INERRORS, is_lite);
-                        __skb_unlink(skb, rcvq);
-<<HERE>>                kfree_skb(skb);
-                }
-                spin_unlock_bh(&rcvq->lock);
-
-
-
-David, Herbert, any idea how to solve this problem ?
-
-1) Allow false positives
-
-Or
-
-2) Maybe we should finally convert sk_forward_alloc to an atomic_t afte=
-r all...
-   This would make things easier, and speedup UDP (no more need to lock=
-_sock())
-
-Or=20
-
-3) ???
+ahead of the curve. Join us from November 9 - 12, 2009. Register now!
+http://p.sf.net/sfu/devconference
