@@ -1,57 +1,41 @@
-From: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-Subject: Re: [Bug #14256] kernel BUG at fs/ext3/super.c:435
-Date: Fri, 9 Oct 2009 18:40:37 +0200
-Message-ID: <19151.26501.727411.584056@pilspetsen.it.uu.se>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
-	<COE24pZSBH.A.ot.9MTxKB@chimera>
-	<19144.56721.786457.979953@pilspetsen.it.uu.se>
-	<200910042249.54639.rjw@sisk.pl>
-	<19145.10741.402938.867088@pilspetsen.it.uu.se>
+From: "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
+Subject: Re: wrong final bzImage build (regading #14270)
+Date: Fri, 09 Oct 2009 10:03:52 -0700
+Message-ID: <4ACF6CF8.4060204@zytor.com>
+References: <4ACF460E.7000901@msgid.tls.msk.ru> <20091009145825.GE5311@lenovo>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <19145.10741.402938.867088-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>
+In-Reply-To: <20091009145825.GE5311@lenovo>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Michael Tokarev <mjt-XAri/EZa3C4vJsYlp49lxw@public.gmane.org>, Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>
 
-Mikael Pettersson writes:
- > Rafael J. Wysocki writes:
- >  > On Sunday 04 October 2009, Mikael Pettersson wrote:
- >  > > Rafael J. Wysocki wrote:
- >  > > > The following bug entry is on the current list of known regressions
- >  > > > introduced between 2.6.30 and 2.6.31.  Please verify if it still should
- >  > > > be listed and let me know (either way).
- >  > > > 
- >  > > > 
- >  > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14256
- >  > > > Subject		: kernel BUG at fs/ext3/super.c:435
- >  > > > Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
- >  > > > Date		: 2009-09-21 7:29 (11 days old)
- >  > > > References	: http://marc.info/?l=3Dlinux-kernel&m=3D125351816109264&w=3D4
- >  > > 
- >  > > The exact same bug (same cause, same symptom) just hit me again in 2.6.32-rc1.
- >  > 
- >  > Thanks for the update.
- >  > 
- >  > Could you check the current Linus' tree, please?  There are some known
- >  > regression fixes in there.
- > 
- > I tried simplified versions of the bug trigger on two machines
- > running 2.6.32-rc1-git6, and neither triggered the kernel bug.
- > 
- > The original recipe involved doing a glibc rebuild, run its test
- > suite, install it, and reboot. Today however machine 1 was already
- > doing a rebuild so after the rebuild it did a reboot into the new
- > kernel before the install. The second machine booted the new kernel
- > directly to install the binary packages from the first machine.
- > 
- > I'll re-run the full bug trigger recipe on a third machine later next
- > week (it must rebuild glibc itself anyway due to arch differences).
+On 10/09/2009 07:58 AM, Cyrill Gorcunov wrote:
+> Peter and Sam CC'ed
+> 
+> [Michael Tokarev - Fri, Oct 09, 2009 at 06:17:50PM +0400]
+>> Ok, finally the mystery solved.  After a week of
+>> digging.
+>>
+>> The original problem was titled "Cannot boot on
+>> a PIII Celeron", and Rafael filed a bug #14270
+>> for this.
+>>
+>> In short, what I observed was that a new kernel
+>> (2.6.31) fails to boot on a PIII Celeron machine.
+>> But changing just the CPU to plain PIII and voila,
+>> it now works.  I don't know why it behaved this
+>> way, but I found where was the problem, finally.
+>>
 
-Not fixed in 2.6.32-rc3. A glibc rebuild + install triggered the
-exact same bug on the third machine.
+We should switch to printf here.  Hexadecimal constants in echo aren't
+guaranteed by POSIX.
 
-/Mikael
+	-hpa
+
+-- 
+H. Peter Anvin, Intel Open Source Technology Center
+I work for Intel.  I don't speak on their behalf.
