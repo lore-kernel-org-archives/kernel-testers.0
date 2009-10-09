@@ -1,24 +1,101 @@
-From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Subject: ext4 corruptions
-Date: Fri, 09 Oct 2009 21:20:13 +0200
-Message-ID: <1255116014.3014.8.camel@mini>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Subject: Re: wrong final bzImage build (regading #14270)
+Date: Fri, 09 Oct 2009 23:39:48 +0400
+Message-ID: <4ACF9184.9040104@msgid.tls.msk.ru>
+References: <4ACF460E.7000901@msgid.tls.msk.ru> <20091009145825.GE5311@lenovo>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S934169AbZJITk2@vger.kernel.org>
+In-Reply-To: <20091009145825.GE5311@lenovo>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Cyrill Gorcunov <gorcunov@gmail.com>
+Cc: Kernel Mailing List <linux-kernel@vger.kernel.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>, "H. Peter Anvin" <hpa@zytor.com>
 
-I have really bad ext4 corruptions, i needed to reinstall 3 of my test
-systems.
-The symptoms:
-is use karmic beta for this with ubuntu supplied kernel 2.6.31 ... after
-testing 2.6.32-rc[1-3] and booting again to 2.6.31 fsck will find some
-bad things and will try to fix it. After this action is the system
-unusable.
+Ok, some more to this.
 
-Do any one had same problem? The is no sans to bisect it, after some
-jumps between 2.6.31 and 2.6.32 the system will be broken.  Is it kernel
-or fsck problem?
+It turns out dash's built-in echo command interprets \nnn octal
+sequences by default, and there's no way to turn that off.  So,
+for example, sed-zoffset command from arch/x86/boot/Makefile
+(which includes \1 \2 etc substitutions for sed), when echoed
+in verbose mode (V=1), produces.. interesting characters (with
+ascii code 1 and 2).
+
+It's not practival to replace V=1's echo with /bin/echo I think.
+
+So I'd say it's not a bug in the build system after all, but
+a bug in dash.  Well, at least this expanding-by-default didn't
+trigger another very-difficult-to-find bug (hopefully), but it
+has good potential.
+
+I'll file a bug report against dash.
+
+/mjt
+
+> [Michael Tokarev - Fri, Oct 09, 2009 at 06:17:50PM +0400]
+>> Ok, finally the mystery solved.  After a week of
+>> digging.
+>>
+>> The original problem was titled "Cannot boot on
+>> a PIII Celeron", and Rafael filed a bug #14270
+>> for this.
+>>
+>> In short, what I observed was that a new kernel
+>> (2.6.31) fails to boot on a PIII Celeron machine.
+>> But changing just the CPU to plain PIII and voila,
+>> it now works.  I don't know why it behaved this
+>> way, but I found where was the problem, finally.
+>>
+>> And the problem is in the last stage of build, when
+>> building the bzImage.
+>>
+>> make -f scripts/Makefile.build obj=arch/x86/boot/compressed arch/x86/boot/compressed/vmlinux
+>> ...
+>>   (cat arch/x86/boot/compressed/vmlinux.bin | lzma -9 && echo -ne \\x38\\xd6\\x37\\x00) > arch/x86/boot/compressed/vmlinux.bin.lzma
+>> ...
+>>
+>> Note the echo command.
+>>
+>> Now, Debian switched to dash as /bin/sh.  And dash
+>> does not understand the -e option:
+>>
+>> $ dash -c 'echo -ne \\x38\\xd6\\x37\\x00' | od -x
+>> 0000000 6e2d 2065 785c 3833 785c 3664 785c 3733
+>> 0000020 785c 3030 000a
+>>
+>> $ bash -c 'echo -ne \\x38\\xd6\\x37\\x00' | od -x
+>> 0000000 d638 0037
+>>
+>> So the final size (it's the size of uncompressed file)
+>> becomes incorrect.  Here's what mkpiggy outputs for
+>> this (in arch/x86/boot/compressed/piggy.S):
+>>
+>>  z_output_len = 170930296
+>>
+>> while it should be
+>>
+>>  z_output_len = 3659320
+>>
+>> And with the former (wrong, larger) size, the whole
+>> thing just reboots on a PIII Celeron.  I've no idea
+>> why, but the original problem is here.
+>>
+>> The same thing happens with bzip2 algorithm which is
+>> not new, not only with lzma.
+>>
+>> The whole thing looks quite hackish to me, -- mkpiggy
+>> can know the size from the original image just fine,
+>> instead of getting it from the end of already compressed
+>> file.
+>>
+>> For now, quick fix is to change echo to printf in there.
+>> Correct fix is to re-write mkpiggy to look at the
+>> original file for size (IMHO anyway).
+>>
+>> And this is a very good candidate for -stable as well.
+>> The bug is very difficult to find.  And now when more
+>> and more people who use Debian are switching to dash,
+>> it will be more common.
+>>
+>> Thanks!
