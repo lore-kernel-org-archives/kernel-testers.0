@@ -1,98 +1,57 @@
-From: Cyrill Gorcunov <gorcunov@gmail.com>
-Subject: Re: wrong final bzImage build (regading #14270)
-Date: Fri, 9 Oct 2009 18:58:25 +0400
-Message-ID: <20091009145825.GE5311@lenovo>
-References: <4ACF460E.7000901@msgid.tls.msk.ru>
+From: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Subject: Re: [Bug #14256] kernel BUG at fs/ext3/super.c:435
+Date: Fri, 9 Oct 2009 18:40:37 +0200
+Message-ID: <19151.26501.727411.584056@pilspetsen.it.uu.se>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
+	<COE24pZSBH.A.ot.9MTxKB@chimera>
+	<19144.56721.786457.979953@pilspetsen.it.uu.se>
+	<200910042249.54639.rjw@sisk.pl>
+	<19145.10741.402938.867088@pilspetsen.it.uu.se>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1761009AbZJIO7J@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:received:date:from:to:cc
-         :subject:message-id:references:mime-version:content-type
-         :content-disposition:in-reply-to:user-agent;
-        bh=oP78k69UCcEFxxG9e/QoJLZ21jTtSaygG6ltb+Kzuwg=;
-        b=OUzeZDCREnl85EhakSt0g1CM00HLtWO4eKVop3JoCfPlK6X8weBlAMOicWMG2Rtz8T
-         3OzvjXs4D9o1EAWqA2PAW/RmU9qQtMglDIO5zLzSYhXbsuabME97KQEz7BgsR6xzwnkO
-         OzH7DnOkrLIG4u+mx9k16IcOFiGu0m56JX6+s=
-Content-Disposition: inline
-In-Reply-To: <4ACF460E.7000901@msgid.tls.msk.ru>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <19145.10741.402938.867088-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Michael Tokarev <mjt@tls.msk.ru>
-Cc: Kernel Mailing List <linux-kernel@vger.kernel.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>, "H. Peter Anvin" <hpa@zytor.com>
+To: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Peter and Sam CC'ed
+Mikael Pettersson writes:
+ > Rafael J. Wysocki writes:
+ >  > On Sunday 04 October 2009, Mikael Pettersson wrote:
+ >  > > Rafael J. Wysocki wrote:
+ >  > > > The following bug entry is on the current list of known regressions
+ >  > > > introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+ >  > > > be listed and let me know (either way).
+ >  > > > 
+ >  > > > 
+ >  > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14256
+ >  > > > Subject		: kernel BUG at fs/ext3/super.c:435
+ >  > > > Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+ >  > > > Date		: 2009-09-21 7:29 (11 days old)
+ >  > > > References	: http://marc.info/?l=3Dlinux-kernel&m=3D125351816109264&w=3D4
+ >  > > 
+ >  > > The exact same bug (same cause, same symptom) just hit me again in 2.6.32-rc1.
+ >  > 
+ >  > Thanks for the update.
+ >  > 
+ >  > Could you check the current Linus' tree, please?  There are some known
+ >  > regression fixes in there.
+ > 
+ > I tried simplified versions of the bug trigger on two machines
+ > running 2.6.32-rc1-git6, and neither triggered the kernel bug.
+ > 
+ > The original recipe involved doing a glibc rebuild, run its test
+ > suite, install it, and reboot. Today however machine 1 was already
+ > doing a rebuild so after the rebuild it did a reboot into the new
+ > kernel before the install. The second machine booted the new kernel
+ > directly to install the binary packages from the first machine.
+ > 
+ > I'll re-run the full bug trigger recipe on a third machine later next
+ > week (it must rebuild glibc itself anyway due to arch differences).
 
-[Michael Tokarev - Fri, Oct 09, 2009 at 06:17:50PM +0400]
-> Ok, finally the mystery solved.  After a week of
-> digging.
->
-> The original problem was titled "Cannot boot on
-> a PIII Celeron", and Rafael filed a bug #14270
-> for this.
->
-> In short, what I observed was that a new kernel
-> (2.6.31) fails to boot on a PIII Celeron machine.
-> But changing just the CPU to plain PIII and voila,
-> it now works.  I don't know why it behaved this
-> way, but I found where was the problem, finally.
->
-> And the problem is in the last stage of build, when
-> building the bzImage.
->
-> make -f scripts/Makefile.build obj=arch/x86/boot/compressed arch/x86/boot/compressed/vmlinux
-> ...
->   (cat arch/x86/boot/compressed/vmlinux.bin | lzma -9 && echo -ne \\x38\\xd6\\x37\\x00) > arch/x86/boot/compressed/vmlinux.bin.lzma
-> ...
->
-> Note the echo command.
->
-> Now, Debian switched to dash as /bin/sh.  And dash
-> does not understand the -e option:
->
-> $ dash -c 'echo -ne \\x38\\xd6\\x37\\x00' | od -x
-> 0000000 6e2d 2065 785c 3833 785c 3664 785c 3733
-> 0000020 785c 3030 000a
->
-> $ bash -c 'echo -ne \\x38\\xd6\\x37\\x00' | od -x
-> 0000000 d638 0037
->
-> So the final size (it's the size of uncompressed file)
-> becomes incorrect.  Here's what mkpiggy outputs for
-> this (in arch/x86/boot/compressed/piggy.S):
->
->  z_output_len = 170930296
->
-> while it should be
->
->  z_output_len = 3659320
->
-> And with the former (wrong, larger) size, the whole
-> thing just reboots on a PIII Celeron.  I've no idea
-> why, but the original problem is here.
->
-> The same thing happens with bzip2 algorithm which is
-> not new, not only with lzma.
->
-> The whole thing looks quite hackish to me, -- mkpiggy
-> can know the size from the original image just fine,
-> instead of getting it from the end of already compressed
-> file.
->
-> For now, quick fix is to change echo to printf in there.
-> Correct fix is to re-write mkpiggy to look at the
-> original file for size (IMHO anyway).
->
-> And this is a very good candidate for -stable as well.
-> The bug is very difficult to find.  And now when more
-> and more people who use Debian are switching to dash,
-> it will be more common.
->
-> Thanks!
->
-> /mjt
->
+Not fixed in 2.6.32-rc3. A glibc rebuild + install triggered the
+exact same bug on the third machine.
 
-	-- Cyrill
+/Mikael
