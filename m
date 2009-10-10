@@ -1,43 +1,39 @@
-From: Eric Sandeen <sandeen@redhat.com>
+From: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
 Subject: Re: ext4 corruptions
-Date: Fri, 09 Oct 2009 17:03:35 -0500
-Message-ID: <4ACFB337.8040109@redhat.com>
-References: <1255116014.3014.8.camel@mini> <alpine.LRH.2.00.0910092351140.12171@twin.jikos.cz>
+Date: Fri, 9 Oct 2009 20:33:39 -0400
+Message-ID: <20091010003339.GB18440@mit.edu>
+References: <1255116014.3014.8.camel@mini>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S934665AbZJIWEO@vger.kernel.org>
-In-Reply-To: <alpine.LRH.2.00.0910092351140.12171@twin.jikos.cz>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1255116014.3014.8.camel@mini>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Jiri Kosina <jkosina@suse.cz>
-Cc: Alexey Fisher <bug-track@fisher-privat.net>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-ext4@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger@sun.com>
+Content-Transfer-Encoding: 7bit
+To: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Jiri Kosina wrote:
-> [ adding some CCs so that this doesn't get lost in the lkml wilderness ]
+On Fri, Oct 09, 2009 at 09:20:13PM +0200, Alexey Fisher wrote:
+> I have really bad ext4 corruptions, i needed to reinstall 3 of my test
+> systems.
+> The symptoms:
+> is use karmic beta for this with ubuntu supplied kernel 2.6.31 ... after
+> testing 2.6.32-rc[1-3] and booting again to 2.6.31 fsck will find some
+> bad things and will try to fix it. After this action is the system
+> unusable.
 > 
-> On Fri, 9 Oct 2009, Alexey Fisher wrote:
-> 
->> I have really bad ext4 corruptions, i needed to reinstall 3 of my test
->> systems.
->> The symptoms:
->> is use karmic beta for this with ubuntu supplied kernel 2.6.31 ... after
->> testing 2.6.32-rc[1-3] and booting again to 2.6.31 fsck will find some
->> bad things and will try to fix it. After this action is the system
->> unusable.
-> 
-> Does this happen also when you switch from vanilla 2.6.32-rcX to vanilla 
-> 2.6.31, or only from vanilla 2.6.32-rcX to "Ubuntu 2.6.31"?
-> 
->> Do any one had same problem? The is no sans to bisect it, after some
->> jumps between 2.6.31 and 2.6.32 the system will be broken.  Is it kernel
->> or fsck problem?
-> 
+> Do any one had same problem? The is no sans to bisect it, after some
+> jumps between 2.6.31 and 2.6.32 the system will be broken.  Is it kernel
+> or fsck problem?
 
-Not sure if this is the same as
-http://bugzilla.kernel.org/show_bug.cgi?id=14354 but it's similarly
-lacking in useful info ;)
+Can you reproduce this reliably?  What sort of things did fsck report?
+Was it after a suspend/resume that failed?
 
-Please provide the fsck output, any kernel messages, etc ...
+I'm using a Ubuntu 9.04 with a 2.6.32-rc1+ mainline kernel, and it
+works fine for me.  So we really need many more details what sort of
+filesystem corruption (not just "bad things"), and more details about
+what you did while testing a newer kernel, and what sort of things
+fsck complained about.
 
--Eric
+						- Ted
