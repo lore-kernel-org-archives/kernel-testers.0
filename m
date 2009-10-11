@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14355] USB serial regression after 2.6.31.1 with Huawei E169 GSM modem
-Date: Mon, 12 Oct 2009 00:22:02 +0200 (CEST)
-Message-ID: <r-4Wjt4coy.A._aD.mal0KB@chimera>
+Subject: [Bug #14381] iwlagn lost connection after s2ram (with warnings)
+Date: Mon, 12 Oct 2009 00:22:05 +0200 (CEST)
+Message-ID: <r-4Wjt4coy.A.5fC.Ral0KB@chimera>
 References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753074AbZJKW0J@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753247AbZJKW0T@vger.kernel.org>
 In-Reply-To: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Ben Efros <ben@pc-doctor.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, "Carlos R. Mafra" <crmafra2@gmail.com>, reinette chatre <reinette.chatre@intel.com>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.31.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14355
-Subject		: USB serial regression after 2.6.31.1 with Huawei E169 GSM modem
-Submitter	: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Date		: 2009-10-10 03:07 (2 days old)
-References	: http://marc.info/?l=linux-kernel&m=125513456327542&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14381
+Subject		: iwlagn lost connection after s2ram (with warnings)
+Submitter	: Carlos R. Mafra <crmafra2@gmail.com>
+Date		: 2009-10-07 14:20 (5 days old)
+References	: http://marc.info/?l=linux-kernel&m=125492569119947&w=4
 
