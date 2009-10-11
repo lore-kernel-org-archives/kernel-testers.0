@@ -1,48 +1,33 @@
-From: Frans Pop <elendil@planet.nl>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
 Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Mon, 12 Oct 2009 01:36:18 +0200
-Message-ID: <200910120136.20390.elendil@planet.nl>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910050851.02056.elendil@planet.nl> <200910120110.28061.elendil@planet.nl>
+Date: Mon, 12 Oct 2009 01:57:02 +0200
+Message-ID: <200910120157.04616.elendil@planet.nl>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.d4D.P0l0KB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <200910120110.28061.elendil@planet.nl>
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <L6tb-VyKHZK.A.d4D.P0l0KB@chimera>
 Content-Disposition: inline
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, linux-mm@kvack.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Monday 12 October 2009, Frans Pop wrote:
-> BISECTION of akpm (mm) MERGE
-> ----------------------------
-> So here I went looking for "where does the test start failing on the
-> first try". Again, I was unable to narrow it down to a single commit.
-
-Note that this merge is based on mainline at v2.6.30-5415-g03347e2, so a
-number of merges "drop out" once I  started bisecting into this merge. But
-that point is still *after* the net-next-2.6 merge, which is all that's
-really relevant for this issue.
-
-> For a good overview of the area, use 'gitk f83b1e61..517d0869'.
+On Monday 12 October 2009, you wrote:
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+> be listed and let me know (either way).
 >
-> v2.6.30-5466-ga1dd268=C2=A0=C2=A0=C2=A0mm: use alloc_pages_exact in alloc=
-_large_system_hash
->	2.3=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+-=20
-> v2.6.30-5478-ge9bb35d=C2=A0=C2=A0=C2=A0mm: setup_per_zone_inactive_ratio =
-=2D fix comment and..
->	2.5=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+-=20
-> v2.6.30-5486-g35282a2=C2=A0=C2=A0=C2=A0migration: only migrate_prep() onc=
-e per move_pages()
->	2.6=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-|+|-=C2=A0=C2=A0=C2=A0not quite conclus=
-ive...=20
-> v2.6.30-5492-gbce7394=C2=A0=C2=A0=C2=A0page-allocator: reset wmark_min an=
-d inactive ratio..
->	2.4=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-|-=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14141
+> Subject	: order 2 page allocation failures in iwlagn
+> Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+> Date		: 2009-09-06 7:40 (36 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125222287419691&w=4
+> 		  http://lkml.org/lkml/2009/10/2/86
+> 		  http://lkml.org/lkml/2009/10/5/24
+> Handled-By	: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+See: http://lkml.indiana.edu/hypermail/linux/kernel/0910.1/01395.html
+
+I don't see that message on lkml yet :-(
