@@ -1,32 +1,49 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14129] 2.6.31 regression - pci_get_slot oops, udev boot hang - toshiba X200
-Date: Mon, 12 Oct 2009 01:01:04 +0200 (CEST)
-Message-ID: <L6tb-VyKHZK.A.wLE.f0l0KB@chimera>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
+From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14267] Disassociating atheros wlan
+Date: Sun, 11 Oct 2009 16:11:38 -0700
+Message-ID: <4AD2662A.5050709@gmail.com>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.AQC.izl0KB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753931AbZJKXKn@vger.kernel.org>
-In-Reply-To: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=BCqhDSVoECkxVr743Iaq2BecnloKp6M+AVIkrJKePnE=;
+        b=Vt/pgYgeQwV2h/lIyuAuRs6Bfl7Rwu0NWSf+2Vd/yvAM51tlyJ1mdQblxo7VGO/akj
+         uLjYDqpGWlrHd9mjQ0ZkIqy/yByR55A2zhSkUvslUYkz/SLMK4+zmyYxRiX3yW5by1mG
+         a2iH4BERc8EJr2ce/cCrymq5cC3RlRLDmfjCQ=
+In-Reply-To: <L6tb-VyKHZK.A.AQC.izl0KB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alexander Chiang <achiang@hp.com>, Alex Chiang <achiang@hp.com>, Bjorn Helgaas <bjorn.helgaas@hp.com>, chepioq <chepioq@gmail.com>, Len Brown <len.brown@intel.com>, "Rafael J. Wysocki" <rjw@sisk.pl>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Kristoffer Ericson <kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.30 and 2.6.31.
+Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.30 and 2.6.31.
+>
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+> be listed and let me know (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14267
+> Subject		: Disassociating atheros wlan
+> Submitter	: Kristoffer Ericson<kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-09-24 10:16 (18 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125378723723384&w=4
+>
+>
+>
+>    
+I attached my bisect log to the bug report, but did not individually test
+some of the commits in the log to see if it finds the issue.
+(I can try later on and see).
 
-The following bug entry is on the current list of known regressions
-introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-be listed and let me know (either way).
+so for now I say yes keep it open.
 
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14129
-Subject		: 2.6.31 regression - pci_get_slot oops, udev boot hang - toshiba X200
-Submitter	: chepioq <chepioq@gmail.com>
-Date		: 2009-09-06 07:01 (36 days old)
-Handled-By	: Alex Chiang <achiang@hp.com>
-		  Rafael J. Wysocki <rjw@sisk.pl>
-Patch		: http://patchwork.kernel.org/patch/51834/
-
+Justin P. Mattock
