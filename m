@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14275] kernel>=2.6.31: ahci.c: do not force unconditionally sb600 to 32bit dma any more?
-Date: Mon, 12 Oct 2009 01:01:09 +0200 (CEST)
-Message-ID: <L6tb-VyKHZK.A.hHC.ezl0KB@chimera>
+Subject: [Bug #14301] WARNING: at net/ipv4/af_inet.c:154
+Date: Mon, 12 Oct 2009 01:01:10 +0200 (CEST)
+Message-ID: <L6tb-VyKHZK.A.z9B.bzl0KB@chimera>
 References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754282AbZJKXG3@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754346AbZJKXGj@vger.kernel.org>
 In-Reply-To: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, gabriele balducci <balducci@units.it>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Eric Dumazet <eric.dumazet@gmail.com>, Ralf Hildebrandt <Ralf.Hildebrandt@charite.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,9 +22,11 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14275
-Subject		: kernel>=2.6.31: ahci.c: do not force unconditionally sb600 to 32bit dma any more?
-Submitter	: gabriele balducci <balducci@units.it>
-Date		: 2009-09-30 15:02 (12 days old)
-Patch		: http://bugzilla.kernel.org/show_bug.cgi?id=14275#c0
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14301
+Subject		: WARNING: at net/ipv4/af_inet.c:154
+Submitter	: Ralf Hildebrandt <Ralf.Hildebrandt@charite.de>
+Date		: 2009-09-30 12:24 (12 days old)
+References	: http://marc.info/?l=linux-kernel&m=125431350218137&w=4
+Handled-By	: Eric Dumazet <eric.dumazet@gmail.com>
+Patch		: http://patchwork.kernel.org/patch/52743/
 
