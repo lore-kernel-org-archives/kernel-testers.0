@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14377] "conservative" cpufreq governor broken
-Date: Mon, 12 Oct 2009 01:01:10 +0200 (CEST)
-Message-ID: <L6tb-VyKHZK.A.lrB.Rzl0KB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14143] OOPS when setting nr_requests for md devices
+Date: Mon, 12 Oct 2009 01:01:05 +0200 (CEST)
+Message-ID: <L6tb-VyKHZK.A.0sD.N0l0KB@chimera>
 References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754440AbZJKXGz@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Eero Nurkkala <ext-eero.nurkkala@nokia.com>, Rik van Riel <riel@redhat.com>, Steven Noonan <steven@uplinklabs.net>, Thomas Gleixner <tglx@linutronix.de>, Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, aCaB <acab-Vl9ZkupcxcOsTnJN9+BGXg@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,10 +22,8 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14377
-Subject		: "conservative" cpufreq governor broken
-Submitter	: Steven Noonan <steven@uplinklabs.net>
-Date		: 2009-10-05 16:32 (7 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=f2e21c9610991e95621a81407cdbab881226419b
-References	: http://marc.info/?l=linux-kernel&m=125476067108252&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14143
+Subject		: OOPS when setting nr_requests for md devices
+Submitter	: aCaB <acab-Vl9ZkupcxcOsTnJN9+BGXg@public.gmane.org>
+Date		: 2009-09-08 08:48 (34 days old)
 
