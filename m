@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13940] 2.6.31-rc1 - iwlagn and sky2 stopped working when ACPI enabled - Toshiba U400-17b, Acer Aspire 8935G
-Date: Mon, 12 Oct 2009 01:01:01 +0200 (CEST)
-Message-ID: <L6tb-VyKHZK.A.9FF.c1l0KB@chimera>
+Subject: [Bug #14256] kernel BUG at fs/ext3/super.c:435
+Date: Mon, 12 Oct 2009 01:01:07 +0200 (CEST)
+Message-ID: <L6tb-VyKHZK.A.XJD.uzl0KB@chimera>
 References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753666AbZJKXEd@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754060AbZJKXGF@vger.kernel.org>
 In-Reply-To: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Len Brown <lenb@kernel.org>, Ricardo Jorge da Fonseca Marques Ferreira <storm@sys49152.net>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Mikael Pettersson <mikpe@it.uu.se>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,11 +22,9 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13940
-Subject		: 2.6.31-rc1 - iwlagn and sky2 stopped working when ACPI enabled - Toshiba U400-17b, Acer Aspire 8935G
-Submitter	: Ricardo Jorge da Fonseca Marques Ferreira <storm@sys49152.net>
-Date		: 2009-08-07 22:33 (66 days old)
-References	: http://marc.info/?l=linux-kernel&m=124968457731107&w=4
-Handled-By	: Len Brown <lenb@kernel.org>
-Patch		: http://bugzilla.kernel.org/attachment.cgi?id=23280
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14256
+Subject		: kernel BUG at fs/ext3/super.c:435
+Submitter	: Mikael Pettersson <mikpe@it.uu.se>
+Date		: 2009-09-21 7:29 (21 days old)
+References	: http://marc.info/?l=linux-kernel&m=125351816109264&w=4
 
