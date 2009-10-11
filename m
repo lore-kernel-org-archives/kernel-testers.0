@@ -1,37 +1,30 @@
-From: Larry Finger <Larry.Finger@lwfinger.net>
-Subject: Re: 2.6.32-rc4: Reported regressions 2.6.30 -> 2.6.31
-Date: Sun, 11 Oct 2009 18:24:22 -0500
-Message-ID: <4AD26926.9030306@lwfinger.net>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14265] ifconfig: page allocation failure. order:5, mode:0x8020 w/ e100
+Date: Mon, 12 Oct 2009 01:01:08 +0200 (CEST)
+Message-ID: <L6tb-VyKHZK.A.YoC.lzl0KB@chimera>
 References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754206AbZJKXGV@vger.kernel.org>
 In-Reply-To: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
-	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
-List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
-List-Post: <mailto:linux-pm@lists.linux-foundation.org>
-List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
-List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
-	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
-Sender: linux-pm-bounces@lists.linux-foundation.org
-Errors-To: linux-pm-bounces@lists.linux-foundation.org
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: DRI <dri-devel@lists.sourceforge.net>, Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Natalie Protasevich <protasnb@gmail.com>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mel Gorman <mel@csn.ul.ie>
 
-On 10/11/2009 05:41 PM, Rafael J. Wysocki wrote:
-> [Note:
->   10 new reports in the last 10 days, but fortunately we're fixing them faster
->   than they're being reported.]
+This message has been generated automatically as a part of a report
+of regressions introduced between 2.6.30 and 2.6.31.
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14181
-> Subject		: b43 causes panic at ifconfig down / shutdown
-> Submitter	: Jeremy Huddleston <jeremyhu@freedesktop.org>
-> Date		: 2009-09-15 18:34 (27 days old)
+The following bug entry is on the current list of known regressions
+introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+be listed and let me know (either way).
 
-A patch to fix this one is in the hands of the OP. It should be tested
-within the next couple of days.
 
-Larry
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14265
+Subject		: ifconfig: page allocation failure. order:5, mode:0x8020 w/ e100
+Submitter	: Karol Lewandowski <karol.k.lewandowski@gmail.com>
+Date		: 2009-09-15 12:05 (27 days old)
+References	: http://marc.info/?l=linux-kernel&m=125301636509517&w=4
+
