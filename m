@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14372] Wireless not working after suspend-resume
-Date: Mon, 12 Oct 2009 00:22:03 +0200 (CEST)
-Message-ID: <r-4Wjt4coy.A.TPD.dal0KB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14299] oops in wireless, iwl3945 related?
+Date: Mon, 12 Oct 2009 00:22:01 +0200 (CEST)
+Message-ID: <r-4Wjt4coy.A.k6D.4al0KB@chimera>
 References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752800AbZJKW3t@vger.kernel.org>
 In-Reply-To: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Johannes Berg <johannes@sipsolutions.net>, Pavel Machek <pavel@ucw.cz>, reinette chatre <reinette.chatre@intel.com>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.31.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14372
-Subject		: Wireless not working after suspend-resume
-Submitter	: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-10-03 15:36 (9 days old)
-References	: http://lkml.org/lkml/2009/10/3/91
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14299
+Subject		: oops in wireless, iwl3945 related?
+Submitter	: Pavel Machek <pavel@ucw.cz>
+Date		: 2009-09-29 17:12 (13 days old)
+References	: http://marc.info/?l=linux-kernel&m=125424439725743&w=4
 
