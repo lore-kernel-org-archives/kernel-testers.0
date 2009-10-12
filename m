@@ -1,55 +1,37 @@
-From: "Justin P. Mattock" <justinmattock@gmail.com>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Mon, 12 Oct 2009 11:53:54 -0700
-Message-ID: <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>
-Mime-Version: 1.0 (iPhone Mail 7C144)
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S932973AbZJLSyl@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:references:message-id:from:to
-         :in-reply-to:content-type:content-transfer-encoding:x-mailer
-         :mime-version:subject:date:cc;
-        bh=nUJH0MNm0rus24Z5B7bBRt6aQ60/pnV3b4tCVNov+RU=;
-        b=UCrJr6/jOCG5XWwzL6vyQesD5jhNLAUFM73P+aZtJwsMZzqCRl/cKirgi9oyczT/P+
-         WKqpSckr33PvZi6OQFSuyemL+/0z+p7sioed73hzAw2hQwBw2zGA7E8UambWPgxv4S+J
-         cHHkEOEQ8x379JC6+ivG2GtTM0HcX0oMQNoBM=
-In-Reply-To: <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+From: Andrew Patterson <andrew.patterson@hp.com>
+Subject: Re: 2.6.32-rc4: Reported regressions 2.6.30 -> 2.6.31
+Date: Mon, 12 Oct 2009 13:58:48 -0600
+Message-ID: <1255377529.9544.63.camel@bluto.andrew>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"; format="flowed	delsp=yes"
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Boyan <btanastasov@yahoo.co.uk>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, "=?utf-8?Q? Fr=C3=A9d=C3=A9ric_L._W._Meunier ?=" <fredlwm@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-Not sure where this stands. Right now all three machines I have seem =20
-to be having no issues with the kayboard
-(xserver 1.6.*) I can go and build the latest xserver(1.7) to see if I =
-=20
-hit something.
+On Mon, 2009-10-12 at 00:41 +0200, Rafael J. Wysocki wrote:
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14309
+> Subject		: MCA on hp rx8640
+> Submitter	: Andrew Patterson <andrew.patterson@hp.com>
+> Date		: 2009-09-29 17:20 (13 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=db8be50c4307dac2b37305fc59c8dc0f978d09ea
+> References	: http://www.spinics.net/lists/linux-usb/msg22799.html
+> 
 
-justin P. Mattock
+Linus fixed this one with d93a8f829fe1d2f3002f2c6ddb553d12db420412.  It
+also looks like a duplicate of
+http://bugzilla.kernel.org/show_bug.cgi?id=14374
 
+Thanks,
 
+Andrew
+-- 
+Andrew Patterson
+Hewlett-Packard
 
-On Oct 11, 2009, at 4:01 PM, "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
-
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.30 and 2.6.31.
->
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31.  Please verify if it still =20
-> should
-> be listed and let me know (either way).
->
->
-> Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=3D14388
-> Subject        : keyboard under X with 2.6.31
-> Submitter    : Fr=C3=A9d=C3=A9ric L. W. Meunier <fredlwm@gmail.com>
-> Date        : 2009-10-07 20:19 (5 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
-s/linux-2.6.git;a=3Dcommit;h=3De043e42bdb66885b3ac10d27a01ccb9972e2b0a3
-> References    : http://marc.info/?l=3Dlinux-kernel&m=3D12549475322821=
-7&w=3D4
->
->
