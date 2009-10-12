@@ -1,47 +1,40 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #14261] e1000e jumbo frames no longer work: 'Unsupported MTU setting'
-Date: Mon, 12 Oct 2009 23:32:29 +0200
-Message-ID: <200910122332.29994.rjw@sisk.pl>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.C2C.pzl0KB@chimera> <20091011.201239.06501504.davem@davemloft.net>
+Subject: Re: [Bug #14143] OOPS when setting nr_requests for md devices
+Date: Mon, 12 Oct 2009 23:30:14 +0200
+Message-ID: <200910122330.14089.rjw@sisk.pl>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.0sD.N0l0KB@chimera> <20091012102124.2b574d21@katamari.usersys.redhat.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758438AbZJLVbk@vger.kernel.org>
-In-Reply-To: <20091011.201239.06501504.davem@davemloft.net>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758456AbZJLV3X@vger.kernel.org>
+In-Reply-To: <20091012102124.2b574d21@katamari.usersys.redhat.com>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: David Miller <davem@davemloft.net>
-Cc: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, alexander.duyck@gmail.com, nix@esperi.org.uk
+To: Chuck Ebbert <cebbert@redhat.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, aCaB <acab@clamav.net>
 
-On Monday 12 October 2009, David Miller wrote:
-> From: "Rafael J. Wysocki" <rjw@sisk.pl>
-> Date: Mon, 12 Oct 2009 01:01:08 +0200 (CEST)
+On Monday 12 October 2009, Chuck Ebbert wrote:
+> On Mon, 12 Oct 2009 01:01:05 +0200 (CEST)
+> "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
 > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14261
-> > Subject		: e1000e jumbo frames no longer work: 'Unsupported MTU setting'
-> > Submitter	: Nix <nix@esperi.org.uk>
-> > Date		: 2009-09-26 11:16 (16 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=125396433321342&w=4
-> > Handled-By	: Alexander Duyck <alexander.duyck@gmail.com>
-> > Patch		: http://patchwork.kernel.org/patch/50277/
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.30 and 2.6.31.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14143
+> > Subject		: OOPS when setting nr_requests for md devices
+> > Submitter	: aCaB <acab@clamav.net>
+> > Date		: 2009-09-08 08:48 (34 days old)
+> > 
 > 
-> Fixed by:
+> Fixed in 2.6.32 by commit b8a9ae77 ("block: don't assume device has a
+> request list backing in nr_requests store")
 > 
-> commit a825e00c98a2ee37eb2a0ad93b352e79d2bc1593
-> Author: Alexander Duyck <alexander.h.duyck@intel.com>
-> Date:   Fri Oct 2 12:30:42 2009 +0000
-> 
->     e1000e: swap max hw supported frame size between 82574 and 82583
->     
->     There appears to have been a mixup in the max supported jumbo frame size
->     between 82574 and 82583 which ended up disabling jumbo frames on the 82574
->     as a result.  This patch swaps the two so that this issue is resolved.
->     
->     This patch fixes http://bugzilla.kernel.org/show_bug.cgi?id=14261
->     
->     Signed-off-by: Alexander Duyck <alexander.h.duyck@intel.com>
->     Signed-off-by: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
->     Signed-off-by: David S. Miller <davem@davemloft.net>
+> Also in 2.6.31.1
 
 Thanks, closing.
 
