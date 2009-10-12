@@ -1,47 +1,38 @@
-From: Santiago Garcia Mantinan <manty@manty.net>
-Subject: Re: [Bug #14294] kernel BUG at drivers/ide/ide-disk.c:187
-Date: Mon, 12 Oct 2009 14:09:43 +0200
-Message-ID: <20091012120943.GA2625@dis.manty.net>
+From: Frederik Deweerdt <frederik.deweerdt-kjvbsxwSFqI@public.gmane.org>
+Subject: Re: 2.6.32-rc4: Reported regressions 2.6.30 -> 2.6.31
+Date: Mon, 12 Oct 2009 12:22:01 +0000
+Message-ID: <20091012122201.GA31282@gambetta>
 References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
- <L6tb-VyKHZK.A.xEC.dzl0KB@chimera>
- <20091012.035126.264745627.davem@davemloft.net>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755797AbZJLMKi@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20091012.035126.264745627.davem@davemloft.net>
-Sender: linux-kernel-owner@vger.kernel.org
+In-Reply-To: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: David Miller <davem@davemloft.net>
-Cc: rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, bzolnier@gmail.com
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
 
-Hi!
+Hi Rafael,
 
-> I gave the user a debugging patch, but they reported that they
-> can no longer trigger the issue with 2.6.31.1
+On Mon, Oct 12, 2009 at 12:41:30AM +0200, Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14185
+> Subject		: Oops in driversbasefirmware_class
+> Submitter	:  <lars_ericsson-zq6IREYz3ykAvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-09-17 05:09 (25 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=6e03a201bbe8137487f340d26aa662110e324b20
 > 
-> See:
 > 
-> 	http://marc.info/?l=linux-ide&m=125469615425454&w=4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14253
+> Subject		: Oops in driversbasefirmware_class
+> Submitter	: Lars Ericsson <Lars_Ericsson-zq6IREYz3ykAvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-09-16 20:44 (26 days old)
+> References	: http://lkml.org/lkml/2009/9/16/461
+> Handled-By	: Frederik Deweerdt <frederik.deweerdt-kjvbsxwSFqI@public.gmane.org>
+> Patch		: http://patchwork.kernel.org/patch/49914/
 > 
-> Maybe that's enough to close this, I dunno.
+Those two are refering to the same bug.
 
-I'm the user with the debugging patch, I'd say no, don't close it.
-
-Even though on my first tests I had the computer to crash the two weekends I
-had tested, it seems that crashing on weekend was only luck and seems that
-having the bug appear is more difficult than I had thought.
-
-So... my comments saying that 2.6.31.1 seemed ok are probably wrong (I have
-read the .1 changelog and there is an ata patch, but probably unrelated). It
-is true that I had 2.6.31.1 running for a whole week without it crashing,
-but seems that crashing it may need more time.
-
-I'm now back to the 2.6.31 with the patch to debug it (3 days uptime) in
-order to gather more info and after I get the info from 2.6.31 I'd test
-3.6.31.latest or even 2.6.32whatever in case you find that better.
-
-Regards...
--- 
-Manty/BestiaTester -> http://manty.net
+Regards,
+Frederik
