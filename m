@@ -1,41 +1,47 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #14143] OOPS when setting nr_requests for md devices
-Date: Mon, 12 Oct 2009 23:30:14 +0200
-Message-ID: <200910122330.14089.rjw@sisk.pl>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.0sD.N0l0KB@chimera> <20091012102124.2b574d21@katamari.usersys.redhat.com>
+Subject: Re: 2.6.32-rc4: Reported regressions 2.6.30 -> 2.6.31
+Date: Mon, 12 Oct 2009 23:43:48 +0200
+Message-ID: <200910122343.48373.rjw@sisk.pl>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <4AD26926.9030306@lwfinger.net>
 Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758456AbZJLV3X@vger.kernel.org>
-In-Reply-To: <20091012102124.2b574d21@katamari.usersys.redhat.com>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Chuck Ebbert <cebbert@redhat.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, aCaB <acab@clamav.net>
+Return-path: <dri-devel-bounces@lists.sourceforge.net>
+In-Reply-To: <4AD26926.9030306@lwfinger.net>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.sourceforge.net/lists/listinfo/dri-devel>,
+	<mailto:dri-devel-request@lists.sourceforge.net?subject=unsubscribe>
+List-Archive: <http://sourceforge.net/mailarchive/forum.php?forum_name=dri-devel>
+List-Post: <mailto:dri-devel@lists.sourceforge.net>
+List-Help: <mailto:dri-devel-request@lists.sourceforge.net?subject=help>
+List-Subscribe: <https://lists.sourceforge.net/lists/listinfo/dri-devel>,
+	<mailto:dri-devel-request@lists.sourceforge.net?subject=subscribe>
+Errors-To: dri-devel-bounces@lists.sourceforge.net
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: DRI <dri-devel@lists.sourceforge.net>, Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Natalie Protasevich <protasnb@gmail.com>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>
 
-On Monday 12 October 2009, Chuck Ebbert wrote:
-> On Mon, 12 Oct 2009 01:01:05 +0200 (CEST)
-> "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+On Monday 12 October 2009, Larry Finger wrote:
+> On 10/11/2009 05:41 PM, Rafael J. Wysocki wrote:
+> > [Note:
+> >   10 new reports in the last 10 days, but fortunately we're fixing them faster
+> >   than they're being reported.]
 > 
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.30 and 2.6.31.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> > be listed and let me know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14143
-> > Subject		: OOPS when setting nr_requests for md devices
-> > Submitter	: aCaB <acab@clamav.net>
-> > Date		: 2009-09-08 08:48 (34 days old)
-> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14181
+> > Subject		: b43 causes panic at ifconfig down / shutdown
+> > Submitter	: Jeremy Huddleston <jeremyhu@freedesktop.org>
+> > Date		: 2009-09-15 18:34 (27 days old)
 > 
-> Fixed in 2.6.32 by commit b8a9ae77 ("block: don't assume device has a
-> request list backing in nr_requests store")
-> 
-> Also in 2.6.31.1
+> A patch to fix this one is in the hands of the OP. It should be tested
+> within the next couple of days.
 
-Thanks, closing.
+Great, thanks for the update.
 
 Rafael
+
+------------------------------------------------------------------------------
+Come build with us! The BlackBerry(R) Developer Conference in SF, CA
+is the only developer event you need to attend this year. Jumpstart your
+developing skills, take BlackBerry mobile applications to market and stay 
+ahead of the curve. Join us from November 9 - 12, 2009. Register now!
+http://p.sf.net/sfu/devconference
+--
