@@ -1,36 +1,65 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #14374] MCEs caused by commit db8be50c4307dac2b37305fc59c8dc0f978d09ea
-Date: Mon, 12 Oct 2009 23:56:09 +0200
-Message-ID: <200910122356.09967.rjw@sisk.pl>
-References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera> <r-4Wjt4coy.A.DGD.aal0KB@chimera> <19155.12454.655519.908173@pilspetsen.it.uu.se>
+Subject: Re: [Bug #14379] ACPI Warning for _SB_.BAT0._BIF: Converted Buffer to 
+ =?iso-8859-1?q?=09expected?= String
+Date: Mon, 12 Oct 2009 23:58:42 +0200
+Message-ID: <200910122358.42255.rjw@sisk.pl>
+References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera> <1255318556.11664.11.camel@minggr.sh.intel.com> <4AD2A97A.3020909@gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S933366AbZJLVzK@vger.kernel.org>
-In-Reply-To: <19155.12454.655519.908173@pilspetsen.it.uu.se>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758541AbZJLV5o@vger.kernel.org>
+In-Reply-To: <4AD2A97A.3020909@gmail.com>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Mikael Pettersson <mikpe@it.uu.se>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, David Woodhouse <David.Woodhouse@intel.com>, David Woodhouse <dwmw2@infradead.org>, Greg Kroah-Hartman <gregkh@suse.de>, Nick Piggin <npiggin@suse.de>
+To: "Justin P. Mattock" <justinmattock@gmail.com>
+Cc: Lin Ming <ming.m.lin@intel.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Monday 12 October 2009, Mikael Pettersson wrote:
-> Rafael J. Wysocki wrote:
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.31.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14374
-> > Subject		: MCEs caused by commit db8be50c4307dac2b37305fc59c8dc0f978d09ea
-> > Submitter	: Nick Piggin <npiggin@suse.de>
-> > Date		: 2009-10-02 7:34 (10 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvalds/linu=
-> > x-2.6.git;a=3Dcommit;h=3Ddb8be50c4307dac2b37305fc59c8dc0f978d09ea
-> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D125446885705223&w=3D4
-> 
-> Fixed for 2.6.32-rc5 by d93a8f829fe1d2f3002f2c6ddb553d12db420412
-> 'Revert "USB: Work around BIOS bugs by quiescing USB controllers earlier"'.
+On Monday 12 October 2009, Justin P. Mattock wrote:
+> Lin Ming wrote:
+> > On Mon, 2009-10-12 at 11:14 +0800, Justin Mattock wrote:
+> >    
+> >> On Sun, Oct 11, 2009 at 3:22 PM, Rafael J. Wysocki<rjw@sisk.pl>  wrote:
+> >>      
+> >>> This message has been generated automatically as a part of a report
+> >>> of recent regressions.
+> >>>
+> >>> The following bug entry is on the current list of known regressions
+> >>> from 2.6.31.  Please verify if it still should be listed and let me know
+> >>> (either way).
+> >>>
+> >>>
+> >>> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14379
+> >>> Subject         : ACPI Warning for _SB_.BAT0._BIF: Converted Buffer to expected String
+> >>> Submitter       : Justin Mattock<justinmattock@gmail.com>
+> >>> Date            : 2009-10-08 21:46 (4 days old)
+> >>> References      : http://marc.info/?l=linux-kernel&m=125504031328941&w=4
+> >>>
+> >>>
+> >>>
+> >>>        
+> >> pulled rc4 today and the warning is still present.
+> >> here is the results of git bisect:
+> >>      
+> >
+> > Patch at http://bugzilla.kernel.org/show_bug.cgi?id=14379#c1 fixes the
+> > warning.
+> >
+> > Actually, the _BIF warning was fixed at commit
+> > e899b6485c332aa2d7510739507ab5e5d7b28e59.
+> > See http://bugzilla.kernel.org/show_bug.cgi?id=11822#c14
+> >
+> > I made a mistake at the cleanup of predefined method table so the
+> > warning shows up again.
+> >
+> > Lin Ming
+> >
+> >    
+> Cool, I can give that a try.
+> then I guess just leave this open(bugreport) until this patch
+> http://bugzilla.kernel.org/show_bug.cgi?id=14379#c1
+> gets pushed into the main tree then close the bugreport.
 
-Thanks, closed.
+I updated the bug entry with the patch information.
 
+Thanks,
 Rafael
