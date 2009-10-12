@@ -1,34 +1,48 @@
-From: Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #14275] kernel>=2.6.31: ahci.c: do not force
- unconditionally sb600 to 32bit dma any more?
-Date: Mon, 12 Oct 2009 10:39:40 -0400
-Message-ID: <20091012103940.0433cb68@katamari.usersys.redhat.com>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
-	<L6tb-VyKHZK.A.hHC.ezl0KB@chimera>
+From: "Massimo \"CtRiX\" Cetra" <ctrix@navynet.it>
+Subject: Re: [Bug #14378] Problems with net/core/skbuff.c
+Date: Mon, 12 Oct 2009 17:07:00 +0200
+Message-ID: <4AD34614.6070701@navynet.it>
+References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera>	<r-4Wjt4coy.A.CwC.Wal0KB@chimera> <20091012.034224.64980795.davem@davemloft.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <L6tb-VyKHZK.A.hHC.ezl0KB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757156AbZJLPY0@vger.kernel.org>
+In-Reply-To: <20091012.034224.64980795.davem@davemloft.net>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, gabriele balducci <balducci-KqplAB4qOuE@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: David Miller <davem@davemloft.net>
+Cc: rjw@sisk.pl, linux-kernel@vger.kernel.org, ocfs2-devel@oss.oracle.com, kernel-testers@vger.kernel.org
 
-On Mon, 12 Oct 2009 01:01:09 +0200 (CEST)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-
+David Miller ha scritto:
+> From: "Rafael J. Wysocki" <rjw@sisk.pl>
+> Date: Mon, 12 Oct 2009 00:22:04 +0200 (CEST)
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14275
-> Subject		: kernel>=2.6.31: ahci.c: do not force unconditionally sb600 to 32bit dma any more?
-> Submitter	: gabriele balducci <balducci-KqplAB4qOuE@public.gmane.org>
-> Date		: 2009-09-30 15:02 (12 days old)
-> Patch		: http://bugzilla.kernel.org/show_bug.cgi?id=14275#c0
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14378
+>> Subject		: Problems with net/core/skbuff.c
+>> Submitter	: Massimo Cetra <mcetra@navynet.it>
+>> Date		: 2009-10-08 14:51 (4 days old)
+>> References	: http://marc.info/?l=linux-kernel&m=125501488220358&w=4
 > 
+> I don't know what to do about this one.
+> 
+> The user indicates that they have the vserver patches applied,
+> so maybe there is some interaction with that stuff.
 
-Already marked fixed in bugzilla.
+Actually i don't think that it's Vserver related.
 
-Fixed by commit 2fcad9d271
-("ahci: disable 64bit DMA by default on SB600s")
+I'm not a kernel hacker but the vserver patch doesn't seems to have much 
+relation with networking (for who don't know vserver, it's a sort of 
+advanced chroot).
 
-Not in 2.6.31-stable.
+I'm using OCFS2 and drbd. Both of those 2 things make heavy use of 
+networking to share data between two hosts.
+
+The backtrace seems to begin in the "world" of OFCS2.
+I'm CC'ing ocfs mailing list where someome may have some clues.
+
+Thanks,
+Max
+
+
+
+
