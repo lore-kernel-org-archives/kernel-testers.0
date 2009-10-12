@@ -1,33 +1,40 @@
-From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Mon, 12 Oct 2009 01:57:02 +0200
-Message-ID: <200910120157.04616.elendil@planet.nl>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.d4D.P0l0KB@chimera>
+From: Bob Copeland <me@bobcopeland.com>
+Subject: Re: [Bug #13948] ath5k broken after suspend-to-ram
+Date: Sun, 11 Oct 2009 20:19:43 -0400
+Message-ID: <b6c5339f0910111719m58cd5442h3e081adfb388e8f1@mail.gmail.com>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
+	 <L6tb-VyKHZK.A.oyE.O1l0KB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <L6tb-VyKHZK.A.d4D.P0l0KB@chimera>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1751670AbZJLAUY@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:sender:received:in-reply-to
+         :references:date:x-google-sender-auth:message-id:subject:from:to:cc
+         :content-type:content-transfer-encoding;
+        bh=assHYDu0PPrppl+89JEVYIpJLeWu0pvu3jbO0vaYtO8=;
+        b=LKrBQPnBivOLYcS8F8Q3th4KsrPtslZ+p9cT7kwb+/hDjyoiY8dhl4B0Aq5tSB33D8
+         O95xUrGoNvdZd8MMG3p/7TfuGIe3cqnlTH8sCMytrib2vtq1Ww+mM1a67VM5Nd7DOR+q
+         6QiDnngXP3Q7g9771kZRJUw8BUwKbZf+RIWUk=
+In-Reply-To: <L6tb-VyKHZK.A.oyE.O1l0KB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Johannes Stezenbach <js@sig21.net>, Nick Kossifidis <mickflemm@gmail.com>
 
-On Monday 12 October 2009, you wrote:
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> be listed and let me know (either way).
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14141
-> Subject	: order 2 page allocation failures in iwlagn
-> Submitter	: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-> Date		: 2009-09-06 7:40 (36 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125222287419691&w=4
-> 		  http://lkml.org/lkml/2009/10/2/86
-> 		  http://lkml.org/lkml/2009/10/5/24
-> Handled-By	: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+On Sun, Oct 11, 2009 at 7:01 PM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+13948
+> Subject =A0 =A0 =A0 =A0 : ath5k broken after suspend-to-ram
+> Submitter =A0 =A0 =A0 : Johannes Stezenbach <js@sig21.net>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-08-07 21:51 (66 days old)
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D124968=
+192727854&w=3D4
+> Handled-By =A0 =A0 =A0: Nick Kossifidis <mickflemm@gmail.com>
+> Patch =A0 =A0 =A0 =A0 =A0 : http://patchwork.kernel.org/patch/38550/
 
-See: http://lkml.indiana.edu/hypermail/linux/kernel/0910.1/01395.html
+This patch was included in 2.6.31.2, so I believe this can go.
 
-I don't see that message on lkml yet :-(
+--=20
+Bob Copeland %% www.bobcopeland.com
