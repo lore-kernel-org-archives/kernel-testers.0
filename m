@@ -1,61 +1,47 @@
-From: Stephan von Krawczynski <skraw@ithnet.com>
-Subject: Re: [Bug #14252] WARNING: at include/linux/skbuff.h:1382 w/ e1000
-Date: Mon, 12 Oct 2009 13:44:21 +0200
-Message-ID: <20091012134421.1dcaf78b.skraw@ithnet.com>
+From: Santiago Garcia Mantinan <manty@manty.net>
+Subject: Re: [Bug #14294] kernel BUG at drivers/ide/ide-disk.c:187
+Date: Mon, 12 Oct 2009 14:09:43 +0200
+Message-ID: <20091012120943.GA2625@dis.manty.net>
 References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
-	<L6tb-VyKHZK.A.9UD.zzl0KB@chimera>
-	<20091012.034919.98011643.davem@davemloft.net>
+ <L6tb-VyKHZK.A.xEC.dzl0KB@chimera>
+ <20091012.035126.264745627.davem@davemloft.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756422AbZJLLpF@vger.kernel.org>
-In-Reply-To: <20091012.034919.98011643.davem@davemloft.net>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755797AbZJLMKi@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20091012.035126.264745627.davem@davemloft.net>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: David Miller <davem@davemloft.net>
-Cc: rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org, jeffrey.t.kirsher@intel.com, jesse.brandeburg@intel.com, peter.p.waskiewicz.jr@intel.com
+Cc: rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, bzolnier@gmail.com
 
-On Mon, 12 Oct 2009 03:49:19 -0700 (PDT)
-David Miller <davem@davemloft.net> wrote:
+Hi!
 
-> From: "Rafael J. Wysocki" <rjw@sisk.pl>
-> Date: Mon, 12 Oct 2009 01:01:06 +0200 (CEST)
+> I gave the user a debugging patch, but they reported that they
+> can no longer trigger the issue with 2.6.31.1
 > 
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.30 and 2.6.31.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> > be listed and let me know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14252
-> > Subject		: WARNING: at include/linux/skbuff.h:1382 w/ e1000
-> > Submitter	: Stephan von Krawczynski <skraw@ithnet.com>
-> > Date		: 2009-09-20 11:26 (22 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=125344599006033&w=4
+> See:
 > 
-> Hmmm... e1000 calls skb_trim() on both jumbo and non-jumbo ring
-> buffers which get recycled.
+> 	http://marc.info/?l=linux-ide&m=125469615425454&w=4
 > 
-> At least for the Jumbo case, that's illegal as you cannot call
-> skb_trim() on an SKB with paged data.
-> 
-> But this assertion is triggering for the non-jumbo ring where
-> only linear packets should be present as far as I can tell.
-> 
-> Some Intel folks need to take a look, CC:'d, and people need
-> to CC: their networking bug reports to netdev@vger.kernel.org
-> so that the proper folks see it.
-> 
-> Thanks.
+> Maybe that's enough to close this, I dunno.
 
-Really, this was a lucky catch, because most of the time the box goes dead right away.
-Don't interpret "most of the time" as "continously every day". It just happens sometimes. I am not that surprised because it's a box on the "frontline", you can find a lot of trash going on there, like:
+I'm the user with the debugging patch, I'd say no, don't close it.
 
-Oct 12 12:21:01 box kernel: TCP: Peer 217.231.204.133:61124/80 unexpectedly shrunk window 2348821413:2348838837 (repaired)
-Oct 12 12:21:02 box kernel: TCP: Peer 217.231.204.133:61124/80 unexpectedly shrunk window 2348821413:2348838837 (repaired)
+Even though on my first tests I had the computer to crash the two weekends I
+had tested, it seems that crashing on weekend was only luck and seems that
+having the bug appear is more difficult than I had thought.
 
+So... my comments saying that 2.6.31.1 seemed ok are probably wrong (I have
+read the .1 changelog and there is an ata patch, but probably unrelated). It
+is true that I had 2.6.31.1 running for a whole week without it crashing,
+but seems that crashing it may need more time.
+
+I'm now back to the 2.6.31 with the patch to debug it (3 days uptime) in
+order to gather more info and after I get the info from 2.6.31 I'd test
+3.6.31.latest or even 2.6.32whatever in case you find that better.
+
+Regards...
 -- 
-Regards,
-Stephan
+Manty/BestiaTester -> http://manty.net
