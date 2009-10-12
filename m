@@ -1,49 +1,94 @@
-From: Bart Van Assche <bart.vanassche@gmail.com>
-Subject: Re: [Bug #14070] lockdep warning triggered by dup_fd
-Date: Mon, 12 Oct 2009 19:10:07 +0200
-Message-ID: <e2e108260910121010l7855ad67g903cceac1a3ba024@mail.gmail.com>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
-	 <L6tb-VyKHZK.A.LUE.p0l0KB@chimera>
+From: Frans Pop <elendil@planet.nl>
+Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
+Date: Mon, 12 Oct 2009 19:32:11 +0200
+Message-ID: <200910121932.14607.elendil@planet.nl>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910120110.28061.elendil@planet.nl> <20091012134328.GB8200@csn.ul.ie>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754451AbZJLRKr@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=B8JV4C3QNiJmcPgB7+elNAi+0NyrSQ2BW6JLVUpbz1o=;
-        b=k10AWqEsZacpSamfQli/P+b3b486Npd6Ue1wuZVE2wgHhtHAYKDaIOniAl7ih754ca
-         32t0hLbdcji9pZWt2CvqPfSB35sFwvnMZgC8iXk7nUFnuSwd1FV6FHf0yPcw3MPjDrX0
-         1L8MQjyQh4pRLHxIM/FyvVQZ9cMxfqlEyJFuk=
-In-Reply-To: <L6tb-VyKHZK.A.LUE.p0l0KB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <20091012134328.GB8200@csn.ul.ie>
+Content-Disposition: inline
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Mel Gorman <mel@csn.ul.ie>
+Cc: David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org
 
-On Mon, Oct 12, 2009 at 1:01 AM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
->
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.30 and 2.6.31.
->
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31. =A0Please verify if it still sh=
-ould
-> be listed and let me know (either way).
->
->
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-14070
-> Subject =A0 =A0 =A0 =A0 : lockdep warning triggered by dup_fd
-> Submitter =A0 =A0 =A0 : Bart Van Assche <bart.vanassche@gmail.com>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-08-23 09:36 (50 days old)
-> References =A0 =A0 =A0: http://lkml.org/lkml/2009/8/23/8
->
+On Monday 12 October 2009, Mel Gorman wrote:
+> Maybe. Your commit id's are different to what I see. Maybe it's because
+> your tree has been shuffled around a bit
 
-Hello Rafael,
+No, the commit IDs should be identical. My tree is just plain mainline.
 
-Since I reported the above issue I haven't seen it reappearing yet.
+Just to make sure... You did remove the "g" from the IDs, right?
+So v2.6.30-rc6-1103-gb1bc81a becomes 'b1bc81a' and if you do
+'git describe b1bc81a' you really should end up with the same IDs I have.
 
-Bart.
+> but after some digging around in this general area, I saw this patch
+>
+> 4752c93c30 iwlcore: Allow skb allocation from tasklet
+
+That is v2.6.30-rc6-773-g4752c93, which is part of the first wireless
+merge I tested and where I saw no issues. But see below.
+
+> This patch increases the number of GFP_ATOMIC allocations that can occur
+> by allocating GFP_ATOMIC in some cases and GFP_KERNEL in others.
+> Previously, only GFP_KERNEL was used and I didn't realise this
+> allocation method was so recent. Problems of this sort have cropped up
+> before and while there are later changes that suppress some of these
+> warnings, I believe this is a strong candidate for where the allocation
+> failures started appearing.
+>
+> > v2.6.30-rc6-1032-g7ba10a8       mac80211: fix transposed min/max CW values
+> >     1.13    -
+> >     This is a bugfix for aa837ee1d from an earlier merge! Could this maybe
+
+There's a typo here. That ID should be: aa837e1d.
+
+> >     influence the test results in between? There are various SKB related
+> >     changes there, for example: dfbf97f3..e5b9215e.
+> > v2.6.30-rc6-1037-g2c5b9e5	wireless: libertas: fix unaligned accesses
+> > 	1.12    +-
+> > v2.6.30-rc6-1044-g729e9c7	cfg80211: fix for duplicate userspace replies
+> >     1.10    +- 
+> > v2.6.30-rc6-1075-gc587de0	iwlwifi: unify station management
+> >     1.9     ++-|+-
+> > v2.6.30-rc6-1076-gd14d444	iwl3945: port allow skb allocation in tasklet
+> >     I thought this was a prime candidate, but as you can see 
+> >     several commits before failed too. Still worth looking at I think!
+>
+> Your commit IDs are different to what I see but it's the commit merge at
+> b1bc81a0ef86b86fa410dd303d84c8c7bd09a64d. I agree that the last commit
+> (d14d44407b9f06e3cf967fcef28ccb780caf0583) could make the problem worse
+> because it expands the use of GFP_ATOMIC for another driver.
+
+No, that was a mistake of mine. d14d444 is in a driver I don't even compile.
+The one you identified (which is the same change for iwlagn) is much more
+interesting.
+
+I really do think that v2.6.30-rc6-1032-g7ba10a8 could play a role here.
+That's a fix for v2.6.30-rc1-1131-gaa837e1. So that bug was introduced
+_before_ the merge 82d0481 and may thus well explain both the latencies I
+saw _and_ why that merge tested without problems. And that would also go a
+long way to explain my test results.
+So I'm going to retest 82d0481 with 7ba10a8 cherry-picked on top.
+
+> > BISECTION of akpm (mm) MERGE
+> > ----------------------------
+[...]
+> While I didn't spot anything too out of the ordinary here, they did
+> occur shortly after a number of other page allocator related patches. 
+> One small thing I noticed there is that kswapd is getting woken up less
+> now than it did previously. Generally, I wouldn't have expected it to
+> make a difference but it's possible that kswapd is not being woken up to
+> reclaim at a higher order than it was previously. I have a patch for
+> this below. It'd be nice if you could apply it and see do fewer
+> allocation failures occur on current mainline.
+
+I'll give that patch a try and report back.
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
