@@ -1,25 +1,40 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Subject: Re: [Bug #14294] kernel BUG at drivers/ide/ide-disk.c:187
-Date: Mon, 12 Oct 2009 16:21:22 -0700 (PDT)
-Message-ID: <20091012.162122.61258418.davem@davemloft.net>
-References: <L6tb-VyKHZK.A.xEC.dzl0KB@chimera>
-	<20091012.035126.264745627.davem@davemloft.net>
-	<20091012120943.GA2625@dis.manty.net>
+From: Alan Cox <alan@lxorguk.ukuu.org.uk>
+Subject: Re: [Bug #14388] keyboard under X with 2.6.31
+Date: Tue, 13 Oct 2009 00:38:41 +0100
+Message-ID: <20091013003841.6c2988d0@lxorguk.ukuu.org.uk>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
+	<L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>
+	<C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com>
+	<87ljjgfcbu.fsf@spindle.srvr.nix>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091012120943.GA2625-yOhWZQfoIehIf6P1QZMOBw@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S933262AbZJLXji@vger.kernel.org>
+In-Reply-To: <87ljjgfcbu.fsf@spindle.srvr.nix>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: manty-gaW6/AuhO2xeoWH0uzbU5w@public.gmane.org
-Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Nix <nix@esperi.org.uk>
+Cc: "Justin P. Mattock" <justinmattock@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Boyan <btanastasov@yahoo.co.uk>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, "=?ISO-8859-14?B?RnLpZOlyaWM=?= L. W. Meunier" <fredlwm@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 
-From: Santiago Garcia Mantinan <manty-gaW6/AuhO2xeoWH0uzbU5w@public.gmane.org>
-Date: Mon, 12 Oct 2009 14:09:43 +0200
+> So it seems likely to me that this is a kernel bug, somewhere, and the
+> TTY layer seems like a good place to look (OK, a horrible place, but a
+> *likely* place).
 
-> I'm now back to the 2.6.31 with the patch to debug it (3 days uptime) in
-> order to gather more info and after I get the info from 2.6.31 I'd test
-> 3.6.31.latest or even 2.6.32whatever in case you find that better.
+Somewhere around 2.6.29-30 various things went funny in the keyboard
+layer for me - notably characters "bleeding" across console switches.
 
-Ok, thanks for the update.
+> 
+> I'm about to try reverting the suggested commit and will report back. I
+> see this failure about once a day, so I'll give it three days to go
+> wrong and then (if it doesn't) will presume it works and so inform you.
+> 
+> 
+> (Of course with this commit reverted Emacsen start dropping data from
+> their ptys, and as bad luck would have it I live in (X)Emacs, but that's
+> on a different machine! so I can have my compile buffer data *and* not
+> destroy X ;} )
+
+X doesn't touch the pty layer. It touches vt (extensively) and the input
+layers. It's vt/kbd access is also very raw so bypasses much of that
+layer. That isn't to say tty isn't the cause but look for input layer
+changes too.
