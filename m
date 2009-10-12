@@ -1,48 +1,49 @@
-From: "Massimo \"CtRiX\" Cetra" <ctrix@navynet.it>
-Subject: Re: [Bug #14378] Problems with net/core/skbuff.c
-Date: Mon, 12 Oct 2009 17:07:00 +0200
-Message-ID: <4AD34614.6070701@navynet.it>
-References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera>	<r-4Wjt4coy.A.CwC.Wal0KB@chimera> <20091012.034224.64980795.davem@davemloft.net>
+From: Bart Van Assche <bart.vanassche@gmail.com>
+Subject: Re: [Bug #14070] lockdep warning triggered by dup_fd
+Date: Mon, 12 Oct 2009 19:10:07 +0200
+Message-ID: <e2e108260910121010l7855ad67g903cceac1a3ba024@mail.gmail.com>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
+	 <L6tb-VyKHZK.A.LUE.p0l0KB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757156AbZJLPY0@vger.kernel.org>
-In-Reply-To: <20091012.034224.64980795.davem@davemloft.net>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754451AbZJLRKr@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=B8JV4C3QNiJmcPgB7+elNAi+0NyrSQ2BW6JLVUpbz1o=;
+        b=k10AWqEsZacpSamfQli/P+b3b486Npd6Ue1wuZVE2wgHhtHAYKDaIOniAl7ih754ca
+         32t0hLbdcji9pZWt2CvqPfSB35sFwvnMZgC8iXk7nUFnuSwd1FV6FHf0yPcw3MPjDrX0
+         1L8MQjyQh4pRLHxIM/FyvVQZ9cMxfqlEyJFuk=
+In-Reply-To: <L6tb-VyKHZK.A.LUE.p0l0KB@chimera>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: David Miller <davem@davemloft.net>
-Cc: rjw@sisk.pl, linux-kernel@vger.kernel.org, ocfs2-devel@oss.oracle.com, kernel-testers@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-David Miller ha scritto:
-> From: "Rafael J. Wysocki" <rjw@sisk.pl>
-> Date: Mon, 12 Oct 2009 00:22:04 +0200 (CEST)
-> 
->> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14378
->> Subject		: Problems with net/core/skbuff.c
->> Submitter	: Massimo Cetra <mcetra@navynet.it>
->> Date		: 2009-10-08 14:51 (4 days old)
->> References	: http://marc.info/?l=linux-kernel&m=125501488220358&w=4
-> 
-> I don't know what to do about this one.
-> 
-> The user indicates that they have the vserver patches applied,
-> so maybe there is some interaction with that stuff.
+On Mon, Oct 12, 2009 at 1:01 AM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
+>
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.30 and 2.6.31.
+>
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.30 and 2.6.31. =A0Please verify if it still sh=
+ould
+> be listed and let me know (either way).
+>
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+14070
+> Subject =A0 =A0 =A0 =A0 : lockdep warning triggered by dup_fd
+> Submitter =A0 =A0 =A0 : Bart Van Assche <bart.vanassche@gmail.com>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-08-23 09:36 (50 days old)
+> References =A0 =A0 =A0: http://lkml.org/lkml/2009/8/23/8
+>
 
-Actually i don't think that it's Vserver related.
+Hello Rafael,
 
-I'm not a kernel hacker but the vserver patch doesn't seems to have much 
-relation with networking (for who don't know vserver, it's a sort of 
-advanced chroot).
+Since I reported the above issue I haven't seen it reappearing yet.
 
-I'm using OCFS2 and drbd. Both of those 2 things make heavy use of 
-networking to share data between two hosts.
-
-The backtrace seems to begin in the "world" of OFCS2.
-I'm CC'ing ocfs mailing list where someome may have some clues.
-
-Thanks,
-Max
-
-
-
-
+Bart.
