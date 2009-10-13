@@ -1,256 +1,1709 @@
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Tue, 13 Oct 2009 02:17:25 -0700
-Message-ID: <20091013091725.GJ2887@core.coreip.homeip.net>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera> <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com> <87ljjgfcbu.fsf@spindle.srvr.nix> <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain> <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain> <4AD3F769.5080405@gmail.com> <alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net> <4AD437F9.9020708@yahoo.co.uk>
+From: Massimo Cetra <ctrixk@navynet.it>
+Subject: Re: [Bug #14378] Problems with net/core/skbuff.c
+Date: Tue, 13 Oct 2009 11:11:17 +0200
+Message-ID: <4AD44435.3050703@navynet.it>
+References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera>	<r-4Wjt4coy.A.CwC.Wal0KB@chimera> <20091012.034224.64980795.davem@davemloft.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759058AbZJMJSk@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=g6D1E+o63SMJdG9KtF/AJTTHA6F4UYbXAAoRwEIOJkM=;
-        b=ml0uszIhsa4bMMBVFx3BflWTMe6UKHw5RszoghTAE1wUIA7Y8tttXC+y9rzZjGEtE4
-         qng2SBciH4Yp62ARBhd83Q6vi2nSa/3PT5jNsd6BB3eL9to/tBS0KrDfVcMjA+XWhbzI
-         oJGNZuIf36sbbpV/QuNarw6xhPtu1bk4elE94=
-Content-Disposition: inline
-In-Reply-To: <4AD437F9.9020708@yahoo.co.uk>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Type: multipart/mixed;
+ boundary="------------070700000508040107060507"
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <20091012.034224.64980795.davem@davemloft.net>
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Boyan <btanastasov@yahoo.co.uk>
-Cc: =?iso-8859-1?B?IkZy6WTpcmljIEwuIFcuIE1ldW5pZXIi?= <fredlwm@gmail.com>, "Justin P. Mattock" <justinmattock@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>, Nix <nix@esperi.org.uk>, Alan Cox <alan@lxorguk.ukuu.org.uk>, Paul Fulghum <paulkf@microgate.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Ed Tomlinson <edt@aei.ca>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: David Miller <davem@davemloft.net>
+Cc: rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org
 
-On Tue, Oct 13, 2009 at 11:19:05AM +0300, Boyan wrote:
-> Fr=E9d=E9ric L. W. Meunier wrote:
->> On Mon, 12 Oct 2009, Justin P. Mattock wrote:
->>
->>> Linus Torvalds wrote:
->>>> [ Alan, Paulkf - the tty buffering and locking is originally your =
-code,
->>>>    although from about three years ago, when it used to be in tty_=
-io.c..
->>>>    Any comment? ]
->>>>
->>>> On Mon, 12 Oct 2009, Linus Torvalds wrote:
->>>>
->>>>> Alan, Ogawa-san, do either of you see some problem in tty_buffer.=
-c,
->>>>> perhaps?
->>>>>
->>>>
->>>> Hmm. I see one, at least.
->>>>
->>>> The "tty_insert_flip_string()" locking seems totally bogus.
->>>>
->>>> It does that "tty_buffer_request_room()" call and subsequent=20
->>>> copying with
->>>> no locking at all - sure, the tty_buffer_request_room() function i=
-tself
->>>> locks the buffers, but then unlocks it when returning, so when we =
-=20
->>>> actually
->>>> do the memcpy() etc, we can race with anybody.
->>>>
->>>> I don't really see who would care, but it does look totally broken=
-=2E
->>>>
->>>> I dunno, this patch seems to make sense to me. Am I missing someth=
-ing?
->>>>
->>>> [ NOTE! The patch is totally untested. It compiled for me on x86-6=
-4, and
->>>>    apart from that I'm just going to say that it looks obvious, an=
-d=20
->>>> the old
->>>>    code looks obviously buggy. Also, any remaining users of
->>>>
->>>>     tty_prepare_flip_string
->>>>     tty_prepare_flip_string_flags
->>>>
->>>>    are still fundamentally broken and buggy, while users of
->>>>
->>>>     tty_buffer_request_room
->>>>
->>>>    are pretty damn odd and suspect (but a lot of them seem to be j=
-ust
->>>>    pointless: they then call tty_insert_flip_string(), which means=
- =20
->>>> that the
->>>>    tty_buffer_request_room() call was totally redundant ]
->>>>
->>>> Comments? Does this work? Does it make any difference? It seems fa=
-irly
->>>> unlikely, but it's the only obvious problem I've seen in the tty =20
->>>> buffering
->>>> code so far.
->>>>
->>>> And that code is literally 3 years old, and it seems unlikely that=
- a
->>>> regular _keyboard_ buffer would be able to hit the (rather small) =
-race
->>>> condition. But other serialization may have hidden it, and timing
->>>> differences could certainly have caused it to trigger much more ea=
-sily.
->>>>
->>>>             Linus
->>>>
->>>> ---
->>>>   drivers/char/tty_buffer.c |   33 +++++++++++++++++++++++++------=
---
->>>>   1 files changed, 25 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/drivers/char/tty_buffer.c b/drivers/char/tty_buffer.c
->>>> index 3108991..25ab538 100644
->>>> --- a/drivers/char/tty_buffer.c
->>>> +++ b/drivers/char/tty_buffer.c
->>>> @@ -196,13 +196,10 @@ static struct tty_buffer =20
->>>> *tty_buffer_find(struct tty_struct *tty, size_t size)
->>>>    *
->>>>    *    Locking: Takes tty->buf.lock
->>>>    */
->>>> -int tty_buffer_request_room(struct tty_struct *tty, size_t size)
->>>> +static int locked_tty_buffer_request_room(struct tty_struct *tty,=
- =20
->>>> size_t size)
->>>>   {
->>>>       struct tty_buffer *b, *n;
->>>>       int left;
->>>> -    unsigned long flags;
->>>> -
->>>> -    spin_lock_irqsave(&tty->buf.lock, flags);
->>>>
->>>>       /* OPTIMISATION: We could keep a per tty "zero" sized buffer=
- to
->>>>          remove this conditional if its worth it. This would be =20
->>>> invisible
->>>> @@ -225,9 +222,20 @@ int tty_buffer_request_room(struct tty_struct=
- =20
->>>> *tty, size_t size)
->>>>               size =3D left;
->>>>       }
->>>>
->>>> -    spin_unlock_irqrestore(&tty->buf.lock, flags);
->>>>       return size;
->>>>   }
->>>> +
->>>> +int tty_buffer_request_room(struct tty_struct *tty, size_t size)
->>>> +{
->>>> +    int retval;
->>>> +    unsigned long flags;
->>>> +
->>>> +    spin_lock_irqsave(&tty->buf.lock, flags);
->>>> +    retval =3D locked_tty_buffer_request_room(tty, size);
->>>> +    spin_unlock_irqrestore(&tty->buf.lock, flags);
->>>> +    return retval;
->>>> +}
->>>> +
->>>>   EXPORT_SYMBOL_GPL(tty_buffer_request_room);
->>>>
->>>>   /**
->>>> @@ -239,16 +247,20 @@ EXPORT_SYMBOL_GPL(tty_buffer_request_room);
->>>>    *    Queue a series of bytes to the tty buffering. All the char=
-acters
->>>>    *    passed are marked as without error. Returns the number add=
-ed.
->>>>    *
->>>> - *    Locking: Called functions may take tty->buf.lock
->>>> + *    Locking: We take tty->buf.lock
->>>>    */
->>>>
->>>>   int tty_insert_flip_string(struct tty_struct *tty, const unsigne=
-d=20
->>>> char *chars,
->>>>                   size_t size)
->>>>   {
->>>>       int copied =3D 0;
->>>> +    unsigned long flags;
->>>> +
->>>> +    spin_lock_irqsave(&tty->buf.lock, flags);
->>>>       do {
->>>> -        int space =3D tty_buffer_request_room(tty, size - copied)=
-;
->>>> +        int space =3D locked_tty_buffer_request_room(tty, size - =
-copied);
->>>>           struct tty_buffer *tb =3D tty->buf.tail;
->>>> +
->>>>           /* If there is no space then tb may be NULL */
->>>>           if (unlikely(space =3D=3D 0))
->>>>               break;
->>>> @@ -260,6 +272,7 @@ int tty_insert_flip_string(struct tty_struct =20
->>>> *tty, const unsigned char *chars,
->>>>           /* There is a small chance that we need to split the dat=
-a over
->>>>              several buffers. If this is the case we must loop */
->>>>       } while (unlikely(size>  copied));
->>>> +    spin_unlock_irqrestore(&tty->buf.lock, flags);
->>>>       return copied;
->>>>   }
->>>>   EXPORT_SYMBOL(tty_insert_flip_string);
->>>> @@ -282,8 +295,11 @@ int tty_insert_flip_string_flags(struct =20
->>>> tty_struct *tty,
->>>>           const unsigned char *chars, const char *flags, size_t si=
-ze)
->>>>   {
->>>>       int copied =3D 0;
->>>> +    unsigned long irqflags;
->>>> +
->>>> +    spin_lock_irqsave(&tty->buf.lock, irqflags);
->>>>       do {
->>>> -        int space =3D tty_buffer_request_room(tty, size - copied)=
-;
->>>> +        int space =3D locked_tty_buffer_request_room(tty, size - =
-copied);
->>>>           struct tty_buffer *tb =3D tty->buf.tail;
->>>>           /* If there is no space then tb may be NULL */
->>>>           if (unlikely(space =3D=3D 0))
->>>> @@ -297,6 +313,7 @@ int tty_insert_flip_string_flags(struct =20
->>>> tty_struct *tty,
->>>>           /* There is a small chance that we need to split the dat=
-a over
->>>>              several buffers. If this is the case we must loop */
->>>>       } while (unlikely(size>  copied));
->>>> +    spin_unlock_irqrestore(&tty->buf.lock, irqflags);
->>>>       return copied;
->>>>   }
->>>>   EXPORT_SYMBOL(tty_insert_flip_string_flags);
->>>>
->>>>
->>> I can throw your patch in over here for the heck of it.
->>> If there's somebody who's really hitting this bug
->>> then the results would be better  if this is the area that causing
->>> this bug.(from here the only issue I'm seeing is spinning
->>> history commands in the terminal  from time to time,
->>> nothing of any unusable keys like others are reporting).
->>
->> I tested it on top of 2.6.31.4 (after putting back =20
->> e043e42bdb66885b3ac10d27a01ccb9972e2b0a3), and the keyboard is fine =
-=20
->> after almost 3h. Before that, the problems would appear in less than=
-=20
->> 1h. Maybe I spoke too soon, but...
->>
->> Boyan, does it work for you ?
->>
+This is a multi-part message in MIME format.
+--------------070700000508040107060507
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+David Miller ha scritto:
+> From: "Rafael J. Wysocki" <rjw@sisk.pl>
+> Date: Mon, 12 Oct 2009 00:22:04 +0200 (CEST)
 >
-> I've just tested it on top of 2.6.31.3 and it doesn't work. As I've
-> mentioned in previous email - I usually trigger the problem easily
-> watching pictures with gthumb - this is combination of cpu intensive
-> operations and keyboard usage and if it doesn't work it takes me no m=
-ore
-> than a minute to trigger the problem.
+>   
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14378
+>> Subject		: Problems with net/core/skbuff.c
+>> Submitter	: Massimo Cetra <mcetra@navynet.it>
+>> Date		: 2009-10-08 14:51 (4 days old)
+>> References	: http://marc.info/?l=linux-kernel&m=125501488220358&w=4
+>>     
 >
-> I thought the problem may be more easily triggered because of the new=
-er
-> (1.6.4 RC) in fedora which is slower for my ati radeon cards, but now
-> I'm with older version 1.6.1.901 which is fine in speed - so it doesn=
-'t
-> matter what is the version of X.
+> I don't know what to do about this one.
+>
+> The user indicates that they have the vserver patches applied,
+> so maybe there is some interaction with that stuff.
+>   
+Actually i found another oops which is very similar to the previous one.
+Here, vserver is not involved, and the problem starts at drbd which 
+lives in kernel space (the other oops started at ocfs2).
+
+Both ocfs2 and drbd make heavy use of network I/O so i guess the problem 
+is something in the network layer.
+
+Anything i can do to help to debugging and solving this issue ?
+
+Thanks
+Max
 
 
-Can you reporoduce it in console while loading the CPU?
 
---=20
-Dmitry
+
+--------------070700000508040107060507
+Content-Type: text/plain;
+ name="oops2.txt"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename="oops2.txt"
+
+[60257.728500] ------------[ cut here ]------------
+[60257.728500] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60257.728500] Hardware name: 
+[60257.728500] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60257.728500] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60257.728500] Call Trace:
+[60257.728500]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60257.728500]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60257.728500]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60257.728500]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60257.728500]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60257.728500]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60257.728500]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60257.728500]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60257.728500]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60257.728500]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60257.728500]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60257.728500]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60257.728500]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60257.728500]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60257.728500]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60257.728500]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60257.728500]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60257.728500]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60257.728500]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60257.728500]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60257.728500]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60257.728500]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60257.728500]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60257.728500]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60257.728500]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60257.728500]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60257.728500]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60257.728500]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60257.728500]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60257.728500]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60257.728500]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60257.728500]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60257.728500]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60257.728500]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60257.728500]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60257.728500]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60257.728500] ---[ end trace 694817acca794f2c ]---
+[60257.728500] ------------[ cut here ]------------
+[60257.728500] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60257.728500] Hardware name: 
+[60257.728500] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60257.728500] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60257.728500] Call Trace:
+[60257.728500]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60257.728500]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60257.728500]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60257.728500]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60257.728500]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60257.728500]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60257.728500]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60257.728500]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60257.728500]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60257.728500]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60257.728500]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60257.728500]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60257.728500]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60257.728500]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60257.728500]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60257.728500]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60257.728500]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60257.728500]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60257.728500]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60257.728500]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60257.728500]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60257.728500]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60257.728500]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60257.728500]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60257.728500]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60257.728500]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60257.728500]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60257.728500]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60257.728500]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60257.728500]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60257.728500]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60257.728500]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60257.728500]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60257.728500]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60257.728500]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60257.728500]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60257.728500] ---[ end trace 694817acca794f2d ]---
+[60257.728500] ------------[ cut here ]------------
+[60257.728500] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60257.728500] Hardware name: 
+[60257.728500] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60257.728500] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60257.728500] Call Trace:
+[60257.728500]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60257.728500]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60257.728500]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60257.728500]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60257.728500]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60257.728500]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60257.728500]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60257.728500]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60257.728500]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60257.728500]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60257.728500]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60257.728500]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60257.728500]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60257.728500]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60257.728500]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60257.728500]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60257.728500]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60257.728500]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60257.728500]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60257.728500]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60257.728500]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60257.728500]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60257.728500]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60257.728500]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60257.728500]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60257.728500]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60257.728500]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60257.728500]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60257.728500]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60257.728500]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60257.728500]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60257.728500]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60257.728500]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60257.728500]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60257.728500]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60257.728500]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60257.728500] ---[ end trace 694817acca794f2e ]---
+[60257.728500] ------------[ cut here ]------------
+[60257.728500] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60257.728500] Hardware name: 
+[60257.728500] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60257.728500] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60257.728500] Call Trace:
+[60257.728500]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60257.728500]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60257.728500]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60257.728500]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60257.728500]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60257.728500]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60257.728500]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60257.728500]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60257.728500]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60257.728500]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60257.728500]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60257.728500]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60257.728500]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60257.728500]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60257.728500]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60257.728500]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60257.728500]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60257.728500]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60257.728500]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60257.728500]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60257.728500]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60257.728500]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60257.728500]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60257.728500]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60257.728500]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60257.728500]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60257.728500]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60257.728500]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60257.728500]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60257.728500]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60257.728500]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60257.728500]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60257.728500]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60257.728500]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60257.728500]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60257.728500]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60257.728500] ---[ end trace 694817acca794f2f ]---
+[60257.728500] ------------[ cut here ]------------
+[60257.728500] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60257.728500] Hardware name: 
+[60257.728500] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60257.728500] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60257.728500] Call Trace:
+[60257.728500]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60257.728500]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60257.728500]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60257.728500]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60257.728500]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60257.728500]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60257.728500]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60257.728500]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60257.728500]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60257.728500]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60257.728500]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60257.728500]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60257.728500]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60257.728500]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60257.728500]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60257.728500]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60257.728500]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60257.728500]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60257.728500]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60257.728500]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60257.728500]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60257.728500]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60257.728500]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60257.728500]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60257.728500]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60257.728500]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60257.728500]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60257.728500]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60257.728500]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60257.728500]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60257.728500]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60257.728500]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60257.728500]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60257.728500]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60257.728500]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60257.728500]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60257.728500] ---[ end trace 694817acca794f30 ]---
+[60257.728500] ------------[ cut here ]------------
+[60257.728500] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60257.728500] Hardware name: 
+[60257.728500] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60257.728500] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60257.728500] Call Trace:
+[60257.728500]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60257.728500]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60257.728500]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60257.728500]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60257.728500]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60257.728500]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60257.728500]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60257.728500]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60257.728500]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60257.728500]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60257.728500]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60257.728500]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60257.728500]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60257.728500]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60257.728500]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60257.728500]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60257.728500]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60257.728500]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60257.728500]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60257.728500]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60257.728500]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60257.728500]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60257.728500]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60257.728500]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60257.728500]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60257.728500]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60257.728500]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60257.728500]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60257.728500]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60257.728500]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60257.728500]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60257.728500]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60257.728500]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60257.728500]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60257.728500]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60257.728500]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60257.728500] ---[ end trace 694817acca794f31 ]---
+[60257.728500] ------------[ cut here ]------------
+[60257.728500] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60257.728500] Hardware name: 
+[60257.728500] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60257.728500] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60257.728500] Call Trace:
+[60257.728500]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60257.728500]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60257.728500]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60257.728500]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60257.728500]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60257.728500]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60257.728500]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60257.728500]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60257.728500]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60257.728500]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60257.728500]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60257.728500]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60257.728500]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60257.728500]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60257.728500]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60257.728500]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60257.728500]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60257.728500]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60257.728500]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60257.728500]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60257.728500]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60257.728500]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60257.728500]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60257.728500]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60257.728500]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60257.728500]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60257.728500]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60257.728500]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60257.728500]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60257.728500]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60257.728500]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60257.728500]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60257.728500]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60257.728500]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60257.728500]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60257.728500]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60257.728500] ---[ end trace 694817acca794f32 ]---
+[60257.728500] ------------[ cut here ]------------
+[60257.728500] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60257.728500] Hardware name: 
+[60257.728500] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60257.728500] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60257.728500] Call Trace:
+[60257.728500]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60257.728500]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60257.728500]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60257.728500]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60257.728500]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60257.728500]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60257.728500]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60257.728500]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60257.728500]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60257.728500]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60257.728500]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60257.728500]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60257.728500]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60257.728500]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60257.728500]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60257.728500]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60257.728500]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60257.728500]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60257.728500]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60257.728500]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60257.728500]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60257.728500]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60257.728500]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60257.728500]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60257.728500]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60257.728500]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60257.728500]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60257.728500]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60257.728500]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60257.728500]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60257.728500]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60257.728500]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60257.728500]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60257.728500]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60257.728500]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60257.728500]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60257.728500] ---[ end trace 694817acca794f33 ]---
+[60257.728500] ------------[ cut here ]------------
+[60257.728500] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60257.728500] Hardware name: 
+[60257.728500] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60257.728500] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60257.728500] Call Trace:
+[60257.728500]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60257.728500]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60257.728500]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60257.728500]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60257.728500]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60257.728500]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60257.728500]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60257.728500]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60257.728500]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60257.728500]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60257.728500]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60257.728500]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60257.728500]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60257.728500]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60257.728500]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60257.728500]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60257.728500]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60257.728500]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60257.728500]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60257.728500]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60257.728500]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60257.728500]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60257.728500]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60257.728500]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60257.728500]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60257.728500]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60257.728500]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60257.728500]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60257.728500]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60257.728500]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60257.728500]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60257.728500]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60257.728500]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60257.728500]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60257.728500]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60257.728500]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60257.728500] ---[ end trace 694817acca794f34 ]---
+[60257.728500] ------------[ cut here ]------------
+[60257.728500] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60257.728500] Hardware name: 
+[60257.728500] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60257.728500] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60257.728500] Call Trace:
+[60257.728500]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60257.728500]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60257.728500]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60257.728500]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60257.728500]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60257.728500]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60257.728500]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60257.728500]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60257.728500]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60257.728500]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60257.728500]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60257.728500]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60257.728500]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60257.728500]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60257.728500]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60257.728500]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60257.728500]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60257.728500]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60257.728500]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60257.728500]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60257.728500]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60257.728500]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60257.728500]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60257.728500]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60257.728500]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60257.728500]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60257.728500]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60257.728500]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60257.728500]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60257.728500]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60257.728500]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60257.728500]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60257.728500]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60257.728500]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60257.728500]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60257.728500]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60257.728500]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60257.728500]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60257.728500]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60257.728500]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60257.728500]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60257.728500]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60257.728500]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60257.728500] ---[ end trace 694817acca794f35 ]---
+[60258.036152] ------------[ cut here ]------------
+[60258.036152] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60258.036152] Hardware name: 
+[60258.036152] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60258.036152] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60258.036152] Call Trace:
+[60258.036152]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60258.036152]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60258.036152]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60258.036152]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60258.036152]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60258.036152]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60258.036152]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60258.036152]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60258.036152]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60258.036152]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60258.036152]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60258.036152]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60258.036152]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60258.036152]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60258.036152]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60258.036152]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60258.036152]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60258.036152]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60258.036152]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60258.036152]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60258.036152]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60258.036152]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60258.036152]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60258.036152]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60258.036152]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60258.036152]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60258.036152]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60258.036152]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60258.036152]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60258.036152]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60258.036152]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60258.036152]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60258.036152]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60258.036152]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60258.036152]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60258.036152]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60258.036152] ---[ end trace 694817acca794f36 ]---
+[60258.036152] ------------[ cut here ]------------
+[60258.036152] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60258.036152] Hardware name: 
+[60258.036152] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60258.036152] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60258.036152] Call Trace:
+[60258.036152]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60258.036152]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60258.036152]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60258.036152]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60258.036152]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60258.036152]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60258.036152]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60258.036152]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60258.036152]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60258.036152]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60258.036152]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60258.036152]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60258.036152]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60258.036152]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60258.036152]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60258.036152]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60258.036152]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60258.036152]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60258.036152]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60258.036152]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60258.036152]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60258.036152]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60258.036152]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60258.036152]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60258.036152]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60258.036152]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60258.036152]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60258.036152]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60258.036152]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60258.036152]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60258.036152]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60258.036152]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60258.036152]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60258.036152]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60258.036152]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60258.036152]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60258.036152] ---[ end trace 694817acca794f37 ]---
+[60258.036152] ------------[ cut here ]------------
+[60258.036152] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60258.036152] Hardware name: 
+[60258.036152] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60258.036152] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60258.036152] Call Trace:
+[60258.036152]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60258.036152]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60258.036152]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60258.036152]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60258.036152]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60258.036152]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60258.036152]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60258.036152]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60258.036152]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60258.036152]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60258.036152]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60258.036152]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60258.036152]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60258.036152]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60258.036152]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60258.036152]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60258.036152]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60258.036152]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60258.036152]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60258.036152]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60258.036152]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60258.036152]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60258.036152]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60258.036152]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60258.036152]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60258.036152]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60258.036152]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60258.036152]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60258.036152]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60258.036152]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60258.036152]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60258.036152]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60258.036152]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60258.036152]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60258.036152]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60258.036152]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60258.036152] ---[ end trace 694817acca794f38 ]---
+[60258.036152] ------------[ cut here ]------------
+[60258.036152] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60258.036152] Hardware name: 
+[60258.036152] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60258.036152] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60258.036152] Call Trace:
+[60258.036152]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60258.036152]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60258.036152]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60258.036152]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60258.036152]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60258.036152]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60258.036152]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60258.036152]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60258.036152]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60258.036152]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60258.036152]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60258.036152]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60258.036152]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60258.036152]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60258.036152]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60258.036152]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60258.036152]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60258.036152]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60258.036152]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60258.036152]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60258.036152]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60258.036152]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60258.036152]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60258.036152]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60258.036152]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60258.036152]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60258.036152]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60258.036152]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60258.036152]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60258.036152]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60258.036152]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60258.036152]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60258.036152]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60258.036152]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60258.036152]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60258.036152]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60258.036152] ---[ end trace 694817acca794f39 ]---
+[60258.036152] ------------[ cut here ]------------
+[60258.036152] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60258.036152] Hardware name: 
+[60258.036152] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60258.036152] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60258.036152] Call Trace:
+[60258.036152]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60258.036152]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60258.036152]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60258.036152]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60258.036152]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60258.036152]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60258.036152]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60258.036152]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60258.036152]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60258.036152]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60258.036152]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60258.036152]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60258.036152]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60258.036152]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60258.036152]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60258.036152]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60258.036152]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60258.036152]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60258.036152]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60258.036152]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60258.036152]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60258.036152]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60258.036152]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60258.036152]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60258.036152]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60258.036152]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60258.036152]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60258.036152]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60258.036152]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60258.036152]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60258.036152]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60258.036152]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60258.036152]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60258.036152]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60258.036152]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60258.036152]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60258.036152] ---[ end trace 694817acca794f3a ]---
+[60258.036152] ------------[ cut here ]------------
+[60258.036152] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60258.036152] Hardware name: 
+[60258.036152] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60258.036152] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60258.036152] Call Trace:
+[60258.036152]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60258.036152]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60258.036152]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60258.036152]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60258.036152]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60258.036152]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60258.036152]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60258.036152]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60258.036152]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60258.036152]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60258.036152]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60258.036152]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60258.036152]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60258.036152]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60258.036152]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60258.036152]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60258.036152]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60258.036152]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60258.036152]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60258.036152]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60258.036152]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60258.036152]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60258.036152]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60258.036152]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60258.036152]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60258.036152]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60258.036152]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60258.036152]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60258.036152]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60258.036152]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60258.036152]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60258.036152]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60258.036152]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60258.036152]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60258.036152]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60258.036152]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60258.036152] ---[ end trace 694817acca794f3b ]---
+[60258.036152] ------------[ cut here ]------------
+[60258.036152] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60258.036152] Hardware name: 
+[60258.036152] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60258.036152] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60258.036152] Call Trace:
+[60258.036152]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60258.036152]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60258.036152]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60258.036152]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60258.036152]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60258.036152]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60258.036152]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60258.036152]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60258.036152]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60258.036152]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60258.036152]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60258.036152]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60258.036152]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60258.036152]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60258.036152]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60258.036152]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60258.036152]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60258.036152]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60258.036152]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60258.036152]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60258.036152]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60258.036152]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60258.036152]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60258.036152]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60258.036152]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60258.036152]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60258.036152]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60258.036152]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60258.036152]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60258.036152]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60258.036152]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60258.036152]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60258.036152]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60258.036152]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60258.036152]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60258.036152]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60258.036152]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60258.036152]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60258.036152]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60258.036152]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60258.036152]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60258.036152]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60258.036152]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60258.036152] ---[ end trace 694817acca794f3c ]---
+[60259.116162] ------------[ cut here ]------------
+[60259.116162] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60259.116162] Hardware name: 
+[60259.116162] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60259.116162] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60259.116162] Call Trace:
+[60259.116162]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60259.116162]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60259.116162]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60259.116162]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60259.116162]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60259.116162]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60259.116162]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60259.116162]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60259.116162]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60259.116162]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60259.116162]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60259.116162]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60259.116162]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60259.116162]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60259.116162]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60259.116162]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60259.116162]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60259.116162]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60259.116162]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60259.116162]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60259.116162]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60259.116162]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60259.116162]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60259.116162]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60259.116162]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60259.116162]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60259.116162]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60259.116162]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60259.116162]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60259.116162]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60259.116162]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60259.116162]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60259.116162]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60259.116162]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60259.116162]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60259.116162]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60259.116162] ---[ end trace 694817acca794f3d ]---
+[60259.116162] ------------[ cut here ]------------
+[60259.116162] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60259.116162] Hardware name: 
+[60259.116162] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60259.116162] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60259.116162] Call Trace:
+[60259.116162]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60259.116162]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60259.116162]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60259.116162]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60259.116162]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60259.116162]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60259.116162]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60259.116162]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60259.116162]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60259.116162]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60259.116162]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60259.116162]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60259.116162]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60259.116162]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60259.116162]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60259.116162]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60259.116162]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60259.116162]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60259.116162]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60259.116162]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60259.116162]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60259.116162]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60259.116162]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60259.116162]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60259.116162]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60259.116162]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60259.116162]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60259.116162]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60259.116162]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60259.116162]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60259.116162]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60259.116162]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60259.116162]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60259.116162]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60259.116162]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60259.116162]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60259.116162] ---[ end trace 694817acca794f3e ]---
+[60259.116162] ------------[ cut here ]------------
+[60259.116162] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60259.116162] Hardware name: 
+[60259.116162] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60259.116162] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60259.116162] Call Trace:
+[60259.116162]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60259.116162]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60259.116162]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60259.116162]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60259.116162]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60259.116162]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60259.116162]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60259.116162]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60259.116162]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60259.116162]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60259.116162]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60259.116162]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60259.116162]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60259.116162]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60259.116162]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60259.116162]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60259.116162]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60259.116162]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60259.116162]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60259.116162]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60259.116162]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60259.116162]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60259.116162]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60259.116162]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60259.116162]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60259.116162]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60259.116162]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60259.116162]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60259.116162]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60259.116162]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60259.116162]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60259.116162]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60259.116162]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60259.116162]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60259.116162]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60259.116162]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60259.116162] ---[ end trace 694817acca794f3f ]---
+[60259.116162] ------------[ cut here ]------------
+[60259.116162] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60259.116162] Hardware name: 
+[60259.116162] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60259.116162] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60259.116162] Call Trace:
+[60259.116162]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60259.116162]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60259.116162]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60259.116162]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60259.116162]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60259.116162]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60259.116162]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60259.116162]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60259.116162]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60259.116162]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60259.116162]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60259.116162]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60259.116162]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60259.116162]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60259.116162]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60259.116162]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60259.116162]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60259.116162]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60259.116162]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60259.116162]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60259.116162]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60259.116162]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60259.116162]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60259.116162]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60259.116162]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60259.116162]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60259.116162]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60259.116162]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60259.116162]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60259.116162]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60259.116162]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60259.116162]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60259.116162]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60259.116162]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60259.116162]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60259.116162]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60259.116162] ---[ end trace 694817acca794f40 ]---
+[60259.116162] ------------[ cut here ]------------
+[60259.116162] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60259.116162] Hardware name: 
+[60259.116162] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60259.116162] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60259.116162] Call Trace:
+[60259.116162]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60259.116162]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60259.116162]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60259.116162]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60259.116162]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60259.116162]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60259.116162]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60259.116162]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60259.116162]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60259.116162]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60259.116162]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60259.116162]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60259.116162]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60259.116162]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60259.116162]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60259.116162]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60259.116162]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60259.116162]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60259.116162]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60259.116162]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60259.116162]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60259.116162]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60259.116162]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60259.116162]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60259.116162]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60259.116162]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60259.116162]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60259.116162]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60259.116162]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60259.116162]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60259.116162]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60259.116162]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60259.116162]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60259.116162]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60259.116162]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60259.116162]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60259.116162] ---[ end trace 694817acca794f41 ]---
+[60259.116162] ------------[ cut here ]------------
+[60259.116162] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60259.116162] Hardware name: 
+[60259.116162] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60259.116162] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60259.116162] Call Trace:
+[60259.116162]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60259.116162]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60259.116162]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60259.116162]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60259.116162]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60259.116162]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60259.116162]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60259.116162]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60259.116162]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60259.116162]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60259.116162]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60259.116162]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60259.116162]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60259.116162]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60259.116162]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60259.116162]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60259.116162]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60259.116162]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60259.116162]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60259.116162]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60259.116162]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60259.116162]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60259.116162]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60259.116162]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60259.116162]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60259.116162]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60259.116162]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60259.116162]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60259.116162]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60259.116162]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60259.116162]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60259.116162]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60259.116162]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60259.116162]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60259.116162]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60259.116162]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60259.116162] ---[ end trace 694817acca794f42 ]---
+[60259.116162] ------------[ cut here ]------------
+[60259.116162] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60259.116162] Hardware name: 
+[60259.116162] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60259.116162] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60259.116162] Call Trace:
+[60259.116162]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60259.116162]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60259.116162]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60259.116162]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60259.116162]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60259.116162]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60259.116162]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60259.116162]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60259.116162]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60259.116162]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60259.116162]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60259.116162]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60259.116162]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60259.116162]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60259.116162]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60259.116162]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60259.116162]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60259.116162]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60259.116162]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60259.116162]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60259.116162]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60259.116162]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60259.116162]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60259.116162]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60259.116162]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60259.116162]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60259.116162]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60259.116162]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60259.116162]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60259.116162]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60259.116162]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60259.116162]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60259.116162]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60259.116162]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60259.116162]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60259.116162]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60259.116162] ---[ end trace 694817acca794f43 ]---
+[60259.116162] ------------[ cut here ]------------
+[60259.116162] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60259.116162] Hardware name: 
+[60259.116162] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60259.116162] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60259.116162] Call Trace:
+[60259.116162]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60259.116162]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60259.116162]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60259.116162]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60259.116162]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60259.116162]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60259.116162]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60259.116162]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60259.116162]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60259.116162]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60259.116162]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60259.116162]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60259.116162]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60259.116162]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60259.116162]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60259.116162]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60259.116162]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60259.116162]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60259.116162]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60259.116162]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60259.116162]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60259.116162]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60259.116162]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60259.116162]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60259.116162]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60259.116162]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60259.116162]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60259.116162]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60259.116162]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60259.116162]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60259.116162]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60259.116162]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60259.116162]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60259.116162]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60259.116162]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60259.116162]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60259.116162]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60259.116162] ---[ end trace 694817acca794f44 ]---
+[60259.116162] ------------[ cut here ]------------
+[60259.116162] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60259.116162] Hardware name: 
+[60259.116162] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60259.116162] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60259.116162] Call Trace:
+[60259.116162]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60259.116162]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60259.116162]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60259.116162]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60259.116162]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60259.116162]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60259.116162]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60259.116162]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60259.116162]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60259.116162]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60259.116162]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60259.116162]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60259.116162]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60259.116162]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60259.116162]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60259.116162]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60259.116162]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60259.116162]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60259.116162]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60259.116162]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60259.116162]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60259.116162]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60259.116162]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60259.116162]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60259.116162]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60259.116162]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60259.116162]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60259.116162]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60259.116162]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60259.116162]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60259.116162]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60259.116162]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60259.116162]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60259.116162]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60259.116162]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60259.116162]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60259.116162]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60259.116162] ---[ end trace 694817acca794f45 ]---
+[60259.116162] ------------[ cut here ]------------
+[60259.116162] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60259.116162] Hardware name: 
+[60259.116162] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60259.116162] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60259.116162] Call Trace:
+[60259.116162]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60259.116162]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60259.116162]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60259.116162]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60259.116162]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60259.116162]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60259.116162]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60259.116162]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60259.116162]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60259.116162]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60259.116162]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60259.116162]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60259.116162]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60259.116162]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60259.116162]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60259.116162]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60259.116162]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60259.116162]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60259.116162]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60259.116162]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60259.116162]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60259.116162]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60259.116162]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60259.116162]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60259.116162]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60259.116162]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60259.116162]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60259.116162]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60259.116162]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60259.116162]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60259.116162]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60259.116162]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60259.116162]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60259.116162]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60259.116162]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60259.116162]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60259.116162]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60259.116162] ---[ end trace 694817acca794f46 ]---
+[60259.116162] ------------[ cut here ]------------
+[60259.116162] WARNING: at net/core/skbuff.c:398 skb_release_head_state+0x64/0xc8()
+[60259.116162] Hardware name: 
+[60259.116162] Modules linked in: ocfs2 jbd2 quota_tree ocfs2_dlmfs ocfs2_stack_o2cb ocfs2_dlm ocfs2_nodemanager ocfs2_stackglue crc32c netconsole configfs drbd cn loop snd_pcm snd_timer snd soundcore snd_page_alloc serio_raw virtio_net pcspkr psmouse virtio_balloon parport_pc parport button processor i2c_piix4 i2c_core evdev ext3 jbd mbcache dm_mirror dm_region_hash dm_log dm_snapshot dm_mod ide_cd_mod cdrom virtio_blk ata_generic ata_piix libata scsi_mod virtio_pci virtio_ring virtio piix ide_pci_generic ide_core floppy thermal fan thermal_sys
+[60259.116162] Pid: 1814, comm: drbd1_receiver Tainted: G        W  2.6.31.2-vserver-navynet #1
+[60259.116162] Call Trace:
+[60259.116162]  <IRQ>  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81049ae1>] ? warn_slowpath_common+0x77/0xa3
+[60259.116162]  [<ffffffff81253cd5>] ? skb_release_head_state+0x64/0xc8
+[60259.116162]  [<ffffffff81253a1a>] ? __kfree_skb+0x9/0x7d
+[60259.116162]  [<ffffffffa01e2139>] ? free_old_xmit_skbs+0x51/0x6e [virtio_net]
+[60259.116162]  [<ffffffffa01e2c85>] ? start_xmit+0x26/0xf2 [virtio_net]
+[60259.116162]  [<ffffffff8126934f>] ? netpoll_send_skb+0xd2/0x205
+[60259.116162]  [<ffffffffa02a2216>] ? write_msg+0x90/0xeb [netconsole]
+[60259.116162]  [<ffffffff81049f06>] ? __call_console_drivers+0x5e/0x6f
+[60259.116162]  [<ffffffff8104a082>] ? release_console_sem+0x115/0x1ba
+[60259.116162]  [<ffffffff8104a632>] ? vprintk+0x2f2/0x34b
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81308309>] ? printk+0x4e/0x5d
+[60259.116162]  [<ffffffff8102b49d>] ? kvm_clock_read+0x4d/0x52
+[60259.116162]  [<ffffffff81070b62>] ? getnstimeofday+0x55/0xaf
+[60259.116162]  [<ffffffff81062683>] ? ktime_get_ts+0x21/0x49
+[60259.116162]  [<ffffffff810626b7>] ? ktime_get+0xc/0x41
+[60259.116162]  [<ffffffff81062788>] ? hrtimer_interrupt+0x9c/0x146
+[60259.116162]  [<ffffffff81024a4b>] ? smp_apic_timer_interrupt+0x80/0x93
+[60259.116162]  [<ffffffff81011663>] ? apic_timer_interrupt+0x13/0x20
+[60259.116162]  <EOI>  [<ffffffff81157811>] ? cap_socket_recvmsg+0x0/0x3
+[60259.116162]  [<ffffffff8130a9eb>] ? _spin_unlock_irq+0xd/0x31
+[60259.116162]  [<ffffffff8103e6de>] ? finish_task_switch+0x5b/0xec
+[60259.116162]  [<ffffffff81308f73>] ? thread_return+0x47/0xd5
+[60259.116162]  [<ffffffff81293cc8>] ? tcp_current_mss+0x3f/0x5a
+[60259.116162]  [<ffffffff81309213>] ? schedule_timeout+0x21/0x197
+[60259.116162]  [<ffffffff8104f482>] ? local_bh_disable+0xe/0x10
+[60259.116162]  [<ffffffff8130a7bf>] ? _spin_lock_bh+0x13/0x29
+[60259.116162]  [<ffffffff8124f6ba>] ? release_sock+0x19/0xc3
+[60259.116162]  [<ffffffff8124fd9b>] ? sk_wait_data+0x85/0xca
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff812892ab>] ? tcp_prequeue_process+0x9d/0xac
+[60259.116162]  [<ffffffff8128a4ae>] ? tcp_recvmsg+0x421/0xabd
+[60259.116162]  [<ffffffff8118d7cb>] ? cfq_add_rq_rb+0xd2/0xe5
+[60259.116162]  [<ffffffff8124eb4a>] ? sock_common_recvmsg+0x30/0x45
+[60259.116162]  [<ffffffff8124cde9>] ? sock_recvmsg+0xf7/0x18d
+[60259.116162]  [<ffffffff8105f762>] ? autoremove_wake_function+0x0/0x2e
+[60259.116162]  [<ffffffff8130a825>] ? _spin_lock_irqsave+0x25/0x41
+[60259.116162]  [<ffffffffa0271e4d>] ? _drbd_send_cmd+0x11d/0x1eb [drbd]
+[60259.116162]  [<ffffffff811851cf>] ? blk_rq_map_sg+0x12d/0x276
+[60259.116162]  [<ffffffffa025c7d8>] ? drbd_recv+0x74/0x147 [drbd]
+[60259.116162]  [<ffffffffa025c001>] ? drbd_may_finish_epoch+0x2c4/0x46e [drbd]
+[60259.116162]  [<ffffffffa025ee5d>] ? drbd_recv_header+0x18/0xc8 [drbd]
+[60259.116162]  [<ffffffffa025ef39>] ? drbdd+0x2c/0x1d6 [drbd]
+[60259.116162]  [<ffffffffa026212b>] ? drbdd_init+0xf2/0x14a [drbd]
+[60259.116162]  [<ffffffffa0273275>] ? drbd_thread_setup+0x16f/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b9a>] ? child_rip+0xa/0x20
+[60259.116162]  [<ffffffff811b1e73>] ? vgacon_cursor+0x0/0x1a4
+[60259.116162]  [<ffffffffa0273106>] ? drbd_thread_setup+0x0/0x231 [drbd]
+[60259.116162]  [<ffffffff81011b90>] ? child_rip+0x0/0x20
+[60259.116162] ---[ end trace 694817acca794f47 ]---
+
+--------------070700000508040107060507--
