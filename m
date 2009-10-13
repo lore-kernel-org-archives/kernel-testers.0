@@ -1,196 +1,52 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Tue, 13 Oct 2009 13:53:18 -0700 (PDT)
-Message-ID: <alpine.LFD.2.01.0910131317360.26777@localhost.localdomain>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera> <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com> <87ljjgfcbu.fsf@spindle.srvr.nix> <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain> <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
- <4AD3F769.5080405@gmail.com> <alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net> <4AD437F9.9020708@yahoo.co.uk> <alpine.LFD.2.01.0910130745550.3438@localhost.localdomain> <4AD4DE4C.4010402@yahoo.co.uk>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #14278] New message "NOHZ: local_softirq_pending 08" at each ping request
+Date: Tue, 13 Oct 2009 22:50:01 +0200
+Message-ID: <200910132250.01858.rjw@sisk.pl>
+References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera> <200910122349.39408.rjw@sisk.pl> <20091013142726.GA2747@tuxdriver.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4AD4DE4C.4010402-/E1597aS9LT10XsdtD+oqA@public.gmane.org>
+In-Reply-To: <20091013142726.GA2747-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>
-Cc: =?ISO-8859-15?Q?Fr=E9d=E9ric_L=2E_W=2E_Meunier?= <fredlwm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Nix <nix-dKoSMcxRz+Te9xe1eoZjHA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Paul Fulghum <paulkf-CZzk0lvu1V9l57MIdRCFDg@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Cc: Michael Buesch <mb-fseUSCV1ubazQB+pC5nmwQ@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
 
-
-
-On Tue, 13 Oct 2009, Boyan wrote:
+On Tuesday 13 October 2009, John W. Linville wrote:
+> On Mon, Oct 12, 2009 at 11:49:39PM +0200, Rafael J. Wysocki wrote:
+> > On Monday 12 October 2009, Michael Buesch wrote:
+> > > On Monday 12 October 2009 00:22:00 Rafael J. Wysocki wrote:
+> > > > This message has been generated automatically as a part of a report
+> > > > of recent regressions.
+> > > > 
+> > > > The following bug entry is on the current list of known regressions
+> > > > from 2.6.31.  Please verify if it still should be listed and let me know
+> > > > (either way).
+> > > > 
+> > > > 
+> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14278
+> > > > Subject		: New message "NOHZ: local_softirq_pending 08" at each ping request
+> > > > Submitter	: Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
+> > > > Date		: 2009-09-30 18:12 (12 days old)
+> > > > Handled-By	: Michael Buesch <mb-fseUSCV1ubazQB+pC5nmwQ@public.gmane.org>
+> > > 
+> > > I think John or Johannes is handling it, as my patch was rejected.
+> > > 
+> > > > Patch		: http://bugzilla.kernel.org/attachment.cgi?id=23220
+> > 
+> > Johannes, what's the status here?
 > 
-> Composite is enabled in my X config, but I don't have compiz or
-> something like that enabled. DRI is enabled.
+> Johannes posted a patch here:
+> 
+> 	http://marc.info/?l=linux-wireless&m=125525657120789&w=2
+> 
+> It is on my merge train, but it hasn't gone to Linus (or Dave) just
+> yet -- probably today.
+> 
+> Hth!
 
-I think I may actually see the problem. And if I'm right, then the bug you 
-guys bisected down to is really the fundamental reason. Embarrassing. I 
-was so convinced it should only change flush timing, that I didn't think 
-through all the possibilities.
+Yes, it does, I've updated the bug entry with the link to the Johannes' patch.
 
-The reason for thinking that it only really changes timing si fairly 
-simple: the only thing it really does is to call "flush_to_ldisc()" 
-synchronously when needed. On the face of it, that should be perfectly 
-safe.
-
-But flush_to_ldisc() itself has a real oddity: it uses "tty->buf.lock" to 
-protect everything, BUT NOT THE ACTUAL CALL TO ->receive_buf()!
-
-So even though that function looks _trivially_ atomic, once you look 
-deeper it suddenly becomes clear how it's not really atomic at all: it 
-will do all the buffer handling with the spinlock held, but then after it 
-has figured out the buffer, it does:
-
-	...
-        spin_unlock_irqrestore(&tty->buf.lock, flags);
-        disc->ops->receive_buf(tty, char_buf,
-                                        flag_buf, count);
-        spin_lock_irqsave(&tty->buf.lock, flags);
-	...
-
-and by releasing that lock it actually seems to break all the buffering 
-guarantees! What can happen is:
-
-	CPU1 (or thread1 with PREEMPTION)
-					CPU2 (or thread2 with PREEMPTION)
-
-	flush_to_ldisc()
-	...
-	spin_lock_irqsave(..)
-	.. get one buffer..
-	spin_unlock_irqrestore(..);
-
-			<- PREEMPTION POINT, anything can happen ->
-			<- more buffers can be added, etc ->
-
-					flush_to_ldisc()
-					spin_lock_irqsave(..)
-					.. get second buffer..
-					spin_unlock_irqrestore(..);
-					->receive_buf(tty, char_buf, ...
-					spin_lock_irqrestore(..)
-					.. all done ..
-
-
-	->receive_buf(tty, char_buf, ...
-        spin_lock_irqrestore(...)
-
-Notice how the "->receive_buf()" calls were done out of order, even if the 
-data was perfectly in-order in the buffers.
-
-And you can get the same race on SMP even without preemption, just thanks 
-to CPU's hitting that lock just right. CONFIG_PREEMPT just makes it easier 
-(probably _much_ easier) to trigger, and possible even on UP.
-
-As far as I can tell, this is not really a new bug (it could have happened 
-with low_latency before too), but on a tty without low_latency it would 
-never happen until the commit you bisected to because the workqueue itself 
-would serialize everything, and only one flush would ever be pending.
-
-Anyway, the above explanation "feels right". It would easily explain the 
-behavior, because if the ->receive_buf() calls get re-ordered, then the 
-events get re-ordered, and one simple case of that would be to see the key 
-"release" event before the key "press" event.
-
-It also explains how that commit seems to be indicated so consistently. It 
-still requires some specific timing, but now it's not timing _introduced_ 
-by the commit, it's an old bug that that commit exposed, and then needs 
-some unlucky timing to actually happen.
-
-The sane fix would be to just run ->receive_buf() under the tty->buf.lock, 
-but I assume we'd have a lot of unhappy ldiscs if we did that (and 
-possibly irq latency problems too).
-
-I think the
-
-	tty->buf.head = NULL;
-	...
-	/* Restore the queue head */
-	tty->buf.head = head;
-
-around that loop is actually there to try to avoid this whole problem, but 
-whoever did that didn't realize that there are other things that could set 
-buf.head (in particular, tty_buffer_request_room() while the lock is 
-dropped, so that whole logic is totally broken anyway and might even 
-conspire to make the problem worse (ie if somebody tries to add data while 
-->receive_buf() is running and the lock is gone, you are now _really_ 
-screwing things up).
-
-So instead of playing games with buf.head, I think we should just rely on 
-the TTY_FLUSHING bit. I'm not _entirely_ happy with this, because now if 
-we call flush_to_ldisc() while somebody else is busy flushing it, it will 
-return early even though the flush hasn't completed yet. But that was 
-always true to some degree (ie the "buffer full" case).
-
-Anyway, I'm not entirely happy with this patch, and I haven't actually 
-TESTED it so it might well be totally broken, but something along the 
-lines of the appended may just fix it. It would be good if people who see 
-this problem tried it out.
-
-			Linus
----
- drivers/char/tty_buffer.c |   31 +++++++++++++------------------
- 1 files changed, 13 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/char/tty_buffer.c b/drivers/char/tty_buffer.c
-index 3108991..da59334 100644
---- a/drivers/char/tty_buffer.c
-+++ b/drivers/char/tty_buffer.c
-@@ -402,28 +402,24 @@ static void flush_to_ldisc(struct work_struct *work)
- 		container_of(work, struct tty_struct, buf.work.work);
- 	unsigned long 	flags;
- 	struct tty_ldisc *disc;
--	struct tty_buffer *tbuf, *head;
--	char *char_buf;
--	unsigned char *flag_buf;
- 
- 	disc = tty_ldisc_ref(tty);
- 	if (disc == NULL)	/*  !TTY_LDISC */
- 		return;
- 
- 	spin_lock_irqsave(&tty->buf.lock, flags);
--	/* So we know a flush is running */
--	set_bit(TTY_FLUSHING, &tty->flags);
--	head = tty->buf.head;
--	if (head != NULL) {
--		tty->buf.head = NULL;
--		for (;;) {
--			int count = head->commit - head->read;
-+
-+	if (test_and_set_bit(TTY_FLUSHING, &tty->flags)) {
-+		struct tty_buffer *head;
-+		while ((head = tty->buf.head) != NULL) {
-+			int count;
-+			char *char_buf;
-+			unsigned char *flag_buf;
-+
-+			count = head->commit - head->read;
- 			if (!count) {
--				if (head->next == NULL)
--					break;
--				tbuf = head;
--				head = head->next;
--				tty_buffer_free(tty, tbuf);
-+				tty->buf.head = head->next;
-+				tty_buffer_free(tty, head);
- 				continue;
- 			}
- 			/* Ldisc or user is trying to flush the buffers
-@@ -445,9 +441,9 @@ static void flush_to_ldisc(struct work_struct *work)
- 							flag_buf, count);
- 			spin_lock_irqsave(&tty->buf.lock, flags);
- 		}
--		/* Restore the queue head */
--		tty->buf.head = head;
-+		clear_bit(TTY_FLUSHING, &tty->flags);
- 	}
-+
- 	/* We may have a deferred request to flush the input buffer,
- 	   if so pull the chain under the lock and empty the queue */
- 	if (test_bit(TTY_FLUSHPENDING, &tty->flags)) {
-@@ -455,7 +451,6 @@ static void flush_to_ldisc(struct work_struct *work)
- 		clear_bit(TTY_FLUSHPENDING, &tty->flags);
- 		wake_up(&tty->read_wait);
- 	}
--	clear_bit(TTY_FLUSHING, &tty->flags);
- 	spin_unlock_irqrestore(&tty->buf.lock, flags);
- 
- 	tty_ldisc_deref(disc);
+Thanks,
+Rafael
