@@ -1,85 +1,46 @@
-From: Eric Dumazet <eric.dumazet@gmail.com>
-Subject: Re: [Bug #14378] Problems with net/core/skbuff.c
-Date: Tue, 13 Oct 2009 12:19:51 +0200
-Message-ID: <4AD45447.7030705@gmail.com>
-References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera>	<r-4Wjt4coy.A.CwC.Wal0KB@chimera> <20091012.034224.64980795.davem@davemloft.net> <4AD44435.3050703@navynet.it>
+From: Alan Cox <alan@lxorguk.ukuu.org.uk>
+Subject: Re: [Bug #14388] keyboard under X with 2.6.31
+Date: Tue, 13 Oct 2009 11:32:32 +0100
+Message-ID: <20091013113232.384b2432@lxorguk.ukuu.org.uk>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
+	<L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>
+	<C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com>
+	<87ljjgfcbu.fsf@spindle.srvr.nix>
+	<alpine.LFD.2.01.0910121703390.3438@localhost.localdomain>
+	<alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759361AbZJMKVH@vger.kernel.org>
-In-Reply-To: <4AD44435.3050703@navynet.it>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S933862AbZJMKcf@vger.kernel.org>
+In-Reply-To: <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Massimo Cetra <ctrixk@navynet.it>
-Cc: David Miller <davem@davemloft.net>, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Nix <nix@esperi.org.uk>, Paul Fulghum <paulkf@microgate.com>, "Justin P. Mattock" <justinmattock@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Boyan <btanastasov@yahoo.co.uk>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, "=?ISO-8859-14?B?RnLpZOlyaWM=?= L. W. Meunier" <fredlwm@gmail.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 
-Massimo Cetra a =E9crit :
-> David Miller ha scritto:
->> From: "Rafael J. Wysocki" <rjw@sisk.pl>
->> Date: Mon, 12 Oct 2009 00:22:04 +0200 (CEST)
->>
->> =20
->>> Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=3D14378
->>> Subject        : Problems with net/core/skbuff.c
->>> Submitter    : Massimo Cetra <mcetra@navynet.it>
->>> Date        : 2009-10-08 14:51 (4 days old)
->>> References    : http://marc.info/?l=3Dlinux-kernel&m=3D125501488220=
-358&w=3D4
->>>    =20
->>
->> I don't know what to do about this one.
->>
->> The user indicates that they have the vserver patches applied,
->> so maybe there is some interaction with that stuff.
->>  =20
-> Actually i found another oops which is very similar to the previous o=
-ne.
-> Here, vserver is not involved, and the problem starts at drbd which
-> lives in kernel space (the other oops started at ocfs2).
->=20
-> Both ocfs2 and drbd make heavy use of network I/O so i guess the prob=
-lem
-> is something in the network layer.
->=20
-> Anything i can do to help to debugging and solving this issue ?
->=20
-> Thanks
-> Max
->=20
+> It does that "tty_buffer_request_room()" call and subsequent copying with 
+> no locking at all - sure, the tty_buffer_request_room() function itself 
+> locks the buffers, but then unlocks it when returning, so when we actually 
+> do the memcpy() etc, we can race with anybody.
 
-Problem is kfree_skb() is called from irq context, wich is not allowed.
+The tty_buffer_request_room() is a hint to help better allocation. It's
+also only safe to run from the receiving path of the driver (which
+has always been assumed not to make two parallel calls to the function at
+once.
 
-static void skb_release_head_state(struct sk_buff *skb)
-{
-=2E..
-if (skb->destructor) {
-	WARN_ON(in_irq());
-	skb->destructor();
-}
-=2E..
-}
+There is a simple reason the locking is sufficient. If you can call the
+function from two places at once in your serial driver at the same you've
+scrambled the data order so you've already lost.
 
-virtio_net start_xmit() function calls free_old_xmit_skbs() and=20
-free_old_xmit_skbs() ultimately calls kfree_skb()
+So - not a bug - and the lock changes don't actually "fix" any behaviour
+either because the ordering must be imposed by the caller.
 
-Quick fix would be to use dev_kfree_skb_any() instead,
-because netpoll can definitly calls start_xmit()
-with irq disabled.
+>   pointless: they then call tty_insert_flip_string(), which means that the 
+>   tty_buffer_request_room() call was totally redundant ]
 
-Could you please following patch ?
-
-diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
-index 8d00976..54bf091 100644
---- a/drivers/net/virtio_net.c
-+++ b/drivers/net/virtio_net.c
-@@ -454,7 +454,7 @@ static unsigned int free_old_xmit_skbs(struct virtn=
-et_info *vi)
- 		vi->dev->stats.tx_bytes +=3D skb->len;
- 		vi->dev->stats.tx_packets++;
- 		tot_sgs +=3D skb_vnet_hdr(skb)->num_sg;
--		kfree_skb(skb);
-+		dev_kfree_skb_any(skb);
- 	}
- 	return tot_sgs;
- }
-
+It's a performance tweak. With a 3G USB modem or similar device running
+at 20Mbits or more being able to generate one allocation per chunk
+received for DMA made a measurable performance difference on some
+platforms. 
+ 
+Alan
