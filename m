@@ -1,41 +1,41 @@
-From: Linus Torvalds <torvalds@linux-foundation.org>
+From: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
 Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Tue, 13 Oct 2009 15:54:45 -0700 (PDT)
-Message-ID: <alpine.LFD.2.01.0910131548280.3404@localhost.localdomain>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera> <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com> <87ljjgfcbu.fsf@spindle.srvr.nix> <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain> <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
- <4AD3F769.5080405@gmail.com> <alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net> <4AD437F9.9020708@yahoo.co.uk> <alpine.LFD.2.01.0910130745550.3438@localhost.localdomain> <4AD4DE4C.4010402@yahoo.co.uk> <alpine.LFD.2.01.0910131317360.26777@localhost.localdomain>
- <20091013223212.3260a7eb@lxorguk.ukuu.org.uk>
+Date: Wed, 14 Oct 2009 00:01:45 +0100
+Message-ID: <20091014000145.3a611c94@lxorguk.ukuu.org.uk>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
+	<L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>
+	<C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com>
+	<87ljjgfcbu.fsf@spindle.srvr.nix>
+	<alpine.LFD.2.01.0910121703390.3438@localhost.localdomain>
+	<alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
+	<4AD3F769.5080405@gmail.com>
+	<alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net>
+	<4AD437F9.9020708@yahoo.co.uk>
+	<alpine.LFD.2.01.0910130745550.3438@localhost.localdomain>
+	<4AD4DE4C.4010402@yahoo.co.uk>
+	<alpine.LFD.2.01.0910131317360.26777@localhost.localdomain>
+	<4AD4F548.2030506@microgate.com>
+	<alpine.LFD.2.01.0910131514100.3404@localhost.localdomain>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S934475AbZJMWzs@vger.kernel.org>
-In-Reply-To: <20091013223212.3260a7eb@lxorguk.ukuu.org.uk>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Alan Cox <alan@lxorguk.ukuu.org.uk>
-Cc: Boyan <btanastasov@yahoo.co.uk>, =?ISO-8859-15?Q?Fr=E9d=E9ric_L=2E_W=2E_Meunier?= <fredlwm@gmail.com>, "Justin P. Mattock" <justinmattock@gmail.com>, Nix <nix@esperi.org.uk>, Paul Fulghum <paulkf@microgate.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.LFD.2.01.0910131514100.3404-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Paul Fulghum <paulkf-CZzk0lvu1V9l57MIdRCFDg@public.gmane.org>, Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>, " =?ISO-8859-14?B?RnLpZOlyaWM=?= L. W. Meunier" <fredlwm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Nix <nix-dKoSMcxRz+Te9xe1eoZjHA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
 
+> And no, I'm not sure my patch helps. I'd have expected 
+> 'tty_buffer_flush()' to be something very rare, for example. But I also 
+> didn't really check if we may do it some other way.
 
+It is rare for most applications
 
-On Tue, 13 Oct 2009, Alan Cox wrote:
-> 
-> I can't help feeling a mutex might be simpler. It would also then fix
-> tiocsti() which is most definitely broken right now and documented as
-> racing.
+> But I _am_ sure that it makes the code a whole lot more straightforward. 
+> Bits that say "we're busy flushing" suddenly actually act that way, and 
+> pointers that say "this is the head of the buffers" also act that wy.
 
-Hmm. Those tty's have too many different locks already.
-
-But maybe we could just have one generic mutex, and use it for termios and 
-IO locking. It makes perfect sense to serialize the ->receive_buf() code 
-with any termios changes, since termios is what affects _how_ that 
-->receive_buf() function works.
-
-I do wonder why tiocsti() doesn't just use the tty buffering layer, 
-though? Maybe that harks back to the whole "pty's did things differently" 
-thing? Why does it go directly to ->receive_buf() in the first place?
-
-And let's see if my patch even makes a difference. Maybe the breakage is 
-somewhere else. The "oh, now we call flush_ldisc() from two different 
-contexts" thing seems to be a promising lead, but ...
-
-		Linus
+The more I look the more I think a mutex is the right answer. It also
+provides us with a "stop feeding me" lock for ldisc changes and tty close
+down bits.
