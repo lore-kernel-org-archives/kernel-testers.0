@@ -1,46 +1,36 @@
-From: Alan Cox <alan@lxorguk.ukuu.org.uk>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Tue, 13 Oct 2009 11:32:32 +0100
-Message-ID: <20091013113232.384b2432@lxorguk.ukuu.org.uk>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
-	<L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>
-	<C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com>
-	<87ljjgfcbu.fsf@spindle.srvr.nix>
-	<alpine.LFD.2.01.0910121703390.3438@localhost.localdomain>
-	<alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
+From: Massimo Cetra <ctrixk-BBpJ+9iBSNKonA0d6jMUrA@public.gmane.org>
+Subject: Re: [Bug #14378] Problems with net/core/skbuff.c
+Date: Tue, 13 Oct 2009 12:27:38 +0200
+Message-ID: <4AD4561A.5050109@navynet.it>
+References: <r-4Wjt4coy.A.CwC.Wal0KB@chimera>	<20091012.034224.64980795.davem@davemloft.net>	<4AD44435.3050703@navynet.it> <20091013.032237.45775304.davem@davemloft.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S933862AbZJMKcf@vger.kernel.org>
-In-Reply-To: <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20091013.032237.45775304.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Nix <nix@esperi.org.uk>, Paul Fulghum <paulkf@microgate.com>, "Justin P. Mattock" <justinmattock@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Boyan <btanastasov@yahoo.co.uk>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, "=?ISO-8859-14?B?RnLpZOlyaWM=?= L. W. Meunier" <fredlwm@gmail.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Cc: ctrixk-BBpJ+9iBSNKonA0d6jMUrA@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-> It does that "tty_buffer_request_room()" call and subsequent copying with 
-> no locking at all - sure, the tty_buffer_request_room() function itself 
-> locks the buffers, but then unlocks it when returning, so when we actually 
-> do the memcpy() etc, we can race with anybody.
+David Miller ha scritto:
+> From: Massimo Cetra <ctrixk-BBpJ+9iBSNKonA0d6jMUrA@public.gmane.org>
+> Date: Tue, 13 Oct 2009 11:11:17 +0200
+>
+>   
+>> Here, vserver is not involved, and the problem starts at drbd which
+>> lives in kernel space (the other oops started at ocfs2).
+>>
+>> Both ocfs2 and drbd make heavy use of network I/O so i guess the
+>> problem is something in the network layer.
+>>
+>> Anything i can do to help to debugging and solving this issue ?
+>>     
+>
+> Is all of your traffic going over virtio_net?
+>   
+Yes, indeed.
+I'm compiling the patch and i'll let you know.
 
-The tty_buffer_request_room() is a hint to help better allocation. It's
-also only safe to run from the receiving path of the driver (which
-has always been assumed not to make two parallel calls to the function at
-once.
-
-There is a simple reason the locking is sufficient. If you can call the
-function from two places at once in your serial driver at the same you've
-scrambled the data order so you've already lost.
-
-So - not a bug - and the lock changes don't actually "fix" any behaviour
-either because the ordering must be imposed by the caller.
-
->   pointless: they then call tty_insert_flip_string(), which means that the 
->   tty_buffer_request_room() call was totally redundant ]
-
-It's a performance tweak. With a 3G USB modem or similar device running
-at 20Mbits or more being able to generate one allocation per chunk
-received for DMA made a measurable performance difference on some
-platforms. 
- 
-Alan
+Thanks,
+Max
