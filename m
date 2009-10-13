@@ -1,72 +1,96 @@
-From: Boyan <btanastasov@yahoo.co.uk>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Tue, 13 Oct 2009 23:08:44 +0300
-Message-ID: <4AD4DE4C.4010402@yahoo.co.uk>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera> <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com> <87ljjgfcbu.fsf@spindle.srvr.nix> <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain> <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain> <4AD3F769.5080405@gmail.com> <alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net> <4AD437F9.9020708@yahoo.co.uk> <alpine.LFD.2.01.0910130745550.3438@localhost.localdomain>
+From: Frans Pop <elendil@planet.nl>
+Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
+Date: Tue, 13 Oct 2009 22:38:37 +0200
+Message-ID: <200910132238.40867.elendil@planet.nl>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <20091012134328.GB8200@csn.ul.ie> <200910121932.14607.elendil@planet.nl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S934266AbZJMUJH@vger.kernel.org>
-In-Reply-To: <alpine.LFD.2.01.0910130745550.3438@localhost.localdomain>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: =?ISO-8859-1?Q?=22Fr=E9d=E9ric_L=2E_W=2E_Meunier=22?= <fredlwm@gmail.com>, "Justin P. Mattock" <justinmattock@gmail.com>, Nix <nix@esperi.org.uk>, Alan Cox <alan@lxorguk.ukuu.org.uk>, Paul Fulghum <paulkf@microgate.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <200910121932.14607.elendil@planet.nl>
+Content-Disposition: inline
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Mel Gorman <mel@csn.ul.ie>
+Cc: David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org
 
-Linus Torvalds wrote:
- > The whole "CPU intensive" thing makes me wonder..
+On Monday 12 October 2009, Frans Pop wrote:
+> On Monday 12 October 2009, Mel Gorman wrote:
+> > but after some digging around in this general area, I saw this patch
+> >
+> > 4752c93c30 iwlcore: Allow skb allocation from tasklet
+>
+> That is v2.6.30-rc6-773-g4752c93, which is part of the first wireless
+> merge I tested and where I saw no issues. But see below.
+>
+> > This patch increases the number of GFP_ATOMIC allocations that can
+> > occur by allocating GFP_ATOMIC in some cases and GFP_KERNEL in others.
+> > Previously, only GFP_KERNEL was used and I didn't realise this
+> > allocation method was so recent. Problems of this sort have cropped up
+> > before and while there are later changes that suppress some of these
+> > warnings, I believe this is a strong candidate for where the
+> > allocation failures started appearing.
 
-When it breaks the first time and I switch to text console and go back
-in X then it is really easy to trigger. Just "make modules_install" is
-enough to stop the keyboard. At such cases starting to compile kernel
-will keep the keyboard non functional until it is finished.
-I don't know the internals of X, but for me it seems something in X is
-broken, such as if the system is busy and it takes too much time to
-"realize" that some key is pressed, it decides to just "switch off" the
-keyboard as it is broken, then when switch to text console and go back
-in X it "switches on" the keyboard again.
+I have tried reverting this patch and that does make a significant 
+difference, but the results are still not really conclusive.
+I tested the revert on top of:
+- the first net-next-2.6 merge (2ed0e21), i.e. before the mm merge
+- 2.6.31.1
 
- >
-> Do you have 'CONFIG_PREEMPT' enabled? Normally, "CPU intensive" does not 
-> at all increase the likelihood of any kernel races, but with kernel 
-> preemption we may well hit some preemption point and switch away, and make 
-> some race window much bigger.
+In both cases I no longer get SKB errors, but instead (?) I get firmware 
+errors:
+iwlagn 0000:10:00.0: Microcode SW error detected.  Restarting 0x2000000.
 
-Yes, CONFIG_PREEMPT=y
+So on the wireless side it does look as if there is more than one change 
+involved. Remember that with .30 I don't get any errors, only relatively 
+mild latencies and skips in the music.
 
-> 
-> So if you do have CONFIG_PREEMPT on, try to turn it off and see if it 
-> makes the problem go away. Also, are people seeing this always running SMP 
-> kernels, or are there UP kernels out there too (on UP _without_ preemption 
-> it is almost impossible to hit 99% of all race conditions, so if anybody 
-> is running an UP kernel with no preemption, then I'd be very surprised if 
-> it is a kernel issue).
+> I really do think that v2.6.30-rc6-1032-g7ba10a8 could play a role here.
+> That's a fix for v2.6.30-rc1-1131-gaa837e1. So that bug was introduced
+> _before_ the merge 82d0481 and may thus well explain both the latencies
+> I saw _and_ why that merge tested without problems. And that would also
+> go a long way to explain my test results.
+> So I'm going to retest 82d0481 with 7ba10a8 cherry-picked on top.
+                         ^^^^^^^-- should be 45ea4ea
 
-My system is UP, Athlon XP, 1.83GHz, video ATI 9550. Now I've tested
-with:
-CONFIG_PREEMPT_NONE=y
-# CONFIG_PREEMPT_VOLUNTARY is not set
-# CONFIG_PREEMPT is not set
+I've tried this but still don't get any SKB errors, so that bug does not 
+seem to make a difference.
 
-and I couldn't trigger the problem.
+> > > BISECTION of akpm (mm) MERGE
+> > > ----------------------------
+> > While I didn't spot anything too out of the ordinary here, they did
+> > occur shortly after a number of other page allocator related patches.
+> > One small thing I noticed there is that kswapd is getting woken up
+> > less now than it did previously. Generally, I wouldn't have expected
+> > it to make a difference but it's possible that kswapd is not being
+> > woken up to reclaim at a higher order than it was previously. I have a
+> > patch for this below. It'd be nice if you could apply it and see do
+> > fewer allocation failures occur on current mainline.
+>
+> I'll give that patch a try and report back.
 
-> 
-> But I also still wonder if it might be user-space races, and just the 
-> timing differences in the kernel. I don't know the input layer in X well 
-> enough, I'm wondering if things like composition engine/window manager 
-> could screw up here. Is there some pattern to the X versions (and/or 
-> window managers and composition engines)?
+With your patch on .32-rc4 I still get the SKB errors, so it does not seem 
+to help. The only change there may have been is that the desktop was 
+frozen longer than without the patch, but that is an impression, not a 
+hard fact.
 
-For my case it doesn't matter X version - 1.6.1 was the previous Fedora
-11 X, and it worked couple of months for me without such problems.
-At the middle of September they've updated it to 1.6.4 - only X, not
-the driver I'm using (ati) and it started to behave really slow on my
-system - I see it as slower redraw of windows, rather irritating,
-and I thought the keyboard problem is related to this, but then tested
-it with the older version and it was the same.
-Finally last weekend found time to bisect this and the result was
-the mentioned commit: e043e42bdb66885b3ac10d27a01ccb9972e2b0a3
-(pty: avoid forcing 'low_latency' tty flag).
 
-Composite is enabled in my X config, but I don't have compiz or
-something like that enabled. DRI is enabled.
+Although identifying the problem on the wireless side is important, I still 
+feel that tracing the mm change should have priority as it influences much 
+more than just iwlagn, as the other reports prove.
+
+> > After that, could you edit drivers/net/wireless/iwlwifi/iwl-rx.c and
+> > make the GFP_ATOMIC in iwl_rx_replenish_now() GFP_ATOMIC|__GFP_NOWARN
+> > and see do any of the "serious" allocation failure messages appear.
+
+For the above reason I've not yet tried this. It seems to me that this 
+change will not really solve anything, but just suppress errors.
+
+Cheers,
+FJP
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
