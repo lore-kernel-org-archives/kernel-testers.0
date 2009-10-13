@@ -1,35 +1,53 @@
-From: Paul Fulghum <paulkf@microgate.com>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Tue, 13 Oct 2009 08:25:22 -0500
-Message-ID: <4AD47FC2.9060303@microgate.com>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>	<L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>	<C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com>	<87ljjgfcbu.fsf@spindle.srvr.nix>	<alpine.LFD.2.01.0910121703390.3438@localhost.localdomain>	<alpine.LFD.2.01.0910122004200.3438@localhost.localdomain> <20091013113232.384b2432@lxorguk.ukuu.org.uk>
+From: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Subject: Re: [Bug #14278] New message "NOHZ: local_softirq_pending 08" at
+	each ping request
+Date: Tue, 13 Oct 2009 10:27:26 -0400
+Message-ID: <20091013142726.GA2747@tuxdriver.com>
+References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera> <r-4Wjt4coy.A.VeE.Bbl0KB@chimera> <200910121515.49393.mb@bu3sch.de> <200910122349.39408.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759898AbZJMN06@vger.kernel.org>
-In-Reply-To: <20091013113232.384b2432@lxorguk.ukuu.org.uk>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <200910122349.39408.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alan Cox <alan@lxorguk.ukuu.org.uk>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Nix <nix@esperi.org.uk>, "Justin P. Mattock" <justinmattock@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Boyan <btanastasov@yahoo.co.uk>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, =?ISO-8859-1?Q?=22Fr=E9d=E9ric_L=2E_W=2E_?= =?ISO-8859-1?Q?Meunier=22?= <fredlwm@gmail.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Michael Buesch <mb-fseUSCV1ubazQB+pC5nmwQ@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
 
-Alan Cox wrote:
-> The tty_buffer_request_room() is a hint to help better allocation. It's
-> also only safe to run from the receiving path of the driver (which
-> has always been assumed not to make two parallel calls to the function at
-> once.
+On Mon, Oct 12, 2009 at 11:49:39PM +0200, Rafael J. Wysocki wrote:
+> On Monday 12 October 2009, Michael Buesch wrote:
+> > On Monday 12 October 2009 00:22:00 Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of recent regressions.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.31.  Please verify if it still should be listed and let me know
+> > > (either way).
+> > > 
+> > > 
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14278
+> > > Subject		: New message "NOHZ: local_softirq_pending 08" at each ping request
+> > > Submitter	: Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
+> > > Date		: 2009-09-30 18:12 (12 days old)
+> > > Handled-By	: Michael Buesch <mb-fseUSCV1ubazQB+pC5nmwQ@public.gmane.org>
+> > 
+> > I think John or Johannes is handling it, as my patch was rejected.
+> > 
+> > > Patch		: http://bugzilla.kernel.org/attachment.cgi?id=23220
+> 
+> Johannes, what's the status here?
 
-Yes, the locking only synchronizes between
-producer and consumer. It does not coordinate between
-multiple producers as it provides a lot of flexibility
-(and responsibility) to the producer in how to fill the buffers.
+Johannes posted a patch here:
 
+	http://marc.info/?l=linux-wireless&m=125525657120789&w=2
+
+It is on my merge train, but it hasn't gone to Linus (or Dave) just
+yet -- probably today.
+
+Hth!
+
+John
 -- 
-Paul Fulghum
-MicroGate Systems, Ltd.
-=Customer Driven, by Design=
-(800)444-1982
-(512)345-7791 (Direct)
-(512)343-9046 (Fax)
-Central Time Zone (GMT -5h)
-www.microgate.com
+John W. Linville		Someday the world will need a hero, and you
+linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org			might be all we have.  Be ready.
