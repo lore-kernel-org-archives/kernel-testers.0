@@ -1,42 +1,29 @@
-From: Massimo Cetra <mcetra@navynet.it>
+From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Subject: Re: [Bug #14378] Problems with net/core/skbuff.c
-Date: Tue, 13 Oct 2009 11:23:48 +0200
-Message-ID: <4AD44724.4040105@navynet.it>
-References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera>	<r-4Wjt4coy.A.CwC.Wal0KB@chimera> <20091012.034224.64980795.davem@davemloft.net> <4AD44435.3050703@navynet.it>
+Date: Tue, 13 Oct 2009 03:22:37 -0700 (PDT)
+Message-ID: <20091013.032237.45775304.davem@davemloft.net>
+References: <r-4Wjt4coy.A.CwC.Wal0KB@chimera>
+	<20091012.034224.64980795.davem@davemloft.net>
+	<4AD44435.3050703@navynet.it>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759276AbZJMJYf@vger.kernel.org>
-In-Reply-To: <4AD44435.3050703@navynet.it>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4AD44435.3050703-BBpJ+9iBSNKonA0d6jMUrA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Massimo Cetra <ctrixk@navynet.it>
-Cc: David Miller <davem@davemloft.net>, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: ctrixk-BBpJ+9iBSNKonA0d6jMUrA@public.gmane.org
+Cc: rjw-KKrjLPT3xs0@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Massimo Cetra ha scritto:
-> David Miller ha scritto:
->> From: "Rafael J. Wysocki" <rjw@sisk.pl>
->> Date: Mon, 12 Oct 2009 00:22:04 +0200 (CEST)
->>
->>  
->>> Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=14378
->>> Subject        : Problems with net/core/skbuff.c
->>> Submitter    : Massimo Cetra <mcetra@navynet.it>
->>> Date        : 2009-10-08 14:51 (4 days old)
->>> References    : http://marc.info/?l=linux-kernel&m=125501488220358&w=4
->>>     
->>
->> I don't know what to do about this one.
->>
->> The user indicates that they have the vserver patches applied,
->> so maybe there is some interaction with that stuff.
->>   
-> Actually i found another oops which is very similar to the previous one.
+From: Massimo Cetra <ctrixk-BBpJ+9iBSNKonA0d6jMUrA@public.gmane.org>
+Date: Tue, 13 Oct 2009 11:11:17 +0200
 
-And here it is another one, this time triggered by postfix, where mor 
-drbd nor vserver are involved.
-This is not the same server where the other oopses were grabbed.
+> Here, vserver is not involved, and the problem starts at drbd which
+> lives in kernel space (the other oops started at ocfs2).
+> 
+> Both ocfs2 and drbd make heavy use of network I/O so i guess the
+> problem is something in the network layer.
+> 
+> Anything i can do to help to debugging and solving this issue ?
 
-Max
-
-
+Is all of your traffic going over virtio_net?
