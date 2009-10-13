@@ -1,34 +1,46 @@
-From: Alan Cox <alan@lxorguk.ukuu.org.uk>
+From: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
 Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Tue, 13 Oct 2009 11:34:34 +0100
-Message-ID: <20091013113434.22f4fcde@lxorguk.ukuu.org.uk>
+Date: Tue, 13 Oct 2009 12:00:46 +0100
+Message-ID: <20091013120046.5efb3365@lxorguk.ukuu.org.uk>
 References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
 	<L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>
 	<C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com>
 	<87ljjgfcbu.fsf@spindle.srvr.nix>
-	<alpine.LFD.2.01.0910121703390.3438@localhost.localdomain>
-	<alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
-	<4AD3F769.5080405@gmail.com>
+	<20091013003841.6c2988d0@lxorguk.ukuu.org.uk>
+	<20091012234641.GF8345@core.coreip.homeip.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S933883AbZJMKeA@vger.kernel.org>
-In-Reply-To: <4AD3F769.5080405@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20091012234641.GF8345-WlK9ik9hQGAhIp7JRqBPierSzoNAToWh@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Justin P. Mattock" <justinmattock@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Nix <nix@esperi.org.uk>, Paul Fulghum <paulkf@microgate.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Boyan <btanastasov@yahoo.co.uk>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, " =?ISO-8859-14?B?RnLpZOlyaWM=?= L. W. Meunier" <fredlwm@gmail.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Nix <nix-dKoSMcxRz+Te9xe1eoZjHA@public.gmane.org>, "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, "=?ISO-8859-14?B?RnLpZOlyaWM=?= L. W. Meunier" <fredlwm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
 
-> I can throw your patch in over here for the heck of it.
-> If there's somebody who's really hitting this bug
-> then the results would be better  if this is the area that causing
-> this bug.(from here the only issue I'm seeing is spinning
-> history commands in the terminal  from time to time,
-> nothing of any unusable keys like others are reporting).
+On Mon, 12 Oct 2009 16:46:41 -0700
+Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 
-That sounds more like a lost key-up event somewhere higher up the stack.
-USB keyboard ? and does it stop if you take the key in question. Also does
-it stop if you touch the mouse wheel (assuming you've got mousewheel
-bound to shell history somewhere ?)
+> On Tue, Oct 13, 2009 at 12:38:41AM +0100, Alan Cox wrote:
+> > > So it seems likely to me that this is a kernel bug, somewhere, and the
+> > > TTY layer seems like a good place to look (OK, a horrible place, but a
+> > > *likely* place).
+> > 
+> > Somewhere around 2.6.29-30 various things went funny in the keyboard
+> > layer for me - notably characters "bleeding" across console switches.
+> > 
+> 
+> What do you mean by "bleeding"? Are you sure it is not autorepeat
+> kicking in?
 
-Alan
+Fairly. Just now and then I'll do something like type
+
+"blahblah<alt-f1>"
+
+eg when flipping consoles to check something and the last letter or two
+ends up on the screen after the flip (as if the alt-f1 vc switch passes
+the data somewhere). I suspect its some kind of asynchronous handling
+using the "current console" rather than the "current console at the time
+the letter was typed" but it doesn't occur to order so isn't bisectable
+and I've never managed to pin down where in the keyboard/vt/tty stack it's
+occurring.
