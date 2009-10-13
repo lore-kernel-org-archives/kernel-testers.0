@@ -1,39 +1,51 @@
-From: Paul Fulghum <paulkf-CZzk0lvu1V9l57MIdRCFDg@public.gmane.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
 Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Tue, 13 Oct 2009 10:33:00 -0500
-Message-ID: <1255447980.3898.3.camel@x2.microgate.com>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
-	 <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>
-	 <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com>
-	 <87ljjgfcbu.fsf@spindle.srvr.nix>
-	 <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain>
-	 <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
-	 <20091013113232.384b2432@lxorguk.ukuu.org.uk>
-	 <alpine.LFD.2.01.0910130721530.3438@localhost.localdomain>
+Date: Tue, 13 Oct 2009 08:41:23 -0700 (PDT)
+Message-ID: <alpine.LFD.2.01.0910130837370.26777@localhost.localdomain>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>  <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>  <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com>  <87ljjgfcbu.fsf@spindle.srvr.nix>  <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain> 
+ <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>  <20091013113232.384b2432@lxorguk.ukuu.org.uk>  <alpine.LFD.2.01.0910130721530.3438@localhost.localdomain> <1255447980.3898.3.camel@x2.microgate.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.01.0910130721530.3438-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1760346AbZJMPm4@vger.kernel.org>
+In-Reply-To: <1255447980.3898.3.camel@x2.microgate.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Nix <nix-dKoSMcxRz+Te9xe1eoZjHA@public.gmane.org>, "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, "=?ISO-8859-1?Q?Fr=E9d=E9ric?= L. W. Meunier" <fredlwm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Paul Fulghum <paulkf@microgate.com>
+Cc: Alan Cox <alan@lxorguk.ukuu.org.uk>, Nix <nix@esperi.org.uk>, "Justin P. Mattock" <justinmattock@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Boyan <btanastasov@yahoo.co.uk>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, =?ISO-8859-15?Q?Fr=E9d=E9ric_L=2E_W=2E_Meunier?= <fredlwm@gmail.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 
-On Tue, 2009-10-13 at 07:39 -0700, Linus Torvalds wrote:
-> It's not a f*cking performance tweak, and you're ludicrous to claim it is. 
-> It's pointless, and it's making the code _slower_ rather than faster.
-> 
-> Lookie here, Alan - the common sequence is crap like this:
-> 
-> 	tty_buffer_request_room(tty, buf->size);
-> 	tty_insert_flip_string(tty, buf->base, buf->size);
 
-The performance tweak of tty_prepare_xxx is that you fill
-the tty_buffer directly instead of writing data first to a staging
-buffer and then calling tty_insert_flip_string, which just copies
-from the staging buffer to the tty_buffer. So it saves a copy operation.
- 
---
-Paul Fulghum
-Microgate Systems, Ltd
+
+On Tue, 13 Oct 2009, Paul Fulghum wrote:
+
+> On Tue, 2009-10-13 at 07:39 -0700, Linus Torvalds wrote:
+> > It's not a f*cking performance tweak, and you're ludicrous to claim it is. 
+> > It's pointless, and it's making the code _slower_ rather than faster.
+> > 
+> > Lookie here, Alan - the common sequence is crap like this:
+> > 
+> > 	tty_buffer_request_room(tty, buf->size);
+> > 	tty_insert_flip_string(tty, buf->base, buf->size);
+> 
+> The performance tweak of tty_prepare_xxx is that you fill
+> the tty_buffer directly instead of writing data first to a staging
+> buffer and then calling tty_insert_flip_string, which just copies
+> from the staging buffer to the tty_buffer. So it saves a copy operation.
+
+Read the above again. Read what that common sequence is. Please just READ 
+the f*cking code, and read my emails, instead of talking about something 
+totally different that I'm not talking about at all.
+
+The _most_common_ use of "tty_buffer_request_room()" is literally just the 
+above insane sequence I quoted, not the case you talk about at all. Don't 
+believe me? Use grep.
+
+What _you_ are talking about is something else, namely the 
+tty_prepare_flip stuff. But dammit, that has nothing what-so-ever to do 
+with "tty_buffer_request_room()".
+
+What I was pointing out is that there are a lot of 
+"tty_buffer_request_room()" calls, and as far as I can see, all of them 
+(or at least a large percentage) are just pure and utter crap.
+
+		Linus
