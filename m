@@ -1,66 +1,35 @@
-From: Volker Armin Hemmann <volkerarmin-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [Bug #14264] ehci problem - mouse dead on scroll
-Date: Tue, 13 Oct 2009 17:55:20 +0200
-Message-ID: <200910131755.20166.volkerarmin@googlemail.com>
-References: <Pine.LNX.4.44L0.0910131132150.3169-100000@iolanthe.rowland.org>
+From: Andi Kleen <andi@firstfloor.org>
+Subject: Re: [Bug #14388] keyboard under X with 2.6.31
+Date: Tue, 13 Oct 2009 17:56:47 +0200
+Message-ID: <20091013155647.GB2127@basil.fritz.box>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera> <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com> <87ljjgfcbu.fsf@spindle.srvr.nix> <20091013003841.6c2988d0@lxorguk.ukuu.org.uk> <20091012234641.GF8345@core.coreip.homeip.net> <20091013120046.5efb3365@lxorguk.ukuu.org.uk> <alpine.LRH.2.00.0910131645290.12171@twin.jikos.cz>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:received:received:from:to:subject:date
-         :user-agent:cc:references:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:message-id;
-        bh=CoIIvh+wck8IVbHlhezvKrou1XmMnfBrw+AIH7WEqzw=;
-        b=jZe1xMNY0EH8lNkxZ0N2UX29twg/n62R8gmGjfdNuxakzSFeb3vfESSBLJPpYEF70Q
-         uOKLUVLKICntre5liRw9lV0bS1o4kBQqUUGX/bCrrBRi+iXnuM83ZEYQbgnnZXVjowfw
-         sc+wDiUINSGO8ocO7nQem7/3Fx/PGWWiuiQnY=
-In-Reply-To: <Pine.LNX.4.44L0.0910131132150.3169-100000-IYeN2dnnYyZXsRXLowluHWD2FQJk+8+b@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S933925AbZJMP53@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.LRH.2.00.0910131645290.12171@twin.jikos.cz>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Jiri Kosina <jkosina@suse.cz>
+Cc: Alan Cox <alan@lxorguk.ukuu.org.uk>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Nix <nix@esperi.org.uk>, "Justin P. Mattock" <justinmattock@gmail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Boyan <btanastasov@yahoo.co.uk>, Ed Tomlinson <edt@aei.ca>, =?iso-8859-1?B?RnLpZOlyaWMgTC4gVy4=?= Meunier <fredlwm@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Andi Kleen <andi@firstfloor.org>
 
-On Dienstag 13 Oktober 2009, Alan Stern wrote:
-> On Mon, 12 Oct 2009, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.30 and 2.6.31.
-> >
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> > be listed and let me know (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14264
-> > Subject		: ehci problem - mouse dead on scroll
-> > Submitter	: Volker Armin Hemmann <volkerarmin-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-> > Date		: 2009-09-12 7:46 (30 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=125274202707893&w=4
-> > Handled-By	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+> This has been reported by Andi Kleen some time ago [1] [2]. He seems to 
+> have had clear idea between which kernel versions this started happening 
+> and seemed to be able to reproduce it very reliably (which wasn't the case 
+> on my side), but I don't think he bisected it down to single commit yet.
 > 
-> This is probably a hardware problem in the mouse or the Logitech
-> receiver.  It affected both EHCI and OHCI, and it was not reproducible
-> with a different mouse.  But Volker hasn't reported any results since
-> the end of September.
-> 
-> Volker, another good test would be to try plugging your mouse into
-> someone else's computer.
-> 
-> Alan Stern
-> 
+> Andi?
 
-yeah, that is a problem - I am pretty 'alone' in regard of linux users. I know 
-very few, and they have either only servers without X or run some stable 
-distributions with old kernels.
+I've never tried to bisect it, but I think it was introduced between
+.29->.30. Or at least I had never noticed the problem before upgrading
+to some .30rc*
 
-It is probably hardware related. I have tried two other mice and both were ok. 
-Both had a lesser resolution and were slower, but that shouldn't make any 
-difference.
+My symptoms were slightly different from Alan though, for me the actual
+console switch leaked. I can't remember seeing keys before the switch
+leaking too.
 
-I wanted to try some of the 32-rcs to see if they make any difference but the 
-reiser4 for 2.6.31 patch does not result in a buildable kernel anymore, thanks 
-to changes in writeback.h. So all I can say is:
-2.6.31 is ok with the logitech, using ehci+hub+Translator settings and that is 
-good enough for me.
-every other mouse is ok with either ohci or attached to the hub.
+-Andi
+
+-- 
+ak@linux.intel.com -- Speaking for myself only.
