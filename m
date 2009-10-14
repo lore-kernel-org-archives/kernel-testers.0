@@ -1,70 +1,40 @@
-From: reinette chatre <reinette.chatre@intel.com>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Wed, 14 Oct 2009 14:55:17 -0700
-Message-ID: <1255557317.21134.82.camel@rc-desk>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
-	 <20091014165051.GE5027@csn.ul.ie> <1255552911.21134.51.camel@rc-desk>
-	 <200910142333.29625.elendil@planet.nl>
+From: David Miller <davem@davemloft.net>
+Subject: Re: [Bug #14388] keyboard under X with 2.6.31
+Date: Wed, 14 Oct 2009 14:51:39 -0700 (PDT)
+Message-ID: <20091014.145139.148344015.davem@davemloft.net>
+References: <alpine.LFD.2.01.0910141131050.6146@localhost.localdomain>
+	<20091014195215.GA12936@redhat.com>
+	<20091014221633.1b865651@lxorguk.ukuu.org.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <200910142333.29625.elendil@planet.nl>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Frans Pop <elendil@planet.nl>
-Cc: Mel Gorman <mel@csn.ul.ie>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, "Abbas, Mohamed" <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759571AbZJNVvp@vger.kernel.org>
+In-Reply-To: <20091014221633.1b865651@lxorguk.ukuu.org.uk>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: alan@lxorguk.ukuu.org.uk
+Cc: oleg@redhat.com, torvalds@linux-foundation.org, paulkf@microgate.com, btanastasov@yahoo.co.uk, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, dmitry.torokhov@gmail.com, edt@aei.ca, hirofumi@mail.parknet.co.jp
 
-On Wed, 2009-10-14 at 14:33 -0700, Frans Pop wrote:
-> On Wednesday 14 October 2009, reinette chatre wrote:
-> > We do queue the GFP_KERNEL allocations when there are only a few buffers
-> > remaining in the queue (8 right now) ...
+From: Alan Cox <alan@lxorguk.ukuu.org.uk>
+Date: Wed, 14 Oct 2009 22:16:33 +0100
+
+>> Assuming that we should not check all CPUs. And in this case perhaps we can
+>> even do something like
+>> 
+>> 	if (!delayed_work_pending() &&
+>> 	    get_wq_data()->current_work != dwork)
+>> 		return;
+>> 
+>> but this needs barriers, and run_workqueue() needs mb__before_clear_bit().
 > 
-> Are you sure of this? I have zero messages in my logs about allocation 
-> failures with GFP_KERNEL, but I do have plenty with "Only 0 free buffers 
-> remaining" with GFP_ATOMIC.
+> Linus correctly said that we got into the mess because the locking was
+> too clever before. At this point the mutex approach seems to be rather
+> preferable to the other approaches which are at least as "clever" as the
+> current locking
 
-That does make sense to me. We do not expect allocations with GFP_KERNEL
-to fail. Considering how I understand how things work I am considering
-the following scenario:
+FWIW I've been seeing behavior that is almost certainly caused by this
+bug for a while, I lose 'control' or 'shift' key-down events and this
+is entirely independent of keyboard attached (i've tried several) and
+seems to only happen on an SMP box.
 
-* start with system low on available memory
-* now introduce incoming traffic (causing the RX code to run)
-* upon receipt of frame we attempt an allocation (to reclaim the buffer)
-with GFP_ATOMIC (state: num RX buffer free > watermark)
-  * this fails since memory is not available
-  * num RX buffer free reduces
-  * does _not_ queue replenishment of buffers with GFP_KERNEL
-* repeat above until we hit the watermark (currently 8)
-* upon receipt of frame we attempt an allocation (to reclaim the buffer)
-with GFP_ATOMIC (state: num RX buffer free <= watermark) 
-  * this fails (now user sees big warning)
-  * queue replenishment of buffers with GFP_KERNEL
-
-Essentially what I suspect could happen is that
-we do attempt to replenish the buffers with GFP_KERNEL after several
-failures with GFP_ATOMIC, but at that point we have already run out
-completely.
-
-One way to test this theory is to queue the GFP_KERNEL allocation
-earlier (when we still have a significant number of RX buffers
-available), 8 may turn out to be too small.
-
-> Does that indicate a bug or could they fall under the ratelimit somehow?
-
-In your kernel log I do see that the driver's error messages related to
-GFP_ATOMIC are rate limited (we see many more "order-2 allocation
-failure" messages than the "Failed to allocate" messages). All of these
-allocation failures are from the "replenish_now" code though, which is
-GFP_ATOMIC. So even though we do not see the "Failed to allocate" errors
-(which are rate limited) it seems that all allocation failures are from
-that (the GFP_ATOMIC) code.
-
-Reinette
-
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+It's most accutely annoying if it triggers while playing quake3 :-)
