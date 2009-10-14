@@ -1,56 +1,108 @@
-From: Massimo Cetra <mcetra@navynet.it>
-Subject: Re: [Bug #14378] Problems with net/core/skbuff.c
-Date: Wed, 14 Oct 2009 21:27:34 +0200
-Message-ID: <4AD62626.6010709@navynet.it>
-References: <zJ_pXHNwoHC.A.akB.Aal0KB@chimera>	<r-4Wjt4coy.A.CwC.Wal0KB@chimera> <20091012.034224.64980795.davem@davemloft.net> <4AD44435.3050703@navynet.it> <4AD45447.7030705@gmail.com> <4AD455E4.2070105@navynet.it>
+From: Oleg Nesterov <oleg@redhat.com>
+Subject: Re: [Bug #14388] keyboard under X with 2.6.31
+Date: Wed, 14 Oct 2009 21:52:15 +0200
+Message-ID: <20091014195215.GA12936@redhat.com>
+References: <4AD4F548.2030506@microgate.com> <alpine.LFD.2.01.0910131514100.3404@localhost.localdomain> <1255478932.19056.24.camel@localhost.localdomain> <4AD51D6B.7010509@microgate.com> <alpine.LFD.2.01.0910131744590.3404@localhost.localdomain> <20091014125846.1a3c8d40@lxorguk.ukuu.org.uk> <alpine.LFD.2.01.0910140804180.6146@localhost.localdomain> <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain> <20091014182037.GA10076@redhat.com> <alpine.LFD.2.01.0910141131050.6146@localhost.localdomain>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1758976AbZJNT2W@vger.kernel.org>
-In-Reply-To: <4AD455E4.2070105@navynet.it>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S932614AbZJNT5q@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.LFD.2.01.0910141131050.6146@localhost.localdomain>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Eric Dumazet <eric.dumazet@gmail.com>
-Cc: Massimo Cetra <ctrixk@navynet.it>, David Miller <davem@davemloft.net>, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Alan Cox <alan@lxorguk.ukuu.org.uk>, Paul Fulghum <paulkf@microgate.com>, Boyan <btanastasov@yahoo.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 
-Massimo Cetra ha scritto:
-> Eric Dumazet ha scritto:
->> Could you please following patch ?
->>
->> diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
->> index 8d00976..54bf091 100644
->> --- a/drivers/net/virtio_net.c
->> +++ b/drivers/net/virtio_net.c
->> @@ -454,7 +454,7 @@ static unsigned int free_old_xmit_skbs(struct 
->> virtnet_info *vi)
->>          vi->dev->stats.tx_bytes += skb->len;
->>          vi->dev->stats.tx_packets++;
->>          tot_sgs += skb_vnet_hdr(skb)->num_sg;
->> -        kfree_skb(skb);
->> +        dev_kfree_skb_any(skb);
->>      }
->>      return tot_sgs;
->>  }
->>
->>
->>   
-> Thank you very much.
+On 10/14, Linus Torvalds wrote:
 >
-> Compiling.
-> It' will be in production in a few minutes.
-> I'll let you know if the problem arises again.
-> give me a couple of days because this problem is randomly triggered.
-> Sometimes it happens multiple times a day, sometimes none.
+> On Wed, 14 Oct 2009, Oleg Nesterov wrote:
+> >
+> > >  void tty_flush_to_ldisc(struct tty_struct *tty)
+> > >  {
+> > > -	flush_to_ldisc(&tty->buf.work.work);
+> > > +	flush_delayed_work(&tty->buf.work);
+> > >  }
+> >
+> > Can't comment this change because I don't understand the problem.
 >
-Eric,
-thanks for the patch.
-The problem didn't arise again and i haven't seen any warning like that 
-on both servers where that problem was happening more frequently.
+> The work function is "flush_to_ldisc()", and what we want to make sure of
+> is that the work has been called.
 
-I would say that it's fixed and if it's not, i'll let you know as soon 
-as it happens again.
+Thanks... This contradicts with
 
-Thanks again,
-Max
+> > As for tty_flush_to_ldisc(), what if tty->buf.work.work was not scheduled?
+> > In this case flush_delayed_work() does nothing. Is it OK?
+>
+> Yes. In fact, it would be a bonus over our current "we always call that
+> flush function whether it was scheduled or not" code.
+
+But I guess I understand what you meant.
+
+> If the del_timer() fails, the timer might still be running on another CPU
+> right at that moment, but not quite have queued the work yet. And then
+> we'd potentially get the wrong 'cwq' in flush_work() (we'd use the 'saved'
+> work), and not wait for it.
+
+Or we can get the right cwq, but since the work is not queued and it is not
+cwq->current_work, flush_work() correctly assumes there is nothing to do.
+
+> I wonder if we could mark the case of "workqueue is on timer" by setting
+> the "work->entry" list to some special value. That way
+>
+> 	list_empty(&work->entry)
+>
+> would always mean "it's neither pending _nor_ scheduled", and
+> flush_delayed_work() could have a fast-case check that at the top:
+>
+> 	if (list_empty(&work->entry))
+> 		return;
+
+Yes, but we already have this - delayed_work_pending(). If it is
+false, it is neither pending nor scheduled. But it may be running,
+we can check cwq->current_work.
+
+The problem is, should we check all CPUs to detect the running case?
+please see below.
+
+> > And just in case... Of course, if dwork was pending and running on another CPU,
+> > then flush_delayed_work(dwork) can return before the running callback terminates.
+> > But I guess this is what we want.
+>
+> No, we want to wait for the callback to terminate, so we do want to hit
+> that 'flush_work()' case.
+
+Hmm. Now I am confused.
+
+OK. Lets suppose dwork's callback is running on CPU 0.
+
+A thread running on CPU 1 does queue_delayed_work(dwork, delay).
+
+Now, flush_workqueue() will flush the 2nd "queue_delayed_work" correctly,
+but it can return before "running on CPU 0" completes.
+
+If this is not what we want, then we have to iterate over all CPUs.
 
 
+As for optimization, I think you are right and flush_delayed_work()
+can do
+	if (delayed_work_pending() && del_timer_sync()) {
+		...
+	}
+	flush_work();
+
+Assuming that we should not check all CPUs. And in this case perhaps we can
+even do something like
+
+	if (!delayed_work_pending() &&
+	    get_wq_data()->current_work != dwork)
+		return;
+
+but this needs barriers, and run_workqueue() needs mb__before_clear_bit().
+
+
+I'll try to think more tomorrow, but I doubt it is possible to avoid
+del_timer_sync() logic. Whatever we do, if we hit the queueing in progress
+we should spin until it is finished.
+
+Oleg.
