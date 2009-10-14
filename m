@@ -1,44 +1,38 @@
-From: Linus Torvalds <torvalds@linux-foundation.org>
+From: Alan Cox <alan@lxorguk.ukuu.org.uk>
 Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Wed, 14 Oct 2009 14:02:10 -0700 (PDT)
-Message-ID: <alpine.LFD.2.01.0910141356400.6146@localhost.localdomain>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com> <87ljjgfcbu.fsf@spindle.srvr.nix> <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain> <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
- <4AD3F769.5080405@gmail.com> <alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net> <4AD437F9.9020708@yahoo.co.uk> <alpine.LFD.2.01.0910130745550.3438@localhost.localdomain> <4AD4DE4C.4010402@yahoo.co.uk> <alpine.LFD.2.01.0910131317360.26777@localhost.localdomain>
- <4AD4F548.2030506@microgate.com> <alpine.LFD.2.01.0910131514100.3404@localhost.localdomain> <1255478932.19056.24.camel@localhost.localdomain> <4AD51D6B.7010509@microgate.com> <alpine.LFD.2.01.0910131744590.3404@localhost.localdomain>
- <20091014125846.1a3c8d40@lxorguk.ukuu.org.uk> <alpine.LFD.2.01.0910140804180.6146@localhost.localdomain> <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain> <4AD62DAD.9010604@yahoo.co.uk>
+Date: Wed, 14 Oct 2009 22:16:33 +0100
+Message-ID: <20091014221633.1b865651@lxorguk.ukuu.org.uk>
+References: <4AD4F548.2030506@microgate.com>
+	<alpine.LFD.2.01.0910131514100.3404@localhost.localdomain>
+	<1255478932.19056.24.camel@localhost.localdomain>
+	<4AD51D6B.7010509@microgate.com>
+	<alpine.LFD.2.01.0910131744590.3404@localhost.localdomain>
+	<20091014125846.1a3c8d40@lxorguk.ukuu.org.uk>
+	<alpine.LFD.2.01.0910140804180.6146@localhost.localdomain>
+	<alpine.LFD.2.01.0910140925440.6146@localhost.localdomain>
+	<20091014182037.GA10076@redhat.com>
+	<alpine.LFD.2.01.0910141131050.6146@localhost.localdomain>
+	<20091014195215.GA12936@redhat.com>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759527AbZJNVDT@vger.kernel.org>
-In-Reply-To: <4AD62DAD.9010604@yahoo.co.uk>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1760468AbZJNVRZ@vger.kernel.org>
+In-Reply-To: <20091014195215.GA12936@redhat.com>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Boyan <btanastasov@yahoo.co.uk>
-Cc: Alan Cox <alan@lxorguk.ukuu.org.uk>, Oleg Nesterov <oleg@redhat.com>, Paul Fulghum <paulkf@microgate.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, hirofumi@mail.parknet.co.jp
+Content-Type: text/plain; charset="us-ascii"
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Paul Fulghum <paulkf@microgate.com>, Boyan <btanastasov@yahoo.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 
-
-
-On Wed, 14 Oct 2009, Boyan wrote:
+> Assuming that we should not check all CPUs. And in this case perhaps we can
+> even do something like
 > 
-> Works for me. I couldn't reproduce the problem with only this patch on
-> top of  2.6.31.4.
+> 	if (!delayed_work_pending() &&
+> 	    get_wq_data()->current_work != dwork)
+> 		return;
+> 
+> but this needs barriers, and run_workqueue() needs mb__before_clear_bit().
 
-So just to verify: both the flush_to_ldisc() patch _and_ the 
-"flush_delayed_work()" one fixed the problem for you? And you tested them 
-independently? And you said you could reliably trigger it before?
-
-Ok, that makes me happy, because it implies that this really is the root 
-cause, with two different approaches to fixing the same problem both 
-working independently of each other.
-
-So if you confirm that I understand your test situation right, I will 
-probably commit them both: I think the flush_to_ldisc() patch is a real 
-locking improvement regardless of whether we then avoid calling it in a 
-nested manner or not, and the flush_delayed_work() thing seems to be the 
-right thing(tm) to do too.
-
-Besides, even with the flush_delayed_work() thing, we're still faced with 
-the theory of multiple keventd threads running the flush_to_ldisc on 
-separate CPU's. Even though it's probably unlikely enough to never happen.
-
-			Linus
+Linus correctly said that we got into the mess because the locking was
+too clever before. At this point the mutex approach seems to be rather
+preferable to the other approaches which are at least as "clever" as the
+current locking
