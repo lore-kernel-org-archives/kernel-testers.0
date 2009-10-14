@@ -1,108 +1,113 @@
-From: Oleg Nesterov <oleg@redhat.com>
+From: Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>
 Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Wed, 14 Oct 2009 21:52:15 +0200
-Message-ID: <20091014195215.GA12936@redhat.com>
-References: <4AD4F548.2030506@microgate.com> <alpine.LFD.2.01.0910131514100.3404@localhost.localdomain> <1255478932.19056.24.camel@localhost.localdomain> <4AD51D6B.7010509@microgate.com> <alpine.LFD.2.01.0910131744590.3404@localhost.localdomain> <20091014125846.1a3c8d40@lxorguk.ukuu.org.uk> <alpine.LFD.2.01.0910140804180.6146@localhost.localdomain> <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain> <20091014182037.GA10076@redhat.com> <alpine.LFD.2.01.0910141131050.6146@localhost.localdomain>
+Date: Wed, 14 Oct 2009 22:59:41 +0300
+Message-ID: <4AD62DAD.9010604@yahoo.co.uk>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera> <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com> <87ljjgfcbu.fsf@spindle.srvr.nix> <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain> <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain> <4AD3F769.5080405@gmail.com> <alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net> <4AD437F9.9020708@yahoo.co.uk> <alpine.LFD.2.01.0910130745550.3438@localhost.localdomain> <4AD4DE4C.4010402@yahoo.co.uk> <alpine.LFD.2.01.0910131317360.26777@localhost.localdomain> <4AD4F548.2030506@microgate.com> <alpine.LFD.2.01.0910131514100.3404@localhost.localdomain> <1255478932.19056.24.camel@localhost.localdomain> <4AD51D6B.7010509@microgate.com> <alpine.LFD.2.01.0910131744590.3404@localhost.localdomain> <2009101412584
+ 6.1a3c8d40@lxorguk.ukuu.org.uk> <alpine.LFD.2.01.0910140804180.6146@localhost.localdomain> <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S932614AbZJNT5q@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.LFD.2.01.0910141131050.6146@localhost.localdomain>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Alan Cox <alan@lxorguk.ukuu.org.uk>, Paul Fulghum <paulkf@microgate.com>, Boyan <btanastasov@yahoo.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.LFD.2.01.0910140925440.6146-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Paul Fulghum <paulkf-CZzk0lvu1V9l57MIdRCFDg@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org
 
-On 10/14, Linus Torvalds wrote:
->
-> On Wed, 14 Oct 2009, Oleg Nesterov wrote:
-> >
-> > >  void tty_flush_to_ldisc(struct tty_struct *tty)
-> > >  {
-> > > -	flush_to_ldisc(&tty->buf.work.work);
-> > > +	flush_delayed_work(&tty->buf.work);
-> > >  }
-> >
-> > Can't comment this change because I don't understand the problem.
->
-> The work function is "flush_to_ldisc()", and what we want to make sure of
-> is that the work has been called.
+Linus Torvalds wrote:
+> 
+> On Wed, 14 Oct 2009, Linus Torvalds wrote:
+>> But it's certainly true that it just never happened before. At least for 
+>> the !low_latency case, I'm not so sure about the low_latency=1 case, but I 
+>> haven't checked either - it would depend on any higher-level 
+>> serialization.
+> 
+> Btw, we _could_ try to solve this by adding some workqueue function to 
+> "run delayed work now", and then always doing the 'flush_to_ldisc()' 
+> through the workqueue logic.
+> 
+> So this is an "alternate patch": instead of making flush_to_ldisc() be 
+> safe to re-enter, we try to make sure it's always called through the whole 
+> workqueue logic and thus serialized by that.
+> 
+> Of course, keventd itself is multi-threaded, so I'm not entirely sure even 
+> -that- guarantees that one 'flush_to_ldisc()' couldn't be pending on one 
+> CPU while it is then scheduled and then run on another CPU concurrently 
+> too. The WORK_STRUCT_PENDING bit guarantees exclusion from the lists and 
+> from being pending, but the work might be both pending and _running_ at 
+> the same time, afaik.
+> 
+> I'm adding Oleg to the Cc, because he's the workqueue-master. Oleg?
+> 
+> The patch below is - surprise, surprise - entirely untested. I'm not sure 
+> my 'flush_delayed_work()' implementation is entirely kosher. But it looks 
+> like it might work, and it did compile for me (technically this is on top 
+> of my flush_to_ldisc() patch, but they should be independent of each 
+> other).
+> 
+> 			Linus
+> 
+> ---
+>  drivers/char/tty_buffer.c |    2 +-
+>  include/linux/workqueue.h |    1 +
+>  kernel/workqueue.c        |   18 ++++++++++++++++++
+>  3 files changed, 20 insertions(+), 1 deletions(-)
+> 
+> diff --git a/drivers/char/tty_buffer.c b/drivers/char/tty_buffer.c
+> index 0296612..66fa4e1 100644
+> --- a/drivers/char/tty_buffer.c
+> +++ b/drivers/char/tty_buffer.c
+> @@ -468,7 +468,7 @@ static void flush_to_ldisc(struct work_struct *work)
+>   */
+>  void tty_flush_to_ldisc(struct tty_struct *tty)
+>  {
+> -	flush_to_ldisc(&tty->buf.work.work);
+> +	flush_delayed_work(&tty->buf.work);
+>  }
+>  
+>  /**
+> diff --git a/include/linux/workqueue.h b/include/linux/workqueue.h
+> index 7ef0c7b..cf24c20 100644
+> --- a/include/linux/workqueue.h
+> +++ b/include/linux/workqueue.h
+> @@ -207,6 +207,7 @@ extern int queue_delayed_work_on(int cpu, struct workqueue_struct *wq,
+>  
+>  extern void flush_workqueue(struct workqueue_struct *wq);
+>  extern void flush_scheduled_work(void);
+> +extern void flush_delayed_work(struct delayed_work *work);
+>  
+>  extern int schedule_work(struct work_struct *work);
+>  extern int schedule_work_on(int cpu, struct work_struct *work);
+> diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+> index addfe2d..ccefe57 100644
+> --- a/kernel/workqueue.c
+> +++ b/kernel/workqueue.c
+> @@ -640,6 +640,24 @@ int schedule_delayed_work(struct delayed_work *dwork,
+>  EXPORT_SYMBOL(schedule_delayed_work);
+>  
+>  /**
+> + * flush_delayed_work - block until a dwork_struct's callback has terminated
+> + * @dwork: the delayed work which is to be flushed
+> + *
+> + * Any timeout is cancelled, and any pending work is run immediately.
+> + */
+> +void flush_delayed_work(struct delayed_work *dwork)
+> +{
+> +	if (del_timer(&dwork->timer)) {
+> +		struct cpu_workqueue_struct *cwq;
+> +		cwq = wq_per_cpu(keventd_wq, get_cpu());
+> +		__queue_work(cwq, &dwork->work);
+> +		put_cpu();
+> +	}
+> +	flush_work(&dwork->work);
+> +}
+> +EXPORT_SYMBOL(flush_delayed_work);
+> +
+> +/**
+>   * schedule_delayed_work_on - queue work in global workqueue on CPU after delay
+>   * @cpu: cpu to use
+>   * @dwork: job to be done
+> 
 
-Thanks... This contradicts with
-
-> > As for tty_flush_to_ldisc(), what if tty->buf.work.work was not scheduled?
-> > In this case flush_delayed_work() does nothing. Is it OK?
->
-> Yes. In fact, it would be a bonus over our current "we always call that
-> flush function whether it was scheduled or not" code.
-
-But I guess I understand what you meant.
-
-> If the del_timer() fails, the timer might still be running on another CPU
-> right at that moment, but not quite have queued the work yet. And then
-> we'd potentially get the wrong 'cwq' in flush_work() (we'd use the 'saved'
-> work), and not wait for it.
-
-Or we can get the right cwq, but since the work is not queued and it is not
-cwq->current_work, flush_work() correctly assumes there is nothing to do.
-
-> I wonder if we could mark the case of "workqueue is on timer" by setting
-> the "work->entry" list to some special value. That way
->
-> 	list_empty(&work->entry)
->
-> would always mean "it's neither pending _nor_ scheduled", and
-> flush_delayed_work() could have a fast-case check that at the top:
->
-> 	if (list_empty(&work->entry))
-> 		return;
-
-Yes, but we already have this - delayed_work_pending(). If it is
-false, it is neither pending nor scheduled. But it may be running,
-we can check cwq->current_work.
-
-The problem is, should we check all CPUs to detect the running case?
-please see below.
-
-> > And just in case... Of course, if dwork was pending and running on another CPU,
-> > then flush_delayed_work(dwork) can return before the running callback terminates.
-> > But I guess this is what we want.
->
-> No, we want to wait for the callback to terminate, so we do want to hit
-> that 'flush_work()' case.
-
-Hmm. Now I am confused.
-
-OK. Lets suppose dwork's callback is running on CPU 0.
-
-A thread running on CPU 1 does queue_delayed_work(dwork, delay).
-
-Now, flush_workqueue() will flush the 2nd "queue_delayed_work" correctly,
-but it can return before "running on CPU 0" completes.
-
-If this is not what we want, then we have to iterate over all CPUs.
-
-
-As for optimization, I think you are right and flush_delayed_work()
-can do
-	if (delayed_work_pending() && del_timer_sync()) {
-		...
-	}
-	flush_work();
-
-Assuming that we should not check all CPUs. And in this case perhaps we can
-even do something like
-
-	if (!delayed_work_pending() &&
-	    get_wq_data()->current_work != dwork)
-		return;
-
-but this needs barriers, and run_workqueue() needs mb__before_clear_bit().
-
-
-I'll try to think more tomorrow, but I doubt it is possible to avoid
-del_timer_sync() logic. Whatever we do, if we hit the queueing in progress
-we should spin until it is finished.
-
-Oleg.
+Works for me. I couldn't reproduce the problem with only this patch on
+top of  2.6.31.4.
