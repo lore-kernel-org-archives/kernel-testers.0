@@ -1,110 +1,192 @@
-From: Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Wed, 14 Oct 2009 10:45:31 +0300
-Message-ID: <4AD5819B.6000702@yahoo.co.uk>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera> <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com> <87ljjgfcbu.fsf@spindle.srvr.nix> <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain> <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain> <4AD3F769.5080405@gmail.com> <alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net> <4AD437F9.9020708@yahoo.co.uk> <alpine.LFD.2.01.0910130745550.3438@localhost.localdomain> <4AD4DE4C.4010402@yahoo.co.uk> <alpine.LFD.2.01.0910131317360.26777@localhost.localdomain> <alpine.LFD.2.01.0910131413240.3596@localhost.localdomain>
+From: Mel Gorman <mel@csn.ul.ie>
+Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
+Date: Wed, 14 Oct 2009 11:30:02 +0100
+Message-ID: <20091014103002.GA5027@csn.ul.ie>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <20091012134328.GB8200@csn.ul.ie> <200910121932.14607.elendil@planet.nl> <200910132238.40867.elendil@planet.nl>
 Mime-Version: 1.0
+Return-path: <owner-linux-mm@kvack.org>
+Content-Disposition: inline
+In-Reply-To: <200910132238.40867.elendil@planet.nl>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.01.0910131413240.3596-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: =?ISO-8859-1?Q?=22Fr=E9d=E9ric_L=2E_W=2E_Meunier=22?= <fredlwm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Nix <nix-dKoSMcxRz+Te9xe1eoZjHA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Paul Fulghum <paulkf-CZzk0lvu1V9l57MIdRCFDg@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+To: Frans Pop <elendil@planet.nl>
+Cc: David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org
 
-Linus Torvalds wrote:
-> Another bug:
+On Tue, Oct 13, 2009 at 10:38:37PM +0200, Frans Pop wrote:
+> On Monday 12 October 2009, Frans Pop wrote:
+> > On Monday 12 October 2009, Mel Gorman wrote:
+> > > but after some digging around in this general area, I saw this patch
+> > >
+> > > 4752c93c30 iwlcore: Allow skb allocation from tasklet
+> >
+> > That is v2.6.30-rc6-773-g4752c93, which is part of the first wireless
+> > merge I tested and where I saw no issues. But see below.
+> >
+> > > This patch increases the number of GFP_ATOMIC allocations that can
+> > > occur by allocating GFP_ATOMIC in some cases and GFP_KERNEL in others.
+> > > Previously, only GFP_KERNEL was used and I didn't realise this
+> > > allocation method was so recent. Problems of this sort have cropped up
+> > > before and while there are later changes that suppress some of these
+> > > warnings, I believe this is a strong candidate for where the
+> > > allocation failures started appearing.
 > 
-> On Tue, 13 Oct 2009, Linus Torvalds wrote:
->>  			if (!count) {
->> -				if (head->next == NULL)
->> -					break;
-> 
-> Those two lines should _not_ be deleted. I cleaned up a bit too much.
-> 
-> The rule is that we must not free the last buffer, because it's also going 
-> to be 'tail'.
-> 
-> So here's a new version with that fixed (and the previous bug I already 
-> mentioned).
-> 
-> Whether it _works_ is still not clear. It might eat your pet goldfish, or 
-> make farting noises in your general direction. Or it might fix the bug. 
-> Who knows?
-> 
-> 		Linus
-> 
-> ---
->  drivers/char/tty_buffer.c |   29 +++++++++++++----------------
->  1 files changed, 13 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/char/tty_buffer.c b/drivers/char/tty_buffer.c
-> index 3108991..0296612 100644
-> --- a/drivers/char/tty_buffer.c
-> +++ b/drivers/char/tty_buffer.c
-> @@ -402,28 +402,26 @@ static void flush_to_ldisc(struct work_struct *work)
->  		container_of(work, struct tty_struct, buf.work.work);
->  	unsigned long 	flags;
->  	struct tty_ldisc *disc;
-> -	struct tty_buffer *tbuf, *head;
-> -	char *char_buf;
-> -	unsigned char *flag_buf;
->  
->  	disc = tty_ldisc_ref(tty);
->  	if (disc == NULL)	/*  !TTY_LDISC */
->  		return;
->  
->  	spin_lock_irqsave(&tty->buf.lock, flags);
-> -	/* So we know a flush is running */
-> -	set_bit(TTY_FLUSHING, &tty->flags);
-> -	head = tty->buf.head;
-> -	if (head != NULL) {
-> -		tty->buf.head = NULL;
-> -		for (;;) {
-> -			int count = head->commit - head->read;
-> +
-> +	if (!test_and_set_bit(TTY_FLUSHING, &tty->flags)) {
-> +		struct tty_buffer *head;
-> +		while ((head = tty->buf.head) != NULL) {
-> +			int count;
-> +			char *char_buf;
-> +			unsigned char *flag_buf;
-> +
-> +			count = head->commit - head->read;
->  			if (!count) {
->  				if (head->next == NULL)
->  					break;
-> -				tbuf = head;
-> -				head = head->next;
-> -				tty_buffer_free(tty, tbuf);
-> +				tty->buf.head = head->next;
-> +				tty_buffer_free(tty, head);
->  				continue;
->  			}
->  			/* Ldisc or user is trying to flush the buffers
-> @@ -445,9 +443,9 @@ static void flush_to_ldisc(struct work_struct *work)
->  							flag_buf, count);
->  			spin_lock_irqsave(&tty->buf.lock, flags);
->  		}
-> -		/* Restore the queue head */
-> -		tty->buf.head = head;
-> +		clear_bit(TTY_FLUSHING, &tty->flags);
->  	}
-> +
->  	/* We may have a deferred request to flush the input buffer,
->  	   if so pull the chain under the lock and empty the queue */
->  	if (test_bit(TTY_FLUSHPENDING, &tty->flags)) {
-> @@ -455,7 +453,6 @@ static void flush_to_ldisc(struct work_struct *work)
->  		clear_bit(TTY_FLUSHPENDING, &tty->flags);
->  		wake_up(&tty->read_wait);
->  	}
-> -	clear_bit(TTY_FLUSHING, &tty->flags);
->  	spin_unlock_irqrestore(&tty->buf.lock, flags);
->  
->  	tty_ldisc_deref(disc);
+> I have tried reverting this patch and that does make a significant 
+> difference, but the results are still not really conclusive.
+> I tested the revert on top of:
+> - the first net-next-2.6 merge (2ed0e21), i.e. before the mm merge
+> - 2.6.31.1
 > 
 
+I think this is very significant. Either that change needs to be backed
+out or more likely, __GFP_NOWARN needs to be specified and warnings
+*only* printed when the RX buffers are really low. My expectation would
+be that some GFP_ATOMIC allocations fail during refill but the fact they
+fail wakes kswapd to reclaim order-2 pages while the RX buffers in the
+pool are consumed.
 
-It works for me. I couldn't reproduce the problem with this patch on top
-of 2.6.31.3 with CONFIG_PREEMPT=y.
+> In both cases I no longer get SKB errors, but instead (?) I get firmware 
+> errors:
+> iwlagn 0000:10:00.0: Microcode SW error detected.  Restarting 0x2000000.
+> 
+
+I am no wireless expert, but that looks like an separate problem to me.
+I don't see how an allocation failure could trigger errors in the
+microcode.
+
+I really really hate to say it, but this might need a separate bisection
+with 4752c93c30 either reverted or patched as I do below.
+
+> So on the wireless side it does look as if there is more than one change 
+> involved. Remember that with .30 I don't get any errors, only relatively 
+> mild latencies and skips in the music.
+> 
+
+2.6.31 does not appear to have done wireless any favours.
+
+> > I really do think that v2.6.30-rc6-1032-g7ba10a8 could play a role here.
+> > That's a fix for v2.6.30-rc1-1131-gaa837e1. So that bug was introduced
+> > _before_ the merge 82d0481 and may thus well explain both the latencies
+> > I saw _and_ why that merge tested without problems. And that would also
+> > go a long way to explain my test results.
+> > So I'm going to retest 82d0481 with 7ba10a8 cherry-picked on top.
+>                          ^^^^^^^-- should be 45ea4ea
+> 
+> I've tried this but still don't get any SKB errors, so that bug does not 
+> seem to make a difference.
+> 
+> > > > BISECTION of akpm (mm) MERGE
+> > > > ----------------------------
+> > > While I didn't spot anything too out of the ordinary here, they did
+> > > occur shortly after a number of other page allocator related patches.
+> > > One small thing I noticed there is that kswapd is getting woken up
+> > > less now than it did previously. Generally, I wouldn't have expected
+> > > it to make a difference but it's possible that kswapd is not being
+> > > woken up to reclaim at a higher order than it was previously. I have a
+> > > patch for this below. It'd be nice if you could apply it and see do
+> > > fewer allocation failures occur on current mainline.
+> >
+> > I'll give that patch a try and report back.
+> 
+> With your patch on .32-rc4 I still get the SKB errors, so it does not seem 
+> to help. The only change there may have been is that the desktop was 
+> frozen longer than without the patch, but that is an impression, not a 
+> hard fact.
+> 
+
+Actually, that's fairly interesting and I think justifies pushing the
+patch. Direct reclaim can stall processes in a user-visible manner which kswapd
+is meant to avoid in the majority of cases but is tricky to quantify without
+instrumenting the kernel to measure direct reclaim frequency and latency (I
+have WIP tracepoints for this but it's still a WIP). If you notice shorter
+stalls with the patch applied, it means that kswapd really did need to be
+informed of the problems.
+
+> Although identifying the problem on the wireless side is important, I still 
+> feel that tracing the mm change should have priority as it influences much 
+> more than just iwlagn, as the other reports prove.
+> 
+
+There still has not been a mm-change identified that makes fragmentation
+significantly worse. The majority of the wireless reports have been in this
+driver and I think we have the problem commit there. The only other is a
+firmware loading problem in e100 after resume that fails to make an atomic
+order-5 fail. It's possible that something has changed in resume in the
+2.6.31 window there - maybe something like drivers now reload during resume
+where they didn't previously or less memory being pushed to swap during resume.
+
+> > > After that, could you edit drivers/net/wireless/iwlwifi/iwl-rx.c and
+> > > make the GFP_ATOMIC in iwl_rx_replenish_now() GFP_ATOMIC|__GFP_NOWARN
+> > > and see do any of the "serious" allocation failure messages appear.
+> 
+> For the above reason I've not yet tried this. It seems to me that this 
+> change will not really solve anything, but just suppress errors.
+> 
+
+I disagree. Harmless allocation errors get suppressed but it still warns when
+things get really bad. See the following patch that suppresses the
+warnings from GFP_ATOMIC but warns for GFP_KERNEL failures and dumps a
+stack on serious allocation failure.
+
+We either need a patch like this or the
+GFP_ATOMIC-direct-with-refills-from-tasklet patch needs to be reverted.
+
+=== CUT HERE ===
+From 5fb9f897117bf2701f9fdebe4d008dbe34358ab9 Mon Sep 17 00:00:00 2001
+From: Mel Gorman <mel@csn.ul.ie>
+Date: Wed, 14 Oct 2009 11:19:57 +0100
+Subject: [PATCH] iwlwifi: Suppress warnings related to GFP_ATOMIC allocations that do not matter
+
+iwlwifi refills RX buffers in two ways - a direct method using GFP_ATOMIC
+and a tasklet method using GFP_KERNEL. There are a number of RX buffers and
+there are only serious issues when there are no RX buffers left. The driver
+explicitly warns when refills are failing and the buffers are low but it
+always warns when a GFP_ATOMIC allocation fails even when there is no
+packet loss as a result.
+
+This patch specifies __GFP_NOWARN for the direct refill method that uses
+GFP_ATOMIC. To help identify where allocation failures might be coming
+from, the stack is dumped when the RX queue is dangerously low.
+
+Signed-off-by: Mel Gorman <mel@csn.ul.ie>
+--- 
+ drivers/net/wireless/iwlwifi/iwl-rx.c |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl b/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
+old mode 100644
+new mode 100755
+diff --git a/drivers/net/wireless/iwlwifi/iwl-rx.c b/drivers/net/wireless/iwlwifi/iwl-rx.c
+index 8e1bb53..f91a108 100644
+--- a/drivers/net/wireless/iwlwifi/iwl-rx.c
++++ b/drivers/net/wireless/iwlwifi/iwl-rx.c
+@@ -260,10 +260,12 @@ void iwl_rx_allocate(struct iwl_priv *priv, gfp_t priority)
+ 			if (net_ratelimit())
+ 				IWL_DEBUG_INFO(priv, "Failed to allocate SKB buffer.\n");
+ 			if ((rxq->free_count <= RX_LOW_WATERMARK) &&
+-			    net_ratelimit())
++			    net_ratelimit()) {
+ 				IWL_CRIT(priv, "Failed to allocate SKB buffer with %s. Only %u free buffers remaining.\n",
+ 					 priority == GFP_ATOMIC ?  "GFP_ATOMIC" : "GFP_KERNEL",
+ 					 rxq->free_count);
++				dump_stack();
++			}
+ 			/* We don't reschedule replenish work here -- we will
+ 			 * call the restock method and if it still needs
+ 			 * more buffers it will schedule replenish */
+@@ -320,7 +322,7 @@ EXPORT_SYMBOL(iwl_rx_replenish);
+ 
+ void iwl_rx_replenish_now(struct iwl_priv *priv)
+ {
+-	iwl_rx_allocate(priv, GFP_ATOMIC);
++	iwl_rx_allocate(priv, GFP_ATOMIC|__GFP_NOWARN);
+ 
+ 	iwl_rx_queue_restock(priv);
+ }
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
