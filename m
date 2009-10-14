@@ -1,69 +1,91 @@
-From: Oleg Nesterov <oleg@redhat.com>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Wed, 14 Oct 2009 20:20:37 +0200
-Message-ID: <20091014182037.GA10076@redhat.com>
-References: <4AD4DE4C.4010402@yahoo.co.uk> <alpine.LFD.2.01.0910131317360.26777@localhost.localdomain> <4AD4F548.2030506@microgate.com> <alpine.LFD.2.01.0910131514100.3404@localhost.localdomain> <1255478932.19056.24.camel@localhost.localdomain> <4AD51D6B.7010509@microgate.com> <alpine.LFD.2.01.0910131744590.3404@localhost.localdomain> <20091014125846.1a3c8d40@lxorguk.ukuu.org.uk> <alpine.LFD.2.01.0910140804180.6146@localhost.localdomain> <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain>
+From: Frans Pop <elendil@planet.nl>
+Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
+Date: Wed, 14 Oct 2009 20:34:56 +0200
+Message-ID: <200910142034.58826.elendil@planet.nl>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910141510.11059.elendil@planet.nl> <20091014154026.GC5027@csn.ul.ie>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756260AbZJNS0p@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <20091014154026.GC5027@csn.ul.ie>
 Content-Disposition: inline
-In-Reply-To: <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Alan Cox <alan@lxorguk.ukuu.org.uk>, Paul Fulghum <paulkf@microgate.com>, Boyan <btanastasov@yahoo.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Mel Gorman <mel@csn.ul.ie>
+Cc: David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org
 
-On 10/14, Linus Torvalds wrote:
->
-> Of course, keventd itself is multi-threaded, so I'm not entirely sure even
-> -that- guarantees that one 'flush_to_ldisc()' couldn't be pending on one
-> CPU while it is then scheduled and then run on another CPU concurrently
-> too. The WORK_STRUCT_PENDING bit guarantees exclusion from the lists and
-> from being pending, but the work might be both pending and _running_ at
-> the same time, afaik.
+Some initial results; all negative I'm afraid.
 
-Yes.
+On Wednesday 14 October 2009, Mel Gorman wrote:
+> This is what I found. The following were the possible commits that might
+> be causing the problem.
 
->  void tty_flush_to_ldisc(struct tty_struct *tty)
->  {
-> -	flush_to_ldisc(&tty->buf.work.work);
-> +	flush_delayed_work(&tty->buf.work);
->  }
+> 56e49d2..f166777 -- reclaim
+> =A0=A0=A0=A0=A0=A0=A0=A0I would have considered this strong candidates ex=
+cept again, the
+> =A0=A0=A0=A0=A0=A0=A0=A0last good commit happened after this point. If ot=
+her obvious
+> =A0=A0=A0=A0=A0=A0=A0=A0candidates don't crop up, it might be worth doubl=
+e checking
+> =A0=A0=A0=A0=A0=A0=A0=A0within this range, particularly commit 56e49d2 vm=
+scan: evict
+> =A0=A0=A0=A0=A0=A0=A0=A0use-once pages first as it is targeted at streami=
+ng-IO workloads
+> =A0=A0=A0=A0=A0=A0=A0=A0which would include your music workload.
 
-Can't comment this change because I don't understand the problem.
+Reverted 56e49d2 on top of .31.1; no change.
 
-> + * flush_delayed_work - block until a dwork_struct's callback has terminated
-> + * @dwork: the delayed work which is to be flushed
-> + *
-> + * Any timeout is cancelled, and any pending work is run immediately.
-> + */
-> +void flush_delayed_work(struct delayed_work *dwork)
-> +{
-> +	if (del_timer(&dwork->timer)) {
-> +		struct cpu_workqueue_struct *cwq;
-> +		cwq = wq_per_cpu(keventd_wq, get_cpu());
-> +		__queue_work(cwq, &dwork->work);
-> +		put_cpu();
-> +	}
-> +	flush_work(&dwork->work);
-> +}
+> 5c87ead..e9bb35d -- inactive ratio changes
+> =A0=A0=A0=A0=A0=A0=A0=A0These patches should be harmless but just in case=
+, please
+> =A0=A0=A0=A0=A0=A0=A0=A0compare the output of
+> =A0=A0=A0=A0=A0=A0=A0=A0# grep inactive_ratio /proc/zoneinfo
+> =A0=A0=A0=A0=A0=A0=A0=A0on 2.6.30 and 2.6.31 and make sure the ratios are=
+ the same.
 
-I think this is correct. If del_timer() succeeds, we "own" _PENDING bit and
-dwork->work must not be queued. But afaics this helper needs del_timer_sync(),
-otherwise I am not sure about the "flush" part.
+The same for both (and for .32). DMA: 1; DMA32: 3
 
-Let's suppose this dwork was pending and del_timer() returns 0. Since we use
-del_timer, not del_timer_sync, it is possible that delayed_work_timer_fn() is
-running in parallel, and the queueing is in progress. In this case flush_work()
-can just return, before delayed_work_timer_fn() actually queues this dwork.
+> =A0=A0=A0=A0=A0=A0=A0=A0Commit b70d94e altered how zonelists were selecte=
+d during
+> =A0=A0=A0=A0=A0=A0=A0=A0allocation. This was tested fairly heavily but if=
+ the testing
+> =A0=A0=A0=A0=A0=A0=A0=A0missed something, it would mean that some allocat=
+ions are not
+> =A0=A0=A0=A0=A0=A0=A0=A0using the zones they should be.
 
-And just in case... Of course, if dwork was pending and running on another CPU,
-then flush_delayed_work(dwork) can return before the running callback terminates.
-But I guess this is what we want.
+Reverted on top of .31.1; no change.
 
+> =A0=A0=A0=A0=A0=A0=A0=A0Commit bc75d33 is totally harmless but it mentions
+> =A0=A0=A0=A0=A0=A0=A0=A0min_free_kbytes. I checked on my machine to make =
+sure
+> =A0=A0=A0=A0=A0=A0=A0=A0min_free_kbytes was the same on both 2.6.30 and 2=
+=2E6.31. Can you
+> =A0=A0=A0=A0=A0=A0=A0=A0check that this is true for your machine? If min_=
+free_kbytes
+> =A0=A0=A0=A0=A0=A0=A0=A0decreased, it could explain GFP_ATOMIC failures.
 
-As for tty_flush_to_ldisc(), what if tty->buf.work.work was not scheduled?
-In this case flush_delayed_work() does nothing. Is it OK?
+Virtually identical. .30: 5704; .31/.32: 5711
 
-Oleg.
+> After this point, your analysis indicates that things are already broken
+> but lets look at some of the candidates anyway. =A0Out of curiousity,
+> was CONFIG_UNEVICTABLE_LRU unset in your .config for 2.6.30? I could
+> only find your 2.6.31 .config. If it was, it might be worth reverting
+> 6837765963f1723e80ca97b1fae660f3a60d77df and unsetting it in 2.6.31 and
+> seeing what happens.
+
+CONFIG_UNEVICTABLE_LRU was set and during bisections I've always accepted=20
+the default, which was "y".
+
+> Commit ee993b135ec75a93bd5c45e636bb210d2975159b altered how lumpy
+> reclaim works but it should have been harmless. It does not cleanly
+> revert but it's easy to manually revert.
+
+Reverted on top of .31.1; no change.
+
+I'll do some more digging in the 'akpm' merge.
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
