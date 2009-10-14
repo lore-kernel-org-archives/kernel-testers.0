@@ -1,91 +1,110 @@
-From: Michael Ellerman <michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>
-Subject: Characters vanishing in the tty layer? (maybe related to [Bug
- #14388] keyboard under X with 2.6.31)
-Date: Wed, 14 Oct 2009 17:21:34 +1100
-Message-ID: <1255501294.21962.24.camel@concordia>
-Reply-To: michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org
+From: Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>
+Subject: Re: [Bug #14388] keyboard under X with 2.6.31
+Date: Wed, 14 Oct 2009 10:45:31 +0300
+Message-ID: <4AD5819B.6000702@yahoo.co.uk>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.PaB.Ozl0KB@chimera> <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com> <87ljjgfcbu.fsf@spindle.srvr.nix> <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain> <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain> <4AD3F769.5080405@gmail.com> <alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net> <4AD437F9.9020708@yahoo.co.uk> <alpine.LFD.2.01.0910130745550.3438@localhost.localdomain> <4AD4DE4C.4010402@yahoo.co.uk> <alpine.LFD.2.01.0910131317360.26777@localhost.localdomain> <alpine.LFD.2.01.0910131413240.3596@localhost.localdomain>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-znomADN6ZatqYSBX0zc6"
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.LFD.2.01.0910131413240.3596-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, fredlwm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: =?ISO-8859-1?Q?=22Fr=E9d=E9ric_L=2E_W=2E_Meunier=22?= <fredlwm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Nix <nix-dKoSMcxRz+Te9xe1eoZjHA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Paul Fulghum <paulkf-CZzk0lvu1V9l57MIdRCFDg@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+
+Linus Torvalds wrote:
+> Another bug:
+> 
+> On Tue, 13 Oct 2009, Linus Torvalds wrote:
+>>  			if (!count) {
+>> -				if (head->next == NULL)
+>> -					break;
+> 
+> Those two lines should _not_ be deleted. I cleaned up a bit too much.
+> 
+> The rule is that we must not free the last buffer, because it's also going 
+> to be 'tail'.
+> 
+> So here's a new version with that fixed (and the previous bug I already 
+> mentioned).
+> 
+> Whether it _works_ is still not clear. It might eat your pet goldfish, or 
+> make farting noises in your general direction. Or it might fix the bug. 
+> Who knows?
+> 
+> 		Linus
+> 
+> ---
+>  drivers/char/tty_buffer.c |   29 +++++++++++++----------------
+>  1 files changed, 13 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/char/tty_buffer.c b/drivers/char/tty_buffer.c
+> index 3108991..0296612 100644
+> --- a/drivers/char/tty_buffer.c
+> +++ b/drivers/char/tty_buffer.c
+> @@ -402,28 +402,26 @@ static void flush_to_ldisc(struct work_struct *work)
+>  		container_of(work, struct tty_struct, buf.work.work);
+>  	unsigned long 	flags;
+>  	struct tty_ldisc *disc;
+> -	struct tty_buffer *tbuf, *head;
+> -	char *char_buf;
+> -	unsigned char *flag_buf;
+>  
+>  	disc = tty_ldisc_ref(tty);
+>  	if (disc == NULL)	/*  !TTY_LDISC */
+>  		return;
+>  
+>  	spin_lock_irqsave(&tty->buf.lock, flags);
+> -	/* So we know a flush is running */
+> -	set_bit(TTY_FLUSHING, &tty->flags);
+> -	head = tty->buf.head;
+> -	if (head != NULL) {
+> -		tty->buf.head = NULL;
+> -		for (;;) {
+> -			int count = head->commit - head->read;
+> +
+> +	if (!test_and_set_bit(TTY_FLUSHING, &tty->flags)) {
+> +		struct tty_buffer *head;
+> +		while ((head = tty->buf.head) != NULL) {
+> +			int count;
+> +			char *char_buf;
+> +			unsigned char *flag_buf;
+> +
+> +			count = head->commit - head->read;
+>  			if (!count) {
+>  				if (head->next == NULL)
+>  					break;
+> -				tbuf = head;
+> -				head = head->next;
+> -				tty_buffer_free(tty, tbuf);
+> +				tty->buf.head = head->next;
+> +				tty_buffer_free(tty, head);
+>  				continue;
+>  			}
+>  			/* Ldisc or user is trying to flush the buffers
+> @@ -445,9 +443,9 @@ static void flush_to_ldisc(struct work_struct *work)
+>  							flag_buf, count);
+>  			spin_lock_irqsave(&tty->buf.lock, flags);
+>  		}
+> -		/* Restore the queue head */
+> -		tty->buf.head = head;
+> +		clear_bit(TTY_FLUSHING, &tty->flags);
+>  	}
+> +
+>  	/* We may have a deferred request to flush the input buffer,
+>  	   if so pull the chain under the lock and empty the queue */
+>  	if (test_bit(TTY_FLUSHPENDING, &tty->flags)) {
+> @@ -455,7 +453,6 @@ static void flush_to_ldisc(struct work_struct *work)
+>  		clear_bit(TTY_FLUSHPENDING, &tty->flags);
+>  		wake_up(&tty->read_wait);
+>  	}
+> -	clear_bit(TTY_FLUSHING, &tty->flags);
+>  	spin_unlock_irqrestore(&tty->buf.lock, flags);
+>  
+>  	tty_ldisc_deref(disc);
+> 
 
 
---=-znomADN6ZatqYSBX0zc6
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-I'm seeing a bug in an internal tree, based on 32-rc4, where characters
-that are given to the tty code seem to disappear. It sounds different,
-but perhaps somehow related to the problems in the "keyboard under X
-with 2.6.31" thread.
-
-I'm using hvc_console.c, and I see all my input read into there. Adding
-debug in tty_read() though, I see characters go missing. It's only 50 or
-so characters out of 4K or more. The bug is 100% reproducible, but only
-on an internal simulator (sorry). I'm running one cpu and one thread,
-with no preempt.
-
-I'm using 80f5069 or thereabouts, plus some powerpc patches. We also see
-the bug in 31, but not in 27.
-
-I've tried two of Linus' patches from the X keyboard thread, the one
-that changes flush_to_ldisc() and the one that adds
-locked_tty_buffer_request_room() - neither seems to help. I've also
-changed hvc_console.c to use tty_insert_flip_string(tty, c, 1) (which is
-locked after Linus' patch) instead of tty_insert_flip_char() - also
-didn't help.
-
-Some example debug output:
-
-137352697: (137187792): hvc_fss_read_console: '.out
-137353604: (137188699): cat strace'
-137361976: (137197049): hvc_fss_read_console: '.out | callthru '
-137370882: (137205933): hvc_fss_read_console: 'sink /home/micha'
-137379788: (137214817): hvc_fss_read_console: 'el/kbt/strace.ou'
-137388696: (137223703): hvc_fss_read_console: 't
-137389606: (137224613): callthru eval'
-
-2396468919: (2340876339): (none) / # tty_read: read 1 chars 'c'
-2396579463: (2340986479): ctty_read: read 1 chars 'a'
-2396690167: (2341096780): atty_read: read 1 chars 't'
-2396800851: (2341207061): ttty_read: read 1 chars ' '
-2396911580: (2341317387):  tty_read: read 1 chars 's'
-2397022603: (2341428007): stty_read: read 1 chars 't'
-2397133524: (2341538525): ttty_read: read 1 chars 'r'
-2397244739: (2341649337): rtty_read: read 1 chars 'a'
-2397355852: (2341760047): atty_read: read 1 chars 'c'
-2397467259: (2341871051): ctty_read: read 1 chars 'e'
-2397578564: (2341981953): etty_read: read 1 chars '.'
-2397690618: (2342093604): .tty_read: read 1 chars, newline
-2397800089: (2342202671):
-2399849231: (2344246188): cat: strace.: No such file or directory
-
-
-So we seem to have lost everything after the dot in the second ".out"
-until the end of the line.
-
-It's entirely possible this is a bug in hvc_console.c, or our arch
-patches, or the simulator .. or the tty code :)
-
-Anyway, if anyone has ideas or patches I'm all ears.
-
-cheers
-
---=-znomADN6ZatqYSBX0zc6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEABECAAYFAkrVbe4ACgkQdSjSd0sB4dKXwwCeI+qhxULkJpzTDk85ldOm3DxU
-+BkAn2tQP0N/rY6a7UchTy9jaf/F+AfR
-=Vf6R
------END PGP SIGNATURE-----
-
---=-znomADN6ZatqYSBX0zc6--
+It works for me. I couldn't reproduce the problem with this patch on top
+of 2.6.31.3 with CONFIG_PREEMPT=y.
