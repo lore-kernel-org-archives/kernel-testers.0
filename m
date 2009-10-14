@@ -1,40 +1,114 @@
-From: David Miller <davem@davemloft.net>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Wed, 14 Oct 2009 14:51:39 -0700 (PDT)
-Message-ID: <20091014.145139.148344015.davem@davemloft.net>
-References: <alpine.LFD.2.01.0910141131050.6146@localhost.localdomain>
-	<20091014195215.GA12936@redhat.com>
-	<20091014221633.1b865651@lxorguk.ukuu.org.uk>
+From: Mel Gorman <mel@csn.ul.ie>
+Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
+Date: Thu, 15 Oct 2009 00:56:36 +0100
+Message-ID: <20091014235636.GF5027@csn.ul.ie>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910141510.11059.elendil@planet.nl> <20091014154026.GC5027@csn.ul.ie> <200910142034.58826.elendil@planet.nl>
 Mime-Version: 1.0
+Return-path: <owner-linux-mm@kvack.org>
+Content-Disposition: inline
+In-Reply-To: <200910142034.58826.elendil@planet.nl>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759571AbZJNVvp@vger.kernel.org>
-In-Reply-To: <20091014221633.1b865651@lxorguk.ukuu.org.uk>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: alan@lxorguk.ukuu.org.uk
-Cc: oleg@redhat.com, torvalds@linux-foundation.org, paulkf@microgate.com, btanastasov@yahoo.co.uk, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, dmitry.torokhov@gmail.com, edt@aei.ca, hirofumi@mail.parknet.co.jp
+To: Frans Pop <elendil@planet.nl>
+Cc: David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org
 
-From: Alan Cox <alan@lxorguk.ukuu.org.uk>
-Date: Wed, 14 Oct 2009 22:16:33 +0100
-
->> Assuming that we should not check all CPUs. And in this case perhaps we can
->> even do something like
->> 
->> 	if (!delayed_work_pending() &&
->> 	    get_wq_data()->current_work != dwork)
->> 		return;
->> 
->> but this needs barriers, and run_workqueue() needs mb__before_clear_bit().
+On Wed, Oct 14, 2009 at 08:34:56PM +0200, Frans Pop wrote:
+> Some initial results; all negative I'm afraid.
 > 
-> Linus correctly said that we got into the mess because the locking was
-> too clever before. At this point the mutex approach seems to be rather
-> preferable to the other approaches which are at least as "clever" as the
-> current locking
 
-FWIW I've been seeing behavior that is almost certainly caused by this
-bug for a while, I lose 'control' or 'shift' key-down events and this
-is entirely independent of keyboard attached (i've tried several) and
-seems to only happen on an SMP box.
+These are highly unlikely candidates. I say highly unlikely because they
+are before the page allocator patches when your analysis indicated
+things were ok.
 
-It's most accutely annoying if it triggers while playing quake3 :-)
+Commit 70ac23c readahead: sequential mmap readahead
+	This affects readahead for mmap() and could have an impact on the
+	number of allocations made by the streaming IO. This might be
+	generating more bursty network traffic in 2.6.31 than 2.6.30 and
+	affecting the allocation apttern enough to cause problems
+
+Commit 2fad6f5 readahead: enforce full readahead size on async mmap readahead
+	Another readahead change that may affect the rate of network
+	traffic being generated when streaming IO over the network
+
+Commit 10be0b3 readahead: introduce context readahead algorithm
+	By using readahead in more situations, it again may be affecting
+	the burst rate of network traffic and the rate of GFP_ATOMIC arrivals
+
+Commit 78dc583 vmscan: low order lumpy reclaim also should use PAGEOUT_IO_SYNC
+	Very low probability that this is a problem, but it affects
+	lumpy reclaim and so has to be considered. It's an awkward
+	revert but I think the most important part is just to revert the
+	condition that checks if congestion_wait() should be called or not
+
+I relooked at the page allocator patches themselves just in case. Of the
+patches in there, I came up with
+
+Commit 11e33f6 page allocator: break up the allocator entry point into fast and slow paths
+	This is possibly the most disruptive patch in the set. It should
+	not have affected behaviour but the complexity of the patch is
+	quite high. I did spot an oddity whereby a process exiting making
+	a __GFP_NOFAIL allocation can ignore watermarks. It's unlikely
+	this is the problem but as the journal layer uses __GFP_NOFAIL,
+	you never know - it might be pushing things down low enough for
+	other watermark checks to fail. Patch is below. This is also the
+	patch that cause kswapd to wake up less. I sent a patch for that
+	problem but I still don't know if it reduced the number of
+	failures for you or not.
+
+Commit f2260e6 page allocator: update NR_FREE_PAGES only as necessary
+	This patch affects the timing of when NR_FREE_PAGES is updated.
+	The reclaim algorithm makes decisions based on this NR_FREE_PAGES
+	value.	Crucially, the value can determine if the anon list is force
+	scanned or not. The window during which this can make a difference
+	should be extremely small but maybe it's enough to make a difference.
+
+Outside the range of commits suspected of causing problems was the
+following. It's extremely low probability
+
+Commit 8aa7e84 Fix congestion_wait() sync/async vs read/write confusion
+	This patch alters the call to congestion_wait() in the page
+	allocator. Frankly, I don't get the change but it might worth
+	checking if replacing BLK_RW_ASYNC with WRITE on top of 2.6.31
+	makes any difference
+
+After a lot more eyeballing, the best next candidate within mm is the
+following patch. Should be tested on it's own and in combination with
+the wakeup-kswapd patch sent before.
+
+====
+
+From 4e8b5217f51a00caee527e4e8d8e46fe9f82b482 Mon Sep 17 00:00:00 2001
+From: Mel Gorman <mel@csn.ul.ie>
+Date: Thu, 15 Oct 2009 00:17:05 +0100
+Subject: [PATCH] page allocator: Direct reclaim should always obey watermarks
+
+ALLOC_NO_WATERMARKS should be cleared when trying to allocate from the
+free-lists after a direct reclaim.
+
+Signed-off-by: Mel Gorman <mel@csn.ul.ie>
+--- 
+ mm/page_alloc.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 3694609..619933d 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -1920,7 +1920,8 @@ rebalance:
+ 	page = __alloc_pages_direct_reclaim(gfp_mask, order,
+ 					zonelist, high_zoneidx,
+ 					nodemask,
+-					alloc_flags, preferred_zone,
++					alloc_flags & ~ALLOC_NO_WATERMARKS,
++					preferred_zone,
+ 					migratetype, &did_some_progress);
+ 	if (page)
+ 		goto got_pg;
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
