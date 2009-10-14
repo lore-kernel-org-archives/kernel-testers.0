@@ -1,91 +1,99 @@
-From: Frans Pop <elendil@planet.nl>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Wed, 14 Oct 2009 20:34:56 +0200
-Message-ID: <200910142034.58826.elendil@planet.nl>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910141510.11059.elendil@planet.nl> <20091014154026.GC5027@csn.ul.ie>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #14388] keyboard under X with 2.6.31
+Date: Wed, 14 Oct 2009 11:51:23 -0700 (PDT)
+Message-ID: <alpine.LFD.2.01.0910141131050.6146@localhost.localdomain>
+References: <4AD4DE4C.4010402@yahoo.co.uk> <alpine.LFD.2.01.0910131317360.26777@localhost.localdomain> <4AD4F548.2030506@microgate.com> <alpine.LFD.2.01.0910131514100.3404@localhost.localdomain> <1255478932.19056.24.camel@localhost.localdomain>
+ <4AD51D6B.7010509@microgate.com> <alpine.LFD.2.01.0910131744590.3404@localhost.localdomain> <20091014125846.1a3c8d40@lxorguk.ukuu.org.uk> <alpine.LFD.2.01.0910140804180.6146@localhost.localdomain> <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain>
+ <20091014182037.GA10076@redhat.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20091014154026.GC5027@csn.ul.ie>
-Content-Disposition: inline
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20091014182037.GA10076-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Paul Fulghum <paulkf-CZzk0lvu1V9l57MIdRCFDg@public.gmane.org>, Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
 
-Some initial results; all negative I'm afraid.
 
-On Wednesday 14 October 2009, Mel Gorman wrote:
-> This is what I found. The following were the possible commits that might
-> be causing the problem.
 
-> 56e49d2..f166777 -- reclaim
-> =A0=A0=A0=A0=A0=A0=A0=A0I would have considered this strong candidates ex=
-cept again, the
-> =A0=A0=A0=A0=A0=A0=A0=A0last good commit happened after this point. If ot=
-her obvious
-> =A0=A0=A0=A0=A0=A0=A0=A0candidates don't crop up, it might be worth doubl=
-e checking
-> =A0=A0=A0=A0=A0=A0=A0=A0within this range, particularly commit 56e49d2 vm=
-scan: evict
-> =A0=A0=A0=A0=A0=A0=A0=A0use-once pages first as it is targeted at streami=
-ng-IO workloads
-> =A0=A0=A0=A0=A0=A0=A0=A0which would include your music workload.
+On Wed, 14 Oct 2009, Oleg Nesterov wrote:
+> 
+> >  void tty_flush_to_ldisc(struct tty_struct *tty)
+> >  {
+> > -	flush_to_ldisc(&tty->buf.work.work);
+> > +	flush_delayed_work(&tty->buf.work);
+> >  }
+> 
+> Can't comment this change because I don't understand the problem.
 
-Reverted 56e49d2 on top of .31.1; no change.
+The work function is "flush_to_ldisc()", and what we want to make sure of 
+is that the work has been called. We used to just call the work function 
+directly - but that meant that now one CPU might be running that "direct" 
+call, while another CPU might be running flush_to_ldisc through keventd.
 
-> 5c87ead..e9bb35d -- inactive ratio changes
-> =A0=A0=A0=A0=A0=A0=A0=A0These patches should be harmless but just in case=
-, please
-> =A0=A0=A0=A0=A0=A0=A0=A0compare the output of
-> =A0=A0=A0=A0=A0=A0=A0=A0# grep inactive_ratio /proc/zoneinfo
-> =A0=A0=A0=A0=A0=A0=A0=A0on 2.6.30 and 2.6.31 and make sure the ratios are=
- the same.
+So this makes the "flush_to_ldisc()" is now instead always called through 
+keventd (but there's still a possibility that two keventd threads run it 
+concurrently - although that is going to be _very_ rare).
 
-The same for both (and for .32). DMA: 1; DMA32: 3
+> 
+> > + * flush_delayed_work - block until a dwork_struct's callback has terminated
+> > + * @dwork: the delayed work which is to be flushed
+> > + *
+> > + * Any timeout is cancelled, and any pending work is run immediately.
+> > + */
+> > +void flush_delayed_work(struct delayed_work *dwork)
+> > +{
+> > +	if (del_timer(&dwork->timer)) {
+> > +		struct cpu_workqueue_struct *cwq;
+> > +		cwq = wq_per_cpu(keventd_wq, get_cpu());
+> > +		__queue_work(cwq, &dwork->work);
+> > +		put_cpu();
+> > +	}
+> > +	flush_work(&dwork->work);
+> > +}
+> 
+> I think this is correct. If del_timer() succeeds, we "own" _PENDING bit and
+> dwork->work must not be queued. But afaics this helper needs del_timer_sync(),
+> otherwise I am not sure about the "flush" part.
 
-> =A0=A0=A0=A0=A0=A0=A0=A0Commit b70d94e altered how zonelists were selecte=
-d during
-> =A0=A0=A0=A0=A0=A0=A0=A0allocation. This was tested fairly heavily but if=
- the testing
-> =A0=A0=A0=A0=A0=A0=A0=A0missed something, it would mean that some allocat=
-ions are not
-> =A0=A0=A0=A0=A0=A0=A0=A0using the zones they should be.
+Hmm. I wanted to avoid del_timer_sync(), because it's so expensive for the 
+case when the timer isn't running at all, but I do think you're correct.
 
-Reverted on top of .31.1; no change.
+If the del_timer() fails, the timer might still be running on another CPU 
+right at that moment, but not quite have queued the work yet. And then 
+we'd potentially get the wrong 'cwq' in flush_work() (we'd use the 'saved' 
+work), and not wait for it.
 
-> =A0=A0=A0=A0=A0=A0=A0=A0Commit bc75d33 is totally harmless but it mentions
-> =A0=A0=A0=A0=A0=A0=A0=A0min_free_kbytes. I checked on my machine to make =
-sure
-> =A0=A0=A0=A0=A0=A0=A0=A0min_free_kbytes was the same on both 2.6.30 and 2=
-=2E6.31. Can you
-> =A0=A0=A0=A0=A0=A0=A0=A0check that this is true for your machine? If min_=
-free_kbytes
-> =A0=A0=A0=A0=A0=A0=A0=A0decreased, it could explain GFP_ATOMIC failures.
+I wonder if we could mark the case of "workqueue is on timer" by setting 
+the "work->entry" list to some special value. That way
 
-Virtually identical. .30: 5704; .31/.32: 5711
+	list_empty(&work->entry)
 
-> After this point, your analysis indicates that things are already broken
-> but lets look at some of the candidates anyway. =A0Out of curiousity,
-> was CONFIG_UNEVICTABLE_LRU unset in your .config for 2.6.30? I could
-> only find your 2.6.31 .config. If it was, it might be worth reverting
-> 6837765963f1723e80ca97b1fae660f3a60d77df and unsetting it in 2.6.31 and
-> seeing what happens.
+would always mean "it's neither pending _nor_ scheduled", and 
+flush_delayed_work() could have a fast-case check that at the top:
 
-CONFIG_UNEVICTABLE_LRU was set and during bisections I've always accepted=20
-the default, which was "y".
+	if (list_empty(&work->entry))
+		return;
 
-> Commit ee993b135ec75a93bd5c45e636bb210d2975159b altered how lumpy
-> reclaim works but it should have been harmless. It does not cleanly
-> revert but it's easy to manually revert.
+or similar. When we do the 'insert_work()' in the timer function, the 
+'list_empty()' invariant wouldn't change, so you could do that locklessly.
 
-Reverted on top of .31.1; no change.
+Of course, I've just talked about how much I hate subtle locking in the 
+tty layer. This would be subtle, but we could document it, and it would be 
+in the core kernel rather than a driver layer. 
 
-I'll do some more digging in the 'akpm' merge.
+> And just in case... Of course, if dwork was pending and running on another CPU,
+> then flush_delayed_work(dwork) can return before the running callback terminates.
+> But I guess this is what we want.
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+No, we want to wait for the callback to terminate, so we do want to hit 
+that 'flush_work()' case.
+
+> As for tty_flush_to_ldisc(), what if tty->buf.work.work was not scheduled?
+> In this case flush_delayed_work() does nothing. Is it OK?
+
+Yes. In fact, it would be a bonus over our current "we always call that 
+flush function whether it was scheduled or not" code.
+
+			Linus
