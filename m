@@ -1,37 +1,114 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Thu, 15 Oct 2009 09:04:09 -0700 (PDT)
-Message-ID: <alpine.LFD.2.01.0910150901190.6146@localhost.localdomain>
-References: <4AD51D6B.7010509@microgate.com> <alpine.LFD.2.01.0910131744590.3404@localhost.localdomain> <20091014125846.1a3c8d40@lxorguk.ukuu.org.uk> <alpine.LFD.2.01.0910140804180.6146@localhost.localdomain> <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain>
- <20091014182037.GA10076@redhat.com> <alpine.LFD.2.01.0910141131050.6146@localhost.localdomain> <20091014195215.GA12936@redhat.com> <alpine.LFD.2.01.0910141344250.6146@localhost.localdomain> <20091015124730.GA9398@redhat.com>
- <20091015152959.GA18681@redhat.com>
+Date: Fri, 16 Oct 2009 02:38:38 +0900
+Message-ID: <87aazsh80x.fsf@devron.myhome.or.jp>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
+	<L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>
+	<C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com>
+	<87ljjgfcbu.fsf@spindle.srvr.nix>
+	<alpine.LFD.2.01.0910121703390.3438@localhost.localdomain>
+	<alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
+	<4AD3F769.5080405@gmail.com>
+	<alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net>
+	<4AD437F9.9020708@yahoo.co.uk>
+	<alpine.LFD.2.01.0910130745550.3438@localhost.localdomain>
+	<4AD4DE4C.4010402@yahoo.co.uk>
+	<alpine.LFD.2.01.0910131317360.26777@localhost.localdomain>
+	<4AD4F548.2030506@microgate.com>
+	<alpine.LFD.2.01.0910131514100.3404@localhost.localdomain>
+	<1255478932.19056.24.camel@localhost.localdomain>
+	<4AD51D6B.7010509@microgate.com>
+	<alpine.LFD.2.01.0910131744590.3404@localhost.localdomain>
+	<20091014125846.1a3c8d40@lxorguk.ukuu.org.uk>
+	<alpine.LFD.2.01.0910140804180.6146@localhost.localdomain>
+	<alpine.LFD.2.01.0910140925440.6146@localhost.localdomain>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091015152959.GA18681-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S935152AbZJORj0@vger.kernel.org>
+In-Reply-To: <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain> (Linus
+	Torvalds's message of "Wed, 14 Oct 2009 09:38:43 -0700 (PDT)")
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Paul Fulghum <paulkf-CZzk0lvu1V9l57MIdRCFDg@public.gmane.org>, Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Alan Cox <alan@lxorguk.ukuu.org.uk>, Oleg Nesterov <oleg@redhat.com>, Paul Fulghum <paulkf@microgate.com>, Boyan <btanastasov@yahoo.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>
 
+Hi,
 
+Linus Torvalds <torvalds@linux-foundation.org> writes:
 
-On Thu, 15 Oct 2009, Oleg Nesterov wrote:
-> 
-> Actually, this looks simple. Please see the patch below.
+> diff --git a/drivers/char/tty_buffer.c b/drivers/char/tty_buffer.c
+> index 0296612..66fa4e1 100644
+> --- a/drivers/char/tty_buffer.c
+> +++ b/drivers/char/tty_buffer.c
+> @@ -468,7 +468,7 @@ static void flush_to_ldisc(struct work_struct *work)
+>   */
+>  void tty_flush_to_ldisc(struct tty_struct *tty)
+>  {
+> -	flush_to_ldisc(&tty->buf.work.work);
+> +	flush_delayed_work(&tty->buf.work);
+>  }
 
-Ok, I should have read all my emails before responding to the previous 
-one.
+This might wait unnecessary scheduled-work on input_available_p(). This
+is nitpick though, we can call tty_flush_to_ldisc() only when data is
+unavailable.
 
-But my response ends up being the same: I think your patch is fine, and I 
-think you should drop the conditional flag. I don't think anybody _ever_ 
-wants to run the same work entry on multiple CPU's at once. Anybody who 
-wants parallelism needs to use multiple work entries _anyway_ (since the 
-accidental parallelism you *can* get with a single one is really very 
-accidental indeed).
+I.e. the following or something,
 
-Of course, it should be tested in -next for a while regardless. And talk 
-to the networkng people, who are the main user of workqueues.
+static inline int input_available_p(struct tty_struct *tty, int amt)
+{
+	int try = 0;
 
-			Linus
+retry:
+	if (tty->icanon) {
+		if (tty->canon_data)
+			return 1;
+	} else if (tty->read_cnt >= (amt ? amt : 1))
+		return 1;
+
+	if (!checked) {
+		tty_flush_to_ldisc(tty);
+		try = 1;
+		goto retry;
+	}
+
+	return 0;
+}
+
+> +void flush_delayed_work(struct delayed_work *dwork)
+> +{
+> +	if (del_timer(&dwork->timer)) {
+> +		struct cpu_workqueue_struct *cwq;
+> +		cwq = wq_per_cpu(keventd_wq, get_cpu());
+> +		__queue_work(cwq, &dwork->work);
+> +		put_cpu();
+> +	}
+> +	flush_work(&dwork->work);
+> +}
+> +EXPORT_SYMBOL(flush_delayed_work);
+> +
+> +/**
+
+Sorry if I'm missing the point. Doesn't this have (possible) race with
+schedule_delayed_work() (i.e. by tty writer)?
+
+             cpu0                                      cpu1
+
+    if (del_timer(&dwork->timer)) {
+                                            // cpu0 doesn't set _PENDING
+                                            schedule_delayed_work()
+        cwq = wq_per_cpu();
+        __queue_work(cwq, &dwork->work);
+        put_cpu();
+    }
+                                            // run timer
+                                            delayed_work_timer_fn()
+                                                __queue_work()
+                                                    list_add_tail()
+                                                // re-add without list_del(),
+                                                // so this will break the list?
+    flush_work(&dwork->work);
+
+Thanks.
+-- 
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
