@@ -1,68 +1,40 @@
-From: Frans Pop <elendil@planet.nl>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Thu, 15 Oct 2009 22:15:09 +0200
-Message-ID: <200910152215.13011.elendil@planet.nl>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910142034.58826.elendil@planet.nl> <20091014235636.GF5027@csn.ul.ie>
+From: Johannes Stezenbach <js-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org>
+Subject: Re: [Bug #13948] ath5k broken after suspend-to-ram
+Date: Thu, 15 Oct 2009 23:38:13 +0200
+Message-ID: <20091015213813.GA16582@sig21.net>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
+ <L6tb-VyKHZK.A.oyE.O1l0KB@chimera>
+ <b6c5339f0910111719m58cd5442h3e081adfb388e8f1@mail.gmail.com>
+ <200910122324.30052.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20091014235636.GF5027@csn.ul.ie>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
+In-Reply-To: <200910122324.30052.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Nick Kossifidis <mickflemm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Thursday 15 October 2009, Mel Gorman wrote:
-> After a lot more eyeballing, the best next candidate within mm is the
-> following patch. Should be tested on it's own and in combination with
-> the wakeup-kswapd patch sent before.
->
-> From 4e8b5217f51a00caee527e4e8d8e46fe9f82b482 Mon Sep 17 00:00:00 2001
-> From: Mel Gorman <mel@csn.ul.ie>
-> Date: Thu, 15 Oct 2009 00:17:05 +0100
-> Subject: [PATCH] page allocator: Direct reclaim should always obey
-> watermarks
->
-> ALLOC_NO_WATERMARKS should be cleared when trying to allocate from the
-> free-lists after a direct reclaim.
+On Mon, Oct 12, 2009 at 11:24:29PM +0200, Rafael J. Wysocki wrote:
+> On Monday 12 October 2009, Bob Copeland wrote:
+> > On Sun, Oct 11, 2009 at 7:01 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13948
+> > > Subject         : ath5k broken after suspend-to-ram
+> > > Submitter       : Johannes Stezenbach <js-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org>
+> > > Date            : 2009-08-07 21:51 (66 days old)
+> > > References      : http://marc.info/?l=linux-kernel&m=124968192727854&w=4
+> > > Handled-By      : Nick Kossifidis <mickflemm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > > Patch           : http://patchwork.kernel.org/patch/38550/
+> > 
+> > This patch was included in 2.6.31.2, so I believe this can go.
+> 
+> Thanks, closing.
 
-I've tested the two patches together and this seems like a definite
-improvement. I still get SKB errors on the first test, but the desktop
-freezes are a lot shorter and the total time needed to load the 3rd gitk
-goes down from ~2:15 to ~1:15. The counter in gitk of the number of
-loaded commits goes up visibly faster and with fewer halts.
+Sorry for not responding earlier.  I now installed
+2.6.31.4 on my old Thinkpad T42p and can confirm that
+the issue is resolved.
 
-This is on top of current mainline with the RX_LOW_WATERMARK in iwlagn
-at it's current value (8).
-
-Here are the allocation failures for 2 consecutive tests. Note that the
-first test still shows quite a lot of failures, but the second test hardly
-had any at all (I still had music skips though).
-
-[  232.845116] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-[  232.845116] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-[  232.873009] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-[  232.884545] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-[  240.121577] __ratelimit: 26 callbacks suppressed
-[  240.121634] __ratelimit: 6 callbacks suppressed
-[  240.124006] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 6 free buffers remaining.
-[  304.335767] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-[  304.335767] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-[  304.374729] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-[  309.446481] __ratelimit: 5 callbacks suppressed
-[  309.450197] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-
-[  525.912934] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 5 free buffers remaining.
-[  525.953939] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 7 free buffers remaining.
-[  536.058171] __ratelimit: 1 callbacks suppressed
-
-Thanks,
-FJP
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+Thanks
+Johannes
