@@ -1,40 +1,29 @@
-From: David Miller <davem@davemloft.net>
-Subject: Re: [PATCH] virtio_net: use dev_kfree_skb_any() in
- free_old_xmit_skbs()
-Date: Wed, 14 Oct 2009 23:30:30 -0700 (PDT)
-Message-ID: <20091014.233030.129292617.davem@davemloft.net>
-References: <4AD455E4.2070105@navynet.it>
-	<4AD62626.6010709@navynet.it>
-	<4AD66E9B.2020803@gmail.com>
+From: Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>
+Subject: Re: [Bug #14388] keyboard under X with 2.6.31
+Date: Thu, 15 Oct 2009 10:24:44 +0300
+Message-ID: <4AD6CE3C.1050504@yahoo.co.uk>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <87ljjgfcbu.fsf@spindle.srvr.nix> <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain> <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain> <4AD3F769.5080405@gmail.com> <alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net> <4AD437F9.9020708@yahoo.co.uk> <alpine.LFD.2.01.0910130745550.3438@localhost.localdomain> <4AD4DE4C.4010402@yahoo.co.uk> <alpine.LFD.2.01.0910131317360.26777@localhost.localdomain> <4AD4F548.2030506@microgate.com> <alpine.LFD.2.01.0910131514100.3404@localhost.localdomain> <1255478932.19056.24.camel@localhost.localdomain> <4AD51D6B.7010509@microgate.com> <alpine.LFD.2.01.0910131744590.3404@localhost.localdomain> <20091014125846.1a3c8d40@lxorguk.ukuu.org.uk> <alpine.LFD.2.01.0910140804180.6146@localhost.locald
+ omain> <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain> <4AD62DAD.9010604@yahoo.co.uk> <alpine.LFD.2.01.0910141356400.6146@localhost.localdomain>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <4AD66E9B.2020803@gmail.com>
-Sender: netdev-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.LFD.2.01.0910141356400.6146-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="iso-8859-1"
-To: eric.dumazet@gmail.com
-Cc: mcetra@navynet.it, ctrixk@navynet.it, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Paul Fulghum <paulkf-CZzk0lvu1V9l57MIdRCFDg@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org
 
-=46rom: Eric Dumazet <eric.dumazet@gmail.com>
-Date: Thu, 15 Oct 2009 02:36:43 +0200
+Linus Torvalds wrote:
+> 
+> On Wed, 14 Oct 2009, Boyan wrote:
+>> Works for me. I couldn't reproduce the problem with only this patch on
+>> top of  2.6.31.4.
+> 
+> So just to verify: both the flush_to_ldisc() patch _and_ the 
+> "flush_delayed_work()" one fixed the problem for you? And you tested them 
+> independently? And you said you could reliably trigger it before?
 
-> Massimo Cetra a =E9crit :
->> Eric,
->> thanks for the patch.
->> The problem didn't arise again and i haven't seen any warning like t=
-hat
->> on both servers where that problem was happening more frequently.
->>=20
->> I would say that it's fixed and if it's not, i'll let you know as so=
-on
->> as it happens again.
->>=20
->=20
-> Thanks Massimo, I think patch is reasonably safe and should be taken =
-as is :
->=20
->=20
-> [PATCH] virtio_net: use dev_kfree_skb_any() in free_old_xmit_skbs()
-
-Applied, thanks Eric.
+Yes, both patches independently fix the problem for me.
+I've tested with both patches applied too and couldn't trigger the
+problem.
