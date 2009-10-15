@@ -1,86 +1,62 @@
-From: Oleg Nesterov <oleg@redhat.com>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Thu, 15 Oct 2009 14:47:30 +0200
-Message-ID: <20091015124730.GA9398@redhat.com>
-References: <1255478932.19056.24.camel@localhost.localdomain> <4AD51D6B.7010509@microgate.com> <alpine.LFD.2.01.0910131744590.3404@localhost.localdomain> <20091014125846.1a3c8d40@lxorguk.ukuu.org.uk> <alpine.LFD.2.01.0910140804180.6146@localhost.localdomain> <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain> <20091014182037.GA10076@redhat.com> <alpine.LFD.2.01.0910141131050.6146@localhost.localdomain> <20091014195215.GA12936@redhat.com> <alpine.LFD.2.01.0910141344250.6146@localhost.localdomain>
+From: reinette chatre <reinette.chatre@intel.com>
+Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
+Date: Thu, 15 Oct 2009 08:29:27 -0700
+Message-ID: <1255620567.21134.162.camel@rc-desk>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
+	 <20091014165051.GE5027@csn.ul.ie> <1255552911.21134.51.camel@rc-desk>
+	 <200910150402.03953.elendil@planet.nl>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1761894AbZJOMxH@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.LFD.2.01.0910141344250.6146@localhost.localdomain>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Alan Cox <alan@lxorguk.ukuu.org.uk>, Paul Fulghum <paulkf@microgate.com>, Boyan <btanastasov@yahoo.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <200910150402.03953.elendil@planet.nl>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Frans Pop <elendil@planet.nl>
+Cc: Mel Gorman <mel@csn.ul.ie>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, "Abbas, Mohamed" <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>
 
-On 10/14, Linus Torvalds wrote:
->
-> Yeah. Basically, we want to make sure that it has been called *since it
-> was scheduled*. In case it has already been called and is no longer
-> pending at all, not calling it again is fine.
->
-> It's just that we didn't have any way to do that "force the pending
-> delayed work to be scheduled", so instead we ran the scheduled function by
-> hand synchronously. Which then seems to have triggered other problems.
+On Wed, 2009-10-14 at 19:02 -0700, Frans Pop wrote:
+> On Wednesday 14 October 2009, reinette chatre wrote:
+> > We do queue the GFP_KERNEL allocations when there are only a few buffers
+> > remaining in the queue (8 right now) ... maybe we can make this higher?
+> 
+> I've tried increasing it to 50. Here's the result for a single test:
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 25 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 48 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 48 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 48 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+> __ratelimit: 1 callbacks suppressed
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+> __ratelimit: 97 callbacks suppressed
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 44 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+> iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+> 
+> This is with current mainline (v2.6.32-rc4-149-ga3ccf63).
 
-Yes. But I am not sure these problems are new. I do not understand this
-code even remotely, but from a quick grep it seems to me it is possible
-that flush_to_ldisc() can race with itself even without tty_flush_to_ldisc()
-which calls work->func() by hand.
+> The log file timestamps don't tell much as the logging gets delayed,
+> so they all end up at the same time. Maybe I should enable the kernel
+> timestamps so we can see how far apart these failures are.
 
-> So I don't think it really matters in practice, but I do think that we
-> have that nasty hole in workqueues in general with overlapping work. I
-> wish I could think of a way to fix it.
+If you can get accurate timing it will be very useful. I am interested
+to see how quickly it goes from "48 free buffers" to "0 free buffers".
 
-I don't entirely agree this is a hole, I mean everything works "as expected".
-But yes, I agree, users often do not realize that multithreaded workqueues
-imply overlapping works (unless the caller takes care). And in this case
-work->func() should solve the races itself.
+Thank you
 
-Perhaps it makes sense to introduce something like
+Reinette
 
-	// same as queue_work(), but ensures work->func() can't race with itself
 
-	int queue_work_xxx(struct workqueue_struct *wq, struct work_struct *work)
-	{
-		int ret = 0;
 
-		if (!test_and_set_bit(WORK_STRUCT_PENDING, work_data_bits(work))) {
-			struct cpu_workqueue_struct *cwq = get_wq_data(work);
-			int cpu = get_cpu();
-
-			// "cwq->current_work != work" is not strictly needed,
-			// but we don't want to pin this work to the single CPU.
-
-			if (!cwq || cwq->current_work != work)
-				cwq = wq_per_cpu(wq, cpu);
-
-			__queue_work(cwq, work);
-			put_cpu();
-			ret = 1;
-		}
-
-		return ret;
-	}
-
-This way we can never have multiple instances of the same work running on
-different CPUs. Assuming, of course, the caller never mixes queue_work_xxx()
-with queue_work(). The logic for queue_delayed_work_xxx() is similar.
-
-But, this can race with cpu_down(). I think this is solvable but needs
-more locking. I mean, the caller of queue_work_xxx() must not use the old
-get_wq_data(work) if this CPU is already dead, but a simple cpu_online()
-is not enough, we can race with workqueue_cpu_callback(CPU_POST_DEAD)
-flushing this cwq, in this case we should carefully insert this work
-into the almost-dead queue.
-
-Or, perhaps better, instead of new helper, we can probably use the free
-bit in work_struct->data to mark this work/dwork as "single-instance-work".
-In this case __queue_work and queue_delayed_work_on should check this bit.
-
-Do you think this makes sense and can close the hole?
-
-If yes, I'll try to do this on Weekend.
-
-Oleg.
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
