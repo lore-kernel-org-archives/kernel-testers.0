@@ -1,40 +1,67 @@
-From: Johannes Stezenbach <js-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org>
-Subject: Re: [Bug #13948] ath5k broken after suspend-to-ram
-Date: Thu, 15 Oct 2009 23:38:13 +0200
-Message-ID: <20091015213813.GA16582@sig21.net>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
- <L6tb-VyKHZK.A.oyE.O1l0KB@chimera>
- <b6c5339f0910111719m58cd5442h3e081adfb388e8f1@mail.gmail.com>
- <200910122324.30052.rjw@sisk.pl>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [Bug #14388] keyboard under X with 2.6.31
+Date: Thu, 15 Oct 2009 14:49:56 -0700 (PDT)
+Message-ID: <alpine.LFD.2.01.0910151447440.6146@localhost.localdomain>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com> <87ljjgfcbu.fsf@spindle.srvr.nix> <alpine.LFD.2.01.0910121703390.3438@localhost.localdomain> <alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
+ <4AD3F769.5080405@gmail.com> <alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net> <4AD437F9.9020708@yahoo.co.uk> <alpine.LFD.2.01.0910130745550.3438@localhost.localdomain> <4AD4DE4C.4010402@yahoo.co.uk> <alpine.LFD.2.01.0910131317360.26777@localhost.localdomain>
+ <4AD4F548.2030506@microgate.com> <alpine.LFD.2.01.0910131514100.3404@localhost.localdomain> <1255478932.19056.24.camel@localhost.localdomain> <4AD51D6B.7010509@microgate.com> <alpine.LFD.2.01.0910131744590.3404@localhost.localdomain>
+ <20091014125846.1a3c8d40@lxorguk.ukuu.org.uk> <alpine.LFD.2.01.0910140804180.6146@localhost.localdomain> <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain> <87aazsh80x.fsf@devron.myhome.or.jp>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <200910122324.30052.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S935395AbZJOVvQ@vger.kernel.org>
+In-Reply-To: <87aazsh80x.fsf@devron.myhome.or.jp>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Bob Copeland <me-aXfl/3sk2vNUbtYUoyoikg@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Nick Kossifidis <mickflemm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: Alan Cox <alan@lxorguk.ukuu.org.uk>, Oleg Nesterov <oleg@redhat.com>, Paul Fulghum <paulkf@microgate.com>, Boyan <btanastasov@yahoo.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>
 
-On Mon, Oct 12, 2009 at 11:24:29PM +0200, Rafael J. Wysocki wrote:
-> On Monday 12 October 2009, Bob Copeland wrote:
-> > On Sun, Oct 11, 2009 at 7:01 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13948
-> > > Subject         : ath5k broken after suspend-to-ram
-> > > Submitter       : Johannes Stezenbach <js-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org>
-> > > Date            : 2009-08-07 21:51 (66 days old)
-> > > References      : http://marc.info/?l=linux-kernel&m=124968192727854&w=4
-> > > Handled-By      : Nick Kossifidis <mickflemm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > > Patch           : http://patchwork.kernel.org/patch/38550/
-> > 
-> > This patch was included in 2.6.31.2, so I believe this can go.
+
+
+On Fri, 16 Oct 2009, OGAWA Hirofumi wrote:
 > 
-> Thanks, closing.
+> I.e. the following or something,
+> 
+> static inline int input_available_p(struct tty_struct *tty, int amt)
+> {
+> 	int try = 0;
+> 
+> retry:
+> 	if (tty->icanon) {
+> 		if (tty->canon_data)
+> 			return 1;
+> 	} else if (tty->read_cnt >= (amt ? amt : 1))
+> 		return 1;
+> 
+> 	if (!checked) {
+> 		tty_flush_to_ldisc(tty);
+> 		try = 1;
+> 		goto retry;
+> 	}
+> 
+> 	return 0;
+> }
 
-Sorry for not responding earlier.  I now installed
-2.6.31.4 on my old Thinkpad T42p and can confirm that
-the issue is resolved.
+Yeah, we could do that. Especially if we ever see this in any profiles. I 
+doubt we do, but..
 
-Thanks
-Johannes
+> Sorry if I'm missing the point. Doesn't this have (possible) race with
+> schedule_delayed_work() (i.e. by tty writer)?
+> 
+>              cpu0                                      cpu1
+> 
+>     if (del_timer(&dwork->timer)) {
+>                                             // cpu0 doesn't set _PENDING
+>                                             schedule_delayed_work()
+
+We don't care.
+
+We want to make sure that a writer that wrote the data strictly _before_ 
+the reader is reading will always have the data show up.
+
+But if the writer is exactly concurrent with the reader, it's fine to not 
+see the data. Because at that point, we will rely not on the tty buffers, 
+but on the writer doing a tty_wakeup() to notify us that there is new 
+data.
+
+			Linus
