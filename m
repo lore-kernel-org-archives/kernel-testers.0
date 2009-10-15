@@ -1,51 +1,75 @@
-From: Frans Pop <elendil@planet.nl>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Thu, 15 Oct 2009 04:02:00 +0200
-Message-ID: <200910150402.03953.elendil@planet.nl>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <20091014165051.GE5027@csn.ul.ie> <1255552911.21134.51.camel@rc-desk>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: Re: [Bug #14258] Memory leak in SCSI initialization
+Date: Thu, 15 Oct 2009 11:30:20 +0900
+Message-ID: <200910150230.n9F2UKgK090342@www262.sakura.ne.jp>
+References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera> <L6tb-VyKHZK.A.HAD.qzl0KB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <1255552911.21134.51.camel@rc-desk>
-Content-Disposition: inline
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S932836AbZJOCb3@vger.kernel.org>
+In-Reply-To: <L6tb-VyKHZK.A.HAD.qzl0KB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: reinette chatre <reinette.chatre@intel.com>
-Cc: Mel Gorman <mel@csn.ul.ie>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, "Abbas, Mohamed" <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>
+To: James.Bottomley@suse.de, rjw@sisk.pl
+Cc: kernel-testers@vger.kernel.org, michael@ellerman.id.au, linux-kernel@vger.kernel.org
 
-On Wednesday 14 October 2009, reinette chatre wrote:
-> We do queue the GFP_KERNEL allocations when there are only a few buffers
-> remaining in the queue (8 right now) ... maybe we can make this higher?
+I got below messages in 2.6.32-rc4 .
 
-I've tried increasing it to 50. Here's the result for a single test:
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 25 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 48 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 48 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 48 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-__ratelimit: 1 callbacks suppressed
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-__ratelimit: 97 callbacks suppressed
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 44 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
+# dmesg | grep kmemleak
+[    7.612391] kmemleak: Kernel memory leak detector initialized
+[    7.615675] kmemleak: Automatic memory scanning thread started
+[   78.641096] kmemleak: 13 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
+# cat /sys/kernel/debug/kmemleak
+unreferenced object 0xdac2c478 (size 32):
+  comm "swapper", pid 1, jiffies 4294894406
+  hex dump (first 32 bytes):
+    30 3a 30 3a 32 3a 30 00 5a 5a 5a 5a 5a 5a 5a 5a  0:0:2:0.ZZZZZZZZ
+    5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a a5  ZZZZZZZZZZZZZZZ.
+  backtrace:
+    [<c10d3944>] create_object+0xe4/0x220
+    [<c1322663>] kmemleak_alloc+0x83/0xd0
+    [<c10d01d4>] __kmalloc+0x1b4/0x220
+    [<c11ab450>] kvasprintf+0x30/0x60
+    [<c11a3131>] kobject_set_name_vargs+0x21/0x60
+    [<c11f8cd9>] dev_set_name+0x19/0x20
+    [<c122c2b3>] scsi_sysfs_device_initialize+0xc3/0x120
+    [<c1228ac4>] scsi_alloc_sdev+0x194/0x230
+    [<c1229b50>] scsi_probe_and_add_lun+0x320/0x340
+    [<c122a477>] __scsi_scan_target+0xb7/0x100
+    [<c122a5f6>] scsi_scan_channel+0x86/0xa0
+    [<c122a6f9>] scsi_scan_host_selected+0xe9/0x150
+    [<c122aabc>] do_scsi_scan_host+0x7c/0x80
+    [<c122ab6d>] scsi_scan_host+0x8d/0x90
+    [<c1520c75>] BusLogic_init+0x355/0x420
+    [<c100105c>] do_one_initcall+0x2c/0x1d0
+(...snipped...)
+unreferenced object 0xdac2cc58 (size 32):
+  comm "swapper", pid 1, jiffies 4294894414
+  hex dump (first 32 bytes):
+    30 3a 30 3a 31 35 3a 30 00 5a 5a 5a 5a 5a 5a 5a  0:0:15:0.ZZZZZZZ
+    5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a a5  ZZZZZZZZZZZZZZZ.
+  backtrace:
+    [<c10d3944>] create_object+0xe4/0x220
+    [<c1322663>] kmemleak_alloc+0x83/0xd0
+    [<c10d01d4>] __kmalloc+0x1b4/0x220
+    [<c11ab450>] kvasprintf+0x30/0x60
+    [<c11a3131>] kobject_set_name_vargs+0x21/0x60
+    [<c11f8cd9>] dev_set_name+0x19/0x20
+    [<c122c2b3>] scsi_sysfs_device_initialize+0xc3/0x120
+    [<c1228ac4>] scsi_alloc_sdev+0x194/0x230
+    [<c1229b50>] scsi_probe_and_add_lun+0x320/0x340
+    [<c122a477>] __scsi_scan_target+0xb7/0x100
+    [<c122a5f6>] scsi_scan_channel+0x86/0xa0
+    [<c122a6f9>] scsi_scan_host_selected+0xe9/0x150
+    [<c122aabc>] do_scsi_scan_host+0x7c/0x80
+    [<c122ab6d>] scsi_scan_host+0x8d/0x90
+    [<c1520c75>] BusLogic_init+0x355/0x420
+    [<c100105c>] do_one_initcall+0x2c/0x1d0
 
-This is with current mainline (v2.6.32-rc4-149-ga3ccf63).
+In my environment, 0:0:0:0 and 0:0:1:0 are used by SCSI hard disks, 0:0:7:0 is
+reserved. 0:0:X:0 (where X = 2-6, 8-15) are unused and reported as memory leak.
 
-The log file timestamps don't tell much as the logging gets delayed,
-so they all end up at the same time. Maybe I should enable the kernel
-timestamps so we can see how far apart these failures are.
+After applying http://patchwork.kernel.org/patch/51412/ , above messages
+no longer appears. Please apply that patch to 2.6.32-rcX as well as 2.6.31.Y .
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+Regards.
