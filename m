@@ -1,114 +1,75 @@
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+From: Oleg Nesterov <oleg@redhat.com>
 Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Fri, 16 Oct 2009 02:38:38 +0900
-Message-ID: <87aazsh80x.fsf@devron.myhome.or.jp>
-References: <56acieJJ2fF.A.nEB.Hzl0KB@chimera>
-	<L6tb-VyKHZK.A.PaB.Ozl0KB@chimera>
-	<C4F8B19E-F4B4-47F3-AE5B-4581C8E3F3AE@gmail.com>
-	<87ljjgfcbu.fsf@spindle.srvr.nix>
-	<alpine.LFD.2.01.0910121703390.3438@localhost.localdomain>
-	<alpine.LFD.2.01.0910122004200.3438@localhost.localdomain>
-	<4AD3F769.5080405@gmail.com>
-	<alpine.LNX.2.01.0910130405200.9297@dyndns.pervalidus.net>
-	<4AD437F9.9020708@yahoo.co.uk>
-	<alpine.LFD.2.01.0910130745550.3438@localhost.localdomain>
-	<4AD4DE4C.4010402@yahoo.co.uk>
-	<alpine.LFD.2.01.0910131317360.26777@localhost.localdomain>
-	<4AD4F548.2030506@microgate.com>
-	<alpine.LFD.2.01.0910131514100.3404@localhost.localdomain>
-	<1255478932.19056.24.camel@localhost.localdomain>
-	<4AD51D6B.7010509@microgate.com>
-	<alpine.LFD.2.01.0910131744590.3404@localhost.localdomain>
-	<20091014125846.1a3c8d40@lxorguk.ukuu.org.uk>
-	<alpine.LFD.2.01.0910140804180.6146@localhost.localdomain>
-	<alpine.LFD.2.01.0910140925440.6146@localhost.localdomain>
+Date: Thu, 15 Oct 2009 21:00:24 +0200
+Message-ID: <20091015190024.GA31559@redhat.com>
+References: <alpine.LFD.2.01.0910131317360.26777@localhost.localdomain> <4AD4F548.2030506@microgate.com> <alpine.LFD.2.01.0910131514100.3404@localhost.localdomain> <1255478932.19056.24.camel@localhost.localdomain> <4AD51D6B.7010509@microgate.com> <alpine.LFD.2.01.0910131744590.3404@localhost.localdomain> <20091014125846.1a3c8d40@lxorguk.ukuu.org.uk> <alpine.LFD.2.01.0910140804180.6146@localhost.localdomain> <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain> <87aazsh80x.fsf@devron.myhome.or.jp>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S935152AbZJORj0@vger.kernel.org>
-In-Reply-To: <alpine.LFD.2.01.0910140925440.6146@localhost.localdomain> (Linus
-	Torvalds's message of "Wed, 14 Oct 2009 09:38:43 -0700 (PDT)")
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1762463AbZJOTF5@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <87aazsh80x.fsf@devron.myhome.or.jp>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Alan Cox <alan@lxorguk.ukuu.org.uk>, Oleg Nesterov <oleg@redhat.com>, Paul Fulghum <paulkf@microgate.com>, Boyan <btanastasov@yahoo.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>
+To: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Alan Cox <alan@lxorguk.ukuu.org.uk>, Paul Fulghum <paulkf@microgate.com>, Boyan <btanastasov@yahoo.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>
 
-Hi,
+On 10/16, OGAWA Hirofumi wrote:
+>
+> > +void flush_delayed_work(struct delayed_work *dwork)
+> > +{
+> > +	if (del_timer(&dwork->timer)) {
+> > +		struct cpu_workqueue_struct *cwq;
+> > +		cwq = wq_per_cpu(keventd_wq, get_cpu());
+> > +		__queue_work(cwq, &dwork->work);
+> > +		put_cpu();
+> > +	}
+> > +	flush_work(&dwork->work);
+> > +}
+> > +EXPORT_SYMBOL(flush_delayed_work);
+> > +
+> > +/**
+>
+> Sorry if I'm missing the point. Doesn't this have (possible) race with
+> schedule_delayed_work() (i.e. by tty writer)?
+>
+>              cpu0                                      cpu1
+>
+>     if (del_timer(&dwork->timer)) {
 
-Linus Torvalds <torvalds@linux-foundation.org> writes:
+If dwork->timer is pending - _PENDING must be set.
+If del_timer() succeeds, nobody else can clear this bit.
 
-> diff --git a/drivers/char/tty_buffer.c b/drivers/char/tty_buffer.c
-> index 0296612..66fa4e1 100644
-> --- a/drivers/char/tty_buffer.c
-> +++ b/drivers/char/tty_buffer.c
-> @@ -468,7 +468,7 @@ static void flush_to_ldisc(struct work_struct *work)
->   */
->  void tty_flush_to_ldisc(struct tty_struct *tty)
->  {
-> -	flush_to_ldisc(&tty->buf.work.work);
-> +	flush_delayed_work(&tty->buf.work);
->  }
+>                                             // cpu0 doesn't set _PENDING
+>                                             schedule_delayed_work()
 
-This might wait unnecessary scheduled-work on input_available_p(). This
-is nitpick though, we can call tty_flush_to_ldisc() only when data is
-unavailable.
+and in this case schedule_delayed_work()->queue_delayed_work_on()
+can't succeed because it does test_and_set_bit(_PENDING).
 
-I.e. the following or something,
 
-static inline int input_available_p(struct tty_struct *tty, int amt)
-{
-	int try = 0;
+But. Since this helper was merged, I think it should use del_timer_sync()
+to be correct. Yes, it is slower, but otherwise flush is racy.
 
-retry:
-	if (tty->icanon) {
-		if (tty->canon_data)
-			return 1;
-	} else if (tty->read_cnt >= (amt ? amt : 1))
-		return 1;
+And I think it should return a bolean to match flush_work(). IOW,
 
-	if (!checked) {
-		tty_flush_to_ldisc(tty);
-		try = 1;
-		goto retry;
+	int flush_delayed_work(struct delayed_work *dwork)
+	{
+		int requeued = false;
+
+		if (del_timer(&dwork->timer)) {
+			struct cpu_workqueue_struct *cwq;
+			cwq = wq_per_cpu(keventd_wq, get_cpu());
+			__queue_work(cwq, &dwork->work);
+			put_cpu();
+
+			requeued = true;
+		}
+
+		return flush_work(&dwork->work) || requeued;
 	}
 
-	return 0;
-}
+Not that I think this is terribly important, but still.
 
-> +void flush_delayed_work(struct delayed_work *dwork)
-> +{
-> +	if (del_timer(&dwork->timer)) {
-> +		struct cpu_workqueue_struct *cwq;
-> +		cwq = wq_per_cpu(keventd_wq, get_cpu());
-> +		__queue_work(cwq, &dwork->work);
-> +		put_cpu();
-> +	}
-> +	flush_work(&dwork->work);
-> +}
-> +EXPORT_SYMBOL(flush_delayed_work);
-> +
-> +/**
+I'll send the patch.
 
-Sorry if I'm missing the point. Doesn't this have (possible) race with
-schedule_delayed_work() (i.e. by tty writer)?
-
-             cpu0                                      cpu1
-
-    if (del_timer(&dwork->timer)) {
-                                            // cpu0 doesn't set _PENDING
-                                            schedule_delayed_work()
-        cwq = wq_per_cpu();
-        __queue_work(cwq, &dwork->work);
-        put_cpu();
-    }
-                                            // run timer
-                                            delayed_work_timer_fn()
-                                                __queue_work()
-                                                    list_add_tail()
-                                                // re-add without list_del(),
-                                                // so this will break the list?
-    flush_work(&dwork->work);
-
-Thanks.
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Oleg.
