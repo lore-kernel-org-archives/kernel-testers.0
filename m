@@ -1,100 +1,121 @@
-From: Mel Gorman <mel@csn.ul.ie>
+From: reinette chatre <reinette.chatre@intel.com>
 Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Fri, 16 Oct 2009 10:39:40 +0100
-Message-ID: <20091016093939.GA32397@csn.ul.ie>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910142034.58826.elendil@planet.nl> <20091014235636.GF5027@csn.ul.ie> <200910152215.13011.elendil@planet.nl>
+Date: Fri, 16 Oct 2009 10:21:56 -0700
+Message-ID: <1255713716.21134.186.camel@rc-desk>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
+	 <200910150402.03953.elendil@planet.nl> <1255620567.21134.162.camel@rc-desk>
+	 <200910152142.02876.elendil@planet.nl>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <owner-linux-mm@kvack.org>
-Content-Disposition: inline
-In-Reply-To: <200910152215.13011.elendil@planet.nl>
+In-Reply-To: <200910152142.02876.elendil@planet.nl>
 Sender: owner-linux-mm@kvack.org
 List-Id: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: Frans Pop <elendil@planet.nl>
-Cc: David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org
+Cc: Mel Gorman <mel@csn.ul.ie>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, "Abbas, Mohamed" <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>
 
-On Thu, Oct 15, 2009 at 10:15:09PM +0200, Frans Pop wrote:
-> On Thursday 15 October 2009, Mel Gorman wrote:
-> > After a lot more eyeballing, the best next candidate within mm is the
-> > following patch. Should be tested on it's own and in combination with
-> > the wakeup-kswapd patch sent before.
+On Thu, 2009-10-15 at 12:41 -0700, Frans Pop wrote:
+> On Thursday 15 October 2009, reinette chatre wrote:
+> > > The log file timestamps don't tell much as the logging gets delayed,
+> > > so they all end up at the same time. Maybe I should enable the kernel
+> > > timestamps so we can see how far apart these failures are.
 > >
-> > From 4e8b5217f51a00caee527e4e8d8e46fe9f82b482 Mon Sep 17 00:00:00 2001
-> > From: Mel Gorman <mel@csn.ul.ie>
-> > Date: Thu, 15 Oct 2009 00:17:05 +0100
-> > Subject: [PATCH] page allocator: Direct reclaim should always obey
-> > watermarks
-> >
-> > ALLOC_NO_WATERMARKS should be cleared when trying to allocate from the
-> > free-lists after a direct reclaim.
+> > If you can get accurate timing it will be very useful. I am interested
+> > to see how quickly it goes from "48 free buffers" to "0 free buffers".
 > 
-> I've tested the two patches together and this seems like a definite
-> improvement.
+> Attached the dmesg for three consecutive test runs (i.e. without 
+> rebooting). Not that the 2nd one includes only "0 free buffers" messages, 
+> even though the behavior (point where desktop freezes and music stops) 
+> looked similar.
 
-You probably don't need the mental image, but this made me do a happy
-dance. Certainly helps my cold!
+Thank you very much. I am studying it.
 
-> I still get SKB errors on the first test, but the desktop
-> freezes are a lot shorter and the total time needed to load the 3rd gitk
-> goes down from ~2:15 to ~1:15. The counter in gitk of the number of
-> loaded commits goes up visibly faster and with fewer halts.
+
+> Not sure if you can tell all that much from the data.
 > 
-
-This brings us close to the state of affairs before the akpm merge.
-There might still be something missing in either the mm area or the wireless
-driver but any improvement is better than none.
-
-> This is on top of current mainline with the RX_LOW_WATERMARK in iwlagn
-> at it's current value (8).
+> N.B. You may want to clean this up in iwlwifi code:
+> iwl-dev.h:#include "iwl-fh.h"
+> iwl-dev.h:#define RX_LOW_WATERMARK 8
+> iwl-fh.h:#define RX_LOW_WATERMARK 8
 > 
-> Here are the allocation failures for 2 consecutive tests. Note that the
-> first test still shows quite a lot of failures, but the second test hardly
-> had any at all (I still had music skips though).
-> 
+> I.e: RX_LOW_WATERMARK is defined in iwl-dev.h even though that includes 
+> iwl-fh.h where it's also defined. The same may be true for other defines.
 
-So, we are still dealing with three problems.
+Sorry about that. The patch below will fix that. I will send it
+separately to wireless list.
 
-1. GFP_ATOMICS were introduced to the wireless driver in the
-   2.6.30..2.6.31 timeframe. It has been more or less identified as being
-   the tasklet off-loading and the pools being depleted too easily. This
-   still needs to be fixed. 
+From 7cc8e6482b359eef5ce099457037a237d355b5b1 Mon Sep 17 00:00:00 2001
+From: Reinette Chatre <reinette.chatre@intel.com>
+Date: Fri, 16 Oct 2009 10:11:10 -0700
+Subject: [PATCH] iwlwifi: remove duplicate defines
 
-2. There is also some firmware reloading problem of an unknown source
+RX_FREE_BUFFERS and RX_LOW_WATERMARK are currently defined in four places.
+Based on how files are included we only need the definition in iwl-fh.h
 
-3. There was an mm regression that made GFP_ATOMIC failures much worse.
-   This is at least partially due to tasks exiting being able to go below the
-   watermarks and kswapd not being woken up when it should be.  This could
-   be the source of the allocation failures on resume that have nothing to
-   do with the iwlagn wireless driver.
+Signed-off-by: Reinette Chatre <reinette.chatre@intel.com>
+Reported-by: Frans Pop <elendil@planet.nl>
+---
+ drivers/net/wireless/iwlwifi/iwl-3945-hw.h |    6 ------
+ drivers/net/wireless/iwlwifi/iwl-3945.h    |    6 ------
+ drivers/net/wireless/iwlwifi/iwl-dev.h     |    6 ------
+ 3 files changed, 0 insertions(+), 18 deletions(-)
 
-I am going to put together the pair of patches against mainline with a
-recommendation they be also applied for 2.6.31.5. I'll keep looking to
-see can I spot another possible candidate for GFP_ATOMIC being worse
-than it was.
-
-> [  232.845116] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-> [  232.845116] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-> [  232.873009] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-> [  232.884545] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-> [  240.121577] __ratelimit: 26 callbacks suppressed
-> [  240.121634] __ratelimit: 6 callbacks suppressed
-> [  240.124006] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 6 free buffers remaining.
-> [  304.335767] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-> [  304.335767] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-> [  304.374729] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-> [  309.446481] __ratelimit: 5 callbacks suppressed
-> [  309.450197] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 0 free buffers remaining.
-> 
-> [  525.912934] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 5 free buffers remaining.
-> [  525.953939] iwlagn 0000:10:00.0: Failed to allocate SKB buffer with GFP_ATOMIC. Only 7 free buffers remaining.
-> [  536.058171] __ratelimit: 1 callbacks suppressed
-> 
-
+diff --git a/drivers/net/wireless/iwlwifi/iwl-3945-hw.h b/drivers/net/wireless/iwlwifi/iwl-3945-hw.h
+index ccdac69..6fd10d4 100644
+--- a/drivers/net/wireless/iwlwifi/iwl-3945-hw.h
++++ b/drivers/net/wireless/iwlwifi/iwl-3945-hw.h
+@@ -248,12 +248,6 @@ struct iwl3945_eeprom {
+ #define TFD_CTL_PAD_SET(n)         (n << 28)
+ #define TFD_CTL_PAD_GET(ctl)       (ctl >> 28)
+ 
+-/*
+- * RX related structures and functions
+- */
+-#define RX_FREE_BUFFERS 64
+-#define RX_LOW_WATERMARK 8
+-
+ /* Sizes and addresses for instruction and data memory (SRAM) in
+  * 3945's embedded processor.  Driver access is via HBUS_TARG_MEM_* regs. */
+ #define IWL39_RTC_INST_LOWER_BOUND		(0x000000)
+diff --git a/drivers/net/wireless/iwlwifi/iwl-3945.h b/drivers/net/wireless/iwlwifi/iwl-3945.h
+index f3907c1..84fa0d7 100644
+--- a/drivers/net/wireless/iwlwifi/iwl-3945.h
++++ b/drivers/net/wireless/iwlwifi/iwl-3945.h
+@@ -130,12 +130,6 @@ struct iwl3945_frame {
+ #define SN_TO_SEQ(ssn) (((ssn) << 4) & IEEE80211_SCTL_SEQ)
+ #define MAX_SN ((IEEE80211_SCTL_SEQ) >> 4)
+ 
+-/*
+- * RX related structures and functions
+- */
+-#define RX_FREE_BUFFERS 64
+-#define RX_LOW_WATERMARK 8
+-
+ #define SUP_RATE_11A_MAX_NUM_CHANNELS  8
+ #define SUP_RATE_11B_MAX_NUM_CHANNELS  4
+ #define SUP_RATE_11G_MAX_NUM_CHANNELS  12
+diff --git a/drivers/net/wireless/iwlwifi/iwl-dev.h b/drivers/net/wireless/iwlwifi/iwl-dev.h
+index 1378654..0fa0cf5 100644
+--- a/drivers/net/wireless/iwlwifi/iwl-dev.h
++++ b/drivers/net/wireless/iwlwifi/iwl-dev.h
+@@ -406,12 +406,6 @@ struct iwl_host_cmd {
+ 	u8 id;
+ };
+ 
+-/*
+- * RX related structures and functions
+- */
+-#define RX_FREE_BUFFERS 64
+-#define RX_LOW_WATERMARK 8
+-
+ #define SUP_RATE_11A_MAX_NUM_CHANNELS  8
+ #define SUP_RATE_11B_MAX_NUM_CHANNELS  4
+ #define SUP_RATE_11G_MAX_NUM_CHANNELS  12
 -- 
-Mel Gorman
-Part-time Phd Student                          Linux Technology Center
-University of Limerick                         IBM Dublin Software Lab
+1.5.6.3
+
+
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-mm' in
