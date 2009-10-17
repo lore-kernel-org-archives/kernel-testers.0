@@ -1,72 +1,43 @@
-From: Alan Jenkins <sourcejedi.lkml@googlemail.com>
-Subject: Re: [kernel 2.6.31.4] backlight controls gone mad
-Date: Sat, 17 Oct 2009 17:58:40 +0100
-Message-ID: <9b2b86520910170958o7b2348f9x751f5e89b59d2cf3@mail.gmail.com>
-References: <f1ac5a50910161546t6eeef710q6d40f22a61d15d1a@mail.gmail.com>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: Kernel crash on 2.6.31.x (kcryptd: page allocation failure..)
+Date: Sat, 17 Oct 2009 22:30:11 +0200
+Message-ID: <200910172230.13162.elendil@planet.nl>
+References: <hbd4dk$5ac$1@ultimate100.geggus.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-acpi-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=CcdFSLBtJBenyFPvHP12IYxKvy34HTCBSVm/iopHb/E=;
-        b=RhMUo0o82/opLAVLLJcb3YU6K14d0rYlyEQtEog6V8klfF/XzguWsyCbyJgNGUbyUF
-         iUB7UB63Pajg3TMrJRd2s9RET76I+0tNtkVek1jBMohO0SXKPrK50rdf9Wt+kGfoS8sZ
-         5asf1h8dGXaH4wom3yZJJWypVcxNp8XrnMZWA=
-In-Reply-To: <f1ac5a50910161546t6eeef710q6d40f22a61d15d1a@mail.gmail.com>
-Sender: linux-acpi-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-reply-To: <hbd4dk$5ac$1@ultimate100.geggus.net>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: =?ISO-8859-1?Q?N=E9lson_=ABVuDu=BB_Cunha?= <vudu.curse@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Kernel Testers List <kernel-testers@vger.kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On 10/16/09, N=E9lson =ABVuDu=BB Cunha <vudu.curse@gmail.com> wrote:
-> Hello,
->
-> I'm using ArchLinux (here's the "downstream" bug report:
-> http://bugs.archlinux.org/task/16698) and with the last update to
-> kernel 2.6.31.4 my backlight/brightness controls have gone mad.
->
-> My laptop's screen keeps blinking, slowly increasing or decreasing it=
-s
-> luminosity randomly. Sometimes it stays still for a couple of minutes
-> at any random brightness level, but it's very uncomfortable for the
-> eyes when it's blinking.
-> Here's a video of what's happening:
-> http://www.mediafire.com/download.php?z4mi4uzidjn
->
-> I've tried to use /proc/acpi/video/VGA/LCDD/brightness and
-> /sys/class/backlight/acpi_video0/brightness but with no luck, because
-> they make no changes and when I cat them I get wrong values.
->
-> I tried using xbacklight but it gives me "No outputs have backlight
-> property".
->
-> With the previous (2.6.30.6) version I had no problems and after
-> getting this problem I installed Arch's "kernel26-lts" package
-> (2.6.27.37) and I'm having no issues with that kernel.
->
-> My laptop is an ASUS M51VA with an Intel C2D and an ATI HD 3650. I
-> tried fglrx, radeon and radeonhd and it made no difference.
->
-> If you need more details, please say so.
->
->. Best Regards.
+Hello Sven,
 
-The ACPI people tend to use the kernel bugzilla to track these sorts
-of bugs (and it's also used to keep track of regressions).  It would
-be great if you could enter this on bugzilla.kernel.org.  Sounds like
-you want to file it under the acpi video driver.
+Sven Geggus wrote:
+> I can reproducible crash my machine by writing bulk data from a
+> socket to an encrypted partition. It always crashes after a few
+> Gigabytes have been written.
+> 
+> The Partition in charge is using dm-crypt+xfs filesystem.
 
-Please include the result of "dmesg" on both 2.6.31.4 and 2.6.30.6.
-"acpidump" output would also be very helpful.
+This is without any doubt related to an issue that's already being 
+investigated. I have to warn you that the thread is very long:
 
-Thanks
-Alan
---
-To unsubscribe from this list: send the line "unsubscribe linux-acpi" i=
-n
-the body of a message to majordomo@vger.kernel.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+http://thread.gmane.org/gmane.linux.kernel/896714
+
+What is the _exact_ command sequence you use to reproduce it? I already 
+have a testcase, but a second test case, or a simpler one, may be useful.
+
+In all cases reported so far, and also in your case, networking is involved 
+in the actual allocation errors.
+
+It would also be useful if you could try to bisect the issue independently. 
+For me bisection has proven difficult because the symptoms change 
+between .30 and .31. The suspicion is that more than one change is 
+involved in the regression.
+
+Cheers,
+FJP
