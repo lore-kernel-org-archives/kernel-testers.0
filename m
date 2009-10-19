@@ -1,98 +1,57 @@
-From: Pekka Enberg <penberg@cs.helsinki.fi>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
 Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Mon, 19 Oct 2009 03:36:02 +0300
-Message-ID: <1255912562.6824.9.camel@penberg-laptop>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
-	 <20091014103002.GA5027@csn.ul.ie> <200910141510.11059.elendil@planet.nl>
-	 <200910190133.33183.elendil@planet.nl>
+Date: Mon, 19 Oct 2009 04:44:52 +0200
+Message-ID: <200910190444.55867.elendil@planet.nl>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910190133.33183.elendil@planet.nl> <1255912562.6824.9.camel@penberg-laptop>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <200910190133.33183.elendil@planet.nl>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1255912562.6824.9.camel@penberg-laptop>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Frans Pop <elendil@planet.nl>
-Cc: Mel Gorman <mel@csn.ul.ie>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org, jens.axboe@oracle.com
+To: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Cc: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org
 
-(Adding Jens to CC.)
-
-On Wednesday 14 October 2009, Frans Pop wrote:
-> > > There still has not been a mm-change identified that makes
-> > > fragmentation significantly worse.
-
-On Mon, 2009-10-19 at 01:33 +0200, Frans Pop wrote:
-> > My bisection shows a very clear point, even if not an individual commit,
-> > in the 'akpm' merge where SKB errors suddenly become *much* more
-> > frequent and easy to trigger.
-> > I'm sorry to say this, but the fact that nothing has been identified yet
-> > is IMO the result of a lack of effort, not because there is no such
-> > change.
-> 
-> I was wrong. It turns out that I was creating the variations in the test 
-> results around the akpm merge myself by tiny changes in the way I ran the 
-> tests. It took another round of about 30 compilations and tests purely in 
-> this range to show that, but those same tests also made me aware of other 
-> patterns I should look at.
-> 
-> Until a few days ago I was concentrating on "do I see SKB allocation errors 
-> or not". Since then I've also been looking more consciously at when they 
-> happen, at disk access patterns and at desktop freeze patterns.
-> 
-> I think I did mention before that this whole issue is rather subtle :-/
-> So, my apologies for finguering the wrong area for so long, but it looked 
-> solid given the info available at the time.
-> 
-> On Thursday 15 October 2009, Mel Gorman wrote:
-> > Outside the range of commits suspected of causing problems was the
-> > following. It's extremely low probability
+On Monday 19 October 2009, Pekka Enberg wrote:
+> On Wednesday 14 October 2009, Frans Pop wrote:
+> > On Thursday 15 October 2009, Mel Gorman wrote:
+> > > Outside the range of commits suspected of causing problems was the
+> > > following. It's extremely low probability
+> > >
+> > > Commit 8aa7e84 Fix congestion_wait() sync/async vs read/write
+> > > confusion This patch alters the call to congestion_wait() in the
+> > > page allocator. Frankly, I don't get the change but it might worth
+> > > checking if replacing BLK_RW_ASYNC with WRITE on top of 2.6.31 makes
+> > > any difference
 > >
-> > Commit 8aa7e84 Fix congestion_wait() sync/async vs read/write confusion
-> >         This patch alters the call to congestion_wait() in the page
-> >         allocator. Frankly, I don't get the change but it might worth
-> >         checking if replacing BLK_RW_ASYNC with WRITE on top of 2.6.31
-> >         makes any difference
-> 
-> This is the real culprit. Mel: thanks very much for looking beyond the 
-> area I identified. Your overview of mm changes was exactly what I needed 
-> and really helped a lot during my later tests.
-> 
-> This commit definitely causes most of the problems; confirmed by reverting 
-> it on top of 2.6.31 (also requires reverting 373c0a7e, which is a later 
-> build fix).
+> > This is the real culprit. Mel: thanks very much for looking beyond the
+> > area I identified. Your overview of mm changes was exactly what I
+> > needed and really helped a lot during my later tests.
+> >
+> > This commit definitely causes most of the problems; confirmed by
+> > reverting it on top of 2.6.31 (also requires reverting 373c0a7e, which
+> > is a later build fix).
+>
+> Mel/Jens, any ideas why commit 8aa7e84 makes us run out of high order
+> pages? Should we be using BLK_RW_SYNC in mm/page_alloc.c instead of
+> BLK_RW_ASYNC?
 
-Mel/Jens, any ideas why commit 8aa7e84 makes us run out of high order
-pages? Should we be using BLK_RW_SYNC in mm/page_alloc.c instead of
-BLK_RW_ASYNC?
+I'm starting to think that this commit may not be directly related to high 
+order allocation failures. The fact that I'm seeing SKB allocation 
+failures earlier because of this commit could be just a side effect.
+It could be that instead the main impact of this commit is on encrypted 
+file system and/or encrypted swap (kcryptd).
 
-			Pekka
+Besides mm the commit also touches dm-crypt (and nfs/write.c, but as I'm 
+only reading from NFS that's unlikely).
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index bf72055..fa8380a 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -1727,7 +1727,7 @@ __alloc_pages_high_priority(gfp_t gfp_mask, unsigned int order,
- 			preferred_zone, migratetype);
- 
- 		if (!page && gfp_mask & __GFP_NOFAIL)
--			congestion_wait(BLK_RW_ASYNC, HZ/50);
-+			congestion_wait(BLK_RW_SYNC, HZ/50);
- 	} while (!page && (gfp_mask & __GFP_NOFAIL));
- 
- 	return page;
-@@ -1898,7 +1898,7 @@ rebalance:
- 	pages_reclaimed += did_some_progress;
- 	if (should_alloc_retry(gfp_mask, order, pages_reclaimed)) {
- 		/* Wait for some write requests to complete then retry */
--		congestion_wait(BLK_RW_ASYNC, HZ/50);
-+		congestion_wait(BLK_RW_SYNC, HZ/50);
- 		goto rebalance;
- 	}
- 
+Reason for thinking this is that reverting it makes no difference for Karol 
+[1]. It will be interesting to see if it does make a difference for Sven 
+Geggus [2].
 
+/me wonders if we'll ever get to the bottom of this...
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+[1] http://lkml.org/lkml/2009/10/18/138
+[2] http://lkml.org/lkml/2009/10/17/113
