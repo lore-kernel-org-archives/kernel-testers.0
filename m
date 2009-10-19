@@ -1,94 +1,72 @@
-From: Michael Ellerman <michael@ellerman.id.au>
-Subject: Re: Characters vanishing in the tty layer? (maybe related to [Bug
- #14388] keyboard under X with 2.6.31)
-Date: Mon, 19 Oct 2009 17:38:07 +1100
-Message-ID: <1255934287.4192.125.camel@concordia>
-References: <1255501294.21962.24.camel@concordia>
-	 <alpine.LFD.2.01.0910140748420.6146@localhost.localdomain>
-Reply-To: michael@ellerman.id.au
+From: Tobi Oetiker <tobi@oetiker.ch>
+Subject: Re: [Bug #14141] order 2 page allocation failures (generic)
+Date: Mon, 19 Oct 2009 11:49:08 +0200 (CEST)
+Message-ID: <alpine.DEB.2.00.0910191146110.1306@sebohet.brgvxre.pu>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910190133.33183.elendil@planet.nl> <1255912562.6824.9.camel@penberg-laptop> <200910190444.55867.elendil@planet.nl>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-9Wod46MrbXzcvq80/psn"
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754681AbZJSGiI@vger.kernel.org>
-In-Reply-To: <alpine.LFD.2.01.0910140748420.6146@localhost.localdomain>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Michael Neuling <mikey@neuling.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <200910190444.55867.elendil@planet.nl>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Frans Pop <elendil@planet.nl>
+Cc: Pekka Enberg <penberg@cs.helsinki.fi>, Mel Gorman <mel@csn.ul.ie>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org, jens.axboe@oracle.com
+
+Today Frans Pop wrote:
+
+>
+> I'm starting to think that this commit may not be directly related to high
+> order allocation failures. The fact that I'm seeing SKB allocation
+> failures earlier because of this commit could be just a side effect.
+> It could be that instead the main impact of this commit is on encrypted
+> file system and/or encrypted swap (kcryptd).
+>
+> Besides mm the commit also touches dm-crypt (and nfs/write.c, but as I'm
+> only reading from NFS that's unlikely).
+
+I have updated a fileserver to 2.6.31 today and I see page
+allocation failures from several parts of the system ... mostly nfs though ... (it is a nfs server).
+So I guess the problem must be quite generic:
 
 
---=-9Wod46MrbXzcvq80/psn
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 2009-10-14 at 07:53 -0700, Linus Torvalds wrote:
->=20
-> On Wed, 14 Oct 2009, Michael Ellerman wrote:
-> >=20
-> > I'm using 80f5069 or thereabouts, plus some powerpc patches. We also se=
-e
-> > the bug in 31, but not in 27.
->=20
-> Could you bisect it? Even if you don't bisect it _all_ the way, 27..31 is=
-=20
-> a big range. Doing just a handful of bisections (say six or seven) would=20
-> cut down the number of commits from 47 thousand to somewhat more=20
-> manageable "hundreds of commits"... But obviously going all the way would=
-=20
-> be better.
-
-As Benh said it's not really bisectable on our kernel. But I got Mikey
-to bisect it on upstream using a different simulator model, and he
-couldn't tie it down. It becomes easier to hit in more recent kernels
-(since 27), but he could hit in 25 too.
-
-Looking at the code, which I should have done first, it looks like this
-is expected behaviour. The sequence is roughly:
-
-      * hvc_console reads all our input and passes it to the tty code
-        via tty_insert_flip_char()
-      * flush_to_ldisc() runs calling n_tty_receive_buf(), which fills
-        4K of tty->read_buf
-      * Once read_buf is full, tty->receive_room becomes 0 and
-        flush_to_ldisc() reschedules itself to run again in 1 jiffy.
-      * Bash reads 1 character, causing receive_room to become 1.
-      * flush_to_ldisc() runs again and inserts 1 more char because
-        receive_room is now 1.
-      * (repeat the last two steps a few times)
-      * Bash sets tty->icanon =3D 1 via n_tty_set_termios(), which calls
-        n_tty_set_room(). Because icanon is enabled, n_tty_set_room()
-        lies and says we have space for 1 character even though we
-        don't.
-      * flush_to_ldisc() runs, sees that receive_room is 1 and calls
-        n_tty_receive_buf()
-      * n_tty_receive_buf() calls n_tty_receive_char() which drops the
-        character because there's no room (~ line 1132).
-      * We keep dropping characters until we see a newline, which
-        increments tty->canon_data, causing n_tty_set_room() to report 0
-        space left, and so flush_to_ldisc() reschedules again.
+Oct 19 07:10:02 johan kernel: [23565.684110] swapper: page allocation failure. order:5, mode:0x4020 [kern.warning]
+Oct 19 07:10:02 johan kernel: [23565.684118] Pid: 0, comm: swapper Not tainted 2.6.31-02063104-generic #02063104 [kern.warning]
+Oct 19 07:10:02 johan kernel: [23565.684121] Call Trace: [kern.warning]
+Oct 19 07:10:02 johan kernel: [23565.684124]  <IRQ>  [<ffffffff810da5a2>] __alloc_pages_slowpath+0x3b2/0x4c0 [kern.warning]
 
 
-It's a bit unfortunate that n_tty_set_room() lies about the available
-space when icanon =3D 1, but it makes sense in order to handle erase. It
-would be nice if n_tty_receive_buf() returned a status to
-flush_to_disc() to say "actually I could only fit X chars after all,
-please take them back" - but I don't grok how that would play with all
-the other logic in there.
+Oct 19 08:59:16 johan kernel: [30120.685647] __ratelimit: 13 callbacks suppressed [kern.warning]
+Oct 19 08:59:16 johan kernel: [30120.685654] nfsd: page allocation failure. order:5, mode:0x4020 [kern.warning]
+Oct 19 08:59:16 johan kernel: [30120.685660] Pid: 6071, comm: nfsd Not tainted 2.6.31-02063104-generic #02063104 [kern.warning]
+Oct 19 08:59:16 johan kernel: [30120.685663] Call Trace: [kern.warning]
+Oct 19 08:59:16 johan kernel: [30120.685666]  <IRQ>  [<ffffffff810da5a2>] __alloc_pages_slowpath+0x3b2/0x4c0 [kern.warning]
 
-cheers
+Oct 19 09:36:31 johan kernel: [32355.708345] __ratelimit: 16 callbacks suppressed [kern.warning]
+Oct 19 09:36:31 johan kernel: [32355.708352] nfsd: page allocation failure. order:5, mode:0x4020 [kern.warning]
+Oct 19 09:36:31 johan kernel: [32355.708358] Pid: 6087, comm: nfsd Not tainted 2.6.31-02063104-generic #02063104 [kern.warning]
+Oct 19 09:36:31 johan kernel: [32355.708361] Call Trace: [kern.warning]
+Oct 19 09:36:31 johan kernel: [32355.708364]  <IRQ>  [<ffffffff810da5a2>] __alloc_pages_slowpath+0x3b2/0x4c0 [kern.warning]
+
+Oct 19 10:52:01 johan kernel: [36885.358312] __ratelimit: 31 callbacks suppressed [kern.warning]
+Oct 19 10:52:01 johan kernel: [36885.358319] nfsd: page allocation failure. order:5, mode:0x4020 [kern.warning]
+Oct 19 10:52:01 johan kernel: [36885.358325] Pid: 6057, comm: nfsd Not tainted 2.6.31-02063104-generic #02063104 [kern.warning]
+Oct 19 10:52:01 johan kernel: [36885.358327] Call Trace: [kern.warning]
+Oct 19 10:52:01 johan kernel: [36885.358331]  <IRQ>  [<ffffffff810da5a2>] __alloc_pages_slowpath+0x3b2/0x4c0 [kern.warning]
+
+Oct 19 11:12:01 johan kernel: [38085.163831] events/3: page allocation failure. order:5, mode:0x4020 [kern.warning]
+Oct 19 11:12:01 johan kernel: [38085.163840] Pid: 18, comm: events/3 Not tainted 2.6.31-02063104-generic #02063104 [kern.warning]
+Oct 19 11:12:01 johan kernel: [38085.163843] Call Trace: [kern.warning]
+Oct 19 11:12:01 johan kernel: [38085.163846]  <IRQ>  [<ffffffff810da5a2>] __alloc_pages_slowpath+0x3b2/0x4c0 [kern.warning]
 
 
 
+-- 
+Tobi Oetiker, OETIKER+PARTNER AG, Aarweg 15 CH-4600 Olten, Switzerland
+http://it.oetiker.ch tobi@oetiker.ch ++41 62 775 9902 / sb: -9900
 
---=-9Wod46MrbXzcvq80/psn
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEABECAAYFAkrcCU8ACgkQdSjSd0sB4dIPAgCcCUp4D/8++vh0PUlPeGlbgy+s
-TW0AoIXGTbZ7M9ntWqlVlD1ThEReAsTY
-=TvBk
------END PGP SIGNATURE-----
-
---=-9Wod46MrbXzcvq80/psn--
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
