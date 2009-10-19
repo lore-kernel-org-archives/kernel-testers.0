@@ -1,106 +1,251 @@
-From: Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>
-Subject: Re: [Bug #14141] order 2 page allocation failures (generic)
-Date: Mon, 19 Oct 2009 15:40:05 +0200 (CEST)
-Message-ID: <alpine.DEB.2.00.0910191538450.8526@sebohet.brgvxre.pu>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910190133.33183.elendil@planet.nl> <1255912562.6824.9.camel@penberg-laptop> <200910190444.55867.elendil@planet.nl> <alpine.DEB.2.00.0910191146110.1306@sebohet.brgvxre.pu> <20091019133146.GB9036@csn.ul.ie>
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
+Date: Mon, 19 Oct 2009 15:01:52 +0100
+Message-ID: <20091019140151.GC9036@csn.ul.ie>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <20091014103002.GA5027@csn.ul.ie> <200910141510.11059.elendil@planet.nl> <200910190133.33183.elendil@planet.nl>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091019133146.GB9036-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <200910190133.33183.elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Cc: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org
+To: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
 
-Hi Mel,
-
-Today Mel Gorman wrote:
-
-> On Mon, Oct 19, 2009 at 11:49:08AM +0200, Tobi Oetiker wrote:
-> > Today Frans Pop wrote:
+On Mon, Oct 19, 2009 at 01:33:29AM +0200, Frans Pop wrote:
+> Another long mail, sorry.
+> 
+> On Wednesday 14 October 2009, Frans Pop wrote:
+> > > There still has not been a mm-change identified that makes
+> > > fragmentation significantly worse.
 > >
-> > >
-> > > I'm starting to think that this commit may not be directly related to high
-> > > order allocation failures. The fact that I'm seeing SKB allocation
-> > > failures earlier because of this commit could be just a side effect.
-> > > It could be that instead the main impact of this commit is on encrypted
-> > > file system and/or encrypted swap (kcryptd).
-> > >
-> > > Besides mm the commit also touches dm-crypt (and nfs/write.c, but as I'm
-> > > only reading from NFS that's unlikely).
-> >
-> > I have updated a fileserver to 2.6.31 today and I see page
-> > allocation failures from several parts of the system ... mostly nfs though ... (it is a nfs server).
-> > So I guess the problem must be quite generic:
-> >
-> >
-> > Oct 19 07:10:02 johan kernel: [23565.684110] swapper: page allocation failure. order:5, mode:0x4020 [kern.warning]
-> > Oct 19 07:10:02 johan kernel: [23565.684118] Pid: 0, comm: swapper Not tainted 2.6.31-02063104-generic #02063104 [kern.warning]
-> > Oct 19 07:10:02 johan kernel: [23565.684121] Call Trace: [kern.warning]
-> > Oct 19 07:10:02 johan kernel: [23565.684124]  <IRQ>  [<ffffffff810da5a2>] __alloc_pages_slowpath+0x3b2/0x4c0 [kern.warning]
-> >
->
-> What's the rest of the stack trace? I'm wondering where a large number
-> of order-5 GFP_ATOMIC allocations are coming from. It seems different to
-> the e100 problem where there is one GFP_ATOMIC allocation while the
-> firmware is being loaded.
+> > My bisection shows a very clear point, even if not an individual commit,
+> > in the 'akpm' merge where SKB errors suddenly become *much* more
+> > frequent and easy to trigger.
+> > I'm sorry to say this, but the fact that nothing has been identified yet
+> > is IMO the result of a lack of effort, not because there is no such
+> > change.
+> 
+> I was wrong. It turns out that I was creating the variations in the test 
+> results around the akpm merge myself by tiny changes in the way I ran the 
+> tests. It took another round of about 30 compilations and tests purely in 
+> this range to show that, but those same tests also made me aware of other 
+> patterns I should look at.
+> 
 
-Oct 19 07:10:02 johan kernel: [23565.684110] swapper: page allocation failure. order:5, mode:0x4020 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684118] Pid: 0, comm: swapper Not tainted 2.6.31-02063104-generic #02063104 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684121] Call Trace: [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684124]  <IRQ>  [<ffffffff810da5a2>] __alloc_pages_slowpath+0x3b2/0x4c0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684157]  [<ffffffff810da7e5>] __alloc_pages_nodemask+0x135/0x140 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684164]  [<ffffffff815065b4>] ? _spin_unlock_bh+0x14/0x20 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684170]  [<ffffffff8110b368>] kmalloc_large_node+0x68/0xc0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684175]  [<ffffffff8110f15a>] __kmalloc_node_track_caller+0x11a/0x180 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684181]  [<ffffffff8140ffd2>] ? skb_copy+0x32/0xa0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684185]  [<ffffffff8140d8b6>] __alloc_skb+0x76/0x180 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684205]  [<ffffffff8140ffd2>] skb_copy+0x32/0xa0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684221]  [<ffffffffa050f33c>] vboxNetFltLinuxPacketHandler+0x5c/0xd0 [vboxnetflt] [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684227]  [<ffffffff81416a6d>] dev_queue_xmit_nit+0x10d/0x170 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684231]  [<ffffffff81416f79>] dev_hard_start_xmit+0x189/0x1c0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684236]  [<ffffffff8142f071>] __qdisc_run+0x1a1/0x230 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684240]  [<ffffffff81418a88>] dev_queue_xmit+0x238/0x310 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684246]  [<ffffffff8144864b>] ip_finish_output+0x11b/0x2f0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684250]  [<ffffffff814488a9>] ip_output+0x89/0xd0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684254]  [<ffffffff814478c0>] ip_local_out+0x20/0x30 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684258]  [<ffffffff814481ab>] ip_queue_xmit+0x22b/0x3f0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684264]  [<ffffffff8145d5e5>] tcp_transmit_skb+0x345/0x4e0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684269]  [<ffffffff8145eaf6>] tcp_write_xmit+0xb6/0x2e0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684273]  [<ffffffff8145ed8b>] __tcp_push_pending_frames+0x2b/0xa0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684277]  [<ffffffff8145b249>] tcp_rcv_established+0x459/0x6d0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684282]  [<ffffffff814630bd>] tcp_v4_do_rcv+0x12d/0x140 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684285]  [<ffffffff8146365e>] tcp_v4_rcv+0x58e/0x7c0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684289]  [<ffffffff8144276d>] ip_local_deliver_finish+0x11d/0x2b0 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684293]  [<ffffffff8144293b>] ip_local_deliver+0x3b/0x90 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684297]  [<ffffffff81442ad6>] ip_rcv_finish+0x146/0x420 [kern.warning]
-Oct 19 07:10:02 johan kernel: [23565.684301]  [<ffffffff8144304b>] ip_rcv+0x29b/0x370 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684304]  [<ffffffff81418f9a>] netif_receive_skb+0x38a/0x4d0 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684308]  [<ffffffff81419268>] napi_skb_finish+0x48/0x60 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684311]  [<ffffffff81419724>] napi_gro_receive+0x34/0x40 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684330]  [<ffffffffa006b623>] tg3_rx+0x373/0x4b0 [tg3] [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684339]  [<ffffffffa006cbf0>] tg3_poll_work+0x70/0xf0 [tg3] [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684347]  [<ffffffffa006ccae>] tg3_poll+0x3e/0xe0 [tg3] [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684350]  [<ffffffff814198d2>] net_rx_action+0x102/0x210 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684357]  [<ffffffff81061d24>] __do_softirq+0xc4/0x1f0 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684362]  [<ffffffff8101314c>] call_softirq+0x1c/0x30 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684365]  [<ffffffff81014945>] do_softirq+0x55/0x90 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684369]  [<ffffffff8106116b>] irq_exit+0x7b/0x90 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684372]  [<ffffffff81013e93>] do_IRQ+0x73/0xe0 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684378]  [<ffffffff81012993>] ret_from_intr+0x0/0x11 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684381]  <EOI>  [<ffffffff810318b6>] ? native_safe_halt+0x6/0x10 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684391]  [<ffffffff81019cd8>] ? default_idle+0x48/0xe0 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684396]  [<ffffffff8150929d>] ? __atomic_notifier_call_chain+0xd/0x10 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684400]  [<ffffffff815092b1>] ? atomic_notifier_call_chain+0x11/0x20 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684404]  [<ffffffff810107c8>] ? cpu_idle+0x98/0xe0 [kern.warning]
-Oct 19 07:10:04 johan kernel: [23565.684410]  [<ffffffff81500d95>] ? start_secondary+0x95/0xc0 [kern.warning]
+Once again, thanks for persisting with this for so long. That many tests
+and searching is a miserable undertaking.
 
-if you need more, I can send you a whole bunch of them ...
+> Until a few days ago I was concentrating on "do I see SKB allocation errors 
+> or not". Since then I've also been looking more consciously at when they 
+> happen, at disk access patterns and at desktop freeze patterns.
+> 
+> I think I did mention before that this whole issue is rather subtle :-/
 
-cheers
-tobi
+Indeed
+
+> So, my apologies for finguering the wrong area for so long, but it looked 
+> solid given the info available at the time.
+> 
+> On Thursday 15 October 2009, Mel Gorman wrote:
+> > Outside the range of commits suspected of causing problems was the
+> > following. It's extremely low probability
+> >
+> > Commit 8aa7e84 Fix congestion_wait() sync/async vs read/write confusion
+> >         This patch alters the call to congestion_wait() in the page
+> >         allocator. Frankly, I don't get the change but it might worth
+> >         checking if replacing BLK_RW_ASYNC with WRITE on top of 2.6.31
+> >         makes any difference
+> 
+> This is the real culprit. Mel: thanks very much for looking beyond the 
+> area I identified. Your overview of mm changes was exactly what I needed 
+> and really helped a lot during my later tests.
+> 
+
+I'm surprised this made such a big difference which is why I described
+it as "extremely low probability". It implies that the real problem isn't
+fragmentation per-se but the timing of when pages get consumed.
+
+Maybe what has really changed is how long direct reclaimers wait before trying
+to allocate again. After the commit, if direct reclaimers are waiting longer
+between direct reclaim attempts, it might mean that the GFP_KERNEL reclaimers
+of high-order pages are doing less work before and hurting parallel GFP_ATOMIC
+users. Jens, does this sound plausible?
+
+> This commit definitely causes most of the problems; confirmed by reverting 
+> it on top of 2.6.31 (also requires reverting 373c0a7e, which is a later 
+> build fix).
+> 
+> The rest of this mail gives details on my tests and how I reached the above 
+> conclusion.
+> 
+> TEST BASELINE (2.6.30)
+> ======================
+> I mentioned in an earlier mail that I run three instances of gitk for my 
+> tests. Loading gitk seems to consist of 3 phases:
+> 1) general initial scan of the repository (branches?)
+> 2) reading commits: commit counter increases
+> 3) reading references (including bisection good/bad points) and
+>    uncommitted changes
+> 
+> Below times and comments per stage when the test is run with 2.6.30. As my 
+> test starts after a clean boot, buffers are mostly empty.
+> 
+> 1st instance: 'gitk v2.6.29..master' (preparation)
+> 1) ~20 seconds; user interface is mostly blank
+> 2) ~5 seconds to read 35.000 commits; user interface is updated and counter
+>    increases steadily as they are read
+> 3) ~10 seconds; "branch"/"follows"/"precedes" info and tags are filled
+>    in; fairly heavy disk activity
+> 
+> 2st instance: 'gitk master' (preparation)
+> 1) 0 seconds (because data is already buffered)
+> 2) ~25 seconds to read 167500 commits; counter increases steadily
+> 3) 1-2 seconds (because data is already buffered)
+> 
+> 3st instance: 'gitk master' (the actual test)
+> 1) 0 seconds because data is already buffered
+> 2) ~55 seconds due to swapping overhead; minor music skip around commit
+>    110.000; counter slower after 90.000, some short halts, but generally
+>    increases steadily; moderate disk activity
+> 3) ~55-60 seconds; because buffers have been emptied data must by read
+>    again, with swapping; very heavy disk activity; fairly long music
+>    skip (15-20 seconds), but no SKB allocation errors
+> 
+> So, the loading of the 3rd instance takes 1.5 minutes longer than the 
+> second because of the swapping. And phase 3) is most affected by it.
+> 
+> AFTER WIRELESS CHANGE
+> =====================
+> After commit 4752c93c30 ("iwlcore: Allow skb allocation from tasklet") I 
+> start getting the SKB errors. They can be triggered reliably if the whole 
+> test is repeated 1 or 2 times, but generally not the first time the test 
+> is run.
+
+It's up to the wireless driver maintainer what to do here, but it seems
+like that patch needs to be reverted and thought about some more before
+trying again.
+
+> 
+> Or so I thought for a long time.
+> It turns out that I will get SKB errors during the first run if I'm
+> "sloppy" in the test execution. For example if I wait too long before 
+> switching from the last gitk instance to konsole where I have 
+> a 'tail -f /var/log/kern.log' running.
+
+So the timing is critical of when the high-order atomic allocations
+start kicking in.
+
+> Another factor is the state of the repository: do I have master checked 
+> out, or an older branch, or am I in the middle of a bisection. This 
+> influences how data is read from the disk and thus the test results.
+> A last factor may be the size of the kernel I'm using: my test/bisect 
+> kernel is significantly smaller than my regular kernel.
+> 
+> If the test is run completely cleanly, I will not get SKB errors during the 
+> first run. Also, this change does not affect the timings of the test at 
+> all: the total load time of the 3rd instance is still ~1:55 and music 
+> skips happen in roughly the same places. The pattern of disk activity also 
+> remains unchanged.
+> 
+> If I do *not* run the test cleanly, any SKB errors during the first test 
+> run will always be during phase 3), never during phase 2). This is what I 
+> saw during tests in the 'akpm' range, and explains the inconsistent 
+> results there.
+> 
+> After discovering this I've made a copy of the git repo so that I always 
+> test using the exact same state and tightened my test procedure.
+> 
+> AFTER congestion_wait CHANGE
+> ============================
+> If I test commit 9f2d8be, which is just before the congestion_wait() 
+> change, I still get the same pattern as described above. But when I test 
+> with 8aa7e84 ("Fix congestion_wait() sync/async vs read/write confusion"), 
+> things change dramatically when the 3rd gitk instance is started.
+> 
+
+So, assuming this is a timing problem, this commit affects the timing of
+when pages are consumed by processes doing direct reclaim.
+
+> During the 2nd phase I see the first SKB allocation errors with a music 
+> skip between reading commits 95.000 and 110.000.
+> About commit 115.000 there is a very long pause during which the counter 
+> does not increase, music stops and the desktop freezes completely. The 
+> first 30 seconds of that freeze there is only very low disk activity (which 
+> seems strange);
+
+I'm just going to have to depend on Jens here. Jens, the congestion_wait() is
+on BLK_RW_ASYNC after the commit. Reclaim usually writes pages asynchronously
+but lumpy reclaim actually waits of pages to write out synchronously so
+it's not always async.
+
+Either way, reclaim is usually worried about writing pages but it would appear
+after this change that a lot of read activity can also stall a process in
+direct reclaim. What might be happening in Frans's particular case is that the
+tasklet that allocates high-order pages for the RX buffers is getting stalled
+by congestion caused by other processes doing reads from the filesystem.
+While it makes sense from a congestion point of view to halt the IO, the
+reclaim operations from direct reclaimers is getting delayed for long enough
+to cause problems for GFP_ATOMIC.
+
+Does this sound plausible to you? If so, what's the best way of
+addressing this? Changing congestion_wait back to WRITE (assuming that
+works for Frans)? Changing it to SYNC (again, assuming it actually
+works) or a revert?
+
+> the next 25 seconds there suddenly is very high disk  
+> activity during which things gradually unfreeze and more SKB errors are 
+> displayed. After that the commit counter runs up fairly steadily again.
+> 
+> Phase 2) ends at ~1:45. Phase 3) (with more SKB errors) ends at ~2:05.
+> 
+> So this change almost doubles the time needed for phase 2) and causes SKB 
+> allocation errors to occur during that phase. Also, before this commit the 
+> desktop freezes are much shorter and less severe. With this change the 
+> desktop is completely unusable for almost a minute during phase 2), with 
+> even the mouse pointer frozen solid.
+> Note that phase 3) becomes shorter, but that the total time needed to load 
+> the 3rd instance increases by about 10-15 seconds.
+> 
+> Note: -rc2 and -rc3 had broken NFS, so I had to cherry-pick 3 NFS commits 
+> from -rc4 on top of the commits I wanted to test.
+> 
+> WITH congestion_wait CHANGE REVERTED
+> ====================================
+> I've done quite a few tests of 2.6.31 with 373c0a7e and 8aa7e847 reverted 
+> to confirm that's really the culprit. I've done this for .31-rc3, .31-rc4,
+> .31-rc5, .31 and .31.1.
+> 
+> In all cases the huge freeze in phase 2) is gone and the general behavior 
+> and timings are again as it was after the wireless change. During most 
+> tests I did not get any SKB allocation errors during phase 2) or phase 3).
+> 
+> However with .31-rc5, .31 and .31.1 I have had some tests where I would see 
+> a few SKB allocation errors during phase 3) (which is somewhat likely), 
+> but also during phase 2). At this point I'm unsure whether this is just 
+> noise, or maybe a minor influence from some change merged after .31-rc4.
+> Looking through the commits there are several mm/page allocation changes.
+> 
+
+It could still be kswapd not being woken up often enough after direct
+reclaimers. I took a look through the commits but none of the mm or
+allocator changes struck me as likely candidates for making
+fragmentation worse or altering the timing.
+
+> For now I suggest ignoring this though as the impact (if any) is very minor 
+> and it is not reproducible reliably enough.
+> 
+> Next I'll retest Mel's patches and also test Reinette's patches.
+> 
+
+Of the two patches, only the kswapd one should have any significance. As
+David pointed out, the second patch is essentially a no-op as it should
+not have been possible to enter direct reclaim with ALLOC_NO_WATERMARKS
+set.
 
 -- 
-Tobi Oetiker, OETIKER+PARTNER AG, Aarweg 15 CH-4600 Olten, Switzerland
-http://it.oetiker.ch tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org ++41 62 775 9902 / sb: -9900
+Mel Gorman
+Part-time Phd Student                          Linux Technology Center
+University of Limerick                         IBM Dublin Software Lab
