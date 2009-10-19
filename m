@@ -1,25 +1,45 @@
-From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Mon, 19 Oct 2009 13:01:15 -0400
-Message-ID: <20091019170115.GA4593@infradead.org>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <20091014103002.GA5027@csn.ul.ie> <200910141510.11059.elendil@planet.nl> <200910190133.33183.elendil@planet.nl> <20091019140151.GC9036@csn.ul.ie> <20091019161815.GA11487@think>
+From: Karol Lewandowski <karol.k.lewandowski@gmail.com>
+Subject: Re: [Bug #14141] order 2 page allocation failures (generic)
+Date: Mon, 19 Oct 2009 19:09:47 +0200
+Message-ID: <20091019170947.GA3782@bizet.domek.prywatny>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910190133.33183.elendil@planet.nl> <1255912562.6824.9.camel@penberg-laptop> <200910190444.55867.elendil@planet.nl> <alpine.DEB.2.00.0910191146110.1306@sebohet.brgvxre.pu> <1255946051.5941.2.camel@penberg-laptop> <20091019140145.GA4222@bizet.domek.prywatny> <20091019140619.GD9036@csn.ul.ie>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <owner-linux-mm@kvack.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=//Lz0SRsupHuDsACY4ioOjoV06mvo5GPqatdtj4jYcg=;
+        b=jktTLP7nCe8p1CFqCWiNBbrU6ZEIozMuoWvwPMKRHHqIkVc2aqz2EPOnhzlGL6xN9R
+         +CQJP53fm2PfmCqW+xP6Vplx4PDeL2PZJjaVojAwWKjfmefK2mGueq4ry7N5HL/2xk/H
+         h+rhNjEKW4qR3XWQy6OnSreeqjfWd+8fi2fUI=
 Content-Disposition: inline
-In-Reply-To: <20091019161815.GA11487@think>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
+In-Reply-To: <20091019140619.GD9036@csn.ul.ie>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+To: Mel Gorman <mel@csn.ul.ie>
+Cc: Karol Lewandowski <karol.k.lewandowski@gmail.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Tobi Oetiker <tobi@oetiker.ch>, Frans Pop <elendil@planet.nl>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org, jens.axboe@oracle.com
 
-On Tue, Oct 20, 2009 at 01:18:15AM +0900, Chris Mason wrote:
-> Waiting doesn't make it synchronous from the elevator point of view ;)
-> If you're using WB_SYNC_NONE, it's a async write.  WB_SYNC_ALL makes it
-> a sync write.  I only see WB_SYNC_NONE in vmscan.c, so we should be
-> using the async congestion wait.  (the exception is xfs which always
-> does async writes).
+On Mon, Oct 19, 2009 at 03:06:19PM +0100, Mel Gorman wrote:
+> Can you test with my kswapd patch applied and commits 373c0a7e,8aa7e847
+> reverted please?
 
-That's only because those people who did the global sweep did not bother
-to convert it or even tell the list about it.  I have a patch in my
-QA queue to change it..
+It seems that your patch and Frans' reverts together *do* make
+difference.
+
+With these patches I haven't been able to trigger failures so far
+(in about 6 attempts). I'll continue testing and let you know if
+anything changes.
+
+If nothing changes this looks like fix for my problem.
+
+Thanks.  Thanks a lot!
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
