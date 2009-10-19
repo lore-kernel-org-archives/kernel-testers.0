@@ -1,45 +1,116 @@
-From: Karol Lewandowski <karol.k.lewandowski@gmail.com>
-Subject: Re: [Bug #14141] order 2 page allocation failures (generic)
-Date: Mon, 19 Oct 2009 19:09:47 +0200
-Message-ID: <20091019170947.GA3782@bizet.domek.prywatny>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <200910190133.33183.elendil@planet.nl> <1255912562.6824.9.camel@penberg-laptop> <200910190444.55867.elendil@planet.nl> <alpine.DEB.2.00.0910191146110.1306@sebohet.brgvxre.pu> <1255946051.5941.2.camel@penberg-laptop> <20091019140145.GA4222@bizet.domek.prywatny> <20091019140619.GD9036@csn.ul.ie>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: Characters vanishing in the tty layer? (maybe related to [Bug
+ #14388] keyboard under X with 2.6.31)
+Date: Tue, 20 Oct 2009 03:09:57 +0900 (JST)
+Message-ID: <alpine.LFD.2.00.0910200245330.13080@eeepc.linux-foundation.org>
+References: <1255501294.21962.24.camel@concordia>  <alpine.LFD.2.01.0910140748420.6146@localhost.localdomain> <1255934287.4192.125.camel@concordia>
 Mime-Version: 1.0
-Return-path: <owner-linux-mm@kvack.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=//Lz0SRsupHuDsACY4ioOjoV06mvo5GPqatdtj4jYcg=;
-        b=jktTLP7nCe8p1CFqCWiNBbrU6ZEIozMuoWvwPMKRHHqIkVc2aqz2EPOnhzlGL6xN9R
-         +CQJP53fm2PfmCqW+xP6Vplx4PDeL2PZJjaVojAwWKjfmefK2mGueq4ry7N5HL/2xk/H
-         h+rhNjEKW4qR3XWQy6OnSreeqjfWd+8fi2fUI=
-Content-Disposition: inline
-In-Reply-To: <20091019140619.GD9036@csn.ul.ie>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1255934287.4192.125.camel@concordia>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: Karol Lewandowski <karol.k.lewandowski@gmail.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Tobi Oetiker <tobi@oetiker.ch>, Frans Pop <elendil@planet.nl>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org, jens.axboe@oracle.com
+To: Michael Ellerman <michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Neuling <mikey-/owAOxkjmzZAfugRpC6u6w@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
 
-On Mon, Oct 19, 2009 at 03:06:19PM +0100, Mel Gorman wrote:
-> Can you test with my kswapd patch applied and commits 373c0a7e,8aa7e847
-> reverted please?
 
-It seems that your patch and Frans' reverts together *do* make
-difference.
 
-With these patches I haven't been able to trigger failures so far
-(in about 6 attempts). I'll continue testing and let you know if
-anything changes.
+On Mon, 19 Oct 2009, Michael Ellerman wrote:
+> 
+> As Benh said it's not really bisectable on our kernel. But I got Mikey
+> to bisect it on upstream using a different simulator model, and he
+> couldn't tie it down. It becomes easier to hit in more recent kernels
+> (since 27), but he could hit in 25 too.
 
-If nothing changes this looks like fix for my problem.
+Ok, thanks to the verification.
 
-Thanks.  Thanks a lot!
+And I think I see why it got easier to hit lately, and to some degree I 
+think we can at least partially avoid it:
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+>       * hvc_console reads all our input and passes it to the tty code
+>         via tty_insert_flip_char()
+>       * flush_to_ldisc() runs calling n_tty_receive_buf(), which fills
+>         4K of tty->read_buf
+>       * Once read_buf is full, tty->receive_room becomes 0 and
+>         flush_to_ldisc() reschedules itself to run again in 1 jiffy.
+>       * Bash reads 1 character, causing receive_room to become 1.
+>       * flush_to_ldisc() runs again and inserts 1 more char because
+>         receive_room is now 1.
+
+.. ok, I agree that our behavior in the "buffer full" case is likely not 
+wonderful. And that's especially true in the 'icanon' case..
+
+>       * (repeat the last two steps a few times)
+>       * Bash sets tty->icanon = 1 via n_tty_set_termios(), which calls
+>         n_tty_set_room(). Because icanon is enabled, n_tty_set_room()
+>         lies and says we have space for 1 character even though we
+>         don't.
+
+So just to clarify - icanon wasn't set before?
+
+>       * flush_to_ldisc() runs, sees that receive_room is 1 and calls
+>         n_tty_receive_buf()
+>       * n_tty_receive_buf() calls n_tty_receive_char() which drops the
+>         character because there's no room (~ line 1132).
+>       * We keep dropping characters until we see a newline, which
+>         increments tty->canon_data, causing n_tty_set_room() to report 0
+>         space left, and so flush_to_ldisc() reschedules again.
+
+Did you have newlines in the big bulk dump?
+
+If there really aren't any newlines, I don't think we can do a lot. icanon 
+handling kind of fundamentally doesn't work if there is no newline at all, 
+since it is all about line buffering, and we obviously have to limit the 
+lines _somewhere_.
+
+But I also thihk that we only update that whole 'canon_data' thing if we 
+_received_ the newlines while we were in icanon mode (but I didn't really 
+check very closely), so if we actually switch from -icanon to +icanon, I 
+think canon_data can be confused, and we thus handle the buffer-full case 
+worse than we _could_ have.
+
+> It's a bit unfortunate that n_tty_set_room() lies about the available
+> space when icanon = 1, but it makes sense in order to handle erase. It
+> would be nice if n_tty_receive_buf() returned a status to
+> flush_to_disc() to say "actually I could only fit X chars after all,
+> please take them back" - but I don't grok how that would play with all
+> the other logic in there.
+
+Yeah, I don't think that is even worth it. The thing is, we do have to 
+start dropping characters at some point, so trying to extend the non-drop 
+case just moves it somewhere else. If you are in canon mode, and the line 
+is longer than <some-number-that-happens-to-be-4kB>, you're basically 
+screwed.
+
+But what we _might_ do is to handle the "turn on canon mode" case better, 
+in case the old buffer had newlines. IOW, instead of always setting 
+'canon_data' to 0 when icanon changes (and setting canon_head to the tail 
+of the data), maybe we should simply _count_ the number of newlines (and 
+set canon_head to the last one in the buffer).
+
+IOW, if you do have newlines in your bulk data before icanon got set, we 
+could probably make n_tty handle that case better.
+
+That said, as far as I know, the tty layer behavior in this area has 
+basically always been the way it is. The fact that you can see it more 
+easily is almost certainly just related to just how the buffers that lead 
+up to flush_to_ldisc have grown, and are now allowed to fill up further. 
+So it probably got much easier to trigger, but it is likely not in any way 
+a really new case, and goes back not just to 2.6.25, but probably 
+forever...
+
+I wonder a bit what in your particular environment makes this problem show 
+up, but I assume that your simulation environment ends up just blindly 
+stuffing the tty buffers through the virtual console, so you basically 
+have "simulated typing" that was (a) started long before the reader was 
+interested in accepting it and (b) was a huge dump rather than what any 
+real load would be.
+
+But if you change n_tty_set_termios() to count newlines when it sets 
+icanon, you might get the behaviour you want, and it would seem to me to 
+be an improvement over what we have now, so I wouldn't object to it, even 
+if I suspect nobody else has ever cared, and would ever care in the 
+future.
+
+			Linus
