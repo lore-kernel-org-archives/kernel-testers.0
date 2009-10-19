@@ -1,85 +1,94 @@
-From: Jens Axboe <jens.axboe@oracle.com>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Mon, 19 Oct 2009 04:52:27 +0200
-Message-ID: <20091019025226.GT20961@kernel.dk>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <20091014103002.GA5027@csn.ul.ie> <200910141510.11059.elendil@planet.nl> <200910190133.33183.elendil@planet.nl> <1255912562.6824.9.camel@penberg-laptop>
+From: Michael Ellerman <michael@ellerman.id.au>
+Subject: Re: Characters vanishing in the tty layer? (maybe related to [Bug
+ #14388] keyboard under X with 2.6.31)
+Date: Mon, 19 Oct 2009 17:38:07 +1100
+Message-ID: <1255934287.4192.125.camel@concordia>
+References: <1255501294.21962.24.camel@concordia>
+	 <alpine.LFD.2.01.0910140748420.6146@localhost.localdomain>
+Reply-To: michael@ellerman.id.au
 Mime-Version: 1.0
-Return-path: <owner-linux-mm@kvack.org>
-Content-Disposition: inline
-In-Reply-To: <1255912562.6824.9.camel@penberg-laptop>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Pekka Enberg <penberg@cs.helsinki.fi>
-Cc: Frans Pop <elendil@planet.nl>, Mel Gorman <mel@csn.ul.ie>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-9Wod46MrbXzcvq80/psn"
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754681AbZJSGiI@vger.kernel.org>
+In-Reply-To: <alpine.LFD.2.01.0910140748420.6146@localhost.localdomain>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Michael Neuling <mikey@neuling.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>
 
-On Mon, Oct 19 2009, Pekka Enberg wrote:
-> (Adding Jens to CC.)
-> 
-> On Wednesday 14 October 2009, Frans Pop wrote:
-> > > > There still has not been a mm-change identified that makes
-> > > > fragmentation significantly worse.
-> 
-> On Mon, 2009-10-19 at 01:33 +0200, Frans Pop wrote:
-> > > My bisection shows a very clear point, even if not an individual commit,
-> > > in the 'akpm' merge where SKB errors suddenly become *much* more
-> > > frequent and easy to trigger.
-> > > I'm sorry to say this, but the fact that nothing has been identified yet
-> > > is IMO the result of a lack of effort, not because there is no such
-> > > change.
-> > 
-> > I was wrong. It turns out that I was creating the variations in the test 
-> > results around the akpm merge myself by tiny changes in the way I ran the 
-> > tests. It took another round of about 30 compilations and tests purely in 
-> > this range to show that, but those same tests also made me aware of other 
-> > patterns I should look at.
-> > 
-> > Until a few days ago I was concentrating on "do I see SKB allocation errors 
-> > or not". Since then I've also been looking more consciously at when they 
-> > happen, at disk access patterns and at desktop freeze patterns.
-> > 
-> > I think I did mention before that this whole issue is rather subtle :-/
-> > So, my apologies for finguering the wrong area for so long, but it looked 
-> > solid given the info available at the time.
-> > 
-> > On Thursday 15 October 2009, Mel Gorman wrote:
-> > > Outside the range of commits suspected of causing problems was the
-> > > following. It's extremely low probability
-> > >
-> > > Commit 8aa7e84 Fix congestion_wait() sync/async vs read/write confusion
-> > >         This patch alters the call to congestion_wait() in the page
-> > >         allocator. Frankly, I don't get the change but it might worth
-> > >         checking if replacing BLK_RW_ASYNC with WRITE on top of 2.6.31
-> > >         makes any difference
-> > 
-> > This is the real culprit. Mel: thanks very much for looking beyond the 
-> > area I identified. Your overview of mm changes was exactly what I needed 
-> > and really helped a lot during my later tests.
-> > 
-> > This commit definitely causes most of the problems; confirmed by reverting 
-> > it on top of 2.6.31 (also requires reverting 373c0a7e, which is a later 
-> > build fix).
-> 
-> Mel/Jens, any ideas why commit 8aa7e84 makes us run out of high order
-> pages? Should we be using BLK_RW_SYNC in mm/page_alloc.c instead of
-> BLK_RW_ASYNC?
 
-No, I think that is definitely broken since the page freeing should be
-using async writes. If the commit in question is making the difference
-and the below does indeed fix it, I think that's primarliy due to timing
-issues and the general brokeness of the congestion bits. With the below
-change, you essentially guarenteed to be waiting 20ms every time and
-it's quite likely that that is enough to change the picture.
+--=-9Wod46MrbXzcvq80/psn
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-So I'd like elsewhere for the real problem, it's not likely to be caused
-by the sync vs async bits themselves.
+On Wed, 2009-10-14 at 07:53 -0700, Linus Torvalds wrote:
+>=20
+> On Wed, 14 Oct 2009, Michael Ellerman wrote:
+> >=20
+> > I'm using 80f5069 or thereabouts, plus some powerpc patches. We also se=
+e
+> > the bug in 31, but not in 27.
+>=20
+> Could you bisect it? Even if you don't bisect it _all_ the way, 27..31 is=
+=20
+> a big range. Doing just a handful of bisections (say six or seven) would=20
+> cut down the number of commits from 47 thousand to somewhat more=20
+> manageable "hundreds of commits"... But obviously going all the way would=
+=20
+> be better.
 
--- 
-Jens Axboe
+As Benh said it's not really bisectable on our kernel. But I got Mikey
+to bisect it on upstream using a different simulator model, and he
+couldn't tie it down. It becomes easier to hit in more recent kernels
+(since 27), but he could hit in 25 too.
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+Looking at the code, which I should have done first, it looks like this
+is expected behaviour. The sequence is roughly:
+
+      * hvc_console reads all our input and passes it to the tty code
+        via tty_insert_flip_char()
+      * flush_to_ldisc() runs calling n_tty_receive_buf(), which fills
+        4K of tty->read_buf
+      * Once read_buf is full, tty->receive_room becomes 0 and
+        flush_to_ldisc() reschedules itself to run again in 1 jiffy.
+      * Bash reads 1 character, causing receive_room to become 1.
+      * flush_to_ldisc() runs again and inserts 1 more char because
+        receive_room is now 1.
+      * (repeat the last two steps a few times)
+      * Bash sets tty->icanon =3D 1 via n_tty_set_termios(), which calls
+        n_tty_set_room(). Because icanon is enabled, n_tty_set_room()
+        lies and says we have space for 1 character even though we
+        don't.
+      * flush_to_ldisc() runs, sees that receive_room is 1 and calls
+        n_tty_receive_buf()
+      * n_tty_receive_buf() calls n_tty_receive_char() which drops the
+        character because there's no room (~ line 1132).
+      * We keep dropping characters until we see a newline, which
+        increments tty->canon_data, causing n_tty_set_room() to report 0
+        space left, and so flush_to_ldisc() reschedules again.
+
+
+It's a bit unfortunate that n_tty_set_room() lies about the available
+space when icanon =3D 1, but it makes sense in order to handle erase. It
+would be nice if n_tty_receive_buf() returned a status to
+flush_to_disc() to say "actually I could only fit X chars after all,
+please take them back" - but I don't grok how that would play with all
+the other logic in there.
+
+cheers
+
+
+
+
+--=-9Wod46MrbXzcvq80/psn
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEABECAAYFAkrcCU8ACgkQdSjSd0sB4dIPAgCcCUp4D/8++vh0PUlPeGlbgy+s
+TW0AoIXGTbZ7M9ntWqlVlD1ThEReAsTY
+=TvBk
+-----END PGP SIGNATURE-----
+
+--=-9Wod46MrbXzcvq80/psn--
