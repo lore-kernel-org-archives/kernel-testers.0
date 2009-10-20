@@ -1,180 +1,200 @@
-From: Michael Ellerman <michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>
-Subject: Re: Characters vanishing in the tty layer? (maybe related to [Bug
- #14388] keyboard under X with 2.6.31)
-Date: Tue, 20 Oct 2009 16:31:23 +1100
-Message-ID: <1256016683.5992.20.camel@concordia>
-References: <1255501294.21962.24.camel@concordia>
-	 <alpine.LFD.2.01.0910140748420.6146@localhost.localdomain>
-	 <1255934287.4192.125.camel@concordia>
-	 <alpine.LFD.2.00.0910200245330.13080@eeepc.linux-foundation.org>
-Reply-To: michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
+Date: Tue, 20 Oct 2009 11:48:39 +0100
+Message-ID: <20091020104839.GC11778@csn.ul.ie>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <20091014103002.GA5027@csn.ul.ie> <200910141510.11059.elendil@planet.nl> <200910190133.33183.elendil@planet.nl> <20091019140151.GC9036@csn.ul.ie> <20091019161815.GA11487@think>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-Dj7eXjEUnyvfUHfkaE1e"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.00.0910200245330.13080-OZUqEyPC5NRQetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20091019161815.GA11487@think>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Neuling <mikey-/owAOxkjmzZAfugRpC6u6w@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, "Rafael J. Wysocki" <>
 
+On Tue, Oct 20, 2009 at 01:18:15AM +0900, Chris Mason wrote:
+> On Mon, Oct 19, 2009 at 03:01:52PM +0100, Mel Gorman wrote:
+> > 
+> > > During the 2nd phase I see the first SKB allocation errors with a music 
+> > > skip between reading commits 95.000 and 110.000.
+> > > About commit 115.000 there is a very long pause during which the counter 
+> > > does not increase, music stops and the desktop freezes completely. The 
+> > > first 30 seconds of that freeze there is only very low disk activity (which 
+> > > seems strange);
+> > 
+> > I'm just going to have to depend on Jens here. Jens, the congestion_wait() is
+> > on BLK_RW_ASYNC after the commit. Reclaim usually writes pages asynchronously
+> > but lumpy reclaim actually waits of pages to write out synchronously so
+> > it's not always async.
+> 
+> Waiting doesn't make it synchronous from the elevator point of view ;)
+> If you're using WB_SYNC_NONE, it's a async write.  WB_SYNC_ALL makes it
+> a sync write.  I only see WB_SYNC_NONE in vmscan.c, so we should be
+> using the async congestion wait.  (the exception is xfs which always
+> does async writes).
+> 
 
---=-Dj7eXjEUnyvfUHfkaE1e
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Right, reclaim always queues the pages for async IO but for lumpy reclaim,
+it calls wait_on_page_writeback() but as you say, from an elevator point of
+view, it's still async.
 
-On Tue, 2009-10-20 at 03:09 +0900, Linus Torvalds wrote:
->=20
-> On Mon, 19 Oct 2009, Michael Ellerman wrote:
-> >=20
-> > As Benh said it's not really bisectable on our kernel. But I got Mikey
-> > to bisect it on upstream using a different simulator model, and he
-> > couldn't tie it down. It becomes easier to hit in more recent kernels
-> > (since 27), but he could hit in 25 too.
->=20
-> Ok, thanks to the verification.
->=20
-> And I think I see why it got easier to hit lately, and to some degree I=20
-> think we can at least partially avoid it:
->=20
-> >       * hvc_console reads all our input and passes it to the tty code
-> >         via tty_insert_flip_char()
-> >       * flush_to_ldisc() runs calling n_tty_receive_buf(), which fills
-> >         4K of tty->read_buf
-> >       * Once read_buf is full, tty->receive_room becomes 0 and
-> >         flush_to_ldisc() reschedules itself to run again in 1 jiffy.
-> >       * Bash reads 1 character, causing receive_room to become 1.
-> >       * flush_to_ldisc() runs again and inserts 1 more char because
-> >         receive_room is now 1.
->=20
-> .. ok, I agree that our behavior in the "buffer full" case is likely not=20
-> wonderful. And that's especially true in the 'icanon' case..
->=20
-> >       * (repeat the last two steps a few times)
-> >       * Bash sets tty->icanon =3D 1 via n_tty_set_termios(), which call=
-s
-> >         n_tty_set_room(). Because icanon is enabled, n_tty_set_room()
-> >         lies and says we have space for 1 character even though we
-> >         don't.
->=20
-> So just to clarify - icanon wasn't set before?
+> But I'm honestly not 100% sure.  Looking back through the emails, the
+> test case is doing IO on top of a whole lot of things on top of
+> dm-crypt?  I just tried to figure out if dm-crypt is turning the async
+> IO into sync IOs, but didn't quite make sense of it.
+> 
 
-It wasn't set before.
+I'm not overly sure either.
 
-> >       * flush_to_ldisc() runs, sees that receive_room is 1 and calls
-> >         n_tty_receive_buf()
-> >       * n_tty_receive_buf() calls n_tty_receive_char() which drops the
-> >         character because there's no room (~ line 1132).
-> >       * We keep dropping characters until we see a newline, which
-> >         increments tty->canon_data, causing n_tty_set_room() to report =
-0
-> >         space left, and so flush_to_ldisc() reschedules again.
->=20
-> Did you have newlines in the big bulk dump?
+> Could you also please include which filesystems were being abused during
+> the test and how?  Reading through the emails, I think you've got:
+> 
+> gitk being run 3 times on some FS (NFS?)
+> streaming reads on NFS
+> swap on dm-crypt
+> 
+> If other filesystems are being used, please correct me.  Also please
+> include if they are on crypto or straight block device.
+> 
 
-Yes. It's not really a bulk dump, it's just a bit over 4K of shell
-script that we're writing into the console to run a test. So lots of
-newlines.
+I've attached a patch below that should allow us to cheat. When it's applied,
+it outputs who called congestion_wait(), how long the timeout was and how
+long it waited for. By comparing before and after sleep times, we should
+be able to see which of the callers has significantly changed and if
+it's something easily addressable.
 
-> If there really aren't any newlines, I don't think we can do a lot. icano=
-n=20
-> handling kind of fundamentally doesn't work if there is no newline at all=
-,=20
-> since it is all about line buffering, and we obviously have to limit the=20
-> lines _somewhere_.
+> > Either way, reclaim is usually worried about writing pages but it would appear
+> > after this change that a lot of read activity can also stall a process in
+> > direct reclaim. What might be happening in Frans's particular case is that the
+> > tasklet that allocates high-order pages for the RX buffers is getting stalled
+> > by congestion caused by other processes doing reads from the filesystem.
+> > While it makes sense from a congestion point of view to halt the IO, the
+> > reclaim operations from direct reclaimers is getting delayed for long enough
+> > to cause problems for GFP_ATOMIC.
+> 
+> The congestion_wait code either waits for congestion to clear or for
+> a given timeout.  The part that isn't clear is if before the patch
+> we waited a very short time (congestion cleared quickly) or a very long
+> time (we hit the timeout or congestion cleared slowly).
+> 
 
-Right that makes sense. But shouldn't be the case here.
+Using the instrumentation patch, I found with a very basic test that we
+are waiting for short periods of time more often with the patch applied
 
-> But I also thihk that we only update that whole 'canon_data' thing if we=20
-> _received_ the newlines while we were in icanon mode (but I didn't really=
-=20
-> check very closely), so if we actually switch from -icanon to +icanon, I=20
-> think canon_data can be confused, and we thus handle the buffer-full case=
-=20
-> worse than we _could_ have.
+      1 congestion_wait   rw=1 delay 6 timeout 25 :: before commit
+      7 kswapd            congestion_wait   rw=1 delay 0 timeout 25 :: before commit
+     32 kswapd            congestion_wait sync=0 delay 0 timeout 25 :: after commit
+     61 kswapd            congestion_wait   rw=1 delay 1 timeout 25 :: before commit
+    133 kswapd            congestion_wait sync=0 delay 1 timeout 25 :: after commit
+     16 kswapd            congestion_wait   rw=1 delay 2 timeout 25 :: before commit
+     70 kswapd            congestion_wait sync=0 delay 2 timeout 25 :: after commit
+      1 try_to_free_pages congestion_wait sync=0 delay 2 timeout 25 :: after commit
+     17 kswapd            congestion_wait   rw=1 delay 3 timeout 25 :: before commit
+     28 kswapd            congestion_wait sync=0 delay 3 timeout 25 :: after commit
+      1 try_to_free_pages congestion_wait sync=0 delay 3 timeout 25 :: after commit
+     23 kswapd            congestion_wait   rw=1 delay 4 timeout 25 :: before commit
+     16 kswapd            congestion_wait sync=0 delay 4 timeout 25 :: after commit
+      5 try_to_free_pages congestion_wait sync=0 delay 4 timeout 25 :: after commit
+     20 kswapd            congestion_wait   rw=1 delay 5 timeout 25 :: before commit
+     18 kswapd            congestion_wait sync=0 delay 5 timeout 25 :: after commit
+      3 try_to_free_pages congestion_wait sync=0 delay 5 timeout 25 :: after commit
+     21 kswapd            congestion_wait   rw=1 delay 6 timeout 25 :: before commit
+      8 kswapd            congestion_wait sync=0 delay 6 timeout 25 :: after commit
+      2 try_to_free_pages congestion_wait sync=0 delay 6 timeout 25 :: after commit
+     13 kswapd            congestion_wait   rw=1 delay 7 timeout 25 :: before commit
+     12 kswapd            congestion_wait sync=0 delay 7 timeout 25 :: after commit
+      2 try_to_free_pages congestion_wait sync=0 delay 7 timeout 25 :: after commit
+      8 kswapd            congestion_wait   rw=1 delay 8 timeout 25 :: before commit
+      7 kswapd            congestion_wait sync=0 delay 8 timeout 25 :: after commit
+      9 kswapd            congestion_wait   rw=1 delay 9 timeout 25 :: before commit
+      5 kswapd            congestion_wait sync=0 delay 9 timeout 25 :: after commit
+      2 try_to_free_pages congestion_wait sync=0 delay 9 timeout 25 :: after commit
+      4 kswapd            congestion_wait   rw=1 delay 10 timeout 25 :: before commit
+      5 kswapd            congestion_wait sync=0 delay 10 timeout 25 :: after commit
+      1 try_to_free_pages congestion_wait sync=0 delay 10 timeout 25 :: after commit
+[... remaining output snipped ...]
 
-Yeah I think that's right. n_tty_set_termios() always sets canon_data to
-0 when there is a canon change, in either direction. And I don't see
-anything else will fix it.
+The before and after commit are really 2.6.31 and 2.6.31-patch-reverted.
+The first column is how many times we delayed for that length of time.
+To generate the output, I just took the console log from both kernels with
+a basic test, put the congestion_wait lines into two separate files and
 
-> > It's a bit unfortunate that n_tty_set_room() lies about the available
-> > space when icanon =3D 1, but it makes sense in order to handle erase. I=
-t
-> > would be nice if n_tty_receive_buf() returned a status to
-> > flush_to_disc() to say "actually I could only fit X chars after all,
-> > please take them back" - but I don't grok how that would play with all
-> > the other logic in there.
->=20
-> Yeah, I don't think that is even worth it. The thing is, we do have to=20
-> start dropping characters at some point, so trying to extend the non-drop=
-=20
-> case just moves it somewhere else. If you are in canon mode, and the line=
-=20
-> is longer than <some-number-that-happens-to-be-4kB>, you're basically=20
-> screwed.
+cat congestion-*-sorted | sort -n -k5 | uniq -c
 
-Agreed.
+to give a count of how many times we delayed for a particular caller.
 
-> But what we _might_ do is to handle the "turn on canon mode" case better,=
-=20
-> in case the old buffer had newlines. IOW, instead of always setting=20
-> 'canon_data' to 0 when icanon changes (and setting canon_head to the tail=
-=20
-> of the data), maybe we should simply _count_ the number of newlines (and=20
-> set canon_head to the last one in the buffer).
->=20
-> IOW, if you do have newlines in your bulk data before icanon got set, we=20
-> could probably make n_tty handle that case better.
+> The easiest way to tell is to just replace the congestion_wait() calls
+> in direct reclaim with schedule_timeout_interruptible(10), test, then
+> schedule_timeout_interruptible(HZ/20), then test again.
+> 
 
-Yeah I think that is the root cause of my bug. There are plenty of lines
-in my buffer, so n_tty_set_room() should not be accepting more data.
+Reclaim can also call congestion_wait() and maybe the problem isn't
+within the page allocator at all but that it's indirectly affected by
+timing.
 
-> That said, as far as I know, the tty layer behavior in this area has=20
-> basically always been the way it is. The fact that you can see it more=20
-> easily is almost certainly just related to just how the buffers that lead=
-=20
-> up to flush_to_ldisc have grown, and are now allowed to fill up further.=20
-> So it probably got much easier to trigger, but it is likely not in any wa=
-y=20
-> a really new case, and goes back not just to 2.6.25, but probably=20
-> forever...
+> > 
+> > Does this sound plausible to you? If so, what's the best way of
+> > addressing this? Changing congestion_wait back to WRITE (assuming that
+> > works for Frans)? Changing it to SYNC (again, assuming it actually
+> > works) or a revert?
+> 
+> I don't think changing it to SYNC is a good plan unless we're actually
+> doing sync io.  It would be better to just wait on one of the pages that
+> you've sent down (or its hashed waitqueue since the page can go away).
+> 
 
-Yeah, we only stopped at 25 because our toolchain was too new :}
+Frans, is there any chance you could apply the following patch and get
+the console logs for a vanilla kernel and with the congestion patches
+reverted? I'm hoping it'll be able to tell us which of the callers has
+significantly changed in timing. If there is one caller that has
+significantly changed, it might be enough to address just that caller.
 
-> I wonder a bit what in your particular environment makes this problem sho=
-w=20
-> up, but I assume that your simulation environment ends up just blindly=20
-> stuffing the tty buffers through the virtual console, so you basically=20
-> have "simulated typing" that was (a) started long before the reader was=20
-> interested in accepting it and (b) was a huge dump rather than what any=20
-> real load would be.
+=====
 
-Yes and no. (a) doesn't seem to apply, no amount of delay before
-starting the input makes a difference. And (b) only sort of. I don't
-think a bit more than 4K is a ridiculous amount to stuff down a console.
-Though I guess we're "typing" at a ridiculous speed.
+From 757999066dc41f2e053d59589c673052fc7c1a65 Mon Sep 17 00:00:00 2001
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Date: Tue, 20 Oct 2009 11:01:57 +0100
+Subject: [PATCH] Instrument congestion_wait
 
-> But if you change n_tty_set_termios() to count newlines when it sets=20
-> icanon, you might get the behaviour you want, and it would seem to me to=20
-> be an improvement over what we have now, so I wouldn't object to it, even=
-=20
-> if I suspect nobody else has ever cared, and would ever care in the=20
-> future.
+This patch instruments how long congestion_wait() really waited for a
+given caller.
 
-Clearly no one has ever cared before :)  I'll have a look if I can come
-up with a neat fix.
-
-cheers
-
---=-Dj7eXjEUnyvfUHfkaE1e
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEABECAAYFAkrdSysACgkQdSjSd0sB4dKKQQCglnukbr8KVAqz8aCXaumBSY7I
-WhIAn1RZiTOpLEJ8SBcTPEiePUEIX9qH
-=zt7p
------END PGP SIGNATURE-----
-
---=-Dj7eXjEUnyvfUHfkaE1e--
+diff --git a/mm/backing-dev.c b/mm/backing-dev.c
+index 3d3accb..fc945e0 100644
+--- a/mm/backing-dev.c
++++ b/mm/backing-dev.c
+@@ -10,6 +10,7 @@
+ #include <linux/module.h>
+ #include <linux/writeback.h>
+ #include <linux/device.h>
++#include <linux/kallsyms.h>
+ 
+ void default_unplug_io_fn(struct backing_dev_info *bdi, struct page *page)
+ {
+@@ -729,6 +730,11 @@ EXPORT_SYMBOL(set_bdi_congested);
+  */
+ long congestion_wait(int sync, long timeout)
+ {
++	unsigned long jiffies_start = jiffies;
++	char *module;
++	char buf[128];
++	const char *symbol;
++	unsigned long offset, symbolsize;
+ 	long ret;
+ 	DEFINE_WAIT(wait);
+ 	wait_queue_head_t *wqh = &congestion_wqh[sync];
+@@ -736,6 +742,13 @@ long congestion_wait(int sync, long timeout)
+ 	prepare_to_wait(wqh, &wait, TASK_UNINTERRUPTIBLE);
+ 	ret = io_schedule_timeout(timeout);
+ 	finish_wait(wqh, &wait);
++
++	symbol = kallsyms_lookup(_RET_IP_, &symbolsize, &offset, &module, buf),
++	printk(KERN_INFO "%-20s congestion_wait sync=%d delay %lu timeout %ld\n",
++		symbol,
++		sync,
++		jiffies - jiffies_start,
++		timeout);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(congestion_wait);
