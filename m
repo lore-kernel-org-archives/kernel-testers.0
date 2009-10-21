@@ -1,99 +1,93 @@
-From: Mel Gorman <mel@csn.ul.ie>
-Subject: Re: Kernel crash on 2.6.31.x (kcryptd: page allocation failure..)
-Date: Tue, 20 Oct 2009 21:02:08 +0100
-Message-ID: <20091020200208.GI11778@csn.ul.ie>
-References: <hbd4dk$5ac$1@ultimate100.geggus.net> <200910172230.13162.elendil@planet.nl> <hbd9v8$7rf$1@ultimate100.geggus.net> <200910190141.50752.elendil@planet.nl> <20091020191656.GA11718@geggus.net>
+From: Karol Lewandowski <karol.k.lewandowski@gmail.com>
+Subject: [PATCH] SLUB: Don't drop __GFP_NOFAIL completely from
+	allocate_slab() (was: Re: [Bug #14265] ifconfig: page allocation
+	failure. order:5,ode:0x8020 w/ e100)
+Date: Wed, 21 Oct 2009 22:04:42 +0200
+Message-ID: <20091021200442.GA2987@bizet.domek.prywatny>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.rP.2MTxKB@chimera>
 Mime-Version: 1.0
 Return-path: <owner-linux-mm@kvack.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=ZWbQp2aF9waZ1qiBc0ciSxP+KLslizGnKfCwvDt/wow=;
+        b=p1jHEZigfwQt7cRQ+L+xqtpdtFyWp7F7bcoGKTad1A0W6pldTz8cIISX3NgptB7oAV
+         NniUPbirIf1+R1dGrxay+w+SL09cyOZOkDPB3vKrGi5WrzgUtWkSMpr8UVyimOP6HQX+
+         LeeGL2ndWJlIL5+cNEAt9ihFSNVtdCpDr1Vzg=
 Content-Disposition: inline
-In-Reply-To: <20091020191656.GA11718@geggus.net>
+In-Reply-To: <COE24pZSBH.A.rP.2MTxKB@chimera>
 Sender: owner-linux-mm@kvack.org
 List-Id: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Sven Geggus <lists@fuchsschwanzdomain.de>
-Cc: Frans Pop <elendil@planet.nl>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, Kernel Testers List <kernel-testers@vger.kernel.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mel Gorman <mel@csn.ul.ie>, Frans Pop <elendil@planet.nl>, Pekka Enberg <penberg@cs.helsinki.fi>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org, jens.axboe@oracle.com, Tobias Oetiker <tobi@oetiker.ch>
 
-On Tue, Oct 20, 2009 at 09:16:57PM +0200, Sven Geggus wrote:
-> Frans Pop schrieb am Montag, den 19. Oktober um 01:41 Uhr:
-> 
-> > In the mean time I've been able to trace the culprit. Could you please try 
-> > if reverting 373c0a7e + 8aa7e847 [1] on top of 2.6.31 fixes the issue for 
-> > you?
-> 
-> Unfortunately not :(
-> 
-> Starting from 2.6.31.4 I did
-> git revert 373c0a7e
-> git revert 8aa7e847 and build a new kernel.
-> 
-> The problem persists. The Kernel crashed again, this
-> time in "swapper".
-> 
+On Thu, Oct 01, 2009 at 09:56:04PM +0200, Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14265
+> Subject		: ifconfig: page allocation failure. order:5, mode:0x8020 w/ e100
+> Submitter	: Karol Lewandowski <karol.k.lewandowski@gmail.com>
+> Date		: 2009-09-15 12:05 (17 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125301636509517&w=4
 
-Can you please try with this patch also applied? i.e. this patch with
-the two reverts. I'm looking for either allocation failures or the
-WARN_ON triggering.
+Guys, could anyone check if patch below helps?  I think I've finally
+found culprit of all allocation failures (but I might be wrong
+too... ;-)
 
-Thanks
+Thanks.
 
-==== CUT HERE ====
-page-allocator: Always wake kswapd when restarting an allocation attempt after direct reclaim failed
 
-If a direct reclaim makes no forward progress, it considers whether it
-should go OOM or not. Whether OOM is triggered or not, it may retry the
-application afterwards. In times past, this would always wake kswapd as well
-but currently, kswapd is not woken up after direct reclaim fails. For order-0
-allocations, this makes little difference but if there is a heavy mix of
-higher-order allocations that direct reclaim is failing for, it might mean
-that kswapd is not rewoken for higher orders as much as it did previously.
+commit d6849591e042bceb66f1b4513a1df6740d2ad762
+Author: Karol Lewandowski <karol.k.lewandowski@gmail.com>
+Date:   Wed Oct 21 21:01:20 2009 +0200
 
-This patch wakes up kswapd when an allocation is being retried after a direct
-reclaim failure. It would be expected that kswapd is already awake, but
-this has the effect of telling kswapd to reclaim at the higher order as well.
+    SLUB: Don't drop __GFP_NOFAIL completely from allocate_slab()
+    
+    Commit ba52270d18fb17ce2cf176b35419dab1e43fe4a3 unconditionally
+    cleared __GFP_NOFAIL flag on all allocations.
+    
+    Preserve this flag on second attempt to allocate page (with possibly
+    decreased order).
+    
+    This should help with bugs #14265, #14141 and similar.
+    
+    Signed-off-by: Karol Lewandowski <karol.k.lewandowski@gmail.com>
 
-Signed-off-by: Mel Gorman <mel@csn.ul.ie>
---- 
- mm/page_alloc.c |   14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 0b3c6cb..e07b2f2 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -1763,16 +1763,17 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 	if (NUMA_BUILD && (gfp_mask & GFP_THISNODE) == GFP_THISNODE)
- 		goto nopage;
+diff --git a/mm/slub.c b/mm/slub.c
+index b627675..ac5db65 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -1084,7 +1084,7 @@ static struct page *allocate_slab(struct kmem_cache *s, gfp_t flags, int node)
+ {
+ 	struct page *page;
+ 	struct kmem_cache_order_objects oo = s->oo;
+-	gfp_t alloc_gfp;
++	gfp_t alloc_gfp, nofail;
  
--	wake_all_kswapd(order, zonelist, high_zoneidx);
--
- 	/*
--	 * OK, we're below the kswapd watermark and have kicked background
--	 * reclaim. Now things get more complex, so set up alloc_flags according
--	 * to how we want to proceed.
-+	 * OK, we're below the kswapd watermark and now things get more
-+	 * complex, so set up alloc_flags according to how we want to
-+	 * proceed.
+ 	flags |= s->allocflags;
+ 
+@@ -1092,6 +1092,7 @@ static struct page *allocate_slab(struct kmem_cache *s, gfp_t flags, int node)
+ 	 * Let the initial higher-order allocation fail under memory pressure
+ 	 * so we fall-back to the minimum order allocation.
  	 */
- 	alloc_flags = gfp_to_alloc_flags(gfp_mask);
++	nofail = flags & __GFP_NOFAIL;
+ 	alloc_gfp = (flags | __GFP_NOWARN | __GFP_NORETRY) & ~__GFP_NOFAIL;
  
- restart:
-+	/* Kick background reclaim */
-+	wake_all_kswapd(order, zonelist, high_zoneidx);
-+
- 	/* This is the last chance, in general, before the goto nopage. */
- 	page = get_page_from_freelist(gfp_mask, nodemask, order, zonelist,
- 			high_zoneidx, alloc_flags & ~ALLOC_NO_WATERMARKS,
-@@ -1802,6 +1803,9 @@ rebalance:
- 	if (test_thread_flag(TIF_MEMDIE) && !(gfp_mask & __GFP_NOFAIL))
- 		goto nopage;
+ 	page = alloc_slab_page(alloc_gfp, node, oo);
+@@ -1100,8 +1101,10 @@ static struct page *allocate_slab(struct kmem_cache *s, gfp_t flags, int node)
+ 		/*
+ 		 * Allocation may have failed due to fragmentation.
+ 		 * Try a lower order alloc if possible
++		 *
++		 * Preserve __GFP_NOFAIL flag if previous allocation failed.
+ 		 */
+-		page = alloc_slab_page(flags, node, oo);
++		page = alloc_slab_page(flags | nofail, node, oo);
+ 		if (!page)
+ 			return NULL;
  
-+	/* This shouldn't be possible but needs to be eliminated */
-+	WARN_ON_ONCE(alloc_flags & ALLOC_NO_WATERMARKS);
-+
- 	/* Try direct reclaim and then allocating */
- 	page = __alloc_pages_direct_reclaim(gfp_mask, order,
- 					zonelist, high_zoneidx,
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-mm' in
