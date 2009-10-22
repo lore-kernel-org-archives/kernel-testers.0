@@ -1,98 +1,48 @@
-From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH 4/5] page allocator: Pre-emptively wake kswapd when
- high-order watermarks are hit
-Date: Thu, 22 Oct 2009 12:41:42 -0700 (PDT)
-Message-ID: <alpine.DEB.2.00.0910221227010.21601@chino.kir.corp.google.com>
-References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <1256221356-26049-5-git-send-email-mel@csn.ul.ie>
+From: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] SLUB: Don't drop __GFP_NOFAIL completely from
+	allocate_slab() (was: Re: [Bug #14265] ifconfig: page allocation
+	failure. order:5,ode:0x8020 w/ e100)
+Date: Thu, 22 Oct 2009 23:33:53 +0200
+Message-ID: <20091022213353.GA7137@bizet.domek.prywatny>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.rP.2MTxKB@chimera> <20091021200442.GA2987@bizet.domek.prywatny> <alpine.DEB.2.00.0910211400140.20010@chino.kir.corp.google.com> <20091021212034.GB2987@bizet.domek.prywatny> <20091022102014.GL11778@csn.ul.ie>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
-	t=1256240509; bh=TvL1QWI0BMLlZomFIKEOFjPwCfA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type;
-	b=faRfGfd5a8d4YOcYQXCsERavHJqIKPKVd36yM00zJCDvITKygKZbi7IyG3OpSO7NF
-	 2qMcXLYc/Dot5cwTLQ6Wg==
-In-Reply-To: <1256221356-26049-5-git-send-email-mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=RQVLObTN8Nrrxtz0pvgC6eP9KZlC9YfOeOZ6b9IP8i4=;
+        b=YzWRBtFK8AM0fvaSJEHSZ8OD7NmLtfIFm87okUHK5wYCxJCywLIMUDJZXD80QMqKw2
+         lHADPlDDpV6d4OC0Fatky29lH/DwOmr7SRa6rb8XYaMD5TxGh6e7w91lthYF50z8N0Hz
+         6PqLVQFz/xQmsHgPvJaCNlo0aAvoJD32R+79o=
+Content-Disposition: inline
+In-Reply-To: <20091022102014.GL11778-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Cc: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Kalle Valo <kalle.valo-X3B1VOXEql0@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org\"" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
+Cc: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>
 
-On Thu, 22 Oct 2009, Mel Gorman wrote:
+On Thu, Oct 22, 2009 at 11:20:14AM +0100, Mel Gorman wrote:
+> On Wed, Oct 21, 2009 at 11:20:34PM +0200, Karol Lewandowski wrote:
+> > > Note: slub isn't going to be a culprit in order 5 allocation failures 
+> > > since they have kmalloc passthrough to the page allocator.
+> > 
+> > However, it might change fragmentation somewhat I guess.  This might
+> > make problem more/less visible.
+> > 
+> 
+> Did you have CONFIG_KMEMCHECK set by any chance?
 
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 7f2aa3e..851df40 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -1596,6 +1596,17 @@ try_next_zone:
->  	return page;
->  }
->  
-> +static inline
-> +void wake_all_kswapd(unsigned int order, struct zonelist *zonelist,
-> +						enum zone_type high_zoneidx)
-> +{
-> +	struct zoneref *z;
-> +	struct zone *zone;
-> +
-> +	for_each_zone_zonelist(zone, z, zonelist, high_zoneidx)
-> +		wakeup_kswapd(zone, order);
-> +}
-> +
->  static inline int
->  should_alloc_retry(gfp_t gfp_mask, unsigned int order,
->  				unsigned long pages_reclaimed)
-> @@ -1730,18 +1741,18 @@ __alloc_pages_high_priority(gfp_t gfp_mask, unsigned int order,
->  			congestion_wait(BLK_RW_ASYNC, HZ/50);
->  	} while (!page && (gfp_mask & __GFP_NOFAIL));
->  
-> -	return page;
-> -}
-> -
-> -static inline
-> -void wake_all_kswapd(unsigned int order, struct zonelist *zonelist,
-> -						enum zone_type high_zoneidx)
-> -{
-> -	struct zoneref *z;
-> -	struct zone *zone;
-> +	/*
-> +	 * If after a high-order allocation we are now below watermarks,
-> +	 * pre-emptively kick kswapd rather than having the next allocation
-> +	 * fail and have to wake up kswapd, potentially failing GFP_ATOMIC
-> +	 * allocations or entering direct reclaim
-> +	 */
-> +	if (unlikely(order) && page && !zone_watermark_ok(preferred_zone, order,
-> +				preferred_zone->watermark[ALLOC_WMARK_LOW],
-> +				zone_idx(preferred_zone), ALLOC_WMARK_LOW))
-> +		wake_all_kswapd(order, zonelist, high_zoneidx);
->  
-> -	for_each_zone_zonelist(zone, z, zonelist, high_zoneidx)
-> -		wakeup_kswapd(zone, order);
-> +	return page;
->  }
->  
->  static inline int
+No, kmemcheck (and kmemleak) was always disabled.
 
-Hmm, is this really supposed to be added to __alloc_pages_high_priority()?  
-By the patch description I was expecting kswapd to be woken up 
-preemptively whenever the preferred zone is below ALLOC_WMARK_LOW and 
-we're known to have just allocated at a higher order, not just when 
-current was oom killed (when we should already be freeing a _lot_ of 
-memory soon) or is doing a higher order allocation during direct reclaim.
+It's likely that's possible to trigger allocation failures with slab,
+I just haven't been successful at it.  Lack of good testcase is really
+problem here -- even if I can't trigger failures I can never be sure
+that these wont appear in some strange moment.
 
-For the best coverage, it would have to be add the branch to the fastpath.  
-That seems fine for a debugging aid and to see if progress is being made 
-on the GFP_ATOMIC allocation issues, but doesn't seem like it should make 
-its way to mainline, the subsequent GFP_ATOMIC allocation could already be 
-happening and in the page allocator's slowpath at this point that this 
-wakeup becomes unnecessary.
+BTW I'll test your patches (from another thread) shortly.
 
-If this is moved to the fastpath, why is this wake_all_kswapd() and not
-wakeup_kswapd(preferred_zone, order)?  Do we need to kick kswapd in all 
-zones even though they may be free just because preferred_zone is now 
-below the watermark?
-
-Wouldn't it be better to do this on page_zone(page) instead of 
-preferred_zone anyway?
+Thanks.
