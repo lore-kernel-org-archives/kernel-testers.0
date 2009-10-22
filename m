@@ -1,48 +1,36 @@
-From: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] SLUB: Don't drop __GFP_NOFAIL completely from
-	allocate_slab() (was: Re: [Bug #14265] ifconfig: page allocation
-	failure. order:5,ode:0x8020 w/ e100)
-Date: Thu, 22 Oct 2009 23:33:53 +0200
-Message-ID: <20091022213353.GA7137@bizet.domek.prywatny>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <COE24pZSBH.A.rP.2MTxKB@chimera> <20091021200442.GA2987@bizet.domek.prywatny> <alpine.DEB.2.00.0910211400140.20010@chino.kir.corp.google.com> <20091021212034.GB2987@bizet.domek.prywatny> <20091022102014.GL11778@csn.ul.ie>
+From: Jens Axboe <jens.axboe@oracle.com>
+Subject: Re: [PATCH 5/5] ONLY-APPLY-IF-STILL-FAILING Revert 373c0a7e,
+	8aa7e847: Fix congestion_wait() sync/async vs read/write confusion
+Date: Thu, 22 Oct 2009 23:49:34 +0200
+Message-ID: <20091022214934.GQ10727@kernel.dk>
+References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <1256221356-26049-6-git-send-email-mel@csn.ul.ie>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=RQVLObTN8Nrrxtz0pvgC6eP9KZlC9YfOeOZ6b9IP8i4=;
-        b=YzWRBtFK8AM0fvaSJEHSZ8OD7NmLtfIFm87okUHK5wYCxJCywLIMUDJZXD80QMqKw2
-         lHADPlDDpV6d4OC0Fatky29lH/DwOmr7SRa6rb8XYaMD5TxGh6e7w91lthYF50z8N0Hz
-         6PqLVQFz/xQmsHgPvJaCNlo0aAvoJD32R+79o=
+Return-path: <owner-linux-mm@kvack.org>
 Content-Disposition: inline
-In-Reply-To: <20091022102014.GL11778-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
+In-Reply-To: <1256221356-26049-6-git-send-email-mel@csn.ul.ie>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Cc: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>
+To: Mel Gorman <mel@csn.ul.ie>
+Cc: Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, "Rafael J. Wysocki" <rjw@sisk.pl>, David Miller <davem@davemloft.net>, Reinette Chatre <reinette.chatre@intel.com>, Kalle Valo <kalle.valo@iki.fi>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Mohamed Abbas <mohamed.abbas@intel.com>, "John W. Linville" <linville@tuxdriver.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Greg Kroah-Hartman <gregkh@suse.de>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>
 
-On Thu, Oct 22, 2009 at 11:20:14AM +0100, Mel Gorman wrote:
-> On Wed, Oct 21, 2009 at 11:20:34PM +0200, Karol Lewandowski wrote:
-> > > Note: slub isn't going to be a culprit in order 5 allocation failures 
-> > > since they have kmalloc passthrough to the page allocator.
-> > 
-> > However, it might change fragmentation somewhat I guess.  This might
-> > make problem more/less visible.
-> > 
-> 
-> Did you have CONFIG_KMEMCHECK set by any chance?
+On Thu, Oct 22 2009, Mel Gorman wrote:
+> Testing by Frans Pop indicates that in the 2.6.30..2.6.31 window at
+> least that the commits 373c0a7e 8aa7e847 dramatically increased the
+> number of GFP_ATOMIC failures that were occuring within a wireless
+> driver. It was never isolated which of the changes was the exact problem
+> and it's possible it has been fixed since. If problems are still
+> occuring with GFP_ATOMIC in 2.6.31-rc5, then this patch should be
+> applied to determine if the congestion_wait() callers are still broken.
 
-No, kmemcheck (and kmemleak) was always disabled.
+I still think this is a complete red herring.
 
-It's likely that's possible to trigger allocation failures with slab,
-I just haven't been successful at it.  Lack of good testcase is really
-problem here -- even if I can't trigger failures I can never be sure
-that these wont appear in some strange moment.
+-- 
+Jens Axboe
 
-BTW I'll test your patches (from another thread) shortly.
-
-Thanks.
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
