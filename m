@@ -1,60 +1,85 @@
-From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Subject: Re: [PATCH 4/5] page allocator: Pre-emptively wake kswapd when
-	high-order watermarks are hit
-Date: Fri, 23 Oct 2009 14:39:08 +0100
-Message-ID: <20091023133908.GX11778@csn.ul.ie>
-References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <1256221356-26049-5-git-send-email-mel@csn.ul.ie> <alpine.DEB.2.00.0910221227010.21601@chino.kir.corp.google.com> <20091023091334.GV11778@csn.ul.ie> <alpine.DEB.2.00.0910230229010.28109@chino.kir.corp.google.com> <20091023112512.GW11778@csn.ul.ie> <alpine.DEB.2.00.0910231329550.26462@sebohet.brgvxre.pu>
+From: Karol Lewandowski <karol.k.lewandowski@gmail.com>
+Subject: Re: [PATCH 0/5] Candidate fix for increased number of GFP_ATOMIC
+	failures V2
+Date: Fri, 23 Oct 2009 18:58:10 +0200
+Message-ID: <20091023165810.GA4588@bizet.domek.prywatny>
+References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <owner-linux-mm@kvack.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=yPeo/XfK7CFrpMgxA4dFXhsbPMeeju9VYWxvBRYR0ZE=;
+        b=Ty5YEdvTFtJjcLbCYNQlslYAgSQNf9yDdnC0y53NQWWPA+vvQ34KO/o5aeUT46wHe+
+         AKxDdThdEyfW1dBSZwBbB8PR9Zlnmifr7+8iieSV8Rc8tM6HxDYetZGDQx9Mgb1pGLi0
+         eOOKsSlN4cwZbVv+lMbdaztPwC8Si+P1l56yw=
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.00.0910231329550.26462-EjsAmf5DE5zIvOfxy3zmAzgUDZmNtoG9@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
+In-Reply-To: <1256221356-26049-1-git-send-email-mel@csn.ul.ie>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>
-Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Kalle Valo <kalle.valo-X3B1VOXEql0@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
+To: Mel Gorman <mel@csn.ul.ie>
+Cc: Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, "Rafael J. Wysocki" <rjw@sisk.pl>, David Miller <davem@davemloft.net>, Reinette Chatre <reinette.chatre@intel.com>, Kalle Valo <kalle.valo@iki.fi>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Mohamed Abbas <mohamed.abbas@intel.com>, Jens Axboe <jens.axboe@oracle.com>, "John W. Linville" <linville@tuxdriver.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Greg Kroah-Hartman <gregkh@suse.de>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>
 
-On Fri, Oct 23, 2009 at 01:31:10PM +0200, Tobias Oetiker wrote:
-> Mel,
-> 
-> Today Mel Gorman wrote:
-> 
-> > On Fri, Oct 23, 2009 at 02:36:53AM -0700, David Rientjes wrote:
-> > > On Fri, 23 Oct 2009, Mel Gorman wrote:
-> > >
-> > > > > Hmm, is this really supposed to be added to __alloc_pages_high_priority()?
-> > > > > By the patch description I was expecting kswapd to be woken up
-> > > > > preemptively whenever the preferred zone is below ALLOC_WMARK_LOW and
-> > > > > we're known to have just allocated at a higher order, not just when
-> > > > > current was oom killed (when we should already be freeing a _lot_ of
-> > > > > memory soon) or is doing a higher order allocation during direct reclaim.
-> > > > >
-> > > >
-> > > > It was a somewhat arbitrary choice to have it trigger in the event high
-> > > > priority allocations were happening frequently.
-> > > >
-> > >
-> > > I don't quite understand, users of PF_MEMALLOC shouldn't be doing these
-> > > higher order allocations and if ALLOC_NO_WATERMARKS is by way of the oom
-> > > killer, we should be freeing a substantial amount of memory imminently
-> > > when it exits that waking up kswapd would be irrelevant.
-> > >
-> >
-> > I agree. I think it's highly unlikely this patch will make any
-> > difference but I wanted to eliminate it as a possibility. Patch 3 and 4
-> > were previously one patch that were tested together.
-> 
-> hi hi ... I have tested '3 only' this morning, and the allocation
-> problems started again ... so for me 3 alone does not work while
-> 3+4 does.
-> 
+On Thu, Oct 22, 2009 at 03:22:31PM +0100, Mel Gorman wrote:
 
-Hi,
+[Cut everything but my bug]
+> [Bug #14265] ifconfig: page allocation failure. order:5, mode:0x8020 w/ e100
+> 	Karol Lewandows reported that e100 fails to allocate order-5
+> 	GFP_ATOMIC when loading firmware during resume. This has started
+> 	happening relatively recent.
 
-What was the outcome of 1+2?
 
--- 
-Mel Gorman
-Part-time Phd Student                          Linux Technology Center
-University of Limerick                         IBM Dublin Software Lab
+> Test 1: Verify your problem occurs on 2.6.32-rc5 if you can
+
+Yes, bug is still there.
+
+
+> Test 2: Apply the following two patches and test again
+> 
+>   1/5 page allocator: Always wake kswapd when restarting an allocation attempt after direct reclaim failed
+>   2/5 page allocator: Do not allow interrupts to use ALLOC_HARDER
+> 
+> 
+> 	These patches correct problems introduced by me during the 2.6.31-rc1
+> 	merge window. The patches were not meant to introduce any functional
+> 	changes but two were missed.
+> 
+> 	If your problem goes away with just these two patches applied,
+> 	please tell me.
+
+Likewise.
+
+
+> Test 3: If you are getting allocation failures, try with the following patch
+> 
+>   3/5 vmscan: Force kswapd to take notice faster when high-order watermarks are being hit
+> 
+> 	This is a functional change that causes kswapd to notice sooner
+> 	when high-order watermarks have been hit. There have been a number
+> 	of changes in page reclaim since 2.6.30 that might have delayed
+> 	when kswapd kicks in for higher orders
+> 
+> 	If your problem goes away with these three patches applied, please
+> 	tell me
+
+No, problem doesn't go away with these patches (1+2+3).  However, from
+my testing this particular patch makes it way, way harder to trigger
+allocation failures (but these are still present).
+
+This bothers me - should I test following patches with or without
+above patch?  This patch makes bug harder to find, IMVHO it doesn't
+fix the real problem.
+
+(Rest not tested yet.)
+
+Thanks.
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
