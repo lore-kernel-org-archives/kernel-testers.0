@@ -1,75 +1,28 @@
-From: Mel LKML <mel.lkml@gmail.com>
-Subject: Re: [PATCH 0/5] Candidate fix for increased number of GFP_ATOMIC 
-	failures V2
-Date: Sat, 24 Oct 2009 14:46:56 +0100
-Message-ID: <9ec2d7290910240646p75b93c68v6ea1648d628a9660@mail.gmail.com>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [PATCH 0/5] Candidate fix for increased number of GFP_ATOMIC failures V2
+Date: Sat, 24 Oct 2009 15:51:02 +0200
+Message-ID: <200910241551.08291.elendil@planet.nl>
 References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie>
-	 <20091023165810.GA4588@bizet.domek.prywatny>
-	 <20091023211239.GA6185@bizet.domek.prywatny>
 Mime-Version: 1.0
-Return-path: <owner-linux-mm@kvack.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type;
-        bh=5A+Z1nrs1aXj+Gf84BXqYz0Fq6fgRJ66Ppj4ysjecRk=;
-        b=HZ57kS9m8KsomRG2YfX4SPmAJf8EG9xE3n9yTdwL6KrVHLoxzNtrklzjNI2PdpjZSK
-         t3y6KMihgfqI5MN6UFmJ9t2r7OTr5r8EHIBu4+QzVXEfnEMAZPHwbqHfjnhV0R6BpRZB
-         34HpMmy6KADVPcaCtEChYSw0z0uclHa7IiCdw=
-In-Reply-To: <20091023211239.GA6185@bizet.domek.prywatny>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Karol Lewandowski <karol.k.lewandowski@gmail.com>
-Cc: Mel Gorman <mel@csn.ul.ie>, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Tobias Oetiker <tobi@oetiker.ch>, "Rafael J. Wysocki" <rjw@sisk.pl>, David Miller <davem@davemloft.net>, Reinette Chatre <reinette.chatre@intel.com>, Kalle Valo <kalle.valo@iki.fi>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Mohamed Abbas <mohamed.abbas@intel.com>, Jens Axboe <jens.axboe@oracle.com>, "John W. Linville" <linville@tuxdriver.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Greg Kroah-Hartman <gregkh@suse.de>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1256221356-26049-1-git-send-email-mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Cc: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Kalle Valo <kalle.valo-X3B1VOXEql0@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org\"" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
 
-Hi,
+On Thursday 22 October 2009, Mel Gorman wrote:
+> Since 2.6.31-rc1, there have been an increasing number of GFP_ATOMIC
+> failures. A significant number of these have been high-order GFP_ATOMIC
+> failures and while they are generally brushed away, there has been a
+> large increase in them recently and there are a number of possible areas
+> the problem could be in - core vm, page writeback and a specific driver.
 
-This is the same Mel as mel@csn.ul.ie. The mail server the address is
-on has no power until Tuesday so I'm not going to be very unresponsive
-until then. Monday is also a public holiday here and apparently they
-are upgrading the power transformers near the building.
+I needed a break and have thus been off-line for a few days. Good to see 
+there's been progress. I'll try to do some testing tomorrow.
 
-On 10/23/09, Karol Lewandowski <karol.k.lewandowski@gmail.com> wrote:
-> On Fri, Oct 23, 2009 at 06:58:10PM +0200, Karol Lewandowski wrote:
->> On Thu, Oct 22, 2009 at 03:22:31PM +0100, Mel Gorman wrote:
->> > Test 3: If you are getting allocation failures, try with the following
->> > patch
->> >
->> >   3/5 vmscan: Force kswapd to take notice faster when high-order
->> > watermarks are being hit
->
->> No, problem doesn't go away with these patches (1+2+3).  However, from
->> my testing this particular patch makes it way, way harder to trigger
->> allocation failures (but these are still present).
->>
->> This bothers me - should I test following patches with or without
->> above patch?  This patch makes bug harder to find, IMVHO it doesn't
->> fix the real problem.
-> ..
->
->> Test 4: If you are still getting failures, apply the following
->>  4/5 page allocator: Pre-emptively wake kswapd when high-order watermarks
->> are hit
->
-> Ok, I've tested patches 1+2+4 and bug, while very hard to trigger, is
-> still present. I'll test complete 1-4 patchset as time permits.
->
-
-And also patch 5 please which is the revert. Patch 5 as pointed out is
-probably a red herring. Hwoever, it has changed the timing and made a
-difference for some testing so I'd like to know if it helps yours as
-well.
-
-As things stand, it looks like patches 1+2 should certainly go ahead.
-I need to give more thought on patches 3 and 4 as to why they help
-Tobias but not anyone elses testing.
-
-Thanks
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+Cheers,
+FJP
