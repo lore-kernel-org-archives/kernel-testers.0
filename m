@@ -1,29 +1,48 @@
-From: Ed Tomlinson <edt@aei.ca>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Mon, 26 Oct 2009 19:45:56 -0400
-Message-ID: <200910261945.58027.edt@aei.ca>
-References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera> <4AE621CB.6000700@yahoo.co.uk> <alpine.LFD.2.01.0910261543400.31845@localhost.localdomain>
+From: Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14474] restorecond going crazy on 2.6.31.4 - inotify 
+	regression?
+Date: Mon, 26 Oct 2009 17:48:21 -0600
+Message-ID: <51f3faa70910261648h242a9a2dp42cdf554a9eb1342@mail.gmail.com>
+References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
+	 <vX3ILojF2dJ.A.H8F.Yef5KB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754936AbZJZXqJ@vger.kernel.org>
-In-Reply-To: <alpine.LFD.2.01.0910261543400.31845@localhost.localdomain>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=dY4ttYv0RNmOgCOdGC7BBmDtbn8yO2efLwlsS5g6GwQ=;
+        b=cavu0MgniJjT3BbH9gOI1dZqxOyvo3XLAGQxaJ39PpXdv6zE1AE4l+3VX13XIwxIMp
+         o5nRf/UFVPDYnrnClfwmuWtpQ4gpz4YVJ1f7mRt0lJw4YaSgF3bT66lPXl4knAmSz8Bu
+         lLpfRNO0/+B0qG1fPwn4sLEaNFu2OBploTnbs=
+In-Reply-To: <vX3ILojF2dJ.A.H8F.Yef5KB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Boyan <btanastasov@yahoo.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,  =?iso-8859-1?q?Fr=E9d=E9ric_L=2E_W=2E?= Meunier <fredlwm@gmail.com>, "Justin P. Mattock" <justinmattock@gmail.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Monday 26 October 2009 18:45:27 Linus Torvalds wrote:
-> 
-> On Tue, 27 Oct 2009, Boyan wrote:
-> > 
-> > I think it is fixed in 2.6.31.5. I can't reproduce the problem with it.
-> 
-> It was fixed by mainline commit c8e33141911bf8fe87dc6c92793b9a59b2be0130 
-> ("tty: Make flush_to_ldisc() locking more robust"), which got back-ported 
-> to 2.6.31.5 as commit 86d23a057.
+On Mon, Oct 26, 2009 at 1:32 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.30 and 2.6.31.
+>
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.30 and 2.6.31. =A0Please verify if it still sh=
+ould
+> be listed and let me know (either way).
+>
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+14474
+> Subject =A0 =A0 =A0 =A0 : restorecond going crazy on 2.6.31.4 - inoti=
+fy regression?
+> Submitter =A0 =A0 =A0 : Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-10-16 0:03 (11 days old)
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D125565=
+159520489&w=3D4
 
-I can confirm that the keyboard is no longer missbehaving here  with 31.5
-
-Ed
+This is definitely reproducible on 2.6.31.4 on CentOS 5.4, I'll likely
+try 2.6.31.5 shortly, but it doesn't seem like any of the 2.6.31.5
+patches touch inotify..
