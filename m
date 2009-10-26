@@ -1,52 +1,29 @@
-From: Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14481] umount blocked for more than 120 seconds after USB 
-	drive removal
-Date: Mon, 26 Oct 2009 17:45:56 -0600
-Message-ID: <51f3faa70910261645x16235582keb00a5875f64db14@mail.gmail.com>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
-	 <6dRYo8ss7vL.A.x7E.4qe5KB@chimera>
+From: Ed Tomlinson <edt@aei.ca>
+Subject: Re: [Bug #14388] keyboard under X with 2.6.31
+Date: Mon, 26 Oct 2009 19:45:56 -0400
+Message-ID: <200910261945.58027.edt@aei.ca>
+References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera> <4AE621CB.6000700@yahoo.co.uk> <alpine.LFD.2.01.0910261543400.31845@localhost.localdomain>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=nbpxFzZfzKPFq15dhiEYPchgWAv58TBA8ZEg+3Xcve8=;
-        b=QamjIeWlhYN6TiNZVgS/pCoervR6LmdPeqlvrhJ+H6JC1ESnPmSWMBdpafF4AA9vM7
-         LBTLR4EM9FEWfzrI54e7/uWDkSTAO4pZLthHnt0PEo8o4B5GGuTKwRwfjx/Fe409ofBY
-         HlA+v4j6K4P2UODKQktwGIRYi/w19cr3MAGWU=
-In-Reply-To: <6dRYo8ss7vL.A.x7E.4qe5KB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754936AbZJZXqJ@vger.kernel.org>
+In-Reply-To: <alpine.LFD.2.01.0910261543400.31845@localhost.localdomain>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Boyan <btanastasov@yahoo.co.uk>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,  =?iso-8859-1?q?Fr=E9d=E9ric_L=2E_W=2E?= Meunier <fredlwm@gmail.com>, "Justin P. Mattock" <justinmattock@gmail.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 
-Haven't seen the problem again, but I haven't really tried to
-reproduce it, and haven't gotten any responses about it, so yes, it
-should still be listed.
+On Monday 26 October 2009 18:45:27 Linus Torvalds wrote:
+> 
+> On Tue, 27 Oct 2009, Boyan wrote:
+> > 
+> > I think it is fixed in 2.6.31.5. I can't reproduce the problem with it.
+> 
+> It was fixed by mainline commit c8e33141911bf8fe87dc6c92793b9a59b2be0130 
+> ("tty: Make flush_to_ldisc() locking more robust"), which got back-ported 
+> to 2.6.31.5 as commit 86d23a057.
 
-On Mon, Oct 26, 2009 at 12:56 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote=
-:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.31. =A0Please verify if it still should be listed and let me=
- know
-> (either way).
->
->
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-14481
-> Subject =A0 =A0 =A0 =A0 : umount blocked for more than 120 seconds af=
-ter USB drive removal
-> Submitter =A0 =A0 =A0 : Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-10-21 5:26 (6 days old)
-> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D125610=
-280532245&w=3D4
->
->
->
+I can confirm that the keyboard is no longer missbehaving here  with 31.5
+
+Ed
