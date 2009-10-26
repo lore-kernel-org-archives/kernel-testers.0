@@ -1,45 +1,42 @@
-From: "Carlos R. Mafra" <crmafra2@gmail.com>
-Subject: Re: [Bug #14381] iwlagn lost connection after s2ram (with warnings)
-Date: Mon, 26 Oct 2009 20:56:43 +0100
-Message-ID: <20091026195643.GA32404@Pilar.aei.mpg.de>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
- <6dRYo8ss7vL.A.EmG.hre5KB@chimera>
+From: Ingo Molnar <mingo@elte.hu>
+Subject: Re: [Bug #14389] Build system issue
+Date: Mon, 26 Oct 2009 21:05:55 +0100
+Message-ID: <20091026200555.GB24682@elte.hu>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <6dRYo8ss7vL.A.OJG.Zre5KB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756550AbZJZUEl@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=tiL08Iyz99oGW9fmDlQYaW2bLAJP+3LNLXasiGPJpyM=;
-        b=qq3ljTI4JhEG64J4aDKAZ8p2K0uDVvrtxTOc+Hpqcj9qwv7IS2kuOvw/Ka6bhYp09S
-         bPjmHu5IWNJmKERAFywbRdC+sHe7DTzVAwjNREWlSHEiY01TKHYGu2yOKYWIB9SLEl5a
-         U1uul9yWCjXnk+dHUUbiPK+AhGod+Hldq+vPw=
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756559AbZJZUGR@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <6dRYo8ss7vL.A.EmG.hre5KB@chimera>
+In-Reply-To: <6dRYo8ss7vL.A.OJG.Zre5KB@chimera>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, reinette chatre <reinette.chatre@intel.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>, Peter Zijlstra <peterz@infradead.org>, Sam Ravnborg <sam@ravnborg.org>
 
-On Mon 26.Oct'09 at 19:55:54 +0100, Rafael J. Wysocki wrote:
+
+* Rafael J. Wysocki <rjw@sisk.pl> wrote:
+
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
 > The following bug entry is on the current list of known regressions
 > from 2.6.31.  Please verify if it still should be listed and let me know
 > (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14381
-> Subject		: iwlagn lost connection after s2ram (with warnings)
-> Submitter	: Carlos R. Mafra <crmafra2@gmail.com>
-> Date		: 2009-10-07 14:20 (20 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125492569119947&w=4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14389
+> Subject		: Build system issue
+> Submitter	: Peter Zijlstra <peterz@infradead.org>
+> Date		: 2009-10-09 8:58 (18 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=575543347b5baed0ca927cb90ba8807396fe9cc9
+> References	: http://marc.info/?l=linux-kernel&m=125507914909152&w=4
+> 
 
-Somehow this problem did not happen again for 2 weeks or so (ie since
-a few days after I reported it) and I suspend to RAM around ~4 times
-a day. 
+This should be fixed upstream by:
 
-The problem was not deterministic, so I am not sure if we should close it now.
-But in case you close it, I can report again if it happens in the future.
+ 2331d1a: kbuild: revert "save ARCH & CROSS_COMPILE ..."
+
+Thanks,
+
+	Ingo
