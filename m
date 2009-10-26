@@ -1,50 +1,71 @@
-From: David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH 1/5] page allocator: Always wake kswapd when restarting
- an allocation attempt after direct reclaim failed
-Date: Mon, 26 Oct 2009 00:10:25 -0700 (PDT)
-Message-ID: <alpine.DEB.2.00.0910260005500.15361@chino.kir.corp.google.com>
-References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <1256221356-26049-2-git-send-email-mel@csn.ul.ie> <20091026100019.2F4A.A69D9226@jp.fujitsu.com>
+From: Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>
+Subject: Re: [PATCH 0/5] Candidate fix for increased number of GFP_ATOMIC
+ failures V2
+Date: Mon, 26 Oct 2009 18:37:36 +0100 (CET)
+Message-ID: <alpine.DEB.2.00.0910261835440.24625@wbuna.brgvxre.pu>
+References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie>
 Mime-Version: 1.0
-Return-path: <owner-linux-mm@kvack.org>
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
-	t=1256541033; bh=16pIGYXSSE9fA532pib7DgPv8dQ=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type;
-	b=nCUnCAt6oYiWQ52Hols6gdrLpDnkYbNs9SWC6D5aeAAWZh8gFkX7vul1eXVuHPeK1
-	 cs4ikKUzRO7bT7Yyiuowg==
-In-Reply-To: <20091026100019.2F4A.A69D9226@jp.fujitsu.com>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1256221356-26049-1-git-send-email-mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
-Cc: Mel Gorman <mel@csn.ul.ie>, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, "Rafael J. Wysocki" <rjw@sisk.pl>, David Miller <davem@davemloft.net>, Reinette Chatre <reinette.chatre@intel.com>, Kalle Valo <kalle.valo@iki.fi>, Mohamed Abbas <mohamed.abbas@intel.com>, Jens Axboe <jens.axboe@oracle.com>, "John W. Linville" <linville@tuxdriver.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Greg Kroah-Hartman <gregkh@suse.de>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Cc: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Kalle Valo <kalle.valo-X3B1VOXEql0@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org\\\"" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
 
-On Mon, 26 Oct 2009, KOSAKI Motohiro wrote:
+Hi Mel,
 
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index bf72055..5a27896 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -1899,6 +1899,12 @@ rebalance:
->  	if (should_alloc_retry(gfp_mask, order, pages_reclaimed)) {
->  		/* Wait for some write requests to complete then retry */
->  		congestion_wait(BLK_RW_ASYNC, HZ/50);
-> +
-> +		/*
-> +		 * While we wait congestion wait, Amount of free memory can
-> +		 * be changed dramatically. Thus, we kick kswapd again.
-> +		 */
-> +		wake_all_kswapd(order, zonelist, high_zoneidx);
->  		goto rebalance;
->  	}
->  
+I have no done additional tests ... and can report the following
 
-We're blocking to finish writeback of the directly reclaimed memory, why 
-do we need to wake kswapd afterwards?
+Thursday Mel Gorman wrote:
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+>   1/5 page allocator: Always wake kswapd when restarting an allocation attempt after direct reclaim failed
+>   2/5 page allocator: Do not allow interrupts to use ALLOC_HARDER
+>
+>
+> 	These patches correct problems introduced by me during the 2.6.31-rc1
+> 	merge window. The patches were not meant to introduce any functional
+> 	changes but two were missed.
+>
+> 	If your problem goes away with just these two patches applied,
+> 	please tell me.
+
+1+2 do not help
+
+> Test 3: If you are getting allocation failures, try with the following patch
+>
+>   3/5 vmscan: Force kswapd to take notice faster when high-order watermarks are being hit
+>
+> 	This is a functional change that causes kswapd to notice sooner
+> 	when high-order watermarks have been hit. There have been a number
+> 	of changes in page reclaim since 2.6.30 that might have delayed
+> 	when kswapd kicks in for higher orders
+>
+> 	If your problem goes away with these three patches applied, please
+> 	tell me
+
+1+2+3 do not help either
+
+> Test 4: If you are still getting failures, apply the following
+>   4/5 page allocator: Pre-emptively wake kswapd when high-order watermarks are hit
+>
+> 	This patch is very heavy handed and pre-emptively kicks kswapd when
+> 	watermarks are hit. It should only be necessary if there has been
+> 	significant changes in the timing and density of page allocations
+> 	from an unknown source. Tobias, this patch is largely aimed at you.
+> 	You reported that with patches 3+4 applied that your problems went
+> 	away. I need to know if patch 3 on its own is enough or if both
+> 	are required
+>
+> 	If your problem goes away with these four patches applied, please
+> 	tell me
+
+3 allone does not help
+3+4 does ...
+
+cheers
+tobi
+-- 
+Tobi Oetiker, OETIKER+PARTNER AG, Aarweg 15 CH-4600 Olten, Switzerland
+http://it.oetiker.ch tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org ++41 62 775 9902 / sb: -9900
