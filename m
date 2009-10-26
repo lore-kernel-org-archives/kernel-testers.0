@@ -1,49 +1,45 @@
-From: Kristoffer Ericson <kristoffer.ericson@gmail.com>
-Subject: Re: [Bug #14267] Disassociating atheros wlan
-Date: Mon, 26 Oct 2009 20:57:14 +0100
-Message-ID: <20091026205714.da57ff86.kristoffer.ericson@gmail.com>
-References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
-	<vX3ILojF2dJ.A.c2G.9ef5KB@chimera>
+From: "Carlos R. Mafra" <crmafra2@gmail.com>
+Subject: Re: [Bug #14381] iwlagn lost connection after s2ram (with warnings)
+Date: Mon, 26 Oct 2009 20:56:43 +0100
+Message-ID: <20091026195643.GA32404@Pilar.aei.mpg.de>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
+ <6dRYo8ss7vL.A.EmG.hre5KB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756541AbZJZUC4@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756550AbZJZUEl@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
         h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:in-reply-to:references:x-mailer:mime-version
-         :content-type:content-transfer-encoding;
-        bh=s114lZxSKDe/09AHwslNntwhgFkGBUsp8q9KOri5724=;
-        b=P2mc/+mFDgkVJUh3NFNT/5vJ0FIGXOVlxicsNnVqsVajyCedn/QMUGMmghzAfkxfmZ
-         5B7nECApmZrnXOVlmDUFFX3TVyo32ERnVXdie6UJJvDo5h8LvITqelyvy3H4KQ023LPn
-         Q3BfaSzaMRfjImMi1ksDenbeBkVexshCVPEWo=
-In-Reply-To: <vX3ILojF2dJ.A.c2G.9ef5KB@chimera>
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=tiL08Iyz99oGW9fmDlQYaW2bLAJP+3LNLXasiGPJpyM=;
+        b=qq3ljTI4JhEG64J4aDKAZ8p2K0uDVvrtxTOc+Hpqcj9qwv7IS2kuOvw/Ka6bhYp09S
+         bPjmHu5IWNJmKERAFywbRdC+sHe7DTzVAwjNREWlSHEiY01TKHYGu2yOKYWIB9SLEl5a
+         U1uul9yWCjXnk+dHUUbiPK+AhGod+Hldq+vPw=
+Content-Disposition: inline
+In-Reply-To: <6dRYo8ss7vL.A.EmG.hre5KB@chimera>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Johannes Berg <johannes@sipsolutions.net>, "John W. Linville" <linville@tuxdriver.com>, "Justin P. Mattock" <justinmattock@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, reinette chatre <reinette.chatre@intel.com>
 
-On Mon, 26 Oct 2009 20:31:55 +0100 (CET)
-"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
-
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.30 and 2.6.31.
+On Mon 26.Oct'09 at 19:55:54 +0100, Rafael J. Wysocki wrote:
 > 
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> be listed and let me know (either way).
+> from 2.6.31.  Please verify if it still should be listed and let me know
+> (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14267
-> Subject		: Disassociating atheros wlan
-> Submitter	: Kristoffer Ericson <kristoffer.ericson@gmail.com>
-> Date		: 2009-09-24 10:16 (33 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125378723723384&w=4
-> 
-> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14381
+> Subject		: iwlagn lost connection after s2ram (with warnings)
+> Submitter	: Carlos R. Mafra <crmafra2@gmail.com>
+> Date		: 2009-10-07 14:20 (20 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125492569119947&w=4
 
-Still valid and should remain.
+Somehow this problem did not happen again for 2 weeks or so (ie since
+a few days after I reported it) and I suspend to RAM around ~4 times
+a day. 
 
-
--- 
-Kristoffer Ericson <kristoffer.ericson@gmail.com>
+The problem was not deterministic, so I am not sure if we should close it now.
+But in case you close it, I can report again if it happens in the future.
