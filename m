@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14331] Radeon XPRESS 200M: System hang with radeon DRI and Fedora 10 userspace unless DRI=off
-Date: Mon, 26 Oct 2009 19:55:50 +0100 (CET)
-Message-ID: <6dRYo8ss7vL.A.0rH.Qse5KB@chimera>
+Subject: [Bug #14352] WARNING: at net/mac80211/scan.c:267
+Date: Mon, 26 Oct 2009 19:55:51 +0100 (CET)
+Message-ID: <6dRYo8ss7vL.A.ilH.Ise5KB@chimera>
 References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,9 @@ from 2.6.31.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14331
-Subject		: Radeon XPRESS 200M: System hang with radeon DRI and Fedora 10 userspace unless DRI=off
-Submitter	: Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>
-Date		: 2009-10-06 00:29 (21 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14352
+Subject		: WARNING: at net/mac80211/scan.c:267
+Submitter	: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-10-08 00:30 (19 days old)
+References	: http://bugzilla.intellinuxwireless.org/show_bug.cgi?id=2089#c7
 
