@@ -1,90 +1,84 @@
-From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Sun, 25 Oct 2009 19:54:06 +0100
-Message-ID: <200910251954.11716.elendil@planet.nl>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <20091019140151.GC9036@csn.ul.ie> <20091019161815.GA11487@think>
+From: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH 1/5] page allocator: Always wake kswapd when restarting an allocation attempt after direct reclaim failed
+Date: Mon, 26 Oct 2009 10:11:29 +0900 (JST)
+Message-ID: <20091026100019.2F4A.A69D9226@jp.fujitsu.com>
+References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <1256221356-26049-2-git-send-email-mel@csn.ul.ie>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091019161815.GA11487@think>
-Content-Disposition: inline
+In-Reply-To: <1256221356-26049-2-git-send-email-mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Cc: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Cc: kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Kalle Valo <kalle.valo-X3B1VOXEql0@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org\"" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
 
-Sorry for the delayed reply.
+> If a direct reclaim makes no forward progress, it considers whether it
+> should go OOM or not. Whether OOM is triggered or not, it may retry the
+> application afterwards. In times past, this would always wake kswapd as well
+> but currently, kswapd is not woken up after direct reclaim fails. For order-0
+> allocations, this makes little difference but if there is a heavy mix of
+> higher-order allocations that direct reclaim is failing for, it might mean
+> that kswapd is not rewoken for higher orders as much as it did previously.
+> 
+> This patch wakes up kswapd when an allocation is being retried after a direct
+> reclaim failure. It would be expected that kswapd is already awake, but
+> this has the effect of telling kswapd to reclaim at the higher order as well.
+> 
+> Signed-off-by: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+> ---
+>  mm/page_alloc.c |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index bf72055..dfa4362 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -1817,9 +1817,9 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
+>  	if (NUMA_BUILD && (gfp_mask & GFP_THISNODE) == GFP_THISNODE)
+>  		goto nopage;
+>  
+> +restart:
+>  	wake_all_kswapd(order, zonelist, high_zoneidx);
+>  
+> -restart:
+>  	/*
+>  	 * OK, we're below the kswapd watermark and have kicked background
+>  	 * reclaim. Now things get more complex, so set up alloc_flags according
 
-On Monday 19 October 2009, Chris Mason wrote:
-> On Mon, Oct 19, 2009 at 03:01:52PM +0100, Mel Gorman wrote:
-> > > During the 2nd phase I see the first SKB allocation errors with a
-> > > music skip between reading commits 95.000 and 110.000.
-> > > About commit 115.000 there is a very long pause during which the
-> > > counter does not increase, music stops and the desktop freezes
-> > > completely. The first 30 seconds of that freeze there is only ver=
-y
-> > > low disk activity (which seems strange);
-> >
-> > I'm just going to have to depend on Jens here. Jens, the
-> > congestion_wait() is on BLK_RW_ASYNC after the commit. Reclaim usua=
-lly
-> > writes pages asynchronously but lumpy reclaim actually waits of pag=
-es
-> > to write out synchronously so it's not always async.
->
-> Waiting doesn't make it synchronous from the elevator point of view ;=
-)
-> If you're using WB_SYNC_NONE, it's a async write. =A0WB_SYNC_ALL make=
-s it
-> a sync write. =A0I only see WB_SYNC_NONE in vmscan.c, so we should be
-> using the async congestion wait. =A0(the exception is xfs which alway=
-s
-> does async writes).
->
-> But I'm honestly not 100% sure. =A0Looking back through the emails, t=
-he
-> test case is doing IO on top of a whole lot of things on top of
-> dm-crypt? =A0I just tried to figure out if dm-crypt is turning the as=
-ync
-> IO into sync IOs, but didn't quite make sense of it.
->
-> Could you also please include which filesystems were being abused dur=
-ing
-> the test and how? =A0Reading through the emails, I think you've got:
->
-> gitk being run 3 times on some FS (NFS?)
+I think this patch is correct. personally, I like to add some commnent
+at restart label. but it isn't big matter.
+	Reviewed-by: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
 
-gitk is run on an ext3 logical volume in a volume group that's on a LUK=
-S=20
-encrypted partition of the local hard disk.
+However, I have a question. __alloc_pages_slowpath() retry logic is,
 
-So it's: SATA harddisk -> dm-crypt (dmsetup) -> LVM (lvm2) -> ext3
+1. try_to_free_pages() reclaimed some pages:
+	-> wait awhile and goto rebalance
+2. try_to_free_pages() didn't reclaimed any page:
+	-> call out_of_memory() and goto restart
 
-> streaming reads on NFS
+Then, case-1 should be fixed too? 
+I mean,
 
-Correct. My music share is a remote (nfs4) read-only mounted ext3=20
-partition.
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index bf72055..5a27896 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -1899,6 +1899,12 @@ rebalance:
+ 	if (should_alloc_retry(gfp_mask, order, pages_reclaimed)) {
+ 		/* Wait for some write requests to complete then retry */
+ 		congestion_wait(BLK_RW_ASYNC, HZ/50);
++
++		/*
++		 * While we wait congestion wait, Amount of free memory can
++		 * be changed dramatically. Thus, we kick kswapd again.
++		 */
++		wake_all_kswapd(order, zonelist, high_zoneidx);
+ 		goto rebalance;
+ 	}
+ 
+-------------------------------------------
 
-> swap on dm-crypt
+?
 
-Correct. Swap is another logical volume in the same volume group as=20
-mentioned above.
 
-So kcrypt gets to (de)encrypt both the gitk data *and* any swapping cau=
-sed=20
-by that [1].
-
-> If other filesystems are being used, please correct me. =A0Also pleas=
-e
-> include if they are on crypto or straight block device.
-
-All my file systems are ext3. Nothing newfangled or exotic ;-)
-There are some bind mounts involved, but I expect that's transparent.
-
-Cheers,
-=46JP
-
-[1] I've plans to move some of my data outside the encrypted volume, bu=
-t=20
-currently everything except /boot is in the encrypted VG.
