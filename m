@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14353] BUG: sleeping function called from invalid context at kernel/mutex.c:280
-Date: Mon, 26 Oct 2009 19:55:51 +0100 (CET)
-Message-ID: <6dRYo8ss7vL.A.6gH.Gse5KB@chimera>
+Subject: [Bug #14372] ath5k wireless not working after suspend-resume - eeepc
+Date: Mon, 26 Oct 2009 19:55:52 +0100 (CET)
+Message-ID: <6dRYo8ss7vL.A.xRH.vre5KB@chimera>
 References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.31.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14353
-Subject		: BUG: sleeping function called from invalid context at kernel/mutex.c:280
-Submitter	: Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-10-05 3:39 (22 days old)
-References	: http://marc.info/?l=linux-kernel&m=125471432208671&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14372
+Subject		: ath5k wireless not working after suspend-resume - eeepc
+Submitter	: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-10-03 15:36 (24 days old)
+References	: http://lkml.org/lkml/2009/10/3/91
 
