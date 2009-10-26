@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13645] NULL pointer dereference at (null) (level2_spare_pgt)
-Date: Mon, 26 Oct 2009 20:26:19 +0100 (CET)
-Message-ID: <vX3ILojF2dJ.A.BGB.Vif5KB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14017] _end symbol missing from Symbol.map
+Date: Mon, 26 Oct 2009 20:31:44 +0100 (CET)
+Message-ID: <vX3ILojF2dJ.A.ZY.Lgf5KB@chimera>
 References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755971AbZJZTdh@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, poornima nayak <mpnayak@linux.vnet.ibm.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Hannes Reinecke <hare-l3A5Bk7waGM@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,9 +22,12 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13645
-Subject		: NULL pointer dereference at (null) (level2_spare_pgt)
-Submitter	: poornima nayak <mpnayak@linux.vnet.ibm.com>
-Date		: 2009-06-17 17:56 (132 days old)
-References	: http://lkml.org/lkml/2009/6/17/194
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14017
+Subject		: _end symbol missing from Symbol.map
+Submitter	: Hannes Reinecke <hare-l3A5Bk7waGM@public.gmane.org>
+Date		: 2009-08-13 6:45 (75 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=091e52c3551d3031343df24b573b770b4c6c72b6
+References	: http://marc.info/?l=linux-kernel&m=125014649102253&w=4
+Handled-By	: Hannes Reinecke <hare-l3A5Bk7waGM@public.gmane.org>
+Patch		: http://marc.info/?l=linux-kernel&m=125014649102253&w=4
 
