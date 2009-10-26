@@ -1,41 +1,41 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14378] Problems with net/core/skbuff.c
-Date: Mon, 26 Oct 2009 21:57:37 +0100
-Message-ID: <200910262157.37392.rjw@sisk.pl>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <6dRYo8ss7vL.A.B9G.nre5KB@chimera> <4AE5FD84.8070906@gmail.com>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #14389] Build system issue
+Date: Mon, 26 Oct 2009 21:59:35 +0100
+Message-ID: <200910262159.35378.rjw@sisk.pl>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <6dRYo8ss7vL.A.OJG.Zre5KB@chimera> <20091026200555.GB24682@elte.hu>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4AE5FD84.8070906-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752218AbZJZU5o@vger.kernel.org>
+In-Reply-To: <20091026200555.GB24682@elte.hu>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="iso-8859-1"
-To: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Massimo Cetra <mcetra-BBpJ+9iBSNKonA0d6jMUrA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Ingo Molnar <mingo@elte.hu>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>, Peter Zijlstra <peterz@infradead.org>, Sam Ravnborg <sam@ravnborg.org>
 
-On Monday 26 October 2009, Eric Dumazet wrote:
-> Rafael J. Wysocki a =C3=A9crit :
+On Monday 26 October 2009, Ingo Molnar wrote:
+> 
+> * Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> 
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
-> >=20
+> > 
 > > The following bug entry is on the current list of known regressions
-> > from 2.6.31.  Please verify if it still should be listed and let me=
- know
+> > from 2.6.31.  Please verify if it still should be listed and let me know
 > > (either way).
-> >=20
-> >=20
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14378
-> > Subject		: Problems with net/core/skbuff.c
-> > Submitter	: Massimo Cetra <mcetra-BBpJ+9iBSNKonA0d6jMUrA@public.gmane.org>
-> > Date		: 2009-10-08 14:51 (19 days old)
-> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D125501488220358=
-&w=3D4
-> >=20
-> >=20
->=20
-> This was corrected by commit ed79bab847d8e5a2986d8ff43c49c6fb8ee3265f
->=20
-> virtio_net: use dev_kfree_skb_any() in free_old_xmit_skbs()
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14389
+> > Subject		: Build system issue
+> > Submitter	: Peter Zijlstra <peterz@infradead.org>
+> > Date		: 2009-10-09 8:58 (18 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=575543347b5baed0ca927cb90ba8807396fe9cc9
+> > References	: http://marc.info/?l=linux-kernel&m=125507914909152&w=4
+> > 
+> 
+> This should be fixed upstream by:
+> 
+>  2331d1a: kbuild: revert "save ARCH & CROSS_COMPILE ..."
 
 Thanks, closing.
 
