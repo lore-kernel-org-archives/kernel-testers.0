@@ -1,42 +1,50 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13941] x86 Geode issue
-Date: Mon, 26 Oct 2009 23:14:52 +0100
-Message-ID: <200910262314.52086.rjw@sisk.pl>
-References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera> <vX3ILojF2dJ.A.Zs.mgf5KB@chimera> <11fae7c70910261432w27b39e92ld319487e679fccaa@mail.gmail.com>
+From: Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [Bug #14375] Intel(R) I/OAT DMA Engine init failed
+Date: Mon, 26 Oct 2009 15:13:02 -0700
+Message-ID: <1256595182.19520.5.camel@dwillia2-linux.ch.intel.com>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
+	 <6dRYo8ss7vL.A.bIH.qre5KB@chimera>
+	 <a4423d670910261457o2e1ccb7t768199dfd9985270@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <11fae7c70910261432w27b39e92ld319487e679fccaa-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754524AbZJZWNC@vger.kernel.org>
+In-Reply-To: <a4423d670910261457o2e1ccb7t768199dfd9985270@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: q-funk-X3B1VOXEql0@public.gmane.org
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Alexander Beregalov <a.beregalov@gmail.com>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Monday 26 October 2009, Martin-=C3=89ric Racine wrote:
-> I do not recall anyone on LKML actually ever doing any work towards
-> fixing this issue so, yes, it is still open.
-
-Thanks for the update.
-
-Rafael
-
-
-> On Mon, Oct 26, 2009 at 9:31 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrot=
-e:
+On Mon, 2009-10-26 at 14:57 -0700, Alexander Beregalov wrote:
+> 2009/10/26 Rafael J. Wysocki <rjw@sisk.pl>:
 > > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.30 and 2.6.31.
+> > of recent regressions.
 > >
 > > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.30 and 2.6.31.  Please verify if it still sh=
-ould
-> > be listed and let me know (either way).
+> > from 2.6.31.  Please verify if it still should be listed and let me know
+> > (either way).
 > >
 > >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D1394=
-1
-> > Subject         : x86 Geode issue
-> > Submitter       : Martin-=C3=89ric Racine <q-funk-X3B1VOXEql0@public.gmane.org>
-> > Date            : 2009-08-03 12:58 (85 days old)
-> > References      : http://marc.info/?l=3Dlinux-kernel&m=3D1249304347=
-32481&w=3D4
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14375
+> > Subject         : Intel(R) I/OAT DMA Engine init failed
+> > Submitter       : Alexander Beregalov <a.beregalov@gmail.com>
+> > Date            : 2009-10-02 9:46 (25 days old)
+> > References      : http://marc.info/?l=linux-kernel&m=125447680016160&w=4
+> > Handled-By      : Dan Williams <dan.j.williams@intel.com>
+> > Patch           : http://patchwork.kernel.org/patch/51808/
+> 
+> When I patch reiserfs the bug goes to libata, it means ioatdma works
+> and libata does not. It looks like inaccurate work with memory
+> somewhere, but I do not know how to find it.
+> I cannot reproduce it since 2.6.32-rc3 and I do not see any bugs since then.
+
+If it helps the debug, the symptom seems to be that all interrupts get
+turned off.  Neither the normal device completion interrupt nor the
+completion watchdog timer fire before the self test timeout.  It seems
+something else re-enables interrupts eventually, but we know they were
+at least disabled for 3 seconds.  An unmatched spin_unlock_irq in an
+async initialization path perhaps?
+
+--
+Dan
+
