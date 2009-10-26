@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14137] usb console regressions
-Date: Mon, 26 Oct 2009 20:31:46 +0100 (CET)
-Message-ID: <vX3ILojF2dJ.A.rF.qff5KB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14391] use after free of struct powernow_k8_data
+Date: Mon, 26 Oct 2009 20:31:57 +0100 (CET)
+Message-ID: <vX3ILojF2dJ.A.6KG.pef5KB@chimera>
 References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756117AbZJZTj4@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Jason Wessel <jason.wessel@windriver.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Michal Schmidt <mschmidt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Naga Chumbalkar <nagananda.chumbalkar-VXdhtT5mjnY@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,12 +22,9 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14137
-Subject		: usb console regressions
-Submitter	: Jason Wessel <jason.wessel@windriver.com>
-Date		: 2009-09-05 21:08 (52 days old)
-References	: http://marc.info/?l=linux-kernel&m=125218501310512&w=4
-Handled-By	: Jason Wessel <jason.wessel@windriver.com>
-Patch		: http://patchwork.kernel.org/patch/45953/
-		  http://patchwork.kernel.org/patch/45952/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14391
+Subject		: use after free of struct powernow_k8_data
+Submitter	: Michal Schmidt <mschmidt-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date		: 2009-09-24 14:51 (33 days old)
+References	: http://marc.info/?l=linux-kernel&m=125380383515615&w=4
 
