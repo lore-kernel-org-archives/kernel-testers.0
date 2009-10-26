@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14256] kernel BUG at fs/ext3/super.c:435
-Date: Mon, 26 Oct 2009 20:31:51 +0100 (CET)
-Message-ID: <vX3ILojF2dJ.A.nPH.Hff5KB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14141] order 2 page allocation failures in iwlagn
+Date: Mon, 26 Oct 2009 20:31:46 +0100 (CET)
+Message-ID: <vX3ILojF2dJ.A.D5H.jff5KB@chimera>
 References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756140AbZJZTkD@vger.kernel.org>
 In-Reply-To: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, David Rientjes <rientjes@google.com>, Frans Pop <elendil@planet.nl>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,9 +22,14 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14256
-Subject		: kernel BUG at fs/ext3/super.c:435
-Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-Date		: 2009-09-21 7:29 (36 days old)
-References	: http://marc.info/?l=linux-kernel&m=125351816109264&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14141
+Subject		: order 2 page allocation failures in iwlagn
+Submitter	: Frans Pop <elendil@planet.nl>
+Date		: 2009-09-06 7:40 (51 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=2ff05b2b4eac2e63d345fc731ea151a060247f53
+References	: http://marc.info/?l=linux-kernel&m=125222287419691&w=4
+		  http://lkml.org/lkml/2009/10/2/86
+		  http://lkml.org/lkml/2009/10/5/24
+		  http://lkml.indiana.edu/hypermail/linux/kernel/0910.1/01395.html
+Handled-By	: Pekka Enberg <penberg@cs.helsinki.fi>
 
