@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14340] speedstep-ich driver not working in 2.6.31
-Date: Mon, 26 Oct 2009 20:31:56 +0100 (CET)
-Message-ID: <vX3ILojF2dJ.A.imG.xef5KB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14446] battery status info broken/useless in 2.6.32-rc3 - MSI PR200 (possibly others, too)
+Date: Mon, 26 Oct 2009 20:32:01 +0100 (CET)
+Message-ID: <vX3ILojF2dJ.A.69F.gef5KB@chimera>
 References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756431AbZJZTlt@vger.kernel.org>
 In-Reply-To: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, dave.mueller-OI3hZJvNYWs@public.gmane.org, Eric Pielbug <e.a.b.piel-hGVxb2UgFK3z+pZb47iToQ@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Content-Type: text/plain; charset="macroman"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, =?utf-8?q?Eddy=20Petri=C8=99or?= <eddy.petrisor+linbug@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,11 +22,9 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14340
-Subject		: speedstep-ich driver not working in 2.6.31
-Submitter	:  <dave.mueller-OI3hZJvNYWs@public.gmane.org>
-Date		: 2009-10-07 08:16 (20 days old)
-Handled-By	: Eric Pielbug <e.a.b.piel-hGVxb2UgFK3z+pZb47iToQ@public.gmane.org>
-		  Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
-Patch		: http://patchwork.kernel.org/patch/54672/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14446
+Subject		: battery status info broken/useless in 2.6.32-rc3 - MSI PR200=
+ (possibly others, too)
+Submitter	: Eddy Petri=C8=99or <eddy.petrisor+linbug@gmail.com>
+Date		: 2009-10-20 08:25 (7 days old)
 
