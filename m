@@ -1,50 +1,36 @@
-From: Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [Bug #14375] Intel(R) I/OAT DMA Engine init failed
-Date: Mon, 26 Oct 2009 15:13:02 -0700
-Message-ID: <1256595182.19520.5.camel@dwillia2-linux.ch.intel.com>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
-	 <6dRYo8ss7vL.A.bIH.qre5KB@chimera>
-	 <a4423d670910261457o2e1ccb7t768199dfd9985270@mail.gmail.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #14479] nfs oops
+Date: Mon, 26 Oct 2009 23:16:04 +0100
+Message-ID: <200910262316.04676.rjw@sisk.pl>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <6dRYo8ss7vL.A.VJF.7qe5KB@chimera> <200910262207.30953.egon.alter@gmx.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754524AbZJZWNC@vger.kernel.org>
-In-Reply-To: <a4423d670910261457o2e1ccb7t768199dfd9985270@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200910262207.30953.egon.alter-hi6Y0CQ0nG0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Alexander Beregalov <a.beregalov@gmail.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Egon Alter <egon.alter-hi6Y0CQ0nG0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Trond Myklebust <trond.myklebust-41N18TsMXrtuMpJDpNschA@public.gmane.org>
 
-On Mon, 2009-10-26 at 14:57 -0700, Alexander Beregalov wrote:
-> 2009/10/26 Rafael J. Wysocki <rjw@sisk.pl>:
+On Monday 26 October 2009, Egon Alter wrote:
+> Am Montag, 26. Oktober 2009 19:55:59 schrieb Rafael J. Wysocki:
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
-> >
+> > 
 > > The following bug entry is on the current list of known regressions
 > > from 2.6.31.  Please verify if it still should be listed and let me know
 > > (either way).
 > >
-> >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14375
-> > Subject         : Intel(R) I/OAT DMA Engine init failed
-> > Submitter       : Alexander Beregalov <a.beregalov@gmail.com>
-> > Date            : 2009-10-02 9:46 (25 days old)
-> > References      : http://marc.info/?l=linux-kernel&m=125447680016160&w=4
-> > Handled-By      : Dan Williams <dan.j.williams@intel.com>
-> > Patch           : http://patchwork.kernel.org/patch/51808/
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14479
+> > Subject		: nfs oops
+> > Submitter	: Egon Alter <egon.alter-hi6Y0CQ0nG0@public.gmane.org>
+> > Date		: 2009-10-19 16:03 (8 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=125596822630410&w=4 
 > 
-> When I patch reiserfs the bug goes to libata, it means ioatdma works
-> and libata does not. It looks like inaccurate work with memory
-> somewhere, but I do not know how to find it.
-> I cannot reproduce it since 2.6.32-rc3 and I do not see any bugs since then.
+> I cannot reproduce this anymore with lastest git (with or without the patch 
+> from Trond). So it is in a closeable state. Will reopen when it reappears.
 
-If it helps the debug, the symptom seems to be that all interrupts get
-turned off.  Neither the normal device completion interrupt nor the
-completion watchdog timer fire before the self test timeout.  It seems
-something else re-enables interrupts eventually, but we know they were
-at least disabled for 3 seconds.  An unmatched spin_unlock_irq in an
-async initialization path perhaps?
+Thanks, closing.
 
---
-Dan
-
+Rafael
