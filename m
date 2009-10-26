@@ -1,51 +1,47 @@
-From: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
-Subject: Re: [PATCH 2/5] page allocator: Do not allow interrupts to use ALLOC_HARDER
-Date: Mon, 26 Oct 2009 10:15:12 +0900 (JST)
-Message-ID: <20091026101420.2F53.A69D9226@jp.fujitsu.com>
-References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <1256221356-26049-3-git-send-email-mel@csn.ul.ie>
+From: David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH 1/5] page allocator: Always wake kswapd when restarting
+ an allocation attempt after direct reclaim failed
+Date: Mon, 26 Oct 2009 00:10:25 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0910260005500.15361@chino.kir.corp.google.com>
+References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <1256221356-26049-2-git-send-email-mel@csn.ul.ie> <20091026100019.2F4A.A69D9226@jp.fujitsu.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <1256221356-26049-3-git-send-email-mel@csn.ul.ie>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1256541033; bh=16pIGYXSSE9fA532pib7DgPv8dQ=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type;
+	b=nCUnCAt6oYiWQ52Hols6gdrLpDnkYbNs9SWC6D5aeAAWZh8gFkX7vul1eXVuHPeK1
+	 cs4ikKUzRO7bT7Yyiuowg==
+In-Reply-To: <20091026100019.2F4A.A69D9226@jp.fujitsu.com>
 Sender: owner-linux-mm@kvack.org
 List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: kosaki.motohiro@jp.fujitsu.com, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, "Rafael J. Wysocki" <rjw@sisk.pl>, David Miller <davem@davemloft.net>, Reinette Chatre <reinette.chatre@intel.com>, Kalle Valo <kalle.valo@iki.fi>, David Rientjes <rientjes@google.com>, Mohamed Abbas <mohamed.abbas@intel.com>, Jens Axboe <jens.axboe@oracle.com>, "John W. Linville" <linville@tuxdriver.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Greg Kroah-Hartman <gregkh@suse.de>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, netdev@vger.kern
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
+Cc: Mel Gorman <mel@csn.ul.ie>, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, "Rafael J. Wysocki" <rjw@sisk.pl>, David Miller <davem@davemloft.net>, Reinette Chatre <reinette.chatre@intel.com>, Kalle Valo <kalle.valo@iki.fi>, Mohamed Abbas <mohamed.abbas@intel.com>, Jens Axboe <jens.axboe@oracle.com>, "John W. Linville" <linville@tuxdriver.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Greg Kroah-Hartman <gregkh@suse.de>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 
-> Commit 341ce06f69abfafa31b9468410a13dbd60e2b237 altered watermark logic
-> slightly by allowing rt_tasks that are handling an interrupt to set
-> ALLOC_HARDER. This patch brings the watermark logic more in line with
-> 2.6.30.
-> 
-> [rientjes@google.com: Spotted the problem]
-> Signed-off-by: Mel Gorman <mel@csn.ul.ie>
-> Reviewed-by: Pekka Enberg <penberg@cs.helsinki.fi>
-> ---
->  mm/page_alloc.c |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
-> 
+On Mon, 26 Oct 2009, KOSAKI Motohiro wrote:
+
 > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index dfa4362..7f2aa3e 100644
+> index bf72055..5a27896 100644
 > --- a/mm/page_alloc.c
 > +++ b/mm/page_alloc.c
-> @@ -1769,7 +1769,7 @@ gfp_to_alloc_flags(gfp_t gfp_mask)
->  		 * See also cpuset_zone_allowed() comment in kernel/cpuset.c.
->  		 */
->  		alloc_flags &= ~ALLOC_CPUSET;
-> -	} else if (unlikely(rt_task(p)))
-> +	} else if (unlikely(rt_task(p)) && !in_interrupt())
->  		alloc_flags |= ALLOC_HARDER;
+> @@ -1899,6 +1899,12 @@ rebalance:
+>  	if (should_alloc_retry(gfp_mask, order, pages_reclaimed)) {
+>  		/* Wait for some write requests to complete then retry */
+>  		congestion_wait(BLK_RW_ASYNC, HZ/50);
+> +
+> +		/*
+> +		 * While we wait congestion wait, Amount of free memory can
+> +		 * be changed dramatically. Thus, we kick kswapd again.
+> +		 */
+> +		wake_all_kswapd(order, zonelist, high_zoneidx);
+>  		goto rebalance;
+>  	}
 >  
->  	if (likely(!(gfp_mask & __GFP_NOMEMALLOC))) {
-> -- 
-> 1.6.3.3
 
-good catch.
-	Reviewed-by: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
-
-
-
+We're blocking to finish writeback of the directly reclaimed memory, why 
+do we need to wake kswapd afterwards?
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-mm' in
