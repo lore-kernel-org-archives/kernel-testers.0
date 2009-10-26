@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #13941] x86 Geode issue
-Date: Mon, 26 Oct 2009 20:31:44 +0100 (CET)
-Message-ID: <vX3ILojF2dJ.A.Zs.mgf5KB@chimera>
+Subject: [Bug #13733] 2.6.31-rc2: irq 16: nobody cared
+Date: Mon, 26 Oct 2009 20:31:43 +0100 (CET)
+Message-ID: <vX3ILojF2dJ.A.k9.xhf5KB@chimera>
 References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756114AbZJZTrJ@vger.kernel.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756119AbZJZTqd@vger.kernel.org>
 In-Reply-To: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="windows-1252"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, =?utf-8?q?Martin-=C3=89ric=20Racine?= <q-funk@iki.fi>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Niel Lambrechts <niel.lambrechts@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,10 +22,9 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13941
-Subject		: x86 Geode issue
-Submitter	: Martin-=C3=89ric Racine <q-funk@iki.fi>
-Date		: 2009-08-03 12:58 (85 days old)
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D124930434732481&w=3D=
-4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=13733
+Subject		: 2.6.31-rc2: irq 16: nobody cared
+Submitter	: Niel Lambrechts <niel.lambrechts@gmail.com>
+Date		: 2009-07-06 18:32 (113 days old)
+References	: http://marc.info/?l=linux-kernel&m=124690524027166&w=4
 
