@@ -1,233 +1,39 @@
-From: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
-Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Wed, 28 Oct 2009 00:16:30 +0900
-Message-ID: <2f11576a0910270816s3e1b268ah91b5f2d0cc0d562e@mail.gmail.com>
-References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <20091019161815.GA11487@think>
-	 <20091020104839.GC11778@csn.ul.ie>
-	 <200910262206.13146.elendil@planet.nl>
-	 <20091027145435.GG8900@csn.ul.ie>
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [PATCH 2/5] page allocator: Do not allow interrupts to use
+	ALLOC_HARDER
+Date: Tue, 27 Oct 2009 15:19:05 +0000
+Message-ID: <20091027151904.GH8900@csn.ul.ie>
+References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <1256221356-26049-3-git-send-email-mel@csn.ul.ie> <20091022183303.2448942d.skraw@ithnet.com> <20091022163752.GU11778@csn.ul.ie> <alpine.DEB.1.10.0910232201520.9557@V090114053VZO-1>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Return-path: <owner-linux-mm@kvack.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:sender:received:in-reply-to
-         :references:date:x-google-sender-auth:message-id:subject:from:to:cc
-         :content-type:content-transfer-encoding;
-        bh=eqi0C8jsgl1AaUSg1vtYN3uNtFHirkpky8xvNLpmyEI=;
-        b=LfcPJ0Kiu8nDl51lR/g5Q+x5Tc6Eg6IlcwNUDJiK6nYzY5iaqI+EbXts01i/SWwjoH
-         niYUTNLvJEhMDkYD4y0Mja05gOAsSsCOiv0e/i7RnoL6qMzVm/1DUk06LofAnVY6xdiM
-         gFWEjaLKWLSWomGY2K19F8VMt9jF2Wp1caAvk=
-In-Reply-To: <20091027145435.GG8900@csn.ul.ie>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: Frans Pop <elendil@planet.nl>, Chris Mason <chris.mason@oracle.com>, David Rientjes <rientjes@google.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, Jens Axboe <jens.axboe@oracle.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.1.10.0910232201520.9557@V090114053VZO-1>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Kalle Valo <kalle.valo-X3B1VOXEql0@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
 
-2009/10/27 Mel Gorman <mel@csn.ul.ie>:
-> On Mon, Oct 26, 2009 at 10:06:09PM +0100, Frans Pop wrote:
->> On Tuesday 20 October 2009, Mel Gorman wrote:
->> > I've attached a patch below that should allow us to cheat. When it's
->> > applied, it outputs who called congestion_wait(), how long the timeout
->> > was and how long it waited for. By comparing before and after sleep
->> > times, we should be able to see which of the callers has significantly
->> > changed and if it's something easily addressable.
->>
->> The results from this look fairly interesting (although I may be a bad
->> judge as I don't really know what I'm looking at ;-).
->>
->> I've tested with two kernels:
->> 1) 2.6.31.1: 1 test run
->> 2) 2.6.31.1 + congestion_wait() reverts: 2 test runs
->>
->> The 1st kernel had the expected "freeze" while reading commits in gitk;
->> reading commits with the 2nd kernel was more fluent.
->> I did 2 runs with the 2nd kernel as the first run had a fairly long musi=
-c
->> skip and more SKB errors than expected. The second run was fairly normal
->> with no music skips at all even though it had a few SKB errors.
->>
->> Data for the tests:
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 1st kernel =
-=A0 =A0 =A02nd kernel 1 =A0 =A02nd kernel 2
->> end reading commits =A0 =A0 =A0 =A0 =A0 1:15 =A0 =A0 =A0 =A0 =A0 =A01:00=
- =A0 =A0 =A0 =A0 =A0 =A00:55
->> =A0 "freeze" =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0yes =A0 =A0 =A0 =A0 =
-=A0 =A0 no =A0 =A0 =A0 =A0 =A0 =A0 =A0no
->> branch data shown =A0 =A0 =A0 =A0 =A0 =A0 1:55 =A0 =A0 =A0 =A0 =A0 =A01:=
-15 =A0 =A0 =A0 =A0 =A0 =A01:10
->> system quiet =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A02:25 =A0 =A0 =A0 =A0 =A0=
- =A01:50 =A0 =A0 =A0 =A0 =A0 =A01:45
->> # SKB allocation errors =A0 =A0 =A0 =A0 =A0 =A0 =A0 10 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A053 =A0 =A0 =A0 =A0 =A0 =A0 =A05
->>
->> Note that the test is substantially faster with the 2nd kernel and that =
-the
->> SKB errors don't really affect the duration of the test.
->>
->
-> Ok. I think that despite expectations, the writeback changes have
-> changed the timing significantly enough to be worth examining closer.
->
->>
->> - without the revert 'background_writeout' is called a lot less frequent=
-ly,
->> =A0 but when it's called it gets long delays
->> - without the revert you have 'wb_kupdate', which is relatively expensiv=
-e
->> - with the revert 'shrink_list' is relatively expensive, although not
->> =A0 really in absolute terms
->>
->
-> Lets look at the callers that waited in congestion_wait() for at least
-> 25 jiffies.
->
-> 2.6.31.1-async-sync-congestion-wait i.e. vanilla kernel
-> generated with: cat kern.log_1_test | awk -F ] '{print $2}' | sort -k 5 -=
-n | uniq -c
-> =A0 =A0 24 =A0background_writeout =A0congestion_wait sync=3D0 delay 25 ti=
-meout 25
-> =A0 =A0203 =A0kswapd =A0 =A0 =A0 =A0 =A0 =A0 =A0 congestion_wait sync=3D0=
- delay 25 timeout 25
-> =A0 =A0 =A05 =A0shrink_list =A0 =A0 =A0 =A0 =A0congestion_wait sync=3D0 d=
-elay 25 timeout 25
-> =A0 =A0155 =A0try_to_free_pages =A0 =A0congestion_wait sync=3D0 delay 25 =
-timeout 25
-> =A0 =A0145 =A0wb_kupdate =A0 =A0 =A0 =A0 =A0 congestion_wait sync=3D0 del=
-ay 25 timeout 25
-> =A0 =A0 =A02 =A0kswapd =A0 =A0 =A0 =A0 =A0 =A0 =A0 congestion_wait sync=
-=3D0 delay 26 timeout 25
-> =A0 =A0 =A08 =A0wb_kupdate =A0 =A0 =A0 =A0 =A0 congestion_wait sync=3D0 d=
-elay 26 timeout 25
-> =A0 =A0 =A01 =A0try_to_free_pages =A0 =A0congestion_wait sync=3D0 delay 5=
-4 timeout 25
->
-> 2.6.31.1-write-congestion-wait i.e. kernel with patch reverted
-> generated with: cat kern.log_2.1_test | awk -F ] '{print $2}' | sort -k 5=
- -n | uniq -c
-> =A0 =A0 =A02 =A0background_writeout =A0congestion_wait rw=3D1 delay 25 ti=
-meout 25
-> =A0 =A0188 =A0kswapd =A0 =A0 =A0 =A0 =A0 =A0 =A0 congestion_wait rw=3D1 d=
-elay 25 timeout 25
-> =A0 =A0 14 =A0shrink_list =A0 =A0 =A0 =A0 =A0congestion_wait rw=3D1 delay=
- 25 timeout 25
-> =A0 =A0181 =A0try_to_free_pages =A0 =A0congestion_wait rw=3D1 delay 25 ti=
-meout 25
-> =A0 =A0 =A05 =A0kswapd =A0 =A0 =A0 =A0 =A0 =A0 =A0 congestion_wait rw=3D1=
- delay 26 timeout 25
-> =A0 =A0 10 =A0try_to_free_pages =A0 =A0congestion_wait rw=3D1 delay 26 ti=
-meout 25
-> =A0 =A0 =A03 =A0try_to_free_pages =A0 =A0congestion_wait rw=3D1 delay 27 =
-timeout 25
-> =A0 =A0 =A01 =A0kswapd =A0 =A0 =A0 =A0 =A0 =A0 =A0 congestion_wait rw=3D1=
- delay 29 timeout 25
-> =A0 =A0 =A01 =A0__alloc_pages_nodemask congestion_wait rw=3D1 delay 30 ti=
-meout 5
-> =A0 =A0 =A01 =A0try_to_free_pages =A0 =A0congestion_wait rw=3D1 delay 31 =
-timeout 25
-> =A0 =A0 =A01 =A0try_to_free_pages =A0 =A0congestion_wait rw=3D1 delay 35 =
-timeout 25
-> =A0 =A0 =A01 =A0kswapd =A0 =A0 =A0 =A0 =A0 =A0 =A0 congestion_wait rw=3D1=
- delay 51 timeout 25
-> =A0 =A0 =A01 =A0try_to_free_pages =A0 =A0congestion_wait rw=3D1 delay 56 =
-timeout 25
->
-> So, wb_kupdate and background_writeout are the big movers in terms of wai=
-ting,
-> not the direct reclaimers which is what we were expecting. Of those big
-> movers, wb_kupdate is the most interested because compare the following
->
-> $ cat kern.log_2.1_test | awk -F ] '{print $2}' | sort -k 5 -n | uniq -c =
-| grep wb_kup
-> [ no output ]
-> $ $ cat kern.log_1_test | awk -F ] '{print $2}' | sort -k 5 -n | uniq -c =
-| grep wb_kup
-> =A0 =A0 =A01 =A0wb_kupdate =A0 =A0 =A0 =A0 =A0 congestion_wait sync=3D0 d=
-elay 15 timeout 25
-> =A0 =A0 =A01 =A0wb_kupdate =A0 =A0 =A0 =A0 =A0 congestion_wait sync=3D0 d=
-elay 23 timeout 25
-> =A0 =A0145 =A0wb_kupdate =A0 =A0 =A0 =A0 =A0 congestion_wait sync=3D0 del=
-ay 25 timeout 25
-> =A0 =A0 =A08 =A0wb_kupdate =A0 =A0 =A0 =A0 =A0 congestion_wait sync=3D0 d=
-elay 26 timeout 25
->
-> The vanilla kernel is not waiting in wb_kupdate at all.
->
-> Jens, before the congestion_wait() changes, wb_kupdate was waiting on
-> congestion and afterwards it's not. Furthermore, look at the number of pa=
-ges
-> that are queued for writeback in the two page allocation failure reports.
->
-> without-revert: writeback:65653
-> with-revert: =A0 =A0writeback:21713
->
-> So, after the move to async/sync, a lot more pages are getting queued
-> for writeback - more than three times the number of pages are queued for
-> writeback with the vanilla kernel. This amount of congestion might be why
-> direct reclaimers and kswapd's timings have changed so much.
->
-> Chris Mason hinted at this but I didn't quite "get it" at the time but is=
- it
-> possible that writeback_inodes() is converting what is expected to be asy=
-nc
-> IO into sync IO? One way of checking this is if Frans could test the patc=
-h
-> below that makes wb_kupdate wait on sync instead of async.
->
-> If this makes a difference, I think the three main areas of trouble we
-> are now seeing are
->
-> =A0 =A0 =A0 =A01. page allocator regressions - mostly fixed hopefully
-> =A0 =A0 =A0 =A02. page writeback change in timing - theory yet to be conf=
-irmed
-> =A0 =A0 =A0 =A03. drivers using more atomics - iwlagn specific, being dea=
-lt with
->
-> Of course, the big problem is if the changes are due to major timing
-> differences in page writeback, then mainline is a totally different
-> shape of problem as pdflush has been replaced there.
->
-> =3D=3D=3D=3D
-> Have wb_kupdate wait on sync IO congestion instead of async
->
-> wb_kupdate is expected to only have queued up pages for async IO.
-> However, something screwy is happening because it never appears to go to
-> sleep. Frans, can you test with this patch instead of the revert please?
-> Preferably, keep the verbose-congestion_wait patch applied so we can
-> still get an idea who is going to sleep and for how long when calling
-> congestion_wait. thanks
->
-> Not-signed-off-hacket-job: Mel Gorman <mel@csn.ul.ie>
-> ---
->
-> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
-> index 81627eb..cb646dd 100644
-> --- a/mm/page-writeback.c
-> +++ b/mm/page-writeback.c
-> @@ -787,7 +787,7 @@ static void wb_kupdate(unsigned long arg)
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0writeback_inodes(&wbc);
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (wbc.nr_to_write > 0) {
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (wbc.encountered_conges=
-tion || wbc.more_io)
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 congestion_=
-wait(BLK_RW_ASYNC, HZ/10);
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 congestion_=
-wait(BLK_RW_SYNC, HZ/10);
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0else
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0break; =A0=
-/* All the old data is written */
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0}
+On Fri, Oct 23, 2009 at 10:03:05PM -0400, Christoph Lameter wrote:
+> There are now rt dependencies in the page allocator that screw things up?
+> 
 
-Hmm, This doesn't looks correct to me.
+The rt logic was present before.
 
-BLK_RW_ASYNC mean async write.
-BLK_RW_SYNC  mean read and sync-write.
+> And an rt flag causes the page allocator to try harder meaning it adds
+> latency.
+> 
 
-wb_kupdate use WB_SYNC_NONE. it's async write.
+The harder term in the flag is a bit misleading. The effect of ALLOC_HARDER
+is that the watermark is lower for the task. i.e. a rt task is less likely
+to enter direct reclaim than normal tasks so it should have less latency.
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+> ?
+> 
+> 
+
+-- 
+Mel Gorman
+Part-time Phd Student                          Linux Technology Center
+University of Limerick                         IBM Dublin Software Lab
