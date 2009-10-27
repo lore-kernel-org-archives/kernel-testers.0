@@ -1,57 +1,62 @@
-From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
-Subject: Re: [Bug #14355] USB serial regression after 2.6.31.1 with Huawei
- E169 GSM modem
-Date: Tue, 27 Oct 2009 12:54:50 +1100
-Message-ID: <1256608490.2076.55.camel@pasglop>
+From: Yong Zhang <yong.zhang0-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14481] umount blocked for more than 120 seconds after USB 
+	drive removal
+Date: Tue, 27 Oct 2009 10:04:12 +0800
+Message-ID: <2674af740910261904m13985d9ck46e5d665517ca6a6@mail.gmail.com>
 References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
-	 <6dRYo8ss7vL.A.xWH.0re5KB@chimera>
+	 <6dRYo8ss7vL.A.x7E.4qe5KB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <6dRYo8ss7vL.A.xWH.0re5KB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=Ho8mNP0TcitSF5USEldVqOCmmuarwugoqbA48Yccxdc=;
+        b=WU/Pe5bcKWBMLw7d/hLHfAIqBRPhkKilipYDlIbVJGOmIP4p9vXUmwZcEJDfyPUjA4
+         O/EssLGdnD6y5L52XggSqrtuJDVPg+TzhnnlfF8Fp0OihyawMFhF7sL7e/+bQh233F3u
+         xF6RMBNHZ2z3Z0qgDvye1QQRO6f4b0nbyN/SY=
+In-Reply-To: <6dRYo8ss7vL.A.x7E.4qe5KB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Ben Efros <ben-sBIqA0PYact54TAoqtyWWQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Mon, 2009-10-26 at 19:55 +0100, Rafael J. Wysocki wrote:
+On Tue, Oct 27, 2009 at 2:56 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 > This message has been generated automatically as a part of a report
 > of recent regressions.
-> 
+>
 > The following bug entry is on the current list of known regressions
-> from 2.6.31.  Please verify if it still should be listed and let me know
+> from 2.6.31. =C2=A0Please verify if it still should be listed and let=
+ me know
 > (either way).
+>
+>
+> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
+cgi?id=3D14481
+> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : umount blocked for more than 12=
+0 seconds after USB drive removal
+> Submitter =C2=A0 =C2=A0 =C2=A0 : Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org=
+>
+> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-10-21 5:26 (6 da=
+ys old)
+> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
+=3D125610280532245&w=3D4
+>
+>
 
-Well, the E169 works, though there seem to be a few issues remaining:
+I met the same problem on 2.6.32-rc5
 
- - There are reports that the E220 is still broken (by the same
-regression, just that the patch that fixes the E169 doesn't fix the
-E220, but since I don't have one of these, I'm waiting for users to send
-dumps instead of just complaining :-)
+Thanks,
+Yong
 
- - There's a weird glitch where the E169 tend to only work after being
-plugged the -second- time. The first time, the storage device generally
-shows up but not the ttyS's devices for some strange reason. Not sure
-what's up yet. Yanking it and plugging it back works. Could be timing
-related due to the need to load the module.
-
-None of that happens with 2.6.31.1
-
-Cheers,
-Ben.
-
-
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14355
-> Subject		: USB serial regression after 2.6.31.1 with Huawei E169 GSM modem
-> Submitter	: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
-> Date		: 2009-10-10 03:07 (17 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125513456327542&w=4
-> 
-> 
 > --
-> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> To unsubscribe from this list: send the line "unsubscribe linux-kerne=
+l" in
 > the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> Please read the FAQ at  http://www.tux.org/lkml/
-
+> More majordomo info at =C2=A0http://vger.kernel.org/majordomo-info.ht=
+ml
+> Please read the FAQ at =C2=A0http://www.tux.org/lkml/
+>
