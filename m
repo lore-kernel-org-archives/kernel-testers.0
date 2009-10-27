@@ -1,42 +1,62 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14484] no video output after suspend
-Date: Tue, 27 Oct 2009 23:12:56 +0100
-Message-ID: <200910272312.56120.rjw@sisk.pl>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <6dRYo8ss7vL.A.5tE.0qe5KB@chimera> <4AE7654B.6040401@gmail.com>
+From: reinette chatre <reinette.chatre@intel.com>
+Subject: Re: [PATCH 0/5] Candidate fix for increased number of GFP_ATOMIC
+ failures V2
+Date: Tue, 27 Oct 2009 16:34:05 -0700
+Message-ID: <1256686445.21134.10091.camel@rc-desk>
+References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie>
+	 <1256226219.21134.1493.camel@rc-desk>  <20091027104017.GC8900@csn.ul.ie>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4AE7654B.6040401-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Riccardo Magliocchetti <riccardo.magliocchetti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Content-Transfer-Encoding: quoted-printable
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <20091027104017.GC8900@csn.ul.ie>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+To: Mel Gorman <mel@csn.ul.ie>
+Cc: Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, "Rafael J. Wysocki" <rjw@sisk.pl>, David Miller <davem@davemloft.net>, Kalle Valo <kalle.valo@iki.fi>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Abbas, Mohamed" <mohamed.abbas@intel.com>, Jens Axboe <jens.axboe@oracle.com>, "John W. Linville" <linville@tuxdriver.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Greg Kroah-Hartman <gregkh@suse.de>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "linux-kernel@
+ vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>
 
-On Tuesday 27 October 2009, Riccardo Magliocchetti wrote:
-> Hello Rafael,
-> 
-> Rafael J. Wysocki ha scritto:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.31.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14484
-> > Subject		: no video output after suspend
-> > Submitter	: Riccardo Magliocchetti <riccardo.magliocchetti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2009-10-25 20:57 (2 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=125650430123713&w=4
-> > Handled-By	: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-> 
-> Since the bad commit is around 2.6.31-rc9 i think this is a regression 
-> from 2.6.30 and not 2.6.31, it's me that have reported the issue so 
-> late. Then the patch that you added on the first comment is for another 
-> issue and not this one.
+On Tue, 2009-10-27 at 03:40 -0700, Mel Gorman wrote:
+> On Thu, Oct 22, 2009 at 08:43:38AM -0700, reinette chatre wrote:
+> > On Thu, 2009-10-22 at 07:22 -0700, Mel Gorman wrote:
+> > > [Bug #14141] order 2 page allocation failures in iwlagn
+> > > 	Commit 4752c93c30441f98f7ed723001b1a5e3e5619829 introduced GFP_ATO=
+MIC
+> > > 	allocations within the wireless driver. This has caused large numb=
+ers
+> > > 	of failure reports to occur as reported by Frans Pop. Fixing this
+> > > 	requires changes to the driver if it wants to use GFP_ATOMIC which
+> > > 	is in the hands of Mohamed Abbas and Reinette Chatre. However,
+> > > 	it is very likely that it has being compounded by core mm changes
+> > > 	that this series is aimed at.
+> >=20
+> > Driver has been changed to allocate paged skb for its receive buffers=
+.
+> > This reduces amount of memory needed from order-2 to order-1. This wo=
+rk
+> > is significant and will thus be in 2.6.33.=20
+> >=20
+>=20
+> What do you want to do for -stable in 2.6.31?
+>=20
 
-Thanks, updated.
+I have just posted two patches to stable. The first is to address a bug
+in which buffer loss occurs when there is an allocation failure and the
+second is what Frans has been testing that reduces the noise when these
+allocations fail. They are:
 
-Rafael
+  iwlwifi: fix potential rx buffer loss=C2=AD=C2=AD=C2=AD=C2=AD=C2=AD=C2=AD=
+=C2=AD
+de0bd50845eb5935ce3d503c5d2f565d6cb9ece1 in linux-2.6
+  iwlwifi: reduce noise when skb allocation fails
+=C2=AD=C2=AD=C2=AD=C2=AD=C2=AD=C2=AD=C2=ADf82a924cc88a5541df1d4b9d38a0968=
+cd077a051 in linux-2.6
+
+Reinette
+
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=3Dmailto:"dont@kvack.org"> email@kvack.org </a>
