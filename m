@@ -1,28 +1,38 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #14388] keyboard under X with 2.6.31
-Date: Tue, 27 Oct 2009 09:23:07 +0100
-Message-ID: <200910270923.07912.rjw@sisk.pl>
-References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera> <4AE621CB.6000700@yahoo.co.uk> <alpine.LFD.2.01.0910261543400.31845@localhost.localdomain>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #14474] restorecond going crazy on 2.6.31.4 - inotify regression?
+Date: Tue, 27 Oct 2009 09:24:40 +0100
+Message-ID: <200910270924.41037.rjw@sisk.pl>
+References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera> <vX3ILojF2dJ.A.H8F.Yef5KB@chimera> <51f3faa70910261648h242a9a2dp42cdf554a9eb1342@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756578AbZJ0IVP@vger.kernel.org>
-In-Reply-To: <alpine.LFD.2.01.0910261543400.31845@localhost.localdomain>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <51f3faa70910261648h242a9a2dp42cdf554a9eb1342-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Boyan <btanastasov@yahoo.co.uk>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Ed Tomlinson <edt@aei.ca>,  =?iso-8859-1?q?Fr=E9d=E9ric_L=2E_W=2E?= Meunier <fredlwm@gmail.com>, "Justin P. Mattock" <justinmattock@gmail.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+To: Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Monday 26 October 2009, Linus Torvalds wrote:
+On Tuesday 27 October 2009, Robert Hancock wrote:
+> On Mon, Oct 26, 2009 at 1:32 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.30 and 2.6.31.
+> >
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+> > be listed and let me know (either way).
+> >
+> >
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14474
+> > Subject         : restorecond going crazy on 2.6.31.4 - inotify regression?
+> > Submitter       : Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2009-10-16 0:03 (11 days old)
+> > References      : http://marc.info/?l=linux-kernel&m=125565159520489&w=4
 > 
-> On Tue, 27 Oct 2009, Boyan wrote:
-> > 
-> > I think it is fixed in 2.6.31.5. I can't reproduce the problem with it.
-> 
-> It was fixed by mainline commit c8e33141911bf8fe87dc6c92793b9a59b2be0130 
-> ("tty: Make flush_to_ldisc() locking more robust"), which got back-ported 
-> to 2.6.31.5 as commit 86d23a057.
+> This is definitely reproducible on 2.6.31.4 on CentOS 5.4, I'll likely
+> try 2.6.31.5 shortly, but it doesn't seem like any of the 2.6.31.5
+> patches touch inotify..
 
-Thanks, closing.
+Thanks for the update.
 
 Rafael
