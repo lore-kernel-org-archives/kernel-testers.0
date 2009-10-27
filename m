@@ -1,35 +1,158 @@
-From: Eric Paris <eparis-FjpueFixGhCM4zKIHC2jIg@public.gmane.org>
-Subject: Re: [Bug #14090] WARNING: at fs/notify/inotify/inotify_user.c:394
-Date: Tue, 27 Oct 2009 10:33:48 -0400
-Message-ID: <7e0fb38c0910270733g7b05c779m1f593529659a6ff@mail.gmail.com>
-References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera>
-	 <vX3ILojF2dJ.A.1J.5ff5KB@chimera>
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
+Date: Tue, 27 Oct 2009 14:54:35 +0000
+Message-ID: <20091027145435.GG8900@csn.ul.ie>
+References: <3onW63eFtRF.A.xXH.oMTxKB@chimera> <20091019161815.GA11487@think> <20091020104839.GC11778@csn.ul.ie> <200910262206.13146.elendil@planet.nl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <vX3ILojF2dJ.A.1J.5ff5KB@chimera>
+Content-Disposition: inline
+In-Reply-To: <200910262206.13146.elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Joerg Platte <bugzilla-ilKWAAXSMVN6lmGzAMPh1A@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Cc: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
 
-On Mon, Oct 26, 2009 at 3:31 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.30 and 2.6.31.
->
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31. =A0Please verify if it still sh=
-ould
-> be listed and let me know (either way).
->
->
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-14090
-> Subject =A0 =A0 =A0 =A0 : WARNING: at fs/notify/inotify/inotify_user.=
-c:394
-> Submitter =A0 =A0 =A0 : Joerg Platte <bugzilla-ilKWAAXSMVN6lmGzAMPh1A@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-08-30 15:21 (58 days old)
+On Mon, Oct 26, 2009 at 10:06:09PM +0100, Frans Pop wrote:
+> On Tuesday 20 October 2009, Mel Gorman wrote:
+> > I've attached a patch below that should allow us to cheat. When it's
+> > applied, it outputs who called congestion_wait(), how long the timeout
+> > was and how long it waited for. By comparing before and after sleep
+> > times, we should be able to see which of the callers has significantly
+> > changed and if it's something easily addressable.
+> 
+> The results from this look fairly interesting (although I may be a bad 
+> judge as I don't really know what I'm looking at ;-).
+> 
+> I've tested with two kernels:
+> 1) 2.6.31.1: 1 test run
+> 2) 2.6.31.1 + congestion_wait() reverts: 2 test runs
+> 
+> The 1st kernel had the expected "freeze" while reading commits in gitk; 
+> reading commits with the 2nd kernel was more fluent.
+> I did 2 runs with the 2nd kernel as the first run had a fairly long music 
+> skip and more SKB errors than expected. The second run was fairly normal 
+> with no music skips at all even though it had a few SKB errors.
+> 
+> Data for the tests:
+> 				1st kernel	2nd kernel 1	2nd kernel 2
+> end reading commits		1:15		1:00		0:55
+>   "freeze"			yes		no		no
+> branch data shown		1:55		1:15		1:10
+> system quiet			2:25		1:50		1:45
+> # SKB allocation errors		10		53		5
+> 
+> Note that the test is substantially faster with the 2nd kernel and that the 
+> SKB errors don't really affect the duration of the test.
+> 
 
-should be fixed by: 9f0d793b52eb2266359661369ef6303838904855 in linus' =
-tree
+Ok. I think that despite expectations, the writeback changes have
+changed the timing significantly enough to be worth examining closer.
+
+> 
+> - without the revert 'background_writeout' is called a lot less frequently,
+>   but when it's called it gets long delays
+> - without the revert you have 'wb_kupdate', which is relatively expensive
+> - with the revert 'shrink_list' is relatively expensive, although not
+>   really in absolute terms
+> 
+
+Lets look at the callers that waited in congestion_wait() for at least
+25 jiffies.
+
+2.6.31.1-async-sync-congestion-wait i.e. vanilla kernel
+generated with: cat kern.log_1_test | awk -F ] '{print $2}' | sort -k 5 -n | uniq -c
+     24  background_writeout  congestion_wait sync=0 delay 25 timeout 25
+    203  kswapd               congestion_wait sync=0 delay 25 timeout 25
+      5  shrink_list          congestion_wait sync=0 delay 25 timeout 25
+    155  try_to_free_pages    congestion_wait sync=0 delay 25 timeout 25
+    145  wb_kupdate           congestion_wait sync=0 delay 25 timeout 25
+      2  kswapd               congestion_wait sync=0 delay 26 timeout 25
+      8  wb_kupdate           congestion_wait sync=0 delay 26 timeout 25
+      1  try_to_free_pages    congestion_wait sync=0 delay 54 timeout 25
+
+2.6.31.1-write-congestion-wait i.e. kernel with patch reverted
+generated with: cat kern.log_2.1_test | awk -F ] '{print $2}' | sort -k 5 -n | uniq -c
+      2  background_writeout  congestion_wait rw=1 delay 25 timeout 25
+    188  kswapd               congestion_wait rw=1 delay 25 timeout 25
+     14  shrink_list          congestion_wait rw=1 delay 25 timeout 25
+    181  try_to_free_pages    congestion_wait rw=1 delay 25 timeout 25
+      5  kswapd               congestion_wait rw=1 delay 26 timeout 25
+     10  try_to_free_pages    congestion_wait rw=1 delay 26 timeout 25
+      3  try_to_free_pages    congestion_wait rw=1 delay 27 timeout 25
+      1  kswapd               congestion_wait rw=1 delay 29 timeout 25
+      1  __alloc_pages_nodemask congestion_wait rw=1 delay 30 timeout 5
+      1  try_to_free_pages    congestion_wait rw=1 delay 31 timeout 25
+      1  try_to_free_pages    congestion_wait rw=1 delay 35 timeout 25
+      1  kswapd               congestion_wait rw=1 delay 51 timeout 25
+      1  try_to_free_pages    congestion_wait rw=1 delay 56 timeout 25
+
+So, wb_kupdate and background_writeout are the big movers in terms of waiting,
+not the direct reclaimers which is what we were expecting. Of those big
+movers, wb_kupdate is the most interested because compare the following
+
+$ cat kern.log_2.1_test | awk -F ] '{print $2}' | sort -k 5 -n | uniq -c | grep wb_kup
+[ no output ]
+$ $ cat kern.log_1_test | awk -F ] '{print $2}' | sort -k 5 -n | uniq -c | grep wb_kup
+      1  wb_kupdate           congestion_wait sync=0 delay 15 timeout 25
+      1  wb_kupdate           congestion_wait sync=0 delay 23 timeout 25
+    145  wb_kupdate           congestion_wait sync=0 delay 25 timeout 25
+      8  wb_kupdate           congestion_wait sync=0 delay 26 timeout 25
+
+The vanilla kernel is not waiting in wb_kupdate at all.
+
+Jens, before the congestion_wait() changes, wb_kupdate was waiting on
+congestion and afterwards it's not. Furthermore, look at the number of pages
+that are queued for writeback in the two page allocation failure reports.
+
+without-revert:	writeback:65653
+with-revert:	writeback:21713
+
+So, after the move to async/sync, a lot more pages are getting queued
+for writeback - more than three times the number of pages are queued for
+writeback with the vanilla kernel. This amount of congestion might be why
+direct reclaimers and kswapd's timings have changed so much.
+
+Chris Mason hinted at this but I didn't quite "get it" at the time but is it
+possible that writeback_inodes() is converting what is expected to be async
+IO into sync IO? One way of checking this is if Frans could test the patch
+below that makes wb_kupdate wait on sync instead of async.
+
+If this makes a difference, I think the three main areas of trouble we
+are now seeing are
+
+	1. page allocator regressions - mostly fixed hopefully
+	2. page writeback change in timing - theory yet to be confirmed
+	3. drivers using more atomics - iwlagn specific, being dealt with
+
+Of course, the big problem is if the changes are due to major timing
+differences in page writeback, then mainline is a totally different
+shape of problem as pdflush has been replaced there.
+
+==== 
+Have wb_kupdate wait on sync IO congestion instead of async
+
+wb_kupdate is expected to only have queued up pages for async IO.
+However, something screwy is happening because it never appears to go to
+sleep. Frans, can you test with this patch instead of the revert please?
+Preferably, keep the verbose-congestion_wait patch applied so we can
+still get an idea who is going to sleep and for how long when calling
+congestion_wait. thanks
+
+Not-signed-off-hacket-job: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+--- 
+
+diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+index 81627eb..cb646dd 100644
+--- a/mm/page-writeback.c
++++ b/mm/page-writeback.c
+@@ -787,7 +787,7 @@ static void wb_kupdate(unsigned long arg)
+ 		writeback_inodes(&wbc);
+ 		if (wbc.nr_to_write > 0) {
+ 			if (wbc.encountered_congestion || wbc.more_io)
+-				congestion_wait(BLK_RW_ASYNC, HZ/10);
++				congestion_wait(BLK_RW_SYNC, HZ/10);
+ 			else
+ 				break;	/* All the old data is written */
+ 		}
