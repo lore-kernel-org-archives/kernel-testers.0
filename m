@@ -1,30 +1,31 @@
-From: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH 3/3] vmscan: Force kswapd to take notice faster when high-order
- watermarks are being hit
-Date: Tue, 27 Oct 2009 14:18:34 -0400
-Message-ID: <4AE7397A.4010907__46763.1716201597$1256667670$gmane$org@redhat.com>
-References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <1256650833-15516-4-git-send-email-mel@csn.ul.ie>
+From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [Bug #14467] Linker errors on ia64 with NR_CPUS=4096
+Date: Tue, 27 Oct 2009 19:24:03 +0100 (CET)
+Message-ID: <alpine.LSU.2.00.0910271922490.19847@wotan.suse.de>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <6dRYo8ss7vL.A.nnF.Cre5KB@chimera> <alpine.DEB.1.10.0910271623210.20363@V090114053VZO-1>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1256650833-15516-4-git-send-email-mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+In-Reply-To: <alpine.DEB.1.10.0910271623210.20363@V090114053VZO-1>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, " <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>"@redhat.com
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>, "Luck, Tony" <tony.luck-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
-On 10/27/2009 09:40 AM, Mel Gorman wrote:
-> When a high-order allocation fails, kswapd is kicked so that it reclaims
-> at a higher-order to avoid direct reclaimers stall and to help GFP_ATOMIC
-> allocations. Something has changed in recent kernels that affect the timing
-> where high-order GFP_ATOMIC allocations are now failing with more frequency,
-> particularly under pressure. This patch forces kswapd to notice sooner that
-> high-order allocations are occuring.
->
-> Signed-off-by: Mel Gorman<mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+On Tue, 27 Oct 2009, Christoph Lameter wrote:
 
-Reviewed-by: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> The NR_CPUS array in the percpu section needs to be removed.
+> 
+> A simple fix would be to allocate the rq_weight per cpu array
+> dynamically.
+
+There already are two patches for this acked by Ingo/Tejun, which Tejun is 
+going to take through his tree tomorrow.
+
+	http://lkml.org/lkml/2009/10/27/132
+	http://lkml.org/lkml/2009/10/27/215
 
 -- 
-All rights reversed.
+Jiri Kosina
+SUSE Labs, Novell Inc.
