@@ -1,57 +1,46 @@
-From: Chris Mason <chris.mason@oracle.com>
+From: reinette chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 Subject: Re: [Bug #14141] order 2 page allocation failures in iwlagn
-Date: Tue, 27 Oct 2009 12:03:32 -0400
-Message-ID: <20091027160332.GA7776@think>
+Date: Tue, 27 Oct 2009 09:15:16 -0700
+Message-ID: <1256660116.21134.9172.camel@rc-desk>
 References: <3onW63eFtRF.A.xXH.oMTxKB@chimera>
- <20091019161815.GA11487@think>
- <20091020104839.GC11778@csn.ul.ie>
- <200910262206.13146.elendil@planet.nl>
- <20091027145435.GG8900@csn.ul.ie>
- <20091027155223.GL8900@csn.ul.ie>
+	 <200910152142.02876.elendil@planet.nl>
+	 <1255758143.21134.1360.camel@rc-desk>
+	 <200910271210.31014.elendil@planet.nl>
 Mime-Version: 1.0
-Return-path: <owner-linux-mm@kvack.org>
-Content-Disposition: inline
-In-Reply-To: <20091027155223.GL8900@csn.ul.ie>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: Frans Pop <elendil@planet.nl>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Reinette Chatre <reinette.chatre@intel.com>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Mohamed Abbas <mohamed.abbas@intel.com>, Jens Axboe <jens.axboe@oracle.com>, "John W. Linville" <linville@tuxdriver.com>, linux-mm@kvack.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <200910271210.31014.elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Cc: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Abbas, Mohamed" <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
 
-On Tue, Oct 27, 2009 at 03:52:24PM +0000, Mel Gorman wrote:
+Hi Frans,
+
+On Tue, 2009-10-27 at 04:10 -0700, Frans Pop wrote:
+> Sorry for the delay in replying.
 > 
-> > So, after the move to async/sync, a lot more pages are getting queued
-> > for writeback - more than three times the number of pages are queued for
-> > writeback with the vanilla kernel. This amount of congestion might be why
-> > direct reclaimers and kswapd's timings have changed so much.
-> > 
+> On Saturday 17 October 2009, reinette chatre wrote:
+> > Prompted by this thread we are in process of moving allocation to paged
+> > skb. This will definitely reduce the allocation size (from order 2 to
+> > order 1) and hopefully help with this problem also. Could you please try
+> > with the attached two patches? They are based on 2.6.32-rc4.
 > 
-> Or more accurately, the vanilla kernel has queued up a lot more pages for
-> IO than when the patch is reverted. I'm not seeing yet why this is.
+> Looks very good! With these patches I no longer get any SKB allocation 
+> errors, even during the heaviest freezes while gitk is loading. I do still 
+> get (long) music skips during the freezes, but that's not unexpected.
+> AFAICT the wireless connection is stable.
+> 
+> Tested on top of current mainline git: v2.6.32-rc5-81-g964fe08.
+> 
+> Please add, if you feel it's appropriate, my:
+> Reported-and-tested-by: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
 
-[ sympathies over confusion about congestion...lots of variables here ]
+Thank you very much for testing these patches so thoroughly. They are
+both on their way upstream already so I am not able to add your
+signature at this time. Since these are pretty big changes these patches
+will be in 2.6.33.
 
-If wb_kupdate has been able to queue more writes it is because the
-congestion logic isn't stopping it.  We have congestion_wait(), but
-before calling that in the writeback paths it says: are you congested?
-and then backs off if the answer is yes.
+Reinette
 
-Ideally, direct reclaim will never do writeback.  We want it to be able
-to find clean pages that kupdate and friends have already processed.
-
-Waiting for congestion is a funny thing, it only tells us the device has
-managed to finish some IO or that a timeout has passed.  Neither event has
-any relation to figuring out if the IO for reclaimable pages has
-finished.
-
-One option is to have the VM remember the hashed waitqueue for one of
-the pages it direct reclaims and then wait on it.
-
--chris
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
