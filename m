@@ -1,55 +1,49 @@
-From: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
-Subject: Re: [PATCH 5/5] ONLY-APPLY-IF-STILL-FAILING Revert 373c0a7e, 8aa7e847: Fix congestion_wait() sync/async vs read/write confusion
-Date: Tue, 27 Oct 2009 11:42:59 +0900 (JST)
-Message-ID: <20091026235628.2F7B.A69D9226@jp.fujitsu.com>
-References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <1256221356-26049-6-git-send-email-mel@csn.ul.ie>
+From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14388] keyboard under X with 2.6.31
+Date: Mon, 26 Oct 2009 21:34:07 -0700
+Message-ID: <4AE6783F.1000400@gmail.com>
+References: <G2WU8XrUVpF.A.lxF.Ref5KB@chimera> <4AE621CB.6000700@yahoo.co.uk> <alpine.LFD.2.01.0910261543400.31845@localhost.localdomain> <200910261945.58027.edt@aei.ca>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <1256221356-26049-6-git-send-email-mel@csn.ul.ie>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: kosaki.motohiro@jp.fujitsu.com, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, "Rafael J. Wysocki" <rjw@sisk.pl>, David Miller <davem@davemloft.net>, Reinette Chatre <reinette.chatre@intel.com>, Kalle Valo <kalle.valo@iki.fi>, David Rientjes <rientjes@google.com>, Mohamed Abbas <mohamed.abbas@intel.com>, Jens Axboe <jens.axboe@oracle.com>, "John W. Linville" <linville@tuxdriver.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Greg Kroah-Hartman <gregkh@suse.de>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, netdev@vger.kern
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=R0z7LZG/tgqqRyaN2cVLuaQv57VSCkH9X9zLH0bTkvg=;
+        b=kAPIX2DKlB4110svKU2/Kw2gi4eKhKA1ovZ0Mr2GrSOdJep81ATKL5xg2Ij5uQdpi4
+         CBPQNJiYP5EYG7pqbjvgE0hvsbqDDeV7UONwfN2Dwo9IQDcYS1KA9UWuhXwOdlKm93WE
+         OjnXQ2G9z/IGXOHMEu+SZH9HtY80Vrat5KrgI=
+In-Reply-To: <200910261945.58027.edt-Yad3+ZauZac@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Boyan <btanastasov-/E1597aS9LT10XsdtD+oqA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, =?ISO-8859-1?Q?=22Fr=E9d=E9ric_L=2E_W=2E_Meunier=22?= <fredlwm-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
 
-> Testing by Frans Pop indicates that in the 2.6.30..2.6.31 window at
-> least that the commits 373c0a7e 8aa7e847 dramatically increased the
-> number of GFP_ATOMIC failures that were occuring within a wireless
-> driver. It was never isolated which of the changes was the exact problem
-> and it's possible it has been fixed since. If problems are still
-> occuring with GFP_ATOMIC in 2.6.31-rc5, then this patch should be
-> applied to determine if the congestion_wait() callers are still broken.
+Ed Tomlinson wrote:
+> On Monday 26 October 2009 18:45:27 Linus Torvalds wrote:
+>    
+>> On Tue, 27 Oct 2009, Boyan wrote:
+>>      
+>>> I think it is fixed in 2.6.31.5. I can't reproduce the problem with it.
+>>>        
+>> It was fixed by mainline commit c8e33141911bf8fe87dc6c92793b9a59b2be0130
+>> ("tty: Make flush_to_ldisc() locking more robust"), which got back-ported
+>> to 2.6.31.5 as commit 86d23a057.
+>>      
+>
+> I can confirm that the keyboard is no longer missbehaving here  with 31.5
+>
+> Ed
+>
+>    
+I guess there you have it... everybody
+confirms this is fixed.
+safe to say yes close, but not until the patch
+has been pushed to the main tree..
 
-Oops. no, please no.
-8aa7e847 is regression fixing commit. this revert indicate the regression
-occur again.
-if we really need to revert it, we need to revert 1faa16d2287 too.
-however, I doubt this commit really cause regression to iwlan. IOW,
-I agree Jens.
+cheers
 
-I hope to try reproduce this problem on my test environment. Can anyone
-please explain reproduce way?
-Is special hardware necessary?
-
-
-----------------------------------------------------
-commit 8aa7e847d834ed937a9ad37a0f2ad5b8584c1ab0
-Author: Jens Axboe <jens.axboe@oracle.com>
-Date:   Thu Jul 9 14:52:32 2009 +0200
-
-    Fix congestion_wait() sync/async vs read/write confusion
-
-    Commit 1faa16d22877f4839bd433547d770c676d1d964c accidentally broke
-    the bdi congestion wait queue logic, causing us to wait on congestion
-    for WRITE (== 1) when we really wanted BLK_RW_ASYNC (== 0) instead.
-
-    Signed-off-by: Jens Axboe <jens.axboe@oracle.com>
-
-
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+Justin P. Mattock
