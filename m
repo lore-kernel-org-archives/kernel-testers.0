@@ -1,31 +1,53 @@
-From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [Bug #14467] Linker errors on ia64 with NR_CPUS=4096
-Date: Tue, 27 Oct 2009 19:24:03 +0100 (CET)
-Message-ID: <alpine.LSU.2.00.0910271922490.19847@wotan.suse.de>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <6dRYo8ss7vL.A.nnF.Cre5KB@chimera> <alpine.DEB.1.10.0910271623210.20363@V090114053VZO-1>
+From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [PATCH 2/3] page allocator: Do not allow interrupts to use
+ ALLOC_HARDER
+Date: Tue, 27 Oct 2009 13:09:24 -0700
+Message-ID: <20091027130924.fa903f5a.akpm@linux-foundation.org>
+References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie>
+	<1256650833-15516-3-git-send-email-mel@csn.ul.ie>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.1.10.0910271623210.20363@V090114053VZO-1>
+In-Reply-To: <1256650833-15516-3-git-send-email-mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>, "Luck, Tony" <tony.luck-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Cc: stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org\"" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, "Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>"@linux-foundation.org
 
-On Tue, 27 Oct 2009, Christoph Lameter wrote:
+On Tue, 27 Oct 2009 13:40:32 +0000
+Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org> wrote:
 
-> The NR_CPUS array in the percpu section needs to be removed.
+> Commit 341ce06f69abfafa31b9468410a13dbd60e2b237 altered watermark logic
+> slightly by allowing rt_tasks that are handling an interrupt to set
+> ALLOC_HARDER. This patch brings the watermark logic more in line with
+> 2.6.30.
 > 
-> A simple fix would be to allocate the rq_weight per cpu array
-> dynamically.
+> [rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org: Spotted the problem]
+> Signed-off-by: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+> Reviewed-by: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+> Reviewed-by: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Reviewed-by: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+> ---
+>  mm/page_alloc.c |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index dfa4362..7f2aa3e 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -1769,7 +1769,7 @@ gfp_to_alloc_flags(gfp_t gfp_mask)
+>  		 * See also cpuset_zone_allowed() comment in kernel/cpuset.c.
+>  		 */
+>  		alloc_flags &= ~ALLOC_CPUSET;
+> -	} else if (unlikely(rt_task(p)))
+> +	} else if (unlikely(rt_task(p)) && !in_interrupt())
+>  		alloc_flags |= ALLOC_HARDER;
+>  
+>  	if (likely(!(gfp_mask & __GFP_NOMEMALLOC))) {
 
-There already are two patches for this acked by Ingo/Tejun, which Tejun is 
-going to take through his tree tomorrow.
+What are the runtime-observeable effects of this change?
 
-	http://lkml.org/lkml/2009/10/27/132
-	http://lkml.org/lkml/2009/10/27/215
-
--- 
-Jiri Kosina
-SUSE Labs, Novell Inc.
+The description is a bit waffly-sounding for a -stable backportable
+thing, IMO.  What reason do the -stable maintainers and users have to
+believe that this patch is needed, and an improvement?
