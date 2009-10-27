@@ -1,62 +1,61 @@
-From: Yong Zhang <yong.zhang0-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14481] umount blocked for more than 120 seconds after USB 
-	drive removal
-Date: Tue, 27 Oct 2009 10:04:12 +0800
-Message-ID: <2674af740910261904m13985d9ck46e5d665517ca6a6@mail.gmail.com>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
-	 <6dRYo8ss7vL.A.x7E.4qe5KB@chimera>
+From: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
+Subject: Re: [PATCH 1/5] page allocator: Always wake kswapd when restarting an allocation attempt after direct reclaim failed
+Date: Tue, 27 Oct 2009 11:42:55 +0900 (JST)
+Message-ID: <20091026222159.2F72.A69D9226@jp.fujitsu.com>
+References: <20091026100019.2F4A.A69D9226@jp.fujitsu.com> <alpine.DEB.2.00.0910260005500.15361@chino.kir.corp.google.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=Ho8mNP0TcitSF5USEldVqOCmmuarwugoqbA48Yccxdc=;
-        b=WU/Pe5bcKWBMLw7d/hLHfAIqBRPhkKilipYDlIbVJGOmIP4p9vXUmwZcEJDfyPUjA4
-         O/EssLGdnD6y5L52XggSqrtuJDVPg+TzhnnlfF8Fp0OihyawMFhF7sL7e/+bQh233F3u
-         xF6RMBNHZ2z3Z0qgDvye1QQRO6f4b0nbyN/SY=
-In-Reply-To: <6dRYo8ss7vL.A.x7E.4qe5KB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <alpine.DEB.2.00.0910260005500.15361@chino.kir.corp.google.com>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: David Rientjes <rientjes@google.com>
+Cc: kosaki.motohiro@jp.fujitsu.com, Mel Gorman <mel@csn.ul.ie>, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, "Rafael J. Wysocki" <rjw@sisk.pl>, David Miller <davem@davemloft.net>, Reinette Chatre <reinette.chatre@intel.com>, Kalle Valo <kalle.valo@iki.fi>, Mohamed Abbas <mohamed.abbas@intel.com>, Jens Axboe <jens.axboe@oracle.com>, "John W. Linville" <linville@tuxdriver.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Greg Kroah-Hartman <gregkh@suse.de>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, netdev@vger.kernel.org, li
 
-On Tue, Oct 27, 2009 at 2:56 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.31. =C2=A0Please verify if it still should be listed and let=
- me know
-> (either way).
->
->
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D14481
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : umount blocked for more than 12=
-0 seconds after USB drive removal
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org=
->
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-10-21 5:26 (6 da=
-ys old)
-> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
-=3D125610280532245&w=3D4
->
->
+> On Mon, 26 Oct 2009, KOSAKI Motohiro wrote:
+> 
+> > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> > index bf72055..5a27896 100644
+> > --- a/mm/page_alloc.c
+> > +++ b/mm/page_alloc.c
+> > @@ -1899,6 +1899,12 @@ rebalance:
+> >  	if (should_alloc_retry(gfp_mask, order, pages_reclaimed)) {
+> >  		/* Wait for some write requests to complete then retry */
+> >  		congestion_wait(BLK_RW_ASYNC, HZ/50);
+> > +
+> > +		/*
+> > +		 * While we wait congestion wait, Amount of free memory can
+> > +		 * be changed dramatically. Thus, we kick kswapd again.
+> > +		 */
+> > +		wake_all_kswapd(order, zonelist, high_zoneidx);
+> >  		goto rebalance;
+> >  	}
+> >  
+> 
+> We're blocking to finish writeback of the directly reclaimed memory, why 
+> do we need to wake kswapd afterwards?
 
-I met the same problem on 2.6.32-rc5
+the same reason of "goto restart" case. that's my intention.
+if following scenario occur, it is equivalent that we didn't call wake_all_kswapd().
 
-Thanks,
-Yong
+  1. call congestion_wait()
+  2. kswapd reclaimed lots memory and sleep
+  3. another task consume lots memory
+  4. wakeup from congestion_wait()
 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kerne=
-l" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at =C2=A0http://vger.kernel.org/majordomo-info.ht=
-ml
-> Please read the FAQ at =C2=A0http://www.tux.org/lkml/
->
+IOW, if we falled into __alloc_pages_slowpath(), we naturally expect
+next page_alloc() don't fall into slowpath. however if kswapd end to
+its work too early, this assumption isn't true.
+
+Is this too pessimistic assumption?
+
+
+
+
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
