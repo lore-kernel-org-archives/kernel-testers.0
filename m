@@ -1,107 +1,53 @@
-From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Subject: Re: [PATCH 3/3] vmscan: Force kswapd to take notice faster when
-	high-order watermarks are being hit
-Date: Wed, 28 Oct 2009 10:29:36 +0000
-Message-ID: <20091028102936.GS8900@csn.ul.ie>
-References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <1256650833-15516-4-git-send-email-mel@csn.ul.ie> <20091027131905.410ec04a.akpm@linux-foundation.org>
+From: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 0/5] Candidate fix for increased number of GFP_ATOMIC
+	failures V2
+Date: Wed, 28 Oct 2009 12:42:08 +0100
+Message-ID: <20091028114208.GA14476@bizet.domek.prywatny>
+References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <20091023165810.GA4588@bizet.domek.prywatny> <20091023211239.GA6185@bizet.domek.prywatny> <9ec2d7290910240646p75b93c68v6ea1648d628a9660@mail.gmail.com>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=fapSUcbBhdyiHj9w2ie6Ck+GeTJ+7wc/Ygr8vsv+mnQ=;
+        b=Zh6t3yXiMz76+EZXRr5uWucuc4Ql2jcln/C4a4/8JONPVxz3OChR6Qk6mIpltfKtuG
+         B2Mbe0hEqzS9PisyvRhwKd6yHZESIqfWEp5Ks5I1y/gprakJO/KrERTs6YIbTzgZ5Igt
+         26D3KeXawYx3bsFcP6N1gSYJomxIzV2C3wwm8=
 Content-Disposition: inline
-In-Reply-To: <20091027131905.410ec04a.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+In-Reply-To: <9ec2d7290910240646p75b93c68v6ea1648d628a9660-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mel LKML <mel.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Kalle Valo <kalle.valo-X3B1VOXEql0@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <li>
 
-On Tue, Oct 27, 2009 at 01:19:05PM -0700, Andrew Morton wrote:
-> On Tue, 27 Oct 2009 13:40:33 +0000
-> Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org> wrote:
-> 
-> > When a high-order allocation fails, kswapd is kicked so that it reclaims
-> > at a higher-order to avoid direct reclaimers stall and to help GFP_ATOMIC
-> > allocations. Something has changed in recent kernels that affect the timing
-> > where high-order GFP_ATOMIC allocations are now failing with more frequency,
-> > particularly under pressure. This patch forces kswapd to notice sooner that
-> > high-order allocations are occuring.
-> > 
-> 
-> "something has changed"?  Shouldn't we find out what that is?
-> 
+On Sat, Oct 24, 2009 at 02:46:56PM +0100, Mel LKML wrote:
+> Hi,
 
-We've been trying but the answer right now is "lots". There were some
-changes in the allocator itself which were unintentional and fixed in
-patches 1 and 2 of this series. The two other major changes are
+Hi,
 
-iwlagn is now making high order GFP_ATOMIC allocations which didn't
-help. This is being addressed separetly and I believe the relevant
-patches are now in mainline.
+> On 10/23/09, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> > On Fri, Oct 23, 2009 at 06:58:10PM +0200, Karol Lewandowski wrote:
 
-The other major change appears to be in page writeback. Reverting
-commits 373c0a7e + 8aa7e847 significantly helps one bug reporter but
-it's still unknown as to why that is.
+> > Ok, I've tested patches 1+2+4 and bug, while very hard to trigger, is
+> > still present. I'll test complete 1-4 patchset as time permits.
 
-The latter is still being investigated but as the patches in this series
-are known to help some bug reporters with their GFP_ATOMIC failures and
-it is being reported against latest mainline and -stable, I felt it was
-best to help some of the bug reporters now to reduce duplicate reports.
+Sorry for silence, I've been quite busy lately.
 
-> > ---
-> >  mm/vmscan.c |    9 +++++++++
-> >  1 files changed, 9 insertions(+), 0 deletions(-)
-> > 
-> > diff --git a/mm/vmscan.c b/mm/vmscan.c
-> > index 64e4388..7eceb02 100644
-> > --- a/mm/vmscan.c
-> > +++ b/mm/vmscan.c
-> > @@ -2016,6 +2016,15 @@ loop_again:
-> >  					priority != DEF_PRIORITY)
-> >  				continue;
-> >  
-> > +			/*
-> > +			 * Exit the function now and have kswapd start over
-> > +			 * if it is known that higher orders are required
-> > +			 */
-> > +			if (pgdat->kswapd_max_order > order) {
-> > +				all_zones_ok = 1;
-> > +				goto out;
-> > +			}
-> > +
-> >  			if (!zone_watermark_ok(zone, order,
-> >  					high_wmark_pages(zone), end_zone, 0))
-> >  				all_zones_ok = 0;
-> 
-> So this handles the case where some concurrent thread or interrupt
-> increases pgdat->kswapd_max_order while kswapd was running
-> balance_pgdat(), yes?
-> 
 
-Right.
+> And also patch 5 please which is the revert. Patch 5 as pointed out is
+> probably a red herring. Hwoever, it has changed the timing and made a
+> difference for some testing so I'd like to know if it helps yours as
+> well.
 
-> Does that actually happen much?  Enough for this patch to make any
-> useful difference?
-> 
+I've tested patches 1+2+3+4 in my normal usage scenario (do some work,
+suspend, do work, suspend, ...) and it failed today after 4 days (== 4
+suspend-resume cycles).
 
-Apparently, yes. Wireless drivers in particularly seem to be very
-high-order GFP_ATOMIC happy.
+I'll test 1-5 now.
 
-> If one where to whack a printk in that `if' block, how often would it
-> trigger, and under what circumstances?
 
-I don't know the frequency. The circumstances are "under load" when
-there are drivers depending on high-order allocations but the
-reproduction cases are unreliable.
-
-Do you want me to slap together a patch that adds a vmstat counter for
-this? I can then ask future bug reporters to examine that counter and see
-if it really is a major factor for a lot of people or not.
-
-> If the -stable maintainers were to ask me "why did you send this" then
-> right now my answer would have to be "I have no idea".  Help.
-> 
-
--- 
-Mel Gorman
-Part-time Phd Student                          Linux Technology Center
-University of Limerick                         IBM Dublin Software Lab
+Thanks.
