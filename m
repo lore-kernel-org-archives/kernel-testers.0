@@ -1,62 +1,100 @@
-From: reinette chatre <reinette.chatre@intel.com>
-Subject: Re: [PATCH 0/5] Candidate fix for increased number of GFP_ATOMIC
- failures V2
-Date: Tue, 27 Oct 2009 16:34:05 -0700
-Message-ID: <1256686445.21134.10091.camel@rc-desk>
-References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie>
-	 <1256226219.21134.1493.camel@rc-desk>  <20091027104017.GC8900@csn.ul.ie>
+From: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH 3/3] vmscan: Force kswapd to take notice faster when high-order watermarks are being hit
+Date: Wed, 28 Oct 2009 12:54:04 +0900 (JST)
+Message-ID: <20091028115505.FD88.A69D9226@jp.fujitsu.com>
+References: <1256650833-15516-4-git-send-email-mel@csn.ul.ie> <20091027131905.410ec04a.akpm@linux-foundation.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20091027104017.GC8900@csn.ul.ie>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, "Rafael J. Wysocki" <rjw@sisk.pl>, David Miller <davem@davemloft.net>, Kalle Valo <kalle.valo@iki.fi>, David Rientjes <rientjes@google.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, "Abbas, Mohamed" <mohamed.abbas@intel.com>, Jens Axboe <jens.axboe@oracle.com>, "John W. Linville" <linville@tuxdriver.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, Greg Kroah-Hartman <gregkh@suse.de>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "linux-kernel@
- vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20091027131905.410ec04a.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org\"" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tue, 2009-10-27 at 03:40 -0700, Mel Gorman wrote:
-> On Thu, Oct 22, 2009 at 08:43:38AM -0700, reinette chatre wrote:
-> > On Thu, 2009-10-22 at 07:22 -0700, Mel Gorman wrote:
-> > > [Bug #14141] order 2 page allocation failures in iwlagn
-> > > 	Commit 4752c93c30441f98f7ed723001b1a5e3e5619829 introduced GFP_ATO=
-MIC
-> > > 	allocations within the wireless driver. This has caused large numb=
-ers
-> > > 	of failure reports to occur as reported by Frans Pop. Fixing this
-> > > 	requires changes to the driver if it wants to use GFP_ATOMIC which
-> > > 	is in the hands of Mohamed Abbas and Reinette Chatre. However,
-> > > 	it is very likely that it has being compounded by core mm changes
-> > > 	that this series is aimed at.
-> >=20
-> > Driver has been changed to allocate paged skb for its receive buffers=
-.
-> > This reduces amount of memory needed from order-2 to order-1. This wo=
-rk
-> > is significant and will thus be in 2.6.33.=20
-> >=20
->=20
-> What do you want to do for -stable in 2.6.31?
->=20
+> On Tue, 27 Oct 2009 13:40:33 +0000
+> Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org> wrote:
+> 
+> > When a high-order allocation fails, kswapd is kicked so that it reclaims
+> > at a higher-order to avoid direct reclaimers stall and to help GFP_ATOMIC
+> > allocations. Something has changed in recent kernels that affect the timing
+> > where high-order GFP_ATOMIC allocations are now failing with more frequency,
+> > particularly under pressure. This patch forces kswapd to notice sooner that
+> > high-order allocations are occuring.
+> 
+> "something has changed"?  Shouldn't we find out what that is?
 
-I have just posted two patches to stable. The first is to address a bug
-in which buffer loss occurs when there is an allocation failure and the
-second is what Frans has been testing that reduces the noise when these
-allocations fail. They are:
+if kswapd_max_order was changed, kswapd quickly change its own reclaim
+order.
 
-  iwlwifi: fix potential rx buffer loss=C2=AD=C2=AD=C2=AD=C2=AD=C2=AD=C2=AD=
-=C2=AD
-de0bd50845eb5935ce3d503c5d2f565d6cb9ece1 in linux-2.6
-  iwlwifi: reduce noise when skb allocation fails
-=C2=AD=C2=AD=C2=AD=C2=AD=C2=AD=C2=AD=C2=ADf82a924cc88a5541df1d4b9d38a0968=
-cd077a051 in linux-2.6
+old:
+  1. happen order-0 allocation
+  2. kick kswapd
+  3. happen high-order allocation
+  4. change kswapd_max_order, but kswapd continue order-0 reclaim.
+  5. kswapd end order-0 reclaim and exit balance_pgdat
+  6. kswapd() restart balance_pdgat() with high-order
 
-Reinette
+new:
+  1. happen order-0 allocation
+  2. kick kswapd
+  3. happen high-order allocation
+  4. change kswapd_max_order
+  5. kswapd notice it and quickly exit balance_pgdat()
+  6. kswapd() restart balance_pdgat() with high-order
+
+> 
+> > ---
+> >  mm/vmscan.c |    9 +++++++++
+> >  1 files changed, 9 insertions(+), 0 deletions(-)
+> > 
+> > diff --git a/mm/vmscan.c b/mm/vmscan.c
+> > index 64e4388..7eceb02 100644
+> > --- a/mm/vmscan.c
+> > +++ b/mm/vmscan.c
+> > @@ -2016,6 +2016,15 @@ loop_again:
+> >  					priority != DEF_PRIORITY)
+> >  				continue;
+> >  
+> > +			/*
+> > +			 * Exit the function now and have kswapd start over
+> > +			 * if it is known that higher orders are required
+> > +			 */
+> > +			if (pgdat->kswapd_max_order > order) {
+> > +				all_zones_ok = 1;
+> > +				goto out;
+> > +			}
+> > +
+> >  			if (!zone_watermark_ok(zone, order,
+> >  					high_wmark_pages(zone), end_zone, 0))
+> >  				all_zones_ok = 0;
+> 
+> So this handles the case where some concurrent thread or interrupt
+> increases pgdat->kswapd_max_order while kswapd was running
+> balance_pgdat(), yes?
+
+Yes.
+
+> Does that actually happen much?  Enough for this patch to make any
+> useful difference?
+
+In typical use-case, it doesn't have so much improvement. However some
+driver use high-order allocation on interrupt context.
+It mean we need quickly reclaim before GFP_ATOMIC allocation failure.
+
+I agree these driver is ill. but...
+We can't ignore enduser bug report.
 
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=3Dmailto:"dont@kvack.org"> email@kvack.org </a>
+> 
+> If one where to whack a printk in that `if' block, how often would it
+> trigger, and under what circumstances?
+> 
+> 
+> If the -stable maintainers were to ask me "why did you send this" then
+> right now my answer would have to be "I have no idea".  Help.
+
+
+
+
