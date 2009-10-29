@@ -1,31 +1,56 @@
-From: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: [Bug #14467] Linker errors on ia64 with NR_CPUS=4096
-Date: Thu, 29 Oct 2009 16:33:53 +0100
-Message-ID: <4AE9B5E1.7030509@kernel.org>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <6dRYo8ss7vL.A.nnF.Cre5KB@chimera> <alpine.DEB.1.10.0910271623210.20363@V090114053VZO-1> <alpine.LSU.2.00.0910271922490.19847@wotan.suse.de> <alpine.DEB.1.10.0910291435420.18197@V090114053VZO-1> <4AE9AB23.8010207@kernel.org> <alpine.DEB.1.10.0910291455400.19555@V090114053VZO-1> <4AE9B090.9090107@kernel.org> <alpine.DEB.1.10.0910291517160.30265@V090114053VZO-1>
+From: Andrew Lutomirski <luto-3s7WtUTddSA@public.gmane.org>
+Subject: Re: [Bug #14472] EXT4 corruption
+Date: Thu, 29 Oct 2009 15:57:32 -0400
+Message-ID: <cb0375e10910291257t1f2f16ciade932bd78689ccc@mail.gmail.com>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
+	 <6dRYo8ss7vL.A.haF.Are5KB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.1.10.0910291517160.30265@V090114053VZO-1>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:sender:received:in-reply-to
+         :references:date:x-google-sender-auth:message-id:subject:from:to:cc
+         :content-type:content-transfer-encoding;
+        bh=xsAn6Q1yuaJw/Z+y0DuEq/wIDfe9/2sguVBR02bFeWA=;
+        b=a/gE/XGLVsflw3ThlEB8KMrLqqWKNoxrGu1AoJJYWiwC8hZwaAKvkM912l0QLhGwlF
+         lFoQwJBiutnDmb7OblkHxLBtHob1oYHGj20Yl6fYOol6dT2FGcgSXhtRgumOeb2aPrmq
+         +6n9eyBnFYSuJr8M69Wf07ycdqHYwp0L+NDfQ=
+In-Reply-To: <6dRYo8ss7vL.A.haF.Are5KB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>, "Luck, Tony" <tony.luck-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>, Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
 
-Hello,
+On Mon, Oct 26, 2009 at 2:55 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.31. =A0Please verify if it still should be listed and let me=
+ know
+> (either way).
+>
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+14472
+> Subject =A0 =A0 =A0 =A0 : EXT4 corruption
+> Submitter =A0 =A0 =A0 : Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-10-13 2:07 (14 days old)
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D125539=
+997508256&w=3D4
+> Handled-By =A0 =A0 =A0: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
+>
 
-Christoph Lameter wrote:
-> As I have said repeately before: We need this for dynamic DMA slab
-> creation in SLUB. Since you got it already halfway in: Complete it and I
-> can get rid of the static percpu definitions that I had to add to be able
-> to use the new percpu allocator.
 
-I completely forgot about that.  The biggest cause of my reluctance is
-that it's gonna make locking more complex as I really like the current
-dumb locking in alloc path.  Oh well, I'm putting it on my todo list.
+This but is *not* fixed.  I just triggered it a few minutes ago by
+abusing i915 and drm, which caused a panic.  This is slightly newer
+than 2.6.32-rc5, with a couple of i915 bugfixes thrown in.
 
-Thanks.
+Photos are here:
+http://web.mit.edu/luto/www/ext4_crashphotos/
 
--- 
-tejun
+This is a very nasty regression, for obvious reasons.
+
+--Andy
