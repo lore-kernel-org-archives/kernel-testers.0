@@ -1,48 +1,55 @@
-From: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 0/5] Candidate fix for increased number of GFP_ATOMIC
-	failures V2
-Date: Fri, 30 Oct 2009 15:23:50 +0100
-Message-ID: <20091030142350.GA9343@bizet.domek.prywatny>
-References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <20091023165810.GA4588@bizet.domek.prywatny> <20091023211239.GA6185@bizet.domek.prywatny> <9ec2d7290910240646p75b93c68v6ea1648d628a9660@mail.gmail.com> <20091028114208.GA14476@bizet.domek.prywatny> <20091028115926.GW8900@csn.ul.ie>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Help needed, Re: [Bug #14334] pcmcia suspend regression from 2.6.31.1 to 2.6.31.2 - Dell Inspiron 600m
+Date: Fri, 30 Oct 2009 19:48:24 +0100
+Message-ID: <200910301948.24473.rjw@sisk.pl>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <6dRYo8ss7vL.A.EqH.Nse5KB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=qknhfyyvaAdwc1YDU44TB8FzfDq/nQ8UQjCYrHKtwFc=;
-        b=p+m8dYdrTff8ySGhuE8rggzIQthSa4RnfZoh0KfFhJeGP4MegLC07G9npKsxi6uHtU
-         idciJg83QTiDBtKHZCqHKVYEUFlqmjIzbxtoGUdwqTYShCXSdxvg5nVTzKj9kZRC03Rq
-         +nzpfUUXaBFyGyzE5O4Js5SdeeJsHCbJN4dcM=
-Content-Disposition: inline
-In-Reply-To: <20091028115926.GW8900-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+In-Reply-To: <6dRYo8ss7vL.A.EqH.Nse5KB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Cc: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mel LKML <mel.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Kalle Valo <kalle.valo-X3B1VOXEql0@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Jose Marino <braket-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>, ACPI Devel Maling List <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PCI <linux-pci-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Dominik Brodowski <linux-X3ehHDuj6sIIGcDfoQAp7OTW4wlIGRCZ@public.gmane.org>
 
-On Wed, Oct 28, 2009 at 11:59:26AM +0000, Mel Gorman wrote:
-> On Wed, Oct 28, 2009 at 12:42:08PM +0100, Karol Lewandowski wrote:
-> > On Sat, Oct 24, 2009 at 02:46:56PM +0100, Mel LKML wrote:
-> > I've tested patches 1+2+3+4 in my normal usage scenario (do some work,
-> > suspend, do work, suspend, ...) and it failed today after 4 days (== 4
-> > suspend-resume cycles).
-> > 
-> > I'll test 1-5 now.
+Hi,
 
-2.6.32-rc5 with patches 1-5 fails too.
-
-
-> Also, what was the behaviour of the e100 driver when suspending before
-> this commit?
+On Monday 26 October 2009, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
-> 6905b1f1a03a48dcf115a2927f7b87dba8d5e566: Net / e100: Fix suspend of devices that cannot be power managed
+> The following bug entry is on the current list of known regressions
+> from 2.6.31.  Please verify if it still should be listed and let me know
+> (either way).
 
-This was discussed before with e100 maintainers and Rafael.  Reverting
-this patch didn't change anything.
+Here's a puzzle for whoever likes hardware detective work.
 
+Suspend to RAM worked just fine on the Jose's box before commit
+53024df259e37ad49ee3d1f3721d4cecdd7bc357 (PM / yenta: Fix cardbus
+suspend/resume regression, mainline commit
+0c570cdeb8fdfcb354a3e9cd81bfc6a09c19de0c) that made the resume of CardBus
+devices actually work.  After this commit, the box hangs during resume 100% of
+the time.
 
-Thanks.
+We've done quite some debugging and here's the summary of findings:
+
+1) Resume works if pcmcia_socket_dev_resume(dev) is moved to the "regular"
+   resume phase, after resume_device_irqs().
+
+2) Resume works if yenta_set_power() is not called during resume
+   (from yenta_set_socket()).
+
+3) It doesn't help to resume all ACPI devices before yenta.
+
+4) It doesn't help to disable yenta events during resume (unconditionally).
+
+5) There are two CardBus bridges in the box and according to the PM_TRACE
+   information the _second_ one is the last device we attempt to wake up
+   during a failing resume.
+
+Please look into http://bugzilla.kernel.org/show_bug.cgi?id=14334 for details.
+
+OK, any ideas anyone?
+
+Rafael
