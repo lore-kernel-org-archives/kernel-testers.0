@@ -1,50 +1,47 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: Help needed, Re: [Bug #14334] pcmcia suspend regression from 2.6.31.1 to 2.6.31.2 - Dell Inspiron 600m
-Date: Sat, 31 Oct 2009 10:31:17 +0100
-Message-ID: <200910311031.17660.rjw@sisk.pl>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <alpine.LFD.2.01.0910301228430.31845@localhost.localdomain> <1256947041.6372.165.camel@pasglop>
+From: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Subject: Re: [PATCH 2/3] page allocator: Do not allow interrupts to use
+	ALLOC_HARDER
+Date: Sat, 31 Oct 2009 19:40:54 +0100
+Message-ID: <20091031184054.GB1475@ucw.cz>
+References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <1256650833-15516-3-git-send-email-mel@csn.ul.ie> <20091027130924.fa903f5a.akpm@linux-foundation.org> <alpine.DEB.2.00.0910271411530.9183@chino.kir.corp.google.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1256947041.6372.165.camel@pasglop>
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.00.0910271411530.9183-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Jose Marino <braket-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>, ACPI Devel Maling List <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PCI <linux-pci-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dominik Brodowski <linux-X3ehHDuj6sIIGcDfoQAp7OTW4wlIGRCZ@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Saturday 31 October 2009, Benjamin Herrenschmidt wrote:
-> On Fri, 2009-10-30 at 12:47 -0700, Linus Torvalds wrote:
-> > 
-> > On Fri, 30 Oct 2009, Rafael J. Wysocki wrote:
-> > > 
-> > >
-> > > 1) Resume works if pcmcia_socket_dev_resume(dev) is moved to the "regular"
-> > >    resume phase, after resume_device_irqs().
-> > 
-> > Hmm. We really probably shouldn't call pcmcia_socket_dev_resume() in 
-> > early_resume. It takes mutexes etc, and it calls "socket_resume()", which 
-> > sleeps etc. That per se should be ok these days (since we don't actualyl 
-> > disable CPU irq's, just device irqs), but it also does that whole card 
-> > insertion events etc. And _that_ code I wouldn't trust at all.
-> > 
-> > The PCMCIA code is better than it used to be a long time ago, but some of 
-> > it is still pretty crazy. 
-> > 
-> > I get the feeling that we should just revert that commit 0c570cdeb, and 
-> > instead always do PCMCIA suspend as a "eject" event. That way we have no 
-> > driver behind it to resume at resume time - and we'll see any plugged-in 
-> > device as just a new insertion. 
+On Tue 2009-10-27 14:12:36, David Rientjes wrote:
+> On Tue, 27 Oct 2009, Andrew Morton wrote:
 > 
-> To me the proper approach would be to split it so that
+> > > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> > > index dfa4362..7f2aa3e 100644
+> > > --- a/mm/page_alloc.c
+> > > +++ b/mm/page_alloc.c
+> > > @@ -1769,7 +1769,7 @@ gfp_to_alloc_flags(gfp_t gfp_mask)
+> > >  		 * See also cpuset_zone_allowed() comment in kernel/cpuset.c.
+> > >  		 */
+> > >  		alloc_flags &= ~ALLOC_CPUSET;
+> > > -	} else if (unlikely(rt_task(p)))
+> > > +	} else if (unlikely(rt_task(p)) && !in_interrupt())
+> > >  		alloc_flags |= ALLOC_HARDER;
+> > >  
+> > >  	if (likely(!(gfp_mask & __GFP_NOMEMALLOC))) {
+> > 
+> > What are the runtime-observeable effects of this change?
+> > 
+> 
+> Giving rt tasks access to memory reserves is necessary to reduce latency, 
+> the privilege does not apply to interrupts that subsequently get run on 
+> the same cpu.
 
-Well, agreed, but ...
+If rt task needs to allocate memory like that, then its broken,
+anyway...
 
->  - early_resume() restores power & config space etc... so that existing
-> devices can move on (might check for removal). There's no other hotplug
-> activity
-
-... that's exactly what doesn't work at the moment.
-
-Thanks,
-Rafael
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
