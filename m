@@ -1,51 +1,52 @@
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: Re: Help needed, Re: [Bug #14334] pcmcia suspend regression from
- 2.6.31.1 to 2.6.31.2 - Dell Inspiron 600m
-Date: Sun, 01 Nov 2009 08:01:30 +1100
-Message-ID: <1257022890.7907.14.camel@pasglop>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
-	 <alpine.LFD.2.01.0910301228430.31845@localhost.localdomain>
-	 <1256947041.6372.165.camel@pasglop>  <200910311031.17660.rjw@sisk.pl>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH 2/3] page allocator: Do not allow interrupts to use
+ ALLOC_HARDER
+Date: Sat, 31 Oct 2009 14:19:50 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0910311413160.25524@chino.kir.corp.google.com>
+References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <1256650833-15516-3-git-send-email-mel@csn.ul.ie> <20091027130924.fa903f5a.akpm@linux-foundation.org> <alpine.DEB.2.00.0910271411530.9183@chino.kir.corp.google.com> <20091031184054.GB1475@ucw.cz>
+ <alpine.DEB.2.00.0910311248490.13829@chino.kir.corp.google.com> <20091031201158.GB29536@elf.ucw.cz>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-pci-owner@vger.kernel.org>
-In-Reply-To: <200910311031.17660.rjw@sisk.pl>
-Sender: linux-pci-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1257023998; bh=/6nDsnUAE6va0Q7ZhPI6xB3eoP4=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type;
+	b=HySRXt7BwuVuCFoF+uHGnbtja5eZNjyiwUH9GiYHzniCp7jPC5fg/NBUdq/WE33hW
+	 Rs+KF0rooZ9xQZFs9xFfQ==
+In-Reply-To: <20091031201158.GB29536-I/5MKhXcvmPrBKCeMvbIDA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Greg Kroah-Hartman <gregkh@suse.de>, Jose Marino <braket@hotmail.com>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Dominik Brodowski <linux@dominikbrodowski.net>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Sat, 2009-10-31 at 10:31 +0100, Rafael J. Wysocki wrote:
+On Sat, 31 Oct 2009, Pavel Machek wrote:
 
-> > To me the proper approach would be to split it so that
+> > Um, no, it's a matter of the kernel implementation.  We allow such tasks 
+> > to allocate deeper into reserves to avoid the page allocator from 
+> > incurring a significant penalty when direct reclaim is required.  
+> > Background reclaim has already commenced at this point in the
+> > slowpath.
 > 
-> Well, agreed, but ...
-> 
-> >  - early_resume() restores power & config space etc... so that existing
-> > devices can move on (might check for removal). There's no other hotplug
-> > activity
-> 
-> ... that's exactly what doesn't work at the moment.
+> But we can't guarantee that enough memory will be ready in the
+> reserves. So if realtime task relies on it, it is broken, and will
+> fail to meet its deadlines from time to time.
 
-BTW. This is a PCMCIA problem, a Cardbus or both ? I'll see if I can dig
-something on monday ?
+This is truly a bizarre tangent to take, I don't quite understand the 
+point you're trying to make.  Memory reserves exist to prevent blocking 
+when we need memory the most (oom killed task or direct reclaim) and to 
+allocate from when we can't (GFP_ATOMIC) or shouldn't (rt tasks) utilize 
+direct reclaim.  The idea is to kick background reclaim first in the 
+slowpath so we're only below the low watermark for a short period and 
+allow the allocation to succeed.  If direct reclaim actually can't free 
+any memory, the oom killer will free it for us.
 
-From the little email history I caught, it smells like pcmcia old style.
+So the realtime[*] tasks aren't relying on it at all, the ALLOC_HARDER 
+exemption for them in the page allocator are a convenience to return 
+memory faster than otherwise when the fastpath fails.  I don't see much 
+point in arguing against that.
 
-I don't see a problem per-se with the mutex usage with the new interrupt
-masking style as Linus says. socket_resume() also looks reasonably sane,
-it's the whole handling of removal that should be deferred. Maybe
-instead of doing socket_remove_drivers()...send_event() etc.. in there,
-we could simply just shut the socket down (PCMCIA drivers should cope
-with sockets returning ffff's for a short amount of time), flag it dead
-in skt->state and have the "late" resume  actually fire off the driver
-removal and sending of the event.
-
-BTW. Have we ever documented whether it's kosher to ->remove() a driver
-before ->resume()'ing it ? (In which case obviously we wouldn't resume
-it).
-
-Cheers,  
-Ben.
-
+ [*] This is the current mainline definition of "realtime," which actually
+     includes a large range of different priorities.  For strict realtime,
+     you'd need to check out the -rt tree.
