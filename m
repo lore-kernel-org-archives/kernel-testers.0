@@ -1,47 +1,43 @@
-From: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+From: David Rientjes <rientjes@google.com>
 Subject: Re: [PATCH 2/3] page allocator: Do not allow interrupts to use
-	ALLOC_HARDER
-Date: Sat, 31 Oct 2009 19:40:54 +0100
-Message-ID: <20091031184054.GB1475@ucw.cz>
+ ALLOC_HARDER
+Date: Sat, 31 Oct 2009 12:51:14 -0700 (PDT)
+Message-ID: <alpine.DEB.2.00.0910311248490.13829@chino.kir.corp.google.com>
 References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <1256650833-15516-3-git-send-email-mel@csn.ul.ie> <20091027130924.fa903f5a.akpm@linux-foundation.org> <alpine.DEB.2.00.0910271411530.9183@chino.kir.corp.google.com>
+ <20091031184054.GB1475@ucw.cz>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.00.0910271411530.9183-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Return-path: <owner-linux-mm@kvack.org>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1257018682; bh=bdVarrbnB1WLnHF5tjLLJfSbfJs=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type;
+	b=MlrA9z0NAom5zgxuLQgZLsrrX3V7iuqbPoMswnRVqLywpEsXlnW1QX7HJikG6CKbB
+	 FoW5WJquuDWpARhBkpiYg==
+In-Reply-To: <20091031184054.GB1475@ucw.cz>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Mel Gorman <mel@csn.ul.ie>, stable@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, kernel-testers@vger.kernel.org
 
-On Tue 2009-10-27 14:12:36, David Rientjes wrote:
-> On Tue, 27 Oct 2009, Andrew Morton wrote:
+On Sat, 31 Oct 2009, Pavel Machek wrote:
+
+> > Giving rt tasks access to memory reserves is necessary to reduce latency, 
+> > the privilege does not apply to interrupts that subsequently get run on 
+> > the same cpu.
 > 
-> > > diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> > > index dfa4362..7f2aa3e 100644
-> > > --- a/mm/page_alloc.c
-> > > +++ b/mm/page_alloc.c
-> > > @@ -1769,7 +1769,7 @@ gfp_to_alloc_flags(gfp_t gfp_mask)
-> > >  		 * See also cpuset_zone_allowed() comment in kernel/cpuset.c.
-> > >  		 */
-> > >  		alloc_flags &= ~ALLOC_CPUSET;
-> > > -	} else if (unlikely(rt_task(p)))
-> > > +	} else if (unlikely(rt_task(p)) && !in_interrupt())
-> > >  		alloc_flags |= ALLOC_HARDER;
-> > >  
-> > >  	if (likely(!(gfp_mask & __GFP_NOMEMALLOC))) {
-> > 
-> > What are the runtime-observeable effects of this change?
-> > 
+> If rt task needs to allocate memory like that, then its broken,
+> anyway...
 > 
-> Giving rt tasks access to memory reserves is necessary to reduce latency, 
-> the privilege does not apply to interrupts that subsequently get run on 
-> the same cpu.
 
-If rt task needs to allocate memory like that, then its broken,
-anyway...
+Um, no, it's a matter of the kernel implementation.  We allow such tasks 
+to allocate deeper into reserves to avoid the page allocator from 
+incurring a significant penalty when direct reclaim is required.  
+Background reclaim has already commenced at this point in the slowpath.
 
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
