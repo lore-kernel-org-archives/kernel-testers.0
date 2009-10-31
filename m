@@ -1,37 +1,63 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: Help needed, Re: [Bug #14334] pcmcia suspend regression from 2.6.31.1 to 2.6.31.2 - Dell Inspiron 600m
-Date: Sat, 31 Oct 2009 23:10:24 +0100
-Message-ID: <200910312310.24180.rjw@sisk.pl>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <200910312252.39446.rjw@sisk.pl> <alpine.LFD.2.01.0910311455520.31845@localhost.localdomain>
+From: Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH 2/3] page allocator: Do not allow interrupts to use
+ ALLOC_HARDER
+Date: Sat, 31 Oct 2009 23:29:06 +0100
+Message-ID: <20091031222905.GA32720@elf.ucw.cz>
+References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie>
+ <1256650833-15516-3-git-send-email-mel@csn.ul.ie>
+ <20091027130924.fa903f5a.akpm@linux-foundation.org>
+ <alpine.DEB.2.00.0910271411530.9183@chino.kir.corp.google.com>
+ <20091031184054.GB1475@ucw.cz>
+ <alpine.DEB.2.00.0910311248490.13829@chino.kir.corp.google.com>
+ <20091031201158.GB29536@elf.ucw.cz>
+ <alpine.DEB.2.00.0910311413160.25524@chino.kir.corp.google.com>
 Mime-Version: 1.0
+Return-path: <owner-linux-mm@kvack.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.00.0910311413160.25524@chino.kir.corp.google.com>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.01.0910311455520.31845-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Jose Marino <braket-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>, ACPI Devel Maling List <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PCI <linux-pci-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dominik Brodowski <linux-X3ehHDuj6sIIGcDfoQAp7OTW4wlIGRCZ@public.gmane.org>
+To: David Rientjes <rientjes@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Mel Gorman <mel@csn.ul.ie>, stable@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, kernel-testers@vger.kernel.org
 
-On Saturday 31 October 2009, Linus Torvalds wrote:
+On Sat 2009-10-31 14:19:50, David Rientjes wrote:
+> On Sat, 31 Oct 2009, Pavel Machek wrote:
 > 
-> On Sat, 31 Oct 2009, Rafael J. Wysocki wrote:
+> > > Um, no, it's a matter of the kernel implementation.  We allow such tasks 
+> > > to allocate deeper into reserves to avoid the page allocator from 
+> > > incurring a significant penalty when direct reclaim is required.  
+> > > Background reclaim has already commenced at this point in the
+> > > slowpath.
 > > 
-> > Yes, there is, because socket_early_resume() only does it in
-> > the (skt->state & SOCKET_PRESENT) case.  If that bit is not set, the
-> > initialization is entirely postponed.
+> > But we can't guarantee that enough memory will be ready in the
+> > reserves. So if realtime task relies on it, it is broken, and will
+> > fail to meet its deadlines from time to time.
 > 
-> Ahh, ok. And what's the reason for that? It seems like the 
+> This is truly a bizarre tangent to take, I don't quite understand the 
+> point you're trying to make.  Memory reserves exist to prevent blocking 
+> when we need memory the most (oom killed task or direct reclaim) and to 
+> allocate from when we can't (GFP_ATOMIC) or shouldn't (rt tasks) utilize 
+> direct reclaim.  The idea is to kick background reclaim first in the 
+> slowpath so we're only below the low watermark for a short period and 
+> allow the allocation to succeed.  If direct reclaim actually can't free 
+> any memory, the oom killer will free it for us.
 > 
-> 	skt->socket = dead_socket;
-> 	skt->ops->init(skt);
-> 	skt->ops->set_socket(skt, &skt->socket);
-> 
-> thing should always be safe, whether there is something present or not.. ?
+> So the realtime[*] tasks aren't relying on it at all, the ALLOC_HARDER 
+> exemption for them in the page allocator are a convenience to return 
+> memory faster than otherwise when the fastpath fails.  I don't see much 
+> point in arguing against that.
 
-It should, but I'm not sure given the reported behavior so far.
+Well, you are trying to make rt heuristic more precise. I believe it
+would be better to simply remove it.
 
-I guess I'll prepare another patch that does this unconditionally in the
-early phase and let's see how that works.
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
 
-Rafael
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
