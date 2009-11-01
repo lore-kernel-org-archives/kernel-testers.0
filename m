@@ -1,33 +1,44 @@
-From: Rik van Riel <riel@redhat.com>
-Subject: Re: [PATCH 2/3] page allocator: Do not allow interrupts to use ALLOC_HARDER
-Date: Sat, 31 Oct 2009 19:59:38 -0400
-Message-ID: <4AECCF6A.4020206@redhat.com>
-References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <1256650833-15516-3-git-send-email-mel@csn.ul.ie> <20091027130924.fa903f5a.akpm@linux-foundation.org> <alpine.DEB.2.00.0910271411530.9183@chino.kir.corp.google.com> <20091031184054.GB1475@ucw.cz> <alpine.DEB.2.00.0910311248490.13829@chino.kir.corp.google.com> <20091031201158.GB29536@elf.ucw.cz>
+From: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Subject: Re: [PATCH 2/3] page allocator: Do not allow interrupts to use
+ ALLOC_HARDER
+Date: Sun, 1 Nov 2009 08:35:27 +0100
+Message-ID: <20091101073527.GB32720@elf.ucw.cz>
+References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie>
+ <1256650833-15516-3-git-send-email-mel@csn.ul.ie>
+ <20091027130924.fa903f5a.akpm@linux-foundation.org>
+ <alpine.DEB.2.00.0910271411530.9183@chino.kir.corp.google.com>
+ <20091031184054.GB1475@ucw.cz>
+ <alpine.DEB.2.00.0910311248490.13829@chino.kir.corp.google.com>
+ <20091031201158.GB29536@elf.ucw.cz>
+ <alpine.DEB.2.00.0910311413160.25524@chino.kir.corp.google.com>
+ <20091031222905.GA32720@elf.ucw.cz>
+ <4AECC04B.9060808@redhat.com>
 Mime-Version: 1.0
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <4AECC04B.9060808-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20091031201158.GB29536@elf.ucw.cz>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Pavel Machek <pavel@ucw.cz>
-Cc: David Rientjes <rientjes@google.com>, Andrew Morton <akpm@linux-foundation.org>, Mel Gorman <mel@csn.ul.ie>, stable@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, kernel-testers@vger.kernel.org
+To: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On 10/31/2009 04:11 PM, Pavel Machek wrote:
+> > I believe it would be better to simply remove it.
+> 
+> You are against trying to give the realtime tasks a best effort
+> advantage at memory allocation?
 
-> But we can't guarantee that enough memory will be ready in the
-> reserves. So if realtime task relies on it, it is broken, and will
-> fail to meet its deadlines from time to time.
+Yes. Those memory reserves were for kernel, GPF_ATOMIC and stuff. Now
+realtime tasks are allowed to eat into them. That feels wrong.
 
-Any realtime task that does networking (which may be the
-majority of realtime tasks) relies on the kernel memory
-allocator.
+"realtime" tasks are not automatically "more important".
 
+> Realtime apps often *have* to allocate memory on the kernel side,
+> because they use network system calls, etc...
+
+So what? As soon as they do that, they lose any guarantees, anyway.
+									Pavel
 -- 
-All rights reversed.
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
