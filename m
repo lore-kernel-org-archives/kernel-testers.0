@@ -1,44 +1,260 @@
-From: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-Subject: Re: [PATCH 2/3] page allocator: Do not allow interrupts to use
- ALLOC_HARDER
-Date: Sun, 1 Nov 2009 08:35:27 +0100
-Message-ID: <20091101073527.GB32720@elf.ucw.cz>
-References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie>
- <1256650833-15516-3-git-send-email-mel@csn.ul.ie>
- <20091027130924.fa903f5a.akpm@linux-foundation.org>
- <alpine.DEB.2.00.0910271411530.9183@chino.kir.corp.google.com>
- <20091031184054.GB1475@ucw.cz>
- <alpine.DEB.2.00.0910311248490.13829@chino.kir.corp.google.com>
- <20091031201158.GB29536@elf.ucw.cz>
- <alpine.DEB.2.00.0910311413160.25524@chino.kir.corp.google.com>
- <20091031222905.GA32720@elf.ucw.cz>
- <4AECC04B.9060808@redhat.com>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: Help needed, Re: [Bug #14334] pcmcia suspend regression from 2.6.31.1 to 2.6.31.2 - Dell Inspiron 600m
+Date: Sun, 1 Nov 2009 09:36:10 +0100
+Message-ID: <200911010936.10409.rjw@sisk.pl>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <200911010010.07394.rjw@sisk.pl> <200911010024.12081.rjw@sisk.pl>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <4AECC04B.9060808-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <200911010024.12081.rjw@sisk.pl>
+Sender: linux-acpi-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Greg Kroah-Hartman <gregkh@suse.de>, Jose Marino <braket@hotmail.com>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Dominik Brodowski <linux@dominikbrodowski.net>
 
-> > I believe it would be better to simply remove it.
+On Sunday 01 November 2009, Rafael J. Wysocki wrote:
+> On Sunday 01 November 2009, Rafael J. Wysocki wrote:
+> > On Saturday 31 October 2009, Benjamin Herrenschmidt wrote:
+> > > On Sat, 2009-10-31 at 22:27 +0100, Rafael J. Wysocki wrote:
+> > > 
+> > > > In the meantime I invented a patch that works, ie. apparently fixes the problem
+> > > > and if there was a card in the socket during the suspend, it's standard config
+> > > > space is restored correctly.  I tested it on one of my boxes with two different
+> > > > CardBus adapters and Jose says it fixes the problem for him.
+> > > > 
+> > > > The patch is appended, please have a look.
+> > > 
+> > > Base idea of the patch sounds good, quick browse through looks good too,
+> > > 
+> > > I'll try to band on it with various PCMCIA & CB gear tomorrow.
+> > 
+> > Wait, I made a mistake when testing it, didn't notice that my distro ejected
+> > PCMCIA cards automatically before suspend (sigh).
+> > 
+> > Working on a better patch right now, will hopefully post it in a while.
 > 
-> You are against trying to give the realtime tasks a best effort
-> advantage at memory allocation?
+> Here you go.
+> 
+> Waiting for feedback from the reporters of BKO #14334, so there's no sign-off
+> for now.
 
-Yes. Those memory reserves were for kernel, GPF_ATOMIC and stuff. Now
-realtime tasks are allowed to eat into them. That feels wrong.
+Jose confirms that the patch fixes the problem for him, so here it goes again
+with full changelog.
 
-"realtime" tasks are not automatically "more important".
+If people don't object, I'll push it through the suspend-2.6 tree along with a
+few other bug fixes.
 
-> Realtime apps often *have* to allocate memory on the kernel side,
-> because they use network system calls, etc...
+---
+From: Rafael J. Wysocki <rjw@sisk.pl>
+Subject: PM / yenta: Split resume into early and late parts (rev. 2)
 
-So what? As soon as they do that, they lose any guarantees, anyway.
-									Pavel
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+Commit 0c570cdeb8fdfcb354a3e9cd81bfc6a09c19de0c
+(PM / yenta: Fix cardbus suspend/resume regression) caused resume to
+fail on systems with two CardBus bridges.  While the exact nature
+of the failure is not known at the moment, it can be worked around by
+splitting the yenta resume into an early part, executed during the
+early phase of resume, that will only resume the socket and power it
+up if there was a card in it during suspend, and a late part,
+executed during "regular" resume, that will carry out all of the
+remaining yenta resume operations.
+
+Fixes http://bugzilla.kernel.org/show_bug.cgi?id=14334, which is a
+listed regression from 2.6.31.
+
+Signed-off-by: Rafael J. Wysocki <rjw@sisk.pl>
+---
+ drivers/pcmcia/cs.c           |   79 ++++++++++++++++++++++++++++--------------
+ drivers/pcmcia/yenta_socket.c |   12 +++++-
+ include/pcmcia/ss.h           |    4 ++
+ 3 files changed, 68 insertions(+), 27 deletions(-)
+
+Index: linux-2.6/drivers/pcmcia/yenta_socket.c
+===================================================================
+--- linux-2.6.orig/drivers/pcmcia/yenta_socket.c
++++ linux-2.6/drivers/pcmcia/yenta_socket.c
+@@ -1275,16 +1275,26 @@ static int yenta_dev_resume_noirq(struct
+ 	if (socket->type && socket->type->restore_state)
+ 		socket->type->restore_state(socket);
+ 
+-	return pcmcia_socket_dev_resume(dev);
++	pcmcia_socket_dev_early_resume(dev);
++	return 0;
++}
++
++static int yenta_dev_resume(struct device *dev)
++{
++	pcmcia_socket_dev_late_resume(dev);
++	return 0;
+ }
+ 
+ static struct dev_pm_ops yenta_pm_ops = {
+ 	.suspend_noirq = yenta_dev_suspend_noirq,
+ 	.resume_noirq = yenta_dev_resume_noirq,
++	.resume = yenta_dev_resume,
+ 	.freeze_noirq = yenta_dev_suspend_noirq,
+ 	.thaw_noirq = yenta_dev_resume_noirq,
++	.thaw = yenta_dev_resume,
+ 	.poweroff_noirq = yenta_dev_suspend_noirq,
+ 	.restore_noirq = yenta_dev_resume_noirq,
++	.restore = yenta_dev_resume,
+ };
+ 
+ #define YENTA_PM_OPS	(&yenta_pm_ops)
+Index: linux-2.6/drivers/pcmcia/cs.c
+===================================================================
+--- linux-2.6.orig/drivers/pcmcia/cs.c
++++ linux-2.6/drivers/pcmcia/cs.c
+@@ -98,10 +98,13 @@ EXPORT_SYMBOL(pcmcia_socket_list_rwsem);
+  * These functions check for the appropriate struct pcmcia_soket arrays,
+  * and pass them to the low-level functions pcmcia_{suspend,resume}_socket
+  */
++static int socket_early_resume(struct pcmcia_socket *skt);
++static int socket_late_resume(struct pcmcia_socket *skt);
+ static int socket_resume(struct pcmcia_socket *skt);
+ static int socket_suspend(struct pcmcia_socket *skt);
+ 
+-int pcmcia_socket_dev_suspend(struct device *dev)
++static void pcmcia_socket_dev_run(struct device *dev,
++				  int (*cb)(struct pcmcia_socket *))
+ {
+ 	struct pcmcia_socket *socket;
+ 
+@@ -110,29 +113,34 @@ int pcmcia_socket_dev_suspend(struct dev
+ 		if (socket->dev.parent != dev)
+ 			continue;
+ 		mutex_lock(&socket->skt_mutex);
+-		socket_suspend(socket);
++		cb(socket);
+ 		mutex_unlock(&socket->skt_mutex);
+ 	}
+ 	up_read(&pcmcia_socket_list_rwsem);
++}
+ 
++int pcmcia_socket_dev_suspend(struct device *dev)
++{
++	pcmcia_socket_dev_run(dev, socket_suspend);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(pcmcia_socket_dev_suspend);
+ 
+-int pcmcia_socket_dev_resume(struct device *dev)
++void pcmcia_socket_dev_early_resume(struct device *dev)
+ {
+-	struct pcmcia_socket *socket;
++	pcmcia_socket_dev_run(dev, socket_early_resume);
++}
++EXPORT_SYMBOL(pcmcia_socket_dev_early_resume);
+ 
+-	down_read(&pcmcia_socket_list_rwsem);
+-	list_for_each_entry(socket, &pcmcia_socket_list, socket_list) {
+-		if (socket->dev.parent != dev)
+-			continue;
+-		mutex_lock(&socket->skt_mutex);
+-		socket_resume(socket);
+-		mutex_unlock(&socket->skt_mutex);
+-	}
+-	up_read(&pcmcia_socket_list_rwsem);
++void pcmcia_socket_dev_late_resume(struct device *dev)
++{
++	pcmcia_socket_dev_run(dev, socket_late_resume);
++}
++EXPORT_SYMBOL(pcmcia_socket_dev_late_resume);
+ 
++int pcmcia_socket_dev_resume(struct device *dev)
++{
++	pcmcia_socket_dev_run(dev, socket_resume);
+ 	return 0;
+ }
+ EXPORT_SYMBOL(pcmcia_socket_dev_resume);
+@@ -546,29 +554,34 @@ static int socket_suspend(struct pcmcia_
+ 	return 0;
+ }
+ 
+-/*
+- * Resume a socket.  If a card is present, verify its CIS against
+- * our cached copy.  If they are different, the card has been
+- * replaced, and we need to tell the drivers.
+- */
+-static int socket_resume(struct pcmcia_socket *skt)
++static void socket_start_resume(struct pcmcia_socket *skt)
+ {
+-	int ret;
+-
+-	if (!(skt->state & SOCKET_SUSPEND))
+-		return -EBUSY;
+-
+ 	skt->socket = dead_socket;
+ 	skt->ops->init(skt);
+ 	skt->ops->set_socket(skt, &skt->socket);
++	if (skt->state & SOCKET_PRESENT)
++		skt->resume_status = socket_setup(skt, resume_delay);
++}
++
++static int socket_early_resume(struct pcmcia_socket *skt)
++{
++	if (skt->state & SOCKET_SUSPEND)
++		socket_start_resume(skt);
++
++	return 0;
++}
++
++static int socket_late_resume(struct pcmcia_socket *skt)
++{
++	if (!(skt->state & SOCKET_SUSPEND))
++		return 0;
+ 
+ 	if (!(skt->state & SOCKET_PRESENT)) {
+ 		skt->state &= ~SOCKET_SUSPEND;
+ 		return socket_insert(skt);
+ 	}
+ 
+-	ret = socket_setup(skt, resume_delay);
+-	if (ret == 0) {
++	if (skt->resume_status == 0) {
+ 		/*
+ 		 * FIXME: need a better check here for cardbus cards.
+ 		 */
+@@ -596,6 +609,20 @@ static int socket_resume(struct pcmcia_s
+ 	return 0;
+ }
+ 
++/*
++ * Resume a socket.  If a card is present, verify its CIS against
++ * our cached copy.  If they are different, the card has been
++ * replaced, and we need to tell the drivers.
++ */
++static int socket_resume(struct pcmcia_socket *skt)
++{
++	if (!(skt->state & SOCKET_SUSPEND))
++		return -EBUSY;
++
++	socket_start_resume(skt);
++	return socket_late_resume(skt);
++}
++
+ static void socket_remove(struct pcmcia_socket *skt)
+ {
+ 	dev_printk(KERN_NOTICE, &skt->dev,
+Index: linux-2.6/include/pcmcia/ss.h
+===================================================================
+--- linux-2.6.orig/include/pcmcia/ss.h
++++ linux-2.6/include/pcmcia/ss.h
+@@ -262,6 +262,8 @@ struct pcmcia_socket {
+ 	struct device			dev;
+ 	/* data internal to the socket driver */
+ 	void				*driver_data;
++	/* status of the card during resume from a system sleep state */
++	int				resume_status;
+ };
+ 
+ 
+@@ -280,6 +282,8 @@ extern struct pccard_resource_ops pccard
+ 
+ /* socket drivers are expected to use these callbacks in their .drv struct */
+ extern int pcmcia_socket_dev_suspend(struct device *dev);
++extern void pcmcia_socket_dev_early_resume(struct device *dev);
++extern void pcmcia_socket_dev_late_resume(struct device *dev);
+ extern int pcmcia_socket_dev_resume(struct device *dev);
+ 
+ /* socket drivers use this callback in their IRQ handler */
