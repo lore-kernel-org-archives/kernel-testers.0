@@ -1,40 +1,59 @@
-From: Frans Pop <elendil@planet.nl>
-Subject: Re: [PATCH 3/3] vmscan: Force kswapd to take notice faster when high-order watermarks are being hit
-Date: Mon, 2 Nov 2009 18:32:54 +0100
-Message-ID: <200911021832.59035.elendil@planet.nl>
-References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <20091028124756.7af44b6b.akpm@linux-foundation.org> <20091102160534.GA22046@csn.ul.ie>
+From: Dominik Brodowski <linux@dominikbrodowski.net>
+Subject: Re: Help needed, Re: [Bug #14334] pcmcia suspend regression from
+	2.6.31.1 to 2.6.31.2 - Dell Inspiron 600m
+Date: Mon, 2 Nov 2009 18:38:43 +0100
+Message-ID: <20091102173843.GA662@comet.dominikbrodowski.net>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <200911010936.10409.rjw@sisk.pl> <alpine.LFD.2.01.0911010914100.31845@localhost.localdomain> <200911021439.28266.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20091102160534.GA22046@csn.ul.ie>
+Return-path: <linux-acpi-owner@vger.kernel.org>
 Content-Disposition: inline
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
+In-Reply-To: <200911021439.28266.rjw@sisk.pl>
+Sender: linux-acpi-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: Andrew Morton <akpm@linux-foundation.org>, stable@kernel.org, linux-kernel@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Greg Kroah-Hartman <gregkh@suse.de>, Jose Marino <braket@hotmail.com>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>
 
-On Monday 02 November 2009, Mel Gorman wrote:
-> vmscan: Help debug kswapd issues by counting number of rewakeups and
-> premature sleeps
->
-> There is a growing amount of anedotal evidence that high-order atomic
-> allocation failures have been increasing since 2.6.31-rc1. The two
-> strongest possibilities are a marked increase in the number of
-> GFP_ATOMIC allocations and alterations in timing. Debugging printk
-> patches have shown for example that kswapd is sleeping for shorter
-> intervals and going to sleep when watermarks are still not being met.
->
-> This patch adds two kswapd counters to help identify if timing is an
-> issue. The first counter kswapd_highorder_rewakeup counts the number of
-> times that kswapd stops reclaiming at one order and restarts at a higher
-> order. The second counter kswapd_slept_prematurely counts the number of
-> times kswapd went to sleep when the high watermark was not met.
+Hey,
 
-What testing would you like done with this patch?
+just two minor nit-pick which we could handle post-2.6.32:
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+> +++ linux-2.6/drivers/pcmcia/cs.c
+> @@ -98,10 +98,13 @@ EXPORT_SYMBOL(pcmcia_socket_list_rwsem);
+>   * These functions check for the appropriate struct pcmcia_soket arrays,
+>   * and pass them to the low-level functions pcmcia_{suspend,resume}_socket
+
+... some documentation of the new functions, especially whether other socket
+drivers should be updated?
+
+> -static int socket_resume(struct pcmcia_socket *skt)
+> +static void socket_start_resume(struct pcmcia_socket *skt)
+>  {
+> -	int ret;
+> -
+> -	if (!(skt->state & SOCKET_SUSPEND))
+> -		return -EBUSY;
+> -
+>  	skt->socket = dead_socket;
+>  	skt->ops->init(skt);
+>  	skt->ops->set_socket(skt, &skt->socket);
+> +	if (skt->state & SOCKET_PRESENT)
+> +		skt->resume_status = socket_setup(skt, resume_delay);
+> +}
+>  
+> +static int socket_early_resume(struct pcmcia_socket *skt)
+> +{
+> +	socket_start_resume(skt);
+> +	return 0;
+> +}
+
+Why do we need to have two functions doing the same? Wouldn't
+
+static int socket_early_resume(...)
+
+suffice, with the only call to socket_start_resume() being replaced with
+socket_early_resume()?
+
+Best,
+	Dominik
