@@ -1,261 +1,222 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: Help needed, Re: [Bug #14334] pcmcia suspend regression from 2.6.31.1 to 2.6.31.2 - Dell Inspiron 600m
-Date: Mon, 2 Nov 2009 14:39:28 +0100
-Message-ID: <200911021439.28266.rjw@sisk.pl>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <200911010936.10409.rjw@sisk.pl> <alpine.LFD.2.01.0911010914100.31845@localhost.localdomain>
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [PATCH 3/3] vmscan: Force kswapd to take notice faster when
+	high-order watermarks are being hit
+Date: Mon, 2 Nov 2009 16:05:34 +0000
+Message-ID: <20091102160534.GA22046@csn.ul.ie>
+References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <1256650833-15516-4-git-send-email-mel@csn.ul.ie> <20091027131905.410ec04a.akpm@linux-foundation.org> <20091028102936.GS8900@csn.ul.ie> <20091028124756.7af44b6b.akpm@linux-foundation.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <alpine.LFD.2.01.0911010914100.31845@localhost.localdomain>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20091028124756.7af44b6b.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Greg Kroah-Hartman <gregkh@suse.de>, Jose Marino <braket@hotmail.com>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Dominik Brodowski <linux@dominikbrodowski.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sunday 01 November 2009, Linus Torvalds wrote:
+On Wed, Oct 28, 2009 at 12:47:56PM -0700, Andrew Morton wrote:
+> On Wed, 28 Oct 2009 10:29:36 +0000
+> Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org> wrote:
 > 
-> On Sun, 1 Nov 2009, Rafael J. Wysocki wrote:
+> > On Tue, Oct 27, 2009 at 01:19:05PM -0700, Andrew Morton wrote:
+> > > On Tue, 27 Oct 2009 13:40:33 +0000
+> > > Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org> wrote:
+> > > 
+> > > > When a high-order allocation fails, kswapd is kicked so that it reclaims
+> > > > at a higher-order to avoid direct reclaimers stall and to help GFP_ATOMIC
+> > > > allocations. Something has changed in recent kernels that affect the timing
+> > > > where high-order GFP_ATOMIC allocations are now failing with more frequency,
+> > > > particularly under pressure. This patch forces kswapd to notice sooner that
+> > > > high-order allocations are occuring.
+> > > > 
+> > > 
+> > > "something has changed"?  Shouldn't we find out what that is?
+> > > 
 > > 
-> > If people don't object, I'll push it through the suspend-2.6 tree along 
-> > with a few other bug fixes.
+> > We've been trying but the answer right now is "lots". There were some
+> > changes in the allocator itself which were unintentional and fixed in
+> > patches 1 and 2 of this series. The two other major changes are
+> > 
+> > iwlagn is now making high order GFP_ATOMIC allocations which didn't
+> > help. This is being addressed separetly and I believe the relevant
+> > patches are now in mainline.
+> > 
+> > The other major change appears to be in page writeback. Reverting
+> > commits 373c0a7e + 8aa7e847 significantly helps one bug reporter but
+> > it's still unknown as to why that is.
 > 
-> No objections, but a cleanup request:
+> Peculiar.  Those changes are fairly remote from large-order-GFP_ATOMIC
+> allocations.
 > 
-> > +static int socket_early_resume(struct pcmcia_socket *skt)
-> > +{
-> > +	if (skt->state & SOCKET_SUSPEND)
-> > +		socket_start_resume(skt);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int socket_late_resume(struct pcmcia_socket *skt)
-> > +{
-> > +	if (!(skt->state & SOCKET_SUSPEND))
-> > +		return 0;
+
+Indeed. The significance of the patch seems to be how long and how often
+processes sleep in the page allocator and what kswapd is doing.
+
+> > ...
+> >
+> > Wireless drivers in particularly seem to be very
+> > high-order GFP_ATOMIC happy.
 > 
-> As far as I can tell, that "SOCKET_SUSPEND" test is totally pointless. 
-
-Right.
-
-> That socket _is_ going to be suspended, and testing for it here just seems 
-> to confuse things. 
+> It would be nice if we could find a way of preventing people from
+> attempting high-order atomic allocations in the first place - it's a bit
+> of a trap.
 > 
-> So I'd remove it from both early_resume and late_resume, and only keep it 
-> in the case of the legacy user-requested suspend/resume (do we even do 
-> that any more?).
 
-OK, updated patch is appended.
+True.
 
-Thanks,
-Rafael
+> Maybe add a runtime warning which is suppressable by GFP_NOWARN (or a
+> new flag), then either fix existing callers or, after review, add the
+> flag.
+> 
+> Of course, this might just end up with people adding these hopeless
+> allocation attempts and just setting the nowarn flag :(
+> 
 
----
-From: Rafael J. Wysocki <rjw@sisk.pl>
-Subject: PM / yenta: Split resume into early and late parts (rev. 3)
+That's the difficulty but we should consider adding such warnings or
+maintaining in-kernel the unique GFP_ATOMIC callers and their frequency.
+It would require a lot of monitoring though and a fair amount of stick
+beatings to get the callers corrected.
 
-Commit 0c570cdeb8fdfcb354a3e9cd81bfc6a09c19de0c
-(PM / yenta: Fix cardbus suspend/resume regression) caused resume to
-fail on systems with two CardBus bridges.  While the exact nature
-of the failure is not known at the moment, it can be worked around by
-splitting the yenta resume into an early part, executed during the
-early phase of resume, that will only resume the socket and power it
-up if there was a card in it during suspend, and a late part,
-executed during "regular" resume, that will carry out all of the
-remaining yenta resume operations.
+> > > If one where to whack a printk in that `if' block, how often would it
+> > > trigger, and under what circumstances?
+> > 
+> > I don't know the frequency. The circumstances are "under load" when
+> > there are drivers depending on high-order allocations but the
+> > reproduction cases are unreliable.
+> > 
+> > Do you want me to slap together a patch that adds a vmstat counter for
+> > this? I can then ask future bug reporters to examine that counter and see
+> > if it really is a major factor for a lot of people or not.
+> 
+> Something like that, if it will help us understand what's going on.  I
+> don't see a permanent need for that instrumentation but while this
+> problem is still in the research stage, sure, lard it up with debug
+> stuff?
+> 
 
-Fixes http://bugzilla.kernel.org/show_bug.cgi?id=14334, which is a
-listed regression from 2.6.31.
+I have a candidate patch below. One of the reasons it took so long to
+get out is what I found on the way developing the patch. I had added a
+debugging patch to printk what kswapd was doing. One massive difference I
+noted was that in 2.6.30 kswapd often went to sleep for 25 jiffies (HZ/10)
+in balance_pgdat(). In 2.6.31 and particularly in mainline, it sleeps less
+and for shorter intervals. When the sleep interval is low, kswapd notices
+the watermarks are ok and goes back to sleep far quicker than 2.6.30
+did.
 
-Signed-off-by: Rafael J. Wysocki <rjw@sisk.pl>
----
- drivers/pcmcia/cs.c           |   74 +++++++++++++++++++++++++++---------------
- drivers/pcmcia/yenta_socket.c |   12 ++++++
- include/pcmcia/ss.h           |    4 ++
- 3 files changed, 63 insertions(+), 27 deletions(-)
+One consequence of this is that kswapd is going back to sleep just as the
+high watermark is clear but if it had slept for longer it would have found
+that the zone quickly went back below the high watermark due to parallel
+allocators. i.e. in 2.6.30, kswapd worked for longer than current mainline.
 
-Index: linux-2.6/drivers/pcmcia/yenta_socket.c
-===================================================================
---- linux-2.6.orig/drivers/pcmcia/yenta_socket.c
-+++ linux-2.6/drivers/pcmcia/yenta_socket.c
-@@ -1275,16 +1275,26 @@ static int yenta_dev_resume_noirq(struct
- 	if (socket->type && socket->type->restore_state)
- 		socket->type->restore_state(socket);
+To see if there is any merit to this, the patch below also counts the number
+of times that kswapd prematurely went to sleep. If kswapd is routinely going
+to sleep with watermarks not being met, one correction might be to make
+balance_pgdat() unconditionally sleep for HZ/10 instead of sleeping based on
+congestion as this would bring kswapd closer in line with 2.6.30. Of course,
+the pain in the neck is that the premature-sleep-check itself is happening
+too quickly.
+
+> It's very important to understand _why_ the VM got worse.  And, of
+> course, to fix that up.  But, separately, we should find a way of
+> preventing developers from using these very unreliable allocations.
+> 
+
+Agreed. I think the main thing that has changed is timing.  congestion_wait()
+is now doing the "right" thing and sleeping until congestion is
+cleared. Unfortunately, it feels like some users of congestion_wait(),
+such as kswapd, really wanted to sleep for a fixed interval and not based
+on congestion. The comment in balance_pgdat() appears to indicate this was
+the expected behaviour.
+
+==== CUT HERE ====
+vmscan: Help debug kswapd issues by counting number of rewakeups and premature sleeps
+
+There is a growing amount of anedotal evidence that high-order atomic
+allocation failures have been increasing since 2.6.31-rc1. The two
+strongest possibilities are a marked increase in the number of
+GFP_ATOMIC allocations and alterations in timing. Debugging printk
+patches have shown for example that kswapd is sleeping for shorter
+intervals and going to sleep when watermarks are still not being met.
+
+This patch adds two kswapd counters to help identify if timing is an
+issue. The first counter kswapd_highorder_rewakeup counts the number of
+times that kswapd stops reclaiming at one order and restarts at a higher
+order. The second counter kswapd_slept_prematurely counts the number of
+times kswapd went to sleep when the high watermark was not met.
+
+Signed-off-by: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+--- 
+ include/linux/vmstat.h |    1 +
+ mm/vmscan.c            |   17 ++++++++++++++++-
+ mm/vmstat.c            |    2 ++
+ 3 files changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
+index 2d0f222..2e0d18d 100644
+--- a/include/linux/vmstat.h
++++ b/include/linux/vmstat.h
+@@ -40,6 +40,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
+ 		PGSCAN_ZONE_RECLAIM_FAILED,
+ #endif
+ 		PGINODESTEAL, SLABS_SCANNED, KSWAPD_STEAL, KSWAPD_INODESTEAL,
++		KSWAPD_HIGHORDER_REWAKEUP, KSWAPD_PREMATURE_SLEEP,
+ 		PAGEOUTRUN, ALLOCSTALL, PGROTATED,
+ #ifdef CONFIG_HUGETLB_PAGE
+ 		HTLB_BUDDY_PGALLOC, HTLB_BUDDY_PGALLOC_FAIL,
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 7eceb02..cf40136 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -2021,6 +2021,7 @@ loop_again:
+ 			 * if it is known that higher orders are required
+ 			 */
+ 			if (pgdat->kswapd_max_order > order) {
++				count_vm_event(KSWAPD_HIGHORDER_REWAKEUP);
+ 				all_zones_ok = 1;
+ 				goto out;
+ 			}
+@@ -2124,6 +2125,17 @@ out:
+ 	return sc.nr_reclaimed;
+ }
  
--	return pcmcia_socket_dev_resume(dev);
-+	pcmcia_socket_dev_early_resume(dev);
++static int kswapd_sleeping_prematurely(int order)
++{
++	struct zone *zone;
++	for_each_populated_zone(zone)
++		if (!zone_watermark_ok(zone, order, high_wmark_pages(zone),
++								0, 0))
++			return 1;
++
 +	return 0;
 +}
 +
-+static int yenta_dev_resume(struct device *dev)
-+{
-+	pcmcia_socket_dev_late_resume(dev);
-+	return 0;
- }
+ /*
+  * The background pageout daemon, started as a kernel thread
+  * from the init process.
+@@ -2183,8 +2195,11 @@ static int kswapd(void *p)
+ 			 */
+ 			order = new_order;
+ 		} else {
+-			if (!freezing(current))
++			if (!freezing(current)) {
++				if (kswapd_sleeping_prematurely(order))
++					count_vm_event(KSWAPD_PREMATURE_SLEEP);
+ 				schedule();
++			}
  
- static struct dev_pm_ops yenta_pm_ops = {
- 	.suspend_noirq = yenta_dev_suspend_noirq,
- 	.resume_noirq = yenta_dev_resume_noirq,
-+	.resume = yenta_dev_resume,
- 	.freeze_noirq = yenta_dev_suspend_noirq,
- 	.thaw_noirq = yenta_dev_resume_noirq,
-+	.thaw = yenta_dev_resume,
- 	.poweroff_noirq = yenta_dev_suspend_noirq,
- 	.restore_noirq = yenta_dev_resume_noirq,
-+	.restore = yenta_dev_resume,
- };
+ 			order = pgdat->kswapd_max_order;
+ 		}
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index c81321f..fa881c5 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -683,6 +683,8 @@ static const char * const vmstat_text[] = {
+ 	"slabs_scanned",
+ 	"kswapd_steal",
+ 	"kswapd_inodesteal",
++	"kswapd_highorder_rewakeup",
++	"kswapd_slept_prematurely",
+ 	"pageoutrun",
+ 	"allocstall",
  
- #define YENTA_PM_OPS	(&yenta_pm_ops)
-Index: linux-2.6/drivers/pcmcia/cs.c
-===================================================================
---- linux-2.6.orig/drivers/pcmcia/cs.c
-+++ linux-2.6/drivers/pcmcia/cs.c
-@@ -98,10 +98,13 @@ EXPORT_SYMBOL(pcmcia_socket_list_rwsem);
-  * These functions check for the appropriate struct pcmcia_soket arrays,
-  * and pass them to the low-level functions pcmcia_{suspend,resume}_socket
-  */
-+static int socket_early_resume(struct pcmcia_socket *skt);
-+static int socket_late_resume(struct pcmcia_socket *skt);
- static int socket_resume(struct pcmcia_socket *skt);
- static int socket_suspend(struct pcmcia_socket *skt);
- 
--int pcmcia_socket_dev_suspend(struct device *dev)
-+static void pcmcia_socket_dev_run(struct device *dev,
-+				  int (*cb)(struct pcmcia_socket *))
- {
- 	struct pcmcia_socket *socket;
- 
-@@ -110,29 +113,34 @@ int pcmcia_socket_dev_suspend(struct dev
- 		if (socket->dev.parent != dev)
- 			continue;
- 		mutex_lock(&socket->skt_mutex);
--		socket_suspend(socket);
-+		cb(socket);
- 		mutex_unlock(&socket->skt_mutex);
- 	}
- 	up_read(&pcmcia_socket_list_rwsem);
-+}
- 
-+int pcmcia_socket_dev_suspend(struct device *dev)
-+{
-+	pcmcia_socket_dev_run(dev, socket_suspend);
- 	return 0;
- }
- EXPORT_SYMBOL(pcmcia_socket_dev_suspend);
- 
--int pcmcia_socket_dev_resume(struct device *dev)
-+void pcmcia_socket_dev_early_resume(struct device *dev)
- {
--	struct pcmcia_socket *socket;
-+	pcmcia_socket_dev_run(dev, socket_early_resume);
-+}
-+EXPORT_SYMBOL(pcmcia_socket_dev_early_resume);
- 
--	down_read(&pcmcia_socket_list_rwsem);
--	list_for_each_entry(socket, &pcmcia_socket_list, socket_list) {
--		if (socket->dev.parent != dev)
--			continue;
--		mutex_lock(&socket->skt_mutex);
--		socket_resume(socket);
--		mutex_unlock(&socket->skt_mutex);
--	}
--	up_read(&pcmcia_socket_list_rwsem);
-+void pcmcia_socket_dev_late_resume(struct device *dev)
-+{
-+	pcmcia_socket_dev_run(dev, socket_late_resume);
-+}
-+EXPORT_SYMBOL(pcmcia_socket_dev_late_resume);
- 
-+int pcmcia_socket_dev_resume(struct device *dev)
-+{
-+	pcmcia_socket_dev_run(dev, socket_resume);
- 	return 0;
- }
- EXPORT_SYMBOL(pcmcia_socket_dev_resume);
-@@ -546,29 +554,29 @@ static int socket_suspend(struct pcmcia_
- 	return 0;
- }
- 
--/*
-- * Resume a socket.  If a card is present, verify its CIS against
-- * our cached copy.  If they are different, the card has been
-- * replaced, and we need to tell the drivers.
-- */
--static int socket_resume(struct pcmcia_socket *skt)
-+static void socket_start_resume(struct pcmcia_socket *skt)
- {
--	int ret;
--
--	if (!(skt->state & SOCKET_SUSPEND))
--		return -EBUSY;
--
- 	skt->socket = dead_socket;
- 	skt->ops->init(skt);
- 	skt->ops->set_socket(skt, &skt->socket);
-+	if (skt->state & SOCKET_PRESENT)
-+		skt->resume_status = socket_setup(skt, resume_delay);
-+}
- 
-+static int socket_early_resume(struct pcmcia_socket *skt)
-+{
-+	socket_start_resume(skt);
-+	return 0;
-+}
-+
-+static int socket_late_resume(struct pcmcia_socket *skt)
-+{
- 	if (!(skt->state & SOCKET_PRESENT)) {
- 		skt->state &= ~SOCKET_SUSPEND;
- 		return socket_insert(skt);
- 	}
- 
--	ret = socket_setup(skt, resume_delay);
--	if (ret == 0) {
-+	if (skt->resume_status == 0) {
- 		/*
- 		 * FIXME: need a better check here for cardbus cards.
- 		 */
-@@ -596,6 +604,20 @@ static int socket_resume(struct pcmcia_s
- 	return 0;
- }
- 
-+/*
-+ * Resume a socket.  If a card is present, verify its CIS against
-+ * our cached copy.  If they are different, the card has been
-+ * replaced, and we need to tell the drivers.
-+ */
-+static int socket_resume(struct pcmcia_socket *skt)
-+{
-+	if (!(skt->state & SOCKET_SUSPEND))
-+		return -EBUSY;
-+
-+	socket_start_resume(skt);
-+	return socket_late_resume(skt);
-+}
-+
- static void socket_remove(struct pcmcia_socket *skt)
- {
- 	dev_printk(KERN_NOTICE, &skt->dev,
-Index: linux-2.6/include/pcmcia/ss.h
-===================================================================
---- linux-2.6.orig/include/pcmcia/ss.h
-+++ linux-2.6/include/pcmcia/ss.h
-@@ -262,6 +262,8 @@ struct pcmcia_socket {
- 	struct device			dev;
- 	/* data internal to the socket driver */
- 	void				*driver_data;
-+	/* status of the card during resume from a system sleep state */
-+	int				resume_status;
- };
- 
- 
-@@ -280,6 +282,8 @@ extern struct pccard_resource_ops pccard
- 
- /* socket drivers are expected to use these callbacks in their .drv struct */
- extern int pcmcia_socket_dev_suspend(struct device *dev);
-+extern void pcmcia_socket_dev_early_resume(struct device *dev);
-+extern void pcmcia_socket_dev_late_resume(struct device *dev);
- extern int pcmcia_socket_dev_resume(struct device *dev);
- 
- /* socket drivers use this callback in their IRQ handler */
