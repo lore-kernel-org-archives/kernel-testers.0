@@ -1,47 +1,47 @@
-From: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 0/5] Candidate fix for increased number of GFP_ATOMIC
-	failures V2
-Date: Wed, 4 Nov 2009 03:03:01 +0100
-Message-ID: <20091104020301.GA7037@bizet.domek.prywatny>
-References: <1256221356-26049-1-git-send-email-mel@csn.ul.ie> <20091023165810.GA4588@bizet.domek.prywatny> <20091023211239.GA6185@bizet.domek.prywatny> <9ec2d7290910240646p75b93c68v6ea1648d628a9660@mail.gmail.com> <20091028114208.GA14476@bizet.domek.prywatny> <20091028115926.GW8900@csn.ul.ie> <20091030142350.GA9343@bizet.domek.prywatny> <20091102203034.GC22046@csn.ul.ie>
+From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [PATCH 3/3] vmscan: Force kswapd to take notice faster when high-order watermarks are being hit
+Date: Wed, 4 Nov 2009 03:05:55 +0100
+Message-ID: <200911040305.59352.elendil@planet.nl>
+References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <200911040101.50194.elendil@planet.nl> <20091104011811.GG22046@csn.ul.ie>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=ruCPFMRLIAfX4C1skJivc7uqoOhQDgyfI4/jEtK928A=;
-        b=Oaj5WQjFyjqeIa1Hw1FrRWtcp9m8mb9yDPY3Yr6roY+v2oX5P6xdGrfci0t1RdNTyS
-         HA1MFwvTF4JdlSMjh9JaP44z/RVdKDEh0nyLUwnPc7Z9meNbLVXFapd2HQVsWjQ2mDwa
-         bv/nIf4Eb8CC8ZJqaSjtuUDXRtTIw1qt8dEDQ=
+In-Reply-To: <20091104011811.GG22046-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20091102203034.GC22046-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Cc: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Reinette Chatre <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Kalle Valo <kalle.valo-X3B1VOXEql0@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Mohamed Abbas <mohamed.abbas-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Bartlomiej Zolnierkiewicz <bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, Nov 02, 2009 at 08:30:34PM +0000, Mel Gorman wrote:
-> Does applying the following on top make any difference?
-> 
-> ==== CUT HERE ====
-> PM: Shrink memory before suspend
+On Wednesday 04 November 2009, Mel Gorman wrote:
+> > If you'd like me to test with the congestion_wait() revert on top of
+> > this for comparison, please let me know.
+>
+> No, there is resistance to rolling back the congestion_wait() changes
 
-No, this patch didn't change anything either.
+I've never promoted the revert as a solution. It just shows the cause of a 
+regression.
 
-IIRC I get failures while free(1) shows as much as 20MB free RAM
-(ie. without buffers/caches).  Additionaly nr_free_pages (from
-/proc/vmstat) stays at about 800-1000 under heavy memory pressure
-(gitk on full linux repository).
+> from what I gather because they were introduced for sane reasons. The
+> consequence is just that the reliability of high-order atomics are
+> impacted because more processes are making forward progress where
+> previously they would have waited until kswapd had done work. Your
+> driver has already been fixed in this regard and maybe it's a case that
+> the other atomic users simply have to be fixed to "not do that".
 
+The problem is that although my driver has been fixed so that it no longer 
+causes the SKB allocation errors, the also rather serious behavior change 
+where due to swapping my 3rd gitk takes up to twice as long to load with 
+desktop freezes of up 45 seconds or so is still there.
 
---- babbling follows ---
+Although that's somewhat separate from the issue that started this whole 
+investigation, I still feel that should be sorted out as well.
 
-Hmm, I wonder if it's really timing issue then wouldn't be the case
-that lowering swappiness sysctl would make problem more visible?
-I've vm.swappiness=15, would testing with higher value make any sense?
+The congestion_wait() change, even if theoretically valid, introduced a 
+very real regression IMO. Such long desktop freezes during swapping should 
+be avoided; .30 and earlier simply behaved a whole lot better in the same 
+situation.
 
-Thanks.
+Cheers,
+FJP
