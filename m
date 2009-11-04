@@ -1,49 +1,37 @@
-From: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Subject: Re: [PATCH 3/3] vmscan: Force kswapd to take notice faster when high-order watermarks are being hit
-Date: Wed, 4 Nov 2009 21:57:21 +0100
-Message-ID: <200911042157.25020.elendil@planet.nl>
-References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <200911040305.59352.elendil@planet.nl> <20091104154853.GM22046@csn.ul.ie>
+From: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Subject: Re: [Bug #14372] ath5k wireless not working after rfkill [BISECTED]
+Date: Wed, 4 Nov 2009 17:00:03 -0500
+Message-ID: <20091104220002.GH10786@tuxdriver.com>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <6dRYo8ss7vL.A.xRH.vre5KB@chimera> <b637ec0b0910261315u43033948ge041cf70292bfa58@mail.gmail.com> <87aazddvft.fsf@basilikum.skogtun.org> <20091104200714.GA24699@sucs.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091104154853.GM22046-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <20091104200714.GA24699-Ae9UE+oIsuU@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: Sitsofe Wheeler <sitsofe-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Cc: Harald Arnesen <harald-xFPCWzl8UQNAfugRpC6u6w@public.gmane.org>, Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Darren Salt <linux-Ym6Ivm/Ks7B65+NM0QMiFAbYiX8G1TQY9dF7HbQ/qKg@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Wednesday 04 November 2009, Mel Gorman wrote:
-> Agreed. I'll start from scratch again trying to reproduce what you're
-> seeing locally. I'll try breaking my network card so that it's making
-> high-order atomics and see where I get. Machines that were previously
-> tied up are now free so I might have a better chance.
+On Wed, Nov 04, 2009 at 08:07:14PM +0000, Sitsofe Wheeler wrote:
+> On Tue, Oct 27, 2009 at 10:42:46AM +0100, Harald Arnesen wrote:
+> > Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+> > 
+> > > Still present in -rc5
+> 
+> Help. I've just bisected this down to the same commit
+> b56ab33d68638e6aafdbfc694025e8354a628f49 (that will teach me for not
+> reading the whole thread) as I have the same problem on my EeePC 900.
+> 
+> Still present in -rc6 and the latest git.
 
-Hmmm. IMO you're looking at this from the wrong side. You don't need to 
-break your network card because the SKB problems are only the *result* of 
-the change, not the *cause*.
+Thank you for taking the time to bisect this!
 
-I can reproduce the desktop freeze just as easily when I'm using wired 
-(e1000e) networking and when I'm not streaming music at all, but just 
-loading that 3rd gitk instance.
+I move that we revert it.  It appears to be a work-around for a staging
+driver that causes problems for a non-staging one...
 
-So it's not
-  "I get a desktop freeze because of high order allocations from wireless
-   during swapping",
-but
-  "during very heavy swapping on a system with an encrypted LMV volume
-   group containing (encrypted) fs and (encrytpted) swap, the swapping
-   gets into some semi-stalled state *causing* a long desktop freeze
-   and, if there also happens to be some process trying higher order
-   allocations, failures of those allocations".
-
-I have tried to indicate this in the past, but it may have gotten lost in 
-the complexity of the issue.
-
-An important clue is still IMO that during the first part of the freezes 
-there is very little disk activity for a long time. Why would that be when 
-the system is supposed to be swapping like hell?
-
-Cheers,
-FJP
+John
+-- 
+John W. Linville		Someday the world will need a hero, and you
+linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org			might be all we have.  Be ready.
