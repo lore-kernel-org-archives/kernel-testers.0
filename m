@@ -1,85 +1,230 @@
-From: Andrew Lutomirski <luto-3s7WtUTddSA@public.gmane.org>
-Subject: Re: [Bug #14472] EXT4 corruption
-Date: Tue, 3 Nov 2009 18:43:11 -0500
-Message-ID: <cb0375e10911031543n5cfcc090k8780449a1413b067@mail.gmail.com>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera>
-	 <6dRYo8ss7vL.A.haF.Are5KB@chimera>
-	 <cb0375e10910291257t1f2f16ciade932bd78689ccc@mail.gmail.com>
-	 <20091029222335.GJ18464@mit.edu>
+From: Frans Pop <elendil@planet.nl>
+Subject: Re: [PATCH 3/3] vmscan: Force kswapd to take notice faster when high-order watermarks are being hit
+Date: Wed, 4 Nov 2009 01:01:46 +0100
+Message-ID: <200911040101.50194.elendil@planet.nl>
+References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <200911032301.59662.elendil@planet.nl> <20091103220808.GF22046@csn.ul.ie>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:sender:received:in-reply-to
-         :references:date:x-google-sender-auth:message-id:subject:from:to
-         :content-type:content-transfer-encoding;
-        bh=lcwk5VMy+sjDxCNyZV9YEuDLOPPJ4hKRhOKVF8qIWGk=;
-        b=Z7yNIOZEEt8bU6VYj4kjHWrgTfVt0YXj/uaqXq7TytysThfeMV7FNxSNwfPUq5hZ6g
-         goq0F2xIoJUY5Oq+2ge7QnM5iVpXtVc77fEW0bQjb3jICq5XGLlWHEVWSO4hKZ368NUI
-         WDYPzOkbb1bhHcc7aKKvyMlir00b+x6GmuwHA=
-In-Reply-To: <20091029222335.GJ18464-3s7WtUTddSA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>, Andrew Lutomirski <luto-3s7WtUTddSA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kerne>
+Content-Type: Multipart/Mixed;
+  boundary="Boundary-00=_uRM8KDGKb3AC14I"
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <20091103220808.GF22046@csn.ul.ie>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+To: Mel Gorman <mel@csn.ul.ie>
+Cc: Andrew Morton <akpm@linux-foundation.org>, stable@kernel.org, linux-kernel@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Thu, Oct 29, 2009 at 5:23 PM, Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org> wrote:
-> On Thu, Oct 29, 2009 at 03:57:32PM -0400, Andrew Lutomirski wrote:
->>
->> This but is *not* fixed. =A0I just triggered it a few minutes ago by
->> abusing i915 and drm, which caused a panic. =A0This is slightly newe=
-r
->> than 2.6.32-rc5, with a couple of i915 bugfixes thrown in.
+--Boundary-00=_uRM8KDGKb3AC14I
+Content-Type: text/plain;
+  charset="iso-8859-15"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+On Tuesday 03 November 2009, you wrote:
+> > With a representative test I get 0 for kswapd_slept_prematurely.
+> > Tested with .32-rc6 + patches 1-3 + this patch.
 >
-> Andrew, can you test to see if this patch helps?
->
-> Thanks,
->
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0- Ted
->
-> commit a8836b1d6f92273e001012c7705ae8f4c3d5fb65
-> Author: Aneesh Kumar K.V <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> Date: =A0 Tue Oct 27 15:36:38 2009 +0530
->
-> =A0 =A0ext4: discard preallocation during truncate
->
-> =A0 =A0We need to make sure when we drop and reacquire the inode's
-> =A0 =A0i_data_sem we discard the inode preallocation. Otherwise we
-> =A0 =A0could have blocks marked as free in bitmap but still belonging
-> =A0 =A0to prealloc space.
->
-> =A0 =A0Signed-off-by: Aneesh Kumar K.V <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKQ@public.gmane.org=
-om>
->
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index 5c5bc5d..a1ef1c3 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -209,6 +209,12 @@ static int try_to_extend_transaction(handle_t *h=
-andle, struct inode *inode)
-> =A0 =A0 =A0 =A0up_write(&EXT4_I(inode)->i_data_sem);
-> =A0 =A0 =A0 =A0ret =3D ext4_journal_restart(handle, blocks_for_trunca=
-te(inode));
-> =A0 =A0 =A0 =A0down_write(&EXT4_I(inode)->i_data_sem);
-> + =A0 =A0 =A0 /*
-> + =A0 =A0 =A0 =A0* We have dropped i_data_sem. So somebody else could=
- have done
-> + =A0 =A0 =A0 =A0* block allocation. So discard the prealloc space cr=
-eated as a
-> + =A0 =A0 =A0 =A0* part of block allocation
-> + =A0 =A0 =A0 =A0*/
-> + =A0 =A0 =A0 ext4_discard_preallocations(inode);
->
-> =A0 =A0 =A0 =A0return ret;
-> =A0}
->
+> Assuming the problem actually reproduced, can you still retest with the
+
+Yes, it does.
+
+> patch I posted as a follow-up and see if fast or slow premature sleeps
+> are happening and if the problem still occurs please? It's still
+> possible with the patch as-is could be timing related. After I posted
+> this patch, I continued testing and found I could get counts fairly
+> reliably if kswapd was calling printk() before making the premature
+> check so the window appears to be very small.
+
+Tested with .32-rc6 and .31.1. With that follow-up patch I still get=20
+freezes and SKB allocation errors. And I don't get anywhere near the fast,=
+=20
+smooth and reliable behavior I get when I do the congestion_wait()=20
+reverts.
+
+The new case does trigger as you can see below, but I'm afraid I don't see=
+=20
+it making any significant difference for my test. Hope the data is still=20
+useful for you.
+
+=46rom vmstat for .32-rc6:
+kswapd_highorder_rewakeup 8
+kswapd_slept_prematurely_fast 329
+kswapd_slept_prematurely_slow 55
+
+=46rom vmstat for .31.1:
+kswapd_highorder_rewakeup 20
+kswapd_slept_prematurely_fast 307
+kswapd_slept_prematurely_slow 105
+
+If you'd like me to test with the congestion_wait() revert on top of this=20
+for comparison, please let me know.
+
+Cheers,
+=46JP
+
+P.S. Your follow-up patch did not apply cleanly on top of the debug one as=
+=20
+you seem to have made some changes between posting them (dropped kswapd_=20
+from the sleeping_prematurely() function name and added a comment).
 
 
-It looks like 2.6.32-rc6 is supposed to fix this bug, but it also
-looks like this patch didn't make it in.  Should I still be using this
-patch?
+--Boundary-00=_uRM8KDGKb3AC14I
+Content-Type: text/plain;
+  charset="iso-8859-15";
+  name="vmstat.32"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename="vmstat.32"
 
-Thanks,
-Andy
+nr_free_pages 4798
+nr_inactive_anon 102550
+nr_active_anon 305242
+nr_inactive_file 17876
+nr_active_file 13213
+nr_unevictable 400
+nr_mlock 400
+nr_anon_pages 376898
+nr_mapped 2769
+nr_file_pages 63678
+nr_dirty 18
+nr_writeback 0
+nr_slab_reclaimable 2236
+nr_slab_unreclaimable 3984
+nr_page_table_pages 3996
+nr_kernel_stack 173
+nr_unstable 0
+nr_bounce 0
+nr_vmscan_write 215582
+nr_writeback_temp 0
+nr_isolated_anon 0
+nr_isolated_file 0
+nr_shmem 17
+pgpgin 607186
+pgpgout 872956
+pswpin 9397
+pswpout 215580
+pgalloc_dma 2128
+pgalloc_dma32 1922180
+pgalloc_normal 0
+pgalloc_movable 0
+pgfree 1929319
+pgactivate 122493
+pgdeactivate 383992
+pgfault 2210388
+pgmajfault 6625
+pgrefill_dma 1792
+pgrefill_dma32 386511
+pgrefill_normal 0
+pgrefill_movable 0
+pgsteal_dma 41
+pgsteal_dma32 295511
+pgsteal_normal 0
+pgsteal_movable 0
+pgscan_kswapd_dma 64
+pgscan_kswapd_dma32 379687
+pgscan_kswapd_normal 0
+pgscan_kswapd_movable 0
+pgscan_direct_dma 36768
+pgscan_direct_dma32 5233523
+pgscan_direct_normal 0
+pgscan_direct_movable 0
+pginodesteal 2416
+slabs_scanned 42240
+kswapd_steal 241253
+kswapd_inodesteal 6252
+kswapd_highorder_rewakeup 20
+kswapd_slept_prematurely_fast 307
+kswapd_slept_prematurely_slow 105
+pageoutrun 3394
+allocstall 964
+pgrotated 215342
+unevictable_pgs_culled 4247
+unevictable_pgs_scanned 0
+unevictable_pgs_rescued 33344
+unevictable_pgs_mlocked 43192
+unevictable_pgs_munlocked 42780
+unevictable_pgs_cleared 2
+unevictable_pgs_stranded 0
+unevictable_pgs_mlockfreed 0
+
+--Boundary-00=_uRM8KDGKb3AC14I
+Content-Type: text/plain;
+  charset="iso-8859-15";
+  name="vmstat.31"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+	filename="vmstat.31"
+
+nr_free_pages 5730
+nr_inactive_anon 101680
+nr_active_anon 304236
+nr_inactive_file 18296
+nr_active_file 14717
+nr_unevictable 408
+nr_mlock 408
+nr_anon_pages 347177
+nr_mapped 2751
+nr_file_pages 93394
+nr_dirty 8
+nr_writeback 0
+nr_slab_reclaimable 2218
+nr_slab_unreclaimable 3670
+nr_page_table_pages 3976
+nr_unstable 0
+nr_bounce 0
+nr_vmscan_write 238631
+nr_writeback_temp 0
+pgpgin 594630
+pgpgout 964231
+pswpin 8629
+pswpout 238627
+pgalloc_dma 2169
+pgalloc_dma32 1869092
+pgalloc_normal 0
+pgalloc_movable 0
+pgfree 1877147
+pgactivate 116309
+pgdeactivate 372861
+pgfault 2152528
+pgmajfault 6806
+pgrefill_dma 1410
+pgrefill_dma32 375616
+pgrefill_normal 0
+pgrefill_movable 0
+pgsteal_dma 54
+pgsteal_dma32 285950
+pgsteal_normal 0
+pgsteal_movable 0
+pgscan_kswapd_dma 96
+pgscan_kswapd_dma32 564994
+pgscan_kswapd_normal 0
+pgscan_kswapd_movable 0
+pgscan_direct_dma 448
+pgscan_direct_dma32 268795
+pgscan_direct_normal 0
+pgscan_direct_movable 0
+pginodesteal 2411
+slabs_scanned 41600
+kswapd_steal 247394
+kswapd_inodesteal 6479
+kswapd_highorder_rewakeup 8
+kswapd_slept_prematurely_fast 329
+kswapd_slept_prematurely_slow 55
+pageoutrun 3525
+allocstall 686
+pgrotated 238322
+unevictable_pgs_culled 4254
+unevictable_pgs_scanned 0
+unevictable_pgs_rescued 33336
+unevictable_pgs_mlocked 43192
+unevictable_pgs_munlocked 42772
+unevictable_pgs_cleared 2
+unevictable_pgs_stranded 0
+unevictable_pgs_mlockfreed 0
+
+--Boundary-00=_uRM8KDGKb3AC14I--
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
