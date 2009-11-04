@@ -1,227 +1,157 @@
-From: Frans Pop <elendil@planet.nl>
-Subject: Re: [PATCH 3/3] vmscan: Force kswapd to take notice faster when high-order watermarks are being hit
-Date: Wed, 4 Nov 2009 01:01:46 +0100
-Message-ID: <200911040101.50194.elendil@planet.nl>
-References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <200911032301.59662.elendil@planet.nl> <20091103220808.GF22046@csn.ul.ie>
+From: Mel Gorman <mel@csn.ul.ie>
+Subject: Re: [PATCH 3/3] vmscan: Force kswapd to take notice faster when
+	high-order watermarks are being hit
+Date: Wed, 4 Nov 2009 01:18:11 +0000
+Message-ID: <20091104011811.GG22046@csn.ul.ie>
+References: <1256650833-15516-1-git-send-email-mel@csn.ul.ie> <200911032301.59662.elendil@planet.nl> <20091103220808.GF22046@csn.ul.ie> <200911040101.50194.elendil@planet.nl>
 Mime-Version: 1.0
-Content-Type: Multipart/Mixed;
-  boundary="Boundary-00=_uRM8KDGKb3AC14I"
 Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20091103220808.GF22046@csn.ul.ie>
+Content-Disposition: inline
+In-Reply-To: <200911040101.50194.elendil@planet.nl>
 Sender: owner-linux-mm@kvack.org
 List-Id: <kernel-testers.vger.kernel.org>
-To: Mel Gorman <mel@csn.ul.ie>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Frans Pop <elendil@planet.nl>
 Cc: Andrew Morton <akpm@linux-foundation.org>, stable@kernel.org, linux-kernel@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
---Boundary-00=_uRM8KDGKb3AC14I
-Content-Type: text/plain;
-  charset="iso-8859-15"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+On Wed, Nov 04, 2009 at 01:01:46AM +0100, Frans Pop wrote:
+> On Tuesday 03 November 2009, you wrote:
+> > > With a representative test I get 0 for kswapd_slept_prematurely.
+> > > Tested with .32-rc6 + patches 1-3 + this patch.
+> >
+> > Assuming the problem actually reproduced, can you still retest with the
+> 
+> Yes, it does.
+> 
+> > patch I posted as a follow-up and see if fast or slow premature sleeps
+> > are happening and if the problem still occurs please? It's still
+> > possible with the patch as-is could be timing related. After I posted
+> > this patch, I continued testing and found I could get counts fairly
+> > reliably if kswapd was calling printk() before making the premature
+> > check so the window appears to be very small.
+> 
+> Tested with .32-rc6 and .31.1. With that follow-up patch I still get 
+> freezes and SKB allocation errors. And I don't get anywhere near the fast, 
+> smooth and reliable behavior I get when I do the congestion_wait() 
+> reverts.
+> 
 
-On Tuesday 03 November 2009, you wrote:
-> > With a representative test I get 0 for kswapd_slept_prematurely.
-> > Tested with .32-rc6 + patches 1-3 + this patch.
->
-> Assuming the problem actually reproduced, can you still retest with the
+Yeah. What it really appears to get down to is that the congestion changes
+have altered the timing in a manner that frankly, I'm not sure how to define
+as "good" or "bad". The congestion changes in themselves appear sane and
+the amount of time callers sleep appears better but the actual result sucks
+for the constant stream of high-order allocations that are occuring from
+the driver. This abuse of high-order atomics has been addressed but it's
+showing up in other horrible ways.
 
-Yes, it does.
+> The new case does trigger as you can see below, but I'm afraid I don't see 
+> it making any significant difference for my test. Hope the data is still 
+> useful for you.
+> 
+> From vmstat for .32-rc6:
+> kswapd_highorder_rewakeup 8
+> kswapd_slept_prematurely_fast 329
+> kswapd_slept_prematurely_slow 55
+> 
+> From vmstat for .31.1:
+> kswapd_highorder_rewakeup 20
+> kswapd_slept_prematurely_fast 307
+> kswapd_slept_prematurely_slow 105
+> 
 
-> patch I posted as a follow-up and see if fast or slow premature sleeps
-> are happening and if the problem still occurs please? It's still
-> possible with the patch as-is could be timing related. After I posted
-> this patch, I continued testing and found I could get counts fairly
-> reliably if kswapd was calling printk() before making the premature
-> check so the window appears to be very small.
+This is useful.
 
-Tested with .32-rc6 and .31.1. With that follow-up patch I still get=20
-freezes and SKB allocation errors. And I don't get anywhere near the fast,=
-=20
-smooth and reliable behavior I get when I do the congestion_wait()=20
-reverts.
+The high premature_fast shows that after kswapd apparently finishes its work,
+the high waterwater marks are being breached very quickly (the fast counter
+being positive). The "slow" counter is even worse. Your machine is getting
+from the high to low watermark quickly without kswapd noticing and processes
+depending on the atomics are not waiting long enough.
 
-The new case does trigger as you can see below, but I'm afraid I don't see=
-=20
-it making any significant difference for my test. Hope the data is still=20
-useful for you.
+> If you'd like me to test with the congestion_wait() revert on top of this 
+> for comparison, please let me know.
+> 
 
-=46rom vmstat for .32-rc6:
-kswapd_highorder_rewakeup 8
-kswapd_slept_prematurely_fast 329
-kswapd_slept_prematurely_slow 55
+No, there is resistance to rolling back the congestion_wait() changes from
+what I gather because they were introduced for sane reasons. The consequence
+is just that the reliability of high-order atomics are impacted because more
+processes are making forward progress where previously they would have waited
+until kswapd had done work. Your driver has already been fixed in this regard
+and maybe it's a case that the other atomic users simply have to be fixed to
+"not do that".
 
-=46rom vmstat for .31.1:
-kswapd_highorder_rewakeup 20
-kswapd_slept_prematurely_fast 307
-kswapd_slept_prematurely_slow 105
+> P.S. Your follow-up patch did not apply cleanly on top of the debug one as 
+> you seem to have made some changes between posting them (dropped kswapd_ 
+> from the sleeping_prematurely() function name and added a comment).
+> 
 
-If you'd like me to test with the congestion_wait() revert on top of this=20
-for comparison, please let me know.
+Sorry about that. Clearly I've gotten out of sync slightly with the
+patchset I'm testing and basing upon as opposed to what I'm posting
+here.
 
-Cheers,
-=46JP
+Here is yet another patch to be applied on top of the rest of the
+patches. Sorry about any typo's, I was out for a friends birthday and I
+have a few beers on me but it boots on qemu and passes basic stress tests
+at least. The intention of the patch is to delay high-order allocations of
+those that can wait for kswapd to do work in parallel. It will only help
+the case where there are a mix of high-order allocations that can sleep and
+those that can't. Because the main burst of your allocations appear to be
+high-order atomics, it might not help but it might delay order-1 allocations
+due to many instances of fork() in your workload if 8K stacks are being used.
 
-P.S. Your follow-up patch did not apply cleanly on top of the debug one as=
-=20
-you seem to have made some changes between posting them (dropped kswapd_=20
-from the sleeping_prematurely() function name and added a comment).
+==== CUT HERE ====
+page allocator: Sleep where the intention was to sleep instead of waiting on congestion
 
+At two points during page allocation, it is possible for the process to
+sleep for a short interval depending on congestion. There is some anedotal
+evidence that since 2.6.31-rc1, the processes are sleeping for less time
+than before as the congestion_wait() logic has improved.
 
---Boundary-00=_uRM8KDGKb3AC14I
-Content-Type: text/plain;
-  charset="iso-8859-15";
-  name="vmstat.32"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename="vmstat.32"
+However, one consequence of this is that processes are waking up too
+quickly, finding that forward progress is still difficult and failing
+too early. This patch causes processes to sleep for a fixed interval
+instead of sleeping depending on congestion.
 
-nr_free_pages 4798
-nr_inactive_anon 102550
-nr_active_anon 305242
-nr_inactive_file 17876
-nr_active_file 13213
-nr_unevictable 400
-nr_mlock 400
-nr_anon_pages 376898
-nr_mapped 2769
-nr_file_pages 63678
-nr_dirty 18
-nr_writeback 0
-nr_slab_reclaimable 2236
-nr_slab_unreclaimable 3984
-nr_page_table_pages 3996
-nr_kernel_stack 173
-nr_unstable 0
-nr_bounce 0
-nr_vmscan_write 215582
-nr_writeback_temp 0
-nr_isolated_anon 0
-nr_isolated_file 0
-nr_shmem 17
-pgpgin 607186
-pgpgout 872956
-pswpin 9397
-pswpout 215580
-pgalloc_dma 2128
-pgalloc_dma32 1922180
-pgalloc_normal 0
-pgalloc_movable 0
-pgfree 1929319
-pgactivate 122493
-pgdeactivate 383992
-pgfault 2210388
-pgmajfault 6625
-pgrefill_dma 1792
-pgrefill_dma32 386511
-pgrefill_normal 0
-pgrefill_movable 0
-pgsteal_dma 41
-pgsteal_dma32 295511
-pgsteal_normal 0
-pgsteal_movable 0
-pgscan_kswapd_dma 64
-pgscan_kswapd_dma32 379687
-pgscan_kswapd_normal 0
-pgscan_kswapd_movable 0
-pgscan_direct_dma 36768
-pgscan_direct_dma32 5233523
-pgscan_direct_normal 0
-pgscan_direct_movable 0
-pginodesteal 2416
-slabs_scanned 42240
-kswapd_steal 241253
-kswapd_inodesteal 6252
-kswapd_highorder_rewakeup 20
-kswapd_slept_prematurely_fast 307
-kswapd_slept_prematurely_slow 105
-pageoutrun 3394
-allocstall 964
-pgrotated 215342
-unevictable_pgs_culled 4247
-unevictable_pgs_scanned 0
-unevictable_pgs_rescued 33344
-unevictable_pgs_mlocked 43192
-unevictable_pgs_munlocked 42780
-unevictable_pgs_cleared 2
-unevictable_pgs_stranded 0
-unevictable_pgs_mlockfreed 0
+With this patch applied, the number of premature sleeps of kswapd as
+measured by kswapd_slept_prematurely is reduced while running a stress
+test based on parallel executions of dd under QEMU. Furthermore, under
+the stress test, the number of oom-killer occurances is drastically
+reduced.
 
---Boundary-00=_uRM8KDGKb3AC14I
-Content-Type: text/plain;
-  charset="iso-8859-15";
-  name="vmstat.31"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
-	filename="vmstat.31"
+Signed-off-by: Mel Gorman <mel@csn.ul.ie>
+---
+ mm/page_alloc.c |    9 ++++++---
+ 1 files changed, 6 insertions(+), 3 deletions(-)
 
-nr_free_pages 5730
-nr_inactive_anon 101680
-nr_active_anon 304236
-nr_inactive_file 18296
-nr_active_file 14717
-nr_unevictable 408
-nr_mlock 408
-nr_anon_pages 347177
-nr_mapped 2751
-nr_file_pages 93394
-nr_dirty 8
-nr_writeback 0
-nr_slab_reclaimable 2218
-nr_slab_unreclaimable 3670
-nr_page_table_pages 3976
-nr_unstable 0
-nr_bounce 0
-nr_vmscan_write 238631
-nr_writeback_temp 0
-pgpgin 594630
-pgpgout 964231
-pswpin 8629
-pswpout 238627
-pgalloc_dma 2169
-pgalloc_dma32 1869092
-pgalloc_normal 0
-pgalloc_movable 0
-pgfree 1877147
-pgactivate 116309
-pgdeactivate 372861
-pgfault 2152528
-pgmajfault 6806
-pgrefill_dma 1410
-pgrefill_dma32 375616
-pgrefill_normal 0
-pgrefill_movable 0
-pgsteal_dma 54
-pgsteal_dma32 285950
-pgsteal_normal 0
-pgsteal_movable 0
-pgscan_kswapd_dma 96
-pgscan_kswapd_dma32 564994
-pgscan_kswapd_normal 0
-pgscan_kswapd_movable 0
-pgscan_direct_dma 448
-pgscan_direct_dma32 268795
-pgscan_direct_normal 0
-pgscan_direct_movable 0
-pginodesteal 2411
-slabs_scanned 41600
-kswapd_steal 247394
-kswapd_inodesteal 6479
-kswapd_highorder_rewakeup 8
-kswapd_slept_prematurely_fast 329
-kswapd_slept_prematurely_slow 55
-pageoutrun 3525
-allocstall 686
-pgrotated 238322
-unevictable_pgs_culled 4254
-unevictable_pgs_scanned 0
-unevictable_pgs_rescued 33336
-unevictable_pgs_mlocked 43192
-unevictable_pgs_munlocked 42772
-unevictable_pgs_cleared 2
-unevictable_pgs_stranded 0
-unevictable_pgs_mlockfreed 0
-
---Boundary-00=_uRM8KDGKb3AC14I--
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 2bc2ac6..5884d6f 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -1726,8 +1726,10 @@ __alloc_pages_high_priority(gfp_t gfp_mask, unsigned int order,
+ 			zonelist, high_zoneidx, ALLOC_NO_WATERMARKS,
+ 			preferred_zone, migratetype);
+ 
+-		if (!page && gfp_mask & __GFP_NOFAIL)
+-			congestion_wait(BLK_RW_ASYNC, HZ/50);
++		if (!page && gfp_mask & __GFP_NOFAIL) {
++			set_current_state(TASK_INTERRUPTIBLE);
++			schedule_timeout(HZ/50);
++		}
+ 	} while (!page && (gfp_mask & __GFP_NOFAIL));
+ 
+ 	return page;
+@@ -1898,7 +1900,8 @@ rebalance:
+ 	pages_reclaimed += did_some_progress;
+ 	if (should_alloc_retry(gfp_mask, order, pages_reclaimed)) {
+ 		/* Wait for some write requests to complete then retry */
+-		congestion_wait(BLK_RW_ASYNC, HZ/50);
++		set_current_state(TASK_INTERRUPTIBLE);
++		schedule_timeout(HZ/50);
+ 		goto rebalance;
+ 	}
+ 
+-- 
+1.6.3.3
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-mm' in
