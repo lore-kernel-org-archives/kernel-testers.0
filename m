@@ -1,7 +1,7 @@
 From: Mel Gorman <mel@csn.ul.ie>
-Subject: [PATCH 1/5] page allocator: Always wake kswapd when restarting an allocation attempt after direct reclaim failed
-Date: Thu, 12 Nov 2009 19:30:31 +0000
-Message-ID: <1258054235-3208-2-git-send-email-mel@csn.ul.ie>
+Subject: [PATCH 4/5] vmscan: Have kswapd sleep for a short interval and double check it should be asleep
+Date: Thu, 12 Nov 2009 19:30:34 +0000
+Message-ID: <1258054235-3208-5-git-send-email-mel@csn.ul.ie>
 References: <1258054235-3208-1-git-send-email-mel@csn.ul.ie>
 Return-path: <owner-linux-mm@kvack.org>
 In-Reply-To: <1258054235-3208-1-git-send-email-mel@csn.ul.ie>
@@ -13,41 +13,117 @@ Content-Transfer-Encoding: 7bit
 To: Andrew Morton <akpm@linux-foundation.org>, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewando>
 Cc: linux-kernel@vger.kernel.org, "linux-mm@kvack.org\"" <linux-mm@kvack.org>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, Mel Gorman <mel@csn.ul.ie>
 
-If a direct reclaim makes no forward progress, it considers whether it
-should go OOM or not. Whether OOM is triggered or not, it may retry the
-application afterwards. In times past, this would always wake kswapd as well
-but currently, kswapd is not woken up after direct reclaim fails. For order-0
-allocations, this makes little difference but if there is a heavy mix of
-higher-order allocations that direct reclaim is failing for, it might mean
-that kswapd is not rewoken for higher orders as much as it did previously.
+After kswapd balances all zones in a pgdat, it goes to sleep. In the event
+of no IO congestion, kswapd can go to sleep very shortly after the high
+watermark was reached. If there are a constant stream of allocations from
+parallel processes, it can mean that kswapd went to sleep too quickly and
+the high watermark is not being maintained for sufficient length time.
 
-This patch wakes up kswapd when an allocation is being retried after a direct
-reclaim failure. It would be expected that kswapd is already awake, but
-this has the effect of telling kswapd to reclaim at the higher order as well.
+This patch makes kswapd go to sleep as a two-stage process. It first
+tries to sleep for HZ/10. If it is woken up by another process or the
+high watermark is no longer met, it's considered a premature sleep and
+kswapd continues work. Otherwise it goes fully to sleep.
+
+This adds more counters to distinguish between fast and slow breaches of
+watermarks. A "fast" premature sleep is one where the low watermark was
+hit in a very short time after kswapd going to sleep. A "slow" premature
+sleep indicates that the high watermark was breached after a very short
+interval.
 
 Signed-off-by: Mel Gorman <mel@csn.ul.ie>
-Reviewed-by: Christoph Lameter <cl@linux-foundation.org>
-Reviewed-by: Pekka Enberg <penberg@cs.helsinki.fi>
-Reviewed-by: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
 ---
- mm/page_alloc.c |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ include/linux/vmstat.h |    1 +
+ mm/vmscan.c            |   44 ++++++++++++++++++++++++++++++++++++++++++--
+ mm/vmstat.c            |    2 ++
+ 3 files changed, 45 insertions(+), 2 deletions(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index cdcedf6..250d055 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -1817,9 +1817,9 @@ __alloc_pages_slowpath(gfp_t gfp_mask, unsigned int order,
- 	if (NUMA_BUILD && (gfp_mask & GFP_THISNODE) == GFP_THISNODE)
- 		goto nopage;
+diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
+index 2d0f222..9716003 100644
+--- a/include/linux/vmstat.h
++++ b/include/linux/vmstat.h
+@@ -40,6 +40,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
+ 		PGSCAN_ZONE_RECLAIM_FAILED,
+ #endif
+ 		PGINODESTEAL, SLABS_SCANNED, KSWAPD_STEAL, KSWAPD_INODESTEAL,
++		KSWAPD_PREMATURE_FAST, KSWAPD_PREMATURE_SLOW,
+ 		PAGEOUTRUN, ALLOCSTALL, PGROTATED,
+ #ifdef CONFIG_HUGETLB_PAGE
+ 		HTLB_BUDDY_PGALLOC, HTLB_BUDDY_PGALLOC_FAIL,
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index 190bae1..ffa1766 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -1904,6 +1904,24 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *mem_cont,
+ }
+ #endif
  
-+restart:
- 	wake_all_kswapd(order, zonelist, high_zoneidx);
++/* is kswapd sleeping prematurely? */
++static int sleeping_prematurely(int order, long remaining)
++{
++	struct zone *zone;
++
++	/* If a direct reclaimer woke kswapd within HZ/10, it's premature */
++	if (remaining)
++		return 1;
++
++	/* If after HZ/10, a zone is below the high mark, it's premature */
++	for_each_populated_zone(zone)
++		if (!zone_watermark_ok(zone, order, high_wmark_pages(zone),
++								0, 0))
++			return 1;
++
++	return 0;
++}
++
+ /*
+  * For kswapd, balance_pgdat() will work across all this node's zones until
+  * they are all at high_wmark_pages(zone).
+@@ -2184,8 +2202,30 @@ static int kswapd(void *p)
+ 			 */
+ 			order = new_order;
+ 		} else {
+-			if (!freezing(current))
+-				schedule();
++			if (!freezing(current)) {
++				long remaining = 0;
++
++				/* Try to sleep for a short interval */
++				if (!sleeping_prematurely(order, remaining)) {
++					remaining = schedule_timeout(HZ/10);
++					finish_wait(&pgdat->kswapd_wait, &wait);
++					prepare_to_wait(&pgdat->kswapd_wait, &wait, TASK_INTERRUPTIBLE);
++				}
++
++				/*
++				 * After a short sleep, check if it was a
++				 * premature sleep. If not, then go fully
++				 * to sleep until explicitly woken up
++				 */
++				if (!sleeping_prematurely(order, remaining))
++					schedule();
++				else {
++					if (remaining)
++						count_vm_event(KSWAPD_PREMATURE_FAST);
++					else
++						count_vm_event(KSWAPD_PREMATURE_SLOW);
++				}
++			}
  
--restart:
- 	/*
- 	 * OK, we're below the kswapd watermark and have kicked background
- 	 * reclaim. Now things get more complex, so set up alloc_flags according
+ 			order = pgdat->kswapd_max_order;
+ 		}
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index c81321f..90b11e4 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -683,6 +683,8 @@ static const char * const vmstat_text[] = {
+ 	"slabs_scanned",
+ 	"kswapd_steal",
+ 	"kswapd_inodesteal",
++	"kswapd_slept_prematurely_fast",
++	"kswapd_slept_prematurely_slow",
+ 	"pageoutrun",
+ 	"allocstall",
+ 
 -- 
 1.6.5
 
