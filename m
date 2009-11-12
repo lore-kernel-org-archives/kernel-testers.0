@@ -1,78 +1,33 @@
-From: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH 0/7] Reduce GFP_ATOMIC allocation failures, candidate
- fix V3
-Date: Thu, 12 Nov 2009 17:00:05 -0500
-Message-ID: <20091112220005.GD2811__17737.7441119917$1258063310$gmane$org@think>
-References: <1258054211-2854-1-git-send-email-mel@csn.ul.ie>
- <20091112202748.GC2811@think>
+From: Pavel Machek <pavel@ucw.cz>
+Subject: Re: Help needed, Re: [Bug #14334] pcmcia suspend regression from
+	2.6.31.1 to 2.6.31.2 - Dell Inspiron 600m
+Date: Thu, 12 Nov 2009 13:14:55 +0100
+Message-ID: <20091112121455.GA1394@ucw.cz>
+References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <200911010936.10409.rjw@sisk.pl> <alpine.LFD.2.01.0911010914100.31845@localhost.localdomain> <200911021439.28266.rjw@sisk.pl> <1257200523.7907.53.camel@pasglop>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-acpi-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <20091112202748.GC2811@think>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <1257200523.7907.53.camel@pasglop>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linus Torvalds <torvalds@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Greg Kroah-Hartman <gregkh@suse.de>, Jose Marino <braket@hotmail.com>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Dominik Brodowski <linux@dominikbrodowski.net>
 
-On Thu, Nov 12, 2009 at 03:27:48PM -0500, Chris Mason wrote:
-> On Thu, Nov 12, 2009 at 07:30:06PM +0000, Mel Gorman wrote:
-> > Sorry for the long delay in posting another version. Testing is extremely
-> > time-consuming and I wasn't getting to work on this as much as I'd have liked.
-> > 
-> > Changelog since V2
-> >   o Dropped the kswapd-quickly-notice-high-order patch. In more detailed
-> >     testing, it made latencies even worse as kswapd slept more on high-order
-> >     congestion causing order-0 direct reclaims.
-> >   o Added changes to how congestion_wait() works
-> >   o Added a number of new patches altering the behaviour of reclaim
-> > 
-> > Since 2.6.31-rc1, there have been an increasing number of GFP_ATOMIC
-> > failures. A significant number of these have been high-order GFP_ATOMIC
-> > failures and while they are generally brushed away, there has been a large
-> > increase in them recently and there are a number of possible areas the
-> > problem could be in - core vm, page writeback and a specific driver. The
-> > bugs affected by this that I am aware of are;
-> 
-> Thanks for all the time you've spent on this one.  Let me start with
-> some more questions about the workload ;)
-> 
-> So the workload is gitk reading a git repo and a program reading data
-> over the network.  Which part of the workload writes to disk?
+Hi!
 
-Sorry for the self reply, I started digging through your data (man,
-that's a lot of data ;).  I took another tour through dm-crypt and
-things make more sense now.
+> (Bug was simple but took a while to track down: machine was left in
+> storage for a while, battery ran out, RTC went back to Jan 1, 1904,
+> which means a negative xtime, and the new timekeeping code will do
+> horrible things including hanging at resume when that happens. Fix is to
+> make powerpc read_persistent_clock() to ignore the RTC when it contains
+> a date older than epoch).
 
-dm-crypt has two different single threaded workqueues for each dm-crypt
-device.  The first one is meant to deal with the actual encryption and
-decryption, and the second one is meant to do the IO.
+Additionaly, it would be nice if the machine would not hang, no matter
+what RTC says...
+									Pavel
 
-So the path for a write looks something like this:
-
-filesystem -> crypt thread -> encrypt the data -> io thread -> disk
-
-And the path for read looks something like this:
-
-filesystem -> io thread -> disk -> crypt thread -> decrypt data -> FS
-
-One thread does encryption and one thread does IO, and these threads are
-shared for reads and writes.  The end result is that all of the sync
-reads get stuck behind any async write congestion and all of the async
-writes get stuck behind any sync read congestion.
-
-It's almost like you need to check for both sync and async congestion
-before you have any hopes of a new IO making progress.
-
-The confusing part is that dm hasn't gotten any worse in this regard
-since 2.6.30 but the workload here is generating more sync reads
-(hopefully from gitk and swapin) than async writes (from the low
-bandwidth rsync).  So in general if you were to change mm/*.c wait
-for sync congestion instead of async, things should appear better.
-
-The punch line is that the btrfs guy thinks we can solve all of this with
-just one more thread.  If we change dm-crypt to have a thread dedicated
-to sync IO and a thread dedicated to async IO the system should smooth
-out.
-
--chris
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
