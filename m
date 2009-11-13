@@ -1,33 +1,100 @@
-From: Pavel Machek <pavel@ucw.cz>
-Subject: Re: Help needed, Re: [Bug #14334] pcmcia suspend regression from
-	2.6.31.1 to 2.6.31.2 - Dell Inspiron 600m
-Date: Thu, 12 Nov 2009 13:14:55 +0100
-Message-ID: <20091112121455.GA1394@ucw.cz>
-References: <Sj-rRjx6TwF.A.djE.vqe5KB@chimera> <200911010936.10409.rjw@sisk.pl> <alpine.LFD.2.01.0911010914100.31845@localhost.localdomain> <200911021439.28266.rjw@sisk.pl> <1257200523.7907.53.camel@pasglop>
+From: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH 0/7] Reduce GFP_ATOMIC allocation failures, candidate
+ fix V3
+Date: Thu, 12 Nov 2009 21:46:42 -0500
+Message-ID: <20091113024642.GA7771__28751.6102231622$1258080533$gmane$org@think>
+References: <1258054211-2854-1-git-send-email-mel@csn.ul.ie>
+ <20091112202748.GC2811@think>
+ <20091112220005.GD2811@think>
 Mime-Version: 1.0
-Return-path: <linux-acpi-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <1257200523.7907.53.camel@pasglop>
-Sender: linux-acpi-owner@vger.kernel.org
+In-Reply-To: <20091112220005.GD2811@think>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linus Torvalds <torvalds@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Greg Kroah-Hartman <gregkh@suse.de>, Jose Marino <braket@hotmail.com>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Dominik Brodowski <linux@dominikbrodowski.net>
+To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol
 
-Hi!
+On Thu, Nov 12, 2009 at 05:00:05PM -0500, Chris Mason wrote:
 
-> (Bug was simple but took a while to track down: machine was left in
-> storage for a while, battery ran out, RTC went back to Jan 1, 1904,
-> which means a negative xtime, and the new timekeeping code will do
-> horrible things including hanging at resume when that happens. Fix is to
-> make powerpc read_persistent_clock() to ignore the RTC when it contains
-> a date older than epoch).
+[ ...]
 
-Additionaly, it would be nice if the machine would not hang, no matter
-what RTC says...
-									Pavel
+> 
+> The punch line is that the btrfs guy thinks we can solve all of this with
+> just one more thread.  If we change dm-crypt to have a thread dedicated
+> to sync IO and a thread dedicated to async IO the system should smooth
+> out.
 
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+This is pretty likely to set your dm data on fire.  It's only for Mel
+who starts his script w/mkfs.
+
+It adds the second thread and more importantly makes sure the kcryptd
+thread doesn't get stuck waiting for requests.
+
+-chris
+
+diff --git a/drivers/md/dm-crypt.c b/drivers/md/dm-crypt.c
+index ed10381..295ffeb 100644
+--- a/drivers/md/dm-crypt.c
++++ b/drivers/md/dm-crypt.c
+@@ -94,6 +94,7 @@ struct crypt_config {
+ 	struct bio_set *bs;
+ 
+ 	struct workqueue_struct *io_queue;
++	struct workqueue_struct *async_io_queue;
+ 	struct workqueue_struct *crypt_queue;
+ 
+ 	/*
+@@ -691,7 +692,10 @@ static void kcryptd_queue_io(struct dm_crypt_io *io)
+ 	struct crypt_config *cc = io->target->private;
+ 
+ 	INIT_WORK(&io->work, kcryptd_io);
+-	queue_work(cc->io_queue, &io->work);
++	if (io->base_bio->bi_rw & (1 << BIO_RW_SYNCIO))
++		queue_work(cc->io_queue, &io->work);
++	else
++		queue_work(cc->async_io_queue, &io->work);
+ }
+ 
+ static void kcryptd_crypt_write_io_submit(struct dm_crypt_io *io,
+@@ -759,8 +763,7 @@ static void kcryptd_crypt_write_convert(struct dm_crypt_io *io)
+ 
+ 		/* Encryption was already finished, submit io now */
+ 		if (crypt_finished) {
+-			kcryptd_crypt_write_io_submit(io, r, 0);
+-
++			kcryptd_crypt_write_io_submit(io, r, 1);
+ 			/*
+ 			 * If there was an error, do not try next fragments.
+ 			 * For async, error is processed in async handler.
+@@ -1120,6 +1123,12 @@ static int crypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+ 	} else
+ 		cc->iv_mode = NULL;
+ 
++	cc->async_io_queue = create_singlethread_workqueue("kcryptd_async_io");
++	if (!cc->async_io_queue) {
++		ti->error = "Couldn't create kcryptd io queue";
++		goto bad_async_io_queue;
++	}
++
+ 	cc->io_queue = create_singlethread_workqueue("kcryptd_io");
+ 	if (!cc->io_queue) {
+ 		ti->error = "Couldn't create kcryptd io queue";
+@@ -1139,6 +1148,8 @@ static int crypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+ bad_crypt_queue:
+ 	destroy_workqueue(cc->io_queue);
+ bad_io_queue:
++	destroy_workqueue(cc->async_io_queue);
++bad_async_io_queue:
+ 	kfree(cc->iv_mode);
+ bad_ivmode_string:
+ 	dm_put_device(ti, cc->dev);
+@@ -1166,6 +1177,7 @@ static void crypt_dtr(struct dm_target *ti)
+ 	struct crypt_config *cc = (struct crypt_config *) ti->private;
+ 
+ 	destroy_workqueue(cc->io_queue);
++	destroy_workqueue(cc->async_io_queue);
+ 	destroy_workqueue(cc->crypt_queue);
+ 
+ 	if (cc->req)
