@@ -1,40 +1,147 @@
-From: Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>
-Subject: Re: [PATCH 0/5] Reduce GFP_ATOMIC allocation failures, candidate
- fix V3
-Date: Fri, 13 Nov 2009 13:47:35 +0100 (CET)
-Message-ID: <alpine.DEB.2.00.0911131346560.22447@wbuna.brgvxre.pu>
-References: <1258054235-3208-1-git-send-email-mel@csn.ul.ie>
+From: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] make crypto unplug fix V3
+Date: Fri, 13 Nov 2009 07:58:12 -0500
+Message-ID: <20091113125812.GB7891__21775.0950287611$1258117233$gmane$org@think>
+References: <1258054211-2854-1-git-send-email-mel@csn.ul.ie>
+ <20091112202748.GC2811@think>
+ <20091112220005.GD2811@think>
+ <20091113024642.GA7771@think>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1258054235-3208-1-git-send-email-mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20091113024642.GA7771@think>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org\\\"" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol
 
-Hi Mel,
+This is still likely to set your dm data on fire.  It is only meant for
+testers that start with mkfs and don't have any valuable dm data.
 
-Yesterday Mel Gorman wrote:
+It includes my patch from last night, along with changes to force dm to
+unplug when its IO queues empty.
 
-> Sorry for the long delay in posting another version. Testing is extremely
-> time-consuming and I wasn't getting to work on this as much as I'd have liked.
->
-> Changelog since V2
->   o Dropped the kswapd-quickly-notice-high-order patch. In more detailed
->     testing, it made latencies even worse as kswapd slept more on high-order
->     congestion causing order-0 direct reclaims.
->   o Added changes to how congestion_wait() works
->   o Added a number of new patches altering the behaviour of reclaim
+The problem goes like this:
 
-so is there anything promissing for the order 5 allocation problems
-in this set?
+Process: submit read bio
+dm: put bio onto work queue
+process: unplug
+dm: work queue finds bio, does a generic_make_request
 
-cheers
-tobi
+The end result is that we miss the unplug completely.  dm-crypt needs to
+unplug for sync bios.  This patch also changes it to unplug whenever the
+queue is empty, which is far from ideal but better than missing the
+unplugs.
 
+This doesn't completely fix io stalls I'm seeing with dm-crypt, but its
+my best guess.  If it works, I'll break it up and submit for real to
+the dm people.
 
--- 
-Tobi Oetiker, OETIKER+PARTNER AG, Aarweg 15 CH-4600 Olten, Switzerland
-http://it.oetiker.ch tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org ++41 62 775 9902 / sb: -9900
+-chris
+
+diff --git a/drivers/md/dm-crypt.c b/drivers/md/dm-crypt.c
+index ed10381..729ae01 100644
+--- a/drivers/md/dm-crypt.c
++++ b/drivers/md/dm-crypt.c
+@@ -94,8 +94,12 @@ struct crypt_config {
+ 	struct bio_set *bs;
+ 
+ 	struct workqueue_struct *io_queue;
++	struct workqueue_struct *async_io_queue;
+ 	struct workqueue_struct *crypt_queue;
+ 
++	atomic_t sync_bios_in_queue;
++	atomic_t async_bios_in_queue;
++
+ 	/*
+ 	 * crypto related data
+ 	 */
+@@ -679,11 +683,29 @@ static void kcryptd_io_write(struct dm_crypt_io *io)
+ static void kcryptd_io(struct work_struct *work)
+ {
+ 	struct dm_crypt_io *io = container_of(work, struct dm_crypt_io, work);
++	struct crypt_config *cc = io->target->private;
++	int zero_sync = 0;
++	int zero_async = 0;
++	int was_sync = 0;
++
++	if (io->base_bio->bi_rw & (1 << BIO_RW_SYNCIO)) {
++		zero_sync = atomic_dec_and_test(&cc->sync_bios_in_queue);
++		was_sync = 1;
++	} else
++		zero_async = atomic_dec_and_test(&cc->async_bios_in_queue);
+ 
+ 	if (bio_data_dir(io->base_bio) == READ)
+ 		kcryptd_io_read(io);
+ 	else
+ 		kcryptd_io_write(io);
++
++	if ((was_sync && zero_sync) ||
++	    (!was_sync && zero_async &&
++	     atomic_read(&cc->sync_bios_in_queue) == 0)) {
++		struct backing_dev_info *bdi;
++		bdi = blk_get_backing_dev_info(io->base_bio->bi_bdev);
++		blk_run_backing_dev(bdi, NULL);
++	}
+ }
+ 
+ static void kcryptd_queue_io(struct dm_crypt_io *io)
+@@ -691,7 +713,13 @@ static void kcryptd_queue_io(struct dm_crypt_io *io)
+ 	struct crypt_config *cc = io->target->private;
+ 
+ 	INIT_WORK(&io->work, kcryptd_io);
+-	queue_work(cc->io_queue, &io->work);
++	if (io->base_bio->bi_rw & (1 << BIO_RW_SYNCIO)) {
++		atomic_inc(&cc->sync_bios_in_queue);
++		queue_work(cc->io_queue, &io->work);
++	} else {
++		atomic_inc(&cc->async_bios_in_queue);
++		queue_work(cc->async_io_queue, &io->work);
++	}
+ }
+ 
+ static void kcryptd_crypt_write_io_submit(struct dm_crypt_io *io,
+@@ -759,8 +787,7 @@ static void kcryptd_crypt_write_convert(struct dm_crypt_io *io)
+ 
+ 		/* Encryption was already finished, submit io now */
+ 		if (crypt_finished) {
+-			kcryptd_crypt_write_io_submit(io, r, 0);
+-
++			kcryptd_crypt_write_io_submit(io, r, 1);
+ 			/*
+ 			 * If there was an error, do not try next fragments.
+ 			 * For async, error is processed in async handler.
+@@ -1120,6 +1147,15 @@ static int crypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+ 	} else
+ 		cc->iv_mode = NULL;
+ 
++	atomic_set(&cc->sync_bios_in_queue, 0);
++	atomic_set(&cc->async_bios_in_queue, 0);
++
++	cc->async_io_queue = create_singlethread_workqueue("kcryptd_async_io");
++	if (!cc->async_io_queue) {
++		ti->error = "Couldn't create kcryptd io queue";
++		goto bad_async_io_queue;
++	}
++
+ 	cc->io_queue = create_singlethread_workqueue("kcryptd_io");
+ 	if (!cc->io_queue) {
+ 		ti->error = "Couldn't create kcryptd io queue";
+@@ -1139,6 +1175,8 @@ static int crypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+ bad_crypt_queue:
+ 	destroy_workqueue(cc->io_queue);
+ bad_io_queue:
++	destroy_workqueue(cc->async_io_queue);
++bad_async_io_queue:
+ 	kfree(cc->iv_mode);
+ bad_ivmode_string:
+ 	dm_put_device(ti, cc->dev);
+@@ -1166,6 +1204,7 @@ static void crypt_dtr(struct dm_target *ti)
+ 	struct crypt_config *cc = (struct crypt_config *) ti->private;
+ 
+ 	destroy_workqueue(cc->io_queue);
++	destroy_workqueue(cc->async_io_queue);
+ 	destroy_workqueue(cc->crypt_queue);
+ 
+ 	if (cc->req)
