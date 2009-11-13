@@ -1,100 +1,57 @@
-From: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH 0/7] Reduce GFP_ATOMIC allocation failures, candidate
- fix V3
-Date: Thu, 12 Nov 2009 21:46:42 -0500
-Message-ID: <20091113024642.GA7771__28751.6102231622$1258080533$gmane$org@think>
-References: <1258054211-2854-1-git-send-email-mel@csn.ul.ie>
- <20091112202748.GC2811@think>
- <20091112220005.GD2811@think>
+From: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
+Subject: Re: [PATCH 1/5] page allocator: Always wake kswapd when restarting an allocation attempt after direct reclaim failed
+Date: Fri, 13 Nov 2009 14:23:21 +0900 (JST)
+Message-ID: <20091113142026.33AD.A69D9226@jp.fujitsu.com>
+References: <1258054235-3208-1-git-send-email-mel@csn.ul.ie> <1258054235-3208-2-git-send-email-mel@csn.ul.ie>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20091112220005.GD2811@think>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <1258054235-3208-2-git-send-email-mel@csn.ul.ie>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Mel Gorman <mel@csn.ul.ie>
+Cc: kosaki.motohiro@jp.fujitsu.com, Andrew Morton <akpm@linux-foundation.org>, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, linux-kernel@vger.kernel.org, "linux-mm@kvack.org\"" <linux-mm@kvack.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Thu, Nov 12, 2009 at 05:00:05PM -0500, Chris Mason wrote:
-
-[ ...]
-
+> If a direct reclaim makes no forward progress, it considers whether it
+> should go OOM or not. Whether OOM is triggered or not, it may retry the
+> application afterwards. In times past, this would always wake kswapd as well
+> but currently, kswapd is not woken up after direct reclaim fails. For order-0
+> allocations, this makes little difference but if there is a heavy mix of
+> higher-order allocations that direct reclaim is failing for, it might mean
+> that kswapd is not rewoken for higher orders as much as it did previously.
 > 
-> The punch line is that the btrfs guy thinks we can solve all of this with
-> just one more thread.  If we change dm-crypt to have a thread dedicated
-> to sync IO and a thread dedicated to async IO the system should smooth
-> out.
+> This patch wakes up kswapd when an allocation is being retried after a direct
+> reclaim failure. It would be expected that kswapd is already awake, but
+> this has the effect of telling kswapd to reclaim at the higher order as well.
+> 
+> Signed-off-by: Mel Gorman <mel@csn.ul.ie>
+> Reviewed-by: Christoph Lameter <cl@linux-foundation.org>
+> Reviewed-by: Pekka Enberg <penberg@cs.helsinki.fi>
+> Reviewed-by: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
 
-This is pretty likely to set your dm data on fire.  It's only for Mel
-who starts his script w/mkfs.
+Umm,
+My mail box have the carbon copy of akpm sent this patch to linus.
+(bellow subject and data)
 
-It adds the second thread and more importantly makes sure the kcryptd
-thread doesn't get stuck waiting for requests.
+Does this have any update?
 
--chris
+-----------------------------------------------------------------
+Subject: [patch 07/35] page allocator: always wake kswapd when restarting an allocation attempt after direct reclaim failed
+To: torvalds@linux-foundation.org
+Cc: akpm@linux-foundation.org,
+ mel@csn.ul.ie,
+ cl@linux-foundation.org,
+ kosaki.motohiro@jp.fujitsu.com,
+ penberg@cs.helsinki.fi,
+ stable@kernel.org
+From: akpm@linux-foundation.org
+Date: Wed, 11 Nov 2009 14:26:14 -0800
 
-diff --git a/drivers/md/dm-crypt.c b/drivers/md/dm-crypt.c
-index ed10381..295ffeb 100644
---- a/drivers/md/dm-crypt.c
-+++ b/drivers/md/dm-crypt.c
-@@ -94,6 +94,7 @@ struct crypt_config {
- 	struct bio_set *bs;
- 
- 	struct workqueue_struct *io_queue;
-+	struct workqueue_struct *async_io_queue;
- 	struct workqueue_struct *crypt_queue;
- 
- 	/*
-@@ -691,7 +692,10 @@ static void kcryptd_queue_io(struct dm_crypt_io *io)
- 	struct crypt_config *cc = io->target->private;
- 
- 	INIT_WORK(&io->work, kcryptd_io);
--	queue_work(cc->io_queue, &io->work);
-+	if (io->base_bio->bi_rw & (1 << BIO_RW_SYNCIO))
-+		queue_work(cc->io_queue, &io->work);
-+	else
-+		queue_work(cc->async_io_queue, &io->work);
- }
- 
- static void kcryptd_crypt_write_io_submit(struct dm_crypt_io *io,
-@@ -759,8 +763,7 @@ static void kcryptd_crypt_write_convert(struct dm_crypt_io *io)
- 
- 		/* Encryption was already finished, submit io now */
- 		if (crypt_finished) {
--			kcryptd_crypt_write_io_submit(io, r, 0);
--
-+			kcryptd_crypt_write_io_submit(io, r, 1);
- 			/*
- 			 * If there was an error, do not try next fragments.
- 			 * For async, error is processed in async handler.
-@@ -1120,6 +1123,12 @@ static int crypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
- 	} else
- 		cc->iv_mode = NULL;
- 
-+	cc->async_io_queue = create_singlethread_workqueue("kcryptd_async_io");
-+	if (!cc->async_io_queue) {
-+		ti->error = "Couldn't create kcryptd io queue";
-+		goto bad_async_io_queue;
-+	}
-+
- 	cc->io_queue = create_singlethread_workqueue("kcryptd_io");
- 	if (!cc->io_queue) {
- 		ti->error = "Couldn't create kcryptd io queue";
-@@ -1139,6 +1148,8 @@ static int crypt_ctr(struct dm_target *ti, unsigned int argc, char **argv)
- bad_crypt_queue:
- 	destroy_workqueue(cc->io_queue);
- bad_io_queue:
-+	destroy_workqueue(cc->async_io_queue);
-+bad_async_io_queue:
- 	kfree(cc->iv_mode);
- bad_ivmode_string:
- 	dm_put_device(ti, cc->dev);
-@@ -1166,6 +1177,7 @@ static void crypt_dtr(struct dm_target *ti)
- 	struct crypt_config *cc = (struct crypt_config *) ti->private;
- 
- 	destroy_workqueue(cc->io_queue);
-+	destroy_workqueue(cc->async_io_queue);
- 	destroy_workqueue(cc->crypt_queue);
- 
- 	if (cc->req)
+
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
