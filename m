@@ -1,168 +1,106 @@
-From: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
-Subject: Re: [PATCH 4/5] vmscan: Have kswapd sleep for a short interval and double check it should be asleep
-Date: Sat, 14 Nov 2009 03:00:57 +0900 (JST)
-Message-ID: <20091114023901.3DA8.A69D9226@jp.fujitsu.com>
-References: <20091113142558.33B6.A69D9226@jp.fujitsu.com> <20091113141303.GI29804@csn.ul.ie>
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Subject: [PATCH] vmscan: Stop kswapd waiting on congestion when the min
+	watermark is not being met
+Date: Fri, 13 Nov 2009 18:15:57 +0000
+Message-ID: <20091113181557.GM29804@csn.ul.ie>
+References: <20091113142608.33B9.A69D9226@jp.fujitsu.com> <20091113135443.GF29804@csn.ul.ie> <20091114023138.3DA5.A69D9226@jp.fujitsu.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20091113141303.GI29804@csn.ul.ie>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20091114023138.3DA5.A69D9226-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: kosaki.motohiro@jp.fujitsu.com, Andrew Morton <akpm@linux-foundation.org>, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, linux-kernel@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-> On Fri, Nov 13, 2009 at 07:43:09PM +0900, KOSAKI Motohiro wrote:
-> > > After kswapd balances all zones in a pgdat, it goes to sleep. In the event
-> > > of no IO congestion, kswapd can go to sleep very shortly after the high
-> > > watermark was reached. If there are a constant stream of allocations from
-> > > parallel processes, it can mean that kswapd went to sleep too quickly and
-> > > the high watermark is not being maintained for sufficient length time.
-> > > 
-> > > This patch makes kswapd go to sleep as a two-stage process. It first
-> > > tries to sleep for HZ/10. If it is woken up by another process or the
-> > > high watermark is no longer met, it's considered a premature sleep and
-> > > kswapd continues work. Otherwise it goes fully to sleep.
-> > > 
-> > > This adds more counters to distinguish between fast and slow breaches of
-> > > watermarks. A "fast" premature sleep is one where the low watermark was
-> > > hit in a very short time after kswapd going to sleep. A "slow" premature
-> > > sleep indicates that the high watermark was breached after a very short
-> > > interval.
-> > > 
-> > > Signed-off-by: Mel Gorman <mel@csn.ul.ie>
-> > 
-> > Why do you submit this patch to mainline? this is debugging patch
-> > no more and no less.
-> > 
-> 
-> Do you mean the stats part? The stats are included until such time as the page
-> allocator failure reports stop or are significantly reduced. In the event a
-> report is received, the value of the counters help determine if kswapd was
-> struggling or not. They should be removed once this mess is ironed out.
-> 
-> If there is a preference, I can split out the stats part and send it to
-> people with page allocator failure reports for retesting.
+If reclaim fails to make sufficient progress, the priority is raised.
+Once the priority is higher, kswapd starts waiting on congestion.  However,
+if the zone is below the min watermark then kswapd needs to continue working
+without delay as there is a danger of an increased rate of GFP_ATOMIC
+allocation failure.
 
-I'm sorry my last mail didn't have enough explanation.
-This stats help to solve this issue. I agreed. but after solving this issue,
-I don't imagine administrator how to use this stats. if KSWAPD_PREMATURE_FAST or
-KSWAPD_PREMATURE_SLOW significantly increased, what should admin do?
-Or, Can LKML folk make any advise to admin?
+This patch changes the conditions under which kswapd waits on
+congestion by only going to sleep if the min watermarks are being met.
 
-if kernel doesn't have any bug, kswapd wakeup rate is not so worth information imho.
-following your additional code itself looks good to me. but...
+This patch replaces
+vmscan-take-order-into-consideration-when-deciding-if-kswapd-is-in-trouble.patch .
 
+[mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org: Add stats to track how relevant the logic is]
+From: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Signed-off-by: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Signed-off-by: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+--- 
+ include/linux/vmstat.h |    1 +
+ mm/vmscan.c            |   18 ++++++++++++++++--
+ mm/vmstat.c            |    1 +
+ 3 files changed, 18 insertions(+), 2 deletions(-)
 
-> ==== CUT HERE ====
-> vmscan: Have kswapd sleep for a short interval and double check it should be asleep fix 1
-> 
-> This patch is a fix and a claritifacation to the patch "vmscan: Have
-> kswapd sleep for a short interval and double check it should be asleep".
-> The fix is for kswapd to only check zones in the node it is responsible
-> for. The clarification is to rename two counters to better explain what is
-> being counted.
-> 
-> Signed-off-by: Mel Gorman <mel@csn.ul.ie>
-> --- 
->  include/linux/vmstat.h |    2 +-
->  mm/vmscan.c            |   20 +++++++++++++-------
->  mm/vmstat.c            |    4 ++--
->  3 files changed, 16 insertions(+), 10 deletions(-)
-> 
-> diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
-> index 7d66695..0591a48 100644
-> --- a/include/linux/vmstat.h
-> +++ b/include/linux/vmstat.h
-> @@ -40,7 +40,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
->  		PGSCAN_ZONE_RECLAIM_FAILED,
->  #endif
->  		PGINODESTEAL, SLABS_SCANNED, KSWAPD_STEAL, KSWAPD_INODESTEAL,
-> -		KSWAPD_PREMATURE_FAST, KSWAPD_PREMATURE_SLOW,
-> +		KSWAPD_LOW_WMARK_HIT_QUICKLY, KSWAPD_HIGH_WMARK_HIT_QUICKLY,
->  		KSWAPD_NO_CONGESTION_WAIT,
->  		PAGEOUTRUN, ALLOCSTALL, PGROTATED,
->  #ifdef CONFIG_HUGETLB_PAGE
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index 70967e1..5557555 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -1905,19 +1905,25 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *mem_cont,
->  #endif
->  
->  /* is kswapd sleeping prematurely? */
-> -static int sleeping_prematurely(int order, long remaining)
-> +static int sleeping_prematurely(pg_data_t *pgdat, int order, long remaining)
->  {
-> -	struct zone *zone;
-> +	int i;
->  
->  	/* If a direct reclaimer woke kswapd within HZ/10, it's premature */
->  	if (remaining)
->  		return 1;
->  
->  	/* If after HZ/10, a zone is below the high mark, it's premature */
-> -	for_each_populated_zone(zone)
-> +	for (i = 0; i < pgdat->nr_zones; i++) {
-> +		struct zone *zone = pgdat->node_zones + i;
-> +
-> +		if (!populated_zone(zone))
-> +			continue;
-> +
->  		if (!zone_watermark_ok(zone, order, high_wmark_pages(zone),
->  								0, 0))
->  			return 1;
-> +	}
->  
->  	return 0;
->  }
-> @@ -2221,7 +2227,7 @@ static int kswapd(void *p)
->  				long remaining = 0;
->  
->  				/* Try to sleep for a short interval */
-> -				if (!sleeping_prematurely(order, remaining)) {
-> +				if (!sleeping_prematurely(pgdat, order, remaining)) {
->  					remaining = schedule_timeout(HZ/10);
->  					finish_wait(&pgdat->kswapd_wait, &wait);
->  					prepare_to_wait(&pgdat->kswapd_wait, &wait, TASK_INTERRUPTIBLE);
-> @@ -2232,13 +2238,13 @@ static int kswapd(void *p)
->  				 * premature sleep. If not, then go fully
->  				 * to sleep until explicitly woken up
->  				 */
-> -				if (!sleeping_prematurely(order, remaining))
-> +				if (!sleeping_prematurely(pgdat, order, remaining))
->  					schedule();
->  				else {
->  					if (remaining)
-> -						count_vm_event(KSWAPD_PREMATURE_FAST);
-> +						count_vm_event(KSWAPD_LOW_WMARK_HIT_QUICKLY);
->  					else
-> -						count_vm_event(KSWAPD_PREMATURE_SLOW);
-> +						count_vm_event(KSWAPD_HIGH_WMARK_HIT_QUICKLY);
->  				}
->  			}
->  
-> diff --git a/mm/vmstat.c b/mm/vmstat.c
-> index bc09547..6cc8dc6 100644
-> --- a/mm/vmstat.c
-> +++ b/mm/vmstat.c
-> @@ -683,8 +683,8 @@ static const char * const vmstat_text[] = {
->  	"slabs_scanned",
->  	"kswapd_steal",
->  	"kswapd_inodesteal",
-> -	"kswapd_slept_prematurely_fast",
-> -	"kswapd_slept_prematurely_slow",
-> +	"kswapd_low_wmark_hit_quickly",
-> +	"kswapd_high_wmark_hit_quickly",
->  	"kswapd_no_congestion_wait",
->  	"pageoutrun",
->  	"allocstall",
-
-
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
+index 9716003..7d66695 100644
+--- a/include/linux/vmstat.h
++++ b/include/linux/vmstat.h
+@@ -41,6 +41,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
+ #endif
+ 		PGINODESTEAL, SLABS_SCANNED, KSWAPD_STEAL, KSWAPD_INODESTEAL,
+ 		KSWAPD_PREMATURE_FAST, KSWAPD_PREMATURE_SLOW,
++		KSWAPD_NO_CONGESTION_WAIT,
+ 		PAGEOUTRUN, ALLOCSTALL, PGROTATED,
+ #ifdef CONFIG_HUGETLB_PAGE
+ 		HTLB_BUDDY_PGALLOC, HTLB_BUDDY_PGALLOC_FAIL,
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index ffa1766..70a2322 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -1979,6 +1979,7 @@ loop_again:
+ 	for (priority = DEF_PRIORITY; priority >= 0; priority--) {
+ 		int end_zone = 0;	/* Inclusive.  0 = ZONE_DMA */
+ 		unsigned long lru_pages = 0;
++		int has_under_min_watermark_zone = 0;
+ 
+ 		/* The swap token gets in the way of swapout... */
+ 		if (!priority)
+@@ -2085,6 +2086,15 @@ loop_again:
+ 			if (total_scanned > SWAP_CLUSTER_MAX * 2 &&
+ 			    total_scanned > sc.nr_reclaimed + sc.nr_reclaimed / 2)
+ 				sc.may_writepage = 1;
++
++			/*
++			 * We are still under min water mark. it mean we have
++			 * GFP_ATOMIC allocation failure risk. Hurry up!
++			 */
++			if (!zone_watermark_ok(zone, order, min_wmark_pages(zone),
++					      end_zone, 0))
++				has_under_min_watermark_zone = 1;
++
+ 		}
+ 		if (all_zones_ok)
+ 			break;		/* kswapd: all done */
+@@ -2092,8 +2102,12 @@ loop_again:
+ 		 * OK, kswapd is getting into trouble.  Take a nap, then take
+ 		 * another pass across the zones.
+ 		 */
+-		if (total_scanned && priority < DEF_PRIORITY - 2)
+-			congestion_wait(BLK_RW_ASYNC, HZ/10);
++		if (total_scanned && (priority < DEF_PRIORITY - 2)) {
++			if (!has_under_min_watermark_zone)
++				count_vm_event(KSWAPD_NO_CONGESTION_WAIT);
++			else
++				congestion_wait(BLK_RW_ASYNC, HZ/10);
++		}
+ 
+ 		/*
+ 		 * We do this so kswapd doesn't build up large priorities for
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index 90b11e4..bc09547 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -685,6 +685,7 @@ static const char * const vmstat_text[] = {
+ 	"kswapd_inodesteal",
+ 	"kswapd_slept_prematurely_fast",
+ 	"kswapd_slept_prematurely_slow",
++	"kswapd_no_congestion_wait",
+ 	"pageoutrun",
+ 	"allocstall",
+ 
