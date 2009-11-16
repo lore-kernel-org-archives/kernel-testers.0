@@ -1,31 +1,38 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #13941] x86 Geode issue
-Date: Tue, 17 Nov 2009 00:01:14 +0100 (CET)
-Message-ID: <OWmO9uyC1hM.A.g4D.KqdALB@chimera>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Subject: Re: 2.6.32-rc7-git1: Reported regressions 2.6.30 -> 2.6.31
+Date: Mon, 16 Nov 2009 17:30:37 -0600
+Message-ID: <4B01E09D.3020608@lwfinger.net>
 References: <ipicVA1QUFF.A.zWB.1mdALB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-acpi-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:sender:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=ksfl4tSdcq1q+EL/h8cpt4p7Uua196igcQQ+YMebpyM=;
+        b=czpDY2AQ3c0wvdEGoIeKCsy9n3ijNQmymXlokQ30HF4IldhqzV+DoVEHkt9czJuvPl
+         p4ENJkMIZm1Q7LgBEzZIenKf1wOgqipmeCmnmIoJABQ0Mg77cf6wmKYIergYjccqPDix
+         FTCGbqU+CZo4ywATSfzezFSLvv4CuiNCjYO7M=
 In-Reply-To: <ipicVA1QUFF.A.zWB.1mdALB@chimera>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="windows-1252"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, =?utf-8?q?Martin-=C3=89ric=20Racine?= <q-funk-X3B1VOXEql0@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.30 and 2.6.31.
+On 11/16/2009 04:58 PM, Rafael J. Wysocki wrote:
+> This message contains a list of some regressions introduced between 2.6.30 and
+> 2.6.31, for which there are no fixes in the mainline I know of.  If any of them
+> have been fixed already, please let me know.
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14181
+> Subject		: b43 causes panic at ifconfig down / shutdown
+> Submitter	: Jeremy Huddleston <jeremyhu@freedesktop.org>
+> Date		: 2009-09-15 18:34 (63 days old)
 
-The following bug entry is on the current list of known regressions
-introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-be listed and let me know (either way).
+This one is fixed by commit d50bae33d1358b909ade05ae121d83d3a60ab63f in
+mainline. The patch was also sent to stable.
 
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13941
-Subject		: x86 Geode issue
-Submitter	: Martin-=C3=89ric Racine <q-funk-X3B1VOXEql0@public.gmane.org>
-Date		: 2009-08-03 12:58 (106 days old)
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D124930434732481&w=3D=
-4
-
+Larry
