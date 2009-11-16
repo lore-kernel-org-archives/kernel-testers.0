@@ -1,29 +1,34 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14354] Bad corruption with 2.6.32-rc1 and upwards
-Date: Mon, 16 Nov 2009 23:37:39 +0100 (CET)
-Message-ID: <xXQGFmujPl.A.6w.YUdALB@chimera>
-References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
+From: Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>
+Subject: Re: [Bug #14355] USB serial regression after 2.6.31.1 with Huawei E169 GSM modem
+Date: Tue, 17 Nov 2009 00:05:27 +0100
+Message-ID: <200911170005.27342.oliver@neukum.org>
+References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.2k.LUdALB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755294AbZKPXCr@vger.kernel.org>
-In-Reply-To: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <xXQGFmujPl.A.2k.LUdALB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>, Frank Mayhar <fmayhar@google.com>, Holger Freyther <zecke@selfish.org>, Theodore Ts'o <tytso@mit.edu>
+Content-Type: Text/Plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Ben Efros <ben-sBIqA0PYact54TAoqtyWWQ@public.gmane.org>, Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of recent regressions.
+Am Montag, 16. November 2009 23:37:39 schrieb Rafael J. Wysocki:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.31.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14355
+> Subject		: USB serial regression after 2.6.31.1 with Huawei E169 GSM modem
+> Submitter	: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+> Date		: 2009-10-10 03:07 (38 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125513456327542&w=4
 
-The following bug entry is on the current list of known regressions
-from 2.6.31.  Please verify if it still should be listed and let me know
-(either way).
+Benjamin has fixed this bug.
 
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14354
-Subject		: Bad corruption with 2.6.32-rc1 and upwards
-Submitter	: Holger Freyther <zecke@selfish.org>
-Date		: 2009-10-09 15:42 (39 days old)
-
+	Regards
+		Oliver
