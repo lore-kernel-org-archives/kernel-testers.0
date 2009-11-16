@@ -1,49 +1,32 @@
-From: Andy Lutomirski <amluto@gmail.com>
-Subject: Re: [Bug #14472] EXT4 corruption
-Date: Mon, 16 Nov 2009 18:30:24 -0500
-Message-ID: <9872C96C-FAE8-46E8-9588-25D917AF0EAD@gmail.com>
-References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.EOH.XTdALB@chimera>
-Mime-Version: 1.0 (iPhone Mail 7D11)
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: 2.6.32-rc7-git1: Reported regressions 2.6.30 -> 2.6.31
+Date: Tue, 17 Nov 2009 00:35:11 +0100
+Message-ID: <200911170035.11575.rjw@sisk.pl>
+References: <ipicVA1QUFF.A.zWB.1mdALB@chimera> <4B01E09D.3020608@lwfinger.net>
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755928AbZKPXay@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:references:message-id:from:to
-         :in-reply-to:content-type:content-transfer-encoding:x-mailer
-         :mime-version:subject:date:cc;
-        bh=N91BnlzEZ1+cUfV3iktUWT9lx2LySEjvzd/+ulh/vjg=;
-        b=kcC/bRupaTZFQk0hS/hyp0XSU9DinrVrfHb3F6j9DbyB0yCvK0/XAdhJvQlZ257bBD
-         Yw66HMFmv3SlW1QL91iytvC7OD4Y0BfHfVS2Q30D6yKHw3ha2nvjMJraEh6qH6bW8IKm
-         7Btb4mhS+8e4AA1ibtNkPn1E/M91MIg9saqHQ=
-In-Reply-To: <xXQGFmujPl.A.EOH.XTdALB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4B01E09D.3020608-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"; delsp="yes"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andy Lutomirski <luto@mit.edu>, "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>, Shawn Starr <shawn.starr@rogers.com>, Theodore Tso <tytso@mit.edu>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
 
-I'm think this was the journal checksumming bug, which is fixed.
+On Tuesday 17 November 2009, Larry Finger wrote:
+> On 11/16/2009 04:58 PM, Rafael J. Wysocki wrote:
+> > This message contains a list of some regressions introduced between 2.6.30 and
+> > 2.6.31, for which there are no fixes in the mainline I know of.  If any of them
+> > have been fixed already, please let me know.
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14181
+> > Subject		: b43 causes panic at ifconfig down / shutdown
+> > Submitter	: Jeremy Huddleston <jeremyhu-CC+yJ3UmIYqDUpFQwHEjaQ@public.gmane.org>
+> > Date		: 2009-09-15 18:34 (63 days old)
+> 
+> This one is fixed by commit d50bae33d1358b909ade05ae121d83d3a60ab63f in
+> mainline. The patch was also sent to stable.
 
--Andy
+Thanks, closed.
 
-
-
-On Nov 16, 2009, at 5:37 PM, "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
-
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.31.  Please verify if it still should be listed and let me  
-> know
-> (either way).
->
->
-> Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=14472
-> Subject        : EXT4 corruption
-> Submitter    : Shawn Starr <shawn.starr@rogers.com>
-> Date        : 2009-10-13 2:07 (35 days old)
-> References    : http://marc.info/?l=linux-kernel&m=125539997508256&w=4
-> Handled-By    : Theodore Tso <tytso@mit.edu>
->
->
+Rafael
