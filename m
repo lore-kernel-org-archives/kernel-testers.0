@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14624] ath9k: BUG kmalloc-8192: Poison overwritten
-Date: Mon, 16 Nov 2009 23:37:48 +0100 (CET)
-Message-ID: <xXQGFmujPl.A.82F.2SdALB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14597] thinkpad-acpi: driver fails to load on old BIOS for the A31, T23-T30, X30-X31
+Date: Mon, 16 Nov 2009 23:37:46 +0100 (CET)
+Message-ID: <xXQGFmujPl.A.HdG.BTdALB@chimera>
 References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755124AbZKPW5h@vger.kernel.org>
 In-Reply-To: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Luis R. Rodriguez" <mcgrof-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Henrique de Moraes Holschuh <hmh@hmh.eng.br>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.31.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14624
-Subject		: ath9k: BUG kmalloc-8192: Poison overwritten
-Submitter	: Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-11-12 4:58 (5 days old)
-References	: http://marc.info/?l=linux-kernel&m=125800196520396&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14597
+Subject		: thinkpad-acpi: driver fails to load on old BIOS for the A31, T23-T30, X30-X31
+Submitter	: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Date		: 2009-11-13 20:45 (4 days old)
+Handled-By	: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Patch		: http://bugzilla.kernel.org/attachment.cgi?id=23770
 
