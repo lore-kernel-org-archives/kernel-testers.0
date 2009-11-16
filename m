@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14467] Linker errors on ia64 with NR_CPUS=4096
+Subject: [Bug #14436] Computer becomes unusable without any apparent reason
 Date: Mon, 16 Nov 2009 23:37:42 +0100 (CET)
-Message-ID: <xXQGFmujPl.A.KbH.ZTdALB@chimera>
+Message-ID: <xXQGFmujPl.A.weH.fTdALB@chimera>
 References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, "Luck, Tony" <tony.luck-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pitxyoki <Pitxyoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,8 @@ from 2.6.31.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14467
-Subject		: Linker errors on ia64 with NR_CPUS=4096
-Submitter	: Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>
-Date		: 2009-10-18 22:28 (30 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=34d76c41554a05425613d16efebb3069c4c545f0
-References	: http://marc.info/?l=linux-kernel&m=125590493116720&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14436
+Subject		: Computer becomes unusable without any apparent reason
+Submitter	: Pitxyoki <Pitxyoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-10-18 18:32 (30 days old)
 
