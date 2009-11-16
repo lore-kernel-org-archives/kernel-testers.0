@@ -1,53 +1,66 @@
-From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Subject: Re: [PATCH 0/5] Reduce GFP_ATOMIC allocation failures, candidate
-	fix V3
-Date: Mon, 16 Nov 2009 17:57:39 +0000
-Message-ID: <20091116175739.GW29804@csn.ul.ie>
-References: <1258054235-3208-1-git-send-email-mel@csn.ul.ie> <200911131004.25293.elendil@planet.nl>
+From: Chris Mason <chris.mason@oracle.com>
+Subject: Re: [PATCH 0/7] Reduce GFP_ATOMIC allocation failures, candidate
+ fix V3
+Date: Mon, 16 Nov 2009 13:36:13 -0500
+Message-ID: <20091116183613.GG27677@think>
+References: <1258054211-2854-1-git-send-email-mel@csn.ul.ie>
+ <20091112202748.GC2811@think>
+ <20091112220005.GD2811@think>
+ <20091113024642.GA7771@think>
+ <4B018157.3080707@redhat.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <owner-linux-mm@kvack.org>
 Content-Disposition: inline
-In-Reply-To: <200911131004.25293.elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
+In-Reply-To: <4B018157.3080707@redhat.com>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+To: Milan Broz <mbroz@redhat.com>
+Cc: Mel Gorman <mel@csn.ul.ie>, Andrew Morton <akpm@linux-foundation.org>, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, linux-kernel@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, device-mapper development <dm-devel@redhat.com>, Alasdair G Kergon <agk@redhat.com>
 
-On Fri, Nov 13, 2009 at 10:04:21AM +0100, Frans Pop wrote:
-> On Thursday 12 November 2009, Mel Gorman wrote:
-> > Changelog since V2
-> >   o Dropped the kswapd-quickly-notice-high-order patch. In more detailed
-> >     testing, it made latencies even worse as kswapd slept more on
-> >     high-order congestion causing order-0 direct reclaims.
-> >   o Added changes to how congestion_wait() works
-> >   o Added a number of new patches altering the behaviour of reclaim
+On Mon, Nov 16, 2009 at 05:44:07PM +0100, Milan Broz wrote:
+> On 11/13/2009 03:46 AM, Chris Mason wrote:
+> > On Thu, Nov 12, 2009 at 05:00:05PM -0500, Chris Mason wrote:
+> > 
+> > [ ...]
+> > 
+> >>
+> >> The punch line is that the btrfs guy thinks we can solve all of this with
+> >> just one more thread.  If we change dm-crypt to have a thread dedicated
+> >> to sync IO and a thread dedicated to async IO the system should smooth
+> >> out.
 > 
-> I have tested this series on top of .32-rc7. First impression is that it 
-> does seem to improve my test case, but does not yet completely solve it.
-> 
-> My last gitk instance now loads more smoothly for most of the time it takes 
-> to complete, but I still see a choke point where things freeze for a while 
-> and where I get SKB allocation errors from my wireless.
-> However, that choke point does seem to happen later and to be shorter than 
-> without the patches.
+> Please, can you cc DM maintainers with these kind of patches? dm-devel list at least.
 > 
 
-I haven't fully figured out why this makes a difference yet, but with
-.32-rc7 and these patches, could you retry the test except beforehand do
+Well, my current patch is a hack.  If I had come up with a proven theory
+(hopefully Mel can prove it ;), it definitely would have gone through
+the dm-devel lists.
 
-cd /sys
-for SYS in `find -name low_latency`; do
-        echo 0 > $SYS
-done
+> Note that the crypt requests can be already processed synchronously or asynchronously,
+> depending on used crypto module (async it is in the case of some hw acceleration).
+> 
+> Adding another queue make the situation more complicated and because the crypt
+> requests can be queued in crypto layer I am not sure that this solution will help
+> in this situation at all.
+> (Try to run that with AES-NI acceleration for example.)
 
-I believe the low_latency logic might be interfering with the number of
-clean pages available for kswapd to reclaim.
+The problem is that async threads still imply a kind of ordering.
+If there's a fifo serviced by one thread or 10, the latency ramifications
+are very similar for a new entry on the list.  We have to wait for a
+large portion of the low-prio items in order to service a high prio
+item.
 
-Thanks
+With a queue dedicated to sync requests and one dedicated to async,
+you'll get better read latencies.  Btrfs has a similar problem around
+the crc helper threads and it ends up solving things with two different
+lists (high and low prio) processed by one thread.
 
--- 
-Mel Gorman
-Part-time Phd Student                          Linux Technology Center
-University of Limerick                         IBM Dublin Software Lab
+-chris
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
