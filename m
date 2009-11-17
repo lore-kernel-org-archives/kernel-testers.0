@@ -1,57 +1,40 @@
-From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14267] Disassociating atheros wlan
-Date: Mon, 16 Nov 2009 16:53:18 -0800
-Message-ID: <4B01F3FE.8040707@gmail.com>
-References: <ipicVA1QUFF.A.zWB.1mdALB@chimera> <OWmO9uyC1hM.A.yiC._ndALB@chimera>
+From: Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14626] oops on boot starting udev
+Date: Mon, 16 Nov 2009 17:14:55 -0800
+Message-ID: <20091117011455.GA7977@kroah.com>
+References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
+ <xXQGFmujPl.A.fpF.zSdALB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=MiIl2LnbzEmXVAaTKu8IF2HGCDpMzCltt7ViV8FtCRI=;
-        b=GYj4cYGxLyFHIkMQuBKgM/qWaxSs35TEjnP8FXOiKpqT9ygpyuUjmqZurAH1qNpaLJ
-         74OrglXwdCpzg7g8wkynKQiy5wzXatt8nHS93I+Ap1HKEhKsTbFhpuAIjmQqcqQgfh29
-         XPUdQwHX1LxG1HQgVif2atwz14kXjaruKek4g=
-In-Reply-To: <OWmO9uyC1hM.A.yiC._ndALB@chimera>
+Content-Disposition: inline
+In-Reply-To: <xXQGFmujPl.A.fpF.zSdALB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Kristoffer Ericson <kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Soeren Sonnenburg <sonne-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 
-Rafael J. Wysocki wrote:
+On Mon, Nov 16, 2009 at 11:37:48PM +0100, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.30 and 2.6.31.
->
+> of recent regressions.
+> 
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> be listed and let me know (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14267
-> Subject		: Disassociating atheros wlan
-> Submitter	: Kristoffer Ericson<kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-09-24 10:16 (54 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125378723723384&w=4
->
->
->
->    
-I'm not sure(I've been procrastinating on this one
-with reverting commits to see if it helps
-the guy that reported this).
+> from 2.6.31.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14626
+> Subject		: oops on boot starting udev
+> Submitter	: Soeren Sonnenburg <sonne-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+> Date		: 2009-11-14 10:16 (3 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125819380206800&w=4
 
- From over here though there never was a problem
-on my side with the wireless connection(maybe a few disconnects,
-but nothing too harsh).
+This looks like an input core problem, as the evdev module was just
+loaded and died.
 
-At this point the best thing to do is to see what the
-response is from the two gentlemen who where really
-hitting this and seem to be running into issues
-then go from there.
+Any input developers have any ideas?
 
-Justin P. Mattock
+thanks,
 
+greg k-h
