@@ -1,22 +1,20 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14372] ath5k wireless not working after suspend-resume - eeepc
-Date: Tue, 17 Nov 2009 23:26:17 +0100
-Message-ID: <200911172326.17745.rjw@sisk.pl>
-References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.zf.FUdALB@chimera> <b637ec0b0911162359y188f0829if277467229b095b3@mail.gmail.com>
+Subject: Re: [Bug #14379] ACPI Warning for _SB_.BAT0._BIF: Converted Buffer to expected String
+Date: Tue, 17 Nov 2009 23:28:44 +0100
+Message-ID: <200911172328.44848.rjw@sisk.pl>
+References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.UR.8TdALB@chimera> <4B01EC25.5010703@gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b637ec0b0911162359y188f0829if277467229b095b3-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <4B01EC25.5010703-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Tuesday 17 November 2009, Fabio Comolli wrote:
-> The offending commit got reverted in -rc7, therefore this regression is solved.
-> 
-> On Mon, Nov 16, 2009 at 11:37 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Tuesday 17 November 2009, Justin P. Mattock wrote:
+> Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
 > >
@@ -25,12 +23,23 @@ On Tuesday 17 November 2009, Fabio Comolli wrote:
 > > (either way).
 > >
 > >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14372
-> > Subject         : ath5k wireless not working after suspend-resume - eeepc
-> > Submitter       : Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date            : 2009-10-03 15:36 (45 days old)
-> > References      : http://lkml.org/lkml/2009/10/3/91
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14379
+> > Subject		: ACPI Warning for _SB_.BAT0._BIF: Converted Buffer to expected String
+> > Submitter	: Justin Mattock<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date		: 2009-10-08 21:46 (40 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d9adc2e031bd22d5d9607a53a8d3b30e0b675f39
+> > References	: http://marc.info/?l=linux-kernel&m=125504031328941&w=4
+> > Handled-By	: Alexey Starikovskiy<astarikovskiy-l3A5Bk7waGM@public.gmane.org>
+> > Patch		: http://bugzilla.kernel.org/attachment.cgi?id=23347
+> >
+> >
+> >
+> >    
+> o.k. just pulled the latest to see, and
+> the warning message is there.
+> so yes this bug report should be open
+> until this is fixed.
 
-Thanks, closed.
+Thanks for the update.
 
 Rafael
