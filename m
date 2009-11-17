@@ -1,32 +1,44 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.32-rc7-git1: Reported regressions 2.6.30 -> 2.6.31
-Date: Tue, 17 Nov 2009 00:35:11 +0100
-Message-ID: <200911170035.11575.rjw@sisk.pl>
-References: <ipicVA1QUFF.A.zWB.1mdALB@chimera> <4B01E09D.3020608@lwfinger.net>
+From: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14265] ifconfig: page allocation failure. order:5,
+	mode:0x8020 w/ e100
+Date: Tue, 17 Nov 2009 01:09:11 +0100
+Message-ID: <20091117000911.GA2421@bizet.domek.prywatny>
+References: <ipicVA1QUFF.A.zWB.1mdALB@chimera> <OWmO9uyC1hM.A.loC.CodALB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B01E09D.3020608-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=RaOODHbz7MmtKml2umGoojFnjBNLwQWcm5WWUCtLHLA=;
+        b=Og/9cdoeEFz9cJmiPGO+1E7W/iF34GyIb8+MHWSMR3kB27QZhiJjvQrDnEG1hjihFv
+         UL8fiPyN/wuBoqTzO9TQYmAwp78F8lh/GhQycpi3z7pDuPSWEkqLybtgcEAws3zYqVlb
+         5dwNqGSnFEjqHXBK08Yx0I2p/bqKIZuxzFANk=
+Content-Disposition: inline
+In-Reply-To: <OWmO9uyC1hM.A.loC.CodALB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 
-On Tuesday 17 November 2009, Larry Finger wrote:
-> On 11/16/2009 04:58 PM, Rafael J. Wysocki wrote:
-> > This message contains a list of some regressions introduced between 2.6.30 and
-> > 2.6.31, for which there are no fixes in the mainline I know of.  If any of them
-> > have been fixed already, please let me know.
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14181
-> > Subject		: b43 causes panic at ifconfig down / shutdown
-> > Submitter	: Jeremy Huddleston <jeremyhu-CC+yJ3UmIYqDUpFQwHEjaQ@public.gmane.org>
-> > Date		: 2009-09-15 18:34 (63 days old)
+On Tue, Nov 17, 2009 at 12:01:19AM +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.30 and 2.6.31.
 > 
-> This one is fixed by commit d50bae33d1358b909ade05ae121d83d3a60ab63f in
-> mainline. The patch was also sent to stable.
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14265
+> Subject		: ifconfig: page allocation failure. order:5, mode:0x8020 w/ e100
+> Submitter	: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-09-15 12:05 (63 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125301636509517&w=4
 
-Thanks, closed.
+Bug is still present in 2.6.32-rc7.
 
-Rafael
+Thanks.
