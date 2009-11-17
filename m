@@ -1,56 +1,43 @@
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [Bug #14626] oops on boot starting udev
-Date: Mon, 16 Nov 2009 18:04:52 -0800
-Message-ID: <20091117020451.GA27967@core.coreip.homeip.net>
-References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.fpF.zSdALB@chimera> <20091117011455.GA7977@kroah.com>
+From: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
+Subject: Re: [Bug #14354] Bad corruption with 2.6.32-rc1 and upwards
+Date: Mon, 16 Nov 2009 21:02:02 -0500
+Message-ID: <20091117020202.GA23066@mit.edu>
+References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.6w.YUdALB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-input-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=X+YcCi6Mu//dA8cGZrEnp0iovzHRKam/ELOVXQ5Vx0o=;
-        b=V4QU1Xc+NbREpyYaUqvcJ63FQD5eJHzb4rmsKfMF6bQEqwq4rnowCbs11YdedXskps
-         aWttgZoolt5x9SSqyaRiq2nMDn4tdKoOX+bZz/u9dNRatteHmmc0wdHHE+q95+u/cZAc
-         BiF6uIhmCpgZ4SXPzjl61jziRCKHpUlDtnL+4=
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20091117011455.GA7977@kroah.com>
-Sender: linux-input-owner@vger.kernel.org
+In-Reply-To: <xXQGFmujPl.A.6w.YUdALB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Greg KH <greg@kroah.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, linux-input@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Soeren Sonnenburg <sonne@debian.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Aneesh Kumar K.V" <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Frank Mayhar <fmayhar-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Holger Freyther <zecke-MQnelBtSfJRAfugRpC6u6w@public.gmane.org>
 
-On Mon, Nov 16, 2009 at 05:14:55PM -0800, Greg KH wrote:
-> On Mon, Nov 16, 2009 at 11:37:48PM +0100, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.31.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14626
-> > Subject		: oops on boot starting udev
-> > Submitter	: Soeren Sonnenburg <sonne@debian.org>
-> > Date		: 2009-11-14 10:16 (3 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=125819380206800&w=4
+On Mon, Nov 16, 2009 at 11:37:39PM +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
-> This looks like an input core problem, as the evdev module was just
-> loaded and died.
+> The following bug entry is on the current list of known regressions
+> from 2.6.31.  Please verify if it still should be listed and let me know
+> (either way).
 > 
-> Any input developers have any ideas?
 > 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14354
+> Subject		: Bad corruption with 2.6.32-rc1 and upwards
+> Submitter	: Holger Freyther <zecke-MQnelBtSfJRAfugRpC6u6w@public.gmane.org>
+> Date		: 2009-10-09 15:42 (39 days old)
 
+Um, this was marked as resolved, until you reopened it and then reset
+the state to New.  Why did you do this?
 
-Hmm, evdev does:
+It's fixed in mainline as of commit d4da6c9 when Linus reverted commit
+d0646f7.  Users could still see it if they mount a file system with -o
+journal_checksum, but (a) it's no longer the default, and (b)
+corruption if you use the non-default journal_checksum mount option is
+not a regression.
 
-	dev_set_name(&evdev->dev, "event%d", minor);
+We have fixes to make journal_checksum safe queued for 2.6.33, but the
+revert fixes the regression problem.
 
-Not sure how it can go wrong...
-
--- 
-Dmitry
+						- Ted
