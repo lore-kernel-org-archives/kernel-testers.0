@@ -1,89 +1,36 @@
-From: Kristoffer Ericson <kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14267] Disassociating atheros wlan
-Date: Tue, 17 Nov 2009 20:16:20 +0100
-Message-ID: <20091117201620.d78e350e.kristoffer.ericson@gmail.com>
-References: <ipicVA1QUFF.A.zWB.1mdALB@chimera>
-	<OWmO9uyC1hM.A.yiC._ndALB@chimera>
-	<4B01F3FE.8040707@gmail.com>
-	<20091117113320.8aef894a.kristoffer.ericson@gmail.com>
-	<4B02E64D.2010700@gmail.com>
-	<20091117191357.7c64ba70.kristoffer.ericson@gmail.com>
-	<4B02F3B7.2090907@gmail.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #13943] WARNING: at net/mac80211/mlme.c:2292 with ath5k
+Date: Tue, 17 Nov 2009 23:15:11 +0100
+Message-ID: <200911172315.11458.rjw@sisk.pl>
+References: <ipicVA1QUFF.A.zWB.1mdALB@chimera> <OWmO9uyC1hM.A.-xD.GqdALB@chimera> <b637ec0b0911170006j1b77b538na35923ab5855aa41@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:in-reply-to:references:x-mailer:mime-version
-         :content-type:content-transfer-encoding;
-        bh=Hvoqq7ia+xaVd29y/KLyUsxWLdDV24RiZCR0GVXoGto=;
-        b=pQ/xMLYsHBcXuwi4YuntXIkQxCO7hGLe0ma+BV9l0XpTv7omwgQxBNQLW4oPX9rMGc
-         eJthczVrg8Y6x5MkBl9X4MjNap5EbIga76Yp4evCHAEeQYJlCqSP0WgDXnFdbOM8FqGj
-         T3uDf5eVXzUJ7nHwANYt9smJQOAqFekXX1x9o=
-In-Reply-To: <4B02F3B7.2090907-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <b637ec0b0911170006j1b77b538na35923ab5855aa41-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Luis R. Rodriguez" <mcgrof-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Tue, 17 Nov 2009 11:04:23 -0800
-"Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+On Tuesday 17 November 2009, Fabio Comolli wrote:
+> Still present last time I tried .31 series.
 
-> Kristoffer Ericson wrote:
-> > On Tue, 17 Nov 2009 10:07:09 -0800
-> > "Justin P. Mattock"<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  wrote:
+Thanks for the update.
+
+> On Tue, Nov 17, 2009 at 12:01 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.30 and 2.6.31.
 > >
-> >    
-> >> Kristoffer Ericson wrote:
-> >>      
-> >>> Im still hitting this so basicly using 2.6.30 until it get sorted. Will try and make
-> >>> some time to test the different commits. Last time I waited for it to disconnect which
-> >>> could take 10-40min. Since it depends on the network load Im now going to increase
-> >>> the load to see if I hit it quicker (and thus finding the error commit).
-> >>>
-> >>> So in short, its still valid and I will try and make time to fix it :)
-> >>>
-> >>>
-> >>>
-> >>>
-> >>>        
-> >> o.k. so it is something that is enough to
-> >> cause an inconvenience.
-> >>      
-> >
-> > Especially if you are using your computer as a router to other computers
-> > and they start screaming every time internet goes down. :(
-> >
-> >    
-> >>      
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+> > be listed and let me know (either way).
 > >
 > >
-> >    
-> ah. yeah I'm not doing that over here
-> just simply connecting to a router and streaming music.
-> my guess is you can try the commits that I found
-> but then again might not get you in the right
-> direction i.g. during the bisect I was watching the
-> "retry" in dmesg with ath* as soon as I saw that it was git bisect bad
-> (seems like a new mechanism) as soon as I didn't see
-> that the commit was good.
-> 
-> In your case you might be seeing something different(not sure though)
-> because of having the computer as a router etc..
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=13943
+> > Subject         : WARNING: at net/mac80211/mlme.c:2292 with ath5k
+> > Submitter       : Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2009-08-06 20:15 (103 days old)
+> > References      : http://marc.info/?l=linux-kernel&m=124958978600600&w=4
 
-I think its related since ath was rock solid until 2.6.31. I can go 24/7 without
-ever getting disconnected from wifihub with 2.6.30. If we both are experiencing 
-issues post 2.6.30 atleast it should be related to same bunch of patches.
-Will see if I can use gfs computer for a couple of hours tommorow
-since I need to feed it with traffic. Will start with your commits, will notice
-if those turn out same for me.
-
-
-> 
-> Justin P. Mattock
-
-
--- 
-Kristoffer Ericson <kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Rafael
