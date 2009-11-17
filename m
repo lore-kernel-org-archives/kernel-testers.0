@@ -1,72 +1,41 @@
-From: Arkadiusz Miskiewicz <a.miskiewicz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14380] Video tearing/glitching with T400 laptops
-Date: Tue, 17 Nov 2009 13:52:18 +0100
-Message-ID: <200911171352.18563.a.miskiewicz@gmail.com>
-References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.wG.6TdALB@chimera>
+From: "Justin P. Mattock" <justinmattock@gmail.com>
+Subject: Re: [Bug #14267] Disassociating atheros wlan
+Date: Tue, 17 Nov 2009 10:07:09 -0800
+Message-ID: <4B02E64D.2010700@gmail.com>
+References: <ipicVA1QUFF.A.zWB.1mdALB@chimera>	<OWmO9uyC1hM.A.yiC._ndALB@chimera>	<4B01F3FE.8040707@gmail.com> <20091117113320.8aef894a.kristoffer.ericson@gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755852AbZKQSGc@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:from:to:subject:date
-         :user-agent:cc:references:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:message-id;
-        bh=PAlLNArFgTPJ9Vsesn+l2U5T2uwgytVrAgi7xib1B3g=;
-        b=wITNctpI7Nmv2B4jApDaw+kFe0C82dbJp7GEsqlcYZgEEcbSTDXZdCKp8zHRol3GPJ
-         cJzjO42o60fzOh9AnRZSEKPK0qjrYqdPOkU5yBuJPZSSidnxkhUhCTCX8PSkwKmkbTtV
-         GHsSl4FvX+PzF3MqjqtxXJRRjAsVSHa+p6Ydo=
-In-Reply-To: <xXQGFmujPl.A.wG.6TdALB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=rBv7z/ZJyXWgKdRzEm4ZbBczx0qdp9mSMc5ayboI24s=;
+        b=EGDy92EIOHnulajGMDcBc9GYJ0CxBrhZpf3eaGWDttb0Sm/55fLVVlPqnmc6SMoG5/
+         rc5U0JSvYNz/g4jTA4A5utpyyVxNaYbuwF9/P7abyojQDFoHytBOHHi9q9EKD/c4ylKM
+         pkHy3+L4l81uIieidE58cCMsvg00hgbrhOLQE=
+In-Reply-To: <20091117113320.8aef894a.kristoffer.ericson@gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="macroman"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Kristoffer Ericson <kristoffer.ericson@gmail.com>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Johannes Berg <johannes@sipsolutions.net>, "John W. Linville" <linville@tuxdriver.com>
 
-On Monday 16 of November 2009, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->=20
-> The following bug entry is on the current list of known regressions
-> from 2.6.31.  Please verify if it still should be listed and let me k=
-now
-> (either way).
+Kristoffer Ericson wrote:
+>
+>
+> Im still hitting this so basicly using 2.6.30 until it get sorted. Will try and make
+> some time to test the different commits. Last time I waited for it to disconnect which
+> could take 10-40min. Since it depends on the network load Im now going to increase
+> the load to see if I hit it quicker (and thus finding the error commit).
+>
+> So in short, its still valid and I will try and make time to fix it :)
+>
+>
+>
+>    
+o.k. so it is something that is enough to
+cause an inconvenience.
 
-It's mostly gone. It still happens for like 1/4s once per 6hours but jb=
-arnes
-asked me to fill separate bug for that and gave such patch for testing =
-(see below).
-
-So far haven't seen 1/4s problem with this patch applied.
-
-diff --git a/drivers/gpu/drm/i915/intel_display.c b/drivers/gpu/drm/i91=
-5/intel_display.c
-index 3ba6546..b2cbf7f 100644
---- a/drivers/gpu/drm/i915/intel_display.c
-+++ b/drivers/gpu/drm/i915/intel_display.c
-@@ -2491,6 +2491,8 @@ static void g4x_update_wm(struct drm_device *dev,=
-  int planea_clock,
-                /* Use ns/us then divide to preserve precision */
-                sr_entries =3D (((sr_latency_ns / line_time_us) + 1) *
-                              pixel_size * sr_hdisplay) / 1000;
-+               if (sr_entries > G4X_FIFO_SIZE)
-+                       sr_entries =3D G4X_FIFO_SIZE;
-                sr_entries =3D roundup(sr_entries / cacheline_size, 1);
-                DRM_DEBUG("self-refresh entries: %d\n", sr_entries);
-                I915_WRITE(FW_BLC_SELF, FW_BLC_SELF_EN);
-
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14380
-> Subject		: Video tearing/glitching with T400 laptops
-> Submitter	: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
-> Date		: 2009-10-02 22:40 (46 days old)
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D125452324520623&w=
-=3D4
-> Handled-By	: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-> Patch		: http://marc.info/?l=3Dlinux-kernel&m=3D125591495325000&w=3D4
->=20
-
-
---=20
-Arkadiusz Mi=C5=9Bkiewicz        PLD/Linux Team
-arekm / maven.pl            http://ftp.pld-linux.org/
+Justin P. mattock
