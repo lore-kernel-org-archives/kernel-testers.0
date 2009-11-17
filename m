@@ -1,44 +1,54 @@
-From: Theodore Tso <tytso-3s7WtUTddSA@public.gmane.org>
-Subject: Re: [Bug #14620] WARNING: at mm/page_alloc.c:1805
-	__alloc_pages_nodemask
-Date: Mon, 16 Nov 2009 21:43:18 -0500
-Message-ID: <20091117024318.GC23066@mit.edu>
-References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.SJG.7SdALB@chimera>
+From: Soeren Sonnenburg <sonne@debian.org>
+Subject: Re: [Bug #14626] oops on boot starting udev
+Date: Tue, 17 Nov 2009 03:59:03 +0100
+Message-ID: <1258426743.9883.53.camel@no>
+References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
+	 <xXQGFmujPl.A.fpF.zSdALB@chimera> <20091117011455.GA7977@kroah.com>
+	 <20091117020451.GA27967@core.coreip.homeip.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <xXQGFmujPl.A.SJG.7SdALB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7BIT
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753402AbZKQC7G@vger.kernel.org>
+In-Reply-To: <20091117020451.GA27967@core.coreip.homeip.net>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?iso-8859-1?Q?Rog=E9rio?= Brito <rbrito-qczF+2RCDl1fyO9Q7EP/yw@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Greg KH <greg@kroah.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, linux-input@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Mon, Nov 16, 2009 at 11:37:47PM +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->=20
-> The following bug entry is on the current list of known regressions
-> from 2.6.31.  Please verify if it still should be listed and let me k=
-now
-> (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14620
-> Subject		: WARNING: at mm/page_alloc.c:1805 __alloc_pages_nodemask
-> Submitter	: Rog=E9rio Brito <rbrito-qczF+2RCDl1fyO9Q7EP/yw@public.gmane.org>
-> Date		: 2009-11-06 23:10 (11 days old)
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D125754907413892&w=
-=3D4
+On Mon, 2009-11-16 at 18:04 -0800, Dmitry Torokhov wrote:
+> On Mon, Nov 16, 2009 at 05:14:55PM -0800, Greg KH wrote:
+> > On Mon, Nov 16, 2009 at 11:37:48PM +0100, Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of recent regressions.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.31.  Please verify if it still should be listed and let me know
+> > > (either way).
+> > > 
+> > > 
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14626
+> > > Subject		: oops on boot starting udev
+> > > Submitter	: Soeren Sonnenburg <sonne@debian.org>
+> > > Date		: 2009-11-14 10:16 (3 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=125819380206800&w=4
+> > 
+> > This looks like an input core problem, as the evdev module was just
+> > loaded and died.
+> > 
+> > Any input developers have any ideas?
+> > 
+> 
+> 
+> Hmm, evdev does:
+> 
+> 	dev_set_name(&evdev->dev, "event%d", minor);
+> 
+> Not sure how it can go wrong...
 
-This isn't technically a regression, since the warning is simply
-complaining about something that apparently ext4 has been doing for a
-long time, which is that it allocates some very large order data
-buffers.  So the change referenced simply printed a warning message
-that complained about the fact.
+Anything I should/could do to narrow it down a bit (apart from
+bisecting?).
 
-The actual problem will be fixed in 2.6.32, as we no longer allocate
-the big data buffers at mount time.
-
-						- Ted
+Soeren
+-- 
+For the one fact about the future of which we can be certain is that it
+will be utterly fantastic. -- Arthur C. Clarke, 1962
