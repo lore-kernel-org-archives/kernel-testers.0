@@ -1,50 +1,93 @@
-From: Kristoffer Ericson <kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14267] Disassociating atheros wlan
-Date: Tue, 17 Nov 2009 11:29:47 +0100
-Message-ID: <20091117112947.6d76ce04.kristoffer.ericson@gmail.com>
-References: <ipicVA1QUFF.A.zWB.1mdALB@chimera>
-	<OWmO9uyC1hM.A.yiC._ndALB@chimera>
+From: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH 4/5] vmscan: Have kswapd sleep for a short interval and double check it should be asleep
+Date: Tue, 17 Nov 2009 20:03:21 +0900 (JST)
+Message-ID: <20091117141638.3DCB.A69D9226@jp.fujitsu.com>
+References: <2f11576a0911140134u21eafa83t9642bb25ccd953de@mail.gmail.com> <20091114154636.GR29804@csn.ul.ie>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:in-reply-to:references:x-mailer:mime-version
-         :content-type:content-transfer-encoding;
-        bh=J+ORD100eT/41zpKfxJk+DeiVC2REmSJehr572Y3gBU=;
-        b=dbv6l1SJ/Mn4YIQRV9zR6VCx90WI1161AYznQTlhNcEGqEwL0YGd5g8fsaZdbEIm4n
-         o73qEZTvo8djI+f/xe0iIzDuQ8Kc9eKvR8IeUnUo4soqvUlFsQUdhQdK1D//o6xN8NYA
-         JdwVa+pI2SX3wOPKHd/+NPQJJpVWTskV0qMWo=
-In-Reply-To: <OWmO9uyC1hM.A.yiC._ndALB@chimera>
+In-Reply-To: <20091114154636.GR29804-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Cc: kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tue, 17 Nov 2009 00:01:19 +0100 (CET)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+I'm sorry for the long delay.
 
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.30 and 2.6.31.
+> On Sat, Nov 14, 2009 at 06:34:23PM +0900, KOSAKI Motohiro wrote:
+> > 2009/11/14 Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>:
+> > > On Sat, Nov 14, 2009 at 03:00:57AM +0900, KOSAKI Motohiro wrote:
+> > >> > On Fri, Nov 13, 2009 at 07:43:09PM +0900, KOSAKI Motohiro wrote:
+> > >> > > > After kswapd balances all zones in a pgdat, it goes to sleep. In the event
+> > >> > > > of no IO congestion, kswapd can go to sleep very shortly after the high
+> > >> > > > watermark was reached. If there are a constant stream of allocations from
+> > >> > > > parallel processes, it can mean that kswapd went to sleep too quickly and
+> > >> > > > the high watermark is not being maintained for sufficient length time.
+> > >> > > >
+> > >> > > > This patch makes kswapd go to sleep as a two-stage process. It first
+> > >> > > > tries to sleep for HZ/10. If it is woken up by another process or the
+> > >> > > > high watermark is no longer met, it's considered a premature sleep and
+> > >> > > > kswapd continues work. Otherwise it goes fully to sleep.
+> > >> > > >
+> > >> > > > This adds more counters to distinguish between fast and slow breaches of
+> > >> > > > watermarks. A "fast" premature sleep is one where the low watermark was
+> > >> > > > hit in a very short time after kswapd going to sleep. A "slow" premature
+> > >> > > > sleep indicates that the high watermark was breached after a very short
+> > >> > > > interval.
+> > >> > > >
+> > >> > > > Signed-off-by: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+> > >> > >
+> > >> > > Why do you submit this patch to mainline? this is debugging patch
+> > >> > > no more and no less.
+> > >> > >
+> > >> >
+> > >> > Do you mean the stats part? The stats are included until such time as the page
+> > >> > allocator failure reports stop or are significantly reduced. In the event a
+> > >> > report is received, the value of the counters help determine if kswapd was
+> > >> > struggling or not. They should be removed once this mess is ironed out.
+> > >> >
+> > >> > If there is a preference, I can split out the stats part and send it to
+> > >> > people with page allocator failure reports for retesting.
+> > >>
+> > >> I'm sorry my last mail didn't have enough explanation.
+> > >> This stats help to solve this issue. I agreed. but after solving this issue,
+> > >> I don't imagine administrator how to use this stats. if KSWAPD_PREMATURE_FAST or
+> > >> KSWAPD_PREMATURE_SLOW significantly increased, what should admin do?
+> > >
+> > > One possible workaround would be to raise min_free_kbytes while a fix is
+> > > being worked on.
+> > 
+> > Please correct me, if I said wrong thing.
 > 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> be listed and let me know (either way).
+> You didn't.
 > 
+> > if I was admin, I don't watch this stats because kswapd frequently
+> > wakeup doesn't mean any trouble. instead I watch number of allocation
+> > failure.
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14267
-> Subject		: Disassociating atheros wlan
-> Submitter	: Kristoffer Ericson <kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-09-24 10:16 (54 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125378723723384&w=4
-> 
-> 
+> The stats are not tracking when kswapd wakes up. It helps track how
+> quickly the high or low watermarks are going under once kswapd tries to
+> go back to sleep.
 
-Still valid.
+Umm, honestly I'm still puzlled. probably we need go back one step at once.
+ kswapd wake up when memory amount less than low watermark and sleep
+when memory amount much than high watermask. We need to know 
+GFP_ATOMIC failure sign.
+
+My point is, kswapd wakeup only happen after kswapd sleeping. but if the system is
+under heavy pressure and memory amount go up and down between low watermark
+and high watermark, this stats don't increase at all. IOW, this stats is strong related to
+high watermark.
+
+Probaby, min watermark or low watermark are more useful for us.
+
+# of called wake_all_kswapd() is related to low watermark. and It's conteniously
+increase although the system have strong memroy pressure. I'm ok.
+KSWAPD_NO_CONGESTION_WAIT is related to min watermark. I'm ok too..
+# of page allocation failure is related to  min watermark too. I'm ok too.
+
+IOW, I only dislike this stat stop increase strong memory pressure (above explanation).
+Can you please tell me why you think kswapd slept time is so important?
 
 
-
--- 
-Kristoffer Ericson <kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
