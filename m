@@ -1,65 +1,52 @@
-From: Minchan Kim <minchan.kim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14618] OOM killer, page fault
-Date: Tue, 17 Nov 2009 17:40:25 +0900
-Message-ID: <28c262360911170040r4313ca2bs9716b9271946f082@mail.gmail.com>
+From: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+Subject: Re: [Bug #14355] USB serial regression after 2.6.31.1 with Huawei
+ E169 GSM modem
+Date: Tue, 17 Nov 2009 20:02:47 +1100
+Message-ID: <1258448567.2140.564.camel@pasglop>
 References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
-	 <xXQGFmujPl.A.nXG.-SdALB@chimera>
+	 <xXQGFmujPl.A.2k.LUdALB@chimera> <200911170005.27342.oliver@neukum.org>
+	 <200911170012.24914.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=kWf+gEUlPGGfvBjI1lGf29pJF/PO8c68ADab3cTJgRg=;
-        b=gz9O65jrLE2ct2A5DouCjUPq3YkIhRZRT2SZ8/N5DuWUPhKDdF+aZrv5G5h6+wV6XF
-         ILpDpAfYbRp78NsNOygU4lV6LMFnMaAAptygb4PPWiVfFq1+3KV1EzFq2NJ6yQnAe4x4
-         GrNerBj5O1VrQQP2mRRIO8l+ii/uFWFmZRRAo=
-In-Reply-To: <xXQGFmujPl.A.nXG.-SdALB@chimera>
+In-Reply-To: <200911170012.24914.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
+Cc: Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Ben Efros <ben-sBIqA0PYact54TAoqtyWWQ@public.gmane.org>
 
-I think we can ignore this bug.
-We can see the mm_fault_error in stack trace.
-I guess it's from returning VM_FAULT_OOM of any driver.
+On Tue, 2009-11-17 at 00:12 +0100, Rafael J. Wysocki wrote:
+> On Tuesday 17 November 2009, Oliver Neukum wrote:
+> > Am Montag, 16. November 2009 23:37:39 schrieb Rafael J. Wysocki:
+> > > This message has been generated automatically as a part of a report
+> > > of recent regressions.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.31.  Please verify if it still should be listed and let me know
+> > > (either way).
+> > > 
+> > > 
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14355
+> > > Subject		: USB serial regression after 2.6.31.1 with Huawei E169 GSM modem
+> > > Submitter	: Benjamin Herrenschmidt <benh-XVmvHMARGAS8U2dJNN8I7kB+6BGkLq7r@public.gmane.org>
+> > > Date		: 2009-10-10 03:07 (38 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=125513456327542&w=4
+> > 
+> > Benjamin has fixed this bug.
+> 
+> Thanks, closed.
+> 
 
-As I know, It happens very rarely. Norbert, right?
+I asked Greg to re-open for a while to track other issues with
+various Huawei modems. However, it appears that most of them would
+be tricky to workaround in the kernel and are fixed by FW updates
+(though updating those modem FW can be non trivial).
 
-In addition, I don't see the any similar report.
+I'll leave it open for a little while see how things go on the
+corresponding ubuntu bug, and if things settle, we can then close it,
+in the meantime, you can remove it from your list of regressions.
 
-So I think It would be better to ignore this bug
-until we can meet similar report again.
+Cheers,
+Ben.
 
-
-On Tue, Nov 17, 2009 at 7:37 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.31. =C2=A0Please verify if it still should be listed and let=
- me know
-> (either way).
->
->
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D14618
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : OOM killer, page fault
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-10-30 6:32 (18 d=
-ays old)
-> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
-=3D125688434909582&w=3D4
-> Handled-By =C2=A0 =C2=A0 =C2=A0: Minchan Kim <minchan.kim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->
->
->
-
-
-
---=20
-Kind regards,
-Minchan Kim
