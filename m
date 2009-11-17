@@ -1,44 +1,52 @@
-From: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14265] ifconfig: page allocation failure. order:5,
-	mode:0x8020 w/ e100
-Date: Tue, 17 Nov 2009 01:09:11 +0100
-Message-ID: <20091117000911.GA2421@bizet.domek.prywatny>
-References: <ipicVA1QUFF.A.zWB.1mdALB@chimera> <OWmO9uyC1hM.A.loC.CodALB@chimera>
+From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14379] ACPI Warning for _SB_.BAT0._BIF: Converted Buffer
+ to expected String
+Date: Mon, 16 Nov 2009 16:19:49 -0800
+Message-ID: <4B01EC25.5010703@gmail.com>
+References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.UR.8TdALB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=RaOODHbz7MmtKml2umGoojFnjBNLwQWcm5WWUCtLHLA=;
-        b=Og/9cdoeEFz9cJmiPGO+1E7W/iF34GyIb8+MHWSMR3kB27QZhiJjvQrDnEG1hjihFv
-         UL8fiPyN/wuBoqTzO9TQYmAwp78F8lh/GhQycpi3z7pDuPSWEkqLybtgcEAws3zYqVlb
-         5dwNqGSnFEjqHXBK08Yx0I2p/bqKIZuxzFANk=
-Content-Disposition: inline
-In-Reply-To: <OWmO9uyC1hM.A.loC.CodALB@chimera>
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=Q7cubGoG4KIlARqhCzjYJXILyephuCHBVE5Qg/Ihj84=;
+        b=ETHVVcDaPRlsvPI3rVv6q0WQNurUTHOlmMy0o5o/aeHntjPj6eUMVHp76LXRX9r5sS
+         GcT95lfzIMSkGxSBDpKcECCx3RI3iN8DR7HpU5FxMbnSfMAFCraqB7WdOt76IwngGCJY
+         oQ6UDUZPLje+l7QyQjDuGpZ+pCS2/LdH20keU=
+In-Reply-To: <xXQGFmujPl.A.UR.8TdALB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Tue, Nov 17, 2009 at 12:01:19AM +0100, Rafael J. Wysocki wrote:
+Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.30 and 2.6.31.
-> 
+> of recent regressions.
+>
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14265
-> Subject		: ifconfig: page allocation failure. order:5, mode:0x8020 w/ e100
-> Submitter	: Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-09-15 12:05 (63 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125301636509517&w=4
+> from 2.6.31.  Please verify if it still should be listed and let me know
+> (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14379
+> Subject		: ACPI Warning for _SB_.BAT0._BIF: Converted Buffer to expected String
+> Submitter	: Justin Mattock<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-10-08 21:46 (40 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d9adc2e031bd22d5d9607a53a8d3b30e0b675f39
+> References	: http://marc.info/?l=linux-kernel&m=125504031328941&w=4
+> Handled-By	: Alexey Starikovskiy<astarikovskiy-l3A5Bk7waGM@public.gmane.org>
+> Patch		: http://bugzilla.kernel.org/attachment.cgi?id=23347
+>
+>
+>
+>    
+o.k. just pulled the latest to see, and
+the warning message is there.
+so yes this bug report should be open
+until this is fixed.
 
-Bug is still present in 2.6.32-rc7.
-
-Thanks.
+Justin P. Mattock
