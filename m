@@ -1,9 +1,9 @@
-From: Fabio Comolli <fabio.comolli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #13943] WARNING: at net/mac80211/mlme.c:2292 with ath5k
-Date: Tue, 17 Nov 2009 09:06:42 +0100
-Message-ID: <b637ec0b0911170006j1b77b538na35923ab5855aa41@mail.gmail.com>
-References: <ipicVA1QUFF.A.zWB.1mdALB@chimera>
-	 <OWmO9uyC1hM.A.-xD.GqdALB@chimera>
+From: Minchan Kim <minchan.kim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14618] OOM killer, page fault
+Date: Tue, 17 Nov 2009 17:40:25 +0900
+Message-ID: <28c262360911170040r4313ca2bs9716b9271946f082@mail.gmail.com>
+References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
+	 <xXQGFmujPl.A.nXG.-SdALB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,40 +12,54 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:mime-version:received:in-reply-to:references
          :date:message-id:subject:from:to:cc:content-type
          :content-transfer-encoding;
-        bh=nzhhjD7YrE0gMChStEc/QaKU3WHtij2g00BDNlrfei0=;
-        b=qZcPMK8aSn2kqNs3OyxkC2yzuT+2p074NgAd34LBjN4WHovSN4aKeapgKbInwqyklV
-         GS1ukUqu10QF36XP2zylFycYDgptc8Yn7oYjaVUICR/qTdOTeNagQto4mvg2Bmucsfyc
-         j+ezaKIJNGXXlrXbLy0/uSqNvVi9YW/YpL1OQ=
-In-Reply-To: <OWmO9uyC1hM.A.-xD.GqdALB@chimera>
+        bh=kWf+gEUlPGGfvBjI1lGf29pJF/PO8c68ADab3cTJgRg=;
+        b=gz9O65jrLE2ct2A5DouCjUPq3YkIhRZRT2SZ8/N5DuWUPhKDdF+aZrv5G5h6+wV6XF
+         ILpDpAfYbRp78NsNOygU4lV6LMFnMaAAptygb4PPWiVfFq1+3KV1EzFq2NJ6yQnAe4x4
+         GrNerBj5O1VrQQP2mRRIO8l+ii/uFWFmZRRAo=
+In-Reply-To: <xXQGFmujPl.A.nXG.-SdALB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Luis R. Rodriguez" <mcgrof-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
 
-Still present last time I tried .31 series.
+I think we can ignore this bug.
+We can see the mm_fault_error in stack trace.
+I guess it's from returning VM_FAULT_OOM of any driver.
 
-On Tue, Nov 17, 2009 at 12:01 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote=
-:
+As I know, It happens very rarely. Norbert, right?
+
+In addition, I don't see the any similar report.
+
+So I think It would be better to ignore this bug
+until we can meet similar report again.
+
+
+On Tue, Nov 17, 2009 at 7:37 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 > This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.30 and 2.6.31.
+> of recent regressions.
 >
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31. =C2=A0Please verify if it still=
- should
-> be listed and let me know (either way).
+> from 2.6.31. =C2=A0Please verify if it still should be listed and let=
+ me know
+> (either way).
 >
 >
 > Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D13943
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : WARNING: at net/mac80211/mlme.c=
-:2292 with ath5k
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Fabio Comolli <fabio.comolli@gmail.c=
-om>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-08-06 20:15 (103=
- days old)
+cgi?id=3D14618
+> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : OOM killer, page fault
+> Submitter =C2=A0 =C2=A0 =C2=A0 : Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
+> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-10-30 6:32 (18 d=
+ays old)
 > References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
-=3D124958978600600&w=3D4
+=3D125688434909582&w=3D4
+> Handled-By =C2=A0 =C2=A0 =C2=A0: Minchan Kim <minchan.kim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 >
 >
 >
+
+
+
+--=20
+Kind regards,
+Minchan Kim
