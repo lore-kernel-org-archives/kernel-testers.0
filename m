@@ -1,41 +1,37 @@
-From: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
-Subject: Re: [PATCH] vmscan: Have kswapd sleep for a short interval and double check it should be asleep fix 1
-Date: Wed, 18 Nov 2009 14:27:18 +0900 (JST)
-Message-ID: <20091118142111.3E12.A69D9226@jp.fujitsu.com>
-References: <2f11576a0911140134u21eafa83t9642bb25ccd953de@mail.gmail.com> <20091117103420.GX29804@csn.ul.ie>
+From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Subject: Re: [Bug #14294] kernel BUG at drivers/ide/ide-disk.c:187
+Date: Tue, 17 Nov 2009 23:19:14 -0800 (PST)
+Message-ID: <20091117.231914.75564159.davem@davemloft.net>
+References: <ipicVA1QUFF.A.zWB.1mdALB@chimera>
+	<OWmO9uyC1hM.A.NaC.6ndALB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20091117103420.GX29804@csn.ul.ie>
-Sender: owner-linux-mm@kvack.org
-List-Id: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Mel Gorman <mel@csn.ul.ie>
-Cc: kosaki.motohiro@jp.fujitsu.com, Andrew Morton <akpm@linux-foundation.org>, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, Tobias Oetiker <tobi@oetiker.ch>, linux-kernel@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <OWmO9uyC1hM.A.NaC.6ndALB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: rjw-KKrjLPT3xs0@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, bzolnier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, manty-gaW6/AuhO2xeoWH0uzbU5w@public.gmane.org
 
-> When checking if kswapd is sleeping prematurely, all populated zones are
-> checked instead of the zones the instance of kswapd is responsible for.
-> The counters for kswapd going to sleep prematurely are also named poorly.
-> This patch makes kswapd only check its own zones and renames the relevant
-> counters.
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Date: Tue, 17 Nov 2009 00:01:20 +0100 (CET)
+
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.30 and 2.6.31.
 > 
-> This is a fix to the patch
-> vmscan-have-kswapd-sleep-for-a-short-interval-and-double-check-it-should-be-asleep.patch
-> and is based on top of mmotm-2009-11-13-19-59. It would be preferable if
-> Kosaki Motohiro signed off on it as he had comments on the patch but the
-> discussion petered out without a solid conclusion.
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+> be listed and let me know (either way).
 > 
-> Signed-off-by: Mel Gorman <mel@csn.ul.ie>
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14294
+> Subject		: kernel BUG at drivers/ide/ide-disk.c:187
+> Submitter	: Santiago Garcia Mantinan <manty-gaW6/AuhO2xeoWH0uzbU5w@public.gmane.org>
+> Date		: 2009-09-30 11:05 (48 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125430926311466&w=4
+> Handled-By	: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 
-Looks good to me.
-I apologize to bother you by nit for long time.
+Santiago, have you hit this again since moving to newer kernels?
 
-	Reviewed-by: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
-
-
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+Thanks!
