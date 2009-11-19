@@ -1,77 +1,116 @@
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Subject: Re: [Bug #14626] oops on boot starting udev
-Date: Wed, 18 Nov 2009 18:59:38 -0800
-Message-ID: <20091119025938.GB20172@core.coreip.homeip.net>
-References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.fpF.zSdALB@chimera> <20091117011455.GA7977@kroah.com> <20091117020451.GA27967@core.coreip.homeip.net> <1258426743.9883.53.camel@no> <20091117040104.GA5792@core.coreip.homeip.net> <1258430807.12721.12.camel@no>
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [PATCH 0/7] Reduce GFP_ATOMIC allocation failures, candidate
+	fix V3
+Date: Thu, 19 Nov 2009 08:12:19 +0000
+Message-ID: <20091119081219.GB1119__1286.03593116186$1258618393$gmane$org@csn.ul.ie>
+References: <1258054211-2854-1-git-send-email-mel@csn.ul.ie> <20091112202748.GC2811@think> <20091112220005.GD2811@think> <20091113024642.GA7771@think> <4B018157.3080707@redhat.com> <20091116183613.GG27677@think>
 Mime-Version: 1.0
-Return-path: <linux-input-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=aASvB4L4a6MvpG7xfjabpPV9EuksGmI3bf6rpxp+M4c=;
-        b=qKn1W5XfSTH44nkpqB7to0OqrXxyuDlJTOYg3+/hZL3C0ELmlEHSGzvgInS3ARC5xL
-         765KmEQUgZnCN1fbNJKSqcKB0OHIxIRISsnhAkMPjQqdPT2dKRzxdS8IgohDq/CgdVPY
-         Qaivgy70G1D07IcUG26a1aXYUCdaaZ6ukj5Q8=
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <1258430807.12721.12.camel@no>
-Sender: linux-input-owner@vger.kernel.org
+In-Reply-To: <20091116183613.GG27677@think>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Soeren Sonnenburg <sonne@debian.org>
-Cc: Greg KH <greg@kroah.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, linux-input@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+To: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Milan Broz <mbroz-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven
 
-On Tue, Nov 17, 2009 at 05:06:47AM +0100, Soeren Sonnenburg wrote:
-> On Mon, 2009-11-16 at 20:01 -0800, Dmitry Torokhov wrote:
-> > On Tue, Nov 17, 2009 at 03:59:03AM +0100, Soeren Sonnenburg wrote:
-> > > On Mon, 2009-11-16 at 18:04 -0800, Dmitry Torokhov wrote:
-> > > > On Mon, Nov 16, 2009 at 05:14:55PM -0800, Greg KH wrote:
-> > > > > On Mon, Nov 16, 2009 at 11:37:48PM +0100, Rafael J. Wysocki wrote:
-> > > > > > This message has been generated automatically as a part of a report
-> > > > > > of recent regressions.
-> > > > > > 
-> > > > > > The following bug entry is on the current list of known regressions
-> > > > > > from 2.6.31.  Please verify if it still should be listed and let me know
-> > > > > > (either way).
-> > > > > > 
-> > > > > > 
-> > > > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14626
-> > > > > > Subject		: oops on boot starting udev
-> > > > > > Submitter	: Soeren Sonnenburg <sonne@debian.org>
-> > > > > > Date		: 2009-11-14 10:16 (3 days old)
-> > > > > > References	: http://marc.info/?l=linux-kernel&m=125819380206800&w=4
-> > > > > 
-> > > > > This looks like an input core problem, as the evdev module was just
-> > > > > loaded and died.
-> > > > > 
-> > > > > Any input developers have any ideas?
-> > > > > 
-> > > > 
-> > > > 
-> > > > Hmm, evdev does:
-> > > > 
-> > > > 	dev_set_name(&evdev->dev, "event%d", minor);
-> > > > 
-> > > > Not sure how it can go wrong...
+On Mon, Nov 16, 2009 at 01:36:13PM -0500, Chris Mason wrote:
+> On Mon, Nov 16, 2009 at 05:44:07PM +0100, Milan Broz wrote:
+> > On 11/13/2009 03:46 AM, Chris Mason wrote:
+> > > On Thu, Nov 12, 2009 at 05:00:05PM -0500, Chris Mason wrote:
 > > > 
-> > > Anything I should/could do to narrow it down a bit (apart from
-> > > bisecting?).
+> > > [ ...]
 > > > 
+> > >>
+> > >> The punch line is that the btrfs guy thinks we can solve all of this with
+> > >> just one more thread.  If we change dm-crypt to have a thread dedicated
+> > >> to sync IO and a thread dedicated to async IO the system should smooth
+> > >> out.
 > > 
-> > Umm, I looked through the changes between -rc6 and 7 but nothing jumped
-> > out at me... You don't happen to have any local changes in your tree?
+> > Please, can you cc DM maintainers with these kind of patches? dm-devel list at least.
+> > 
 > 
-> Well only the mouse button #1 emulation - though I don't see what could
-> go wrong there.
+> Well, my current patch is a hack.  If I had come up with a proven theory
+> (hopefully Mel can prove it ;), it definitely would have gone through
+> the dm-devel lists.
 > 
 
-I have been looking through the changes and I really don't see anything
-suspicious. I am also not hittign this oops on any of my boxes. Any
-chance you could bisect?
+I can't prove it for sure but the workload might not be targetted enough
+to show better or worse read latencies.
 
-Thanks.
+I adjusted the workload to run fake-gitk multiple times to get a better
+sense of the deviation between runs
+
+On X86-64, the timings were
+2.6.30-0000000-force-highorder                Elapsed:10:52.218(stddev:008.085)   Failures:0
+2.6.31-0000000-force-highorder                Elapsed:11:32.258(stddev:130.779)   Failures:0
+2.6.31-0012345-kswapd-stay-awake-when-min     Elapsed:09:34.662(stddev:022.239)   Failures:0
+2.6.31-0123456-dm-crypt-unplug                Elapsed:10:28.718(stddev:060.897)   Failures:0
+2.6.32-rc6-0000000-force-highorder            Elapsed:27:53.686(stddev:207.508)   Failures:37
+2.6.32-rc6-0012345-kswapd-stay-awake-when-min Elapsed:27:26.735(stddev:221.214)   Failures:6
+2.6.32-rc6-0123456-dm-crypt-unplug            Elapsed:27:35.462(stddev:205.017)   Failures:4
+
+On X86, they were
+2.6.30-0000000-force-highorder                Elapsed:13:36.768(stddev:019.514)   Failures:0
+2.6.31-0000000-force-highorder                Elapsed:16:27.922(stddev:134.839)   Failures:0
+2.6.31-0000006-dm-crypt-unplug                Elapsed:15:47.160(stddev:183.488)   Failures:0
+2.6.31-0012345-kswapd-stay-awake-when-min     Elapsed:18:32.458(stddev:182.164)   Failures:0
+2.6.31-0123456-dm-crypt-unplug                Elapsed:17:07.482(stddev:210.404)   Failures:0
+2.6.32-rc6-0000000-force-highorder            Elapsed:26:08.763(stddev:123.926)   Failures:4
+2.6.32-rc6-0000006-dm-crypt-unplug            Elapsed:17:57.550(stddev:254.412)   Failures:1
+2.6.32-rc6-0012345-kswapd-stay-awake-when-min Elapsed:25:03.435(stddev:234.685)   Failures:1
+2.6.32-rc6-0123456-dm-crypt-unplug            Elapsed:25:21.382(stddev:211.252)   Failures:0
+
+(I forgot to queue up the dm-crypt patches on their own for X86-64 which
+is why the results are missing).
+
+While the dm-crypt patch shows small differences, they are well within
+the noise for each run of fake-gitk so I can't draw any major conclusion
+from it.
+
+On X86 for 2.6.31, roughly the same amount of time is spent in
+congestion_wait() with or without the patch. On 2.6.32-rc6, the time
+kswapd spends congestioned on the ASYNC queue is reduced by about 20%
+both when compared against mainline and compared against the other
+patches in the series applied. There is very little difference to the
+congestion on the SYNC queue.
+
+On X86-64 for 2.6.31, the story is slightly different. I don't think
+it's an architecture thing because the X86-64 machine has twice as many
+cores as the X86 test machine. Here, congestion_wait() spent on the
+ASYNC queue remains roughly the same but the time spent on the SYNC
+queue for direct reclaim is reduced by almost a third. Against
+2.6.32-rc6, there was very little difference.
+
+Again, it's hard to draw solid conclusions from this. I know from other
+testing that the low_latency tunable for the IO scheduler is an important
+factor for the performance of this test on 2.6.32-rc6 so if disabled, it
+mgiht show a clearer picture, but right now I can't say for sure it's an
+improvement.
+
+> > Note that the crypt requests can be already processed synchronously or asynchronously,
+> > depending on used crypto module (async it is in the case of some hw acceleration).
+> > 
+> > Adding another queue make the situation more complicated and because the crypt
+> > requests can be queued in crypto layer I am not sure that this solution will help
+> > in this situation at all.
+> > (Try to run that with AES-NI acceleration for example.)
+> 
+> The problem is that async threads still imply a kind of ordering.
+> If there's a fifo serviced by one thread or 10, the latency ramifications
+> are very similar for a new entry on the list.  We have to wait for a
+> large portion of the low-prio items in order to service a high prio
+> item.
+> 
+> With a queue dedicated to sync requests and one dedicated to async,
+> you'll get better read latencies.  Btrfs has a similar problem around
+> the crc helper threads and it ends up solving things with two different
+> lists (high and low prio) processed by one thread.
+> 
+> -chris
+> 
 
 -- 
-Dmitry
+Mel Gorman
+Part-time Phd Student                          Linux Technology Center
+University of Limerick                         IBM Dublin Software Lab
