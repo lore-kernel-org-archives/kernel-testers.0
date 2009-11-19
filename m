@@ -1,116 +1,49 @@
-From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Subject: Re: [PATCH 0/7] Reduce GFP_ATOMIC allocation failures, candidate
-	fix V3
-Date: Thu, 19 Nov 2009 08:12:19 +0000
-Message-ID: <20091119081219.GB1119__1286.03593116186$1258618393$gmane$org@csn.ul.ie>
-References: <1258054211-2854-1-git-send-email-mel@csn.ul.ie> <20091112202748.GC2811@think> <20091112220005.GD2811@think> <20091113024642.GA7771@think> <4B018157.3080707@redhat.com> <20091116183613.GG27677@think>
+From: David Miller <davem@davemloft.net>
+Subject: Re: [Bug #14622] Second IDE device not found
+Date: Thu, 19 Nov 2009 12:05:50 -0800 (PST)
+Message-ID: <20091119.120550.183823935.davem@davemloft.net>
+References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
+	<xXQGFmujPl.A.n7F.4SdALB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20091116183613.GG27677@think>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Milan Broz <mbroz-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven
+Return-path: <linux-ide-owner@vger.kernel.org>
+In-Reply-To: <xXQGFmujPl.A.n7F.4SdALB@chimera>
+Sender: linux-ide-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: rjw@sisk.pl
+Cc: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, zdavatz@gmail.com, linux-ide@vger.kernel.org
 
-On Mon, Nov 16, 2009 at 01:36:13PM -0500, Chris Mason wrote:
-> On Mon, Nov 16, 2009 at 05:44:07PM +0100, Milan Broz wrote:
-> > On 11/13/2009 03:46 AM, Chris Mason wrote:
-> > > On Thu, Nov 12, 2009 at 05:00:05PM -0500, Chris Mason wrote:
-> > > 
-> > > [ ...]
-> > > 
-> > >>
-> > >> The punch line is that the btrfs guy thinks we can solve all of this with
-> > >> just one more thread.  If we change dm-crypt to have a thread dedicated
-> > >> to sync IO and a thread dedicated to async IO the system should smooth
-> > >> out.
-> > 
-> > Please, can you cc DM maintainers with these kind of patches? dm-devel list at least.
-> > 
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Date: Mon, 16 Nov 2009 23:37:47 +0100 (CET)
+
+> This message has been generated automatically as a part of a report
+> of recent regressions.
 > 
-> Well, my current patch is a hack.  If I had come up with a proven theory
-> (hopefully Mel can prove it ;), it definitely would have gone through
-> the dm-devel lists.
+> The following bug entry is on the current list of known regressions
+> from 2.6.31.  Please verify if it still should be listed and let me know
+> (either way).
 > 
-
-I can't prove it for sure but the workload might not be targetted enough
-to show better or worse read latencies.
-
-I adjusted the workload to run fake-gitk multiple times to get a better
-sense of the deviation between runs
-
-On X86-64, the timings were
-2.6.30-0000000-force-highorder                Elapsed:10:52.218(stddev:008.085)   Failures:0
-2.6.31-0000000-force-highorder                Elapsed:11:32.258(stddev:130.779)   Failures:0
-2.6.31-0012345-kswapd-stay-awake-when-min     Elapsed:09:34.662(stddev:022.239)   Failures:0
-2.6.31-0123456-dm-crypt-unplug                Elapsed:10:28.718(stddev:060.897)   Failures:0
-2.6.32-rc6-0000000-force-highorder            Elapsed:27:53.686(stddev:207.508)   Failures:37
-2.6.32-rc6-0012345-kswapd-stay-awake-when-min Elapsed:27:26.735(stddev:221.214)   Failures:6
-2.6.32-rc6-0123456-dm-crypt-unplug            Elapsed:27:35.462(stddev:205.017)   Failures:4
-
-On X86, they were
-2.6.30-0000000-force-highorder                Elapsed:13:36.768(stddev:019.514)   Failures:0
-2.6.31-0000000-force-highorder                Elapsed:16:27.922(stddev:134.839)   Failures:0
-2.6.31-0000006-dm-crypt-unplug                Elapsed:15:47.160(stddev:183.488)   Failures:0
-2.6.31-0012345-kswapd-stay-awake-when-min     Elapsed:18:32.458(stddev:182.164)   Failures:0
-2.6.31-0123456-dm-crypt-unplug                Elapsed:17:07.482(stddev:210.404)   Failures:0
-2.6.32-rc6-0000000-force-highorder            Elapsed:26:08.763(stddev:123.926)   Failures:4
-2.6.32-rc6-0000006-dm-crypt-unplug            Elapsed:17:57.550(stddev:254.412)   Failures:1
-2.6.32-rc6-0012345-kswapd-stay-awake-when-min Elapsed:25:03.435(stddev:234.685)   Failures:1
-2.6.32-rc6-0123456-dm-crypt-unplug            Elapsed:25:21.382(stddev:211.252)   Failures:0
-
-(I forgot to queue up the dm-crypt patches on their own for X86-64 which
-is why the results are missing).
-
-While the dm-crypt patch shows small differences, they are well within
-the noise for each run of fake-gitk so I can't draw any major conclusion
-from it.
-
-On X86 for 2.6.31, roughly the same amount of time is spent in
-congestion_wait() with or without the patch. On 2.6.32-rc6, the time
-kswapd spends congestioned on the ASYNC queue is reduced by about 20%
-both when compared against mainline and compared against the other
-patches in the series applied. There is very little difference to the
-congestion on the SYNC queue.
-
-On X86-64 for 2.6.31, the story is slightly different. I don't think
-it's an architecture thing because the X86-64 machine has twice as many
-cores as the X86 test machine. Here, congestion_wait() spent on the
-ASYNC queue remains roughly the same but the time spent on the SYNC
-queue for direct reclaim is reduced by almost a third. Against
-2.6.32-rc6, there was very little difference.
-
-Again, it's hard to draw solid conclusions from this. I know from other
-testing that the low_latency tunable for the IO scheduler is an important
-factor for the performance of this test on 2.6.32-rc6 so if disabled, it
-mgiht show a clearer picture, but right now I can't say for sure it's an
-improvement.
-
-> > Note that the crypt requests can be already processed synchronously or asynchronously,
-> > depending on used crypto module (async it is in the case of some hw acceleration).
-> > 
-> > Adding another queue make the situation more complicated and because the crypt
-> > requests can be queued in crypto layer I am not sure that this solution will help
-> > in this situation at all.
-> > (Try to run that with AES-NI acceleration for example.)
 > 
-> The problem is that async threads still imply a kind of ordering.
-> If there's a fifo serviced by one thread or 10, the latency ramifications
-> are very similar for a new entry on the list.  We have to wait for a
-> large portion of the low-prio items in order to service a high prio
-> item.
-> 
-> With a queue dedicated to sync requests and one dedicated to async,
-> you'll get better read latencies.  Btrfs has a similar problem around
-> the crc helper threads and it ends up solving things with two different
-> lists (high and low prio) processed by one thread.
-> 
-> -chris
-> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14622
+> Subject		: Second IDE device not found
+> Submitter	: Zeno Davatz <zdavatz@gmail.com>
+> Date		: 2009-11-11 17:31 (6 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125796105822353&w=4
 
--- 
-Mel Gorman
-Part-time Phd Student                          Linux Technology Center
-University of Limerick                         IBM Dublin Software Lab
+We're going to need more information to diagnose this.
+
+And linux-ide should have been at least CC:'d from the very
+beginning.
+
+From what I can discern the problem is introduced somewhere between
+2.6.27 and 2.6.31, you have a Serverworks CSB5 and primarily the issue
+is that attaching or detaching your CD-ROM driver influences whether
+both of your disks are properly detected.  Correct?
+
+You seem to have played around with using the IDE layer vs. the
+ATA layer.  Can you see any difference in behavior if you try
+using just the IDE layer vs. just the ATA layer with the 2.6.31
+kernel?
+
+Thanks.
