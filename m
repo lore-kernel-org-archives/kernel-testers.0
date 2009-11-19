@@ -1,49 +1,36 @@
-From: David Miller <davem@davemloft.net>
-Subject: Re: [Bug #14622] Second IDE device not found
-Date: Thu, 19 Nov 2009 12:05:50 -0800 (PST)
-Message-ID: <20091119.120550.183823935.davem@davemloft.net>
-References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
-	<xXQGFmujPl.A.n7F.4SdALB@chimera>
+From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Subject: Re: [Bug #14252] WARNING: at include/linux/skbuff.h:1382 w/ e1000
+Date: Thu, 19 Nov 2009 12:07:21 -0800 (PST)
+Message-ID: <20091119.120721.252464351.davem@davemloft.net>
+References: <ipicVA1QUFF.A.zWB.1mdALB@chimera>
+	<OWmO9uyC1hM.A.w9C.NodALB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-ide-owner@vger.kernel.org>
-In-Reply-To: <xXQGFmujPl.A.n7F.4SdALB@chimera>
-Sender: linux-ide-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <OWmO9uyC1hM.A.w9C.NodALB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: rjw@sisk.pl
-Cc: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, zdavatz@gmail.com, linux-ide@vger.kernel.org
+To: rjw-KKrjLPT3xs0@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Date: Mon, 16 Nov 2009 23:37:47 +0100 (CET)
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Date: Tue, 17 Nov 2009 00:01:18 +0100 (CET)
 
 > This message has been generated automatically as a part of a report
-> of recent regressions.
+> of regressions introduced between 2.6.30 and 2.6.31.
 > 
 > The following bug entry is on the current list of known regressions
-> from 2.6.31.  Please verify if it still should be listed and let me know
-> (either way).
+> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
+> be listed and let me know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14622
-> Subject		: Second IDE device not found
-> Submitter	: Zeno Davatz <zdavatz@gmail.com>
-> Date		: 2009-11-11 17:31 (6 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125796105822353&w=4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14252
+> Subject		: WARNING: at include/linux/skbuff.h:1382 w/ e1000
+> Submitter	: Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>
+> Date		: 2009-09-20 11:26 (58 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125344599006033&w=4
 
-We're going to need more information to diagnose this.
+Please CC: netdev when reporting networking problems, thank you.
 
-And linux-ide should have been at least CC:'d from the very
-beginning.
-
-From what I can discern the problem is introduced somewhere between
-2.6.27 and 2.6.31, you have a Serverworks CSB5 and primarily the issue
-is that attaching or detaching your CD-ROM driver influences whether
-both of your disks are properly detected.  Correct?
-
-You seem to have played around with using the IDE layer vs. the
-ATA layer.  Can you see any difference in behavior if you try
-using just the IDE layer vs. just the ATA layer with the 2.6.31
-kernel?
-
-Thanks.
+Intel folks can you please take a look at this?  Thanks.
