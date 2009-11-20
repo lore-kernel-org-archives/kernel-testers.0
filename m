@@ -1,32 +1,25 @@
-From: tytso-3s7WtUTddSA@public.gmane.org
-Subject: Re: [Bug #14619] ext3/jbd oops in journal_start
-Date: Fri, 20 Nov 2009 10:32:29 -0500
-Message-ID: <20091120153229.GC4921@thunk.org>
-References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
- <xXQGFmujPl.A.wQG.8SdALB@chimera>
- <20091120150648.GB4921@thunk.org>
- <20091120151822.GV3110@think>
+From: David Miller <davem@davemloft.net>
+Subject: Re: [Bug #14622] Second IDE device not found
+Date: Fri, 20 Nov 2009 09:45:40 -0800 (PST)
+Message-ID: <20091120.094540.40622637.davem@davemloft.net>
+References: <40a4ed590911200129p6f0d048dqef10df2b311d4744@mail.gmail.com>
+	<4B067E1A.7000102@garzik.org>
+	<40a4ed590911200535j2fe970fas3db14492c4c30b9d@mail.gmail.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20091120151822.GV3110@think>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-ide-owner@vger.kernel.org>
+In-Reply-To: <40a4ed590911200535j2fe970fas3db14492c4c30b9d@mail.gmail.com>
+Sender: linux-ide-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: zdavatz@gmail.com
+Cc: jeff@garzik.org, rjw@sisk.pl, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, linux-ide@vger.kernel.org
 
-On Fri, Nov 20, 2009 at 10:18:22AM -0500, Chris Mason wrote:
-> > Sage, any updates on this?  What was the last kernel version where you
-> > weren't having this problem?  Sounds like you can't mount any ext3
-> > file systems at all?
+From: Zeno Davatz <zdavatz@gmail.com>
+Date: Fri, 20 Nov 2009 14:35:07 +0100
+
+> Recompiled with above enabled. And indeed: It worked. Booting as normal.
 > 
-> This is a btrfs bug and is fixed.  I've updated the bugzilla.
+> Thank you for the detailed instructions.
 
-Thanks!  I remember seeing that but I didn't connect it to this
-bugzilla entry.
-
-Just trying to do my part to clear out open regressions after Linus
-sent out his pre-thanksgiving grump.  :-)
-
-						- Ted
+Rafael, I think we can close this entry now.
