@@ -1,36 +1,79 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Subject: Re: [Bug #14252] WARNING: at include/linux/skbuff.h:1382 w/ e1000
-Date: Thu, 19 Nov 2009 12:07:21 -0800 (PST)
-Message-ID: <20091119.120721.252464351.davem@davemloft.net>
-References: <ipicVA1QUFF.A.zWB.1mdALB@chimera>
-	<OWmO9uyC1hM.A.w9C.NodALB@chimera>
+From: "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Subject: Re: [Bug #14383] hackbench regression with kernel 2.6.32-rc1
+Date: Fri, 20 Nov 2009 13:40:57 +0800
+Message-ID: <1258695658.29789.27.camel@localhost>
+References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
+	 <xXQGFmujPl.A.65H.2TdALB@chimera>  <1258542581.3918.255.camel@laptop>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <OWmO9uyC1hM.A.w9C.NodALB@chimera>
+In-Reply-To: <1258542581.3918.255.camel@laptop>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: rjw-KKrjLPT3xs0@public.gmane.org
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Date: Tue, 17 Nov 2009 00:01:18 +0100 (CET)
+On Wed, 2009-11-18 at 12:09 +0100, Peter Zijlstra wrote:
+> On Mon, 2009-11-16 at 23:37 +0100, Rafael J. Wysocki wrote:
 
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.30 and 2.6.31.
+Sorry for replying late. There was a severe power failure in my Lab.
+
+Below are updates against 2.6.32-rc7 kernel.
+
 > 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> be listed and let me know (either way).
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14383
+> > Subject		: hackbench regression with kernel 2.6.32-rc1
+> > Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> > Date		: 2009-10-09 9:19 (39 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=29cd8bae396583a2ee9a3340db8c5102acf9f6fd
+> > References	: http://marc.info/?l=linux-kernel&m=125508007510274&w=4
+> > Handled-By	: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+On core2 arch machines, hackbench regression disappears and there is much
+improvement instead of regression. 
+On Nehalem machine, no big change, comparing with 2.6.31.
+
+On Itanium machines (2 sockets or 4 sockets), the regression become
+about 20%. Originally it's 70%.
+
+
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14252
-> Subject		: WARNING: at include/linux/skbuff.h:1382 w/ e1000
-> Submitter	: Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>
-> Date		: 2009-09-20 11:26 (58 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125344599006033&w=4
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14384
+> > Subject         : tbench regression with 2.6.32-rc1
+> > Submitter       : Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> > Date            : 2009-10-09 9:51 (39 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=59abf02644c45f1591e1374ee7bb45dc757fcb88
+> > References      : http://marc.info/?l=linux-kernel&m=125508216713138&w=4
+> > Handled-By      : Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
-Please CC: netdev when reporting networking problems, thank you.
+On core2 arch machines, tbench regression becomes about 4%. Originally, the
+regression is about 33%.
 
-Intel folks can you please take a look at this?  Thanks.
+On Nehalem, tbench regression is about 4%. Original is 7%.
+
+On Itanium, tbench regression is about 16%. Original is 26%
+
+
+> 
+> 
+> 
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14621
+> > Subject         : specjbb2005 and aim7 regression with 2.6.32-rc kernels
+> > Submitter       : Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> > Date            : 2009-11-06 7:38 (11 days old)
+> > References      : http://marc.info/?l=linux-kernel&m=125749310413174&w=4
+specjbb2005 and aim7 results almost have no variation.
+
+> 
+> 
+> Yanmin, could you please update me on the status of these regressions?
+> 
+> Mike seems to have done a lot to address issues while I was out, and
+> while I (hopefully) did read all resulting email, I must admit to
+> loosing track of where we stand.
+
+Mike's patch 1b9508f6831e10 could improve netperf loopback testing.
+The latest upstream doesn't merge it yet.
+
+
