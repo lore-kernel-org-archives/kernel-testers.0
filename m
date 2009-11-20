@@ -1,79 +1,112 @@
-From: "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+From: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
 Subject: Re: [Bug #14383] hackbench regression with kernel 2.6.32-rc1
-Date: Fri, 20 Nov 2009 13:40:57 +0800
-Message-ID: <1258695658.29789.27.camel@localhost>
+Date: Fri, 20 Nov 2009 07:52:30 +0100
+Message-ID: <1258699950.7148.9.camel@marge.simson.net>
 References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
 	 <xXQGFmujPl.A.65H.2TdALB@chimera>  <1258542581.3918.255.camel@laptop>
+	 <1258695658.29789.27.camel@localhost>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1258542581.3918.255.camel@laptop>
+In-Reply-To: <1258695658.29789.27.camel@localhost>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+To: "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-On Wed, 2009-11-18 at 12:09 +0100, Peter Zijlstra wrote:
-> On Mon, 2009-11-16 at 23:37 +0100, Rafael J. Wysocki wrote:
+On Fri, 2009-11-20 at 13:40 +0800, Zhang, Yanmin wrote:
 
-Sorry for replying late. There was a severe power failure in my Lab.
+> Mike's patch 1b9508f6831e10 could improve netperf loopback testing.
+> The latest upstream doesn't merge it yet.
 
-Below are updates against 2.6.32-rc7 kernel.
+The kinda ugly thing below gives me around a 4% boost for pinned tasks.
+Looking around is expensive to fast movers, some cost can be avoided.
 
-> 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14383
-> > Subject		: hackbench regression with kernel 2.6.32-rc1
-> > Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> > Date		: 2009-10-09 9:19 (39 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=29cd8bae396583a2ee9a3340db8c5102acf9f6fd
-> > References	: http://marc.info/?l=linux-kernel&m=125508007510274&w=4
-> > Handled-By	: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
-On core2 arch machines, hackbench regression disappears and there is much
-improvement instead of regression. 
-On Nehalem machine, no big change, comparing with 2.6.31.
+---
+ kernel/sched_fair.c |   40 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 29 insertions(+), 11 deletions(-)
 
-On Itanium machines (2 sockets or 4 sockets), the regression become
-about 20%. Originally it's 70%.
-
-
-> 
-> 
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14384
-> > Subject         : tbench regression with 2.6.32-rc1
-> > Submitter       : Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> > Date            : 2009-10-09 9:51 (39 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=59abf02644c45f1591e1374ee7bb45dc757fcb88
-> > References      : http://marc.info/?l=linux-kernel&m=125508216713138&w=4
-> > Handled-By      : Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
-
-On core2 arch machines, tbench regression becomes about 4%. Originally, the
-regression is about 33%.
-
-On Nehalem, tbench regression is about 4%. Original is 7%.
-
-On Itanium, tbench regression is about 16%. Original is 26%
-
-
-> 
-> 
-> 
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14621
-> > Subject         : specjbb2005 and aim7 regression with 2.6.32-rc kernels
-> > Submitter       : Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> > Date            : 2009-11-06 7:38 (11 days old)
-> > References      : http://marc.info/?l=linux-kernel&m=125749310413174&w=4
-specjbb2005 and aim7 results almost have no variation.
-
-> 
-> 
-> Yanmin, could you please update me on the status of these regressions?
-> 
-> Mike seems to have done a lot to address issues while I was out, and
-> while I (hopefully) did read all resulting email, I must admit to
-> loosing track of where we stand.
-
-Mike's patch 1b9508f6831e10 could improve netperf loopback testing.
-The latest upstream doesn't merge it yet.
-
+Index: linux-2.6/kernel/sched_fair.c
+===================================================================
+--- linux-2.6.orig/kernel/sched_fair.c
++++ linux-2.6/kernel/sched_fair.c
+@@ -1396,26 +1396,36 @@ static int select_task_rq_fair(struct ta
+ {
+ 	struct sched_domain *tmp, *affine_sd = NULL, *sd = NULL;
+ 	int cpu = smp_processor_id();
+-	int prev_cpu = task_cpu(p);
+-	int new_cpu = cpu;
+-	int want_affine = 0;
+-	int want_sd = 1;
++	int new_cpu, prev_cpu = task_cpu(p);
++	int pinned, want_sd, want_affine = 0;
+ 	int sync = wake_flags & WF_SYNC;
+ 
+-	if (sd_flag & SD_BALANCE_WAKE) {
+-		if (sched_feat(AFFINE_WAKEUPS) &&
+-		    cpumask_test_cpu(cpu, &p->cpus_allowed))
+-			want_affine = 1;
++	rcu_read_lock();
++	pinned = !(cpumask_weight(&p->cpus_allowed) > 1);
++	new_cpu = pinned ? prev_cpu : cpu;
++	want_sd = !pinned;
++
++#ifndef CONFIG_FAIR_GROUP_SCHED
++		/*
++		 * If we don't need to balance shares, we can skip
++		 * everything below, and save some time.
++		 */
++		if (pinned)
++			goto out;
++#endif
++
++	if ((sd_flag & SD_BALANCE_WAKE) && sched_feat(AFFINE_WAKEUPS) &&
++			cpumask_test_cpu(cpu, &p->cpus_allowed)) {
++		want_affine = 1;
+ 		new_cpu = prev_cpu;
+ 	}
+ 
+-	rcu_read_lock();
+ 	for_each_domain(cpu, tmp) {
+ 		/*
+ 		 * If power savings logic is enabled for a domain, see if we
+ 		 * are not overloaded, if so, don't balance wider.
+ 		 */
+-		if (tmp->flags & (SD_POWERSAVINGS_BALANCE|SD_PREFER_LOCAL)) {
++		if (want_sd && tmp->flags & (SD_POWERSAVINGS_BALANCE|SD_PREFER_LOCAL)) {
+ 			unsigned long power = 0;
+ 			unsigned long nr_running = 0;
+ 			unsigned long capacity;
+@@ -1454,7 +1464,7 @@ static int select_task_rq_fair(struct ta
+ 			 * If there's an idle sibling in this domain, make that
+ 			 * the wake_affine target instead of the current cpu.
+ 			 */
+-			if (tmp->flags & SD_PREFER_SIBLING)
++			if (!pinned && tmp->flags & SD_PREFER_SIBLING)
+ 				target = select_idle_sibling(p, tmp, target);
+ 
+ 			if (target >= 0) {
+@@ -1476,6 +1486,7 @@ static int select_task_rq_fair(struct ta
+ 			sd = tmp;
+ 	}
+ 
++#ifdef CONFIG_FAIR_GROUP_SCHED
+ 	if (sched_feat(LB_SHARES_UPDATE)) {
+ 		/*
+ 		 * Pick the largest domain to update shares over
+@@ -1490,6 +1501,13 @@ static int select_task_rq_fair(struct ta
+ 			update_shares(tmp);
+ 	}
+ 
++	/*
++	 * Balance shares, but don't waste time.
++	 */
++	if (pinned)
++		goto out;
++#endif
++
+ 	if (affine_sd && wake_affine(affine_sd, p, sync)) {
+ 		new_cpu = cpu;
+ 		goto out;
 
