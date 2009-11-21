@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14297] console resume broken since ba15ab0e8d
-Date: Sat, 21 Nov 2009 15:46:52 +0100 (CET)
-Message-ID: <l2_yP_tdgYK.A.mOE.98_BLB@chimera>
+Subject: [Bug #14376] Kernel NULL pointer dereference/ kvm subsystem
+Date: Sat, 21 Nov 2009 15:51:26 +0100 (CET)
+Message-ID: <l2_yP_tdgYK.A.e-D.V8_BLB@chimera>
 References: <pohDdrcORVG.A.U2B.-6_BLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Deepak Saxena <dsaxena-2X9k7bc8m7Mdnm+yROfE0A@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Sascha Hauer <s.hauer-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Don Dupuis <dondster-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,9 @@ from 2.6.31.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14297
-Subject		: console resume broken since ba15ab0e8d
-Submitter	: Sascha Hauer <s.hauer-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
-Date		: 2009-09-30 15:11 (53 days old)
-References	: http://marc.info/?l=linux-kernel&m=125432349404060&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14376
+Subject		: Kernel NULL pointer dereference/ kvm subsystem
+Submitter	: Don Dupuis <dondster-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2009-10-06 14:38 (47 days old)
+References	: http://marc.info/?l=linux-kernel&m=125484025021737&w=4
 
