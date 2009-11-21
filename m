@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14253] Oops in driversbasefirmware_class
-Date: Sat, 21 Nov 2009 16:02:10 +0100 (CET)
-Message-ID: <mYW9sxtWd2G.A.X9F.tDACLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14448] PAT cpu feature is absent but detected by Xorg and others, cuses video driver problems
+Date: Sat, 21 Nov 2009 16:02:13 +0100 (CET)
+Message-ID: <mYW9sxtWd2G.A.A8E.-CACLB@chimera>
 References: <7qTjLRFNcGF.A.eSE.kCACLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756138AbZKUPTR@vger.kernel.org>
 In-Reply-To: <7qTjLRFNcGF.A.eSE.kCACLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Frederik Deweerdt <frederik.deweerdt-kjvbsxwSFqI@public.gmane.org>, Lars Ericsson <Lars_Ericsson-zq6IREYz3ykAvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Aleksei Lukin <lukin@stu.cn.ua>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,11 +22,8 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14253
-Subject		: Oops in driversbasefirmware_class
-Submitter	: Lars Ericsson <Lars_Ericsson-zq6IREYz3ykAvxtiuMwx3w@public.gmane.org>
-Date		: 2009-09-16 20:44 (67 days old)
-References	: http://lkml.org/lkml/2009/9/16/461
-Handled-By	: Frederik Deweerdt <frederik.deweerdt-kjvbsxwSFqI@public.gmane.org>
-Patch		: http://patchwork.kernel.org/patch/49914/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14448
+Subject		: PAT cpu feature is absent but detected by Xorg and others, cuses video driver problems
+Submitter	: Aleksei Lukin <lukin@stu.cn.ua>
+Date		: 2009-10-20 17:54 (33 days old)
 
