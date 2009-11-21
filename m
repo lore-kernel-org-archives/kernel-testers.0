@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14157] end_request: I/O error, dev cciss/cXdX, sector 0
-Date: Sat, 21 Nov 2009 16:02:09 +0100 (CET)
-Message-ID: <mYW9sxtWd2G.A.PHG.BEACLB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #13941] x86 Geode issue
+Date: Sat, 21 Nov 2009 16:02:07 +0100 (CET)
+Message-ID: <mYW9sxtWd2G.A.D7G.GFACLB@chimera>
 References: <7qTjLRFNcGF.A.eSE.kCACLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756112AbZKUPXb@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <7qTjLRFNcGF.A.eSE.kCACLB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, jiri.harcarik@gmail.com
+Content-Type: text/plain; charset="windows-1252"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, =?utf-8?q?Martin-=C3=89ric=20Racine?= <q-funk-X3B1VOXEql0@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.30 and 2.6.31.
@@ -22,8 +22,10 @@ introduced between 2.6.30 and 2.6.31.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14157
-Subject		: end_request: I/O error, dev cciss/cXdX, sector 0
-Submitter	:  <jiri.harcarik@gmail.com>
-Date		: 2009-09-11 07:42 (72 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D13941
+Subject		: x86 Geode issue
+Submitter	: Martin-=C3=89ric Racine <q-funk-X3B1VOXEql0@public.gmane.org>
+Date		: 2009-08-03 12:58 (111 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D124930434732481&w=3D=
+4
 
