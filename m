@@ -1,35 +1,48 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #13733] 2.6.31-rc2: irq 16: nobody cared
-Date: Sat, 21 Nov 2009 23:49:12 +0100
-Message-ID: <200911212349.12893.rjw@sisk.pl>
-References: <7qTjLRFNcGF.A.eSE.kCACLB@chimera> <mYW9sxtWd2G.A.UKH.UGACLB@chimera> <B0FC0407-959D-4A53-A03B-9F80B7C60B69@gmail.com>
+From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Subject: Re: [Bug #14267] Disassociating atheros wlan
+Date: Sun, 22 Nov 2009 11:47:03 +0100
+Message-ID: <1258886823.7094.101.camel@johannes.local>
+References: <7qTjLRFNcGF.A.eSE.kCACLB@chimera>
+	 <mYW9sxtWd2G.A.EnF.gDACLB@chimera>  <4B08258E.9050607@gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <B0FC0407-959D-4A53-A03B-9F80B7C60B69-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <4B08258E.9050607-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Niel Lambrechts <niel.lambrechts-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Kristoffer Ericson <kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Saturday 21 November 2009, Niel Lambrechts wrote:
-> Hi Rafael,
-> 
-> On 21 Nov 2009, at 5:02 PM, Rafael J. Wysocki wrote:
-> 
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.30 and 2.6.31.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.30 and 2.6.31.  Please verify if it still should
-> > be listed and let me know (either way).
-> 
-> I no longer have readily access to the laptop that showed this problem, and will therefore not be able to test if the problem has been resolved in later levels.
-> 
-> So the bug can be closed unless anyone else feels differently.
+On Sat, 2009-11-21 at 09:38 -0800, Justin P. Mattock wrote:
 
-I'm going to close it, then.
+> I did a bisect yesterday on this, and the results
+> seemed to have worked over here by reverting:
+> 
+> 75e6c3b72b3ab01c47629f3fbd0fed4e6550bf3a
+> cfg80211: lower dynamic PS timeout to 100ms
+> 
+> if Kristoffer can try reverting this one
+> to see, then we can go from there.
 
-Thanks,
-Rafael
+So that just means the driver is broken. Please run
+
+	iwconfig wlan0 power off
+
+to fix it then. And the patch below will disable it by default since
+it's broken.
+
+johannes
+
+--- wireless-testing.orig/drivers/net/wireless/ath/ath9k/main.c	2009-11-22 11:44:41.000000000 +0100
++++ wireless-testing/drivers/net/wireless/ath/ath9k/main.c	2009-11-22 11:45:26.000000000 +0100
+@@ -1893,6 +1893,8 @@ void ath_set_hw_capab(struct ath_softc *
+ 		BIT(NL80211_IFTYPE_ADHOC) |
+ 		BIT(NL80211_IFTYPE_MESH_POINT);
+ 
++	hw->wiphy->ps_default = false;
++
+ 	hw->queues = 4;
+ 	hw->max_rates = 4;
+ 	hw->channel_change_time = 5000;
+
