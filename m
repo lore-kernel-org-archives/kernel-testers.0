@@ -1,9 +1,8 @@
 From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14379] ACPI Warning for _SB_.BAT0._BIF: Converted Buffer
- to expected String
-Date: Sun, 22 Nov 2009 07:00:41 -0800
-Message-ID: <4B095219.2040708@gmail.com>
-References: <pohDdrcORVG.A.U2B.-6_BLB@chimera> <l2_yP_tdgYK.A.v5D.R8_BLB@chimera>
+Subject: Re: [Bug #14267] Disassociating atheros wlan
+Date: Sun, 22 Nov 2009 07:03:02 -0800
+Message-ID: <4B0952A6.7010704@gmail.com>
+References: <7qTjLRFNcGF.A.eSE.kCACLB@chimera>	 <mYW9sxtWd2G.A.EnF.gDACLB@chimera>  <4B08258E.9050607@gmail.com> <1258886823.7094.101.camel@johannes.local>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,38 +11,58 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:received:received:message-id:date:from
          :user-agent:mime-version:to:cc:subject:references:in-reply-to
          :content-type:content-transfer-encoding;
-        bh=TUqFXduexHTn7vauDb6+PZ4MFwrLR3S77o0uyHlGbyc=;
-        b=Hfbv0y/1NhFulPnFPmlhB/ALwFqZIjrMYFLdfsQqqTjfOvM1o6WrdR02QrLEYg2T0p
-         a0GpuXlFSDTnh0Xz5bkzvESlpGvCpg8QCZsHMpGqZmpsi1hWOL72JIPSI37fpljhuYWs
-         fiUAyfkYSlLDA28q9+z0+4K/WDRm51/iY4H8U=
-In-Reply-To: <l2_yP_tdgYK.A.v5D.R8_BLB@chimera>
+        bh=fqNe0RWU1kX9q7RDNXwHT/0uNfmL8jc8ryIXxVNVEzw=;
+        b=VES8J7BW/KnMj6q93eGdHEitWLEeDCve5YfxtRfAWExFvSJTWEOmkaDZyd8m3zIvdJ
+         y72oU2b++qCrUjK9SYJK3vkVfHrBQgSVSqEPqLjn+PxVy6HsVlir//UdSyRjHnvoFobf
+         a0g1His3FLQr7MeXA6EjdV4u6pb53Vfd2rGfg=
+In-Reply-To: <1258886823.7094.101.camel-YfaajirXv2244ywRPIzf9A@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexey Starikovskiy <astarikovskiy-l3A5Bk7waGM@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Kristoffer Ericson <kristoffer.ericson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+Johannes Berg wrote:
+> On Sat, 2009-11-21 at 09:38 -0800, Justin P. Mattock wrote:
 >
-> The following bug entry is on the current list of known regressions
-> from 2.6.31.  Please verify if it still should be listed and let me know
-> (either way).
+>    
+>> I did a bisect yesterday on this, and the results
+>> seemed to have worked over here by reverting:
+>>
+>> 75e6c3b72b3ab01c47629f3fbd0fed4e6550bf3a
+>> cfg80211: lower dynamic PS timeout to 100ms
+>>
+>> if Kristoffer can try reverting this one
+>> to see, then we can go from there.
+>>      
 >
+> So that just means the driver is broken. Please run
 >
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14379
-> Subject		: ACPI Warning for _SB_.BAT0._BIF: Converted Buffer to expected String
-> Submitter	: Justin Mattock<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-10-08 21:46 (45 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d9adc2e031bd22d5d9607a53a8d3b30e0b675f39
-> References	: http://marc.info/?l=linux-kernel&m=125504031328941&w=4
-> Handled-By	: Alexey Starikovskiy<astarikovskiy-l3A5Bk7waGM@public.gmane.org>
-> Patch		: http://bugzilla.kernel.org/attachment.cgi?id=23347
+> 	iwconfig wlan0 power off
+>
+> to fix it then. And the patch below will disable it by default since
+> it's broken.
+>
+> johannes
+>
+> --- wireless-testing.orig/drivers/net/wireless/ath/ath9k/main.c	2009-11-22 11:44:41.000000000 +0100
+> +++ wireless-testing/drivers/net/wireless/ath/ath9k/main.c	2009-11-22 11:45:26.000000000 +0100
+> @@ -1893,6 +1893,8 @@ void ath_set_hw_capab(struct ath_softc *
+>   		BIT(NL80211_IFTYPE_ADHOC) |
+>   		BIT(NL80211_IFTYPE_MESH_POINT);
+>
+> +	hw->wiphy->ps_default = false;
+> +
+>   	hw->queues = 4;
+>   	hw->max_rates = 4;
+>   	hw->channel_change_time = 5000;
 >
 >
 >
 >    
-still there.
+I'm in the process of stepping out
+of my office for a few days.
+(can probably give a try where I'm
+headed, just give me some time).
 
 Justin P. Mattock
