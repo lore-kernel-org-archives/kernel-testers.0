@@ -1,68 +1,85 @@
-From: Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>
-Subject: Re: [PATCH] vmscan: Stop kswapd waiting on congestion when the min
- watermark is not being met V2
-Date: Thu, 26 Nov 2009 15:45:13 +0100 (CET)
-Message-ID: <alpine.DEB.2.00.0911261542500.21450@sebohet.brgvxre.pu>
-References: <20091113142608.33B9.A69D9226@jp.fujitsu.com> <20091113135443.GF29804@csn.ul.ie> <20091114023138.3DA5.A69D9226@jp.fujitsu.com> <20091113181557.GM29804@csn.ul.ie> <2f11576a0911131033w4a9e6042k3349f0be290a167e@mail.gmail.com>
- <20091113200357.GO29804@csn.ul.ie>
+From: Sebastian Ott <sebott-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Subject: Re: [Bug #14352] WARNING: at net/mac80211/scan.c:267
+Date: Fri, 27 Nov 2009 14:46:21 +0100 (CET)
+Message-ID: <alpine.LFD.2.00.0911271438340.3429@localhost>
+References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.o1.bUdALB@chimera> <8db1092f0911162204i36dbd472w1d2c88411e151acb@mail.gmail.com> <200911172319.49198.rjw@sisk.pl>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091113200357.GO29804-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+In-Reply-To: <200911172319.49198.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org
 
-Hi Mel,
 
-Nov 13 Mel Gorman wrote:
+On Tue, 17 Nov 2009, Rafael J. Wysocki wrote:
 
-> The last version has a stupid bug in it. Sorry.
->
-> Changelog since V1
->   o Fix incorrect negation
->   o Rename kswapd_no_congestion_wait to kswapd_skip_congestion_wait as
->     suggested by Rik
->
-> If reclaim fails to make sufficient progress, the priority is raised.
-> Once the priority is higher, kswapd starts waiting on congestion.  However,
-> if the zone is below the min watermark then kswapd needs to continue working
-> without delay as there is a danger of an increased rate of GFP_ATOMIC
-> allocation failure.
->
-> This patch changes the conditions under which kswapd waits on
-> congestion by only going to sleep if the min watermarks are being met.
+> On Tuesday 17 November 2009, Maciej Rutecki wrote:
+> > 2009/11/16 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+> > > This message has been generated automatically as a part of a report
+> > > of recent regressions.
+> > >
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.31.  Please verify if it still should be listed and let me know
+> > > (either way).
+> > >
+> > >
+> > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14352
+> > > Subject         : WARNING: at net/mac80211/scan.c:267
+> > > Submitter       : Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > > Date            : 2009-10-08 00:30 (40 days old)
+> > > References      : http://bugzilla.intellinuxwireless.org/show_bug.cgi?id=2089#c7
+> > >
+> > >
+> > 
+> > In 2.6.32-rc7 problem seems be fixed.
+> 
+> Thanks, closing.
 
-I finally got around to test this together with the whole series on
-2.6.31.6. after running it for a day I have not yet seen a single
-order:5 allocation problem ... (while I had several an hour before)
+looks like this one is still present in rc8:
 
-for the record, my kernel is now running with the following
-patches:
+[ 5724.754068] iwl3945 0000:03:00.0: Error sending REPLY_SCAN_CMD: time 
+out after 500ms.
+[ 5725.886986] ------------[ cut here ]------------
+[ 5725.887021] WARNING: at net/mac80211/scan.c:267 
+ieee80211_scan_completed+0x48/0x198 [mac80211]()
+[ 5725.887051] Hardware name: 8741J3G
+[ 5725.887054] Modules linked in: fuse ipt_MASQUERADE iptable_nat nf_nat 
+rfcomm sco bridge stp llc bnep l2cap nfsd lockd nfs_acl auth_rpcgss 
+exportfs sunrpc xt_physdev ip6t_REJECT nf_conntrack_ipv6 ip6table_filter 
+ip6_tables ipv6 cpufreq_ondemand acpi_cpufreq dm_multipath kvm uinput 
+snd_hda_codec_analog snd_hda_intel snd_hda_codec arc4 snd_hwdep snd_seq 
+ecb iwl3945 snd_seq_device iwlcore snd_pcm snd_timer nsc_ircc mac80211 snd 
+irda btusb iTCO_wdt soundcore iTCO_vendor_support bluetooth thinkpad_acpi 
+video snd_page_alloc pcspkr output i2c_i801 joydev cfg80211 rfkill 
+crc_ccitt yenta_socket rsrc_nonstatic e1000e radeon ttm drm_kms_helper drm 
+i2c_algo_bit i2c_core [last unloaded: microcode]
+[ 5725.887263] Pid: 436, comm: iwl3945 Not tainted 2.6.32-rc8 #6
+[ 5725.887269] Call Trace:
+[ 5725.887283]  [<c0436c53>] warn_slowpath_common+0x6a/0x81
+[ 5725.887308]  [<f8bd0e8f>] ? ieee80211_scan_completed+0x48/0x198 
+[mac80211]
+[ 5725.887318]  [<c0436c7c>] warn_slowpath_null+0x12/0x15
+[ 5725.887340]  [<f8bd0e8f>] ieee80211_scan_completed+0x48/0x198 
+[mac80211]
+[ 5725.887370]  [<f8c97b81>] iwl_bg_scan_completed+0x97/0xcf [iwlcore]
+[ 5725.887382]  [<c044ad6b>] worker_thread+0x13f/0x1b7
+[ 5725.887409]  [<f8c97aea>] ? iwl_bg_scan_completed+0x0/0xcf [iwlcore]
+[ 5725.887421]  [<c044e535>] ? autoremove_wake_function+0x0/0x34
+[ 5725.887431]  [<c044ac2c>] ? worker_thread+0x0/0x1b7
+[ 5725.887441]  [<c044e2f7>] kthread+0x64/0x69
+[ 5725.887450]  [<c044e293>] ? kthread+0x0/0x69
+[ 5725.887461]  [<c040400f>] kernel_thread_helper+0x7/0x10
+[ 5725.887469] ---[ end trace f4077df61007acfa ]---
 
-patch1:Date: Thu, 12 Nov 2009 19:30:31 +0000
-patch1:Subject: [PATCH 1/5] page allocator: Always wake kswapd when restarting an allocation attempt after direct reclaim failed
-
-patch2:Date: Thu, 12 Nov 2009 19:30:32 +0000
-patch2:Subject: [PATCH 2/5] page allocator: Do not allow interrupts to use ALLOC_HARDER
-
-patch3:Date: Thu, 12 Nov 2009 19:30:33 +0000
-patch3:Subject: [PATCH 3/5] page allocator: Wait on both sync and async congestion after direct reclaim
-
-patch4:Date: Thu, 12 Nov 2009 19:30:34 +0000
-patch4:Subject: [PATCH 4/5] vmscan: Have kswapd sleep for a short interval and double check it should be asleep
-
-patch5:Date: Fri, 13 Nov 2009 20:03:57 +0000
-patch5:Subject: [PATCH] vmscan: Stop kswapd waiting on congestion when the min watermark is not being met V2
-
-patch6:Date: Tue, 17 Nov 2009 10:34:21 +0000
-patch6:Subject: [PATCH] vmscan: Have kswapd sleep for a short interval and double check it should be asleep fix 1
-
-cheers
-tobi
-
--- 
-Tobi Oetiker, OETIKER+PARTNER AG, Aarweg 15 CH-4600 Olten, Switzerland
-http://it.oetiker.ch tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org ++41 62 775 9902 / sb: -9900
+regards, sebastian
+> 
+> Rafael
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
+> 
