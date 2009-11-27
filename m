@@ -1,85 +1,58 @@
-From: Sebastian Ott <sebott-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+From: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 Subject: Re: [Bug #14352] WARNING: at net/mac80211/scan.c:267
-Date: Fri, 27 Nov 2009 14:46:21 +0100 (CET)
-Message-ID: <alpine.LFD.2.00.0911271438340.3429@localhost>
-References: <GUZt44bIwCE.A.vLF.pSdALB@chimera> <xXQGFmujPl.A.o1.bUdALB@chimera> <8db1092f0911162204i36dbd472w1d2c88411e151acb@mail.gmail.com> <200911172319.49198.rjw@sisk.pl>
+Date: Fri, 27 Nov 2009 15:10:34 +0100
+Message-ID: <1259331034.5428.19.camel@johannes.local>
+References: <GUZt44bIwCE.A.vLF.pSdALB@chimera>
+	 <xXQGFmujPl.A.o1.bUdALB@chimera>
+	 <8db1092f0911162204i36dbd472w1d2c88411e151acb@mail.gmail.com>
+	 <200911172319.49198.rjw@sisk.pl>
+	 <alpine.LFD.2.00.0911271438340.3429@localhost>
 Mime-Version: 1.0
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-cTylexAlDVI3DKO6R6eY"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200911172319.49198.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <alpine.LFD.2.00.0911271438340.3429@localhost>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org
+To: Sebastian Ott <sebott-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 
-On Tue, 17 Nov 2009, Rafael J. Wysocki wrote:
+--=-cTylexAlDVI3DKO6R6eY
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Tuesday 17 November 2009, Maciej Rutecki wrote:
-> > 2009/11/16 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
-> > > This message has been generated automatically as a part of a report
-> > > of recent regressions.
-> > >
-> > > The following bug entry is on the current list of known regressions
-> > > from 2.6.31.  Please verify if it still should be listed and let me know
-> > > (either way).
-> > >
-> > >
-> > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14352
-> > > Subject         : WARNING: at net/mac80211/scan.c:267
-> > > Submitter       : Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > > Date            : 2009-10-08 00:30 (40 days old)
-> > > References      : http://bugzilla.intellinuxwireless.org/show_bug.cgi?id=2089#c7
-> > >
-> > >
-> > 
-> > In 2.6.32-rc7 problem seems be fixed.
-> 
-> Thanks, closing.
+On Fri, 2009-11-27 at 14:46 +0100, Sebastian Ott wrote:
 
-looks like this one is still present in rc8:
+> [ 5724.754068] iwl3945 0000:03:00.0: Error sending REPLY_SCAN_CMD: time=20
+> out after 500ms.
 
-[ 5724.754068] iwl3945 0000:03:00.0: Error sending REPLY_SCAN_CMD: time 
-out after 500ms.
-[ 5725.886986] ------------[ cut here ]------------
-[ 5725.887021] WARNING: at net/mac80211/scan.c:267 
-ieee80211_scan_completed+0x48/0x198 [mac80211]()
-[ 5725.887051] Hardware name: 8741J3G
-[ 5725.887054] Modules linked in: fuse ipt_MASQUERADE iptable_nat nf_nat 
-rfcomm sco bridge stp llc bnep l2cap nfsd lockd nfs_acl auth_rpcgss 
-exportfs sunrpc xt_physdev ip6t_REJECT nf_conntrack_ipv6 ip6table_filter 
-ip6_tables ipv6 cpufreq_ondemand acpi_cpufreq dm_multipath kvm uinput 
-snd_hda_codec_analog snd_hda_intel snd_hda_codec arc4 snd_hwdep snd_seq 
-ecb iwl3945 snd_seq_device iwlcore snd_pcm snd_timer nsc_ircc mac80211 snd 
-irda btusb iTCO_wdt soundcore iTCO_vendor_support bluetooth thinkpad_acpi 
-video snd_page_alloc pcspkr output i2c_i801 joydev cfg80211 rfkill 
-crc_ccitt yenta_socket rsrc_nonstatic e1000e radeon ttm drm_kms_helper drm 
-i2c_algo_bit i2c_core [last unloaded: microcode]
-[ 5725.887263] Pid: 436, comm: iwl3945 Not tainted 2.6.32-rc8 #6
-[ 5725.887269] Call Trace:
-[ 5725.887283]  [<c0436c53>] warn_slowpath_common+0x6a/0x81
-[ 5725.887308]  [<f8bd0e8f>] ? ieee80211_scan_completed+0x48/0x198 
-[mac80211]
-[ 5725.887318]  [<c0436c7c>] warn_slowpath_null+0x12/0x15
-[ 5725.887340]  [<f8bd0e8f>] ieee80211_scan_completed+0x48/0x198 
-[mac80211]
-[ 5725.887370]  [<f8c97b81>] iwl_bg_scan_completed+0x97/0xcf [iwlcore]
-[ 5725.887382]  [<c044ad6b>] worker_thread+0x13f/0x1b7
-[ 5725.887409]  [<f8c97aea>] ? iwl_bg_scan_completed+0x0/0xcf [iwlcore]
-[ 5725.887421]  [<c044e535>] ? autoremove_wake_function+0x0/0x34
-[ 5725.887431]  [<c044ac2c>] ? worker_thread+0x0/0x1b7
-[ 5725.887441]  [<c044e2f7>] kthread+0x64/0x69
-[ 5725.887450]  [<c044e293>] ? kthread+0x0/0x69
-[ 5725.887461]  [<c040400f>] kernel_thread_helper+0x7/0x10
-[ 5725.887469] ---[ end trace f4077df61007acfa ]---
+That tells you there's something wrong with the device -- and maybe the
+driver is misbehaving by telling mac80211 that it couldn't scan but then
+still calling scan_completed().
 
-regards, sebastian
-> 
-> Rafael
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> Please read the FAQ at  http://www.tux.org/lkml/
-> 
+In any case, driver bug as far as I can tell.
+
+johannes
+
+--=-cTylexAlDVI3DKO6R6eY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAABAgAGBQJLD93XAAoJEODzc/N7+Qma8X0P/1DfjfPk6uTCNM2FKDrSISeB
+cSbofmtR55rBSrgbR4fiy4jftjpoa2hSVWQoTjmZ/5m1vJRiIAkqPUG7rZ/FIIND
+X704I+oe/0TfCbuhk56lO+5lo0OpdScZItMK8ZeXgPOJkbzElm2+5wPLdSClXeh/
+HQNCzkRhcelqc8fejOQ2VLhopJrx7Kf/xuJCTf2ACbx16lVPyPa8yNQ477J+/KtV
+D+lARzdXmKsk52pm0CzyMtXdaJGVYwDrFxmxX0DLfiSW8EenK+DmJVY3Pk/oZw8W
+lOjYq3c+vkNHfBVsIf7MeMHbjPahYtZAmWCLmO9Yv7YfewYST1BBQQqq8ZKSN9X6
+uYDrx/0fiSUeCRbcYmdycjNTQ6jT39sVtAQWIGADe2bFg9YMZ6kvzeLYPwpVNdL7
+3OLUYo4t8yJKc/lFX7/qRPkgDQ3Mbv6Ne5IXFHZsUUPybJutvftek8LD1zsuO7hN
+knnLkdEFvD3Ozs0iLanVT+iwR6pymn04e/NoCLBQGcWKtDLR2ElCE6B592M8BtJ2
+3MFnM6PZ5IRD4oj5Yhs0kFctE4AG/rvUbXHJweiTs/z3rmixagMKUazeQ7ZI9i5q
+ZYfkbh908f+75wlsxm5JPUmu5XFHqKVz1ErlMf3Vi9D7VWEeoouj6ylYgZsqYR/P
+BvsUOQdxptVrfOnc3+2y
+=OGMK
+-----END PGP SIGNATURE-----
+
+--=-cTylexAlDVI3DKO6R6eY--
