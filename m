@@ -1,85 +1,69 @@
-From: Alan Jenkins <sourcejedi.lkml@googlemail.com>
-Subject: Re: ACPI Exception...
-Date: Tue, 1 Dec 2009 14:09:18 +0000
-Message-ID: <9b2b86520912010609k687dd30cre49a7dfea5c84a60@mail.gmail.com>
-References: <20091126193221.3ed8cbf0@tux.DEF.witbe.net>
-	 <9b2b86520911300451s63ddc589seb66f3dee48b0cbd@mail.gmail.com>
-	 <20091130140429.6a93104d@tux.DEF.witbe.net>
+From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Subject: Bisected: s2disk (uswsusp only) hangs just before poweroff
+Date: Tue, 01 Dec 2009 19:59:40 +0000
+Message-ID: <4B1575AC.6080904@tuffmail.co.uk>
 Mime-Version: 1.0
-Return-path: <linux-acpi-owner@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlemail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type;
-        bh=g/dNK7W6Zj1G+Exm0q7kwNsDtthHR9Uq3b7eqd+ZgA4=;
-        b=fjpoueYv0CmeinEOpMP9ImRIY7410tBoByoUGSYzdx7xIBdYEwJ+0kCUVm1iOIC++M
-         1WQ+3jnZMXf+/EHFXiqsgemmOlr7GEpnNBkoc/PyRfxA0iej+a5Zuz+S8jTY4xD0dyMk
-         ljqh/ZBpnprAPxMMifnPnazdz49l2QdkFgdt8=
-In-Reply-To: <20091130140429.6a93104d@tux.DEF.witbe.net>
-Sender: linux-acpi-owner@vger.kernel.org
+        h=domainkey-signature:received:received:sender:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:content-type
+         :content-transfer-encoding;
+        bh=XEIEjAf6WvlCA+0JJiCKNu+1QWD3BIXLC6FNvbu4I9c=;
+        b=VQgTF4K6lQZ4tyNTlQczkUn6gHO1ox5g1wPTk2zc/sJrN9VULhI7G69CGjhQJEZkOd
+         Ydw92eBs5h3Qkz7eWnkjClpdL6oelso3GpsFgMqkuQcGb0WwvrRcdeLDecI/k820FFyF
+         icfx+DgAzGGiHy8xl6cZUI77eN07PwdSQZKFs=
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Paul Rolland <rol@witbe.net>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alexey Starikovskiy <astarikovskiy@suse.de>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+Cc: linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 
-On 11/30/09, Paul Rolland <rol@witbe.net> wrote:
-> Hello Alan,
->
-> On Mon, 30 Nov 2009 12:51:54 +0000
-> Alan Jenkins <sourcejedi.lkml@googlemail.com> wrote:
->
->> On 11/26/09, Paul Rolland <rol@witbe.net> wrote:
->> > Hello,
->> >
->> > I'm seeing the following messages in my logs :
->> >
->> > Nov 26 19:26:27 tux kernel: ACPI Exception: AE_TIME, Returned by
->> > Handler for [EmbeddedControl] (20090903/evregion-424)
->> > Nov 26 19:26:27 tux kernel: ACPI Error (psparse-0537): Method
->> > parse/execution failed [\_SB_.PCI0.LPCB.BAT1._BST] (Node
->> > ffff88013f8182e0), AE_TIME
->> > Nov 26 19:26:27 tux kernel: ACPI Exception: AE_TIME, Evaluating _BST
->> > (20090903/battery-393)
->> >
->> > Is there anything I can do to provide more informations ?
->> >
->> > Regards,
->> > Paul
->>
->> Your kernel version would be a good start :-).
-> I'm really stupid :(
-> 2.6.32-rc8
->
->> The Embedded Controler driver has seen a series of fixes over time.
->> This error may be fixed for you in the upcoming 2.6.32 release.  So
->> you could try testing a release candidate.
->>
->> It would also be good to tell us the vendor and model of the laptop.
-> It's a Dell Vostro 1520, Bios revision 04.
->
-> The message itself is "erratic" : it comes up sometimes, with no apparent
-> reason (at least so far). It occured twice :
-> /var/log/messages-20091129:Nov 26 19:26:27 tux kernel: ACPI Error
-> (psparse-0537): Method parse/execution failed [\_SB_.PCI0.LPCB.BAT1._BST]
-> (Node ffff88013f8182e0), AE_TIME
-> /var/log/messages-20091129:Nov 28 18:20:39 tux kernel: ACPI Error
-> (psparse-0537): Method parse/execution failed [\_SB_.PCI0.LPCB.BAT1._BST]
-> (Node ffff88013f8182e0), AE_TIME
->
-> but I never got it with previous -rc releases, which is why I got
-> surprised, though I can't say it's preventing something to work !
+Hi
 
-It sounds hard to pin this down, given how random it is.  Can we
-assume you used a 2.6.31(-ish) kernel for some time, without seeing
-these errors?  There weren't too many relevant EC changes since 2.6.31
-(and at least the new DMI check should be easy to rule out).
+Suspend to disk is (sometimes) hanging for me in 2.6.32-rc.  I finally 
+got around to bisecting it, which blamed the following commit by Mel:
 
-You could create an entry on the bugzilla.kernel.org and attach the
-output of "dmidecode".  That would at least record the existence of a
-problem.  I'm afraid I can't think of anything else.  Possibly Alexey
-will think of some other questions, now I've got the right address for
-him :).
+5f8dcc2 "page-allocator: split per-cpu list into one-list-per-migrate-type"
 
-Thanks
+I was able to confirm this by reverting the commit, which fixed the 
+hang.  I had to revert one other commit first to avoid a conflict:
+
+a6f9edd "page-allocator: maintain rolling count of pages to free from 
+the PCP"
+
+-- detail --
+
+When I suspend my EeePc 701 to disk, it sometimes hangs after writing 
+out the hibernation image.  The system is still able to resume from this 
+image (after working around the hang by pressing the power button). 
+
+This is specific to s2disk from the uswsusp package (which is now 
+installed by default on debian unstable).  It doesn't happen if I 
+uninstall uswsusp and use the in-kernel suspend instead.
+
+The hang doesn't happen if I boot with "init=/bin/bash" and run s2disk.  
+Nor does it happen if I boot normally, then switch to single user mode 
+("telinit 12").
+
+It only happens if I've logged in to KDE.  In the past, this has 
+indicated a problem in a network driver, since NetworkManager only made 
+a connection once I logged in.  But it still hangs if I remove both 
+ath5k and atl2 before I log into KDE.  (I actually tried removing as 
+many modules as possible: atl2, ath5k, usbcore, snd-hda-intel, psmouse, 
+pcspkr, battery, ac, themal, fan, and eeepc-laptop).  Perhaps it's 
+something to do with the size of the hibernation image.
+
+-- confidence in the bisection result --
+
+The randomness was a bit annoying, but it's not too bad.  The hang would 
+normally show up in the first 3 hibernation cycles; I don't remember 
+having to wait more than 6.
+
+I wrote a script to do s2disk + rtcwake so I could leave it testing 
+without constantly hitting the power button.  This let me test 
+2.6.32-rc8 with the reverts for at least 20 hibernation cycles.
+
+Regards
 Alan
