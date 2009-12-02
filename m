@@ -1,71 +1,87 @@
-From: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Subject: Re: Bisected: s2disk (uswsusp only) hangs just before poweroff
-Date: Wed, 02 Dec 2009 11:11:13 +0000
-Message-ID: <4B164B51.6040203@tuffmail.co.uk>
-References: <4B1575AC.6080904@tuffmail.co.uk> <20091201214529.GA1457@csn.ul.ie>
+From: Mel Gorman <mel@csn.ul.ie>
+Subject: Re: still getting allocation failures (was Re: [PATCH] vmscan:
+	Stop kswapd waiting on congestion when the min watermark is not
+	being met V2)
+Date: Wed, 2 Dec 2009 11:32:41 +0000
+Message-ID: <20091202113241.GC1457@csn.ul.ie>
+References: <20091113142608.33B9.A69D9226@jp.fujitsu.com> <20091113135443.GF29804@csn.ul.ie> <20091114023138.3DA5.A69D9226@jp.fujitsu.com> <20091113181557.GM29804@csn.ul.ie> <2f11576a0911131033w4a9e6042k3349f0be290a167e@mail.gmail.com> <20091113200357.GO29804@csn.ul.ie> <alpine.DEB.2.00.0911261542500.21450@sebohet.brgvxre.pu> <alpine.DEB.2.00.0911290834470.20857@sebohet.brgvxre.pu>
 Mime-Version: 1.0
+Return-path: <owner-linux-mm@kvack.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.00.0911290834470.20857@sebohet.brgvxre.pu>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:received:received:sender:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=W9Ff34VMyB0cr4vjIFMSnUrOujhWvHwVRulVMMxli2M=;
-        b=LveseUeTE4HV8h0/ZkzHpUiTX0SFB83SK7yMlmftJc7zNM2p5imlAkNEJ2Kqs4xNhO
-         A+1IMuwn1b5ADXOBlaZbZMtDNrv6jFkYqNHj5SrRbyF9ZBj2YjmOn6pI8xcCL/FYB64u
-         hEBpcAPLqmWD9toPhG8YqhhiZ86fFV/uiJnqc=
-In-Reply-To: <20091201214529.GA1457-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Tobi Oetiker <tobi@oetiker.ch>
+Cc: Andrew Morton <akpm@linux-foundation.org>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, linux-kernel@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-Mel Gorman wrote:
-> On Tue, Dec 01, 2009 at 07:59:40PM +0000, Alan Jenkins wrote:
->   
->> Hi
->>
->> Suspend to disk is (sometimes) hanging for me in 2.6.32-rc.  I finally  
->> got around to bisecting it, which blamed the following commit by Mel:
->>
->> 5f8dcc2 "page-allocator: split per-cpu list into one-list-per-migrate-type"
->>
->> I was able to confirm this by reverting the commit, which fixed the  
->> hang.  I had to revert one other commit first to avoid a conflict:
->>
->> a6f9edd "page-allocator: maintain rolling count of pages to free from  
->> the PCP"
->>
->>     
->
-> Which RC kernel? Specifically, are the commits
->
-> cc4a6851466039a8a688c843962a05689059ff3b always wake kswapd when restarting an allocation attempt
-> 9d0ed60fe9cd1fbf57f755cd27a23ae9114d7210 Do not allow interrupts to use ALLOC_HARDER
->
-> applied?
->
-> The latter one in particular might make a difference if s2disk is
-> pushing the system far below the watermarks. I don't suppose you know
-> where it's hanging? i.e. is it hanging in the allocator itself?
->   
+On Sun, Nov 29, 2009 at 08:42:09AM +0100, Tobi Oetiker wrote:
+> Hi Mel,
+> 
+> Thursday Tobias Oetiker wrote:
+> > Hi Mel,
+> >
+> > Nov 13 Mel Gorman wrote:
+> >
+> > > The last version has a stupid bug in it. Sorry.
+> > >
+> > > Changelog since V1
+> > >   o Fix incorrect negation
+> > >   o Rename kswapd_no_congestion_wait to kswapd_skip_congestion_wait as
+> > >     suggested by Rik
+> > >
+> > > If reclaim fails to make sufficient progress, the priority is raised.
+> > > Once the priority is higher, kswapd starts waiting on congestion.  However,
+> > > if the zone is below the min watermark then kswapd needs to continue working
+> > > without delay as there is a danger of an increased rate of GFP_ATOMIC
+> > > allocation failure.
+> > >
+> > > This patch changes the conditions under which kswapd waits on
+> > > congestion by only going to sleep if the min watermarks are being met.
+> >
+> > I finally got around to test this together with the whole series on
+> > 2.6.31.6. after running it for a day I have not yet seen a single
+> > order:5 allocation problem ... (while I had several an hour before)
+> 
+> > for the record, my kernel is now running with the following
+> > patches:
+> >
+> > patch1:Date: Thu, 12 Nov 2009 19:30:31 +0000
+> > patch1:Subject: [PATCH 1/5] page allocator: Always wake kswapd when restarting an allocation attempt after direct reclaim failed
+> >
+> > patch2:Date: Thu, 12 Nov 2009 19:30:32 +0000
+> > patch2:Subject: [PATCH 2/5] page allocator: Do not allow interrupts to use ALLOC_HARDER
+> >
+> > patch3:Date: Thu, 12 Nov 2009 19:30:33 +0000
+> > patch3:Subject: [PATCH 3/5] page allocator: Wait on both sync and async congestion after direct reclaim
+> >
+> > patch4:Date: Thu, 12 Nov 2009 19:30:34 +0000
+> > patch4:Subject: [PATCH 4/5] vmscan: Have kswapd sleep for a short interval and double check it should be asleep
+> >
+> > patch5:Date: Fri, 13 Nov 2009 20:03:57 +0000
+> > patch5:Subject: [PATCH] vmscan: Stop kswapd waiting on congestion when the min watermark is not being met V2
+> >
+> > patch6:Date: Tue, 17 Nov 2009 10:34:21 +0000
+> > patch6:Subject: [PATCH] vmscan: Have kswapd sleep for a short interval and double check it should be asleep fix 1
+> >
+> I have now been running the new kernel for a few days and I am
+> sorry to report that about a day after booting the allocation
+> failures started showing again. More order:4 instead of order:5 ...
+> 
 
-After enabling "suspend loglevel = 8" in uswsusp.conf (grr), I saw a 
-pair of hung task backtraces.
+Why has the order changed?
 
-<http://picasaweb.google.com/Alan.Christopher.Jenkins/Screenshots#5410594126006567282>
+Also, what allocator were you using in 2.6.30 and 2.6.31.6, SLAB or
+SLUB? Did you happen to change them when upgrading the kernel?
 
+-- 
+Mel Gorman
+Part-time Phd Student                          Linux Technology Center
+University of Limerick                         IBM Dublin Software Lab
 
-> would you mind trying the following patch?
-> Unfortunately, it's totally untested. The intention of the patch is to
-> use other PCP lists if the desired one cannot be refilled.
->
-> Thanks.
->   
-
-Sure, will do.
-
-Thanks
-Alan
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
