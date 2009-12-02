@@ -1,63 +1,98 @@
-From: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-Subject: Re: [PATCH] uswsusp: automatically free the in-memory image once
- s2disk has finished with it
-Date: Wed, 2 Dec 2009 22:11:07 +0100
-Message-ID: <20091202211107.GA20830@elf.ucw.cz>
-References: <4B1575AC.6080904@tuffmail.co.uk>
- <20091201214529.GA1457@csn.ul.ie>
- <200912012253.08522.rjw@sisk.pl>
- <4B16545B.3090703@tuffmail.co.uk>
- <20091202122019.GD1457@csn.ul.ie>
- <4B16797C.3010304@tuffmail.co.uk>
+From: Tobias Oetiker <tobi@oetiker.ch>
+Subject: Re: still getting allocation failures (was Re: [PATCH] vmscan: Stop
+ kswapd waiting on congestion when the min watermark is not being met V2)
+Date: Wed, 2 Dec 2009 22:30:23 +0100 (CET)
+Message-ID: <alpine.DEB.2.00.0912022210220.30023@sebohet.brgvxre.pu>
+References: <20091113142608.33B9.A69D9226@jp.fujitsu.com> <20091113135443.GF29804@csn.ul.ie> <20091114023138.3DA5.A69D9226@jp.fujitsu.com> <20091113181557.GM29804@csn.ul.ie> <2f11576a0911131033w4a9e6042k3349f0be290a167e@mail.gmail.com> <20091113200357.GO29804@csn.ul.ie>
+ <alpine.DEB.2.00.0911261542500.21450@sebohet.brgvxre.pu> <alpine.DEB.2.00.0911290834470.20857@sebohet.brgvxre.pu> <20091202113241.GC1457@csn.ul.ie>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <4B16797C.3010304-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <20091202113241.GC1457@csn.ul.ie>
+Sender: owner-linux-mm@kvack.org
+List-Id: <kernel-testers.vger.kernel.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+To: Mel Gorman <mel@csn.ul.ie>
+Cc: Andrew Morton <akpm@linux-foundation.org>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Frans Pop <elendil@planet.nl>, Jiri Kosina <jkosina@suse.cz>, Sven Geggus <lists@fuchsschwanzdomain.de>, Karol Lewandowski <karol.k.lewandowski@gmail.com>, linux-kernel@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>, Pekka Enberg <penberg@cs.helsinki.fi>, Rik van Riel <riel@redhat.com>, Christoph Lameter <cl@linux-foundation.org>, Stephan von Krawczynski <skraw@ithnet.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Wed 2009-12-02 14:28:12, Alan Jenkins wrote:
-> The original in-kernel suspend (swsusp) frees the in-memory hibernation
-> image before powering off the machine.  s2disk doesn't, so there is
-> _much_ less free memory when it tries to power off.
-> 
-> This is a gratuitous difference.  The userspace suspend interface
-> /dev/snapshot only allows the hibernation image to be read once.
-> Once the s2disk program has read the last page, we can free the entire
-> image.
-> 
-> This avoids a hang after writing the hibernation image which was
-> triggered by commit 5f8dcc21211a3d4e3a7a5ca366b469fb88117f61
-> "page-allocator: split per-cpu list into one-list-per-migrate-type":
+Hi Mel,
 
-Yes, you work around page-allocator hang. But is it right thing to do?
+Today Mel Gorman wrote:
 
-I mean... Power down should not be too memory-critical. Why can't new
-page allocator handle that?
+> On Sun, Nov 29, 2009 at 08:42:09AM +0100, Tobi Oetiker wrote:
+> > Hi Mel,
+> >
+> > Thursday Tobias Oetiker wrote:
+> > > Hi Mel,
+> > >
+> > > Nov 13 Mel Gorman wrote:
+> > >
+> > > > The last version has a stupid bug in it. Sorry.
+> > > >
+> > > > Changelog since V1
+> > > >   o Fix incorrect negation
+> > > >   o Rename kswapd_no_congestion_wait to kswapd_skip_congestion_wait as
+> > > >     suggested by Rik
+> > > >
+> > > > If reclaim fails to make sufficient progress, the priority is raised.
+> > > > Once the priority is higher, kswapd starts waiting on congestion.  However,
+> > > > if the zone is below the min watermark then kswapd needs to continue working
+> > > > without delay as there is a danger of an increased rate of GFP_ATOMIC
+> > > > allocation failure.
+> > > >
+> > > > This patch changes the conditions under which kswapd waits on
+> > > > congestion by only going to sleep if the min watermarks are being met.
+> > >
+> > > I finally got around to test this together with the whole series on
+> > > 2.6.31.6. after running it for a day I have not yet seen a single
+> > > order:5 allocation problem ... (while I had several an hour before)
+> >
+> > > for the record, my kernel is now running with the following
+> > > patches:
+> > >
+> > > patch1:Date: Thu, 12 Nov 2009 19:30:31 +0000
+> > > patch1:Subject: [PATCH 1/5] page allocator: Always wake kswapd when restarting an allocation attempt after direct reclaim failed
+> > >
+> > > patch2:Date: Thu, 12 Nov 2009 19:30:32 +0000
+> > > patch2:Subject: [PATCH 2/5] page allocator: Do not allow interrupts to use ALLOC_HARDER
+> > >
+> > > patch3:Date: Thu, 12 Nov 2009 19:30:33 +0000
+> > > patch3:Subject: [PATCH 3/5] page allocator: Wait on both sync and async congestion after direct reclaim
+> > >
+> > > patch4:Date: Thu, 12 Nov 2009 19:30:34 +0000
+> > > patch4:Subject: [PATCH 4/5] vmscan: Have kswapd sleep for a short interval and double check it should be asleep
+> > >
+> > > patch5:Date: Fri, 13 Nov 2009 20:03:57 +0000
+> > > patch5:Subject: [PATCH] vmscan: Stop kswapd waiting on congestion when the min watermark is not being met V2
+> > >
+> > > patch6:Date: Tue, 17 Nov 2009 10:34:21 +0000
+> > > patch6:Subject: [PATCH] vmscan: Have kswapd sleep for a short interval and double check it should be asleep fix 1
+> > >
+> > I have now been running the new kernel for a few days and I am
+> > sorry to report that about a day after booting the allocation
+> > failures started showing again. More order:4 instead of order:5 ...
+> >
+>
+> Why has the order changed?
 
-(And yes, when page allocator is fixed we may want to do something
-like that, but...)
+? no idea ... the order has changed after applying the patches
+cited above.
 
-								Pavel
+> Also, what allocator were you using in 2.6.30 and 2.6.31.6, SLAB or
+> SLUB? Did you happen to change them when upgrading the kernel?
 
-> --- a/kernel/power/user.c
-> +++ b/kernel/power/user.c
-> @@ -165,6 +165,10 @@ static ssize_t snapshot_read(struct file *filp, char __user *buf,
-> 			res = -EFAULT;
-> 		else
-> 			*offp = data->handle.offset;
-> +	} else {
-> +		swsusp_free();
-> +		memset(&data->handle, 0, sizeof(struct snapshot_handle));
-> +		data->ready = 0;
-> 	}
-> 
->  Unlock:
+I have been and still am using SLUB  ...
+
+cheers
+tobi
+
 
 -- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+Tobi Oetiker, OETIKER+PARTNER AG, Aarweg 15 CH-4600 Olten, Switzerland
+http://it.oetiker.ch tobi@oetiker.ch ++41 62 775 9902 / sb: -9900
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
