@@ -1,91 +1,62 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [PATCH] uswsusp: automatically free the in-memory image once s2disk has finished with it
-Date: Wed, 2 Dec 2009 22:47:24 +0100
-Message-ID: <200912022247.24705.rjw@sisk.pl>
-References: <4B1575AC.6080904@tuffmail.co.uk> <20091202122019.GD1457@csn.ul.ie> <4B16797C.3010304@tuffmail.co.uk>
+From: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [PATCH] uswsusp: automatically free the in-memory image once
+	s2disk has finished with it
+Date: Wed, 2 Dec 2009 22:07:18 +0000
+Message-ID: <20091202220718.GI1457@csn.ul.ie>
+References: <4B1575AC.6080904@tuffmail.co.uk> <20091201214529.GA1457@csn.ul.ie> <200912012253.08522.rjw@sisk.pl> <4B16545B.3090703@tuffmail.co.uk> <20091202122019.GD1457@csn.ul.ie> <4B16797C.3010304@tuffmail.co.uk> <20091202211107.GA20830@elf.ucw.cz>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B16797C.3010304-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20091202211107.GA20830-I/5MKhXcvmPrBKCeMvbIDA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Cc: pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Cc: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Wednesday 02 December 2009, Alan Jenkins wrote:
-> The original in-kernel suspend (swsusp) frees the in-memory hibernation
-> image before powering off the machine.  s2disk doesn't, so there is
-> _much_ less free memory when it tries to power off.
+On Wed, Dec 02, 2009 at 10:11:07PM +0100, Pavel Machek wrote:
+> On Wed 2009-12-02 14:28:12, Alan Jenkins wrote:
+> > The original in-kernel suspend (swsusp) frees the in-memory hibernation
+> > image before powering off the machine.  s2disk doesn't, so there is
+> > _much_ less free memory when it tries to power off.
+> > 
+> > This is a gratuitous difference.  The userspace suspend interface
+> > /dev/snapshot only allows the hibernation image to be read once.
+> > Once the s2disk program has read the last page, we can free the entire
+> > image.
+> > 
+> > This avoids a hang after writing the hibernation image which was
+> > triggered by commit 5f8dcc21211a3d4e3a7a5ca366b469fb88117f61
+> > "page-allocator: split per-cpu list into one-list-per-migrate-type":
 > 
-> This is a gratuitous difference.  The userspace suspend interface
-> /dev/snapshot only allows the hibernation image to be read once.
-> Once the s2disk program has read the last page, we can free the entire
-> image.
+> Yes, you work around page-allocator hang. But is it right thing to do?
 > 
-> This avoids a hang after writing the hibernation image which was
-> triggered by commit 5f8dcc21211a3d4e3a7a5ca366b469fb88117f61
-> "page-allocator: split per-cpu list into one-list-per-migrate-type":
-> 
->     [top of trace lost due to screen height]
->     ? shrink_zone
->     ? try_to_free_pages
->     ? isolate_pages_global
->     ? __alloc_pages_nodemask
->     ? kthread
->     ? __get_free_pages
->     ? copy_process
->     ? kthread
->     ? do_fork
->     ...
-> 
->     INFO: task s2disk:2036 blocked for more than 120 seconds
->     ...
->     Call Trace:
->     ...
->     ? wait_for_common
->     ? default_wake_function
->     ? kthread_create
->     ? worker_thread
->     ? create_workqueue_thread
->     ? worker_thread
->     ? __create_workqueue_key
->     ? stop_machine_create
->     ? disable_nonboot_cpus
->     ? hibernation_platform_enter
->     ? snapshot_ioctl
->     ...
->     ? sys_ioctl
->     ...
-> 
-> Signed-off-by: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
 
-Thanks for tracking this, great job!
+What's wrong with it? The hang is likely because the allocator has no
+memory to work with. The patch in question makes small changes to the
+amount of available memory but it shouldn't matter on uni-core. Some
+structures are slightly larger but it's extremely borderline. I'm at a
+loss to explain actually why it makes a difference untill things were
+extremely borderline to begin with.
 
-I'm going to push this patch to Linus in the next batch (before 2.6.32 if I
-manage to).
+> I mean... Power down should not be too memory-critical. Why can't new
+> page allocator handle that?
+> 
 
-Best,
-Rafael
+The allocator isn't new. I wouldn't have expected power-down to make any
+allocation at all but clearly it is.
+
+> (And yes, when page allocator is fixed we may want to do something
+> like that, but...)
+> 
+
+At the moment, I'm not sure what needs fixing in there. There is no
+memory and it gets stuck in a loop. I better stand up if I'm going to
+pull something out of my ass :/
 
 
-> ---
->  kernel/power/user.c |    4 ++++
->  1 files changed, 4 insertions(+), 0 deletions(-)
-> 
-> diff --git a/kernel/power/user.c b/kernel/power/user.c
-> index bf0014d..94d0210 100644
-> --- a/kernel/power/user.c
-> +++ b/kernel/power/user.c
-> @@ -165,6 +165,10 @@ static ssize_t snapshot_read(struct file *filp, char __user *buf,
->  			res = -EFAULT;
->  		else
->  			*offp = data->handle.offset;
-> +	} else {
-> +		swsusp_free();
-> +		memset(&data->handle, 0, sizeof(struct snapshot_handle));
-> +		data->ready = 0;
->  	}
->  
->   Unlock:
-> 
+-- 
+Mel Gorman
+Part-time Phd Student                          Linux Technology Center
+University of Limerick                         IBM Dublin Software Lab
