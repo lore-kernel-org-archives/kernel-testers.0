@@ -1,167 +1,172 @@
-From: Corrado Zoccolo <czoccolo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: still getting allocation failures (was Re: [PATCH] vmscan: Stop 
-	kswapd waiting on congestion when the min watermark is not being met V2)
-Date: Thu, 3 Dec 2009 21:26:00 +0100
-Message-ID: <4e5e476b0912031226i5b0e6cf9hdfd5519182ccdefa@mail.gmail.com>
-References: <20091113142608.33B9.A69D9226@jp.fujitsu.com>
-	 <20091113135443.GF29804@csn.ul.ie>
-	 <20091114023138.3DA5.A69D9226@jp.fujitsu.com>
-	 <20091113181557.GM29804@csn.ul.ie>
-	 <2f11576a0911131033w4a9e6042k3349f0be290a167e@mail.gmail.com>
-	 <20091113200357.GO29804@csn.ul.ie>
-	 <alpine.DEB.2.00.0911261542500.21450@sebohet.brgvxre.pu>
-	 <alpine.DEB.2.00.0911290834470.20857@sebohet.brgvxre.pu>
-	 <20091202113241.GC1457@csn.ul.ie>
-	 <alpine.DEB.2.00.0912022210220.30023@sebohet.brgvxre.pu>
+From: Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [PATCH] uswsusp: automatically free the in-memory image once 
+	s2disk has finished with it
+Date: Tue, 8 Dec 2009 00:37:36 +0000
+Message-ID: <9b2b86520912071637v6957ed24ie0f67acf6785ab08@mail.gmail.com>
+References: <200912012253.08522.rjw@sisk.pl> <20091202122019.GD1457@csn.ul.ie>
+	 <4B16797C.3010304@tuffmail.co.uk> <20091202211107.GA20830@elf.ucw.cz>
+	 <20091202220718.GI1457@csn.ul.ie> <20091202221524.GB20830@elf.ucw.cz>
+	 <20091202222516.GD26702@csn.ul.ie> <20091203075301.GA29440@elf.ucw.cz>
+	 <4B17B5B8.1060105@tuffmail.co.uk> <20091203145018.GG26702@csn.ul.ie>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
+        d=googlemail.com; s=gamma;
         h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=+/+gBWgmHZmFomi1NIOVJi5JitmiYaC2BCCG4sbEeGw=;
-        b=v8CrXurbtjX5KhdFxwFTQFvgvZASEEZjTT/FnEShV7qkEom1OVirtdh/E8b1+Z3zrt
-         pVDhHpZX4cdeR/GiP9MiA5tWULbwqnVHmydlUwYBcq+oQYDHlKUwJH7ifxpKNAkyOHbH
-         ibOnWcm7U/6chcFnf48To5vOEkxnzaHJn5uxw=
-In-Reply-To: <alpine.DEB.2.00.0912022210220.30023-EjsAmf5DE5zIvOfxy3zmAzgUDZmNtoG9@public.gmane.org>
+         :date:message-id:subject:from:to:cc:content-type;
+        bh=C5Bus7tOw7E9nbUXR9V+t4zwreiTeX7Ud0Ze117+dFE=;
+        b=cHWrUxmb+S7iUgmIaCFePGlo+LfwXoqVBm6RIdELI9uoTM6dal23nqyp8rLzstEhW5
+         LH3cHRYmXWyDsotIhJ++qyOWTTGuf+2HLstG2qiUWLDno5rgk6Je+lrrWvpo5NLwENcK
+         OE1e9ES7CYYqvaccJZYKGW8DmnUeRxKRn1maQ=
+In-Reply-To: <20091203145018.GG26702-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>
-Cc: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Cc: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Hi Tobias,
-does the patch in http://lkml.org/lkml/2009/11/30/301 help with your
-high order allocation problems?
-It seems that you have lot of memory, but high order pages do not show =
-up.
-The patch should make them more likely to appear.
-On my machine (that has much less ram than yours), with the patch, I
-always have order-10 pages available.
+On 12/3/09, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org> wrote:
+> On Thu, Dec 03, 2009 at 12:57:28PM +0000, Alan Jenkins wrote:
+>> Pavel Machek wrote:
+>>> On Wed 2009-12-02 22:25:16, Mel Gorman wrote:
+>>>
+>>>> On Wed, Dec 02, 2009 at 11:15:24PM +0100, Pavel Machek wrote:
+>>>>
+>>>>> On Wed 2009-12-02 22:07:18, Mel Gorman wrote:
+>>>>>
+>>>>>> On Wed, Dec 02, 2009 at 10:11:07PM +0100, Pavel Machek wrote:
+>>>>>>
+>>>>>>> On Wed 2009-12-02 14:28:12, Alan Jenkins wrote:
+>>>>>>>
+>>>>>>>> The original in-kernel suspend (swsusp) frees the in-memory
+>>>>>>>> hibernation
+>>>>>>>> image before powering off the machine.  s2disk doesn't, so there is
+>>>>>>>> _much_ less free memory when it tries to power off.
+>>>>>>>>
+>>>>>>>> This is a gratuitous difference.  The userspace suspend interface
+>>>>>>>> /dev/snapshot only allows the hibernation image to be read once.
+>>>>>>>> Once the s2disk program has read the last page, we can free the
+>>>>>>>> entire
+>>>>>>>> image.
+>>>>>>>>
+>>>>>>>> This avoids a hang after writing the hibernation image which was
+>>>>>>>> triggered by commit 5f8dcc21211a3d4e3a7a5ca366b469fb88117f61
+>>>>>>>> "page-allocator: split per-cpu list into one-list-per-migrate-type":
+>>>>>>>>
+>>>>>>> Yes, you work around page-allocator hang. But is it right thing to
+>>>>>>> do?
 
-Corrado
-
-On Wed, Dec 2, 2009 at 10:30 PM, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org> wrote=
-:
-> Hi Mel,
->
-> Today Mel Gorman wrote:
->
->> On Sun, Nov 29, 2009 at 08:42:09AM +0100, Tobi Oetiker wrote:
->> > Hi Mel,
->> >
->> > Thursday Tobias Oetiker wrote:
->> > > Hi Mel,
->> > >
->> > > Nov 13 Mel Gorman wrote:
->> > >
->> > > > The last version has a stupid bug in it. Sorry.
->> > > >
->> > > > Changelog since V1
->> > > > =C2=A0 o Fix incorrect negation
->> > > > =C2=A0 o Rename kswapd_no_congestion_wait to kswapd_skip_conge=
-stion_wait as
->> > > > =C2=A0 =C2=A0 suggested by Rik
->> > > >
->> > > > If reclaim fails to make sufficient progress, the priority is =
-raised.
->> > > > Once the priority is higher, kswapd starts waiting on congesti=
-on. =C2=A0However,
->> > > > if the zone is below the min watermark then kswapd needs to co=
-ntinue working
->> > > > without delay as there is a danger of an increased rate of GFP=
-_ATOMIC
->> > > > allocation failure.
->> > > >
->> > > > This patch changes the conditions under which kswapd waits on
->> > > > congestion by only going to sleep if the min watermarks are be=
-ing met.
->> > >
->> > > I finally got around to test this together with the whole series=
- on
->> > > 2.6.31.6. after running it for a day I have not yet seen a singl=
-e
->> > > order:5 allocation problem ... (while I had several an hour befo=
-re)
->> >
->> > > for the record, my kernel is now running with the following
->> > > patches:
->> > >
->> > > patch1:Date: Thu, 12 Nov 2009 19:30:31 +0000
->> > > patch1:Subject: [PATCH 1/5] page allocator: Always wake kswapd w=
-hen restarting an allocation attempt after direct reclaim failed
->> > >
->> > > patch2:Date: Thu, 12 Nov 2009 19:30:32 +0000
->> > > patch2:Subject: [PATCH 2/5] page allocator: Do not allow interru=
-pts to use ALLOC_HARDER
->> > >
->> > > patch3:Date: Thu, 12 Nov 2009 19:30:33 +0000
->> > > patch3:Subject: [PATCH 3/5] page allocator: Wait on both sync an=
-d async congestion after direct reclaim
->> > >
->> > > patch4:Date: Thu, 12 Nov 2009 19:30:34 +0000
->> > > patch4:Subject: [PATCH 4/5] vmscan: Have kswapd sleep for a shor=
-t interval and double check it should be asleep
->> > >
->> > > patch5:Date: Fri, 13 Nov 2009 20:03:57 +0000
->> > > patch5:Subject: [PATCH] vmscan: Stop kswapd waiting on congestio=
-n when the min watermark is not being met V2
->> > >
->> > > patch6:Date: Tue, 17 Nov 2009 10:34:21 +0000
->> > > patch6:Subject: [PATCH] vmscan: Have kswapd sleep for a short in=
-terval and double check it should be asleep fix 1
->> > >
->> > I have now been running the new kernel for a few days and I am
->> > sorry to report that about a day after booting the allocation
->> > failures started showing again. More order:4 instead of order:5 ..=
-=2E
->> >
+>> Here's a new datum:
 >>
->> Why has the order changed?
->
-> ? no idea ... the order has changed after applying the patches
-> cited above.
->
->> Also, what allocator were you using in 2.6.30 and 2.6.31.6, SLAB or
->> SLUB? Did you happen to change them when upgrading the kernel?
->
-> I have been and still am using SLUB =C2=A0...
->
-> cheers
-> tobi
->
->
-> --
-> Tobi Oetiker, OETIKER+PARTNER AG, Aarweg 15 CH-4600 Olten, Switzerlan=
-d
-> http://it.oetiker.ch tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org ++41 62 775 9902 / sb: -9900
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kerne=
-l" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at =C2=A0http://vger.kernel.org/majordomo-info.ht=
-ml
-> Please read the FAQ at =C2=A0http://www.tux.org/lkml/
->
+>> Applying this patch has left a less frequent hang.  So far it has
+>> happened twice.  (Once playing last night, and once today testing
+>> hibernation with KMS enabled).
+>>
+>> This hang happens at a different point.  It happens _before_ writing out
+>> the hibernation image.  That is, I don't see the textual progress bar,
+>> and if I force a power-cycle then it doesn't resume (and complains about
+>> uncleanly unmounted filesystems).
+>>
+>> Here is the backtrace:
+>>
+>> [top of screen]
+>> s2disk D c1c05580 0 5988 5809 0x00000000
+>> ...
+>> Call Trace:
+>> ...
+>> ? wait_for_common
+>> ? default_wake_function
+>> ? kthread_create
+>> ? worker_thread
+>> ? create_workqueue_thread
+>> ? worker_thread
+>> ? __create_workqueue_thread
+>> ? stop_machine_create
+>> ? disable_nonboot_cpus
+>> ? hibernation_snapshot
+>> ? snapshot_ioctl
+>> ...
+>> ? sys_ioctl
+>>
+
+> Can you reconfirm that backing out both of those patches makes this 100%
+> reliable or is it just a lot harder to trigger. It does not even appear
+> that it's locked up within the page allocator at this trace message.
+> Assuming c1c05580 is where it's stuck at, where does addr2line say that
+> is (requires CONFIG_DEBUG_INFO) ?
+
+The new hang happened with only one patch applied (my "uswsusp:
+automatically free the in-memory image once s2disk has finished with
+it").
+
+I was able to capture a longer version of the above backtrace by using
+KMS [1].  This pre-writeout hang is similar to the post-writeout hang
+which occurred on vanilla 2-6.32-rc8 [2].  In both cases the s2disk
+process is hanging in disable_nonboot_cpus().  [Which is in turn
+blocked on stop_machine_create(), which is apparently failing to
+allocate pages for a new task].  The only difference is where
+disable_nonboot_cpus() is called from.
+
+And then, the problem went away :-(.  I was unable to reproduce either
+hang, even using the same unpatched kernel binaries as before.  Sorry.
+
+[1] Infrequent pre-writeout hang (new, longer backtrace):
+<http://picasaweb.google.com/Alan.Christopher.Jenkins/Screenshots#5412613393538769410>
+
+[2] Frequent post-writeout hang:
+<http://picasaweb.google.com/Alan.Christopher.Jenkins/Screenshots#5410594126006567282>
 
 
+> On Thu, Dec 03, 2009 at 12:57:28PM +0000, Alan Jenkins wrote:
+>> It looks like hibernation_snapshot() calls disable_nonboot_cpus()
+>> _before_ we allocate the hibernation image.  (I.e. before
+>> swsusp_arch_suspend(), which calls swsusp_save()).
+>>
 
---=20
-_______________________________________________________________________=
-___
+Sorry, I was wrong here.  The hang occurs after "PM: Preallocating
+image memory...".  So it's a bit less mysterious; we can expect to be
+low on memory at this point (although it's still a mystery why we
+should run out completely).
 
-dott. Corrado Zoccolo                          mailto:czoccolo-Re5JQEeQqe8@public.gmane.org=
-m
-PhD - Department of Computer Science - University of Pisa, Italy
------------------------------------------------------------------------=
----
-The self-confidence of a warrior is not the self-confidence of the aver=
-age
-man. The average man seeks certainty in the eyes of the onlooker and ca=
-lls
-that self-confidence. The warrior seeks impeccability in his own eyes a=
-nd
-calls that humbleness.
-                               Tales of Power - C. Castaneda
+> I'm not that familiar with the area but considering where we are getting
+> stuck and what the path affected, I thought it might be CPU related.
+> There is a patch below that prints debugging messages to show how the
+> CPU is being taken down with respect to PCP draining in case something
+> has changed there. It also puts in some debugging code in the most
+> likely place to be infinite looping due to the patch.
+>
+>> So I think Pavel's right, we still need to work out what's happening here.
+>>
+>
+> Can you apply the following patch please and retry?
+>
+> Two things to watch out for. First, do either of the BUG_ON triggers?
+> Second, for the TRACE messages, do they always appear in the order of
+> "draining pages" and then "deleting pagesets"?
+
+I went ahead and tried this, even though I couldn't reproduce the hang anymore.
+
+It didn't BUG.  It didn't show any TRACEs either.  I guess the cpu
+notifiers weren't called at all, since no cpu hotplug is necessary on
+my uni-core system.
+
+So...
+It looks like I can't provide any more data.
+
+I can confidently say that post-writeout hangs would be avoided by my
+patch.   But I don't think we want to apply it, because it didn't
+solve the pre-writeout hang - which appears to have a similar root
+cause.  The post-writeout hang happened to be easier to reproduce, and
+it was better in that it didn't cause data loss / fsck (the system
+could still resume).
+
+As a curious tester, I would favour not increasing PAGES_FOR_IO on
+similar grounds.  Call me naive but 4Mb should be plenty, at least for
+this system.  That said, I wouldn't mind if we reserve an extra 4Mb to
+avoid the hang, _and then abort the hibernation if we actually have to
+use it_.  (We can't simply print a warning message; no-one would see
+it because it wouldn't survive the power-down).
+
+Thanks
+Alan
