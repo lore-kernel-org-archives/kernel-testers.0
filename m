@@ -1,99 +1,87 @@
-From: Corrado Zoccolo <czoccolo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: still getting allocation failures (was Re: [PATCH] vmscan: Stop 
-	kswapd waiting on congestion when the min watermark is not being met V2)
-Date: Mon, 14 Dec 2009 09:49:32 +0100
-Message-ID: <4e5e476b0912140049x29d2905epf1a21bfdbd1709a6@mail.gmail.com>
-References: <20091113142608.33B9.A69D9226@jp.fujitsu.com>
-	 <20091113181557.GM29804@csn.ul.ie>
-	 <2f11576a0911131033w4a9e6042k3349f0be290a167e@mail.gmail.com>
-	 <20091113200357.GO29804@csn.ul.ie>
-	 <alpine.DEB.2.00.0911261542500.21450@sebohet.brgvxre.pu>
-	 <alpine.DEB.2.00.0911290834470.20857@sebohet.brgvxre.pu>
-	 <20091202113241.GC1457@csn.ul.ie>
-	 <alpine.DEB.2.00.0912022210220.30023@sebohet.brgvxre.pu>
-	 <4e5e476b0912031226i5b0e6cf9hdfd5519182ccdefa@mail.gmail.com>
-	 <alpine.DEB.2.00.0912140646550.12657@sebohet.brgvxre.pu>
+From: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Subject: Re: [PATCH] uswsusp: automatically free the in-memory image once
+ s2disk has finished with it
+Date: Mon, 14 Dec 2009 12:08:35 +0100
+Message-ID: <20091214110835.GA1937@elf.ucw.cz>
+References: <4B16797C.3010304@tuffmail.co.uk>
+ <20091202211107.GA20830@elf.ucw.cz>
+ <20091202220718.GI1457@csn.ul.ie>
+ <20091202221524.GB20830@elf.ucw.cz>
+ <20091202222516.GD26702@csn.ul.ie>
+ <20091203075301.GA29440@elf.ucw.cz>
+ <4B17B5B8.1060105@tuffmail.co.uk>
+ <20091203145018.GG26702@csn.ul.ie>
+ <9b2b86520912071637v6957ed24ie0f67acf6785ab08@mail.gmail.com>
+ <20091211105352.GB30670@csn.ul.ie>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=vuhYB2p/r2UDoNAyMFg4H4UieEespKI1Bf56yhIs7SU=;
-        b=LMsW/EZlhteY4/FBzdB74JT7zUFbHMnJG1tHqHI11JdKOuVtxXnk0Y5cJbhZzX0bTD
-         jKrg4RObWeLtjTR40FqpnX2SsDcA4HPqQSY5LGsQ5Uw2oPK1+KuDzrUvL/UUF7faTS7l
-         eq49sZH+P+evFDIL9Gj62EmKazhrPAoqx//eA=
-In-Reply-To: <alpine.DEB.2.00.0912140646550.12657-EjsAmf5DE5zIvOfxy3zmAzgUDZmNtoG9@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20091211105352.GB30670-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org>
-Cc: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Frans Pop <elendil-EIBgga6/0yRmR6Xm/wNWPw@public.gmane.org>, Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>, Sven Geggus <lists-+AJD3D7QEjjt/htJsj1pd9AswbaBtrod@public.gmane.org>, Karol Lewandowski <karol.k.lewandowski-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stephan von Krawczynski <skraw-DcQCyzbjH0jQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>
+Cc: Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Hi Tobi,
-On Mon, Dec 14, 2009 at 6:59 AM, Tobias Oetiker <tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org> wrote=
-:
-> Hi Corrado,
->
-> Dec 3 Corrado Zoccolo wrote:
->
->> Hi Tobias,
->> does the patch in http://lkml.org/lkml/2009/11/30/301 help with your
->> high order allocation problems?
->> It seems that you have lot of memory, but high order pages do not sh=
-ow up.
->> The patch should make them more likely to appear.
->> On my machine (that has much less ram than yours), with the patch, I
->> always have order-10 pages available.
->
-> I have tried it and ... it does not work, the =C2=A0page allocation
-> failure still shows. BUT while testing it on two machines I found tha=
-t it
-> only shows on on machine. The workload on the two machines is
-> similar (they both run virtualbox) and also the available memory.
+On Fri 2009-12-11 10:53:52, Mel Gorman wrote:
+> On Tue, Dec 08, 2009 at 12:37:36AM +0000, Alan Jenkins wrote:
+> > >> <SNIP>
+> > >> Here's a new datum:
+> > >>
+> > >> Applying this patch has left a less frequent hang.  So far it has
+> > >> happened twice.  (Once playing last night, and once today testing
+> > >> hibernation with KMS enabled).
+> > >>
+> > >> This hang happens at a different point.  It happens _before_ writing out
+> > >> the hibernation image.  That is, I don't see the textual progress bar,
+> > >> and if I force a power-cycle then it doesn't resume (and complains about
+> > >> uncleanly unmounted filesystems).
+> > >>
+> > >> Here is the backtrace:
+> > >>
+> > >> [top of screen]
+> > >> s2disk D c1c05580 0 5988 5809 0x00000000
+> > >> ...
+> > >> Call Trace:
+> > >> ...
+> > >> ? wait_for_common
+> > >> ? default_wake_function
+> > >> ? kthread_create
+> > >> ? worker_thread
+> > >> ? create_workqueue_thread
+> > >> ? worker_thread
+> > >> ? __create_workqueue_thread
+> > >> ? stop_machine_create
+> > >> ? disable_nonboot_cpus
+> > >> ? hibernation_snapshot
+> > >> ? snapshot_ioctl
+> > >> ...
+> > >> ? sys_ioctl
+> > >>
+> > 
+> > > Can you reconfirm that backing out both of those patches makes this 100%
+> > > reliable or is it just a lot harder to trigger. It does not even appear
+> > > that it's locked up within the page allocator at this trace message.
+> > > Assuming c1c05580 is where it's stuck at, where does addr2line say that
+> > > is (requires CONFIG_DEBUG_INFO) ?
+> > 
+> > The new hang happened with only one patch applied (my "uswsusp:
+> > automatically free the in-memory image once s2disk has finished with
+> > it").
+> > 
+> 
+> Ok. I'm learning towards believing that the system is extremely
+> borderline and what c1c05580 is doing is changing very slightly how many
+> pages are available. Why it makes a difference on uni-core, I have no
+> idea but it could be very small differences in available memory as it
+> does increase the size of some in-kernel structures.
 
-Where those both failing before the patch?
-Did the order of failure change?
+It should be very easy to test that theory, right? Just reduce
+PAGES_FOR_IO to 3.9MB, and if it breaks, you know system was
+borderline. 
+								Pavel
 
-> Could it be caused by a hardware driver ?
-It should be something that is taking more time to release pages, but
-I don't know what can it be. What happens if you drop the caches when
-you are getting failures? Does the failure rate drops as if you had
-just rebooted?
-Can you log at regular intervals the content of /proc/buddyinfo, and
-try  correlating when the number of pages of the requested order are
-becoming scarce with some other event?
-
-Thanks,
-Corrado
->
-> cheers
-> tobi
->
-> --
-> Tobi Oetiker, OETIKER+PARTNER AG, Aarweg 15 CH-4600 Olten, Switzerlan=
-d
-> http://it.oetiker.ch tobi-7K0TWYW2a3pyDzI6CaY1VQ@public.gmane.org ++41 62 775 9902 / sb: -9900
->
-
-
-
---=20
-_______________________________________________________________________=
-___
-
-dott. Corrado Zoccolo                          mailto:czoccolo-Re5JQEeQqe8@public.gmane.org=
-m
-PhD - Department of Computer Science - University of Pisa, Italy
------------------------------------------------------------------------=
----
-The self-confidence of a warrior is not the self-confidence of the aver=
-age
-man. The average man seeks certainty in the eyes of the onlooker and ca=
-lls
-that self-confidence. The warrior seeks impeccability in his own eyes a=
-nd
-calls that humbleness.
-                               Tales of Power - C. Castaneda
+-- 
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
