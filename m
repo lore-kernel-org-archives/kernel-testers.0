@@ -1,56 +1,48 @@
-From: OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
-Subject: Re: [Bug #14889] System wakeup by time not working anymore
-Date: Wed, 30 Dec 2009 07:14:13 +0900
-Message-ID: <87zl51sa16.fsf@devron.myhome.or.jp>
-References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
-	<srmJ8vMxKPH.A.BaC.ZwhOLB@chimera>
-	<87k4w5u1fr.fsf@devron.myhome.or.jp> <200912292235.50104.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: 2.6.33-rc2: Reported regressions 2.6.31 -> 2.6.32
+Date: Tue, 29 Dec 2009 23:15:31 +0100
+Message-ID: <200912292315.31679.rjw@sisk.pl>
+References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <4B3A2497.1030506@gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200912292235.50104.rjw-KKrjLPT3xs0@public.gmane.org> (Rafael J. Wysocki's message of
-	"Tue, 29 Dec 2009 22:35:50 +0100")
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752984AbZL2WPM@vger.kernel.org>
+In-Reply-To: <4B3A2497.1030506@gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, David =?iso-8859-1?Q?H=E4rdeman?= <david-0WFrdVpeebksCylrc8G9yg@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Malte =?iso-8859-1?Q?Schr=F6der?= <maltesch-Mmb7MZpHnFY@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Gertjan van Wingerde <gwingerde@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>
 
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+On Tuesday 29 December 2009, Gertjan van Wingerde wrote:
+> Hi Rafael,
+> 
+> On 12/29/09 16:26, Rafael J. Wysocki wrote:
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14896
+> > Subject		: REGRESSION for RT2561/RT61 in 2.6.32, related to power saving
+> > Submitter	: Alan Stern <stern@rowland.harvard.edu>
+> > Date		: 2009-12-06 22:12 (24 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=126013756829691&w=4
+> > Handled-By	: Gertjan van Wingerde <gwingerde@gmail.com>
+> > 
+> 
+> This one is fixed via a patch that is queued to be merged into 2.6.33. Is submitted
+> for stable as well.
+> See http://marc.info/?l=linux-wireless&m=126090994909576&w=2
 
-> On Tuesday 29 December 2009, OGAWA Hirofumi wrote:
->> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
->>=20
->> > This message has been generated automatically as a part of a repor=
-t
->> > of regressions introduced between 2.6.31 and 2.6.32.
->> >
->> > The following bug entry is on the current list of known regression=
-s
->> > introduced between 2.6.31 and 2.6.32.  Please verify if it still s=
-hould
->> > be listed and let me know (either way).
->> >
->> >
->> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14889
->> > Subject		: System wakeup by time not working anymore
->> > Submitter	: Malte Schr=F6der <maltesch-Mmb7MZpHnFY@public.gmane.org>
->> > Date		: 2009-12-03 18:06 (27 days old)
->> > First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torv=
-alds/linux-2.6.git;a=3Dcommit;h=3Dabd6633c67925f90775bb74755f9c547e30f1=
-f20
->> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D12598636263190=
-0&w=3D4
->>=20
->> Specified commit would break the pnp driver which is using
->> driver->shutdown.
->>=20
->> Could you test this (untested) patch?
->
-> Could you please also attach the patch to the Bugzilla entry?
+OK, bug entry updated accordingly.
 
-Ok, I've attached the same patch to bugzilla.
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14731
+> > Subject		: rt61pci regression
+> > Submitter	: tim blechmann <tim@klingt.org>
+> > Date		: 2009-12-04 09:33 (26 days old)
+> > 
+> 
+> I believe this problem to be the same as the previous one, and the fix indicated above
+> should fix this as well.
+> Note however that the submitter had presumably unrelated issues that caused him not to 
+> be able to validate the workaround of disabling powersaving.
 
-Thanks.
---=20
-OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+Closed as a duplicate of bug #14896.
+
+Rafael
