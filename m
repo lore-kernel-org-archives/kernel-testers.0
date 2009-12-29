@@ -1,20 +1,20 @@
-From: Evgeniy Polyakov <zbr-i6C2adt8DTjR7s880joybQ@public.gmane.org>
-Subject: Re: [Bug #14894] pohmelfs: NULL pointer dereference
-Date: Tue, 29 Dec 2009 19:35:12 +0300
-Message-ID: <20091229163512.GA4958@ioremap.net>
-References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <srmJ8vMxKPH.A.iAC.TwhOLB@chimera>
+From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [Bug #14630] sched_rt_periodic_timer vs cpu hotplug
+Date: Tue, 29 Dec 2009 17:36:59 +0100
+Message-ID: <1262104619.7135.161.camel@laptop>
+References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
+	 <srmJ8vMxKPH.A.UwD.jxhOLB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <srmJ8vMxKPH.A.iAC.TwhOLB@chimera>
+In-Reply-To: <srmJ8vMxKPH.A.UwD.jxhOLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
 
-On Tue, Dec 29, 2009 at 04:28:52PM +0100, Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
+On Tue, 2009-12-29 at 16:28 +0100, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of regressions introduced between 2.6.31 and 2.6.32.
 > 
@@ -23,16 +23,14 @@ On Tue, Dec 29, 2009 at 04:28:52PM +0100, Rafael J. Wysocki (rjw-KKrjLPT3xs0@pub
 > be listed and let me know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14894
-> Subject		: pohmelfs: NULL pointer dereference
-> Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-12-02 1:11 (28 days old)
-> References	: http://marc.info/?l=linux-kernel&m=125971633107940&w=4
-> Handled-By	: Evgeniy Polyakov <zbr-i6C2adt8DTjR7s880joybQ@public.gmane.org>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14630
+> Subject		: sched_rt_periodic_timer vs cpu hotplug
+> Submitter	: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+> Date		: 2009-11-11 10:18 (49 days old)
+> References	: http://marc.info/?l=linux-kernel&m=125793470309588&w=4
+> Handled-By	: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> Patch		: http://patchwork.kernel.org/patch/60250/
 
-Yes, I saw this regression and there is a patch to handle this, but it
-kind of disables sync at all. Jens Axboe, who introduced per-bdi
-writeback patches, did not yet reply.
+git branch -a --contains 047106ad
 
--- 
-	Evgeniy Polyakov
+seems to suggest that this made it to Linus' tree.
