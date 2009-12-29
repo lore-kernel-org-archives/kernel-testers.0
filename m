@@ -1,54 +1,56 @@
 From: OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
-Subject: Re: [Bug #14730] sky2 won't work after suspend/resume cycle
-Date: Wed, 30 Dec 2009 07:08:30 +0900
-Message-ID: <874on9tov5.fsf@devron.myhome.or.jp>
+Subject: Re: [Bug #14889] System wakeup by time not working anymore
+Date: Wed, 30 Dec 2009 07:14:13 +0900
+Message-ID: <87zl51sa16.fsf@devron.myhome.or.jp>
 References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
-	<srmJ8vMxKPH.A.6LD.JxhOLB@chimera>
-	<878wcltyg5.fsf@devron.myhome.or.jp> <200912292229.47644.rjw@sisk.pl>
+	<srmJ8vMxKPH.A.BaC.ZwhOLB@chimera>
+	<87k4w5u1fr.fsf@devron.myhome.or.jp> <200912292235.50104.rjw@sisk.pl>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200912292229.47644.rjw-KKrjLPT3xs0@public.gmane.org> (Rafael J. Wysocki's message of
-	"Tue, 29 Dec 2009 22:29:47 +0100")
+In-Reply-To: <200912292235.50104.rjw-KKrjLPT3xs0@public.gmane.org> (Rafael J. Wysocki's message of
+	"Tue, 29 Dec 2009 22:35:50 +0100")
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Maciej J. Woloszyk" <mat-7wKBDC4inUHVItvQsEIGlw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, David =?iso-8859-1?Q?H=E4rdeman?= <david-0WFrdVpeebksCylrc8G9yg@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Malte =?iso-8859-1?Q?Schr=F6der?= <maltesch-Mmb7MZpHnFY@public.gmane.org>
 
 "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
 
 > On Tuesday 29 December 2009, OGAWA Hirofumi wrote:
 >> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
->> 
->> > This message has been generated automatically as a part of a report
+>>=20
+>> > This message has been generated automatically as a part of a repor=
+t
 >> > of regressions introduced between 2.6.31 and 2.6.32.
 >> >
->> > The following bug entry is on the current list of known regressions
->> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+>> > The following bug entry is on the current list of known regression=
+s
+>> > introduced between 2.6.31 and 2.6.32.  Please verify if it still s=
+hould
 >> > be listed and let me know (either way).
 >> >
 >> >
->> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14730
->> > Subject		: sky2 won't work after suspend/resume cycle
->> > Submitter	: Maciej J. Woloszyk <mat-7wKBDC4inUHVItvQsEIGlw@public.gmane.org>
->> > Date		: 2009-12-04 09:02 (26 days old)
->> 
->> This seems to be related to commit 4b77b0a2ba27d64f58f16d8d4d48d8319dda36ff.
->> 
->> It clears dev->state_saved blindly, but pci_pm_resume() calls
->> pci_restore_standard_config() before pm->resume() (by probably
->> historical reason).
+>> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14889
+>> > Subject		: System wakeup by time not working anymore
+>> > Submitter	: Malte Schr=F6der <maltesch-Mmb7MZpHnFY@public.gmane.org>
+>> > Date		: 2009-12-03 18:06 (27 days old)
+>> > First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torv=
+alds/linux-2.6.git;a=3Dcommit;h=3Dabd6633c67925f90775bb74755f9c547e30f1=
+f20
+>> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D12598636263190=
+0&w=3D4
+>>=20
+>> Specified commit would break the pnp driver which is using
+>> driver->shutdown.
+>>=20
+>> Could you test this (untested) patch?
 >
-> The other way around.  pci_restore_standard_config() is the new thing and the
-> pci_restore_state() in ->resume() is supposed to be unnecessary.  Unfortunately
-> in this case the restoration of PCI config registers in
-> pci_restore_standard_config() doesn't work.
->
-> I'd like to understand the reason, but temporarily we can just set
-> pdev->state_saved to 1 in sky2_resume(), as proposed in the bug entry.
+> Could you please also attach the patch to the Bugzilla entry?
 
-Sure. However, it might not be only sky2. Well, anyway, another likely
-one is - restore() should be called after pci_pm_default_resume()?
--- 
+Ok, I've attached the same patch to bugzilla.
+
+Thanks.
+--=20
 OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
