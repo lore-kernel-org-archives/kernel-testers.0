@@ -1,42 +1,41 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #14862] intel-agp breaks X, regression from 2.6.31
-Date: Tue, 29 Dec 2009 22:34:31 +0100
-Message-ID: <200912292234.31575.rjw@sisk.pl>
-References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <20091229184220.GO19249@aehallh.com> <20091229185926.GP19249@aehallh.com>
+From: Vincent ETIENNE <ve@vetienne.net>
+Subject: Re: [Bug #14906] boot problem bisected to commit 99935a7a59
+Date: Tue, 29 Dec 2009 22:37:58 +0100
+Message-ID: <200912292237.58999.ve@vetienne.net>
+References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.LvH.ZnhOLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752883AbZL2VeU@vger.kernel.org>
-In-Reply-To: <20091229185926.GP19249@aehallh.com>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752810AbZL2ViK@vger.kernel.org>
+In-Reply-To: <NJVdobuNFNK.A.LvH.ZnhOLB@chimera>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: "Zephaniah E. Hull" <warp-spam_kernel@aehallh.com>, David Woodhouse <david.woodhouse@intel.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Type: Text/Plain; charset="utf-8"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Yinghai Lu <yinghai@kernel.org>
 
-On Tuesday 29 December 2009, Zephaniah E. Hull wrote:
-> On Tue, Dec 29, 2009 at 01:42:20PM -0500, Zephaniah E. Hull wrote:
-> > On Tue, Dec 29, 2009 at 04:28:51PM +0100, Rafael J. Wysocki wrote:
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14862
-> > > Subject		: intel-agp breaks X, regression from 2.6.31
-> > > Submitter	: Zephaniah E. Hull. <warp-spam_kernel@aehallh.com>
-> > > Date		: 2009-12-22 22:59 (8 days old)
-> > 
-> > I plan on testing 2.6.32.2 later today in hopes that some of the IOMMU
-> > changes will have done something in regards to this.
-> 
-> #14627 and this bug are duplicates.
-> 
-> Bugs #14900, and #14728 look very suspiciously like they might be the
-> same thing as well.
-> 
-> I would be interested to see if commenting out:
-> '#define USE_PCI_DMA_API 1' in drivers/char/agp/intel-agp.c fixes the
-> problem for those bugs as well.
-> 
-> I suspect that some better run time checking is called for here.
+Le mardi 29 d=C3=A9cembre 2009 16:09:58, Rafael J. Wysocki a =C3=A9crit=
+ :
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>=20
+> The following bug entry is on the current list of known regressions
+> from 2.6.32.  Please verify if it still should be listed and let me k=
+now
+> (either way).
+>=20
+>=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14906
+> Subject		: boot problem bisected to commit 99935a7a59
+> Submitter	: Vincent ETIENNE <ve@vetienne.net>
+> Date		: 2009-12-19 16:07 (11 days old)
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D126123946509316&w=
+=3D4
+> Handled-By	: Yinghai Lu <yinghai@kernel.org>
+> Patch		: http://patchwork.kernel.org/patch/68941/
+>=20
 
-Thanks for the update.
-
-David, has there been any progress with bug #14627?
-
-Rafael
+The proposed patch works for me but the bug is still present in 2.6.33-=
+rc2=20
+(patch still aply cleanly in rc2 and continue to solve the problem). Ha=
+ve to=20
+wait for rc3.
