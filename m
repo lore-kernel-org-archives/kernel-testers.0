@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14904] slab: possible recursive locking detected
-Date: Tue, 29 Dec 2009 16:09:58 +0100 (CET)
-Message-ID: <NJVdobuNFNK.A.90H.anhOLB@chimera>
+Subject: [Bug #14909] pata_cmd64x broken in 2.6.33-rc1
+Date: Tue, 29 Dec 2009 16:09:59 +0100 (CET)
+Message-ID: <NJVdobuNFNK.A.DYH.UnhOLB@chimera>
 References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Jeff Garzik <jgarzik-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org"@ogre.sisk.pl, Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.32.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14904
-Subject		: slab: possible recursive locking detected
-Submitter	: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Date		: 2009-12-18 11:58 (12 days old)
-References	: http://marc.info/?l=linux-kernel&m=126113754023909&w=4
-Handled-By	: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14909
+Subject		: pata_cmd64x broken in 2.6.33-rc1
+Submitter	: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+Date		: 2009-12-19 22:23 (11 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d43744390e460dce6626fb8de2c02a24ff650005
+References	: http://marc.info/?l=linux-kernel&m=126126142501594&w=4
 
