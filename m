@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14922] 2.6.32 seemed to have broken nVidia MCP7A sata controller
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14902] Boot ends not on tty1
 Date: Tue, 29 Dec 2009 16:28:54 +0100 (CET)
-Message-ID: <srmJ8vMxKPH.A.nSB.IwhOLB@chimera>
+Message-ID: <srmJ8vMxKPH.A.WjB.MwhOLB@chimera>
 References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753526AbZL2Pgr@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Jeff Garzik <jeff@garzik.org>, Mike Cui <cuicui@gmail.com>, Robert Hancock <hancockrwd@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Friedrich <andreas.friedrich-RJz4owOZxyXQFUHtdCDX3A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,11 +22,9 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14922
-Subject		: 2.6.32 seemed to have broken nVidia MCP7A sata controller
-Submitter	: Mike Cui <cuicui@gmail.com>
-Date		: 2009-12-19 6:13 (11 days old)
-References	: http://marc.info/?l=linux-ide&m=126120323407742&w=4
-Handled-By	: Jeff Garzik <jeff@garzik.org>
-		  Robert Hancock <hancockrwd@gmail.com>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14902
+Subject		: Boot ends not on tty1
+Submitter	: Andreas Friedrich <andreas.friedrich-RJz4owOZxyXQFUHtdCDX3A@public.gmane.org>
+Date		: 2009-12-15 8:05 (15 days old)
+References	: http://marc.info/?l=linux-kernel&m=126086495304263&w=4
 
