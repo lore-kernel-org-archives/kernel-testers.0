@@ -1,28 +1,42 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14909] pata_cmd64x broken in 2.6.33-rc1
-Date: Tue, 29 Dec 2009 23:44:12 +0100
-Message-ID: <200912292344.13042.rjw@sisk.pl>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.DYH.UnhOLB@chimera> <alpine.SOC.1.00.0912292306020.975@math.ut.ee>
+From: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
+Subject: Re: [Bug #14942] gkrellm no longer shows all the temperatures on
+ thinkpad x60
+Date: Tue, 29 Dec 2009 20:58:31 -0200
+Message-ID: <20091229225831.GA13358@khazad-dum.debian.net>
+References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
+ <NJVdobuNFNK.A.MHG.BnhOLB@chimera>
+ <20091229181356.GA30466@khazad-dum.debian.net>
+ <200912292257.55961.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.SOC.1.00.0912292306020.975-ptEonEWSGqKptlylMvRsHA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=messagingengine.com; h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to; s=smtpout; bh=8STh6rOtIxyAHIbZQ7lnjROhxJM=; b=G9BPTZIzw7AaYTnlNv5eu/3PRodZfl5oTQVzRWCaGKvC9DFFXjySHGme7rFC2VzuQrlmQtgGbXBnTIYq5SZiKZ524fJI+G7QYZKlpAN8YMbA/pmdphJQ1YVUFvemPUyDcymqltFFp3L1G6VQO9W9rSe4I2weFoYjvm0KGrXe0M0=
+Content-Disposition: inline
+In-Reply-To: <200912292257.55961.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Jeff Garzik <jgarzik-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org"@ogre.sisk.pl
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
 
-On Tuesday 29 December 2009, Meelis Roos wrote:
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14909
-> > Subject		: pata_cmd64x broken in 2.6.33-rc1
-> > Submitter	: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
-> > Date		: 2009-12-19 22:23 (11 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d43744390e460dce6626fb8de2c02a24ff650005
-> > References	: http://marc.info/?l=linux-kernel&m=126126142501594&w=4
+On Tue, 29 Dec 2009, Rafael J. Wysocki wrote:
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14942
+> > > Subject		: gkrellm no longer shows all the temperatures on thinkpad x60
+> > > Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+> > > Date		: 2009-12-27 21:57 (3 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=126195107005565&w=4
+> > > Handled-By	: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
+> > 
+> > Patch already in acpi-test, waiting push to mainline.
 > 
-> Fixed as of 2.6.33-rc2 - just retested the upstream fix.
+> Great, thanks for the update.
+> 
+> Is there a link to the patch so that I can put it into the bug entry?
 
-Thanks, closing.
+http://patchwork.kernel.org/patch/69809/
 
-Rafael
+-- 
+  "One disk to rule them all, One disk to find them. One disk to bring
+  them all and in the darkness grind them. In the Land of Redmond
+  where the shadows lie." -- The Silicon Valley Tarot
+  Henrique Holschuh
