@@ -1,56 +1,28 @@
-From: Jarek Poplawski <jarkao2@gmail.com>
-Subject: Re: 2.6.33-rc2: Reported regressions 2.6.31 -> 2.6.32
-Date: Tue, 29 Dec 2009 23:00:51 +0100
-Message-ID: <20091229220051.GA3185@del.dom.local>
-References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
- <4B3A5BC2.10207@gmail.com>
- <4B3A6CB1.3030305@freemail.hu>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #14436] Computer becomes unusable without any apparent reason
+Date: Tue, 29 Dec 2009 23:04:46 +0100
+Message-ID: <200912292304.46435.rjw@sisk.pl>
+References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <srmJ8vMxKPH.A.L5E.RyhOLB@chimera> <99598f620912290818s29ece3d2uf36bc9125b46ea48@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netdev-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=L+TN7afB4IFmbnPyNbkr8QT5xmTNGND7BleAOkio9Ak=;
-        b=Og8WA8cMYRR5Ot6VdBn9Ld/y2Tbr8Ia7sqaLJWTIKoAm3QU+JIMWWdiJjByP9p59Ko
-         vIVUXWfijCNjPXvNddYDfklZnCVz8ZjIW7Nxerb0oB9jFLatjE2KZbRTbqQ5YXO2E0XK
-         TL4o1tKGyNSAdjgVZp7OuAj3e0uIKlAb+UwJ0=
-Content-Disposition: inline
-In-Reply-To: <4B3A6CB1.3030305@freemail.hu>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <99598f620912290818s29ece3d2uf36bc9125b46ea48-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: =?iso-8859-1?Q?N=E9meth_M=E1rton?= <nm127@freemail.hu>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
+Content-Type: Text/Plain; charset="iso-8859-1"
+To: =?iso-8859-1?q?Lu=EDs_Picciochi_Oliveira?= <pitxyoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tue, Dec 29, 2009 at 09:55:13PM +0100, N=E9meth M=E1rton wrote:
-> Jarek Poplawski wrote:
-> > Rafael J. Wysocki wrote, On 12/29/2009 04:26 PM:
-> >=20
-> > ...
-> >> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14794
-> >> Subject		: IP address assigned by DHCP is dropped after ~40 second=
-s
-> >> Submitter	: M=E1rton N=E9meth <nm127@freemail.hu>
-> >> Date		: 2009-12-13 08:59 (17 days old)
-> >>
-> >=20
-> >=20
-> > IMHO this bug might be considered as fixed by updating a userspace =
-tool
-> > (KNetworkManager) - unless somebody wants to seek for the exact rea=
-son...
->=20
-> For me (I am the reporter) the problem was solved by upgrading a user=
-space
-> tool, so I think the bug filed against the kernel can be closed marki=
-ng
-> that this was not really a kernel bug.
+On Tuesday 29 December 2009, Lu=EDs Picciochi Oliveira wrote:
+> Hi,
+> The bug is present on 2.6.32 and subsequent versions (2.6.32.1, 2.6.3=
+2.2).
+> It has been resolved as of 2.6.33-rc1.
 
-Yes, let's hope author(s) of KNetworkManager would let us know if they
-had to change it because of the kernel error.
+Thanks for the update.
 
-Regards,
-Jarek P.
+Is it known how it was fixed in 2.6.33-rc1 or do you just see that the =
+bug is
+not present in there any more?
+
+Rafael
