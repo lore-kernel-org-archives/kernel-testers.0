@@ -1,39 +1,56 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14942] gkrellm no longer shows all the temperatures on thinkpad x60
-Date: Tue, 29 Dec 2009 22:57:55 +0100
-Message-ID: <200912292257.55961.rjw@sisk.pl>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.MHG.BnhOLB@chimera> <20091229181356.GA30466@khazad-dum.debian.net>
+From: Jarek Poplawski <jarkao2@gmail.com>
+Subject: Re: 2.6.33-rc2: Reported regressions 2.6.31 -> 2.6.32
+Date: Tue, 29 Dec 2009 23:00:51 +0100
+Message-ID: <20091229220051.GA3185@del.dom.local>
+References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
+ <4B3A5BC2.10207@gmail.com>
+ <4B3A6CB1.3030305@freemail.hu>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091229181356.GA30466-ZGHd14iZgfaRjzvQDGKj+xxZW9W5cXbT@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <netdev-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=L+TN7afB4IFmbnPyNbkr8QT5xmTNGND7BleAOkio9Ak=;
+        b=Og8WA8cMYRR5Ot6VdBn9Ld/y2Tbr8Ia7sqaLJWTIKoAm3QU+JIMWWdiJjByP9p59Ko
+         vIVUXWfijCNjPXvNddYDfklZnCVz8ZjIW7Nxerb0oB9jFLatjE2KZbRTbqQ5YXO2E0XK
+         TL4o1tKGyNSAdjgVZp7OuAj3e0uIKlAb+UwJ0=
+Content-Disposition: inline
+In-Reply-To: <4B3A6CB1.3030305@freemail.hu>
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: =?iso-8859-1?Q?N=E9meth_M=E1rton?= <nm127@freemail.hu>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-On Tuesday 29 December 2009, Henrique de Moraes Holschuh wrote:
-> On Tue, 29 Dec 2009, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.32.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14942
-> > Subject		: gkrellm no longer shows all the temperatures on thinkpad x60
-> > Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-> > Date		: 2009-12-27 21:57 (3 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=126195107005565&w=4
-> > Handled-By	: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
-> 
-> Patch already in acpi-test, waiting push to mainline.
+On Tue, Dec 29, 2009 at 09:55:13PM +0100, N=E9meth M=E1rton wrote:
+> Jarek Poplawski wrote:
+> > Rafael J. Wysocki wrote, On 12/29/2009 04:26 PM:
+> >=20
+> > ...
+> >> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14794
+> >> Subject		: IP address assigned by DHCP is dropped after ~40 second=
+s
+> >> Submitter	: M=E1rton N=E9meth <nm127@freemail.hu>
+> >> Date		: 2009-12-13 08:59 (17 days old)
+> >>
+> >=20
+> >=20
+> > IMHO this bug might be considered as fixed by updating a userspace =
+tool
+> > (KNetworkManager) - unless somebody wants to seek for the exact rea=
+son...
+>=20
+> For me (I am the reporter) the problem was solved by upgrading a user=
+space
+> tool, so I think the bug filed against the kernel can be closed marki=
+ng
+> that this was not really a kernel bug.
 
-Great, thanks for the update.
+Yes, let's hope author(s) of KNetworkManager would let us know if they
+had to change it because of the kernel error.
 
-Is there a link to the patch so that I can put it into the bug entry?
-
-Rafael
+Regards,
+Jarek P.
