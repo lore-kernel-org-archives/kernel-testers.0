@@ -1,45 +1,42 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14889] System wakeup by time not working anymore
-Date: Tue, 29 Dec 2009 22:35:50 +0100
-Message-ID: <200912292235.50104.rjw@sisk.pl>
-References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <srmJ8vMxKPH.A.BaC.ZwhOLB@chimera> <87k4w5u1fr.fsf@devron.myhome.or.jp>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #14862] intel-agp breaks X, regression from 2.6.31
+Date: Tue, 29 Dec 2009 22:34:31 +0100
+Message-ID: <200912292234.31575.rjw@sisk.pl>
+References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <20091229184220.GO19249@aehallh.com> <20091229185926.GP19249@aehallh.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87k4w5u1fr.fsf-x/W9pkDDSe1TgC2z9Sl/nXf5DAMn2ifp@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752883AbZL2VeU@vger.kernel.org>
+In-Reply-To: <20091229185926.GP19249@aehallh.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="iso-8859-1"
-To: OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, David =?iso-8859-1?q?H=E4rdeman?= <david-0WFrdVpeebksCylrc8G9yg@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Malte =?iso-8859-1?q?Schr=F6der?= <maltesch-Mmb7MZpHnFY@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: "Zephaniah E. Hull" <warp-spam_kernel@aehallh.com>, David Woodhouse <david.woodhouse@intel.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Tuesday 29 December 2009, OGAWA Hirofumi wrote:
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
->=20
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.31 and 2.6.32.
-> >
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.31 and 2.6.32.  Please verify if it still sh=
-ould
-> > be listed and let me know (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14889
-> > Subject		: System wakeup by time not working anymore
-> > Submitter	: Malte Schr=F6der <maltesch-Mmb7MZpHnFY@public.gmane.org>
-> > Date		: 2009-12-03 18:06 (27 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torva=
-lds/linux-2.6.git;a=3Dcommit;h=3Dabd6633c67925f90775bb74755f9c547e30f1f=
-20
-> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D125986362631900=
-&w=3D4
->=20
-> Specified commit would break the pnp driver which is using
-> driver->shutdown.
->=20
-> Could you test this (untested) patch?
+On Tuesday 29 December 2009, Zephaniah E. Hull wrote:
+> On Tue, Dec 29, 2009 at 01:42:20PM -0500, Zephaniah E. Hull wrote:
+> > On Tue, Dec 29, 2009 at 04:28:51PM +0100, Rafael J. Wysocki wrote:
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14862
+> > > Subject		: intel-agp breaks X, regression from 2.6.31
+> > > Submitter	: Zephaniah E. Hull. <warp-spam_kernel@aehallh.com>
+> > > Date		: 2009-12-22 22:59 (8 days old)
+> > 
+> > I plan on testing 2.6.32.2 later today in hopes that some of the IOMMU
+> > changes will have done something in regards to this.
+> 
+> #14627 and this bug are duplicates.
+> 
+> Bugs #14900, and #14728 look very suspiciously like they might be the
+> same thing as well.
+> 
+> I would be interested to see if commenting out:
+> '#define USE_PCI_DMA_API 1' in drivers/char/agp/intel-agp.c fixes the
+> problem for those bugs as well.
+> 
+> I suspect that some better run time checking is called for here.
 
-Could you please also attach the patch to the Bugzilla entry?
+Thanks for the update.
+
+David, has there been any progress with bug #14627?
 
 Rafael
