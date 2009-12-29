@@ -1,45 +1,43 @@
-From: Gertjan van Wingerde <gwingerde@gmail.com>
-Subject: Re: 2.6.33-rc2: Reported regressions 2.6.31 -> 2.6.32
-Date: Tue, 29 Dec 2009 16:47:35 +0100
-Message-ID: <4B3A2497.1030506@gmail.com>
-References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
+From: Oldrich Jedlicka <oldium.pro@seznam.cz>
+Subject: Re: [Bug #14846] acer-wmi kernel OOPS, cannot create duplicit sysfs name
+Date: Tue, 29 Dec 2009 16:37:28 +0100
+Message-ID: <200912291637.29088.oldium.pro@seznam.cz>
+References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.ck.mnhOLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753204AbZL2Prl@vger.kernel.org>
-In-Reply-To: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752560AbZL2QG1@vger.kernel.org>
+In-Reply-To: <NJVdobuNFNK.A.ck.mnhOLB@chimera>
+Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
 To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Carlos Corbacho <carlos@strangeworlds.co.uk>
 
-Hi Rafael,
+Hi,
 
-On 12/29/09 16:26, Rafael J. Wysocki wrote:
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14896
-> Subject		: REGRESSION for RT2561/RT61 in 2.6.32, related to power saving
-> Submitter	: Alan Stern <stern@rowland.harvard.edu>
-> Date		: 2009-12-06 22:12 (24 days old)
-> References	: http://marc.info/?l=linux-kernel&m=126013756829691&w=4
-> Handled-By	: Gertjan van Wingerde <gwingerde@gmail.com>
-> 
+On Tuesday 29 of December 2009 at 16:09:57, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.32.  Please verify if it still should be listed and let me k=
+now
+> (either way).
 
-This one is fixed via a patch that is queued to be merged into 2.6.33. Is submitted
-for stable as well.
-See http://marc.info/?l=linux-wireless&m=126090994909576&w=2
+When the patch is applied to 2.6.33-rc2, the regression goes away. The =
+patch=20
+fixes the problem.
 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14731
-> Subject		: rt61pci regression
-> Submitter	: tim blechmann <tim@klingt.org>
-> Date		: 2009-12-04 09:33 (26 days old)
-> 
+Cheers,
+Oldrich.
 
-I believe this problem to be the same as the previous one, and the fix indicated above
-should fix this as well.
-Note however that the submitter had presumably unrelated issues that caused him not to 
-be able to validate the workaround of disabling powersaving.
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14846
+> Subject		: acer-wmi kernel OOPS, cannot create duplicit sysfs name
+> Submitter	: Old=C5=99ich Jedli=C4=8Dka <oldium.pro@seznam.cz>
+> Date		: 2009-12-19 23:44 (11 days old)
+> Handled-By	: Carlos Corbacho <carlos@strangeworlds.co.uk>
+> Patch		: http://patchwork.kernel.org/patch/69795/
 
----
-Gertjan.
