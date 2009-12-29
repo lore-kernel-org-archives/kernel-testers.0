@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14905] kernel BUG at kernel/timer.c:951!
-Date: Tue, 29 Dec 2009 16:28:54 +0100 (CET)
-Message-ID: <srmJ8vMxKPH.A.2YB.JwhOLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14926] ucc_geth broken
+Date: Tue, 29 Dec 2009 16:28:55 +0100 (CET)
+Message-ID: <srmJ8vMxKPH.A.9KB.GwhOLB@chimera>
 References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753565AbZL2PgO@vger.kernel.org>
 In-Reply-To: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bernard Pidoux <bernard.pidoux-ZwCu/HtLMzI@public.gmane.org>, Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Anton Vorontsov <avorontsov@ru.mvista.com>, Lennart Sorensen <lsorense@csclub.uwaterloo.ca>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,10 +22,12 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14905
-Subject		: kernel BUG at kernel/timer.c:951!
-Submitter	: Bernard Pidoux <bernard.pidoux-ZwCu/HtLMzI@public.gmane.org>
-Date		: 2009-12-19 13:38 (11 days old)
-References	: http://marc.info/?l=linux-kernel&m=126122997831460&w=4
-Handled-By	: Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14926
+Subject		: ucc_geth broken
+Submitter	: Lennart Sorensen <lsorense@csclub.uwaterloo.ca>
+Date		: 2009-12-23 17:40 (7 days old)
+References	: http://marc.info/?l=linux-kernel&m=126159003430429&w=4
+Handled-By	: Anton Vorontsov <avorontsov@ru.mvista.com>
+Patch		: http://patchwork.kernel.org/patch/69585/
+		  http://patchwork.kernel.org/patch/69600/
 
