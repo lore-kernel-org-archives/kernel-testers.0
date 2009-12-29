@@ -1,59 +1,95 @@
-From: Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14922] 2.6.32 seemed to have broken nVidia MCP7A sata 
-	controller
-Date: Tue, 29 Dec 2009 11:15:27 -0600
-Message-ID: <51f3faa70912290915s41d801c5y47f4fea914055274@mail.gmail.com>
+From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Subject: Re: [Bug #14889] System wakeup by time not working anymore
+Date: Wed, 30 Dec 2009 02:36:56 +0900
+Message-ID: <87k4w5u1fr.fsf@devron.myhome.or.jp>
 References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
-	 <srmJ8vMxKPH.A.nSB.IwhOLB@chimera>
+	<srmJ8vMxKPH.A.BaC.ZwhOLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=iItqWls7qvFdTd40QxyEJqo+MN7dG5U+dIARh+7B+wQ=;
-        b=dQMQa0aV4yWSf6Co8hHcnFkVP3RqLapvXz4Jh8AtPjop9CLC1snITYMDD3zGS911Li
-         sKrn6FrB6Zq7vGtEn3V4ovb+z5QccKtPzN5xHSKM1AAOg1DHS3scsJKhlLW6jGWr0/Ie
-         r+Hwaeg9S13d9AHyxMPzBN8Q4TvCnLiNUQlBw=
-In-Reply-To: <srmJ8vMxKPH.A.nSB.IwhOLB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1751392AbZL2RhI@vger.kernel.org>
+In-Reply-To: <srmJ8vMxKPH.A.BaC.ZwhOLB@chimera> (Rafael J. Wysocki's message
+	of "Tue, 29 Dec 2009 16:28:52 +0100 (CET)")
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Mike Cui <cuicui-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Bjorn Helgaas <bjorn.helgaas@hp.com>, =?iso-8859-1?Q?David_H=E4rdeman?= <david@hardeman.nu>, Len Brown <lenb@kernel.org>, =?iso-8859-1?Q?Malte_Schr=F6der?= <maltesch@gmx.de>
 
-On Tue, Dec 29, 2009 at 9:28 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+"Rafael J. Wysocki" <rjw@sisk.pl> writes:
+
 > This message has been generated automatically as a part of a report
 > of regressions introduced between 2.6.31 and 2.6.32.
 >
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.31 and 2.6.32. =A0Please verify if it still sh=
-ould
+> introduced between 2.6.31 and 2.6.32.  Please verify if it still shou=
+ld
 > be listed and let me know (either way).
 >
 >
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-14922
-> Subject =A0 =A0 =A0 =A0 : 2.6.32 seemed to have broken nVidia MCP7A s=
-ata controller
-> Submitter =A0 =A0 =A0 : Mike Cui <cuicui-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-12-19 6:13 (11 days old)
-> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-ide&m=3D126120323=
-407742&w=3D4
-> Handled-By =A0 =A0 =A0: Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0Robert Hancock <hancockrwd@gmail.c=
-om>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14889
+> Subject		: System wakeup by time not working anymore
+> Submitter	: Malte Schr=F6der <maltesch@gmx.de>
+> Date		: 2009-12-03 18:06 (27 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
+s/linux-2.6.git;a=3Dcommit;h=3Dabd6633c67925f90775bb74755f9c547e30f1f20
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D125986362631900&w=
+=3D4
 
-Yes, FPDMA auto-activate optimization was introduced for AHCI in
-2.6.32 and it appears it doesn't work quite right with either the
-reporter's AHCI controller or their drive. I believe they were going
-to try the drive with an Intel controller to see if it worked there.
+Specified commit would break the pnp driver which is using
+driver->shutdown.
 
-It would be useful if we could get other success/failure reports with
-either the particular drive, WDC WD800ADFS-75SLR2 (or at least other
-WD Raptor ADFS-series) on other AHCI controllers, or other drives
-which have AA support on the MCP7A chipset. One of the two needs
-blacklisting for AA support. I'm leaning towards the controller since
-other WD drives with AA support work fine on Intel AHCI.
+Could you test this (untested) patch?
+--=20
+OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+
+
+[PATCH] rtc_cmos: convert shutdown to new pnp_driver->shutdown
+
+commit abd6633c67925f90775bb74755f9c547e30f1f20 adds shutdown method
+to bus driver blindly. With it, driver->shutdown is invalid anymore.
+
+Use pnp_driver->shutdown instead.
+
+Signed-off-by: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+---
+
+ drivers/rtc/rtc-cmos.c |    9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff -puN drivers/rtc/rtc-cmos.c~rtc-cmos-shutdown-fix drivers/rtc/rtc-=
+cmos.c
+--- linux-2.6/drivers/rtc/rtc-cmos.c~rtc-cmos-shutdown-fix	2009-12-30 0=
+1:25:10.000000000 +0900
++++ linux-2.6-hirofumi/drivers/rtc/rtc-cmos.c	2009-12-30 01:27:36.00000=
+0000 +0900
+@@ -1096,9 +1096,9 @@ static int cmos_pnp_resume(struct pnp_de
+ #define	cmos_pnp_resume		NULL
+ #endif
+=20
+-static void cmos_pnp_shutdown(struct device *pdev)
++static void cmos_pnp_shutdown(struct pnp_dev *pnp)
+ {
+-	if (system_state =3D=3D SYSTEM_POWER_OFF && !cmos_poweroff(pdev))
++	if (system_state =3D=3D SYSTEM_POWER_OFF && !cmos_poweroff(&pnp->dev)=
+)
+ 		return;
+=20
+ 	cmos_do_shutdown();
+@@ -1117,15 +1117,12 @@ static struct pnp_driver cmos_pnp_driver
+ 	.id_table	=3D rtc_ids,
+ 	.probe		=3D cmos_pnp_probe,
+ 	.remove		=3D __exit_p(cmos_pnp_remove),
++	.shutdown	=3D cmos_pnp_shutdown,
+=20
+ 	/* flag ensures resume() gets called, and stops syslog spam */
+ 	.flags		=3D PNP_DRIVER_RES_DO_NOT_CHANGE,
+ 	.suspend	=3D cmos_pnp_suspend,
+ 	.resume		=3D cmos_pnp_resume,
+-	.driver		=3D {
+-		.name	  =3D (char *)driver_name,
+-		.shutdown =3D cmos_pnp_shutdown,
+-	}
+ };
+=20
+ #endif	/* CONFIG_PNP */
+_
