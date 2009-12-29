@@ -1,42 +1,36 @@
-From: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
-Subject: Re: [Bug #14942] gkrellm no longer shows all the temperatures on
- thinkpad x60
-Date: Tue, 29 Dec 2009 20:58:31 -0200
-Message-ID: <20091229225831.GA13358@khazad-dum.debian.net>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
- <NJVdobuNFNK.A.MHG.BnhOLB@chimera>
- <20091229181356.GA30466@khazad-dum.debian.net>
- <200912292257.55961.rjw@sisk.pl>
+From: OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+Subject: Re: [Bug #14730] sky2 won't work after suspend/resume cycle
+Date: Wed, 30 Dec 2009 08:16:16 +0900
+Message-ID: <87fx6tz7zz.fsf@devron.myhome.or.jp>
+References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <200912292229.47644.rjw@sisk.pl>
+	<874on9tov5.fsf@devron.myhome.or.jp> <200912292341.56040.rjw@sisk.pl>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=messagingengine.com; h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to; s=smtpout; bh=8STh6rOtIxyAHIbZQ7lnjROhxJM=; b=G9BPTZIzw7AaYTnlNv5eu/3PRodZfl5oTQVzRWCaGKvC9DFFXjySHGme7rFC2VzuQrlmQtgGbXBnTIYq5SZiKZ524fJI+G7QYZKlpAN8YMbA/pmdphJQ1YVUFvemPUyDcymqltFFp3L1G6VQO9W9rSe4I2weFoYjvm0KGrXe0M0=
-Content-Disposition: inline
-In-Reply-To: <200912292257.55961.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <200912292341.56040.rjw-KKrjLPT3xs0@public.gmane.org> (Rafael J. Wysocki's message of
+	"Tue, 29 Dec 2009 23:41:55 +0100")
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Maciej J. Woloszyk" <mat-7wKBDC4inUHVItvQsEIGlw@public.gmane.org>
 
-On Tue, 29 Dec 2009, Rafael J. Wysocki wrote:
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14942
-> > > Subject		: gkrellm no longer shows all the temperatures on thinkpad x60
-> > > Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-> > > Date		: 2009-12-27 21:57 (3 days old)
-> > > References	: http://marc.info/?l=linux-kernel&m=126195107005565&w=4
-> > > Handled-By	: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
-> > 
-> > Patch already in acpi-test, waiting push to mainline.
-> 
-> Great, thanks for the update.
-> 
-> Is there a link to the patch so that I can put it into the bug entry?
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
 
-http://patchwork.kernel.org/patch/69809/
+>> Well, anyway, another likely one is - restore() should be called after
+>> pci_pm_default_resume()?
+>
+> No, because we want the PCI standard config spaces to be restored before
+> the device interrupts are enabled to avoid intermittent resume failures related
+> to interrupt mishandling.
+>
+> That's why it is important to understand the nature of the sky2 failure here.
 
+Um..., it was 0xff, so, I thought the config space is not working.  On
+that system, the device is not affected by acpi's _DSW or _PSW?
+
+Well, ok. If someone is working for it, that's enough good to me.
+
+Thanks.
 -- 
-  "One disk to rule them all, One disk to find them. One disk to bring
-  them all and in the darkness grind them. In the Land of Redmond
-  where the shadows lie." -- The Silicon Valley Tarot
-  Henrique Holschuh
+OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
