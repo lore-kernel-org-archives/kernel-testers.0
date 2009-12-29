@@ -1,41 +1,26 @@
-From: =?UTF-8?B?TsOpbWV0aCBNw6FydG9u?= <nm127@freemail.hu>
-Subject: Re: 2.6.33-rc2: Reported regressions 2.6.31 -> 2.6.32
-Date: Tue, 29 Dec 2009 21:55:13 +0100
-Message-ID: <4B3A6CB1.3030305@freemail.hu>
-References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <4B3A5BC2.10207@gmail.com>
+From: Meelis Roos <mroos@linux.ee>
+Subject: Re: [Bug #14909] pata_cmd64x broken in 2.6.33-rc1
+Date: Tue, 29 Dec 2009 23:07:12 +0200 (EET)
+Message-ID: <alpine.SOC.1.00.0912292306020.975@math.ut.ee>
+References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.DYH.UnhOLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <4B3A5BC2.10207@gmail.com>
-Sender: netdev-owner@vger.kernel.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752280AbZL2VHR@vger.kernel.org>
+In-Reply-To: <NJVdobuNFNK.A.DYH.UnhOLB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Jarek Poplawski <jarkao2@gmail.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Cox <alan@linux.intel.com>, Jeff Garzik <jeff@garzik.org>, Jeff Garzik <jgarzik@redhat.com>, "linux-ide@vger.kernel.org"@ogre.sisk.pl
 
-Jarek Poplawski wrote:
-> Rafael J. Wysocki wrote, On 12/29/2009 04:26 PM:
->=20
-> ...
->> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14794
->> Subject		: IP address assigned by DHCP is dropped after ~40 seconds
->> Submitter	: M=C3=A1rton N=C3=A9meth <nm127@freemail.hu>
->> Date		: 2009-12-13 08:59 (17 days old)
->>
->=20
->=20
-> IMHO this bug might be considered as fixed by updating a userspace to=
-ol
-> (KNetworkManager) - unless somebody wants to seek for the exact reaso=
-n...
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14909
+> Subject		: pata_cmd64x broken in 2.6.33-rc1
+> Submitter	: Meelis Roos <mroos@linux.ee>
+> Date		: 2009-12-19 22:23 (11 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d43744390e460dce6626fb8de2c02a24ff650005
+> References	: http://marc.info/?l=linux-kernel&m=126126142501594&w=4
 
-=46or me (I am the reporter) the problem was solved by upgrading a user=
-space
-tool, so I think the bug filed against the kernel can be closed marking
-that this was not really a kernel bug.
+Fixed as of 2.6.33-rc2 - just retested the upstream fix.
 
-Regards,
-
-	M=C3=A1rton N=C3=A9meth
-
-
+-- 
+Meelis Roos (mroos@linux.ee)
