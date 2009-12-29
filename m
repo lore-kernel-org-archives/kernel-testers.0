@@ -1,46 +1,28 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14906] boot problem bisected to commit 99935a7a59
-Date: Tue, 29 Dec 2009 23:43:09 +0100
-Message-ID: <200912292343.09795.rjw@sisk.pl>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.LvH.ZnhOLB@chimera> <200912292237.58999.ve@vetienne.net>
+Subject: Re: [Bug #14909] pata_cmd64x broken in 2.6.33-rc1
+Date: Tue, 29 Dec 2009 23:44:12 +0100
+Message-ID: <200912292344.13042.rjw@sisk.pl>
+References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.DYH.UnhOLB@chimera> <alpine.SOC.1.00.0912292306020.975@math.ut.ee>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200912292237.58999.ve-DnimGkuWo7Hk1uMJSBkQmQ@public.gmane.org>
+In-Reply-To: <alpine.SOC.1.00.0912292306020.975-ptEonEWSGqKptlylMvRsHA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: Vincent ETIENNE <ve-DnimGkuWo7Hk1uMJSBkQmQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Jeff Garzik <jgarzik-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-ide-u79uwXL29TY76Z2rM5mHXA@public.gmane.org"@ogre.sisk.pl
 
-On Tuesday 29 December 2009, Vincent ETIENNE wrote:
-> Le mardi 29 d=C3=A9cembre 2009 16:09:58, Rafael J. Wysocki a =C3=A9cr=
-it :
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >=20
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.32.  Please verify if it still should be listed and let me=
- know
-> > (either way).
-> >=20
-> >=20
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14906
-> > Subject		: boot problem bisected to commit 99935a7a59
-> > Submitter	: Vincent ETIENNE <ve-DnimGkuWo7Hk1uMJSBkQmQ@public.gmane.org>
-> > Date		: 2009-12-19 16:07 (11 days old)
-> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D126123946509316=
-&w=3D4
-> > Handled-By	: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-> > Patch		: http://patchwork.kernel.org/patch/68941/
-> >=20
->=20
-> The proposed patch works for me but the bug is still present in 2.6.3=
-3-rc2=20
-> (patch still aply cleanly in rc2 and continue to solve the problem). =
-Have to=20
-> wait for rc3.
+On Tuesday 29 December 2009, Meelis Roos wrote:
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14909
+> > Subject		: pata_cmd64x broken in 2.6.33-rc1
+> > Submitter	: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+> > Date		: 2009-12-19 22:23 (11 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d43744390e460dce6626fb8de2c02a24ff650005
+> > References	: http://marc.info/?l=linux-kernel&m=126126142501594&w=4
+> 
+> Fixed as of 2.6.33-rc2 - just retested the upstream fix.
 
-Thanks for the update.
+Thanks, closing.
 
 Rafael
