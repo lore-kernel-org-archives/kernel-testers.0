@@ -1,26 +1,40 @@
-From: Meelis Roos <mroos@linux.ee>
-Subject: Re: [Bug #14909] pata_cmd64x broken in 2.6.33-rc1
-Date: Tue, 29 Dec 2009 23:07:12 +0200 (EET)
-Message-ID: <alpine.SOC.1.00.0912292306020.975@math.ut.ee>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.DYH.UnhOLB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #14630] sched_rt_periodic_timer vs cpu hotplug
+Date: Tue, 29 Dec 2009 22:22:37 +0100
+Message-ID: <200912292222.37666.rjw@sisk.pl>
+References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <srmJ8vMxKPH.A.UwD.jxhOLB@chimera> <1262104619.7135.161.camel@laptop>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752280AbZL2VHR@vger.kernel.org>
-In-Reply-To: <NJVdobuNFNK.A.DYH.UnhOLB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alan Cox <alan@linux.intel.com>, Jeff Garzik <jeff@garzik.org>, Jeff Garzik <jgarzik@redhat.com>, "linux-ide@vger.kernel.org"@ogre.sisk.pl
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1262104619.7135.161.camel@laptop>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14909
-> Subject		: pata_cmd64x broken in 2.6.33-rc1
-> Submitter	: Meelis Roos <mroos@linux.ee>
-> Date		: 2009-12-19 22:23 (11 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d43744390e460dce6626fb8de2c02a24ff650005
-> References	: http://marc.info/?l=linux-kernel&m=126126142501594&w=4
+On Tuesday 29 December 2009, Peter Zijlstra wrote:
+> On Tue, 2009-12-29 at 16:28 +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14630
+> > Subject		: sched_rt_periodic_timer vs cpu hotplug
+> > Submitter	: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+> > Date		: 2009-11-11 10:18 (49 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=125793470309588&w=4
+> > Handled-By	: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> > Patch		: http://patchwork.kernel.org/patch/60250/
+> 
+> git branch -a --contains 047106ad
+> 
+> seems to suggest that this made it to Linus' tree.
 
-Fixed as of 2.6.33-rc2 - just retested the upstream fix.
+Thanks, closing.
 
--- 
-Meelis Roos (mroos@linux.ee)
+Rafael
