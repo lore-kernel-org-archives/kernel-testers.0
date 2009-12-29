@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14894] pohmelfs: NULL pointer dereference
+Subject: [Bug #14893] Tasks stuck on I/O on armel with 2.6.32-rc8
 Date: Tue, 29 Dec 2009 16:28:52 +0100 (CET)
-Message-ID: <srmJ8vMxKPH.A.iAC.TwhOLB@chimera>
+Message-ID: <srmJ8vMxKPH.A.LFC.UwhOLB@chimera>
 References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Evgeniy Polyakov <zbr-i6C2adt8DTjR7s880joybQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Daniel Kahn Gillmor <dkg-QLrU/DhXBlmnlhUoGqYIEF6hYfS7NtTn@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,10 +22,9 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14894
-Subject		: pohmelfs: NULL pointer dereference
-Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-12-02 1:11 (28 days old)
-References	: http://marc.info/?l=linux-kernel&m=125971633107940&w=4
-Handled-By	: Evgeniy Polyakov <zbr-i6C2adt8DTjR7s880joybQ@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14893
+Subject		: Tasks stuck on I/O on armel with 2.6.32-rc8
+Submitter	: Daniel Kahn Gillmor <dkg-QLrU/DhXBlmnlhUoGqYIEF6hYfS7NtTn@public.gmane.org>
+Date		: 2009-11-24 23:05 (36 days old)
+References	: http://marc.info/?l=linux-kernel&m=125910438530554&w=4
 
