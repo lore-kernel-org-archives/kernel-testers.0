@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14900] drm_i915 error
-Date: Tue, 29 Dec 2009 16:09:57 +0100 (CET)
-Message-ID: <NJVdobuNFNK.A.WG.dnhOLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14906] boot problem bisected to commit 99935a7a59
+Date: Tue, 29 Dec 2009 16:09:58 +0100 (CET)
+Message-ID: <NJVdobuNFNK.A.LvH.ZnhOLB@chimera>
 References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752764AbZL2POV@vger.kernel.org>
 In-Reply-To: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tarkan Erimer <tarkane-I6p6tnzB7AS/zoR3Qkm1pA@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Vincent ETIENNE <ve@vetienne.net>, Yinghai Lu <yinghai@kernel.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,9 +22,11 @@ from 2.6.32.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14900
-Subject		: drm_i915 error
-Submitter	: Tarkan Erimer <tarkane-I6p6tnzB7AS/zoR3Qkm1pA@public.gmane.org>
-Date		: 2009-12-14 12:50 (16 days old)
-References	: http://marc.info/?l=linux-kernel&m=126079504930147&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14906
+Subject		: boot problem bisected to commit 99935a7a59
+Submitter	: Vincent ETIENNE <ve@vetienne.net>
+Date		: 2009-12-19 16:07 (11 days old)
+References	: http://marc.info/?l=linux-kernel&m=126123946509316&w=4
+Handled-By	: Yinghai Lu <yinghai@kernel.org>
+Patch		: http://patchwork.kernel.org/patch/68941/
 
