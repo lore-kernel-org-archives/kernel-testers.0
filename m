@@ -1,43 +1,53 @@
-From: Oldrich Jedlicka <oldium.pro@seznam.cz>
-Subject: Re: [Bug #14846] acer-wmi kernel OOPS, cannot create duplicit sysfs name
-Date: Tue, 29 Dec 2009 16:37:28 +0100
-Message-ID: <200912291637.29088.oldium.pro@seznam.cz>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.ck.mnhOLB@chimera>
+From: =?ISO-8859-1?Q?Lu=EDs_Picciochi_Oliveira?= <pitxyoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14436] Computer becomes unusable without any apparent 
+	reason
+Date: Tue, 29 Dec 2009 16:18:11 +0000
+Message-ID: <99598f620912290818s29ece3d2uf36bc9125b46ea48@mail.gmail.com>
+References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
+	 <srmJ8vMxKPH.A.L5E.RyhOLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752560AbZL2QG1@vger.kernel.org>
-In-Reply-To: <NJVdobuNFNK.A.ck.mnhOLB@chimera>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=FHaZKNoCHrE+d4IuDLTke5PFAQ9kTFnF88t7Lmmwo7E=;
+        b=CnhsB/IatwsDGB1hMwf2B0PJsQc1G7Dt6RqaMWNx6KhMwr0oDsVw9hAJ8nlgZdvQjH
+         1BNXMAPGkmWR35iNJLC/oRfksU/0z+Zd+htx+nXEjInrW8LRFdTwbzsSN9lMykyqg24S
+         rQhpUQ7zbcO/grXOYKNF/aFW/J2VxlyyYnddg=
+In-Reply-To: <srmJ8vMxKPH.A.L5E.RyhOLB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Carlos Corbacho <carlos@strangeworlds.co.uk>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 Hi,
+The bug is present on 2.6.32 and subsequent versions (2.6.32.1, 2.6.32.=
+2).
+It has been resolved as of 2.6.33-rc1.
 
-On Tuesday 29 of December 2009 at 16:09:57, Rafael J. Wysocki wrote:
+Regards,
+Lu=EDs Picciochi
+
+On Tue, Dec 29, 2009 at 3:28 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+>
 > This message has been generated automatically as a part of a report
-> of recent regressions.
+> of regressions introduced between 2.6.31 and 2.6.32.
 >
 > The following bug entry is on the current list of known regressions
-> from 2.6.32.  Please verify if it still should be listed and let me k=
-now
-> (either way).
-
-When the patch is applied to 2.6.33-rc2, the regression goes away. The =
-patch=20
-fixes the problem.
-
-Cheers,
-Oldrich.
-
+> introduced between 2.6.31 and 2.6.32. =A0Please verify if it still sh=
+ould
+> be listed and let me know (either way).
 >
 >
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14846
-> Subject		: acer-wmi kernel OOPS, cannot create duplicit sysfs name
-> Submitter	: Old=C5=99ich Jedli=C4=8Dka <oldium.pro@seznam.cz>
-> Date		: 2009-12-19 23:44 (11 days old)
-> Handled-By	: Carlos Corbacho <carlos@strangeworlds.co.uk>
-> Patch		: http://patchwork.kernel.org/patch/69795/
-
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+14436
+> Subject =A0 =A0 =A0 =A0 : Computer becomes unusable without any appar=
+ent reason
+> Submitter =A0 =A0 =A0 : Pitxyoki <Pitxyoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-10-18 18:32 (73 days old)
+>
+>
