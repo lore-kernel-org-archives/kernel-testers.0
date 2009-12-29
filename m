@@ -1,41 +1,39 @@
-From: Vincent ETIENNE <ve@vetienne.net>
-Subject: Re: [Bug #14906] boot problem bisected to commit 99935a7a59
-Date: Tue, 29 Dec 2009 22:37:58 +0100
-Message-ID: <200912292237.58999.ve@vetienne.net>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.LvH.ZnhOLB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #14894] pohmelfs: NULL pointer dereference
+Date: Tue, 29 Dec 2009 22:37:54 +0100
+Message-ID: <200912292237.54182.rjw@sisk.pl>
+References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <srmJ8vMxKPH.A.iAC.TwhOLB@chimera> <20091229163512.GA4958@ioremap.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752810AbZL2ViK@vger.kernel.org>
-In-Reply-To: <NJVdobuNFNK.A.LvH.ZnhOLB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20091229163512.GA4958-i6C2adt8DTjR7s880joybQ@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Yinghai Lu <yinghai@kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Evgeniy Polyakov <zbr-i6C2adt8DTjR7s880joybQ@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Le mardi 29 d=C3=A9cembre 2009 16:09:58, Rafael J. Wysocki a =C3=A9crit=
- :
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->=20
-> The following bug entry is on the current list of known regressions
-> from 2.6.32.  Please verify if it still should be listed and let me k=
-now
-> (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14906
-> Subject		: boot problem bisected to commit 99935a7a59
-> Submitter	: Vincent ETIENNE <ve@vetienne.net>
-> Date		: 2009-12-19 16:07 (11 days old)
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D126123946509316&w=
-=3D4
-> Handled-By	: Yinghai Lu <yinghai@kernel.org>
-> Patch		: http://patchwork.kernel.org/patch/68941/
->=20
+On Tuesday 29 December 2009, Evgeniy Polyakov wrote:
+> On Tue, Dec 29, 2009 at 04:28:52PM +0100, Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14894
+> > Subject		: pohmelfs: NULL pointer dereference
+> > Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date		: 2009-12-02 1:11 (28 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=125971633107940&w=4
+> > Handled-By	: Evgeniy Polyakov <zbr-i6C2adt8DTjR7s880joybQ@public.gmane.org>
+> 
+> Yes, I saw this regression and there is a patch to handle this, but it
+> kind of disables sync at all. Jens Axboe, who introduced per-bdi
+> writeback patches, did not yet reply.
 
-The proposed patch works for me but the bug is still present in 2.6.33-=
-rc2=20
-(patch still aply cleanly in rc2 and continue to solve the problem). Ha=
-ve to=20
-wait for rc3.
+Well, Jens, what's your opinion about that?
+
+Rafael
