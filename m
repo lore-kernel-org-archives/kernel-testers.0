@@ -1,34 +1,61 @@
-From: Mikael Abrahamsson <swmike@swm.pp.se>
-Subject: Re: [Bug #14887] suspend doesn't work on X200s
-Date: Wed, 30 Dec 2009 12:36:43 +0100 (CET)
-Message-ID: <alpine.DEB.1.10.0912301232570.27231@uplift.swm.pp.se>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.Zg.inhOLB@chimera> <20091230111745.GC4489@kernel.dk>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Subject: Re: 2.6.33-rc2: Reported regressions 2.6.31 -> 2.6.32
+Date: Wed, 30 Dec 2009 10:58:07 -0600
+Message-ID: <4B3B869F.8090003@lwfinger.net>
+References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752019AbZL3Lgq@vger.kernel.org>
-In-Reply-To: <20091230111745.GC4489@kernel.dk>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-acpi-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:sender:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=jrluxTYAo0H1C2Wqa1ftnHcoJuChXPGZ9aHA1WY15LI=;
+        b=Omh8V5cncdwh83Vk1NlRTDcaiI/Fatx7EIY5WMu+m1NhX8BhWwCyW9qJYN7XEZS2fd
+         shjMT/dCSNrJOB3lEn6LriBSA96iSNJBxwcAvf/AicDzkRPRYRVj60R1W5JfPIvNvEvT
+         /gg+b3BGi1FcVlp1oEUMcdAAczx44Cxl0w/vg=
+In-Reply-To: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; format="flowed"; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jens Axboe <jens.axboe@oracle.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Andrew Lutomirski <luto@mit.edu>
+Content-Type: text/plain; charset="macroman"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-On Wed, 30 Dec 2009, Jens Axboe wrote:
+On 12/29/2009 09:26 AM, Rafael J. Wysocki wrote:
+> [NOTES:
+>  * I really hope that at least _some_ of the bugs below have been alr=
+eady
+>    fixed, but I didn't have the time to search through all of the his=
+tories.
+>    _Please_ let me know which of them can be closed.
+>  * If you close one of the bugs in this list, please do your best to =
+put the
+>    hash of the fix commit into the Bugzilla entry.]
+>=20
+> This message contains a list of some regressions introduced between 2=
+=2E6.31 and
+> 2.6.32, for which there are no fixes in the mainline I know of.  If a=
+ny of them
+> have been fixed already, please let me know.
 
-> Works fine for me on an x200s. The only issue I seem to have is that 
-> sometimes it suspends immediately upon resume again, presumably the lid 
-> close event is re-triggered (or something to that extent). Apart from 
-> that, 2.6.32 and current -git works fine for me.
 
-There is an issue in 2.6.31 where it will panic (at least that's what I 
-think it does, please see more details in 
-<https://bugs.launchpad.net/bugs/473876>) when you have it plugged in, 
-suspend, un-plug the power cable, and then resume it.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14743
+> Subject		: New rtl8187 rfkill support prevents using wlan completely.
+> Submitter	: Antti Kaijanm=C3=A4ki <antti@kaijanmaki.net>
+> Date		: 2009-12-05 20:10 (25 days old)
 
-According to <https://bugs.launchpad.net/ubuntu/+source/linux/+bug/467877> 
-it has something to do with "event_when_closed_battery", I haven't tested 
-it yet though, neither with 2.6.31 nor 2.6.32. Could be beneficial for 
-more people to test though.
 
--- 
-Mikael Abrahamsson    email: swmike@swm.pp.se
+This bug is fixed in mainline with commit
+70d57139f932b9ca21026253d02af71cf53d764a. This patch has also been back=
+ported to
+2.6.32.2. The status of the Bugzilla entry has been changed to "CLOSED =
+with CODE
+=46IX".
+
+Larry
+--
+To unsubscribe from this list: send the line "unsubscribe linux-acpi" i=
+n
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
