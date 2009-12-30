@@ -1,73 +1,134 @@
-From: Malte =?UTF-8?B?U2NocsO2ZGVy?= <maltesch-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [Bug #14889] System wakeup by time not working anymore
-Date: Wed, 30 Dec 2009 09:56:07 +0100
-Message-ID: <20091230095607.7229baf4@highlander.home.lan>
-References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
-	<srmJ8vMxKPH.A.BaC.ZwhOLB@chimera>
-	<87k4w5u1fr.fsf@devron.myhome.or.jp>
+From: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #14894] pohmelfs: NULL pointer dereference
+Date: Wed, 30 Dec 2009 10:14:34 +0100
+Message-ID: <20091230091433.GU4489@kernel.dk>
+References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <srmJ8vMxKPH.A.iAC.TwhOLB@chimera> <20091229163512.GA4958@ioremap.net> <200912292237.54182.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=PGP-SHA1;
- boundary="Sig_/1ShfqTKnzAlgstQpc0jatGp"; protocol="application/pgp-signature"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87k4w5u1fr.fsf-x/W9pkDDSe1TgC2z9Sl/nXf5DAMn2ifp@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <200912292237.54182.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, David =?UTF-8?B?SMOkcmRlbWFu?= <david-0WFrdVpeebksCylrc8G9yg@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Evgeniy Polyakov <zbr-i6C2adt8DTjR7s880joybQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
---Sig_/1ShfqTKnzAlgstQpc0jatGp
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Tue, Dec 29 2009, Rafael J. Wysocki wrote:
+> On Tuesday 29 December 2009, Evgeniy Polyakov wrote:
+> > On Tue, Dec 29, 2009 at 04:28:52PM +0100, Rafael J. Wysocki (rjw-KKrjLPT3xs0@public.gmane.org) wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of regressions introduced between 2.6.31 and 2.6.32.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> > > be listed and let me know (either way).
+> > > 
+> > > 
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14894
+> > > Subject		: pohmelfs: NULL pointer dereference
+> > > Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > > Date		: 2009-12-02 1:11 (28 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=125971633107940&w=4
+> > > Handled-By	: Evgeniy Polyakov <zbr-i6C2adt8DTjR7s880joybQ@public.gmane.org>
+> > 
+> > Yes, I saw this regression and there is a patch to handle this, but it
+> > kind of disables sync at all. Jens Axboe, who introduced per-bdi
+> > writeback patches, did not yet reply.
+> 
+> Well, Jens, what's your opinion about that?
 
-On Wed, 30 Dec 2009 02:36:56 +0900
-OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org> wrote:
+Since pohmelfs isn't tied to a single block device, it needs to setup a
+backing dev like nfs/btrfs/etc do. Here's a completely untested patch.
 
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
->=20
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.31 and 2.6.32.
-> >
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
-> > be listed and let me know (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14889
-> > Subject		: System wakeup by time not working anymore
-> > Submitter	: Malte Schr=C3=B6der <maltesch-Mmb7MZpHnFY@public.gmane.org>
-> > Date		: 2009-12-03 18:06 (27 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvalds/=
-linux-2.6.git;a=3Dcommit;h=3Dabd6633c67925f90775bb74755f9c547e30f1f20
-> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D125986362631900&w=
-=3D4
->=20
-> Specified commit would break the pnp driver which is using
-> driver->shutdown.
->=20
-> Could you test this (untested) patch?
+diff --git a/drivers/staging/pohmelfs/inode.c b/drivers/staging/pohmelfs/inode.c
+index f69b778..cd25811 100644
+--- a/drivers/staging/pohmelfs/inode.c
++++ b/drivers/staging/pohmelfs/inode.c
+@@ -36,6 +36,7 @@
+ #define POHMELFS_MAGIC_NUM	0x504f482e
+ 
+ static struct kmem_cache *pohmelfs_inode_cache;
++static atomic_t psb_bdi_num = ATOMIC_INIT(0);
+ 
+ /*
+  * Removes inode from all trees, drops local name cache and removes all queued
+@@ -1331,6 +1332,8 @@ static void pohmelfs_put_super(struct super_block *sb)
+ 	pohmelfs_crypto_exit(psb);
+ 	pohmelfs_state_exit(psb);
+ 
++	bdi_destroy(&psb->bdi);
++
+ 	kfree(psb);
+ 	sb->s_fs_info = NULL;
+ }
+@@ -1815,11 +1818,22 @@ static int pohmelfs_fill_super(struct super_block *sb, void *data, int silent)
+ 	if (!psb)
+ 		goto err_out_exit;
+ 
++	err = bdi_init(&psb->bdi);
++	if (err)
++		goto err_out_free_sb;
++
++	err = bdi_register(&psb->bdi, NULL, "pfs-%d", atomic_inc_return(&psb_bdi_num));
++	if (err) {
++		bdi_destroy(&psb->bdi);
++		goto err_out_free_sb;
++	}
++
+ 	sb->s_fs_info = psb;
+ 	sb->s_op = &pohmelfs_sb_ops;
+ 	sb->s_magic = POHMELFS_MAGIC_NUM;
+ 	sb->s_maxbytes = MAX_LFS_FILESIZE;
+ 	sb->s_blocksize = PAGE_SIZE;
++	sb->s_bdi = &psb->bdi;
+ 
+ 	psb->sb = sb;
+ 
+@@ -1863,11 +1877,11 @@ static int pohmelfs_fill_super(struct super_block *sb, void *data, int silent)
+ 
+ 	err = pohmelfs_parse_options((char *) data, psb, 0);
+ 	if (err)
+-		goto err_out_free_sb;
++		goto err_out_free_bdi;
+ 
+ 	err = pohmelfs_copy_crypto(psb);
+ 	if (err)
+-		goto err_out_free_sb;
++		goto err_out_free_bdi;
+ 
+ 	err = pohmelfs_state_init(psb);
+ 	if (err)
+@@ -1916,6 +1930,8 @@ err_out_state_exit:
+ err_out_free_strings:
+ 	kfree(psb->cipher_string);
+ 	kfree(psb->hash_string);
++err_out_free_bdi:
++	bdi_destroy(&psb->bdi);
+ err_out_free_sb:
+ 	kfree(psb);
+ err_out_exit:
+diff --git a/drivers/staging/pohmelfs/netfs.h b/drivers/staging/pohmelfs/netfs.h
+index 623a07d..01cba00 100644
+--- a/drivers/staging/pohmelfs/netfs.h
++++ b/drivers/staging/pohmelfs/netfs.h
+@@ -18,6 +18,7 @@
+ 
+ #include <linux/types.h>
+ #include <linux/connector.h>
++#include <linux/backing-dev.h>
+ 
+ #define POHMELFS_CN_IDX			5
+ #define POHMELFS_CN_VAL			0
+@@ -624,6 +625,8 @@ struct pohmelfs_sb {
+ 
+ 	struct super_block	*sb;
+ 
++	struct backing_dev_info	bdi;
++
+ 	/*
+ 	 * Algorithm strings.
+ 	 */
 
-I tried to reproduce the problem, it looks like it is working now :)
-
-
-
---=20
----------------------------------------
-Malte Schr=C3=B6der
-MalteSch-Mmb7MZpHnFY@public.gmane.org
-ICQ# 68121508
----------------------------------------
-
-
---Sig_/1ShfqTKnzAlgstQpc0jatGp
-Content-Type: application/pgp-signature; name=signature.asc
-Content-Disposition: attachment; filename=signature.asc
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
-
-iEYEARECAAYFAks7FacACgkQ4q3E2oMjYtXlLgCdF4SFjIdryZbFV6aJ55lf5y6q
-I34An02Vrumsj195KVZoEAs6WsAnozKo
-=odZa
------END PGP SIGNATURE-----
-
---Sig_/1ShfqTKnzAlgstQpc0jatGp--
+-- 
+Jens Axboe
