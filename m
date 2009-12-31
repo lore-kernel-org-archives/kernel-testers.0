@@ -1,49 +1,47 @@
-From: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #14630] sched_rt_periodic_timer vs cpu hotplug
-Date: Thu, 31 Dec 2009 10:59:37 +0100
-Message-ID: <20091231095937.GA7098@osiris.boeblingen.de.ibm.com>
-References: <oBElxfTZdhL.A.bx.-vhOLB@chimera>
- <1262104619.7135.161.camel@laptop>
- <20091230081800.GA4304@osiris.boeblingen.de.ibm.com>
- <200912302229.46223.rjw@sisk.pl>
+From: tytso@mit.edu
+Subject: Re: [Bug #14936] kernel BUG at fs/ext4/inode.c:1063 if attempted
+ to use non-ext4 partition with ext4
+Date: Thu, 31 Dec 2009 13:15:10 -0500
+Message-ID: <20091231181510.GF828@thunk.org>
+References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
+ <20091229165712.GH4429@thunk.org>
+ <20091230190120.GQ4429@thunk.org>
+ <200912302252.12140.rjw@sisk.pl>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752928AbZLaSPS@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <200912302229.46223.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <200912302252.12140.rjw@sisk.pl>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Greg KH <gregkh-l3A5Bk7waGM@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Gene Heskett <gene.heskett@verizon.net>, okias <d.okias@gmail.com>
 
-On Wed, Dec 30, 2009 at 10:29:46PM +0100, Rafael J. Wysocki wrote:
-> On Wednesday 30 December 2009, Heiko Carstens wrote:
-> > On Tue, Dec 29, 2009 at 05:36:59PM +0100, Peter Zijlstra wrote:
-> > > On Tue, 2009-12-29 at 16:28 +0100, Rafael J. Wysocki wrote:
-> > > > This message has been generated automatically as a part of a report
-> > > > of regressions introduced between 2.6.31 and 2.6.32.
-> > > > 
-> > > > The following bug entry is on the current list of known regressions
-> > > > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
-> > > > be listed and let me know (either way).
-> > > > 
-> > > > 
-> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14630
-> > > > Subject		: sched_rt_periodic_timer vs cpu hotplug
-> > > > Submitter	: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-> > > > Date		: 2009-11-11 10:18 (49 days old)
-> > > > References	: http://marc.info/?l=linux-kernel&m=125793470309588&w=4
-> > > > Handled-By	: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> > > > Patch		: http://patchwork.kernel.org/patch/60250/
-> > > 
-> > > git branch -a --contains 047106ad
-> > > 
-> > > seems to suggest that this made it to Linus' tree.
+On Wed, Dec 30, 2009 at 10:52:12PM +0100, Rafael J. Wysocki wrote:
+> > I'm working on a fix, and have a proposed patch.  See the thread on
+> > linux-ext4 here:
 > > 
-> > Any chance to get this into -stable? Since it seems it got only merged
-> > after 2.6.32.
+> > http://marc.info/?l=linux-kernel&m=126219515024315&w=2
+> > 
+> > This patch also fixes the dq_claim_space kerneloops problem as
+> > well....
 > 
-> Can you please send a notification to stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org (CC to Greg KH perhaps)?
+> Thanks, I've added your patch to the Bugzilla entry.
 
-Sure, here we go ;)
+This patch has been merged to mainline.  I'm working on improving
+things so that we don't lose performance by unnecessarily forcing
+delalloc blocks out to disk when the (wildly overestimated) number of
+required metadata blocks approaches the user's remaining quota or
+remaining free space on disk, but the fundamental fix is in mainline.
+
+(The performance hit was something I knew about when I pushed the
+patch to Linus, but after discussing things with Eric Sandeen, we
+figured that for users who were converting from ext3, which didn't
+have delayed allocation support at all, even with the performance hit
+when the user approached the quota limit, ext4 with delalloc+quota was
+still better than ext3 --- and I wanted a fix in mainline ASAP.
+Fortunately, it's not going to be that hard make the required metadata
+much more accurate.)
+
+	     	      	       	       	    - Ted
