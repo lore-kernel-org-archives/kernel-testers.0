@@ -1,47 +1,68 @@
-From: tytso@mit.edu
-Subject: Re: [Bug #14936] kernel BUG at fs/ext4/inode.c:1063 if attempted
- to use non-ext4 partition with ext4
-Date: Thu, 31 Dec 2009 13:15:10 -0500
-Message-ID: <20091231181510.GF828@thunk.org>
+From: Sergei Trofimovich <slyich-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14935] hd-audio0 eats 25% CPU (according to top)
+Date: Sat, 2 Jan 2010 01:33:23 +0200
+Message-ID: <20100102013323.3651b95a@mosly>
 References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
- <20091229165712.GH4429@thunk.org>
- <20091230190120.GQ4429@thunk.org>
- <200912302252.12140.rjw@sisk.pl>
+ <NJVdobuNFNK.A.wuG.KnhOLB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752928AbZLaSPS@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <200912302252.12140.rjw@sisk.pl>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Type: multipart/signed; micalg=PGP-SHA1;
+ boundary="Sig_/G5tb_Pbb/wT4H+h9cKLyFf."; protocol="application/pgp-signature"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:in-reply-to:references:x-mailer:mime-version
+         :content-type;
+        bh=yV6AxjQuRWAt8yb6jHJ885MNNLh9qI8ZYHaR7DwSZDE=;
+        b=Rv/Q8kdXl/cOLRZMyas5d9G7JuGGwu6qsnyPMBaQquV+1Bv8NmmmDdJBfM+2+yBFj+
+         D1sxhk4OYrpuO4lGJb3rN/p3f9hT9g1pTelH4/sugeJTD4SEm3UzFFZxA+PMvbNtVM9T
+         VK9dktdcxm5DjZbtMC95V8wBXbmdeGhbZ1wdA=
+In-Reply-To: <NJVdobuNFNK.A.wuG.KnhOLB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Gene Heskett <gene.heskett@verizon.net>, okias <d.okias@gmail.com>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
 
-On Wed, Dec 30, 2009 at 10:52:12PM +0100, Rafael J. Wysocki wrote:
-> > I'm working on a fix, and have a proposed patch.  See the thread on
-> > linux-ext4 here:
-> > 
-> > http://marc.info/?l=linux-kernel&m=126219515024315&w=2
-> > 
-> > This patch also fixes the dq_claim_space kerneloops problem as
-> > well....
-> 
-> Thanks, I've added your patch to the Bugzilla entry.
+--Sig_/G5tb_Pbb/wT4H+h9cKLyFf.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This patch has been merged to mainline.  I'm working on improving
-things so that we don't lose performance by unnecessarily forcing
-delalloc blocks out to disk when the (wildly overestimated) number of
-required metadata blocks approaches the user's remaining quota or
-remaining free space on disk, but the fundamental fix is in mainline.
+On Tue, 29 Dec 2009 16:10:01 +0100 (CET)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-(The performance hit was something I knew about when I pushed the
-patch to Linus, but after discussing things with Eric Sandeen, we
-figured that for users who were converting from ext3, which didn't
-have delayed allocation support at all, even with the performance hit
-when the user approached the quota limit, ext4 with delalloc+quota was
-still better than ext3 --- and I wanted a fix in mainline ASAP.
-Fortunately, it's not going to be that hard make the required metadata
-much more accurate.)
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>=20
+> The following bug entry is on the current list of known regressions
+> from 2.6.32.  Please verify if it still should be listed and let me know
+> (either way).
+>=20
+>=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14935
+> Subject		: hd-audio0 eats 25% CPU (according to top)
+> Submitter	: Sergei Trofimovich <slyich-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-12-25 10:21 (5 days old)
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D126173644210280&w=3D4
+> Handled-By	: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+> Patch		: http://patchwork.kernel.org/patch/69747/
 
-	     	      	       	       	    - Ted
+Merged upstream as: 729d55ba972348234759f8e40abf8de020f0d505 (aka v2.6.33-r=
+c2-2-g729d55b)
+I've tested v2.6.33-rc2-249-gcd6e125 and it fixes problem.
+--=20
+
+  Sergei
+
+--Sig_/G5tb_Pbb/wT4H+h9cKLyFf.
+Content-Type: application/pgp-signature; name=signature.asc
+Content-Disposition: attachment; filename=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.11 (GNU/Linux)
+
+iEYEARECAAYFAks+hkcACgkQcaHudmEf86rBegCfduZdjnhc2R8hR2YU+HMsggih
+KLkAn3lmgomogJuGm1R7QSx1W7d1tXCJ
+=sXcJ
+-----END PGP SIGNATURE-----
+
+--Sig_/G5tb_Pbb/wT4H+h9cKLyFf.--
