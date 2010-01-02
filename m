@@ -1,75 +1,41 @@
-From: Andrew Lutomirski <luto-3s7WtUTddSA@public.gmane.org>
-Subject: Re: [Bug #14887] suspend doesn't work on X200s
-Date: Fri, 1 Jan 2010 22:17:48 -0500
-Message-ID: <cb0375e11001011917y6920d45dse0b507287e8538c@mail.gmail.com>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.Zg.inhOLB@chimera> 
-	<20091230111745.GC4489@kernel.dk> <200912302239.28792.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #14935] hd-audio0 eats 25% CPU (according to top)
+Date: Sat, 2 Jan 2010 14:41:37 +0100
+Message-ID: <201001021441.37518.rjw@sisk.pl>
+References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.wuG.KnhOLB@chimera> <20100102013323.3651b95a@mosly>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:sender:received:in-reply-to
-         :references:from:date:x-google-sender-auth:message-id:subject:to:cc
-         :content-type:content-transfer-encoding;
-        bh=v0zVRryb/tMFHlqo94kY1fqMYWJTYAZ+14j+Zn2vgy4=;
-        b=TSW0iEAO+ODll0zLuccM2g9vVXh0nTlbPURGU/hoKXdgE+tO2oEYm9jAZckpp0VbwC
-         c3Zuqhw8fLLFEsAR1vvAhGt/KtjX9CvkBtEP3ghcC5Q//s5zA2hjFZ0TrOOdBOl5H7lJ
-         r30HT7xrty3fmZaR87OT0L6QyIYvs4EJMZ9r4=
-In-Reply-To: <200912302239.28792.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <20100102013323.3651b95a@mosly>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Sergei Trofimovich <slyich-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
 
-I suspect it was fixed by this patch:
+On Saturday 02 January 2010, Sergei Trofimovich wrote:
+> On Tue, 29 Dec 2009 16:10:01 +0100 (CET)
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> 
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.32.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14935
+> > Subject		: hd-audio0 eats 25% CPU (according to top)
+> > Submitter	: Sergei Trofimovich <slyich-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date		: 2009-12-25 10:21 (5 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=126173644210280&w=4
+> > Handled-By	: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+> > Patch		: http://patchwork.kernel.org/patch/69747/
+> 
+> Merged upstream as: 729d55ba972348234759f8e40abf8de020f0d505 (aka v2.6.33-rc2-2-g729d55b)
+> I've tested v2.6.33-rc2-249-gcd6e125 and it fixes problem.
 
-http://lkml.org/lkml/2009/12/20/88
+Thanks, closed.
 
-but I can't test because the machine in question died right after I
-built it a new kernel.  sigh.
-
-I'll re-post once I get the laptop working again if there's still a pro=
-blem.
-
---Andy
-
-On Wed, Dec 30, 2009 at 4:39 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> On Wednesday 30 December 2009, Jens Axboe wrote:
->> On Tue, Dec 29 2009, Rafael J. Wysocki wrote:
->> > This message has been generated automatically as a part of a repor=
-t
->> > of recent regressions.
->> >
->> > The following bug entry is on the current list of known regression=
-s
->> > from 2.6.32. =A0Please verify if it still should be listed and let=
- me know
->> > (either way).
->> >
->> >
->> > Bug-Entry =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D14887
->> > Subject =A0 =A0 =A0 =A0 =A0 =A0 : suspend doesn't work on X200s
->> > Submitter =A0 : Andrew Lutomirski <luto-3s7WtUTddSA@public.gmane.org>
->> > Date =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0: 2009-12-22 0:45 (8 days old)
->> > References =A0: http://marc.info/?l=3Dlinux-kernel&m=3D12614427410=
-2396&w=3D4
->>
->> Works fine for me on an x200s. The only issue I seem to have is that
->> sometimes it suspends immediately upon resume again, presumably the =
-lid
->> close event is re-triggered (or something to that extent). Apart fro=
-m
->> that, 2.6.32 and current -git works fine for me.
->
-> Thanks for the info.
->
-> Perhaps the bug that Andrew saw has been fixed since then.
->
-> I'm changing the stauts of the bug to "resolved". =A0Andrew, please r=
-eopen if
-> you're still seeing the problem with the current Linus' tree.
->
-> Rafael
->
+Rafael
