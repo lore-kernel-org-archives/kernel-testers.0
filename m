@@ -1,70 +1,53 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: s2disk hang update
-Date: Sat, 2 Jan 2010 21:38:42 +0100
-Message-ID: <201001022138.42575.rjw@sisk.pl>
-References: <9b2b86521001020703v23152d0cy3ba2c08df88c0a79@mail.gmail.com>
+From: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Subject: Re: [Bug #14951] lockdep possible recursive lock in slab 
+	parent->list->rlock
+Date: Sun, 3 Jan 2010 13:36:20 +0200
+Message-ID: <84144f021001030336y30444880vb6b9c251eb8a049a@mail.gmail.com>
+References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
+	 <NJVdobuNFNK.A.pdF.3mhOLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <9b2b86521001020703v23152d0cy3ba2c08df88c0a79-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:sender:received:in-reply-to
+         :references:date:x-google-sender-auth:message-id:subject:from:to:cc
+         :content-type:content-transfer-encoding;
+        bh=HyDxAZOtRCctAZb8iAMzXGBr0tg0gnfb1/6zGcZrH7Q=;
+        b=TB9D8hK7fpTnlK20RY+owyJx8zJHXpvRug1Oc4r6C6ahs+4znFe6eKJhwdsfUJOhU3
+         drUrkxhk7zVOrB9MwWnblnG0cy1889WI/bWhcAMqcp21grR3VkwvrvDkJxhhg/4ecHbL
+         6xRh1ko8AYeHHt9bk7tKc1vx1qrafEMIFcSqY=
+In-Reply-To: <NJVdobuNFNK.A.pdF.3mhOLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, hugh.dickins-IWqWACnzNjwqdlJmJB21zg@public.gmane.org, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 
-On Saturday 02 January 2010, Alan Jenkins wrote:
-> Hi,
+Hi Rafael,
 
-Hi,
+On Tue, Dec 29, 2009 at 5:10 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.32. =A0Please verify if it still should be listed and let me=
+ know
+> (either way).
+>
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+14951
+> Subject =A0 =A0 =A0 =A0 : lockdep possible recursive lock in slab par=
+ent->list->rlock
+> Submitter =A0 =A0 =A0 : Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-12-27 12:06 (3 days old)
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D126191=
+560531463&w=3D4
+> Handled-By =A0 =A0 =A0: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+> Patch =A0 =A0 =A0 =A0 =A0 : http://patchwork.kernel.org/patch/69829/
 
-> I've been suffering from s2disk hangs again.  This time, the hangs
-> were always before the hibernation image was written out.
-> 
-> They're still frustratingly random.  I just started trying to work out
-> whether doubling PAGES_FOR_IO makes them go away, but they went away
-> on their own again.
-> 
-> I did manage to capture a backtrace with debug info though.  Here it
-> is for 2.6.33-rc2.  (It has also happened on rc1).  I was able to get
-> the line numbers (using gdb, e.g.  "info line
-> *stop_machine_create+0x27"), having built the kernel with debug info.
-> 
-> [top of trace lost due to screen height]
-> ? sync_page	(filemap.c:183)
-> ? wait_on_page_bit	(filemap.c:506)
-> ? wake_bit_function	(wait.c:174)
-> ? shrink_page_list	(vmscan.c:696)
-> ? __delayacct_blkio_end	(delayacct.c:94)
-> ? finish_wait	(list.h:142)
-> ? congestion_wait	(backing-dev.c:761)
-> ? shrink_inactive_list	(vmscan.c:1193)
-> ? scsi_request_fn	(spinlock.h:306)
-> ? blk_run_queue	(blk-core.c:434)
-> ? shrink_zone	(vmscan.c:1484)
-> ? do_try_to_free_pages	(vmscan.c:1684)
-> ? try_to_free_pages	(vmscan.c:1848)
-> ? isolate_pages_global	(vmscan.c:980)
-> ? __alloc_pages_nodemask	(page_alloc.c:1702)
-> ? __get_free_pages	(page_alloc.c:1990)
-> ? copy_process	(fork.c:237)
-> ? do_fork	(fork.c:1443)
-> ? rb_erase
-> ? __switch_to
-> ? kthread
-> ? kernel_thread
-> ? kthread
-> ? kernel_thread_helper
-> ? kthreadd
-> ? kthreadd
-> ? kernel_thread_helper
-> 
-> INFO: task s2disk:2174 blocked for more than 120 seconds
+This bug is fixed by the following commit in Linus' tree:
 
-This looks like we have run out of memory while creating a new kernel thread
-and we have blocked on I/O while trying to free some space (quite obviously,
-because the I/O doesn't work at this point).
-
-I think it should help if you increase PAGES_FOR_IO, then.
-
-Rafael
+http://git.kernel.org/?p=3Dlinux/kernel/git/torvalds/linux-2.6.git;a=3D=
+commitdiff;h=3D00afa758067ac1c947149ef766adcdfe30c44d7d
