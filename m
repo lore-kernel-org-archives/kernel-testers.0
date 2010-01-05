@@ -1,36 +1,37 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14902] Boot ends not on tty1
-Date: Tue, 5 Jan 2010 22:32:58 +0100
-Message-ID: <201001052232.58559.rjw@sisk.pl>
-References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <srmJ8vMxKPH.A.WjB.MwhOLB@chimera> <20100105085743.GA13491@upset.ux.pdb.fsc.net>
+Subject: Re: [Bug #14938] Unable to handle kernel paging request in radeon_fence_signaled
+Date: Tue, 5 Jan 2010 22:36:37 +0100
+Message-ID: <201001052236.37215.rjw@sisk.pl>
+References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.ibG.GnhOLB@chimera> <201001050026.31509.johannes.hirte@fem.tu-ilmenau.de>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100105085743.GA13491-x1yfUCpSWc7Qq2sUoCM6xuTW4wlIGRCZ@public.gmane.org>
+In-Reply-To: <201001050026.31509.johannes.hirte-3kN+8DYepx7zMJDuovMtMLNAH6kLmebB@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Andreas Friedrich <andreas.friedrich-RJz4owOZxyXQFUHtdCDX3A@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Wolfgang Erig <Wolfgang.Erig-RJz4owOZxyXQFUHtdCDX3A@public.gmane.org>
+To: Johannes Hirte <johannes.hirte-3kN+8DYepx7zMJDuovMtMLNAH6kLmebB@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Grant Wilson <grant.wilson-1HOZaDBbGgxaa/9Udqfwiw@public.gmane.org>
 
-On Tuesday 05 January 2010, Andreas Friedrich wrote:
-> Hi Rafael,
-> 
-> On Di, Dez 29, 2009 at 04:28:54 +0100, Rafael J. Wysocki wrote:
+On Tuesday 05 January 2010, Johannes Hirte wrote:
+> Am Dienstag 29 Dezember 2009 16:10:01 schrieb Rafael J. Wysocki:
 > > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.31 and 2.6.32.
+> > of recent regressions.
 > > 
 > > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
-> > be listed and let me know (either way).
+> > from 2.6.32.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14938
+> > Subject		: Unable to handle kernel paging request in 
+> radeon_fence_signaled
+> > Submitter	: Grant Wilson <grant.wilson-1HOZaDBbGgxaa/9Udqfwiw@public.gmane.org>
+> > Date		: 2009-12-27 13:40 (3 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=126192123104047&w=4
 > 
-> the problem was gone after the latest Debian lenny and etch upgrades
-> (one of libexpat1, libltdl3, libpq4/5 does the fix). I think that the 
-> kernel change which came with e11c675ede0d42a405ae595528bf0b29ce1ae56f
-> is now supported in Debian, so it is no longer a kernel issue.
-> 
-> Please remove the error from the regression list.
+> This should be the same as http://bugzilla.kernel.org/show_bug.cgi?id=14910.
 
-Thanks, closing.
+Thanks, closed as a duplicate.
 
 Rafael
