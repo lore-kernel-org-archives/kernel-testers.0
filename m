@@ -1,37 +1,56 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14938] Unable to handle kernel paging request in radeon_fence_signaled
-Date: Tue, 5 Jan 2010 22:36:37 +0100
-Message-ID: <201001052236.37215.rjw@sisk.pl>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <NJVdobuNFNK.A.ibG.GnhOLB@chimera> <201001050026.31509.johannes.hirte@fem.tu-ilmenau.de>
+From: Ben Hutchings <ben-/+tVBieCtBitmTQ+vhA3Yw@public.gmane.org>
+Subject: [PATCH] cdc-ether: Assume link is up initially
+Date: Wed, 06 Jan 2010 01:26:43 +0000
+Message-ID: <1262741203.26813.58.camel@localhost>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201001050026.31509.johannes.hirte-3kN+8DYepx7zMJDuovMtMLNAH6kLmebB@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Johannes Hirte <johannes.hirte-3kN+8DYepx7zMJDuovMtMLNAH6kLmebB@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Grant Wilson <grant.wilson-1HOZaDBbGgxaa/9Udqfwiw@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: speedyboyinovator-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org
+Cc: "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tuesday 05 January 2010, Johannes Hirte wrote:
-> Am Dienstag 29 Dezember 2009 16:10:01 schrieb Rafael J. Wysocki:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.32.  Please verify if it still should be listed and let me know
-> > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14938
-> > Subject		: Unable to handle kernel paging request in 
-> radeon_fence_signaled
-> > Submitter	: Grant Wilson <grant.wilson-1HOZaDBbGgxaa/9Udqfwiw@public.gmane.org>
-> > Date		: 2009-12-27 13:40 (3 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=126192123104047&w=4
-> 
-> This should be the same as http://bugzilla.kernel.org/show_bug.cgi?id=14910.
+The bug report <http://bugzilla.kernel.org/show_bug.cgi?id=14791>
+implies that at least some devices will not send a Network Connection
+notification if the link is initially up.  Further, the CDC-ECM
+specification states that '[n]etworking devices are typically "Always
+Connected", spending all of their time with the "link up"'.  So it
+appears to be safer to assume the link is up and to rely on the device
+to tell us otherwise.
 
-Thanks, closed as a duplicate.
+This is a partial revert of:
 
-Rafael
+commit 37e8273cd30592d3a82bcb70cbb1bdc4eaeb6b71
+Author: Ben Hutchings <ben-/+tVBieCtBitmTQ+vhA3Yw@public.gmane.org>
+Date:   Wed Nov 4 15:29:52 2009 +0000
+
+    usbnet: Set link down initially for drivers that update link state
+
+Signed-off-by: Ben Hutchings <ben-/+tVBieCtBitmTQ+vhA3Yw@public.gmane.org>
+Cc: stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+---
+This should be tested by someone with one of these devices, preferably
+you since you reported the bug.
+
+Ben.
+
+ drivers/net/usb/cdc_ether.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
+index 21e183a..4f27f02 100644
+--- a/drivers/net/usb/cdc_ether.c
++++ b/drivers/net/usb/cdc_ether.c
+@@ -419,7 +419,7 @@ static int cdc_manage_power(struct usbnet *dev, int on)
+ 
+ static const struct driver_info	cdc_info = {
+ 	.description =	"CDC Ethernet Device",
+-	.flags =	FLAG_ETHER | FLAG_LINK_INTR,
++	.flags =	FLAG_ETHER,
+ 	// .check_connect = cdc_check_connect,
+ 	.bind =		cdc_bind,
+ 	.unbind =	usbnet_cdc_unbind,
+-- 
+1.6.5.7
+
