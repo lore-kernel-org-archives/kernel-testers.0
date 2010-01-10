@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14748] e1000e NIC not working after reboot
-Date: Sun, 10 Jan 2010 23:56:15 +0100 (CET)
-Message-ID: <CXIfLt-ygXM.A.g4C.phlSLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14695] regression in karmic thermal control
+Date: Sun, 10 Jan 2010 23:56:14 +0100 (CET)
+Message-ID: <CXIfLt-ygXM.A.qBD.9hlSLB@chimera>
 References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755240Ab0AJXKr@vger.kernel.org>
 In-Reply-To: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciek Sitarz <macieks-yngNwrTfnRnVItvQsEIGlw@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Bugie <public@bugie.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,8 +22,8 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14748
-Subject		: e1000e NIC not working after reboot
-Submitter	: Maciek Sitarz <macieks-yngNwrTfnRnVItvQsEIGlw@public.gmane.org>
-Date		: 2009-12-06 13:04 (36 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14695
+Subject		: regression in karmic thermal control
+Submitter	: Bugie <public@bugie.de>
+Date		: 2009-11-26 08:45 (46 days old)
 
