@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14298] warning at manage.c:361 (set_irq_wake), matrix-keypad related?
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14426] CE: hpet increasing min_delta_ns flood
 Date: Sun, 10 Jan 2010 23:56:10 +0100 (CET)
-Message-ID: <CXIfLt-ygXM.A.mnE.GklSLB@chimera>
+Message-ID: <CXIfLt-ygXM.A.FYE.GjlSLB@chimera>
 References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754851Ab0AJXDp@vger.kernel.org>
 In-Reply-To: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Eero Nurkkala <ext-eero.nurkkala@nokia.com>, john stultz <johnstul@us.ibm.com>, Thibault Mondary <thibm@free.fr>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,9 +22,8 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14298
-Subject		: warning at manage.c:361 (set_irq_wake), matrix-keypad related?
-Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-Date		: 2009-09-30 20:07 (103 days old)
-References	: http://marc.info/?l=linux-kernel&m=125434130703538&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14426
+Subject		: CE: hpet increasing min_delta_ns flood
+Submitter	: Thibault Mondary <thibm@free.fr>
+Date		: 2009-10-17 09:29 (86 days old)
 
