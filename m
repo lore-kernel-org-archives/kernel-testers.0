@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14695] regression in karmic thermal control
-Date: Sun, 10 Jan 2010 23:56:14 +0100 (CET)
-Message-ID: <CXIfLt-ygXM.A.qBD.9hlSLB@chimera>
+Subject: [Bug #14487] PANIC: early exception 08 rip 246:10 error ffffffff810251b5 cr2 0
+Date: Sun, 10 Jan 2010 23:56:12 +0100 (CET)
+Message-ID: <CXIfLt-ygXM.A.O1D.qilSLB@chimera>
 References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755240Ab0AJXKr@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755216Ab0AJXLf@vger.kernel.org>
 In-Reply-To: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Bugie <public@bugie.de>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, "Justin P. Mattock" <justinmattock@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,8 +22,9 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14695
-Subject		: regression in karmic thermal control
-Submitter	: Bugie <public@bugie.de>
-Date		: 2009-11-26 08:45 (46 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14487
+Subject		: PANIC: early exception 08 rip 246:10 error ffffffff810251b5 cr2 0
+Submitter	: Justin P. Mattock <justinmattock@gmail.com>
+Date		: 2009-10-23 16:45 (80 days old)
+References	: http://lkml.org/lkml/2009/10/23/252
 
