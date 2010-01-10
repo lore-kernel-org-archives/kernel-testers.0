@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14625] Commit d451564 breaks ARM
-Date: Sun, 10 Jan 2010 23:56:12 +0100 (CET)
-Message-ID: <CXIfLt-ygXM.A.UfD.WilSLB@chimera>
+Subject: [Bug #14482] kernel BUG at fs/dcache.c:670 +lvm +md +ext3
+Date: Sun, 10 Jan 2010 23:56:11 +0100 (CET)
+Message-ID: <CXIfLt-ygXM.A.0KE.xilSLB@chimera>
 References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754917Ab0AJXET@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754906Ab0AJXEQ@vger.kernel.org>
 In-Reply-To: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Ingo Molnar <mingo@elte.hu>, Russell King <rmk+lkml@arm.linux.org.uk>, Soeren Sandmann <sandmann@daimi.au.dk>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alexander Clouter <alex@digriz.org.uk>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,10 +22,9 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14625
-Subject		: Commit d451564 breaks ARM
-Submitter	: Russell King <rmk+lkml@arm.linux.org.uk>
-Date		: 2009-11-13 15:11 (59 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d4515646699b6ad7b1a98ceb871296b957f3ef47
-References	: http://marc.info/?l=linux-kernel&m=125812520315835&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14482
+Subject		: kernel BUG at fs/dcache.c:670 +lvm +md +ext3
+Submitter	: Alexander Clouter <alex@digriz.org.uk>
+Date		: 2009-10-23 10:30 (80 days old)
+References	: http://lkml.org/lkml/2009/10/23/50
 
