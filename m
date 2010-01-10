@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14889] System wakeup by time not working anymore
-Date: Sun, 10 Jan 2010 23:56:17 +0100 (CET)
-Message-ID: <CXIfLt-ygXM.A.eoC.-glSLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14841] unable to enumerate USB device on port X after suspend/resume
+Date: Sun, 10 Jan 2010 23:56:16 +0100 (CET)
+Message-ID: <CXIfLt-ygXM.A.BuC.HhlSLB@chimera>
 References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755176Ab0AJXJv@vger.kernel.org>
 In-Reply-To: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="macroman"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, =?utf-8?q?David=20H=C3=A4rdeman?= <david-0WFrdVpeebksCylrc8G9yg@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, =?utf-8?q?Malte=20Schr=C3=B6der?= <maltesch-Mmb7MZpHnFY@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Fruhwirth Clemens <clemens@endorphin.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,14 +22,8 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14889
-Subject		: System wakeup by time not working anymore
-Submitter	: Malte Schr=C3=B6der <maltesch-Mmb7MZpHnFY@public.gmane.org>
-Date		: 2009-12-03 18:06 (39 days old)
-=46irst-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
-s/linux-2.6.git;a=3Dcommit;h=3Dabd6633c67925f90775bb74755f9c547e30f1f20
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D125986362631900&w=3D=
-4
-Handled-By	: OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
-Patch		: http://patchwork.kernel.org/patch/70212/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14841
+Subject		: unable to enumerate USB device on port X after suspend/resume
+Submitter	: Fruhwirth Clemens <clemens@endorphin.org>
+Date		: 2009-12-19 11:45 (23 days old)
 
