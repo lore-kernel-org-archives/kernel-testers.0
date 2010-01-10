@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14783] Unhandled IRQ on Thinkpad R61i: "irq 16: nobody cared"
-Date: Sun, 10 Jan 2010 23:56:16 +0100 (CET)
-Message-ID: <CXIfLt-ygXM.A.zxC.bhlSLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14667] bisected 2.6.32 EC regression - Temperatures not correctly detected after suspend - Dell Studio XPS 16 laptop
+Date: Sun, 10 Jan 2010 23:56:13 +0100 (CET)
+Message-ID: <CXIfLt-ygXM.A.kKD.MilSLB@chimera>
 References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754963Ab0AJXEn@vger.kernel.org>
 In-Reply-To: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stefan Zegenhagen <sz-QdrG9jWwCLEAvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Alexey Starikovskiy <astarikovskiy@suse.de>, Federico Chiacchiaretta <federico.chia@gmail.com>, Len Brown <len.brown@intel.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,8 +22,8 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14783
-Subject		: Unhandled IRQ on Thinkpad R61i: "irq 16: nobody cared"
-Submitter	: Stefan Zegenhagen <sz-QdrG9jWwCLEAvxtiuMwx3w@public.gmane.org>
-Date		: 2009-12-10 19:14 (32 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14667
+Subject		: bisected 2.6.32 EC regression - Temperatures not correctly detected after suspend - Dell Studio XPS 16 laptop
+Submitter	: Federico Chiacchiaretta <federico.chia@gmail.com>
+Date		: 2009-11-22 20:42 (50 days old)
 
