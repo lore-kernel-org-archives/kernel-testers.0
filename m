@@ -1,30 +1,53 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14297] console resume broken since ba15ab0e8d
-Date: Sun, 10 Jan 2010 23:46:00 +0100 (CET)
-Message-ID: <CXIfLt-ygXM.A.1vE.HklSLB@chimera>
-References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
+Subject: Re: [Bug #14791] Something has been broken in the network stack this week
+Date: Sun, 10 Jan 2010 23:58:54 +0100
+Message-ID: <201001102358.54994.rjw@sisk.pl>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.rz.COlSLB@chimera> <1263163616.2236.68.camel@localhost>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
-Content-Disposition: inline
+In-Reply-To: <1263163616.2236.68.camel@localhost>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Deepak Saxena <dsaxena-2X9k7bc8m7Mdnm+yROfE0A@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>, Sascha Hauer <s.hauer-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Ben Hutchings <ben-/+tVBieCtBitmTQ+vhA3Yw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.31 and 2.6.32.
+On Sunday 10 January 2010, Ben Hutchings wrote:
+> On Sun, 2010-01-10 at 23:27 +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.32.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14791
+> > Subject		: Something has been broken in the network stack this week
+> > Submitter	: Delete This Account <speedyboyinovator-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
+> > Date		: 2009-12-12 13:06 (30 days old)
+> 
+> You can mark this as Handled-by me, but I'm waiting for someone
+> (anyone!) to verify that this can be solved by reverting changes to this
+> driver made by commit 37e8273cd30592d3a82bcb70cbb1bdc4eaeb6b71.  The
+> submitter has disappeared.
+> 
+> The patch is trivial:
+> 
+> --- a/drivers/net/usb/cdc_ether.c
+> +++ b/drivers/net/usb/cdc_ether.c
+> @@ -419,7 +419,7 @@
+>  
+>  static const struct driver_info        cdc_info = {
+>         .description =  "CDC Ethernet Device",
+> -       .flags =        FLAG_ETHER | FLAG_LINK_INTR,
+> +       .flags =        FLAG_ETHER,
+>         // .check_connect = cdc_check_connect,
+>         .bind =         cdc_bind,
+>         .unbind =       usbnet_cdc_unbind,
+> --- END ---
 
-The following bug entry is on the current list of known regressions
-introduced between 2.6.31 and 2.6.32.  Please verify if it still should
-be listed and let me know (either way).
+Thanks, bug entry updated.
 
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14297
-Subject		: console resume broken since ba15ab0e8d
-Submitter	: Sascha Hauer <s.hauer-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
-Date		: 2009-09-30 15:11 (103 days old)
-References	: http://marc.info/?l=linux-kernel&m=125432349404060&w=4
-
+Rafael
