@@ -1,9 +1,10 @@
-From: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14899] reiserfs: inconsistent lock state
-Date: Mon, 11 Jan 2010 02:16:10 +0300
-Message-ID: <a4423d671001101516l13a709fhe5c07343926160d1@mail.gmail.com>
-References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera>
-	 <omZ8aBZReyD.A.vd.qNlSLB@chimera> <20100110224914.GB5039@nowhere>
+From: Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14922] 2.6.32 seemed to have broken nVidia MCP7A sata 
+	controller
+Date: Sun, 10 Jan 2010 17:17:04 -0600
+Message-ID: <51f3faa71001101517i10bde693n51688e2bd8c411b8@mail.gmail.com>
+References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
+	 <CXIfLt-ygXM.A.-sB.uglSLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,47 +13,40 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:mime-version:received:in-reply-to:references
          :date:message-id:subject:from:to:cc:content-type
          :content-transfer-encoding;
-        bh=xo6/HsSAH3tShF7npFHLl3L/yo7AkUfVoSNcEWwVg3Y=;
-        b=OFsp0wGsWMgmBibPGZ7P8Mo6L3/PbRktj9/SRt7uRN1b++wIRk0S6WtmX1aK/SP3tj
-         zP/3P1os10OdaHygKDlBa1CFbkeCcoFhpdzXVJ4SdnuwRJRzGiCURZCI+L67d+8K8Zwc
-         PMMhVDw71wK7k9XIaCe2hyv1Q5wLk1XqrETA8=
-In-Reply-To: <20100110224914.GB5039@nowhere>
+        bh=baYhK7o1KVmLCgAlgbSNfhuDn6UrTQ62Tm/TjWH0L24=;
+        b=n3xSAElTEJSwgsraDqyyvXk6g0nXhkZAWW6LXz+FmxR9O5yrEsvpHbeqsvDldU33nG
+         KdGOr0U6eXd9pExd4lVB1r2X9bNe6ngQczLHZtLG1DReZhIac/CcrnGE/ranNbA9QLpw
+         4shATpFRirOKmpzmuR5yE609XIT3fJQak0c8s=
+In-Reply-To: <CXIfLt-ygXM.A.-sB.uglSLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Mike Cui <cuicui-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-2010/1/11 Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
-> On Sun, Jan 10, 2010 at 11:32:53PM +0100, Rafael J. Wysocki wrote:
->> This message has been generated automatically as a part of a report
->> of recent regressions.
->>
->> The following bug entry is on the current list of known regressions
->> from 2.6.32. =C2=A0Please verify if it still should be listed and le=
-t me know
->> (either way).
->>
->>
->> Bug-Entry =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.cgi?id=
-=3D14899
->> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : reiserfs:=
- inconsistent lock state
->> Submitter =C2=A0 =C2=A0 : Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org=
+On Sun, Jan 10, 2010 at 4:56 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.31 and 2.6.32.
 >
->> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-12-11 22:06 (31 days o=
-ld)
->> References =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=3D126=
-056920702515&w=3D4
->> Handled-By =C2=A0 =C2=A0: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> Patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 : http://patchwork.kernel.org/patc=
-h/67256/
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 http://patch=
-work.kernel.org/patch/67257/
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.31 and 2.6.32. =A0Please verify if it still sh=
+ould
+> be listed and let me know (either way).
 >
 >
->
-> The fix have been pulled upstream. Would be nice to have Alexander
-> confirmation that it's really fixed though.
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+14922
+> Subject =A0 =A0 =A0 =A0 : 2.6.32 seemed to have broken nVidia MCP7A s=
+ata controller
+> Submitter =A0 =A0 =A0 : Mike Cui <cuicui-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-12-19 6:13 (23 days old)
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-ide&m=3D126120323=
+407742&w=3D4
+> Handled-By =A0 =A0 =A0: Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0Robert Hancock <hancockrwd@gmail.c=
+om>
 
-Yes, all warnings have disappeared. Thanks a lot.
+Still outstanding. Waiting for testing results from the reporter with
+that drive on another AHCI controller, if possible. I CCed Peer Chen
+from NVIDIA on the Bugzilla report, maybe they know if there is some
+known problem with FPDMA AA on that controller.
