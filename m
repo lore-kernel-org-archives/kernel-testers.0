@@ -1,7 +1,7 @@
 From: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
 Subject: Re: [Bug #14859] System timer firing too much without cause
-Date: Sun, 10 Jan 2010 22:22:19 -0500
-Message-ID: <201001102222.19700.shawn.starr@rogers.com>
+Date: Sun, 10 Jan 2010 22:28:57 -0500
+Message-ID: <201001102228.57900.shawn.starr@rogers.com>
 References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.Xp.3NlSLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
