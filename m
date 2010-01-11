@@ -1,39 +1,46 @@
-From: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
-Subject: Re: [Bug #14897] i915: Commit 0e442c60 causes flickering
-Date: Mon, 11 Jan 2010 10:52:17 +0530
-Message-ID: <4B4AB589.7080004@xenontk.org>
-References: <nzLqtSp97aP.A.RGB.hglSLB@chimera> <CXIfLt-ygXM.A.DAC.zglSLB@chimera>
-Reply-To: davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org
+From: Borislav Petkov <petkovbb-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [Bug #14948] EHCI resume sysfs duplicates
+Date: Mon, 11 Jan 2010 07:05:41 +0100
+Message-ID: <20100111060541.GA19865@liondog.tnic>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera>
+ <omZ8aBZReyD.A.1WH.ONlSLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CXIfLt-ygXM.A.DAC.zglSLB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:cc
+         :subject:message-id:mail-followup-to:references:mime-version
+         :content-type:content-disposition:in-reply-to:user-agent;
+        bh=6iwJsC31qP/u09iShyRD2I74YbX07l5FNcWByW8L0+Q=;
+        b=ueACJ7vTHr6zsACEQRkfbYo8QboOTuBFY161SKOLtIzMT2OdPFXAB5KtTB8OiZ22Wc
+         iazFzOkpghoSkGonc4a+I/Z6lTCWXPLu8AITAirHH3T6zHuAYvk8H9kg/3G22hQhLK9U
+         3M8VQ+vhhjkuDEX2wMKwxwdFVDWi5MbKNJk6Y=
+Content-Disposition: inline
+In-Reply-To: <omZ8aBZReyD.A.1WH.ONlSLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On 01/11/2010 04:26 AM, Rafael J. Wysocki wrote:
+On Sun, Jan 10, 2010 at 11:32:55PM +0100, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.31 and 2.6.32.
+> of recent regressions.
 > 
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
-> be listed and let me know (either way).
+> from 2.6.32.  Please verify if it still should be listed and let me know
+> (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14897
-> Subject		: i915: Commit 0e442c60 causes flickering
-> Submitter	: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
-> Date		: 2009-12-09 17:26 (33 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=0e442c60dd39ac6924b11a20497734bd2303744c
-> References	: http://marc.info/?l=linux-kernel&m=126037889600769&w=4
-> 
-> 
-> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14948
+> Subject		: EHCI resume sysfs duplicates
+> Submitter	: Borislav Petkov <petkovbb-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+> Date		: 2009-12-26 9:36 (16 days old)
+> References	: http://marc.info/?l=linux-kernel&m=126182020615709&w=4
 
-Still present in 2.6.33-rc3.
+Preliminary and tested fix is at LKML-Reference: <20100105220829.GA31569@xanatos>
 
-Regards,
-David.
+-- 
+Regards/Gruss,
+    Boris.
