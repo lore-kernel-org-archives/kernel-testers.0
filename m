@@ -1,50 +1,37 @@
-From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14487] PANIC: early exception 08 rip 246:10 error ffffffff810251b5
- cr2 0
-Date: Mon, 11 Jan 2010 05:56:50 -0800
-Message-ID: <4B4B2E22.6030903@gmail.com>
-References: <nzLqtSp97aP.A.RGB.hglSLB@chimera> <CXIfLt-ygXM.A.O1D.qilSLB@chimera>
+From: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Subject: Re: [Bug #14896] REGRESSION for RT2561/RT61 in 2.6.32, related to
+ power saving
+Date: Mon, 11 Jan 2010 09:58:32 -0500 (EST)
+Message-ID: <Pine.LNX.4.44L0.1001110957440.2873-100000@iolanthe.rowland.org>
+References: <CXIfLt-ygXM.A.1GC.1glSLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=Z5Zb/gadn1Mo1n6Agc5HFdy0RQTG+qV54o7jUqkBlqw=;
-        b=oMgzQKLMYuFJxEFHXbOoUtA0ZfjwYIAb8NHmNZJu/oq2NqHqB3fclgcSPmRcy4bsP3
-         jaPVOdkqYBKOvu4OUIslfCrSl61DPTsA/KQJkUXUwveq1DGz555F0bTt7V1rFre+51R+
-         66eioPsvvv/qcJGqr6+cujXtbLm4HCIy2RMbI=
-In-Reply-To: <CXIfLt-ygXM.A.O1D.qilSLB@chimera>
+In-Reply-To: <CXIfLt-ygXM.A.1GC.1glSLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Gertjan van Wingerde <gwingerde-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On 01/10/10 14:56, Rafael J. Wysocki wrote:
+On Sun, 10 Jan 2010, Rafael J. Wysocki wrote:
+
 > This message has been generated automatically as a part of a report
 > of regressions introduced between 2.6.31 and 2.6.32.
->
+> 
 > The following bug entry is on the current list of known regressions
 > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 > be listed and let me know (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14487
-> Subject		: PANIC: early exception 08 rip 246:10 error ffffffff810251b5 cr2 0
-> Submitter	: Justin P. Mattock<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2009-10-23 16:45 (80 days old)
-> References	: http://lkml.org/lkml/2009/10/23/252
->
->
->
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14896
+> Subject		: REGRESSION for RT2561/RT61 in 2.6.32, related to power saving
+> Submitter	: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+> Date		: 2009-12-06 22:12 (36 days old)
+> References	: http://marc.info/?l=linux-kernel&m=126013756829691&w=4
+> Handled-By	: Gertjan van Wingerde <gwingerde-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Patch		: http://patchwork.kernel.org/patch/67338/
 
-I've played around with this. and
-and much confused at what needs to happen.
-(please feedback on what might be happening);
-In any case I can have another try at finding a fix
-so please leave open.
+This has been fixed by commit 93b6bd26b74efe46b4579592560f9f1cb7b61994.
 
-Justin P. Mattock
+Alan Stern
