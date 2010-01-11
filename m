@@ -1,41 +1,33 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #14922] 2.6.32 seemed to have broken nVidia MCP7A sata controller
-Date: Mon, 11 Jan 2010 20:54:00 +0100
-Message-ID: <201001112054.00259.rjw@sisk.pl>
-References: <nzLqtSp97aP.A.RGB.hglSLB@chimera> <CXIfLt-ygXM.A.-sB.uglSLB@chimera> <51f3faa71001101517i10bde693n51688e2bd8c411b8@mail.gmail.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: 2.6.33-rc3-git3: Reported regressions 2.6.31 -> 2.6.32
+Date: Mon, 11 Jan 2010 20:56:18 +0100
+Message-ID: <201001112056.19042.rjw@sisk.pl>
+References: <nzLqtSp97aP.A.RGB.hglSLB@chimera> <b170af451001110449w134af1f9we804205a5febcaca@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754052Ab0AKTx0@vger.kernel.org>
-In-Reply-To: <51f3faa71001101517i10bde693n51688e2bd8c411b8@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <b170af451001110449w134af1f9we804205a5febcaca-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Robert Hancock <hancockrwd@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jeff Garzik <jeff@garzik.org>, Mike Cui <cuicui@gmail.com>
+Content-Type: Text/Plain; charset="utf-8"
+To: =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
 
-On Monday 11 January 2010, Robert Hancock wrote:
-> On Sun, Jan 10, 2010 at 4:56 PM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.31 and 2.6.32.
-> >
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
-> > be listed and let me know (either way).
-> >
-> >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14922
-> > Subject         : 2.6.32 seemed to have broken nVidia MCP7A sata controller
-> > Submitter       : Mike Cui <cuicui@gmail.com>
-> > Date            : 2009-12-19 6:13 (23 days old)
-> > References      : http://marc.info/?l=linux-ide&m=126120323407742&w=4
-> > Handled-By      : Jeff Garzik <jeff@garzik.org>
-> >                  Robert Hancock <hancockrwd@gmail.com>
-> 
-> Still outstanding. Waiting for testing results from the reporter with
-> that drive on another AHCI controller, if possible. I CCed Peer Chen
-> from NVIDIA on the Bugzilla report, maybe they know if there is some
-> known problem with FPDMA AA on that controller.
+On Monday 11 January 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
+> 2010/1/10 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D1474=
+7
+> > Subject         : bisected 2.6.32 regression: synaptics touchpad do=
+esn't work
+> > Submitter       : Fran=C3=A7ois Valenduc <francois.valenduc@tvcable=
+net.be>
+> > Date            : 2009-12-06 11:16 (36 days old)
+>=20
+> Not sure if this is hackish or not, but some patch exists.
 
-Thanks for the update.
+Thanks, updated.
+
+Well, I guess the hackish is rather inevitable in this particular case =
+=2E..
 
 Rafael
