@@ -1,20 +1,20 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #14946] All kernels after 2.6.32-git10  show only 1 CPU
-Date: Mon, 11 Jan 2010 21:04:54 +0100
-Message-ID: <201001112104.54141.rjw@sisk.pl>
-References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.jbH.QNlSLB@chimera> <4B4A9D8F.9030300@blueyonder.co.uk>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #14948] EHCI resume sysfs duplicates
+Date: Mon, 11 Jan 2010 21:06:06 +0100
+Message-ID: <201001112106.06787.rjw@sisk.pl>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.1WH.ONlSLB@chimera> <20100111060541.GA19865@liondog.tnic>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <4B4A9D8F.9030300@blueyonder.co.uk>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20100111060541.GA19865-f9CnO7I+Q6zU6FkGJEIX5A@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: sboyce@blueyonder.co.uk
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+To: Borislav Petkov <petkovbb-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Monday 11 January 2010, Sid Boyce wrote:
-> On 10/01/10 22:32, Rafael J. Wysocki wrote:
+On Monday 11 January 2010, Borislav Petkov wrote:
+> On Sun, Jan 10, 2010 at 11:32:55PM +0100, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
 > > 
@@ -23,40 +23,14 @@ On Monday 11 January 2010, Sid Boyce wrote:
 > > (either way).
 > > 
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14946
-> > Subject		: All kernels after 2.6.32-git10  show only 1 CPU
-> > Submitter	: Sid Boyce <sboyce@blueyonder.co.uk>
-> > Date		: 2009-12-23 16:55 (19 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=126158734326801&w=4
-> > 
-> > 
-> > 
-> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14948
+> > Subject		: EHCI resume sysfs duplicates
+> > Submitter	: Borislav Petkov <petkovbb-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+> > Date		: 2009-12-26 9:36 (16 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=126182020615709&w=4
 > 
-> With 2.6.33-rc3-git3 I now see 2 CPU's every on a normal boot, but its
-> locking up solid at this part of the boot process as usual.
-> ACPI: PCI Interrupt Link [AAZA] enabled at IRQ 22
-> HDA Intel 0000:00:0e.1: PCI INT B -> Link[AAZA] -> GSI 22 (level, low)
-> -> IRQ 22.
-> With acpi=noirq (2 CPU's)
-> ================
-> kvm: Nested Virtualization enabled.
-> IT8716 Super IO detected
-> Parport_PC 00:0a: reported by plug and Play ACPI
-> Parport 0: PC-Style at 0x378, irq 7 [PCSPP, TRISTATE,EPP]
-> parport: irq 7 in use, resorting to polled operation
-> HDA Intel 0000:00:0e.1: PCI -> APIC IRQ transform: INT B -> IRQ 11
-> 
-> With acpi=ht (1 CPU)
-> =============
-> Hangs at:-
-> Loading drivees, configuring devices do_IRQ: 0.65 No irq handler for
-> vector (irq -1)
-> 
-> With acpi=off (2 CPU's)
-> ========================
-> Hangs at same point as with acpi=noirq.
+> Preliminary and tested fix is at LKML-Reference: <20100105220829.GA31569@xanatos>
 
-Thanks for the update.
+Sorry, I don't know how to resolve that.
 
 Rafael
