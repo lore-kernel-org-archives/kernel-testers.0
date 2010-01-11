@@ -1,52 +1,50 @@
-From: Marc Dionne <marc.c.dionne-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #15037] BUG during shutdown - bisected to commit e2912009
-Date: Mon, 11 Jan 2010 08:12:09 -0500
-Message-ID: <6041d2001001110512p58e84103n53cf3729b28a5313@mail.gmail.com>
-References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera>
-	 <omZ8aBZReyD.A.0FG.xMlSLB@chimera>
+From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14487] PANIC: early exception 08 rip 246:10 error ffffffff810251b5
+ cr2 0
+Date: Mon, 11 Jan 2010 05:56:50 -0800
+Message-ID: <4B4B2E22.6030903@gmail.com>
+References: <nzLqtSp97aP.A.RGB.hglSLB@chimera> <CXIfLt-ygXM.A.O1D.qilSLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=9vOj7g83pV1JRw/516Qk8sctyUk0hFayqyOjkGmTnWo=;
-        b=b34mZ3kMzajZLcGxxNBGIv5gMF3s3ZvwVZckxylq1yZ5G3gwv/mYPwLT/9sPtUeieg
-         dgwc5AE8OujktzfzxTE9XQqjl3kZ2zfipI1+q+oTRfedjjEyF2eZT50JpIX7fxpXX7Ib
-         L8R0JTL6P8alE88WsPI1BACYkCPvsw0ACgBNU=
-In-Reply-To: <omZ8aBZReyD.A.0FG.xMlSLB@chimera>
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=Z5Zb/gadn1Mo1n6Agc5HFdy0RQTG+qV54o7jUqkBlqw=;
+        b=oMgzQKLMYuFJxEFHXbOoUtA0ZfjwYIAb8NHmNZJu/oq2NqHqB3fclgcSPmRcy4bsP3
+         jaPVOdkqYBKOvu4OUIslfCrSl61DPTsA/KQJkUXUwveq1DGz555F0bTt7V1rFre+51R+
+         66eioPsvvv/qcJGqr6+cujXtbLm4HCIy2RMbI=
+In-Reply-To: <CXIfLt-ygXM.A.O1D.qilSLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Xiaotian Feng <dfeng-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sun, Jan 10, 2010 at 5:32 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On 01/10/10 14:56, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
-> of recent regressions.
+> of regressions introduced between 2.6.31 and 2.6.32.
 >
 > The following bug entry is on the current list of known regressions
-> from 2.6.32. =A0Please verify if it still should be listed and let me=
- know
-> (either way).
+> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> be listed and let me know (either way).
 >
 >
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-15037
-> Subject =A0 =A0 =A0 =A0 : BUG during shutdown - bisected to commit e2=
-912009
-> Submitter =A0 =A0 =A0 : Marc Dionne <marc.c.dionne-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-01-02 0:27 (9 days old)
-> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D126239=
-207631034&w=3D4
-> Handled-By =A0 =A0 =A0: Xiaotian Feng <dfeng-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> Patch =A0 =A0 =A0 =A0 =A0 : http://patchwork.kernel.org/patch/71537/
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14487
+> Subject		: PANIC: early exception 08 rip 246:10 error ffffffff810251b5 cr2 0
+> Submitter	: Justin P. Mattock<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-10-23 16:45 (80 days old)
+> References	: http://lkml.org/lkml/2009/10/23/252
+>
+>
+>
 
-I verified that the BUG still occurs with current git.
-The referenced patch does fix the issue for me, but it hasn't made its
-way into mainline yet.
+I've played around with this. and
+and much confused at what needs to happen.
+(please feedback on what might be happening);
+In any case I can have another try at finding a fix
+so please leave open.
 
-Thanks,
-Marc
+Justin P. Mattock
