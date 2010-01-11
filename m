@@ -1,31 +1,62 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14942] gkrellm no longer shows all the temperatures on thinkpad x60
-Date: Mon, 11 Jan 2010 21:02:50 +0100
-Message-ID: <201001112102.50831.rjw@sisk.pl>
-References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.IpH.TNlSLB@chimera> <20100111094027.GB16080@khazad-dum.debian.net>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #14946] All kernels after 2.6.32-git10  show only 1 CPU
+Date: Mon, 11 Jan 2010 21:04:54 +0100
+Message-ID: <201001112104.54141.rjw@sisk.pl>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.jbH.QNlSLB@chimera> <4B4A9D8F.9030300@blueyonder.co.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100111094027.GB16080-ZGHd14iZgfaRjzvQDGKj+xxZW9W5cXbT@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <4B4A9D8F.9030300@blueyonder.co.uk>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+To: sboyce@blueyonder.co.uk
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>
 
-On Monday 11 January 2010, Henrique de Moraes Holschuh wrote:
-> On Sun, 10 Jan 2010, Rafael J. Wysocki wrote:
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14942
-> > Subject		: gkrellm no longer shows all the temperatures on thinkpad x60
-> > Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-> > Date		: 2009-12-27 21:57 (15 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=126195107005565&w=4
-> > Handled-By	: Henrique de Moraes Holschuh <hmh-N3TV7GIv+o9fyO9Q7EP/yw@public.gmane.org>
-> > Patch		: http://patchwork.kernel.org/patch/69809/
+On Monday 11 January 2010, Sid Boyce wrote:
+> On 10/01/10 22:32, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.32.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14946
+> > Subject		: All kernels after 2.6.32-git10  show only 1 CPU
+> > Submitter	: Sid Boyce <sboyce@blueyonder.co.uk>
+> > Date		: 2009-12-23 16:55 (19 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=126158734326801&w=4
+> > 
+> > 
+> > 
+> > 
 > 
-> Waiting for Pavel to confirm whether this can be closed or not.  There could
-> be more than one bug involved, and I only fixed one.
+> With 2.6.33-rc3-git3 I now see 2 CPU's every on a normal boot, but its
+> locking up solid at this part of the boot process as usual.
+> ACPI: PCI Interrupt Link [AAZA] enabled at IRQ 22
+> HDA Intel 0000:00:0e.1: PCI INT B -> Link[AAZA] -> GSI 22 (level, low)
+> -> IRQ 22.
+> With acpi=noirq (2 CPU's)
+> ================
+> kvm: Nested Virtualization enabled.
+> IT8716 Super IO detected
+> Parport_PC 00:0a: reported by plug and Play ACPI
+> Parport 0: PC-Style at 0x378, irq 7 [PCSPP, TRISTATE,EPP]
+> parport: irq 7 in use, resorting to polled operation
+> HDA Intel 0000:00:0e.1: PCI -> APIC IRQ transform: INT B -> IRQ 11
+> 
+> With acpi=ht (1 CPU)
+> =============
+> Hangs at:-
+> Loading drivees, configuring devices do_IRQ: 0.65 No irq handler for
+> vector (irq -1)
+> 
+> With acpi=off (2 CPU's)
+> ========================
+> Hangs at same point as with acpi=noirq.
 
-OK, thanks for the update.
+Thanks for the update.
 
 Rafael
