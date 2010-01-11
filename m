@@ -1,30 +1,35 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [linux-pm] 2.6.33-rc3-git3: Reported regressions 2.6.31 -> 2.6.32
-Date: Mon, 11 Jan 2010 20:58:01 +0100
-Message-ID: <201001112058.01652.rjw@sisk.pl>
-References: <Pine.LNX.4.44L0.1001111008080.2873-100000@iolanthe.rowland.org>
+Subject: Re: [Bug #14859] System timer firing too much without cause
+Date: Mon, 11 Jan 2010 20:59:26 +0100
+Message-ID: <201001112059.27015.rjw@sisk.pl>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.Xp.3NlSLB@chimera> <201001102222.19700.shawn.starr@rogers.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <Pine.LNX.4.44L0.1001111008080.2873-100000-IYeN2dnnYyZXsRXLowluHWD2FQJk+8+b@public.gmane.org>
+In-Reply-To: <201001102222.19700.shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Fruhwirth Clemens <clemens-Yy/aLhJqNSaEi8DpZVb4nw@public.gmane.org>
+To: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Monday 11 January 2010, Alan Stern wrote:
-> On Sun, 10 Jan 2010, Rafael J. Wysocki wrote:
+On Monday 11 January 2010, Shawn Starr wrote:
+> On Sunday 10 January 2010 17:32:53 Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.32.  Please verify if it still should be listed and let me know
+> > (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14859
+> > Subject		: System timer firing too much without cause
+> > Submitter	: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
+> > Date		: 2009-12-21 19:16 (21 days old)
 > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14841
-> > Subject	: unable to enumerate USB device on port X after suspend/resume
-> > Submitter	: Fruhwirth Clemens <clemens-Yy/aLhJqNSaEi8DpZVb4nw@public.gmane.org>
-> > Date		: 2009-12-19 11:45 (23 days old)
-> 
-> This bug has been resolved as WILL NOT FIX.  It ended up having nothing
-> to do with suspend or resume, it was caused by strange behavior in the
-> device hardware.
+> Yes please keep on regression list.
 
-Thanks, closed.
+OK, thanks for the update.
 
 Rafael
