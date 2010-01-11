@@ -1,36 +1,38 @@
-From: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-Subject: Re: [Bug #14942] gkrellm no longer shows all the temperatures on
- thinkpad x60
-Date: Mon, 11 Jan 2010 07:40:27 -0200
-Message-ID: <20100111094027.GB16080@khazad-dum.debian.net>
-References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera>
- <omZ8aBZReyD.A.IpH.TNlSLB@chimera>
+From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: 2.6.33-rc3-git3: Reported regressions 2.6.31 -> 2.6.32
+Date: Mon, 11 Jan 2010 13:49:54 +0100
+Message-ID: <b170af451001110449w134af1f9we804205a5febcaca@mail.gmail.com>
+References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753078Ab0AKJkc@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=messagingengine.com; h=date:from:to:cc:subject:message-id:references:mime-version:content-type:in-reply-to; s=smtpout; bh=eHcllmj5aj/ddiBjFtk5Mspsd20=; b=e91HdwtF80hrrkmlQrIXcqnOq2hM4mAuJg/LZR1PAnePniB8H+ASqQ7+tEoGI+iKhsiXj9I+F3/gquHNnVl/lM7nNFX0zHLaFaPCbwM70BwbdT+crTQUvY4iELH/Hy4Z3/UOc0l2lyU1A7NP1KHFDbFPVARhJ/cXCb/JPcKZhtY=
-Content-Disposition: inline
-In-Reply-To: <omZ8aBZReyD.A.IpH.TNlSLB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=OGjx2jZ6L0LNSUltR6/QHyzDEHHs2/hTRafsxYg0RNc=;
+        b=w0vhoXeS7EsPKHjyl54nLjM/FRNdWcZtNtzlZfY6UdkPs3mzV/uOurpcOxF+GKEjId
+         G3HzvKO/JcbXlmqGNz4Ywqs73GJJ84hkjJKkmpXmI1dZltvCyj3DTDv4CwOxu7t0oyl0
+         WpwpyhN0igUmHwkHP/FvA0rt1yfcaAGKO9T5E=
+In-Reply-To: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Pavel Machek <pavel@ucw.cz>
+Content-Type: text/plain; charset="utf-8"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
 
-On Sun, 10 Jan 2010, Rafael J. Wysocki wrote:
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14942
-> Subject		: gkrellm no longer shows all the temperatures on thinkpad x60
-> Submitter	: Pavel Machek <pavel@ucw.cz>
-> Date		: 2009-12-27 21:57 (15 days old)
-> References	: http://marc.info/?l=linux-kernel&m=126195107005565&w=4
-> Handled-By	: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-> Patch		: http://patchwork.kernel.org/patch/69809/
+2010/1/10 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
+cgi?id=3D14747
+> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : bisected 2.6.32 regression: syn=
+aptics touchpad doesn't work
+> Submitter =C2=A0 =C2=A0 =C2=A0 : Fran=C3=A7ois Valenduc <francois.val=
+enduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
+> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2009-12-06 11:16 (36 =
+days old)
 
-Waiting for Pavel to confirm whether this can be closed or not.  There could
-be more than one bug involved, and I only fixed one.
+Not sure if this is hackish or not, but some patch exists.
 
--- 
-  "One disk to rule them all, One disk to find them. One disk to bring
-  them all and in the darkness grind them. In the Land of Redmond
-  where the shadows lie." -- The Silicon Valley Tarot
-  Henrique Holschuh
+--=20
+Rafa=C5=82
