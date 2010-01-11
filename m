@@ -1,71 +1,39 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14670] i915: playing video via XVideo extension makes the screen flicker
-Date: Mon, 11 Jan 2010 21:28:17 +0100
-Message-ID: <201001112128.17975.rjw@sisk.pl>
-References: <nzLqtSp97aP.A.RGB.hglSLB@chimera> <8B599161-2977-4A43-B88F-36E87AFCF4EA@m3y3r.de> <20100111111941.189eb41e@jbarnes-piketon>
+From: Nick Bowler <nbowler@elliptictech.com>
+Subject: Re: 2.6.33-rc3-git3: Reported regressions from 2.6.32
+Date: Mon, 11 Jan 2010 16:47:10 -0500
+Message-ID: <20100111214603.GA4335@emergent.ellipticsemi.com>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100111111941.189eb41e@jbarnes-piketon>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752562Ab0AKVsk@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <wnS54-l8PVO.A.TlF.oMlSLB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Cc: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Adrian Bunk <bunk@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Natalie Protasevich <protasnb@gmail.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-On Monday 11 January 2010, Jesse Barnes wrote:
-> On Mon, 11 Jan 2010 20:03:57 +0100
-> Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org> wrote:
+On 23:27 Sun 10 Jan     , Rafael J. Wysocki wrote:
+> This message contains a list of some regressions from 2.6.32, for which there
+> are no fixes in the mainline I know of.  If any of them have been fixed already,
+> please let me know.
 > 
-> > 
-> > 
-> > Am 11.01.2010 um 17:55 schrieb Jesse Barnes
-> > <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>:
-> > 
-> > > On Mon, 11 Jan 2010 17:53:04 +0100
-> > > Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org> wrote:
-> > >
-> > >> Am Sonntag, den 10.01.2010, 23:56 +0100 schrieb Rafael J. Wysocki:
-> > >>> This message has been generated automatically as a part of a
-> > >>> report of regressions introduced between 2.6.31 and 2.6.32.
-> > >>>
-> > >>> The following bug entry is on the current list of known
-> > >>> regressions introduced between 2.6.31 and 2.6.32.  Please verify
-> > >>> if it still should be listed and let me know (either way).
-> > >>>
-> > >>
-> > >> Yes, still should be listed.
-> > >>
-> > >> Problem still exists in 2.6.32.3 and 2.6.33-rc3-00097-g2c1f189,
-> > >> that contains
-> > >> this commit:
-> > >> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=cda9d05c499093c67b4a376a15009923acc2127a
-> > >>
-> > >> The above commit removes the render reclock support, that ought to
-> > >> fix a common kind of problem encountered on i915 hardware, but not
-> > >> on my machine.
-> > >>
-> > >> Still need to boot with "nomodeset" to have a workable system.
-> > >
-> > > Does this patch prevent the flicker?
-> > 
-> > By the way: how often and in what interval is the function   
-> > intel_lvds_detect called?
-> > 
-> > How long will/can the function acpi_lid_open take to complete?
-> > Maybe some acpi interpretation takes really long? Is this possible?
-> > 
-> > Would this explain the flickering?
-> 
-> It should only be called when a client requests the connection status
-> (e.g. xrandr or the GNOME display applet).
-> 
-> The LVDS state will also be checked at ACPI LID event time, maybe your
-> platforms is getting spurious LID events?
-> 
-> If not, this bisection really confuses me...
+> If you know of any other unresolved regressions from 2.6.32, please let me know
+> either and I'll add them to the list.  Also, please let me know if any of the
+> entries below are invalid.
 
-It's not only a bisection, as Thomas says that reverting the commit turned up
-by the bisection fixes the problem for him.
+Here are two that I don't see in the list:
 
-Rafael
+ * LVDS downclocking breaks on G45/thinkpad T500
+
+     LKML: http://lkml.org/lkml/2009/12/26/40
+     FDO:  http://bugs.freedesktop.org/show_bug.cgi?id=25809
+ 
+ * Receive failure in et131x (Alan Cox sent me a patch for this but
+                              it's not in mainline yet)
+
+     LKML: http://lkml.org/lkml/2009/12/29/210
+
+-- 
+Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
