@@ -1,29 +1,31 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.33-rc3-git3: Reported regressions 2.6.31 -> 2.6.32
-Date: Tue, 12 Jan 2010 23:02:17 +0100
-Message-ID: <201001122302.17835.rjw@sisk.pl>
-References: <nzLqtSp97aP.A.RGB.hglSLB@chimera> <4B4CB3B5.3060900@googlemail.com>
+Subject: Re: [Bug #14860] No DP-DVI output when laptop is docked
+Date: Tue, 12 Jan 2010 23:03:20 +0100
+Message-ID: <201001122303.20582.rjw@sisk.pl>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.nn.1NlSLB@chimera> <87vdf7e1vz.fsf@nsc.liu.se>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B4CB3B5.3060900-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <87vdf7e1vz.fsf-5UnqSh4Icw/LoDKTGw+V6w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Johannes Engel <jcnengel-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Type: Text/Plain; charset="iso-8859-1"
+To: =?iso-8859-2?q?P=E4r_Andersson?= <paran-SamgB31n2u5IcsJQ0EH25Q@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, ykzhao <yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Tuesday 12 January 2010, Johannes Engel wrote:
-> On 10.01.2010 23:45, Rafael J. Wysocki wrote:
-> > This message contains a list of some regressions introduced between 2.6.31 and
-> > 2.6.32, for which there are no fixes in the mainline I know of.  If any of them
-> > have been fixed already, please let me know.
-> >
-> > If you know of any other unresolved regressions introduced between 2.6.31
-> > and 2.6.32, please let me know either and I'll add them to the list.
-> >   
-> How about #15004?
+On Tuesday 12 January 2010, P=E4r Andersson wrote:
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+>=20
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.32.  Please verify if it still should be listed and let me=
+ know
+> > (either way).
+>=20
+> It should still be listed.
+>=20
+> I was without Internet connection last week, but that have been fixed
+> now so I will test the patch from ykzhao ASAP.
 
-Qualifies, but I need to know the last working kernel.
+Thanks for the update.
 
 Rafael
