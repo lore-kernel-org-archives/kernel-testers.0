@@ -1,31 +1,39 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14860] No DP-DVI output when laptop is docked
-Date: Tue, 12 Jan 2010 23:03:20 +0100
-Message-ID: <201001122303.20582.rjw@sisk.pl>
-References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.nn.1NlSLB@chimera> <87vdf7e1vz.fsf@nsc.liu.se>
+Subject: Re: [Bug #15034] volano ~30% regression
+Date: Tue, 12 Jan 2010 23:06:29 +0100
+Message-ID: <201001122306.29462.rjw@sisk.pl>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <201001112108.24858.rjw@sisk.pl> <1263263318.5905.3.camel@marge.simson.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87vdf7e1vz.fsf-5UnqSh4Icw/LoDKTGw+V6w@public.gmane.org>
+In-Reply-To: <1263263318.5905.3.camel-YqMYhexLQo1vAv1Ojkdn7Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="iso-8859-1"
-To: =?iso-8859-2?q?P=E4r_Andersson?= <paran-SamgB31n2u5IcsJQ0EH25Q@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, ykzhao <yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Tuesday 12 January 2010, P=E4r Andersson wrote:
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
->=20
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.32.  Please verify if it still should be listed and let me=
- know
-> > (either way).
->=20
-> It should still be listed.
->=20
-> I was without Internet connection last week, but that have been fixed
-> now so I will test the patch from ykzhao ASAP.
+On Tuesday 12 January 2010, Mike Galbraith wrote:
+> On Mon, 2010-01-11 at 21:08 +0100, Rafael J. Wysocki wrote:
+> > On Monday 11 January 2010, Mike Galbraith wrote:
+> > > On Sun, 2010-01-10 at 23:32 +0100, Rafael J. Wysocki wrote:
+> > > > This message has been generated automatically as a part of a report
+> > > > of recent regressions.
+> > > > 
+> > > > The following bug entry is on the current list of known regressions
+> > > > from 2.6.32.  Please verify if it still should be listed and let me know
+> > > > (either way).
+> > > 
+> > > A verified fix for this one is in the pipe.
+> > 
+> > OK, thanks for the update.
+> > 
+> > A link to that fix would be appreciated. :-)
+> 
+> One link, coming up.
+> 
+> http://patchwork.kernel.org/patch/70623/
 
-Thanks for the update.
+Thanks, I have this one already.
 
 Rafael
