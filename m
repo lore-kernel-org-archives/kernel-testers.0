@@ -1,58 +1,42 @@
-From: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
-Subject: Re: [Bug #14897] i915: Commit 0e442c60 causes flickering
-Date: Wed, 13 Jan 2010 13:36:05 +0530
-Message-ID: <4B4D7EED.7010207@xenontk.org>
-References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>	<CXIfLt-ygXM.A.DAC.zglSLB@chimera>	<4B4AB589.7080004@xenontk.org>	<201001112052.57339.rjw@sisk.pl> <20100112101446.7fac096e@jbarnes-piketon>
-Reply-To: davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org
+From: Michal Marek <mmarek-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [Bug #14907] Commit "kbuild: fix bzImage build for x86" breaks
+ build
+Date: Wed, 13 Jan 2010 13:33:15 +0100
+Message-ID: <4B4DBD8B.6000002@suse.cz>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.lV.kNlSLB@chimera> <20100111013606.GA7031@progeny.tock>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100112101446.7fac096e@jbarnes-piketon>
+In-Reply-To: <20100111013606.GA7031-Zz+2AvWe3NP1iTQCbxR7ew@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, yakui.zhao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+To: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Tokarev <mjt-XAri/EZa3C4vJsYlp49lxw@public.gmane.org>, Oliver Hartkopp <oliver-fJ+pQTUTwRTk1uMJSBkQmQ@public.gmane.org>, Sam Ravnborg <sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org>
 
-On 01/12/2010 11:44 PM, Jesse Barnes wrote:
-> On Mon, 11 Jan 2010 20:52:57 +0100
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On 11.1.2010 02:36, Jonathan Nieder wrote:
+> Rafael J. Wysocki wrote:
 > 
->> On Monday 11 January 2010, David John wrote:
->>> On 01/11/2010 04:26 AM, Rafael J. Wysocki wrote:
->>>> This message has been generated automatically as a part of a
->>>> report of regressions introduced between 2.6.31 and 2.6.32.
->>>>
->>>> The following bug entry is on the current list of known
->>>> regressions introduced between 2.6.31 and 2.6.32.  Please verify
->>>> if it still should be listed and let me know (either way).
->>>>
->>>>
->>>> Bug-Entry	:
->>>> http://bugzilla.kernel.org/show_bug.cgi?id=14897
->>>> Subject		: i915: Commit 0e442c60 causes flickering
->>>> Submitter	: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
->>>> Date		: 2009-12-09 17:26 (33 days old)
->>>> First-Bad-Commit:
->>>> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=0e442c60dd39ac6924b11a20497734bd2303744c
->>>> References	:
->>>> http://marc.info/?l=linux-kernel&m=126037889600769&w=4
->>>>
->>>>
->>>>
->>>
->>> Still present in 2.6.33-rc3.
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.32.  Please verify if it still should be listed and let me know
+>> (either way).
 >>
->> Thanks for the update.
+>>
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14907
+>> Subject		: Commit "kbuild: fix bzImage build for x86" breaks build
+>> Submitter	: Oliver Hartkopp <oliver-fJ+pQTUTwRTk1uMJSBkQmQ@public.gmane.org>
+>> Date		: 2009-12-19 19:21 (23 days old)
+>> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=4a2ff67c88211026afcbdbc190c13f705dae1b59
+>> References	: http://marc.info/?l=linux-kernel&m=126125050622195&w=4
+>> 		  http://marc.info/?l=linux-kernel&m=126114565103300&w=4
+>> 		  http://marc.info/?l=linux-kbuild&m=126202819526623&w=2
+>> Handled-By	: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> Patch		: http://thread.gmane.org/gmane.linux.kbuild.devel/4313/focus=4319
+>> 		  http://patchwork.kernel.org/patch/71957/
 > 
-> David I guess you weren't on the bug cc list so you didn't see Yakui's
-> question.  I just attached a patch to it as well.  Please check it out.
-> 
+> I am using the patch without problems, but it is not in the mainline
+> as of v2.6.33-rc3-git3.  So please do keep the bug listed.
 
-Hi Jesse,
+I resent the pull request (http://lkml.org/lkml/2010/1/13/194), let's see.
 
-I've updated the bug report with more info. If you have any other ideas,
-I can test those also.
-
-Regards,
-David.
+Michal
