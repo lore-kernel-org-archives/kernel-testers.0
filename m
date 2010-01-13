@@ -1,8 +1,8 @@
-From: Thomas Meyer <thomas@m3y3r.de>
+From: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
 Subject: Re: [Bug #14670] i915: playing video via XVideo extension makes
  the screen flicker
-Date: Wed, 13 Jan 2010 22:06:34 +0100
-Message-ID: <1263416794.17308.6.camel@localhost.localdomain>
+Date: Wed, 13 Jan 2010 22:48:40 +0100
+Message-ID: <1263419320.2250.6.camel@localhost.localdomain>
 References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 	 <CXIfLt-ygXM.A.GGD.GilSLB@chimera>
 	 <1263228784.12830.0.camel@localhost.localdomain>
@@ -13,170 +13,108 @@ References: <nzLqtSp97aP.A.RGB.hglSLB@chimera>
 	 <20100112095702.4b22fcc1@jbarnes-piketon>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756380Ab0AMVHY@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <20100112095702.4b22fcc1@jbarnes-piketon>
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Jesse Barnes <jbarnes@virtuousgeek.org>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Eric Anholt <eric@anholt.net>
+To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
 
 Am Dienstag, den 12.01.2010, 09:57 -0800 schrieb Jesse Barnes:
-
+> On Tue, 12 Jan 2010 18:43:09 +0100
+> Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org> wrote:
+> 
+> > Am Montag, den 11.01.2010, 11:19 -0800 schrieb Jesse Barnes:
+> > > On Mon, 11 Jan 2010 20:03:57 +0100
+> > > Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org> wrote:
+> > > 
+> > > > 
+> > > > 
+> > > > Am 11.01.2010 um 17:55 schrieb Jesse Barnes
+> > > > <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>:
+> > > > 
+> > > > > On Mon, 11 Jan 2010 17:53:04 +0100
+> > > > > Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org> wrote:
+> > > > >
+> > > > >> Am Sonntag, den 10.01.2010, 23:56 +0100 schrieb Rafael J.
+> > > > >> Wysocki:
+> > > > >>> This message has been generated automatically as a part of a
+> > > > >>> report of regressions introduced between 2.6.31 and 2.6.32.
+> > > > >>>
+> > > > >>> The following bug entry is on the current list of known
+> > > > >>> regressions introduced between 2.6.31 and 2.6.32.  Please
+> > > > >>> verify if it still should be listed and let me know (either
+> > > > >>> way).
+> > > > >>>
+> > > > >>
+> > > > >> Yes, still should be listed.
+> > > > >>
+> > > > >> Problem still exists in 2.6.32.3 and 2.6.33-rc3-00097-g2c1f189,
+> > > > >> that contains
+> > > > >> this commit:
+> > > > >> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=cda9d05c499093c67b4a376a15009923acc2127a
+> > > > >>
+> > > > >> The above commit removes the render reclock support, that
+> > > > >> ought to fix a common kind of problem encountered on i915
+> > > > >> hardware, but not on my machine.
+> > > > >>
+> > > > >> Still need to boot with "nomodeset" to have a workable system.
+> > > > >
+> > > > > Does this patch prevent the flicker?
+> > > > 
+> > > > By the way: how often and in what interval is the function   
+> > > > intel_lvds_detect called?
+> > > > 
+> > > > How long will/can the function acpi_lid_open take to complete?
+> > > > Maybe some acpi interpretation takes really long? Is this
+> > > > possible?
+> > > > 
+> > > > Would this explain the flickering?
+> > > 
+> > > It should only be called when a client requests the connection
+> > > status (e.g. xrandr or the GNOME display applet).
+> > 
+> > how to check how often this function is called and it's duration? is
+> > the function tracer capable of this?
+> 
 > Yeah, the function tracer should be able to do it (though I don't know
 > how to use it offhand, maybe through the perf tool?).  Or you could
 > just add some DRM_ERROR lines. :)
 
-I set the function tracer to the function "drm_mode_getconnector":
 
-here is the output, that i captured after I start playing a video with
-totem (i.e. the flickering starts):
+After recompiling the kernel without optimize for size I could use the
+function graph tracer and set the function to "intel_lvds_detect".
 
-# tracer: function
-#
-#           TASK-PID    CPU#    TIMESTAMP  FUNCTION
-#              | |       |          |         |
-            Xorg-1443  [000]  1880.280581: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.394308: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.395379: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.406780: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.420169: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.424712: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.444334: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.631332: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.632368: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.643349: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.656874: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.662623: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.764168: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.986639: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.988920: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1880.999856: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.013260: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.024310: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.069299: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.303194: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.305308: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.316421: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.329808: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.337493: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.420231: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.633036: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.634075: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.646363: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.659741: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.670751: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.742476: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.959634: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.960669: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.972904: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.986272: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1881.993965: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.078704: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.295050: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.296104: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.309439: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.322834: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.333858: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.407520: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.622870: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.623896: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.635987: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.649366: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.660390: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.772479: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.992680: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1882.993707: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.005845: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.019238: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.026922: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.142571: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.359167: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.360190: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.372398: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.385862: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.393457: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.479378: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.692285: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.693326: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.705552: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.718920: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.729979: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1883.808964: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.032179: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.033222: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.045422: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.058808: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.066525: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.151051: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.368836: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.369872: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.382019: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.395401: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.403100: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.504375: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.725273: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.726373: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.738545: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.751942: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.759633: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1884.828803: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.045242: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.046283: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.058442: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.071842: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.079498: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.162244: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.388404: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.389429: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.401620: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.415130: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.421548: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.510004: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.685747: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.686776: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.698176: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.711599: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.723703: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1885.808301: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.032422: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.033456: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.044685: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.058081: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.065622: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.140785: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.367987: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.369012: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.381254: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.394621: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.402334: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.456423: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.671279: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.672302: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.684470: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.697844: drm_mode_getconnector <-drm_ioctl
-            Xorg-1443  [000]  1886.705543: drm_mode_getconnector <-drm_ioctl
+Here is an example of the output:
 
-Any idea why the function "drm_mode_getconnector" is called so many
-times?
+ 0)   0.365 us    |                up();
+ 0)   1.092 us    |              }
+ 0)   1.824 us    |            }
+ 0)   2.486 us    |          }
+ 0)   0.376 us    |          kfree();
+ 0) ! 9759.012 us |        }
+ 0) ! 9759.813 us |      }
+ 0) ! 9761.096 us |    }
+ 0) ! 9764.483 us |  }
+ 0)               |  intel_lvds_detect() {
+ 0)               |    acpi_lid_open() {
+ 0)               |      acpi_evaluate_integer() {
+ 0)               |        acpi_evaluate_object() {
+ 0)               |          acpi_os_allocate_zeroed() {
+ 0)               |            __kmalloc() {
+ 0)   0.366 us    |              get_slab();
+ 0)   0.336 us    |              _cond_resched();
+ 0)   0.396 us    |              memset();
+ 0)   2.796 us    |            }
+ 0)   3.447 us    |          }
+ 0)   0.531 us    |          acpi_ns_validate_handle();
 
-The call chain seems to be
+So the call to "intel_lvds_detect" seems to take around 10000us, i.e.
+10ms (I guess this is long), thanks to heavy ACPI interpretation.
 
-drm_ioctl ->
-drm_mode_getconnector ->
-drm_helper_probe_single_connector_modes ->
-  intel_crt_detect, intel_hdmi_detect and intel_lvds_detect
-
-> 
-> > > The LVDS state will also be checked at ACPI LID event time, maybe
-> > > your platforms is getting spurious LID events?
-> > 
-> > maybe! where can I check this? acpid log file?
-> 
-> Yeah or using acpi_listen I think.
-> 
-
-acpi lid events seems to correspond to the lid status.
+So the question still is: Why is the drm_ioctl (that in turn calls
+intel_lvds_detect) called so often by Xorg?
 
 greets
 thomas
