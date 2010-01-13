@@ -1,23 +1,21 @@
-From: Matt Mackall <mpm@selenic.com>
+From: Andi Kleen <andi@firstfloor.org>
 Subject: Re: [Bug #15041] Pagemap endless read loop with LTP
-Date: Wed, 13 Jan 2010 16:24:14 -0600
-Message-ID: <1263421454.29868.4997.camel@calx>
-References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera>
-	 <omZ8aBZReyD.A.tvF.tMlSLB@chimera>
-	 <2375c9f91001121904h2857760akbf2dd2c9f7441fc5@mail.gmail.com>
-	 <201001132257.34123.rjw@sisk.pl>
+Date: Thu, 14 Jan 2010 00:50:10 +0100
+Message-ID: <20100113235010.GF24818@basil.fritz.box>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.tvF.tMlSLB@chimera> <2375c9f91001121904h2857760akbf2dd2c9f7441fc5@mail.gmail.com> <201001132257.34123.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756632Ab0AMWYa@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756682Ab0AMXuS@vger.kernel.org>
+Content-Disposition: inline
 In-Reply-To: <201001132257.34123.rjw@sisk.pl>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="iso-8859-1"
 To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: =?ISO-8859-1?Q?Am=E9rico?= Wang <xiyou.wangcong@gmail.com>, Andi Kleen <andi@firstfloor.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Cc: =?iso-8859-1?Q?Am=E9rico?= Wang <xiyou.wangcong@gmail.com>, Andi Kleen <andi@firstfloor.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Wed, 2010-01-13 at 22:57 +0100, Rafael J. Wysocki wrote:
-> On Wednesday 13 January 2010, Am=C3=A9rico Wang wrote:
+On Wed, Jan 13, 2010 at 10:57:34PM +0100, Rafael J. Wysocki wrote:
+> On Wednesday 13 January 2010, Am=E9rico Wang wrote:
 > > On Mon, Jan 11, 2010 at 6:32 AM, Rafael J. Wysocki <rjw@sisk.pl> wr=
 ote:
 > > > This message has been generated automatically as a part of a repo=
@@ -45,9 +43,17 @@ me know
 >=20
 > Andi?
 
-This is expected. Pagemap contains 64 bits per page of _address space_.
-Sane users will consult ./maps first and then seek.
+It'll try to read 47 bits worth of 0s on 64bit x86-64.=20
 
+I haven't tried to wait until that finishes, but I estimate a few month=
+s of=20
+CPU time at least.
+
+The interface is just misdesigned, but I guess we cannot do
+anything about that for now. LTP will just need to do a workaround.
+
+This unfortunately breaks older LTP versions.
+
+-Andi
 --=20
-http://selenic.com : development and support for Mercurial and Linux
-
+ak@linux.intel.com -- Speaking for myself only.
