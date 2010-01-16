@@ -1,82 +1,63 @@
-From: m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Subject: Re: 2.6.33-rc2: Reported regressions from 2.6.32
-Date: Sat, 16 Jan 2010 19:48:22 +0200
-Message-ID: <20100116174821.GA18306@redhat.com>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #14906] boot problem bisected to commit 99935a7a59
+Date: Sat, 16 Jan 2010 22:55:09 +0100
+Message-ID: <201001162255.09595.rjw@sisk.pl>
+References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <201001072204.50798.ve@vetienne.net> <201001161023.37484.ve@vetienne.net>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
+In-Reply-To: <201001161023.37484.ve-DnimGkuWo7Hk1uMJSBkQmQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY@public.gmane.org>
+Content-Type: Text/Plain; charset="utf-8"
+To: Vincent ETIENNE <ve-DnimGkuWo7Hk1uMJSBkQmQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
-On Tue, Dec 29, 2009 at 04:05:30PM +0100, Rafael J. Wysocki wrote:
-> [NOTES:
->  * There you go, another round of tracking regressions.  It's not too bad at
->    the moment, as far as the regressions from 2.6.32 are concerned, but we have
->    quite a few -stable regressions, apparently in the DRI area.
+On Saturday 16 January 2010, Vincent ETIENNE wrote:
+> Le jeudi 07 janvier 2010 22:04:50, Vincent ETIENNE a =C3=A9crit :
+> > Le mardi 29 d=C3=A9cembre 2009 23:43:09, Rafael J. Wysocki a =C3=A9=
+crit :
+> > > On Tuesday 29 December 2009, Vincent ETIENNE wrote:
+> > > > Le mardi 29 d=C3=A9cembre 2009 16:09:58, Rafael J. Wysocki a =C3=
+=A9crit :
+> > > > > This message has been generated automatically as a part of a =
+report
+> > > > > of recent regressions.
+> > > > >
+> > > > > The following bug entry is on the current list of known regre=
+ssions
+> > > > > from 2.6.32.  Please verify if it still should be listed and =
+let me
+> > > > > know (either way).
+> > > > >
+> > > > >
+> > > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D1490=
+6
+> > > > > Subject		: boot problem bisected to commit 99935a7a59
+> > > > > Submitter	: Vincent ETIENNE <ve-DnimGkuWo7Hk1uMJSBkQmQ@public.gmane.org>
+> > > > > Date		: 2009-12-19 16:07 (11 days old)
+> > > > > References	: http://marc.info/?l=3Dlinux-kernel&m=3D126123946=
+509316&w=3D4
+> > > > > Handled-By	: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> > > > > Patch		: http://patchwork.kernel.org/patch/68941/
+> > > >
+> > > > The proposed patch works for me but the bug is still present in
+> > > > 2.6.33-rc2 (patch still aply cleanly in rc2 and continue to sol=
+ve the
+> > > > problem). Have to wait for rc3.
+> > >
+> > > Thanks for the update.
+> > >
+> > > Rafael
+> >=20
+> > Hopes not to be too much cumbersome but still no luck in 2.6.33.rc3=
+ : the
+> > problem is present. Nethertheless the proposed patch still cure it.
+> >=20
+>=20
+> Folow-up : tested in rc4. Everything is fine.
+>  Thanks all for your help especially mister Yinghai Lu
 
-I have another one there :)
+Thanks, closing.
 
-Immediately upon startup, screen is flickering (becomes
-lighter and darker again). The problem occurs with kernels
-2.6.33-rc1 to 2.6.33-rc4, but not with kernel 2.6.32 and below.
-
-System details:
-x86_64 kernel with 32 bit Fedora 11 userspace
-kernel modesetting enabled.
-
-dri2proto  dri2proto-2.2
-drm  2.4.17-23-g06a2d65
-macros  util-macros-1.4.1-4-g43e41a5
-xf86-video-intel  2.10.0-13-g96f45c6
-
-mesa versions(from glxinfo):
-server glx version string: 1.2
-client glx version string: 1.4
-GLX version: 1.2
-OpenGL version string: 2.1 Mesa 7.6-devel
-OpenGL shading language version string: 1.20
-
-X.Org X Server 1.6.3.901 (1.6.4 RC 1)
-
-
-Hardware: lenovo thinkpad T500 with integrated intel graphics.
-
-00:00.0 Host bridge: Intel Corporation Mobile 4 Series Chipset Memory
-Controller Hub (rev 07)
-00: 86 80 40 2a 06 01 90 20 07 00 00 06 00 00 00 00
-10: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-20: 00 00 00 00 00 00 00 00 00 00 00 00 aa 17 e0 20
-30: 00 00 00 00 e0 00 00 00 00 00 00 00 00 00 00 00
-
-00:02.0 VGA compatible controller: Intel Corporation Mobile 4 Series
-Chipset
-Integrated Graphics Controller (rev 07)
-00: 86 80 42 2a 07 04 90 00 07 00 00 03 00 00 80 00
-10: 04 00 40 f4 00 00 00 00 0c 00 00 d0 00 00 00 00
-20: 01 18 00 00 00 00 00 00 00 00 00 00 aa 17 e4 20
-30: 00 00 00 00 90 00 00 00 00 00 00 00 0b 01 00 00
-
-00:02.1 Display controller: Intel Corporation Mobile 4 Series Chipset
-Integrated Graphics Controller (rev 07)
-00: 86 80 43 2a 07 00 90 00 07 00 80 03 00 00 80 00
-10: 04 00 20 f4 00 00 00 00 00 00 00 00 00 00 00 00
-20: 00 00 00 00 00 00 00 00 00 00 00 00 aa 17 e4 20
-30: 00 00 00 00 d0 00 00 00 00 00 00 00 00 00 00 00
-
-Display adapter: integrated LVDS1.
-
-How to reproduce: start X, observe flickering
-
-Filed it here with X log/dmesg/xrandr/intel_reg_dump output:
-https://bugs.freedesktop.org/show_bug.cgi?id=26037
-(from past experience, http://bugzilla.kernel.org/ reports
- seem to have been ignored).
-
--- 
-MST
+Rafael
