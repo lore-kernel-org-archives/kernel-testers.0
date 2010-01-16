@@ -1,62 +1,127 @@
-From: Vincent ETIENNE <ve-DnimGkuWo7Hk1uMJSBkQmQ@public.gmane.org>
-Subject: Re: [Bug #14906] boot problem bisected to commit 99935a7a59
-Date: Sat, 16 Jan 2010 10:23:37 +0100
-Message-ID: <201001161023.37484.ve@vetienne.net>
-References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera> <200912292343.09795.rjw@sisk.pl> <201001072204.50798.ve@vetienne.net>
+From: Sid Boyce <sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
+Subject: Re: HDA Intel Audio hang on boot
+Date: Sat, 16 Jan 2010 16:44:30 +0000
+Message-ID: <4B51ECEE.9080404@blueyonder.co.uk>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.jbH.QNlSLB@chimera> <4B4A9D8F.9030300@blueyonder.co.uk> <4B4FC3B0.9070207@blueyonder.co.uk> <4B50915E.8000308@blueyonder.co.uk>
+Reply-To: sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201001072204.50798.ve-DnimGkuWo7Hk1uMJSBkQmQ@public.gmane.org>
+In-Reply-To: <4B50915E.8000308-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Le jeudi 07 janvier 2010 22:04:50, Vincent ETIENNE a =C3=A9crit :
-> Le mardi 29 d=C3=A9cembre 2009 23:43:09, Rafael J. Wysocki a =C3=A9cr=
-it :
-> > On Tuesday 29 December 2009, Vincent ETIENNE wrote:
-> > > Le mardi 29 d=C3=A9cembre 2009 16:09:58, Rafael J. Wysocki a =C3=A9=
-crit :
-> > > > This message has been generated automatically as a part of a re=
-port
-> > > > of recent regressions.
-> > > >
-> > > > The following bug entry is on the current list of known regress=
-ions
-> > > > from 2.6.32.  Please verify if it still should be listed and le=
-t me
-> > > > know (either way).
-> > > >
-> > > >
-> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14906
-> > > > Subject		: boot problem bisected to commit 99935a7a59
-> > > > Submitter	: Vincent ETIENNE <ve-DnimGkuWo7Hk1uMJSBkQmQ@public.gmane.org>
-> > > > Date		: 2009-12-19 16:07 (11 days old)
-> > > > References	: http://marc.info/?l=3Dlinux-kernel&m=3D12612394650=
-9316&w=3D4
-> > > > Handled-By	: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-> > > > Patch		: http://patchwork.kernel.org/patch/68941/
-> > >
-> > > The proposed patch works for me but the bug is still present in
-> > > 2.6.33-rc2 (patch still aply cleanly in rc2 and continue to solve=
- the
-> > > problem). Have to wait for rc3.
-> >
-> > Thanks for the update.
-> >
-> > Rafael
->=20
-> Hopes not to be too much cumbersome but still no luck in 2.6.33.rc3 :=
- the
-> problem is present. Nethertheless the proposed patch still cure it.
->=20
+On 15/01/10 16:01, Sid Boyce wrote:
+> With the PCI Audigy card in, the box wouldn't even enter POST, either
+> the Audigy is bad (unknown - from a box that couldn't see the drives) or
+> there is something faulty on the motherboard. I am currently running
+> 2.6.33-rc4-git2 on the box with a Terratec Aureon 5.1 USB MK II sound card.
+> Regards
+> Sid.
+> 
+The Audigy card is definitely bad as the original box now works fine
+without it.
+Something has definitely changed in the HDA Intel code or handling of it
+that causes that card to cause a solid lock-up on kernels >2.6.32-git1.
+Regards
+Sid.
 
-=46olow-up : tested in rc4. Everything is fine.
- Thanks all for your help especially mister Yinghai Lu
+> On 15/01/10 01:24, Sid Boyce wrote:
+>> Renaming this bug as the "only 1 CPU" bug has been fixed, but the hang
+>> at HDA remains.
+>> I shall plug in a SB Audigy and see if it will boot with that.
+>> By disabling the on-board HDA Intel audio in the BIOS, the system boots.
+>> tindog:~ # uname -r
+>> 2.6.33-rc4-smp
+>> On 2.6.32-git1 which boots, hwinfo shows:-
+>>   oss.card_id = 'HDA NVidia'
+>>   oss.card_id = 'HDA NVidia'
+>>   oss.card_id = 'HDA NVidia'
+>>   alsa.card_id = 'HDA NVidia'
+>>   alsa.card_id = 'HDA NVidia'
+>>   alsa.card_id = 'HDA NVidia'
+>>   alsa.card_id = 'HDA NVidia'
+>>   info.product = 'HDA NVidia ALSA hardware specific Device'
+>>   alsa.card_id = 'HDA NVidia'
+>>   info.product = 'HDA NVidia ALSA Control Device'
+>>   alsa.card_id = 'HDA NVidia'
+>>   info.product = 'HDA NVidia Sound Card'
+>>   sound.card_id = 'HDA NVidia'
+>>   info.linux.driver = 'HDA Intel'
+>>     22:     489835        578   IO-APIC-fasteoi   sata_nv, HDA Intel
+>>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
+>>        HDA Intel: module = snd_hda_intel
+>> irq:0 22 (   490413) "sata_nv" "HDA Intel"
+>>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
+>>        HDA Intel: module = snd_hda_intel
+>>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
+>>        HDA Intel: module = snd_hda_intel
+>>   E: DRIVER=HDA Intel
+>>   <6>HDA Intel 0000:00:0e.1: PCI INT B -> Link[AAZA] -> GSI 22 (level,
+>> low) -> IRQ 22
+>>   <7>HDA Intel 0000:00:0e.1: setting latency timer to 64
+>>   Driver: "HDA Intel"
+>>
+>> Regards
+>> Sid.
+>>
+>> On 11/01/10 03:39, Sid Boyce wrote:
+>>> On 10/01/10 22:32, Rafael J. Wysocki wrote:
+>>>> This message has been generated automatically as a part of a report
+>>>> of recent regressions.
+>>>>
+>>>> The following bug entry is on the current list of known regressions
+>>>> from 2.6.32.  Please verify if it still should be listed and let me know
+>>>> (either way).
+>>>>
+>>>>
+>>>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14946
+>>>> Subject		: All kernels after 2.6.32-git10  show only 1 CPU
+>>>> Submitter	: Sid Boyce <sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
+>>>> Date		: 2009-12-23 16:55 (19 days old)
+>>>> References	: http://marc.info/?l=linux-kernel&m=126158734326801&w=4
+>>>>
+>>>>
+>>>>
+>>>>
+>>>
+>>> With 2.6.33-rc3-git3 I now see 2 CPU's every on a normal boot, but its
+>>> locking up solid at this part of the boot process as usual.
+>>> ACPI: PCI Interrupt Link [AAZA] enabled at IRQ 22
+>>> HDA Intel 0000:00:0e.1: PCI INT B -> Link[AAZA] -> GSI 22 (level, low)
+>>> -> IRQ 22.
+>>> With acpi=noirq (2 CPU's)
+>>> ================
+>>> kvm: Nested Virtualization enabled.
+>>> IT8716 Super IO detected
+>>> Parport_PC 00:0a: reported by plug and Play ACPI
+>>> Parport 0: PC-Style at 0x378, irq 7 [PCSPP, TRISTATE,EPP]
+>>> parport: irq 7 in use, resorting to polled operation
+>>> HDA Intel 0000:00:0e.1: PCI -> APIC IRQ transform: INT B -> IRQ 11
+>>>
+>>> With acpi=ht (1 CPU)
+>>> =============
+>>> Hangs at:-
+>>> Loading drivees, configuring devices do_IRQ: 0.65 No irq handler for
+>>> vector (irq -1)
+>>>
+>>> With acpi=off (2 CPU's)
+>>> ========================
+>>> Hangs at same point as with acpi=noirq.
+>>>
+>>> Regards
+>>> Sid.
+>>
+>>
+> 
+> 
 
 
-Best regards,
-
-	Vincent
+-- 
+Sid Boyce ... Hamradio License G3VBV, Licensed Private Pilot
+Emeritus IBM/Amdahl Mainframes and Sun/Fujitsu Servers Tech Support
+Specialist, Cricket Coach
+Microsoft Windows Free Zone - Linux used for all Computing Tasks
