@@ -1,127 +1,82 @@
-From: Sid Boyce <sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
-Subject: Re: HDA Intel Audio hang on boot
-Date: Sat, 16 Jan 2010 16:44:30 +0000
-Message-ID: <4B51ECEE.9080404@blueyonder.co.uk>
-References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.jbH.QNlSLB@chimera> <4B4A9D8F.9030300@blueyonder.co.uk> <4B4FC3B0.9070207@blueyonder.co.uk> <4B50915E.8000308@blueyonder.co.uk>
-Reply-To: sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org
+From: m.s.tsirkin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: 2.6.33-rc2: Reported regressions from 2.6.32
+Date: Sat, 16 Jan 2010 19:48:22 +0200
+Message-ID: <20100116174821.GA18306@redhat.com>
+References: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B50915E.8000308-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <LptzGUUXbTK.A.MSF.ymhOLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Natalie Protasevich <protasnb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY@public.gmane.org>
 
-On 15/01/10 16:01, Sid Boyce wrote:
-> With the PCI Audigy card in, the box wouldn't even enter POST, either
-> the Audigy is bad (unknown - from a box that couldn't see the drives) or
-> there is something faulty on the motherboard. I am currently running
-> 2.6.33-rc4-git2 on the box with a Terratec Aureon 5.1 USB MK II sound card.
-> Regards
-> Sid.
-> 
-The Audigy card is definitely bad as the original box now works fine
-without it.
-Something has definitely changed in the HDA Intel code or handling of it
-that causes that card to cause a solid lock-up on kernels >2.6.32-git1.
-Regards
-Sid.
+On Tue, Dec 29, 2009 at 04:05:30PM +0100, Rafael J. Wysocki wrote:
+> [NOTES:
+>  * There you go, another round of tracking regressions.  It's not too bad at
+>    the moment, as far as the regressions from 2.6.32 are concerned, but we have
+>    quite a few -stable regressions, apparently in the DRI area.
 
-> On 15/01/10 01:24, Sid Boyce wrote:
->> Renaming this bug as the "only 1 CPU" bug has been fixed, but the hang
->> at HDA remains.
->> I shall plug in a SB Audigy and see if it will boot with that.
->> By disabling the on-board HDA Intel audio in the BIOS, the system boots.
->> tindog:~ # uname -r
->> 2.6.33-rc4-smp
->> On 2.6.32-git1 which boots, hwinfo shows:-
->>   oss.card_id = 'HDA NVidia'
->>   oss.card_id = 'HDA NVidia'
->>   oss.card_id = 'HDA NVidia'
->>   alsa.card_id = 'HDA NVidia'
->>   alsa.card_id = 'HDA NVidia'
->>   alsa.card_id = 'HDA NVidia'
->>   alsa.card_id = 'HDA NVidia'
->>   info.product = 'HDA NVidia ALSA hardware specific Device'
->>   alsa.card_id = 'HDA NVidia'
->>   info.product = 'HDA NVidia ALSA Control Device'
->>   alsa.card_id = 'HDA NVidia'
->>   info.product = 'HDA NVidia Sound Card'
->>   sound.card_id = 'HDA NVidia'
->>   info.linux.driver = 'HDA Intel'
->>     22:     489835        578   IO-APIC-fasteoi   sata_nv, HDA Intel
->>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
->>        HDA Intel: module = snd_hda_intel
->> irq:0 22 (   490413) "sata_nv" "HDA Intel"
->>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
->>        HDA Intel: module = snd_hda_intel
->>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
->>        HDA Intel: module = snd_hda_intel
->>   E: DRIVER=HDA Intel
->>   <6>HDA Intel 0000:00:0e.1: PCI INT B -> Link[AAZA] -> GSI 22 (level,
->> low) -> IRQ 22
->>   <7>HDA Intel 0000:00:0e.1: setting latency timer to 64
->>   Driver: "HDA Intel"
->>
->> Regards
->> Sid.
->>
->> On 11/01/10 03:39, Sid Boyce wrote:
->>> On 10/01/10 22:32, Rafael J. Wysocki wrote:
->>>> This message has been generated automatically as a part of a report
->>>> of recent regressions.
->>>>
->>>> The following bug entry is on the current list of known regressions
->>>> from 2.6.32.  Please verify if it still should be listed and let me know
->>>> (either way).
->>>>
->>>>
->>>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14946
->>>> Subject		: All kernels after 2.6.32-git10  show only 1 CPU
->>>> Submitter	: Sid Boyce <sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
->>>> Date		: 2009-12-23 16:55 (19 days old)
->>>> References	: http://marc.info/?l=linux-kernel&m=126158734326801&w=4
->>>>
->>>>
->>>>
->>>>
->>>
->>> With 2.6.33-rc3-git3 I now see 2 CPU's every on a normal boot, but its
->>> locking up solid at this part of the boot process as usual.
->>> ACPI: PCI Interrupt Link [AAZA] enabled at IRQ 22
->>> HDA Intel 0000:00:0e.1: PCI INT B -> Link[AAZA] -> GSI 22 (level, low)
->>> -> IRQ 22.
->>> With acpi=noirq (2 CPU's)
->>> ================
->>> kvm: Nested Virtualization enabled.
->>> IT8716 Super IO detected
->>> Parport_PC 00:0a: reported by plug and Play ACPI
->>> Parport 0: PC-Style at 0x378, irq 7 [PCSPP, TRISTATE,EPP]
->>> parport: irq 7 in use, resorting to polled operation
->>> HDA Intel 0000:00:0e.1: PCI -> APIC IRQ transform: INT B -> IRQ 11
->>>
->>> With acpi=ht (1 CPU)
->>> =============
->>> Hangs at:-
->>> Loading drivees, configuring devices do_IRQ: 0.65 No irq handler for
->>> vector (irq -1)
->>>
->>> With acpi=off (2 CPU's)
->>> ========================
->>> Hangs at same point as with acpi=noirq.
->>>
->>> Regards
->>> Sid.
->>
->>
-> 
-> 
+I have another one there :)
 
+Immediately upon startup, screen is flickering (becomes
+lighter and darker again). The problem occurs with kernels
+2.6.33-rc1 to 2.6.33-rc4, but not with kernel 2.6.32 and below.
+
+System details:
+x86_64 kernel with 32 bit Fedora 11 userspace
+kernel modesetting enabled.
+
+dri2proto  dri2proto-2.2
+drm  2.4.17-23-g06a2d65
+macros  util-macros-1.4.1-4-g43e41a5
+xf86-video-intel  2.10.0-13-g96f45c6
+
+mesa versions(from glxinfo):
+server glx version string: 1.2
+client glx version string: 1.4
+GLX version: 1.2
+OpenGL version string: 2.1 Mesa 7.6-devel
+OpenGL shading language version string: 1.20
+
+X.Org X Server 1.6.3.901 (1.6.4 RC 1)
+
+
+Hardware: lenovo thinkpad T500 with integrated intel graphics.
+
+00:00.0 Host bridge: Intel Corporation Mobile 4 Series Chipset Memory
+Controller Hub (rev 07)
+00: 86 80 40 2a 06 01 90 20 07 00 00 06 00 00 00 00
+10: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20: 00 00 00 00 00 00 00 00 00 00 00 00 aa 17 e0 20
+30: 00 00 00 00 e0 00 00 00 00 00 00 00 00 00 00 00
+
+00:02.0 VGA compatible controller: Intel Corporation Mobile 4 Series
+Chipset
+Integrated Graphics Controller (rev 07)
+00: 86 80 42 2a 07 04 90 00 07 00 00 03 00 00 80 00
+10: 04 00 40 f4 00 00 00 00 0c 00 00 d0 00 00 00 00
+20: 01 18 00 00 00 00 00 00 00 00 00 00 aa 17 e4 20
+30: 00 00 00 00 90 00 00 00 00 00 00 00 0b 01 00 00
+
+00:02.1 Display controller: Intel Corporation Mobile 4 Series Chipset
+Integrated Graphics Controller (rev 07)
+00: 86 80 43 2a 07 00 90 00 07 00 80 03 00 00 80 00
+10: 04 00 20 f4 00 00 00 00 00 00 00 00 00 00 00 00
+20: 00 00 00 00 00 00 00 00 00 00 00 00 aa 17 e4 20
+30: 00 00 00 00 d0 00 00 00 00 00 00 00 00 00 00 00
+
+Display adapter: integrated LVDS1.
+
+How to reproduce: start X, observe flickering
+
+Filed it here with X log/dmesg/xrandr/intel_reg_dump output:
+https://bugs.freedesktop.org/show_bug.cgi?id=26037
+(from past experience, http://bugzilla.kernel.org/ reports
+ seem to have been ignored).
 
 -- 
-Sid Boyce ... Hamradio License G3VBV, Licensed Private Pilot
-Emeritus IBM/Amdahl Mainframes and Sun/Fujitsu Servers Tech Support
-Specialist, Cricket Coach
-Microsoft Windows Free Zone - Linux used for all Computing Tasks
+MST
