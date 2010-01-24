@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15127] Bluetooth: sleeping function called from invalid context
-Date: Sun, 24 Jan 2010 23:23:14 +0100 (CET)
-Message-ID: <q60Z28d_9yH.A.neH.KZMXLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14933] OOM killer unexpectedly called
+Date: Sun, 24 Jan 2010 23:23:04 +0100 (CET)
+Message-ID: <q60Z28d_9yH.A.LQ.iZMXLB@chimera>
 References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754812Ab0AXWhd@vger.kernel.org>
 In-Reply-To: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>, Luiz Augusto von Dentz <luiz.dentz-430g2QfJUUCGglJvpFV4uA@public.gmane.org>, Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, "A. Boulan" <arnaud.boulan@libertysurf.fr>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,10 +22,9 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15127
-Subject		: Bluetooth: sleeping function called from invalid context
-Submitter	: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
-Date		: 2010-01-12 9:19 (13 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=9e726b17422bade75fba94e625cd35fd1353e682
-References	: http://marc.info/?l=linux-kernel&m=126328727021949&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14933
+Subject		: OOM killer unexpectedly called
+Submitter	: A. Boulan <arnaud.boulan@libertysurf.fr>
+Date		: 2009-12-24 23:42 (32 days old)
+References	: http://marc.info/?l=linux-kernel&m=126169821317492&w=4
 
