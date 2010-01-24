@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15040] High cpu temperature with 2.6.32
-Date: Sun, 24 Jan 2010 23:23:12 +0100 (CET)
-Message-ID: <q60Z28d_9yH.A.bxH.PZMXLB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14886] Asus P2B-DS not detected as SMP moterboard
+Date: Sun, 24 Jan 2010 23:22:58 +0100 (CET)
+Message-ID: <q60Z28d_9yH.A.E4.4ZMXLB@chimera>
 References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754758Ab0AXWlo@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Arjan van de Ven <arjan@infradead.org>, Dimitrios Apostolou <jimis@gmx.net>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lorenzo Buzzi <flinco-VGgt2q2+T+FeoWH0uzbU5w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,11 +22,8 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15040
-Subject		: High cpu temperature with 2.6.32
-Submitter	: Dimitrios Apostolou <jimis@gmx.net>
-Date		: 2010-01-06 17:39 (19 days old)
-References	: http://marc.info/?l=linux-kernel&m=126279952723036&w=4
-Handled-By	: Arjan van de Ven <arjan@infradead.org>
-Patch		: http://patchwork.kernel.org/patch/71962/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14886
+Subject		: Asus P2B-DS not detected as SMP moterboard
+Submitter	: Lorenzo Buzzi <flinco-VGgt2q2+T+FeoWH0uzbU5w@public.gmane.org>
+Date		: 2009-12-27 17:20 (29 days old)
 
