@@ -1,41 +1,37 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15038] drm/ksm: fbdev blanking regression
-Date: Mon, 25 Jan 2010 00:13:48 +0100
-Message-ID: <201001250013.48523.rjw@sisk.pl>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <hE3x9c-4KZM.A.4_F.ZKMXLB@chimera> <20100124224516.GA20080@localhost>
+Subject: Re: [Bug #15125] hung task - jbd2/dm-1-8 (during raid rebuild)
+Date: Mon, 25 Jan 2010 00:14:36 +0100
+Message-ID: <201001250014.36889.rjw@sisk.pl>
+References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <hE3x9c-4KZM.A.shF.DKMXLB@chimera> <4B5CCE6D.5060402@majjas.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100124224516.GA20080@localhost>
+In-Reply-To: <4B5CCE6D.5060402-P//MSfjsEjDQT0dZR+AlfA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Johan Hovold <jhovold-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, James Simmons <jsimmons-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: Michael Breuer <mbreuer-P//MSfjsEjDQT0dZR+AlfA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Sunday 24 January 2010, Johan Hovold wrote:
-> On Sun, Jan 24, 2010 at 11:04:36PM +0100, Rafael J. Wysocki wrote:
+On Sunday 24 January 2010, Michael Breuer wrote:
+> On 1/24/2010 5:04 PM, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of recent regressions.
-> > 
+> >
 > > The following bug entry is on the current list of known regressions
 > > from 2.6.32.  Please verify if it still should be listed and let me know
 > > (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15038
-> > Subject		: drm/ksm: fbdev blanking regression
-> > Submitter	: Johan Hovold <jhovold-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2010-01-06 17:00 (19 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=731b5a15a3b1474a41c2ca29b4c32b0f21bc852e
-> > References	: http://marc.info/?l=linux-kernel&m=126279726418748&w=4
-> > Handled-By	: James Simmons <jsimmons-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> 
-> Issue remains in rc5.
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15125
+> > Subject		: hung task - jbd2/dm-1-8 (during raid rebuild)
+> > Submitter	: Michael Breuer<mbreuer-P//MSfjsEjDQT0dZR+AlfA@public.gmane.org>
+> > Date		: 2010-01-10 21:47 (15 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=126316012025978&w=4
+> >
+> >    
+> Not an easy one to recreate. Should probably remain listed for now.
 
 Thanks for the update.
-
-OK, we know what commit broke things, we don't seem to know how to fix it,
-so perhaps it's time to revert that commit?
 
 Rafael
