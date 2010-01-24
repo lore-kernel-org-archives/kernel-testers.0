@@ -1,77 +1,55 @@
-From: Nigel Kukard <nkukard-pYARk8SH/DY@public.gmane.org>
-Subject: Re: [Bug #15132] OOPS's with large initramfs
-Date: Sun, 24 Jan 2010 22:55:01 +0000
-Message-ID: <4B5CCFC5.1090002@lbsd.net>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <hE3x9c-4KZM.A.xDF.8JMXLB@chimera>
+From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14487] PANIC: early exception 08 rip 246:10 error ffffffff810251b5
+ cr2 0
+Date: Sun, 24 Jan 2010 15:02:23 -0800
+Message-ID: <4B5CD17F.6070606@gmail.com>
+References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera> <q60Z28d_9yH.A.wCC.jbMXLB@chimera>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature";
- boundary="------------enig3FA52EE8BCCF4DFA703FCAA9"
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <hE3x9c-4KZM.A.xDF.8JMXLB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=RieB4Pf/s0tST3JYlV7sWs50mccxWwlHdHvlBs0hU3c=;
+        b=M8QK3tVX0LSQNbqnidXBP8+TSBLTMmf2Q6Eg/Ptgnx3wWdQXrV6h84l2A3leG7YFik
+         U82s2ZpoW0GOfUOHE8DDeTX18lItertrseT1xlsug9kK1P+FkiWiHVuKO/G2bUsPYyNl
+         z3QdNHLoaudVFgmd9XdgtCdE9EgbJQXWVscOk=
+In-Reply-To: <q60Z28d_9yH.A.wCC.jbMXLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-This is an OpenPGP/MIME signed message (RFC 2440 and 3156)
---------------enig3FA52EE8BCCF4DFA703FCAA9
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Verified. I have tested this as far back as 2.6.30 with the same problem
-with "very" large initramfs's.
-
+On 01/24/10 14:22, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
-> of recent regressions.
+> of regressions introduced between 2.6.31 and 2.6.32.
 >
 > The following bug entry is on the current list of known regressions
-> from 2.6.32.  Please verify if it still should be listed and let me kno=
-w
-> (either way).
+> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> be listed and let me know (either way).
 >
 >
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15132
-> Subject		: OOPS's with large initramfs
-> Submitter	: Nigel Kukard <nkukard-pYARk8SH/DY@public.gmane.org>
-> Date		: 2010-01-16 11:12 (9 days old)
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D126364100321603&w=3D=
-4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14487
+> Subject		: PANIC: early exception 08 rip 246:10 error ffffffff810251b5 cr2 0
+> Submitter	: Justin P. Mattock<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2009-10-23 16:45 (94 days old)
+> References	: http://lkml.org/lkml/2009/10/23/252
 >
 >
->  =20
+>
 
+yeah I'm still seeing this during boot.
+As of looking at this, been tied up with another
+issue and totally forgot. next week I'll be away
+for a week, and during that period I can try and look at this
+since I might be hanging around at times.
+(and wont be side tracked with the other issue I was looking at);
 
---=20
-Regards
-Nigel Kukard, PhD CompSc
-Linux Based Systems Design (Pty) Ltd
+So yeah please keep it open, and hopefully somebody
+see's what is happening and maybe has a solution, or
+by chance maybe I can figure something.
 
-Support: 086 747 7600 (premium 24/7/365)
-Fax: 086 601 7884
-
-Quote: The best language to use is the language that was designed for
-what you want to use it for.
-
-*** The attachment to my email signature.asc is a digital PGP
-signature, if your mail client supports digital signatures it will
-allow you to verify I am the sender of this email and that it has not
-been tampered with along the way ***
-
-
-
---------------enig3FA52EE8BCCF4DFA703FCAA9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.12 (GNU/Linux)
-Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
-
-iEYEARECAAYFAktcz8UACgkQKoUGSidwLE7JtwCgkfRpB78U0i0s7MN7OTjdR0Te
-J4IAn3xbpDdglEiKyGHO9TOa5+3G298X
-=+UJ9
------END PGP SIGNATURE-----
-
---------------enig3FA52EE8BCCF4DFA703FCAA9--
+Justin P. Mattock
