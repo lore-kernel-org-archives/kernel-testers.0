@@ -1,33 +1,28 @@
-From: Michael Breuer <mbreuer@majjas.com>
-Subject: Re: [Bug #15125] hung task - jbd2/dm-1-8 (during raid rebuild)
-Date: Sun, 24 Jan 2010 17:49:17 -0500
-Message-ID: <4B5CCE6D.5060402@majjas.com>
+From: "Steinar H. Gunderson" <sgunderson-jG/AHqQBv7lBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: [Bug #15025] Oops in ext4 driver
+Date: Sun, 24 Jan 2010 23:43:30 +0100
+Message-ID: <20100124224330.GA2230@uio.no>
 References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
- <hE3x9c-4KZM.A.shF.DKMXLB@chimera>
+ <hE3x9c-4KZM.A.IRG.kKMXLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754116Ab0AXWt3@vger.kernel.org>
-In-reply-to: <hE3x9c-4KZM.A.shF.DKMXLB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <hE3x9c-4KZM.A.IRG.kKMXLB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On 1/24/2010 5:04 PM, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->
+On Sun, Jan 24, 2010 at 11:04:35PM +0100, Rafael J. Wysocki wrote:
 > The following bug entry is on the current list of known regressions
 > from 2.6.32.  Please verify if it still should be listed and let me know
 > (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15125
-> Subject		: hung task - jbd2/dm-1-8 (during raid rebuild)
-> Submitter	: Michael Breuer<mbreuer@majjas.com>
-> Date		: 2010-01-10 21:47 (15 days old)
-> References	: http://marc.info/?l=linux-kernel&m=126316012025978&w=4
->
->    
-Not an easy one to recreate. Should probably remain listed for now.
+
+I'm not using 2.6.33 anymore since this bug is a showstopper to me (it's on a
+production system), so I'm unable to check if it's fixed or not.
+
+/* Steinar */
+-- 
+Homepage: http://www.sesse.net/
