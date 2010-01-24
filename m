@@ -1,28 +1,43 @@
-From: "Steinar H. Gunderson" <sgunderson-jG/AHqQBv7lBDgjK7y7TUQ@public.gmane.org>
-Subject: Re: [Bug #15025] Oops in ext4 driver
-Date: Sun, 24 Jan 2010 23:43:30 +0100
-Message-ID: <20100124224330.GA2230@uio.no>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
- <hE3x9c-4KZM.A.IRG.kKMXLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #15096] Resume lock up -- bisected, commit 3a1151e3f124fd1a2c54b8153f510f1a7c715369
+Date: Mon, 25 Jan 2010 00:06:09 +0100
+Message-ID: <201001250006.10039.rjw@sisk.pl>
+References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera> <q60Z28d_9yH.A.QkH.LZMXLB@chimera> <b170af451001241444u449d5be6i194b825ff7f5e02e@mail.gmail.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <hE3x9c-4KZM.A.IRG.kKMXLB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <b170af451001241444u449d5be6i194b825ff7f5e02e@mail.gmail.com>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="utf-8"
+To: =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Len Brown <len.brown@intel.com>, Stefan Bader <stefan.bader@canonical.com>, Zhang Rui <rui.zhang@intel.com>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>
 
-On Sun, Jan 24, 2010 at 11:04:35PM +0100, Rafael J. Wysocki wrote:
-> The following bug entry is on the current list of known regressions
-> from 2.6.32.  Please verify if it still should be listed and let me know
-> (either way).
+On Sunday 24 January 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
+> 2010/1/24 Rafael J. Wysocki <rjw@sisk.pl>:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
+> >
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still sh=
+ould
+> > be listed and let me know (either way).
+> >
+> >
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D1509=
+6
+> > Subject         : Resume lock up -- bisected, commit 3a1151e3f124fd=
+1a2c54b8153f510f1a7c715369
+> > Submitter       : Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com>
+> > Date            : 2010-01-20 23:15 (5 days old)
+>=20
+> Still should be, didn't hear about any fix, didn't see any.
 
-I'm not using 2.6.33 anymore since this bug is a showstopper to me (it's on a
-production system), so I'm unable to check if it's fixed or not.
+Thanks for the update.
 
-/* Steinar */
--- 
-Homepage: http://www.sesse.net/
+Rafael
+--
+To unsubscribe from this list: send the line "unsubscribe linux-acpi" i=
+n
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
