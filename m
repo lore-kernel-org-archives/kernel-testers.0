@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14504] intermittent hibernation problem again
-Date: Sun, 24 Jan 2010 23:22:51 +0100 (CET)
-Message-ID: <q60Z28d_9yH.A.I-B.ibMXLB@chimera>
+Subject: [Bug #14657] perf subsystem breakage in 2.6.32-rc7
+Date: Sun, 24 Jan 2010 23:22:53 +0100 (CET)
+Message-ID: <q60Z28d_9yH.A._eB.HbMXLB@chimera>
 References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1750822Ab0AXWfg@vger.kernel.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754438Ab0AXWnu@vger.kernel.org>
 In-Reply-To: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, =?utf-8?q?Ferenc=20W=C3=A1gner?= <wferi@niif.hu>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Arjan van de Ven <arjan@infradead.org>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,8 +22,9 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14504
-Subject		: intermittent hibernation problem again
-Submitter	: Ferenc W=C3=A1gner <wferi@niif.hu>
-Date		: 2009-10-28 23:49 (89 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14657
+Subject		: perf subsystem breakage in 2.6.32-rc7
+Submitter	: Arjan van de Ven <arjan@infradead.org>
+Date		: 2009-11-19 19:50 (67 days old)
+References	: http://marc.info/?l=linux-kernel&m=125866013419738&w=4
 
