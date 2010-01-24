@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14868] flood of "don't try to register things with the same name in the same directory." on upgrade to 2.6.32
-Date: Sun, 24 Jan 2010 23:22:58 +0100 (CET)
-Message-ID: <q60Z28d_9yH.A.25.8ZMXLB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14943] nfs regression?
+Date: Sun, 24 Jan 2010 23:23:05 +0100 (CET)
+Message-ID: <q60Z28d_9yH.A.-_H.fZMXLB@chimera>
 References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754763Ab0AXWhA@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Rich Ercolani <rercola@acm.jhu.edu>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Nikola Ciprich <extmaillist-Jp3n8lUXroTtwjQa/ONI9g@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,8 +22,9 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14868
-Subject		: flood of "don't try to register things with the same name in the same directory." on upgrade to 2.6.32
-Submitter	: Rich Ercolani <rercola@acm.jhu.edu>
-Date		: 2009-12-24 02:44 (32 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14943
+Subject		: nfs regression?
+Submitter	: Nikola Ciprich <extmaillist-Jp3n8lUXroTtwjQa/ONI9g@public.gmane.org>
+Date		: 2009-12-28 12:10 (28 days old)
+References	: http://marc.info/?l=linux-kernel&m=126200276223524&w=4
 
