@@ -1,30 +1,33 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14376] Kernel NULL pointer dereference/ kvm subsystem
-Date: Sun, 24 Jan 2010 23:22:50 +0100 (CET)
-Message-ID: <q60Z28d_9yH.A.hcC.acMXLB@chimera>
-References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
+From: Michael Breuer <mbreuer@majjas.com>
+Subject: Re: [Bug #15125] hung task - jbd2/dm-1-8 (during raid rebuild)
+Date: Sun, 24 Jan 2010 17:49:17 -0500
+Message-ID: <4B5CCE6D.5060402@majjas.com>
+References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
+ <hE3x9c-4KZM.A.shF.DKMXLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7BIT
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754116Ab0AXWt3@vger.kernel.org>
+In-reply-to: <hE3x9c-4KZM.A.shF.DKMXLB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Don Dupuis <dondster-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.31 and 2.6.32.
-
-The following bug entry is on the current list of known regressions
-introduced between 2.6.31 and 2.6.32.  Please verify if it still should
-be listed and let me know (either way).
-
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14376
-Subject		: Kernel NULL pointer dereference/ kvm subsystem
-Submitter	: Don Dupuis <dondster-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2009-10-06 14:38 (111 days old)
-References	: http://marc.info/?l=linux-kernel&m=125484025021737&w=4
-
+On 1/24/2010 5:04 PM, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.32.  Please verify if it still should be listed and let me know
+> (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15125
+> Subject		: hung task - jbd2/dm-1-8 (during raid rebuild)
+> Submitter	: Michael Breuer<mbreuer@majjas.com>
+> Date		: 2010-01-10 21:47 (15 days old)
+> References	: http://marc.info/?l=linux-kernel&m=126316012025978&w=4
+>
+>    
+Not an easy one to recreate. Should probably remain listed for now.
