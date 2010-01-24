@@ -1,70 +1,32 @@
-From: Ben Hutchings <ben@decadent.org.uk>
-Subject: Re: [Bug #14791] Something has been broken in the network stack
- this week
-Date: Sun, 24 Jan 2010 22:18:45 +0000
-Message-ID: <1264371525.373.262.camel@localhost>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #15133] Wake on LAN doesn't work in sky2
+Date: Sun, 24 Jan 2010 23:04:41 +0100 (CET)
+Message-ID: <hE3x9c-4KZM.A.I_E.6JMXLB@chimera>
 References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
-	 <hE3x9c-4KZM.A.SHH.rLMXLB@chimera>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-QzCWTtEaJoH4RF4S1D7V"
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754489Ab0AXWS5@vger.kernel.org>
-In-Reply-To: <hE3x9c-4KZM.A.SHH.rLMXLB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 8BIT
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, stephen hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>, Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>, Tino Keitel <tino.keitel-rAwCM5oiXHA@public.gmane.org>
+
+This message has been generated automatically as a part of a report
+of recent regressions.
+
+The following bug entry is on the current list of known regressions
+from 2.6.32.  Please verify if it still should be listed and let me know
+(either way).
 
 
---=-QzCWTtEaJoH4RF4S1D7V
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15133
+Subject		: Wake on LAN doesn't work in sky2
+Submitter	: Tino Keitel <tino.keitel-rAwCM5oiXHA@public.gmane.org>
+Date		: 2010-01-15 9:10 (10 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=166a0fd4c788ec7f10ca8194ec6d526afa12db75
+References	: http://marc.info/?l=linux-kernel&m=126354704815848&w=4
+Handled-By	: Stephen Hemminger <shemminger-ZtmgI6mnKB3QT0dZR+AlfA@public.gmane.org>
 
-On Sun, 2010-01-24 at 22:54 +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
->=20
-> The following bug entry is on the current list of known regressions
-> from 2.6.32.  Please verify if it still should be listed and let me know
-> (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D14791
-> Subject		: Something has been broken in the network stack this week
-> Submitter	: Delete This Account <speedyboyinovator@hotmail.com>
-> Date		: 2009-12-12 13:06 (44 days old)
-> Handled-By	: Ben Hutchings <ben@decadent.org.uk>
-> Patch		: http://patchwork.kernel.org/patch/72073/
-
-This should still be listed; I am still waiting for someone to test the
-proposed patch.
-
-Ben.
-
---=20
-Ben Hutchings
-Any smoothly functioning technology is indistinguishable from a rigged demo=
-.
-
---=-QzCWTtEaJoH4RF4S1D7V
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
-
-iQIVAwUAS1zHQOe/yOyVhhEJAQL1jA/+IqRjyOnPT9c4K9yzEiBIWdd4Tq0WlCp0
-Yu2fJ/B/XWAoE8hHaR01s64j7Q640YFKKcSyEAe5j+eNmwNAjip5W5VnGojWoMe4
-VzYQ8nabuhKbO2gU8XMdm+3KMcP4P7YwfvFuamRMzMSnUYBCSC+3mfodhBDDD52q
-EagU20oYOY/8kCbTKEnbl/ckT/nxUNjBZCHCw82sR1li2cm/csnj4ELG/Epp4ST+
-bHxBZ8l9LrNRdPHXMTvXaWovUraHnAwih3XG0SZX+zwfpRjR72NwN1HXHfdJOV0B
-AoD8pC4oP6NNnXKuqbkqrPSrzfrD/OOZQnRbRdfY3LD3adGPTmn9fVw9NsT5ONKI
-Zhx8UjnPmocyrjFUlovVtVhkqSP7iyNamu2bfXYtEFcrXqvlBjxhe7cWs5cgfY3L
-6FPDHUjwspdpm2PD0Hcz0+jlFwhffoMHNniX3BP4Izc09q4NXrYbHjJPj4i/1oqR
-OnNidnZsFvUp559R9wbCBB/NwJxmLQDawapOJlZwzu4b61K7qCH9D4AFk3ANL95b
-dS/DDM5BH/zFYS+fe/k/7aJuA3dch2L6tmsmyGcuanBXH8KlQyblU6nTaFonSx8t
-WtBnBTQ9k/i29bOABs3BhWYuXMWmSoM87u/yNL7ACs+LLoUFXR86yqn7k0PtB4RN
-mbjefw4zvQM=
-=xs3U
------END PGP SIGNATURE-----
-
---=-QzCWTtEaJoH4RF4S1D7V--
