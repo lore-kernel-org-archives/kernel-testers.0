@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15038] drm/ksm: fbdev blanking regression
-Date: Sun, 24 Jan 2010 23:04:36 +0100 (CET)
-Message-ID: <hE3x9c-4KZM.A.4_F.ZKMXLB@chimera>
+Subject: [Bug #15131] [OOPS] radeon kms
+Date: Sun, 24 Jan 2010 23:04:39 +0100 (CET)
+Message-ID: <hE3x9c-4KZM.A.jKF.9JMXLB@chimera>
 References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754356Ab0AXWRl@vger.kernel.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753701Ab0AXWR4@vger.kernel.org>
 In-Reply-To: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Dave Airlie <airlied@redhat.com>, James Simmons <jsimmons@infradead.org>, Johan Hovold <jhovold@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Jerome Glisse <glisse@freedesktop.org>, John Kacur <jkacur@redhat.com>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,11 @@ from 2.6.32.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15038
-Subject		: drm/ksm: fbdev blanking regression
-Submitter	: Johan Hovold <jhovold@gmail.com>
-Date		: 2010-01-06 17:00 (19 days old)
-First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=731b5a15a3b1474a41c2ca29b4c32b0f21bc852e
-References	: http://marc.info/?l=linux-kernel&m=126279726418748&w=4
-Handled-By	: James Simmons <jsimmons@infradead.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15131
+Subject		: [OOPS] radeon kms
+Submitter	: John Kacur <jkacur@redhat.com>
+Date		: 2010-01-15 15:45 (10 days old)
+References	: http://lkml.org/lkml/2010/1/15/129
+Handled-By	: Jerome Glisse <glisse@freedesktop.org>
+Patch		: http://git.kernel.org/?p=linux/kernel/git/airlied/drm-2.6.git;a=patch;h=30d2d9a54d48e4fefede0389ded1b6fc2d44a522
 
