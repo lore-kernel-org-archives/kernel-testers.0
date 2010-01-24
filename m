@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15124] PCI host bridge windows ignored (works with pci=use_crs)
-Date: Sun, 24 Jan 2010 23:04:38 +0100 (CET)
-Message-ID: <hE3x9c-4KZM.A.tpF.EKMXLB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #15025] Oops in ext4 driver
+Date: Sun, 24 Jan 2010 23:04:35 +0100 (CET)
+Message-ID: <hE3x9c-4KZM.A.IRG.kKMXLB@chimera>
 References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-pci-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
 Content-Disposition: inline
-Sender: linux-pci-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Bjorn Helgaas <bjorn.helgaas@hp.com>, Jeff Garrett <jeff@jgarrett.org>, Linux PCI <linux-pci@vger.kernel.org>, Yinghai Lu <yinghai@kernel.org>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Steinar H. Gunderson" <sgunderson-jG/AHqQBv7lBDgjK7y7TUQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,11 +22,8 @@ from 2.6.32.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15124
-Subject		: PCI host bridge windows ignored (works with pci=use_crs)
-Submitter	: Jeff Garrett <jeff@jgarrett.org>
-Date		: 2010-01-13 5:37 (12 days old)
-References	: http://marc.info/?l=linux-kernel&m=126336296600307&w=4
-Handled-By	: Yinghai Lu <yinghai@kernel.org>
-		  Bjorn Helgaas <bjorn.helgaas@hp.com>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15025
+Subject		: Oops in ext4 driver
+Submitter	: Steinar H. Gunderson <sgunderson-jG/AHqQBv7lBDgjK7y7TUQ@public.gmane.org>
+Date		: 2010-01-10 13:09 (15 days old)
 
