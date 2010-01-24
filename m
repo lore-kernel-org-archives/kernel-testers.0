@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14791] Something has been broken in the network stack this week
-Date: Sun, 24 Jan 2010 22:54:40 +0100 (CET)
-Message-ID: <hE3x9c-4KZM.A.SHH.rLMXLB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14946] All kernels after 2.6.32-git10  show only 1 CPU
+Date: Sun, 24 Jan 2010 23:04:33 +0100 (CET)
+Message-ID: <hE3x9c-4KZM.A.ItG.7KMXLB@chimera>
 References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754161Ab0AXWGt@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Ben Hutchings <ben@decadent.org.uk>, "David S. Miller" <davem@davemloft.net>, Delete This Account <speedyboyinovator@hotmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Sid Boyce <sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,10 +22,9 @@ from 2.6.32.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14791
-Subject		: Something has been broken in the network stack this week
-Submitter	: Delete This Account <speedyboyinovator@hotmail.com>
-Date		: 2009-12-12 13:06 (44 days old)
-Handled-By	: Ben Hutchings <ben@decadent.org.uk>
-Patch		: http://patchwork.kernel.org/patch/72073/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14946
+Subject		: All kernels after 2.6.32-git10  show only 1 CPU
+Submitter	: Sid Boyce <sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
+Date		: 2009-12-23 16:55 (33 days old)
+References	: http://marc.info/?l=linux-kernel&m=126158734326801&w=4
 
