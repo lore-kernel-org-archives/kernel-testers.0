@@ -1,39 +1,47 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14946] All kernels after 2.6.32-git10  show only 1 CPU
-Date: Mon, 25 Jan 2010 22:04:03 +0100
-Message-ID: <201001252204.03749.rjw@sisk.pl>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <hE3x9c-4KZM.A.ItG.7KMXLB@chimera> <4B5CF6CB.90001@blueyonder.co.uk>
+Subject: Re: [Bug #15038] drm/ksm: fbdev blanking regression
+Date: Mon, 25 Jan 2010 22:07:14 +0100
+Message-ID: <201001252207.14235.rjw@sisk.pl>
+References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <201001250013.48523.rjw@sisk.pl> <1264400885.8478.0.camel@localhost>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B5CF6CB.90001-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
+In-Reply-To: <1264400885.8478.0.camel@localhost>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Johan Hovold <jhovold-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, James Simmons <jsimmons-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Monday 25 January 2010, Sid Boyce wrote:
-> On 24/01/10 22:04, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
+On Monday 25 January 2010, Dave Airlie wrote:
+> On Mon, 2010-01-25 at 00:13 +0100, Rafael J. Wysocki wrote:
+> > On Sunday 24 January 2010, Johan Hovold wrote:
+> > > On Sun, Jan 24, 2010 at 11:04:36PM +0100, Rafael J. Wysocki wrote:
+> > > > This message has been generated automatically as a part of a report
+> > > > of recent regressions.
+> > > > 
+> > > > The following bug entry is on the current list of known regressions
+> > > > from 2.6.32.  Please verify if it still should be listed and let me know
+> > > > (either way).
+> > > > 
+> > > > 
+> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15038
+> > > > Subject		: drm/ksm: fbdev blanking regression
+> > > > Submitter	: Johan Hovold <jhovold-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > > > Date		: 2010-01-06 17:00 (19 days old)
+> > > > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=731b5a15a3b1474a41c2ca29b4c32b0f21bc852e
+> > > > References	: http://marc.info/?l=linux-kernel&m=126279726418748&w=4
+> > > > Handled-By	: James Simmons <jsimmons-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> > > 
+> > > Issue remains in rc5.
 > > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.32.  Please verify if it still should be listed and let me know
-> > (either way).
+> > Thanks for the update.
 > > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14946
-> > Subject		: All kernels after 2.6.32-git10  show only 1 CPU
-> > Submitter	: Sid Boyce <sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
-> > Date		: 2009-12-23 16:55 (33 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=126158734326801&w=4
-> > 
-> > 
-> > 
+> > OK, we know what commit broke things, we don't seem to know how to fix it,
+> > so perhaps it's time to revert that commit?
 > 
-> Definitely fixed in 2.6.33-rc4, thanks.
+> Just sent revert of the broken bit to Linus.
 
-Thanks, closed.
+Thanks!
 
 Rafael
