@@ -1,28 +1,46 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15040] High cpu temperature with 2.6.32
-Date: Mon, 25 Jan 2010 21:52:32 +0100
-Message-ID: <201001252152.33031.rjw@sisk.pl>
-References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera> <q60Z28d_9yH.A.bxH.PZMXLB@chimera> <alpine.LNX.2.00.1001250115420.6323@localhost.localdomain>
+Subject: Re: [Bug #15127] Bluetooth: sleeping function called from invalid context
+Date: Mon, 25 Jan 2010 21:56:26 +0100
+Message-ID: <201001252156.26214.rjw@sisk.pl>
+References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera> <q60Z28d_9yH.A.neH.KZMXLB@chimera> <4B5D27F8.6070707@xenontk.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LNX.2.00.1001250115420.6323-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+In-Reply-To: <4B5D27F8.6070707-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Dimitrios Apostolou <jimis-hi6Y0CQ0nG0@public.gmane.org>
-Cc: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Luiz Augusto von Dentz <luiz.dentz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
 
-On Monday 25 January 2010, Dimitrios Apostolou wrote:
-> I will let you know when this bug is fixed in a regular kernel release. I 
-> just tested 2.6.32.5 and the bug persists. BTW, Arjan, I think this bug 
-> will be biting other people too, see the following thread: 
-> http://bugs.archlinux.org/task/17771
+On Monday 25 January 2010, David John wrote:
+> On 01/25/2010 03:53 AM, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15127
+> > Subject		: Bluetooth: sleeping function called from invalid context
+> > Submitter	: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
+> > Date		: 2010-01-12 9:19 (13 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=9e726b17422bade75fba94e625cd35fd1353e682
+> > References	: http://marc.info/?l=linux-kernel&m=126328727021949&w=4
+> > 
+> > 
+> > 
+> 
+> Hi Rafael,
+> 
+> [ Corrected Luiz's email id ]
 
-I don't think it's fixed, I haven't seen the Arjan's patch anywhere close to
-the mainline.
+That came from a commit sign-off (better should be a correct address).
 
-Arjan, perhaps send it directly to Linus, please (unless it's already waiting
-somewhere for merging)?
+> This bug is still open.
+
+Thanks for the update.
 
 Rafael
