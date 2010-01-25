@@ -1,43 +1,69 @@
-From: Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #15017] kexec regression, radeon/kms irq related
- (bisected)
-Date: Mon, 25 Jan 2010 16:28:18 +1000
-Message-ID: <1264400898.8478.1.camel@localhost>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
-	 <hE3x9c-4KZM.A.kWG.mKMXLB@chimera>
-	 <a728f9f91001241926m4c19aedbvda295fe3c7daade@mail.gmail.com>
+From: Arnaud Boulan <arnaud.boulan-TDf4sKD1mxeHlu7OokbhRg@public.gmane.org>
+Subject: Re: [Bug #14933] OOM killer unexpectedly called
+Date: Mon, 25 Jan 2010 08:34:00 +0100
+Message-ID: <201001250834.01084.arnaud.boulan@libertysurf.fr>
+References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera> <q60Z28d_9yH.A.LQ.iZMXLB@chimera> <20100125111948.493B.A69D9226@jp.fujitsu.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <a728f9f91001241926m4c19aedbvda295fe3c7daade-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20100125111948.493B.A69D9226-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alex Deucher <alexdeucher-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA@public.gmane.org>
+To: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 
-On Sun, 2010-01-24 at 22:26 -0500, Alex Deucher wrote:
-> On Sun, Jan 24, 2010 at 5:04 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Monday 25 January 2010 03:37:25 KOSAKI Motohiro wrote:
 > > This message has been generated automatically as a part of a report
-> > of recent regressions.
+> > of regressions introduced between 2.6.31 and 2.6.32.
 > >
 > > The following bug entry is on the current list of known regressions
-> > from 2.6.32.  Please verify if it still should be listed and let me know
-> > (either way).
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> > be listed and let me know (either way).
 > >
 > >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=15017
-> > Subject         : kexec regression, radeon/kms irq related (bisected)
-> > Submitter       : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA@public.gmane.org>
-> > Date            : 2010-01-09 18:49 (16 days old)
-> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d8f60cfc93452d0554f6a701aa8e3236cbee4636
-> >
-> >
-> >
-> 
-> That bug has patches which fix the issue attached and queued for 2.6.33.
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14933
+> > Subject		: OOM killer unexpectedly called
+> > Submitter	: A. Boulan <arnaud.boulan-TDf4sKD1mxeHlu7OokbhRg@public.gmane.org>
+> > Date		: 2009-12-24 23:42 (32 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=126169821317492&w=4
+>
+> Boulan, Can you please help our debugging?
+> can you disable following config option at once?
+>
+> 1. CONFIG_DRM_I915
+> 2. CONFIG_RELAY
+> 3. CONFIG_MSPEC
+> 4. VIDEOBUF_DMA_SG
+>
+> I mean
+>   - if anyone return VM_FAULT_OOM, this issue occur.
+>   - very few subsys can return VM_FAULT_OOM in their own fault handler.
+>   - I hope investigate this is core mm issue or not.
+>     (unfortunatelly, I haven't find any dubious recent mm change..)
+>
+>
+> Thanks.
 
-Just sent to Linus.
+Hello,
 
-Dave.
+Sorry for the lack of input about this issue. I currently only have remote 
+access to the machine for which i had this problem, and i'm not confident 
+with rebooting into potentially broken kernels. That's why i haven't done any 
+more tests yet..
+I will try to reproduce the issue on another machine first, and if i that does 
+not work i will find a way to test as you suggest.
 
+Also, I have seen in the lkml archives that someone else seems to have the 
+same problem:
+  OOM-Killer kills too much with 2.6.32.2
+  From: Roman Jarosz 
+  Date:  Thu Jan 14 2010 - 08:13:36 EST
+
+As i can't have his email from the web archives, could you plase CC: him on 
+this thread? Maybe he could also help with some tests.
+
+Regards,
+
+Arnaud
