@@ -1,80 +1,71 @@
-From: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #14859] System timer firing too much without cause
-Date: Mon, 25 Jan 2010 12:30:22 -0500
-Message-ID: <201001251230.23109.shawn.starr@rogers.com>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <201001251153.59084.shawn.starr@rogers.com> <alpine.LFD.2.00.1001251808480.5926@localhost.localdomain>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
+Subject: Re: [Bug #15015] blank screen at random times in laptop when
+ sitting  idle
+Date: Mon, 25 Jan 2010 10:39:17 -0800
+Message-ID: <20100125103917.53f75e9a@jbarnes-piketon>
+References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
+	<q60Z28d_9yH.A.70H.SZMXLB@chimera>
+	<84144f021001250610q3160ea06tac5f645b84285388@mail.gmail.com>
+	<ea11fea31001250644i78a9e4d9q725eb04f6a7da164@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.00.1001251808480.5926-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754632Ab0AYSj0@vger.kernel.org>
+In-Reply-To: <ea11fea31001250644i78a9e4d9q725eb04f6a7da164@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jerome Glisse <jglisse-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: Manish Katiyar <mkatiyar@gmail.com>
+Cc: Pekka Enberg <penberg@cs.helsinki.fi>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jithin Emmanuel <jithin1987@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>
 
-On Monday 25 January 2010 12:20:38 Thomas Gleixner wrote:
-> On Mon, 25 Jan 2010, Shawn Starr wrote:
-> > On Monday 25 January 2010 05:35:50 Thomas Gleixner wrote:
-> > > Shawn, why can't you use dynamic ticks ? In the bugzilla I just see
-> > > that you worry about the IRQ0 interrupts (which are correct and
-> > > necessary when the system is in nohz mode) and the extra rescheduling
-> > > interrupts. How is the system misbehaving ?
-> > 
-> > Well, this all stems from trying to use Radeon KMS with IRQs
-> > on. Doing so I see system stalls and this is quite noticeable
-> > however, I am able to show this same stall on the quad core with the
-> 
-> x> same GPU.  Right now, it is unclear to me if there is a underlying
-> 
-> > irq issue or a bug in the radeon driver code that is showing these
-> > stalls. Since the radeon folks - at the moment - do not think it is
-> > a coding problem in their driver
-> 
-> Does the stall go away, when you disable dynticks ?
-> 
+On Mon, 25 Jan 2010 20:14:28 +0530
+Manish Katiyar <mkatiyar@gmail.com> wrote:
 
-It does not, no. 
+> On Mon, Jan 25, 2010 at 7:40 PM, Pekka Enberg
+> <penberg@cs.helsinki.fi> wrote:
+> > On Mon, Jan 25, 2010 at 12:23 AM, Rafael J. Wysocki <rjw@sisk.pl>
+> > wrote:
+> >> This message has been generated automatically as a part of a repor=
+t
+> >> of regressions introduced between 2.6.31 and 2.6.32.
+> >>
+> >> The following bug entry is on the current list of known regression=
+s
+> >> introduced between 2.6.31 and 2.6.32. =C2=A0Please verify if it st=
+ill
+> >> should be listed and let me know (either way).
+> >>
+> >>
+> >> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_b=
+ug.cgi?id=3D15015
+> >> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : blank screen at random times=
+ in laptop when
+> >> sitting idle Submitter =C2=A0 =C2=A0 =C2=A0 : Jithin Emmanuel
+> >> <jithin1987@gmail.com> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0: 2010-01-09 16:48 (16 days
+> >> old)
+> >
+> > FWIW, I might have seen this on my Macbook as well (screen went
+> > blank but I didn't check the logs). I think I managed to unblank
+> > the screen by hitting the "increase brightness" key. But as you
+> > say, the bug doesn't trigger very often and I have no idea how to
+> > reproduce it at will.
+>=20
+> I have seen it too on my lenovo T60 with 2.6.32.2. It happens to me
+> frequently and has become famous as "coffee bug" in my colleagues.
+> Every morning when I goto office and after putting my laptop on
+> docking station go for coffee. Once I come back the laptop screen goe=
+s
+> blank, but haven't been able to manage how to get screen back. Only
+> option is hard reboot. This happens almost every once in two three
+> days.
+>=20
+> Let me know what information/logs I can provide to help debug this.
+> BTW I normally suspend my laptop at home and then resume it in office
+> (if that matters).
 
-> > My impression was using dynamic ticks meant ticks were on demand and
-> 
-> Dynamic ticks are providing a continuous tick long as the machine is
-> busy. When a core becomes idle, we programm the timer to go off at the
-> next scheduled timer event, if the event is longer away than the next
-> tick. When the core goes out of idle (due to the timer or some other
-> event) we restart the tick.
-> 
-> So you see less timer interrupts (IRQ0 + Local timer interrupts)
+Ouch, looks like our DPMS path is failing pretty hard.  I'll add some
+folks to cc, hopefully it'll be easy to track down.
 
-With dynamic ticks on or off, LOC increments rapidly, but I assume that is 
-normal behavour.
 
-So if none of this really is a kernel issue, I defer it to the radeon folks to 
-comment further.
-
-Please remove from regression list, I'll close the original bug.
-
-> 
-> > not continuous. On the quad core box, with dynamic ticks on, the
-> > broadcasts are not increasing IRQ 0 events this only happens on the
-> > laptop.
-> 
-> Right, that is expected as I explained already. Your desktop does not
-> use deeper power states. Check /proc/acpi/processor/CPU0/power on both
-> machines to see the difference. You _cannot_ compare a desktop and a
-> laptop machine and deduce a regression.
-> 
-> The broadcast mechanism is necessary because the local APIC timer
-> stops in deeper power states. That's a hardware problem. So if the
-> core goes into a deeper power state then we arm the broadcast timer
-> which fires on IRQ0 to wake us up. It is a single timer which is used
-> by all cores in a system to work around this hardware stupidity. It's
-> named broadcast because it broadcasts the event to the other cores
-> when necessary. Your desktop does not use deeper power states,
-> therefor it does not use the broadcast timer either.
-> 
-> So the timer IRQ0 increasing is neither a Linux BUG nor a regression.
-> 
-> Thanks,
-> 
-> 	tglx
+--=20
+Jesse Barnes, Intel Open Source Technology Center
