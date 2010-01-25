@@ -1,47 +1,43 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15038] drm/ksm: fbdev blanking regression
-Date: Mon, 25 Jan 2010 22:07:14 +0100
-Message-ID: <201001252207.14235.rjw@sisk.pl>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <201001250013.48523.rjw@sisk.pl> <1264400885.8478.0.camel@localhost>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #15137] NULL pointer dereference in vlan_skb_recv
+Date: Mon, 25 Jan 2010 22:07:52 +0100
+Message-ID: <201001252207.53023.rjw@sisk.pl>
+References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <hE3x9c-4KZM.A.W0E.4JMXLB@chimera> <20100125134346.GA3749@hack>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1264400885.8478.0.camel@localhost>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753670Ab0AYVHF@vger.kernel.org>
+In-Reply-To: <20100125134346.GA3749@hack>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Johan Hovold <jhovold-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, James Simmons <jsimmons-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Type: Text/Plain; charset="utf-8"
+To: =?utf-8?q?Am=C3=A9rico_Wang?= <xiyou.wangcong@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Bruno =?utf-8?q?Pr=C3=A9mont?= <bonbons@linux-vserver.org>, Eric Dumazet <eric.dumazet@gmail.com>
 
-On Monday 25 January 2010, Dave Airlie wrote:
-> On Mon, 2010-01-25 at 00:13 +0100, Rafael J. Wysocki wrote:
-> > On Sunday 24 January 2010, Johan Hovold wrote:
-> > > On Sun, Jan 24, 2010 at 11:04:36PM +0100, Rafael J. Wysocki wrote:
-> > > > This message has been generated automatically as a part of a report
-> > > > of recent regressions.
-> > > > 
-> > > > The following bug entry is on the current list of known regressions
-> > > > from 2.6.32.  Please verify if it still should be listed and let me know
-> > > > (either way).
-> > > > 
-> > > > 
-> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15038
-> > > > Subject		: drm/ksm: fbdev blanking regression
-> > > > Submitter	: Johan Hovold <jhovold-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > > > Date		: 2010-01-06 17:00 (19 days old)
-> > > > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=731b5a15a3b1474a41c2ca29b4c32b0f21bc852e
-> > > > References	: http://marc.info/?l=linux-kernel&m=126279726418748&w=4
-> > > > Handled-By	: James Simmons <jsimmons-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> > > 
-> > > Issue remains in rc5.
-> > 
-> > Thanks for the update.
-> > 
-> > OK, we know what commit broke things, we don't seem to know how to fix it,
-> > so perhaps it's time to revert that commit?
-> 
-> Just sent revert of the broken bit to Linus.
+On Monday 25 January 2010, Am=C3=A9rico Wang wrote:
+> On Sun, Jan 24, 2010 at 11:04:41PM +0100, Rafael J. Wysocki wrote:
+> >This message has been generated automatically as a part of a report
+> >of recent regressions.
+> >
+> >The following bug entry is on the current list of known regressions
+> >from 2.6.32.  Please verify if it still should be listed and let me =
+know
+> >(either way).
+> >
+> >
+> >Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15137
+> >Subject		: NULL pointer dereference in vlan_skb_recv
+> >Submitter	: Bruno Pr=C3=A9mont <bonbons@linux-vserver.org>
+> >Date		: 2010-01-23 15:56 (2 days old)
+> >References	: http://marc.info/?l=3Dlinux-kernel&m=3D126426286507497&=
+w=3D4
+> >Handled-By	: Eric Dumazet <eric.dumazet@gmail.com>
+> >Patch		: http://patchwork.kernel.org/patch/74999/
+> >		  http://patchwork.kernel.org/patch/75002/
+> >
+>=20
+> This one can be closed, patch from Eric is already applied by David M=
+iller.
 
-Thanks!
+Is it in the Linus' tree already?
 
 Rafael
