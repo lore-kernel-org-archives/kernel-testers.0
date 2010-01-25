@@ -1,85 +1,85 @@
-From: Manish Katiyar <mkatiyar@gmail.com>
-Subject: Re: [Bug #15015] blank screen at random times in laptop when sitting 
-	idle
-Date: Mon, 25 Jan 2010 20:14:28 +0530
-Message-ID: <ea11fea31001250644i78a9e4d9q725eb04f6a7da164@mail.gmail.com>
-References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera> <q60Z28d_9yH.A.70H.SZMXLB@chimera> 
-	<84144f021001250610q3160ea06tac5f645b84285388@mail.gmail.com>
+From: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #14859] System timer firing too much without cause
+Date: Mon, 25 Jan 2010 11:53:58 -0500
+Message-ID: <201001251153.59084.shawn.starr@rogers.com>
+References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <201001241734.50803.shawn.starr@rogers.com> <alpine.LFD.2.00.1001251103200.2906@localhost.localdomain>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1753775Ab0AYOxJ@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :from:date:message-id:subject:to:cc:content-type
-         :content-transfer-encoding;
-        bh=zDD9wtXnqwXT/hloO1e6BNKzZc+atVhduJwCl/gvccM=;
-        b=Fi4X4BtZJ4abnFH32u97WpdFP2K5kpC2iSBM3cIsFobTt4BUcROVSqdx5MNjwKOckC
-         dyVk8b1IA3O0ZQxrkgpQhbPsRSKyDKHIf4lRWLv906mvxnPnggRXVHxKPRiTi9dDXEID
-         fvvGBB8B0OUTYj3x2XCHeC4c4YwtTBgXwS3SU=
-In-Reply-To: <84144f021001250610q3160ea06tac5f645b84285388@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.LFD.2.00.1001251103200.2906-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Pekka Enberg <penberg@cs.helsinki.fi>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jithin Emmanuel <jithin1987@gmail.com>, Jesse Barnes <jbarnes@virtuousgeek.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Mon, Jan 25, 2010 at 7:40 PM, Pekka Enberg <penberg@cs.helsinki.fi> =
-wrote:
-> On Mon, Jan 25, 2010 at 12:23 AM, Rafael J. Wysocki <rjw@sisk.pl> wro=
-te:
->> This message has been generated automatically as a part of a report
->> of regressions introduced between 2.6.31 and 2.6.32.
->>
->> The following bug entry is on the current list of known regressions
->> introduced between 2.6.31 and 2.6.32. =A0Please verify if it still s=
-hould
->> be listed and let me know (either way).
->>
->>
->> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-15015
->> Subject =A0 =A0 =A0 =A0 : blank screen at random times in laptop whe=
-n sitting idle
->> Submitter =A0 =A0 =A0 : Jithin Emmanuel <jithin1987@gmail.com>
->> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-01-09 16:48 (16 days old)
->
-> FWIW, I might have seen this on my Macbook as well (screen went blank
-> but I didn't check the logs). I think I managed to unblank the screen
-> by hitting the "increase brightness" key. But as you say, the bug
-> doesn't trigger very often and I have no idea how to reproduce it at
-> will.
+On Monday 25 January 2010 05:35:50 Thomas Gleixner wrote:
+> On Sun, 24 Jan 2010, Shawn Starr wrote:
+> > On Sunday 24 January 2010 17:04:33 Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of recent regressions.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.32.  Please verify if it still should be listed and let me
+> > > know (either way).
+> 
+> Why is this on the regression list at all ? The report says that this
+> is happening with 33-rcX, but there is no comparison to the behaviour
+> of 32 or earlier kernels on that machine. Instead we have a comparison
+> 
+> of apples and oranges:
+> > As a comparsion my quad core box has no such issue: (Running 2.6.32-rc7)
+> > x86_64
+> > 
+> >   0:         42          4          1          1   IO-APIC-edge     
+> >   timer
+> > 
+> > my Lenovo ThinkPad W500 (latest BIOS 3.11) laptop shows the system timer
+> > flooding the bus (Running 2.6.33-rc1) x86_64
+> > 
+> >   0:      66775      70429   IO-APIC-edge      timer <-- keeps rising,
+> >   rapidly
+> 
+> So we look at a quad core desktop machine which probably has no deeper
+> power states and therefor does not use the broadcast timer and compare
+> it to a laptop which has deeper power states and needs to use the
+> broadcast timer, which of course increases the number of IRQ0
+> events. What a surprise.
+> 
+> Can we please remove this from the regression list unless Shawn
+> confirms that 32 or earlier kernels do not show that behaviour on the
+> laptop?
+> 
 
-I have seen it too on my lenovo T60 with 2.6.32.2. It happens to me
-frequently and has become famous as "coffee bug" in my colleagues.
-Every morning when I goto office and after putting my laptop on
-docking station go for coffee. Once I come back the laptop screen goes
-blank, but haven't been able to manage how to get screen back. Only
-option is hard reboot. This happens almost every once in two three
-days.
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14859
+> > > Subject		: System timer firing too much without cause
+> > > Submitter	: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
+> > > Date		: 2009-12-21 19:16 (35 days old)
+> > 
+> > Continues with -rc5, I  really cannot use Dynamic ticks at all, it has to
+> > be disabled.
+> 
+> Shawn, why can't you use dynamic ticks ? In the bugzilla I just see
+> that you worry about the IRQ0 interrupts (which are correct and
+> necessary when the system is in nohz mode) and the extra rescheduling
+> interrupts. How is the system misbehaving ?
+> 
 
-Let me know what information/logs I can provide to help debug this.
-BTW I normally suspend my laptop at home and then resume it in office
-(if that matters).
+Well,  this all stems from trying to use Radeon KMS with IRQs on. Doing so I 
+see system stalls and this is quite noticeable however, I am able to show this 
+same stall on the quad core with the same GPU. 
 
+Right now, it is unclear to me if there is a underlying irq issue or a bug in 
+the radeon driver code that is showing these stalls. Since the radeon folks - 
+at the moment - do not think it is a coding problem in their driver
 
+My impression was using dynamic ticks meant ticks were on demand and not 
+continuous. On the quad core box, with dynamic ticks on, the broadcasts are 
+not increasing IRQ 0 events this only happens on the laptop.
 
->
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Pekka
-> --
-> To unsubscribe from this list: send the line "unsubscribe kernel-test=
-ers" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
->
+Thanks, 
+Shawn.
 
-
-
---=20
-Thanks -
-Manish
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[$\*.^ -- I miss being one of them
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Thanks,
+> 
+> 	tglx
