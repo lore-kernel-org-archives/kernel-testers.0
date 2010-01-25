@@ -1,65 +1,51 @@
-From: Sid Boyce <sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
-Subject: Re: HDA Intel Audio hang on boot
-Date: Mon, 25 Jan 2010 01:48:42 +0000
-Message-ID: <4B5CF87A.20101@blueyonder.co.uk>
-References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <omZ8aBZReyD.A.jbH.QNlSLB@chimera> <4B4A9D8F.9030300@blueyonder.co.uk> <4B4FC3B0.9070207@blueyonder.co.uk>
-Reply-To: sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org
+From: Robert Hancock <hancockrwd@gmail.com>
+Subject: Re: [Bug #14922] 2.6.32 seemed to have broken nVidia MCP7A sata 
+	controller
+Date: Sun, 24 Jan 2010 20:25:06 -0600
+Message-ID: <51f3faa71001241825yec6e37br8032b7a3730ce840@mail.gmail.com>
+References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
+	 <q60Z28d_9yH.A.aX.kZMXLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B4FC3B0.9070207-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752838Ab0AYCZM@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=JgQorc3du+E1ImEViowFx+LqVKJ1RInD9xFz9EfBc9c=;
+        b=EYCPHyNdi8JNdUCgKuwvMQglnxzKSWjIz0gQvnidI6mayaG5MEJV3d/pU9kszE4O+S
+         AIRh9PhYOmrq+h/tgd2mG8axTS4Lmg2BeLXd5OfhTZAIIQNOw65TUK1tfGe8vdFZ+6Km
+         fGqfv0lz8STv1hLHg/MCt8qym641JRsZuN03A=
+In-Reply-To: <q60Z28d_9yH.A.aX.kZMXLB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jeff Garzik <jeff@garzik.org>, Mike Cui <cuicui@gmail.com>
 
-On 15/01/10 01:24, Sid Boyce wrote:
-This is the only outstanding bug. No problems up 2.6.32-git1, but I get
-a solid lock-up on 2.6.32-git2 through 2.6.33-rc5 if the on-board audio
-is not disabled in the BIOS.
-Regards
-Sid.
+On Sun, Jan 24, 2010 at 4:23 PM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.31 and 2.6.32.
+>
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.31 and 2.6.32. =A0Please verify if it still sh=
+ould
+> be listed and let me know (either way).
+>
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+14922
+> Subject =A0 =A0 =A0 =A0 : 2.6.32 seemed to have broken nVidia MCP7A s=
+ata controller
+> Submitter =A0 =A0 =A0 : Mike Cui <cuicui@gmail.com>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-12-19 6:13 (37 days old)
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-ide&m=3D126120323=
+407742&w=3D4
+> Handled-By =A0 =A0 =A0: Jeff Garzik <jeff@garzik.org>
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0Robert Hancock <hancockrwd@gmail.c=
+om>
 
-> tindog:~ # uname -r
-> 2.6.33-rc4-smp
-> On 2.6.32-git1 which boots, hwinfo shows:-
->   oss.card_id = 'HDA NVidia'
->   oss.card_id = 'HDA NVidia'
->   oss.card_id = 'HDA NVidia'
->   alsa.card_id = 'HDA NVidia'
->   alsa.card_id = 'HDA NVidia'
->   alsa.card_id = 'HDA NVidia'
->   alsa.card_id = 'HDA NVidia'
->   info.product = 'HDA NVidia ALSA hardware specific Device'
->   alsa.card_id = 'HDA NVidia'
->   info.product = 'HDA NVidia ALSA Control Device'
->   alsa.card_id = 'HDA NVidia'
->   info.product = 'HDA NVidia Sound Card'
->   sound.card_id = 'HDA NVidia'
->   info.linux.driver = 'HDA Intel'
->     22:     489835        578   IO-APIC-fasteoi   sata_nv, HDA Intel
->        HDA Intel: /devices/pci0000:00/0000:00:0e.1
->        HDA Intel: module = snd_hda_intel
-> irq:0 22 (   490413) "sata_nv" "HDA Intel"
->        HDA Intel: /devices/pci0000:00/0000:00:0e.1
->        HDA Intel: module = snd_hda_intel
->        HDA Intel: /devices/pci0000:00/0000:00:0e.1
->        HDA Intel: module = snd_hda_intel
->   E: DRIVER=HDA Intel
->   <6>HDA Intel 0000:00:0e.1: PCI INT B -> Link[AAZA] -> GSI 22 (level,
-> low) -> IRQ 22
->   <7>HDA Intel 0000:00:0e.1: setting latency timer to 64
->   Driver: "HDA Intel"
-> 
-> Regards
-> Sid.
-> 
-
-
-
--- 
-Sid Boyce ... Hamradio License G3VBV, Licensed Private Pilot
-Emeritus IBM/Amdahl Mainframes and Sun/Fujitsu Servers Tech Support
-Specialist, Cricket Coach
-Microsoft Windows Free Zone - Linux used for all Computing Tasks
+It's a confirmed regression. Waiting on some lspci -nn output from the
+reporter. However, for now, disabling auto-activate optimization on
+all NVIDIA AHCIs may be the easiest option.
