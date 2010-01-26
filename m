@@ -1,38 +1,40 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15040] High cpu temperature with 2.6.32
-Date: Tue, 26 Jan 2010 13:43:15 +0100
-Message-ID: <201001261343.15685.rjw@sisk.pl>
-References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera> <201001252152.33031.rjw@sisk.pl> <20100125214150.1f2e1410@infradead.org>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with pci=use_crs)
+Date: Tue, 26 Jan 2010 13:48:59 +0100
+Message-ID: <201001261348.59508.rjw@sisk.pl>
+References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <hE3x9c-4KZM.A.tpF.EKMXLB@chimera> <20100126071912.GA7543@jgarrett.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100125214150.1f2e1410-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-pci-owner@vger.kernel.org>
+In-Reply-To: <20100126071912.GA7543@jgarrett.org>
+Sender: linux-pci-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Dimitrios Apostolou <jimis-hi6Y0CQ0nG0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: Jeff Garrett <jeff@jgarrett.org>, Bjorn Helgaas <bjorn.helgaas@hp.com>, Yinghai Lu <yinghai@kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Jesse Barnes <jbarnes@virtuousgeek.org>
 
-On Tuesday 26 January 2010, Arjan van de Ven wrote:
-> On Mon, 25 Jan 2010 21:52:32 +0100
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> 
-> > On Monday 25 January 2010, Dimitrios Apostolou wrote:
-> > > I will let you know when this bug is fixed in a regular kernel
-> > > release. I just tested 2.6.32.5 and the bug persists. BTW, Arjan, I
-> > > think this bug will be biting other people too, see the following
-> > > thread: http://bugs.archlinux.org/task/17771
+On Tuesday 26 January 2010, Jeff Garrett wrote:
+> On Sun, Jan 24, 2010 at 11:04:38PM +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
 > > 
-> > I don't think it's fixed, I haven't seen the Arjan's patch anywhere
-> > close to the mainline.
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.32.  Please verify if it still should be listed and let me know
+> > (either way).
 > > 
-> > Arjan, perhaps send it directly to Linus, please (unless it's already
-> > waiting somewhere for merging)?
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15124
+> > Subject		: PCI host bridge windows ignored (works with pci=use_crs)
+> > Submitter	: Jeff Garrett <jeff@jgarrett.org>
+> > Date		: 2010-01-13 5:37 (12 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=126336296600307&w=4
+> > Handled-By	: Yinghai Lu <yinghai@kernel.org>
+> > 		  Bjorn Helgaas <bjorn.helgaas@hp.com>
 > 
-> I sent it to Len and Andrew (Len as maintainer, Andrew as maintainer of
-> last resort)..... what more would I need?
+> This regression should still be listed.  No patch to test yet.
 
-Well, Andrew, do you have the patch at http://patchwork.kernel.org/patch/71962/
-in your queue?  It's a regression fix.
+Thanks for the update.
+
+IIRC, we already know how to fix this ...
 
 Rafael
