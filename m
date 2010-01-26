@@ -1,58 +1,71 @@
-From: Dmitry Artamonow <mad_soft-aPYA7nAdAYY@public.gmane.org>
-Subject: Re: R: [Bug #14886] Asus P2B-DS not detected as SMP moterboard
-Date: Tue, 26 Jan 2010 18:53:30 +0300
-Message-ID: <20100126155330.GA4231@rainbow>
-References: <5550914.425471263201351807.JavaMail.defaultUser@defaultHost>
- <201001112040.45514.rjw@sisk.pl>
+From: Bjorn Helgaas <bjorn.helgaas@hp.com>
+Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with pci=use_crs)
+Date: Tue, 26 Jan 2010 10:32:35 -0700
+Message-ID: <201001261032.37053.bjorn.helgaas@hp.com>
+References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <20100126071912.GA7543@jgarrett.org> <201001261348.59508.rjw@sisk.pl>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1754538Ab0AZRco@vger.kernel.org>
+In-Reply-To: <201001261348.59508.rjw@sisk.pl>
 Content-Disposition: inline
-In-Reply-To: <201001112040.45514.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: "flinco-VGgt2q2+T+FeoWH0uzbU5w@public.gmane.org" <flinco-VGgt2q2+T+FeoWH0uzbU5w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arkadiusz Miskiewicz <arekm-evZBlRFTdvA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Feng Tang <feng.tang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Jeff Garrett <jeff@jgarrett.org>, Yinghai Lu <yinghai@kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Jesse Barnes <jbarnes@virtuousgeek.org>, Myron Stowe <myron.stowe@hp.com>, Matthew Garrett <mjg59@srcf.ucam.org>, Ingo Molnar <mingo@elte.hu>
 
-On 20:40 Mon 11 Jan     , Rafael J. Wysocki wrote:
-> On Monday 11 January 2010, flinco-VGgt2q2+T+FeoWH0uzbU5w@public.gmane.org wrote:
-> > Tried 2.6.32.3. The issue is still present.
-> 
-> Thanks for the update.
-> 
-> Rafael
+On Tuesday 26 January 2010 05:48:59 am Rafael J. Wysocki wrote:
+> On Tuesday 26 January 2010, Jeff Garrett wrote:
+> > On Sun, Jan 24, 2010 at 11:04:38PM +0100, Rafael J. Wysocki wrote:
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.32.  Please verify if it still should be listed and let me know
+> > > (either way).
+> > > 
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15124
+> > > Subject		: PCI host bridge windows ignored (works with pci=use_crs)
+> > > Submitter	: Jeff Garrett <jeff@jgarrett.org>
+> > > Date		: 2010-01-13 5:37 (12 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=126336296600307&w=4
+> > > Handled-By	: Yinghai Lu <yinghai@kernel.org>
+> > > 		  Bjorn Helgaas <bjorn.helgaas@hp.com>
+> > 
+> > This regression should still be listed.  No patch to test yet.
+> ...
+> IIRC, we already know how to fix this ...
 
-(I have some troubles with registering on kernel bugzilla, so posting here,
-adding people from bug to CC: list)
+As far as I know, we do NOT know how to fix this.
 
-Hi!
-I'm also using P2B-DS and can confirm that starting with kernel 2.6.32
-SMP stopped working (and don't work still - tested with current git
-v2.6.33-rc5-238-g158c168) The issue seems to have something to do with the
-fact that ACPI is blacklisted on P2B-DS. I used to workaround this bug
-on newer kernels (>=2.6.32) by passing "acpi=force" in kernel arguments.
-Finally, yesterday I found some time to write simple automated bisection
-script and leaved it to run on machine overnight. Here's result:
----------------------------------------------------------------------------
-e5b8fc6ac158f65598f58dba2c0d52ba3b412f52 is the first bad commit
-commit e5b8fc6ac158f65598f58dba2c0d52ba3b412f52
-Author: Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Date:   Tue Jul 7 23:22:58 2009 -0400
+This regression occurred when we added intel_bus.c because it's not
+yet smart enough to determine the correct host bridge apertures.
+Here's what it thinks the bridge aperture is and the Radeon BAR:
 
-    ACPI: check acpi_disabled in acpi_table_parse() and acpi_table_parse_entries()
-    
-    Allow consumers of the acpi_table_parse()/acpi_table_parse_entries() API
-    to gracefully handle the acpi_disabled=1 case via return value
-    rather than checking the global flag themselves.
-    
-    Signed-off-by: Feng Tang <feng.tang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-    Signed-off-by: Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
----------------------------------------------------------------------------
+  IOH bus: 00 index 1 mmio: [e0000000, fdffffff]
+  pci 0000:04:00.0: reg 10: [mem 0xd0000000-0xdfffffff 64bit pref]
 
-I re-checked this result and yes - reverting this commit on both 2.6.32 and
-current git (v2.6.33-rc5-238-g158c168) makes problem go away.
+The IOH aperture is obviously not big enough to cover the Radeon BAR.
+But the host bridge _CRS tells us this:
 
--- 
-Best regards,
-Dmitry "MAD" Artamonow
+  pci_root PNP0A08:00: host bridge window [mem 0xc0000000-0xdfffffff]
+  pci_root PNP0A08:00: host bridge window [mem 0xf0000000-0xfed8ffff]
+
+which IS big enough, and we know the bridge is in fact forwarding the
+[mem 0xd0000000-0xdfffffff 64bit pref] region, because the Radeon works
+when Jeff boots with "pci=use_crs".
+
+I'm quite concerned about this for .33 because I don't think Jeff's
+configuration (Dell desktop with Intel x58 and large graphics device)
+is unusual.
+
+The benefit of intel_bus.c is on machines with multiple IOHs, where we
+need to figure out which address ranges go to which IOHs so we can
+program downstream devices correctly.  But even there, _CRS should give
+us the information we need, so "pci=use_crs" should make these machines
+work.
+
+I think we should remove intel_bus.c before .33.  It's breaking boxes
+and we don't know how to fix it.  Even if we do find out how to fix it,
+I think we should move toward using _CRS instead, because that's what
+Windows uses and it's an easy way for the firmware to tell us about
+platform quirks.
+
+Bjorn
