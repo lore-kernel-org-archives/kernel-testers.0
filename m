@@ -1,56 +1,112 @@
-From: Jesse Barnes <jbarnes@virtuousgeek.org>
-Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with
- pci=use_crs)
-Date: Tue, 26 Jan 2010 10:17:52 -0800
-Message-ID: <20100126101752.78196900@jbarnes-piketon>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
-	<201001261348.59508.rjw@sisk.pl>
-	<201001261032.37053.bjorn.helgaas@hp.com>
-	<201001261902.13911.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: HDA Intel Audio hang on boot
+Date: Tue, 26 Jan 2010 19:22:35 +0100
+Message-ID: <201001261922.35213.rjw@sisk.pl>
+References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera> <s5h636puit8.wl%tiwai@suse.de> <4B5EF1B7.3090800@blueyonder.co.uk>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-pci-owner@vger.kernel.org>
-In-Reply-To: <201001261902.13911.rjw@sisk.pl>
-Sender: linux-pci-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4B5EF1B7.3090800-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Bjorn Helgaas <bjorn.helgaas@hp.com>, Jeff Garrett <jeff@jgarrett.org>, Yinghai Lu <yinghai@kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Myron Stowe <myron.stowe@hp.com>, Matthew Garrett <mjg59@srcf.ucam.org>, Ingo Molnar <mingo@elte.hu>
+Content-Type: Text/Plain; charset="us-ascii"
+To: sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org
+Cc: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Tue, 26 Jan 2010 19:02:13 +0100
-"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
-> > I'm quite concerned about this for .33 because I don't think Jeff's
-> > configuration (Dell desktop with Intel x58 and large graphics device)
-> > is unusual.
+On Tuesday 26 January 2010, Sid Boyce wrote:
+> On 26/01/10 12:55, Takashi Iwai wrote:
+> > At Tue, 26 Jan 2010 12:02:44 +0000,
+> > Sid Boyce wrote:
+> >>
+> >> On 26/01/10 06:58, Takashi Iwai wrote:
+> >>> At Tue, 26 Jan 2010 07:40:03 +0100,
+> >>> I wrote:
+> >>>>
+> >>>> At Tue, 26 Jan 2010 00:59:15 +0000,
+> >>>> Sid Boyce wrote:
+> >>>>>
+> >>>>> On 25/01/10 21:55, Takashi Iwai wrote:
+> >>>>>> At Mon, 25 Jan 2010 22:54:23 +0100,
+> >>>>>> I wrote:
+> >>>>>>>
+> >>>>>>> At Mon, 25 Jan 2010 22:39:02 +0100,
+> >>>>>>> Rafael J. Wysocki wrote:
+> >>>>>>>>
+> >>>>>>>> On Monday 25 January 2010, Sid Boyce wrote:
+> >>>>>>>>> On 15/01/10 01:24, Sid Boyce wrote:
+> >>>>>>>>> This is the only outstanding bug. No problems up 2.6.32-git1, but I get
+> >>>>>>>>> a solid lock-up on 2.6.32-git2 through 2.6.33-rc5 if the on-board audio
+> >>>>>>>>> is not disabled in the BIOS.
+> >>>>>>>>
+> >>>>>>>> I guess we should let Takashi know.
+> >>>>>>>
+> >>>>>>> Thanks.
+> >>>>>>>
+> >>>>>>>>>> tindog:~ # uname -r
+> >>>>>>>>>> 2.6.33-rc4-smp
+> >>>>>>>>>> On 2.6.32-git1 which boots, hwinfo shows:-
+> >>>>>>>>>>   oss.card_id = 'HDA NVidia'
+> >>>>>>>>>>   oss.card_id = 'HDA NVidia'
+> >>>>>>>>>>   oss.card_id = 'HDA NVidia'
+> >>>>>>>>>>   alsa.card_id = 'HDA NVidia'
+> >>>>>>>>>>   alsa.card_id = 'HDA NVidia'
+> >>>>>>>>>>   alsa.card_id = 'HDA NVidia'
+> >>>>>>>>>>   alsa.card_id = 'HDA NVidia'
+> >>>>>>>>>>   info.product = 'HDA NVidia ALSA hardware specific Device'
+> >>>>>>>>>>   alsa.card_id = 'HDA NVidia'
+> >>>>>>>>>>   info.product = 'HDA NVidia ALSA Control Device'
+> >>>>>>>>>>   alsa.card_id = 'HDA NVidia'
+> >>>>>>>>>>   info.product = 'HDA NVidia Sound Card'
+> >>>>>>>>>>   sound.card_id = 'HDA NVidia'
+> >>>>>>>>>>   info.linux.driver = 'HDA Intel'
+> >>>>>>>>>>     22:     489835        578   IO-APIC-fasteoi   sata_nv, HDA Intel
+> >>>>>>>>>>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
+> >>>>>>>>>>        HDA Intel: module = snd_hda_intel
+> >>>>>>>>>> irq:0 22 (   490413) "sata_nv" "HDA Intel"
+> >>>>>>>>>>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
+> >>>>>>>>>>        HDA Intel: module = snd_hda_intel
+> >>>>>>>>>>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
+> >>>>>>>>>>        HDA Intel: module = snd_hda_intel
+> >>>>>>>>>>   E: DRIVER=HDA Intel
+> >>>>>>>>>>   <6>HDA Intel 0000:00:0e.1: PCI INT B -> Link[AAZA] -> GSI 22 (level,
+> >>>>>>>>>> low) -> IRQ 22
+> >>>>>>>>>>   <7>HDA Intel 0000:00:0e.1: setting latency timer to 64
+> >>>>>>>>>>   Driver: "HDA Intel"
+> >>>>>>>
+> >>>>>>> What I'd try first is to pass enable_msi=0 option.
+> >>>>>>
+> >>>>>> Just to be sure -- it's an option for snd-hda-intel module.
+> >>>>>>
+> >>>>>>
+> >>>>>> Takashi
+> >>>>>>
+> >>>>>
+> >>>>> I passed "modprobe snd-hda-intel enable_msi=0" on the kernel command
+> >>>>> line,
+> >>>
+> >>> Oh, I overlooked this text.  Of course, this can't work :)
+> >>>
+> >>> "modprobe..." isn't for the kernel command line but for modprobe
+> >>> configs, usually specified in /etc/modprobe.d/* file.
+> >>>
+> >> I had already tried that... it locks up at the same point also with
+> >> "enable_msi=1".
+> >> tindog:/etc/modprobe.d # less 50-sound.conf
+> >>
+> >> options snd slots=snd-hda-intel,enable_msi=0
 > > 
-> > The benefit of intel_bus.c is on machines with multiple IOHs, where we
-> > need to figure out which address ranges go to which IOHs so we can
-> > program downstream devices correctly.  But even there, _CRS should give
-> > us the information we need, so "pci=use_crs" should make these machines
-> > work.
+> > This is the option for module snd, not snd-hda-intel.
 > > 
-> > I think we should remove intel_bus.c before .33.  It's breaking boxes
-> > and we don't know how to fix it.  Even if we do find out how to fix it,
-> > I think we should move toward using _CRS instead, because that's what
-> > Windows uses and it's an easy way for the firmware to tell us about
-> > platform quirks.
-> 
-> Perhaps it would be sufficient to make pci=use_crs the default and leave the
-> option to use intel_bus.c for whoever needs that?
+> > 
+> > Takashi
+> > 
+> options snd,enable_msi=0 slots=snd-hda-intel
 
-We can't make use_crs the default w/o some more _CRS handling fixes
-(some firmwares have large lists we need to handle).
+options snd enable_msi=0 slots=snd-hda-intel
 
-We can disable intel_bus.c though.  Yinghai, I'm inclined against the
-intel_bus.c approach at this point.  It seems unlikely we'll ever keep
-it up to date with new bridges, since its approach differs so much from
-how things are done in the Windows world, where the firmware provides
-a list of resources.  We'll always be playing catch up, and will
-probably be behind the firmware most of the time since the docs with
-the necessary info likely won't be public most of the time.
+(ie. the comma shouldn't be present in there).
 
-For 2.6.33 I'd like a minimal fix though, can you disable it for all
-but the multi-IOH case perhaps?
+> # 9LTX.vLXC8EvZgR7:MCP55 High Definition Audio
+> alias snd-card-0 snd-hda-intel
 
--- 
-Jesse Barnes, Intel Open Source Technology Center
+Rafael
