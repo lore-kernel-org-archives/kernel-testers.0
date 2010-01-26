@@ -1,72 +1,42 @@
-From: =?UTF-8?Q?Am=C3=A9rico_Wang?= <xiyou.wangcong@gmail.com>
-Subject: Re: [Bug #14924] Weird hard hangs when rendering 'some' web-sites in 
-	Firefox
-Date: Tue, 26 Jan 2010 11:06:53 +0800
-Message-ID: <2375c9f91001251906s520112ebuf12f60729b004857@mail.gmail.com>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
-	 <hE3x9c-4KZM.A.V3G.JLMXLB@chimera> <20100125135531.GB3749@hack>
-	 <4B5DF061.1070704@unsolicited.net>
+From: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [Bug #15040] High cpu temperature with 2.6.32
+Date: Mon, 25 Jan 2010 21:41:50 -0800
+Message-ID: <20100125214150.1f2e1410@infradead.org>
+References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
+	<q60Z28d_9yH.A.bxH.PZMXLB@chimera>
+	<alpine.LNX.2.00.1001250115420.6323@localhost.localdomain>
+	<201001252152.33031.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752689Ab0AZDG4@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=CkRL+mG1rmoZqVBRxyWjryuB1sByqYnp7Bf8dPjOleU=;
-        b=IY87UJNlD0Xjr+xgSuvvxAyglhmxOSi7Un3PjluRtwp6qGVSWn5pbS2Sf64B8RXusJ
-         WSrQx//S5dIbQO6Xov0te4Hr/2CZK+hFw7vuCJ06dImzfHLeeqe+4BqhIokbi/hAhyMV
-         RoK2Fa+F/pQ+0cnAHLsDj8GbeyVHnbeKw/NXM=
-In-Reply-To: <4B5DF061.1070704@unsolicited.net>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <201001252152.33031.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: David <david@unsolicited.net>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Dimitrios Apostolou <jimis-hi6Y0CQ0nG0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Tue, Jan 26, 2010 at 3:26 AM, David <david@unsolicited.net> wrote:
-> Am=C3=A9rico Wang wrote:
->> On Sun, Jan 24, 2010 at 11:04:33PM +0100, Rafael J. Wysocki wrote:
->>
->>> This message has been generated automatically as a part of a report
->>> of recent regressions.
->>>
->>> The following bug entry is on the current list of known regressions
->>>
->> >from 2.6.32. =C2=A0Please verify if it still should be listed and l=
-et me know
->>
->>> (either way).
->>>
->>>
->>> Bug-Entry =C2=A0 =C2=A0: http://bugzilla.kernel.org/show_bug.cgi?id=
-=3D14924
->>> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: Weird har=
-d hangs when rendering 'some' web-sites in Firefox
->>> Submitter =C2=A0 =C2=A0: David <david@unsolicited.net>
->>> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 2009-12-21 21:53 (35 days old)
->>> References =C2=A0 : http://marc.info/?l=3Dlinux-kernel&m=3D12614337=
-5823340&w=3D4
->>>
->>
->> Hmm, you have CONFIG_DETECT_SOFTLOCKUP=3Dy, I have no idea what happ=
-ened,
->> doing a bisect would be appreciated.
->>
->> Thanks.
->>
->>
->
-> I no longer have the offending hardware, but I think that the issue w=
-as
-> probably corrected by:
->
-> =C2=A0 =C2=A0cafe6609d6dc0a6a278f9fdbb59ce4d761a35ddd -
-> drm/radeon/kms: Schedule host path read cache flush through the ring =
-V2
->
-> as the offending ATI graphics was indeed R300.
->
+On Mon, 25 Jan 2010 21:52:32 +0100
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-Ok, thanks!
+> On Monday 25 January 2010, Dimitrios Apostolou wrote:
+> > I will let you know when this bug is fixed in a regular kernel
+> > release. I just tested 2.6.32.5 and the bug persists. BTW, Arjan, I
+> > think this bug will be biting other people too, see the following
+> > thread: http://bugs.archlinux.org/task/17771
+> 
+> I don't think it's fixed, I haven't seen the Arjan's patch anywhere
+> close to the mainline.
+> 
+> Arjan, perhaps send it directly to Linus, please (unless it's already
+> waiting somewhere for merging)?
+
+I sent it to Len and Andrew (Len as maintainer, Andrew as maintainer of
+last resort)..... what more would I need?
+
+
+
+-- 
+Arjan van de Ven 	Intel Open Source Technology Centre
+For development, discussion and tips for power savings, 
+visit http://www.lesswatts.org
