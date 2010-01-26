@@ -1,54 +1,64 @@
-From: Yinghai Lu <yinghai@kernel.org>
-Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with pci=use_crs)
-Date: Tue, 26 Jan 2010 10:22:12 -0800
-Message-ID: <4B5F32D4.5030605@kernel.org>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>	<201001261348.59508.rjw@sisk.pl>	<201001261032.37053.bjorn.helgaas@hp.com>	<201001261902.13911.rjw@sisk.pl> <20100126101752.78196900@jbarnes-piketon>
+From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with
+ pci=use_crs)
+Date: Tue, 26 Jan 2010 10:35:11 -0800
+Message-ID: <20100126103511.16781111@jbarnes-piketon>
+References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
+	<20100126071912.GA7543@jgarrett.org>
+	<201001261348.59508.rjw@sisk.pl>
+	<201001261032.37053.bjorn.helgaas@hp.com>
+	<alpine.LFD.2.00.1001260955060.3574@localhost.localdomain>
+	<4B5F32A9.7090105@kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-pci-owner@vger.kernel.org>
-In-Reply-To: <20100126101752.78196900@jbarnes-piketon>
-Sender: linux-pci-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4B5F32A9.7090105-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Jesse Barnes <jbarnes@virtuousgeek.org>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Bjorn Helgaas <bjorn.helgaas@hp.com>, Jeff Garrett <jeff@jgarrett.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Myron Stowe <myron.stowe@hp.com>, Matthew Garrett <mjg59@srcf.ucam.org>, Ingo Molnar <mingo@elte.hu>
+To: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Jeff Garrett <jeff-184d8XiO+QJg9hUCZPvPmw@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PCI <linux-pci-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Myron Stowe <myron.stowe-VXdhtT5mjnY@public.gmane.org>, Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-On 01/26/2010 10:17 AM, Jesse Barnes wrote:
-> On Tue, 26 Jan 2010 19:02:13 +0100
-> "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
->>> I'm quite concerned about this for .33 because I don't think Jeff's
->>> configuration (Dell desktop with Intel x58 and large graphics device)
->>> is unusual.
->>>
->>> The benefit of intel_bus.c is on machines with multiple IOHs, where we
->>> need to figure out which address ranges go to which IOHs so we can
->>> program downstream devices correctly.  But even there, _CRS should give
->>> us the information we need, so "pci=use_crs" should make these machines
->>> work.
->>>
->>> I think we should remove intel_bus.c before .33.  It's breaking boxes
->>> and we don't know how to fix it.  Even if we do find out how to fix it,
->>> I think we should move toward using _CRS instead, because that's what
->>> Windows uses and it's an easy way for the firmware to tell us about
->>> platform quirks.
->>
->> Perhaps it would be sufficient to make pci=use_crs the default and leave the
->> option to use intel_bus.c for whoever needs that?
-> 
-> We can't make use_crs the default w/o some more _CRS handling fixes
-> (some firmwares have large lists we need to handle).
-> 
-> We can disable intel_bus.c though.  Yinghai, I'm inclined against the
-> intel_bus.c approach at this point.  It seems unlikely we'll ever keep
-> it up to date with new bridges, since its approach differs so much from
-> how things are done in the Windows world, where the firmware provides
-> a list of resources.  We'll always be playing catch up, and will
-> probably be behind the firmware most of the time since the docs with
-> the necessary info likely won't be public most of the time.
-> 
-> For 2.6.33 I'd like a minimal fix though, can you disable it for all
-> but the multi-IOH case perhaps?
+On Tue, 26 Jan 2010 10:21:29 -0800
+Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
 
-ok, we have one patch to enable that only with multi-IOH case.
+> On 01/26/2010 10:16 AM, Linus Torvalds wrote:
+> > 
+> > 
+> > On Tue, 26 Jan 2010, Bjorn Helgaas wrote:
+> >>
+> >> which IS big enough, and we know the bridge is in fact forwarding the
+> >> [mem 0xd0000000-0xdfffffff 64bit pref] region, because the Radeon works
+> >> when Jeff boots with "pci=use_crs".
+> > 
+> > I bet it's a subtractive decode thing. Sure, it could be just another 
+> > undocumented range register (does anybody have the datasheet for that 
+> > thing?) but Intel tends to often have subtractive decode.
+> > 
+> > That system in question has three PCI express root ports, but two of them 
+> > have IO and memory disabled according to the lspci info. So maybe it's as 
+> > simple as that "I/O Hub PCI Express Root Port 7" just catching anything 
+> > that nobody else does, and the single IOH host chip doing the same?
+> > 
+> >> I think we should remove intel_bus.c before .33.  It's breaking boxes
+> >> and we don't know how to fix it.  Even if we do find out how to fix it,
+> >> I think we should move toward using _CRS instead, because that's what
+> >> Windows uses and it's an easy way for the firmware to tell us about
+> >> platform quirks.
+> > 
+> > I suspect that for 33 it is indeed best to just revert. But somebody is 
+> > bound to have information on how the actual hardware works. Yinghai?
+> 
+> I have asked intel if there is any bit that could be enabled the routing.
+> there is no info about for their documentations.
 
-YH
+I could probably dig something up in our confidential database, but this
+is the main problem with intel_bus.c.  It'll always be behind with _CRS
+provides.  Sure _CRS may be wrong sometimes, but it'll always work well
+enough to bring Windows up, so we ought not to ignore it.
+
+The underlying problems with our _CRS support still aren't fixed
+though, so switching that on for 2.6.33 isn't an option.
+
+-- 
+Jesse Barnes, Intel Open Source Technology Center
