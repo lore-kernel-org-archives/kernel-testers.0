@@ -1,82 +1,72 @@
-From: Sid Boyce <sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
-Subject: Re: HDA Intel Audio hang on boot
-Date: Tue, 26 Jan 2010 00:59:15 +0000
-Message-ID: <4B5E3E63.80305@blueyonder.co.uk>
-References: <wnS54-l8PVO.A.TlF.oMlSLB@chimera>	<4B4FC3B0.9070207@blueyonder.co.uk>	<4B5CF87A.20101@blueyonder.co.uk>	<201001252239.03017.rjw@sisk.pl>	<s5h8wblc0kw.wl%tiwai@suse.de> <s5h7hr5c0jn.wl%tiwai@suse.de>
-Reply-To: sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org
+From: =?UTF-8?Q?Am=C3=A9rico_Wang?= <xiyou.wangcong@gmail.com>
+Subject: Re: [Bug #14924] Weird hard hangs when rendering 'some' web-sites in 
+	Firefox
+Date: Tue, 26 Jan 2010 11:06:53 +0800
+Message-ID: <2375c9f91001251906s520112ebuf12f60729b004857@mail.gmail.com>
+References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
+	 <hE3x9c-4KZM.A.V3G.JLMXLB@chimera> <20100125135531.GB3749@hack>
+	 <4B5DF061.1070704@unsolicited.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <s5h7hr5c0jn.wl%tiwai-l3A5Bk7waGM@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1752689Ab0AZDG4@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=CkRL+mG1rmoZqVBRxyWjryuB1sByqYnp7Bf8dPjOleU=;
+        b=IY87UJNlD0Xjr+xgSuvvxAyglhmxOSi7Un3PjluRtwp6qGVSWn5pbS2Sf64B8RXusJ
+         WSrQx//S5dIbQO6Xov0te4Hr/2CZK+hFw7vuCJ06dImzfHLeeqe+4BqhIokbi/hAhyMV
+         RoK2Fa+F/pQ+0cnAHLsDj8GbeyVHnbeKw/NXM=
+In-Reply-To: <4B5DF061.1070704@unsolicited.net>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: David <david@unsolicited.net>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On 25/01/10 21:55, Takashi Iwai wrote:
-> At Mon, 25 Jan 2010 22:54:23 +0100,
-> I wrote:
+On Tue, Jan 26, 2010 at 3:26 AM, David <david@unsolicited.net> wrote:
+> Am=C3=A9rico Wang wrote:
+>> On Sun, Jan 24, 2010 at 11:04:33PM +0100, Rafael J. Wysocki wrote:
 >>
->> At Mon, 25 Jan 2010 22:39:02 +0100,
->> Rafael J. Wysocki wrote:
+>>> This message has been generated automatically as a part of a report
+>>> of recent regressions.
 >>>
->>> On Monday 25 January 2010, Sid Boyce wrote:
->>>> On 15/01/10 01:24, Sid Boyce wrote:
->>>> This is the only outstanding bug. No problems up 2.6.32-git1, but I get
->>>> a solid lock-up on 2.6.32-git2 through 2.6.33-rc5 if the on-board audio
->>>> is not disabled in the BIOS.
+>>> The following bug entry is on the current list of known regressions
 >>>
->>> I guess we should let Takashi know.
+>> >from 2.6.32. =C2=A0Please verify if it still should be listed and l=
+et me know
+>>
+>>> (either way).
+>>>
+>>>
+>>> Bug-Entry =C2=A0 =C2=A0: http://bugzilla.kernel.org/show_bug.cgi?id=
+=3D14924
+>>> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: Weird har=
+d hangs when rendering 'some' web-sites in Firefox
+>>> Submitter =C2=A0 =C2=A0: David <david@unsolicited.net>
+>>> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 2009-12-21 21:53 (35 days old)
+>>> References =C2=A0 : http://marc.info/?l=3Dlinux-kernel&m=3D12614337=
+5823340&w=3D4
+>>>
+>>
+>> Hmm, you have CONFIG_DETECT_SOFTLOCKUP=3Dy, I have no idea what happ=
+ened,
+>> doing a bisect would be appreciated.
 >>
 >> Thanks.
 >>
->>>>> tindog:~ # uname -r
->>>>> 2.6.33-rc4-smp
->>>>> On 2.6.32-git1 which boots, hwinfo shows:-
->>>>>   oss.card_id = 'HDA NVidia'
->>>>>   oss.card_id = 'HDA NVidia'
->>>>>   oss.card_id = 'HDA NVidia'
->>>>>   alsa.card_id = 'HDA NVidia'
->>>>>   alsa.card_id = 'HDA NVidia'
->>>>>   alsa.card_id = 'HDA NVidia'
->>>>>   alsa.card_id = 'HDA NVidia'
->>>>>   info.product = 'HDA NVidia ALSA hardware specific Device'
->>>>>   alsa.card_id = 'HDA NVidia'
->>>>>   info.product = 'HDA NVidia ALSA Control Device'
->>>>>   alsa.card_id = 'HDA NVidia'
->>>>>   info.product = 'HDA NVidia Sound Card'
->>>>>   sound.card_id = 'HDA NVidia'
->>>>>   info.linux.driver = 'HDA Intel'
->>>>>     22:     489835        578   IO-APIC-fasteoi   sata_nv, HDA Intel
->>>>>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
->>>>>        HDA Intel: module = snd_hda_intel
->>>>> irq:0 22 (   490413) "sata_nv" "HDA Intel"
->>>>>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
->>>>>        HDA Intel: module = snd_hda_intel
->>>>>        HDA Intel: /devices/pci0000:00/0000:00:0e.1
->>>>>        HDA Intel: module = snd_hda_intel
->>>>>   E: DRIVER=HDA Intel
->>>>>   <6>HDA Intel 0000:00:0e.1: PCI INT B -> Link[AAZA] -> GSI 22 (level,
->>>>> low) -> IRQ 22
->>>>>   <7>HDA Intel 0000:00:0e.1: setting latency timer to 64
->>>>>   Driver: "HDA Intel"
 >>
->> What I'd try first is to pass enable_msi=0 option.
-> 
-> Just to be sure -- it's an option for snd-hda-intel module.
-> 
-> 
-> Takashi
-> 
+>
+> I no longer have the offending hardware, but I think that the issue w=
+as
+> probably corrected by:
+>
+> =C2=A0 =C2=A0cafe6609d6dc0a6a278f9fdbb59ce4d761a35ddd -
+> drm/radeon/kms: Schedule host path read cache flush through the ring =
+V2
+>
+> as the offending ATI graphics was indeed R300.
+>
 
-I passed "modprobe snd-hda-intel enable_msi=0" on the kernel command
-line, still locks up as before.
-Regards
-Sid.
-
--- 
-Sid Boyce ... Hamradio License G3VBV, Licensed Private Pilot
-Emeritus IBM/Amdahl Mainframes and Sun/Fujitsu Servers Tech Support
-Specialist, Cricket Coach
-Microsoft Windows Free Zone - Linux used for all Computing Tasks
+Ok, thanks!
