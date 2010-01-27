@@ -1,22 +1,21 @@
-From: Jesse Barnes <jbarnes@virtuousgeek.org>
-Subject: Re: [Bug #14670] i915: playing video via XVideo extension makes the
- screen flicker
-Date: Wed, 27 Jan 2010 09:59:40 -0800
-Message-ID: <20100127095940.07e205ba@jbarnes-piketon>
+From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Subject: Re: [Bug #14939] drm: random hang with i915
+Date: Wed, 27 Jan 2010 10:01:09 -0800
+Message-ID: <20100127100109.525b3da6@jbarnes-piketon>
 References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
-	<q60Z28d_9yH.A.fTB.-aMXLB@chimera>
+	<q60Z28d_9yH.A.eK.gZMXLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755924Ab0A0R77@vger.kernel.org>
-In-Reply-To: <q60Z28d_9yH.A.fTB.-aMXLB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <q60Z28d_9yH.A.eK.gZMXLB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Eric Anholt <eric@anholt.net>, Thomas Meyer <thomas@m3y3r.de>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>
 
-On Sun, 24 Jan 2010 23:22:54 +0100 (CET)
-"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+On Sun, 24 Jan 2010 23:23:04 +0100 (CET)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
 > This message has been generated automatically as a part of a report
 > of regressions introduced between 2.6.31 and 2.6.32.
@@ -26,16 +25,19 @@ On Sun, 24 Jan 2010 23:22:54 +0100 (CET)
 > be listed and let me know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14670
-> Subject		: i915: playing video via XVideo extension makes the screen flicker
-> Submitter	: Thomas Meyer <thomas@m3y3r.de>
-> Date		: 2009-11-23 13:15 (63 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b42d4c5c6a872815d711e5d51a600f5122c38eee
-> References	: http://lkml.org/lkml/2010/1/11/150
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14939
+> Subject		: drm: random hang with i915
+> Submitter	: Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>
+> Date		: 2009-12-07 17:30 (49 days old)
+> References	: http://marc.info/?l=linux-kernel&m=126020704125723&w=4
+> Handled-By	: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
 > 
 
-this one may also be fixed by David's patch if -rc5 doesn't already fix
-it.
+Any news on this one Arnd?  Does i915.powersave=0 still fix it?  If so
+the bug David found and fixed may have an effect.  Apparently the
+hardware wasn't automatically disabling self-refresh mode when multiple
+pipes were active (though maybe you didn't have this config?), which
+could definitely cause problems.
 
 -- 
 Jesse Barnes, Intel Open Source Technology Center
