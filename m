@@ -1,58 +1,170 @@
-From: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: [Bug #14657] perf subsystem breakage in 2.6.32-rc7
-Date: Wed, 27 Jan 2010 07:31:01 -0800
-Message-ID: <20100127073101.04518085@infradead.org>
-References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
-	<q60Z28d_9yH.A._eB.HbMXLB@chimera>
-	<84144f021001270441t75441bebpc605ac8c0cfedbd1@mail.gmail.com>
-	<20100127130013.GA16698@elte.hu>
+From: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with pci=use_crs)
+Date: Wed, 27 Jan 2010 09:45:15 -0700
+Message-ID: <201001270945.17113.bjorn.helgaas@hp.com>
+References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <20100126101752.78196900@jbarnes-piketon> <4B5F735B.2040308@kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100127130013.GA16698-X9Un+BFzKDI@public.gmane.org>
+In-Reply-To: <4B5F735B.2040308-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Cc: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Arnaldo Carvalho de Melo <acme-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+To: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Jeff Garrett <jeff-184d8XiO+QJg9hUCZPvPmw@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PCI <linux-pci-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Myron Stowe <myron.stowe-VXdhtT5mjnY@public.gmane.org>, Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-On Wed, 27 Jan 2010 14:00:13 +0100
-Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> wrote:
-
+On Tuesday 26 January 2010 03:57:31 pm Yinghai Lu wrote:
+> [PATCH] x86/pci: don't use ioh resource if only have one ioh
 > 
-> * Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org> wrote:
+> some system could use reosurce out of IOH resources when only one ioh is there.
 > 
-> > (I am CC'ing some more perf folks.)
-> > 
-> > On Mon, Jan 25, 2010 at 12:22 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
-> > wrote:
-> > > This message has been generated automatically as a part of a
-> > > report of regressions introduced between 2.6.31 and 2.6.32.
-> > >
-> > > The following bug entry is on the current list of known
-> > > regressions introduced between 2.6.31 and 2.6.32. ?Please verify
-> > > if it still should be listed and let me know (either way).
-> > >
-> > > Bug-Entry ? ? ? : http://bugzilla.kernel.org/show_bug.cgi?id=14657
-> > > Subject ? ? ? ? : perf subsystem breakage in 2.6.32-rc7
-> > > Submitter ? ? ? : Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> > > Date ? ? ? ? ? ?: 2009-11-19 19:50 (67 days old)
-> > > References ? ? ?:
-> > > http://marc.info/?l=linux-kernel&m=125866013419738&w=4
-> > 
-> > Is this bug still valid?
+> could be BIOS have wrong IOH resources and not enable them.
+
+The subtractive decode theory makes sense and would explain what's
+happening, but I don't like this patch.
+
+If we assume that this really is a subtractive decode issue, this
+patch approaches it the wrong way.  We need to know whether a
+particular host bridge is configured for subtractive decode.  This
+patch tests whether we have more than one host bridge, which is quite
+a different question.
+
+Imagine these system configurations:
+
+  1) a single host bridge with subtractive decode
+  2) a single host bridge with only positive decode
+  3) multiple host bridges with subtractive decode enabled on one
+  4) multiple host bridges with only positive decode
+
+This patch will break if we encounter configs 2 or 3.  In config 2,
+this patch assumes the bridge performs subtractive decode, so we
+think the bridge forwards more address space than it actually does.
+If we try to use that address space, the device will never see the
+accesses.  In config 3, this patch assumes there's no subtractive
+decode, so we would see Jeff's problem all over again.
+
+For configs 3 and 4, there might be a single host bridge in domain 0,
+with the others in different domains.  This patch would find only one
+host bridge (the one in domain 0), so we would wrongly assume that ALL
+the host bridges use subtractive decode, which is obviously a disaster.
+
+Bjorn
+
+> ---
+>  arch/x86/pci/intel_bus.c |   86 +++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 86 insertions(+)
 > 
-> Ought to be fixed by:
+> Index: linux-2.6/arch/x86/pci/intel_bus.c
+> ===================================================================
+> --- linux-2.6.orig/arch/x86/pci/intel_bus.c
+> +++ linux-2.6/arch/x86/pci/intel_bus.c
+> @@ -7,9 +7,11 @@
+>  #include <linux/pci.h>
+>  #include <linux/init.h>
+>  #include <asm/pci_x86.h>
+> +#include <asm/pci-direct.h>
+>  
+>  #include "bus_numa.h"
+>  
+> +static int nr_ioh;
+>  static inline void print_ioh_resources(struct pci_root_info *info)
+>  {
+>  	int res_num;
+> @@ -49,6 +51,9 @@ static void __devinit pci_root_bus_res(s
+>  	u64 mmioh_base, mmioh_end;
+>  	int bus_base, bus_end;
+>  
+> +	if (nr_ioh < 2)
+> +		return;
+> +
+>  	/* some sys doesn't get mmconf enabled */
+>  	if (dev->cfg_size < 0x120)
+>  		return;
+> @@ -92,3 +97,84 @@ static void __devinit pci_root_bus_res(s
+>  
+>  /* intel IOH */
+>  DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_INTEL, 0x342e, pci_root_bus_res);
+> +
+> +static void __init count_ioh(int num, int slot, int func)
+> +{
+> +	nr_ioh++;
+> +}
+> +
+> +struct pci_check_probe {
+> +	u32 vendor;
+> +	u32 device;
+> +	void (*f)(int num, int slot, int func);
+> +};
+> +
+> +static struct pci_check_probe early_qrk[] __initdata = {
+> +	{ PCI_VENDOR_ID_INTEL, 0x342e, count_ioh },
+> +	{}
+> +};
+> +
+> +static void __init early_check_pci_dev(int num, int slot, int func)
+> +{
+> +	u16 vendor;
+> +	u16 device;
+> +	int i;
+> +
+> +	vendor = read_pci_config_16(num, slot, func, PCI_VENDOR_ID);
+> +	device = read_pci_config_16(num, slot, func, PCI_DEVICE_ID);
+> +
+> +	for (i = 0; early_qrk[i].f != NULL; i++) {
+> +		if (((early_qrk[i].vendor == PCI_ANY_ID) ||
+> +			(early_qrk[i].vendor == vendor)) &&
+> +			((early_qrk[i].device == PCI_ANY_ID) ||
+> +			(early_qrk[i].device == device)))
+> +				early_qrk[i].f(num, slot, func);
+> +	}
+> +}
+> +
+> +static void __init early_check_pci_devs(void)
+> +{
+> +	unsigned bus, slot, func;
+> +
+> +	if (!early_pci_allowed())
+> +		return;
+> +
+> +	for (bus = 0; bus < 256; bus++) {
+> +		for (slot = 0; slot < 32; slot++) {
+> +			for (func = 0; func < 8; func++) {
+> +				u32 class;
+> +				u8 type;
+> +
+> +				class = read_pci_config(bus, slot, func,
+> +							PCI_CLASS_REVISION);
+> +				if (class == 0xffffffff)
+> +					continue;
+> +
+> +				early_check_pci_dev(bus, slot, func);
+> +
+> +				if (func == 0) {
+> +					type = read_pci_config_byte(bus, slot,
+> +								    func,
+> +							       PCI_HEADER_TYPE);
+> +					if (!(type & 0x80))
+> +						break;
+> +				}
+> +			}
+> +		}
+> +	}
+> +}
+> +
+> +static int __init intel_postcore_init(void)
+> +{
+> +	if (boot_cpu_data.x86_vendor != X86_VENDOR_INTEL)
+> +		return 0;
+> +
+> +	early_check_pci_devs();
+> +
+> +	if (nr_ioh)
+> +		printk(KERN_DEBUG "pci: found %d IOH\n", nr_ioh);
+> +
+> +	return 0;
+> +}
+> +postcore_initcall(intel_postcore_init);
+> +
 > 
->  8f06d7e: perf timechart: Use tid not pid for COMM change
 
-
-nope independent from this bug.
-
-this bug is about powertop not getting all events it expects
-
-
--- 
-Arjan van de Ven 	Intel Open Source Technology Centre
-For development, discussion and tips for power savings, 
-visit http://www.lesswatts.org
