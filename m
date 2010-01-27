@@ -1,21 +1,22 @@
-From: Jesse Barnes <jbarnes@virtuousgeek.org>
-Subject: Re: [Bug #15043] Display goes off with i915.powersave=1
-Date: Wed, 27 Jan 2010 09:57:34 -0800
-Message-ID: <20100127095734.6c1afc10@jbarnes-piketon>
+From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Subject: Re: [Bug #15129] [drm:i915_gem_execbuffer] *ERROR*
+ i915_gem_do_execbuffer returns -512
+Date: Wed, 27 Jan 2010 09:58:32 -0800
+Message-ID: <20100127095832.2d8c42b5@jbarnes-piketon>
 References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
-	<hE3x9c-4KZM.A.XwF.VKMXLB@chimera>
+	<hE3x9c-4KZM.A.WQF.-JMXLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755900Ab0A0R5w@vger.kernel.org>
-In-Reply-To: <hE3x9c-4KZM.A.XwF.VKMXLB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <hE3x9c-4KZM.A.WQF.-JMXLB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Soeren Sonnenburg <sonne@debian.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>, Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Sun, 24 Jan 2010 23:04:37 +0100 (CET)
-"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+On Sun, 24 Jan 2010 23:04:39 +0100 (CET)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
 > This message has been generated automatically as a part of a report
 > of recent regressions.
@@ -25,14 +26,17 @@ On Sun, 24 Jan 2010 23:04:37 +0100 (CET)
 > (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15043
-> Subject		: Display goes off with i915.powersave=1
-> Submitter	: Soeren Sonnenburg <sonne@debian.org>
-> Date		: 2010-01-10 20:09 (15 days old)
-> References	: http://marc.info/?l=linux-kernel&m=126315457519505&w=4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15129
+> Subject		: [drm:i915_gem_execbuffer] *ERROR* i915_gem_do_execbuffer returns -512
+> Submitter	: Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-01-14 23:18 (11 days old)
+> References	: http://lkml.org/lkml/2010/1/14/570
+> Handled-By	: Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
+> 
 
-If this isn't fixed yet, I hope David's patch fixes it.  See "[Bug
-#14897] i915: Commit 0e442c60 causes flickering".
+I think this message has been rightly killed.  Getting -ERESTARTSYS from
+this function is perfectly normal, so we shouldn't bother printing a
+message about it.
 
 -- 
 Jesse Barnes, Intel Open Source Technology Center
