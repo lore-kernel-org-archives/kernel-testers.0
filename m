@@ -1,42 +1,41 @@
-From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Subject: Re: [Bug #15129] [drm:i915_gem_execbuffer] *ERROR*
- i915_gem_do_execbuffer returns -512
-Date: Wed, 27 Jan 2010 09:58:32 -0800
-Message-ID: <20100127095832.2d8c42b5@jbarnes-piketon>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
-	<hE3x9c-4KZM.A.WQF.-JMXLB@chimera>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
+Subject: Re: [Bug #14670] i915: playing video via XVideo extension makes the
+ screen flicker
+Date: Wed, 27 Jan 2010 09:59:40 -0800
+Message-ID: <20100127095940.07e205ba@jbarnes-piketon>
+References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
+	<q60Z28d_9yH.A.fTB.-aMXLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <hE3x9c-4KZM.A.WQF.-JMXLB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755924Ab0A0R77@vger.kernel.org>
+In-Reply-To: <q60Z28d_9yH.A.fTB.-aMXLB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>, Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Eric Anholt <eric@anholt.net>, Thomas Meyer <thomas@m3y3r.de>
 
-On Sun, 24 Jan 2010 23:04:39 +0100 (CET)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Sun, 24 Jan 2010 23:22:54 +0100 (CET)
+"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
 
 > This message has been generated automatically as a part of a report
-> of recent regressions.
+> of regressions introduced between 2.6.31 and 2.6.32.
 > 
 > The following bug entry is on the current list of known regressions
-> from 2.6.32.  Please verify if it still should be listed and let me know
-> (either way).
+> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> be listed and let me know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15129
-> Subject		: [drm:i915_gem_execbuffer] *ERROR* i915_gem_do_execbuffer returns -512
-> Submitter	: Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2010-01-14 23:18 (11 days old)
-> References	: http://lkml.org/lkml/2010/1/14/570
-> Handled-By	: Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14670
+> Subject		: i915: playing video via XVideo extension makes the screen flicker
+> Submitter	: Thomas Meyer <thomas@m3y3r.de>
+> Date		: 2009-11-23 13:15 (63 days old)
+> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b42d4c5c6a872815d711e5d51a600f5122c38eee
+> References	: http://lkml.org/lkml/2010/1/11/150
 > 
 
-I think this message has been rightly killed.  Getting -ERESTARTSYS from
-this function is perfectly normal, so we shouldn't bother printing a
-message about it.
+this one may also be fixed by David's patch if -rc5 doesn't already fix
+it.
 
 -- 
 Jesse Barnes, Intel Open Source Technology Center
