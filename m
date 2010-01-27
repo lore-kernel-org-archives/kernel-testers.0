@@ -1,48 +1,52 @@
-From: Bjorn Helgaas <bjorn.helgaas@hp.com>
-Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with pci=use_crs)
-Date: Wed, 27 Jan 2010 14:03:40 -0700
-Message-ID: <201001271403.41955.bjorn.helgaas@hp.com>
-References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera> <201001271345.54454.bjorn.helgaas@hp.com> <alpine.LFD.2.00.1001271247450.3570@localhost.localdomain>
+From: Thomas Meyer <thomas@m3y3r.de>
+Subject: Re: [Bug #14670] i915: playing video via XVideo extension makes
+ the screen flicker
+Date: Wed, 27 Jan 2010 23:12:16 +0100
+Message-ID: <1264630336.3326.3.camel@localhost.localdomain>
+References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera>
+	 <q60Z28d_9yH.A.fTB.-aMXLB@chimera>
+	 <20100127095940.07e205ba@jbarnes-piketon>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755957Ab0A0VDt@vger.kernel.org>
-In-Reply-To: <alpine.LFD.2.00.1001271247450.3570@localhost.localdomain>
-Content-Disposition: inline
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756193Ab0A0WNP@vger.kernel.org>
+In-Reply-To: <20100127095940.07e205ba@jbarnes-piketon>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Jesse Barnes <jbarnes@virtuousgeek.org>, Yinghai Lu <yinghai@kernel.org>, Jeff Garrett <jeff@jgarrett.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Myron Stowe <myron.stowe@hp.com>, Matthew Garrett <mjg59@srcf.ucam.org>, Ingo Molnar <mingo@elte.hu>
+To: Jesse Barnes <jbarnes@virtuousgeek.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Eric Anholt <eric@anholt.net>
 
-On Wednesday 27 January 2010 01:50:12 pm Linus Torvalds wrote:
+Am Mittwoch, den 27.01.2010, 09:59 -0800 schrieb Jesse Barnes:
+> On Sun, 24 Jan 2010 23:22:54 +0100 (CET)
+> "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
 > 
-> On Wed, 27 Jan 2010, Bjorn Helgaas wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
 > > 
-> > Without intel_bus.c, we essentially assume config 1 all the time.
-> > If we keep intel_bus.c and this patch for .33, things should work
-> > for configs 1 and 4.  Adding support for config 4 is good.
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14670
+> > Subject		: i915: playing video via XVideo extension makes the screen flicker
+> > Submitter	: Thomas Meyer <thomas@m3y3r.de>
+> > Date		: 2009-11-23 13:15 (63 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b42d4c5c6a872815d711e5d51a600f5122c38eee
+> > References	: http://lkml.org/lkml/2010/1/11/150
+> > 
 > 
-> Quite frankly, is there any major downside to just disabling/removing 
-> intel_bus.c for 2.6.33? If we're not planning on having it in the long run 
-> anyway - or even if we are, but we can't be really happy about the state 
-> of it as it would be in 2.6.33, not using it at all seems to be the 
-> smaller headache.
-> 
-> The machines that it helps are also the machines where you can fix things 
-> up with 'use_csr', no? And they are pretty rare, and they didn't use to 
-> work without that use_csr in 2.6.32 either, so it's not even a regression.
-> 
-> Am I missing something?
+> this one may also be fixed by David's patch if -rc5 doesn't already fix
+> it.
 
-Only that when we added intel_bus.c, Yinghai reported that the reason
-was because a machine had a broken _CRS, so "pci=use_crs" wouldn't help.
+Still see this error with -rc5. But I guess this is very likely an
+ACPI/BIOS error. I have an Acer 1810T (1410T in US of A) with BIOS
+version 3302. Can someone with the same hardware but different (i.e.
+newer BIOS version - version 3303) confirm this bug?
 
-At the time, Windows hadn't been brought up on that box.  My
-speculation is that by now, they've done that bringup and probably
-fixed the _CRS issue, so it might work now.
+When the flickering occurs, switching VTs back and forth makes the
+problem go away!
 
-If that's the case, we could drop intel_bus.c from .33 and just use
-"pci=use_crs" on those boxes until we can figure out how to turn it
-on automatically.
+greets
+thomas
 
-Bjorn
