@@ -1,70 +1,76 @@
-From: Bjorn Helgaas <bjorn.helgaas@hp.com>
-Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with
-	pci=use_crs)
-Date: Wed, 27 Jan 2010 21:26:02 -0700
-Message-ID: <1264652762.24020.5.camel@dc7800.home>
+From: Soeren Sonnenburg <sonne-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: Re: [Bug #15043] Display goes off with i915.powersave=1
+Date: Thu, 28 Jan 2010 06:05:00 +0100
+Message-ID: <1264655100.9187.233.camel@no>
 References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
-	 <201001271345.54454.bjorn.helgaas@hp.com>
-	 <alpine.LFD.2.00.1001271247450.3570@localhost.localdomain>
-	 <201001271403.41955.bjorn.helgaas@hp.com>  <4B60CD99.7020305@kernel.org>
+	 <hE3x9c-4KZM.A.XwF.VKMXLB@chimera>
+	 <20100127095734.6c1afc10@jbarnes-piketon>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-pci-owner@vger.kernel.org>
-In-Reply-To: <4B60CD99.7020305@kernel.org>
-Sender: linux-pci-owner@vger.kernel.org
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-06Z3WBMibBtWAC/P+IAh"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20100127095734.6c1afc10@jbarnes-piketon>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Yinghai Lu <yinghai@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Jesse Barnes <jbarnes@virtuousgeek.org>, Jeff Garrett <jeff@jgarrett.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Myron Stowe <myron.stowe@hp.com>, Matthew Garrett <mjg59@srcf.ucam.org>, Ingo Molnar <mingo@elte.hu>
+To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Wed, 2010-01-27 at 15:34 -0800, Yinghai Lu wrote:
-> On 01/27/2010 01:03 PM, Bjorn Helgaas wrote:
-> > On Wednesday 27 January 2010 01:50:12 pm Linus Torvalds wrote:
-> >>
-> >> On Wed, 27 Jan 2010, Bjorn Helgaas wrote:
-> >>>
-> >>> Without intel_bus.c, we essentially assume config 1 all the time.
-> >>> If we keep intel_bus.c and this patch for .33, things should work
-> >>> for configs 1 and 4.  Adding support for config 4 is good.
-> >>
-> >> Quite frankly, is there any major downside to just disabling/removing 
-> >> intel_bus.c for 2.6.33? If we're not planning on having it in the long run 
-> >> anyway - or even if we are, but we can't be really happy about the state 
-> >> of it as it would be in 2.6.33, not using it at all seems to be the 
-> >> smaller headache.
-> >>
-> >> The machines that it helps are also the machines where you can fix things 
-> >> up with 'use_csr', no? And they are pretty rare, and they didn't use to 
-> >> work without that use_csr in 2.6.32 either, so it's not even a regression.
-> >>
-> >> Am I missing something?
-> > 
-> > Only that when we added intel_bus.c, Yinghai reported that the reason
-> > was because a machine had a broken _CRS, so "pci=use_crs" wouldn't help.
-> > 
-> > At the time, Windows hadn't been brought up on that box.  My
-> > speculation is that by now, they've done that bringup and probably
-> > fixed the _CRS issue, so it might work now.
-> > 
-> > If that's the case, we could drop intel_bus.c from .33 and just use
-> > "pci=use_crs" on those boxes until we can figure out how to turn it
-> > on automatically.
-> 
-> BIOS fixed that problem already. but
-> 1. how to turn that pci=use_crs for that box automatically ?
-> how about our other kind of boxes?
 
-Yes, we need a way to turn on "pci=use_crs" automatically.  My first
-thought is to turn it on for all BIOSes with dates of 2010 or later, and
-in addition, have a whitelist of the pre-2010 machines that require it.
+--=-06Z3WBMibBtWAC/P+IAh
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
 
-> 2. how about when apci is disabled?
+On Wed, 2010-01-27 at 09:57 -0800, Jesse Barnes wrote:
+> On Sun, 24 Jan 2010 23:04:37 +0100 (CET)
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+>=20
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> >=20
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.32.  Please verify if it still should be listed and let me kno=
+w
+> > (either way).
+> >=20
+> >=20
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15043
+> > Subject		: Display goes off with i915.powersave=3D1
+> > Submitter	: Soeren Sonnenburg <sonne-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+> > Date		: 2010-01-10 20:09 (15 days old)
+> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D126315457519505&w=
+=3D4
+>=20
+> If this isn't fixed yet, I hope David's patch fixes it.  See "[Bug
+> #14897] i915: Commit 0e442c60 causes flickering".
 
-When ACPI is disabled, I think we just have to accept that we lose some
-functionality.  I don't see the need for alternate ways to accomplish
-everything that ACPI does.  It's becoming less and less useful to
-disable ACPI; I think it's only interesting as a debugging tool, and
-even then it's a sledgehammer.
+that sounds indeed like it, because sometimes I observe a flickering
+before darkness :) I will give the new kernel a try though I don't have
+time to do it in the next few days :/
 
-Bjorn
+Soeren
+--=20
+For the one fact about the future of which we can be certain is that it
+will be utterly fantastic. -- Arthur C. Clarke, 1962
 
+--=-06Z3WBMibBtWAC/P+IAh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.10 (GNU/Linux)
+
+iQIcBAABAgAGBQJLYRr8AAoJEH82z1Wqh6p3+zEP/jmn4z9yicFNqF68ijTZ2/4N
+cHLMRowtis92SccP6P7aMya75ACWuON0h2ViskhnbEE5HTDoADbNyOjQ6+0gB2bk
+jYC1/hS71R5fNmlZSJL58y8TsPAb3Pe09h8+S3zcA+/SEipUfnKva23gYNumZcr+
+RINFyqBUu4W64aGU4HLOt6iKrMeGrN62jst6G0lADNH0SgsF6TvSJ3UQCI70qono
+zLkMqnPXWyTQmnwoZobdWMiMXs8zLJcNEE6dodNBy9uUD+vFrgK9kNMYk//V5hdp
+UZjuUnAZ+NcgOJqx4c69PZBcBRhq++i+IQ5q/V2B4kaggXP4bjEkFyu45APO1HKF
+PyZrH8j9znrCWfR5zNTGC5TICZduiwN929wyjcq1wcAATFNJ26Kq2NHiB4GKAGcW
+oCLEKRzGQ0DJv0oKxiEKsPy7EgUzkB1HqYszCtZweamaYJrbvPjYjABYkEpc9QF9
+/VgHLjqRQSR5erWEVJdJeTV3Zowlse+DNx8oK1GPqtBfMXX6MFV18X/caO83eOSl
+6KK2m0mh1gGyT9fTo5igMx0/guGKuzZuE5byK9uRvVEhn+/7vIAs5Y6QmT8MmhTb
+KEgv7PByDbh55bpU/jJgn6ZdTXLp9RuK7ZAWW5OPAInjMLMSenTlVxur6sCVn8Tv
+MsjwEDyHLRUMmVVQ7Vhz
+=KKsd
+-----END PGP SIGNATURE-----
+
+--=-06Z3WBMibBtWAC/P+IAh--
