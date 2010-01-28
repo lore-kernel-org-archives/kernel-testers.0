@@ -1,171 +1,70 @@
-From: jeff@jgarrett.org (Jeff Garrett)
+From: Bjorn Helgaas <bjorn.helgaas@hp.com>
 Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with
- pci=use_crs)
-Date: Wed, 27 Jan 2010 22:02:26 -0600
-Message-ID: <20100128040226.GB8964@jgarrett.org>
+	pci=use_crs)
+Date: Wed, 27 Jan 2010 21:26:02 -0700
+Message-ID: <1264652762.24020.5.camel@dc7800.home>
 References: <md-TZL3UUvL.A.FiE.xJMXLB@chimera>
- <201001261348.59508.rjw@sisk.pl>
- <201001261032.37053.bjorn.helgaas@hp.com>
- <201001261902.13911.rjw@sisk.pl>
- <20100126101752.78196900@jbarnes-piketon>
- <4B5F735B.2040308@kernel.org>
- <alpine.LFD.2.00.1001271748300.3570@localhost.localdomain>
- <20100127192409.79af96db@jbarnes-piketon>
+	 <201001271345.54454.bjorn.helgaas@hp.com>
+	 <alpine.LFD.2.00.1001271247450.3570@localhost.localdomain>
+	 <201001271403.41955.bjorn.helgaas@hp.com>  <4B60CD99.7020305@kernel.org>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-pci-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <20100127192409.79af96db@jbarnes-piketon>
+In-Reply-To: <4B60CD99.7020305@kernel.org>
 Sender: linux-pci-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jesse Barnes <jbarnes@virtuousgeek.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Yinghai Lu <yinghai@kernel.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Bjorn Helgaas <bjorn.helgaas@hp.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Myron Stowe <myron.stowe@hp.com>, Matthew Garrett <mjg59@srcf.ucam.org>, Ingo Molnar <mingo@elte.hu>
+To: Yinghai Lu <yinghai@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Jesse Barnes <jbarnes@virtuousgeek.org>, Jeff Garrett <jeff@jgarrett.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PCI <linux-pci@vger.kernel.org>, Myron Stowe <myron.stowe@hp.com>, Matthew Garrett <mjg59@srcf.ucam.org>, Ingo Molnar <mingo@elte.hu>
 
-On Wed, Jan 27, 2010 at 07:24:09PM -0800, Jesse Barnes wrote:
-> On Wed, 27 Jan 2010 17:50:17 -0800 (PST)
-> Linus Torvalds <torvalds@linux-foundation.org> wrote:
-> > On Tue, 26 Jan 2010, Yinghai Lu wrote:
-> > > 
-> > > [PATCH] x86/pci: don't use ioh resource if only have one ioh
+On Wed, 2010-01-27 at 15:34 -0800, Yinghai Lu wrote:
+> On 01/27/2010 01:03 PM, Bjorn Helgaas wrote:
+> > On Wednesday 27 January 2010 01:50:12 pm Linus Torvalds wrote:
+> >>
+> >> On Wed, 27 Jan 2010, Bjorn Helgaas wrote:
+> >>>
+> >>> Without intel_bus.c, we essentially assume config 1 all the time.
+> >>> If we keep intel_bus.c and this patch for .33, things should work
+> >>> for configs 1 and 4.  Adding support for config 4 is good.
+> >>
+> >> Quite frankly, is there any major downside to just disabling/removing 
+> >> intel_bus.c for 2.6.33? If we're not planning on having it in the long run 
+> >> anyway - or even if we are, but we can't be really happy about the state 
+> >> of it as it would be in 2.6.33, not using it at all seems to be the 
+> >> smaller headache.
+> >>
+> >> The machines that it helps are also the machines where you can fix things 
+> >> up with 'use_csr', no? And they are pretty rare, and they didn't use to 
+> >> work without that use_csr in 2.6.32 either, so it's not even a regression.
+> >>
+> >> Am I missing something?
 > > 
-> > Please, no.
+> > Only that when we added intel_bus.c, Yinghai reported that the reason
+> > was because a machine had a broken _CRS, so "pci=use_crs" wouldn't help.
 > > 
-> > This patch is too ugly to live.
+> > At the time, Windows hadn't been brought up on that box.  My
+> > speculation is that by now, they've done that bringup and probably
+> > fixed the _CRS issue, so it might work now.
 > > 
-> > And it's totally unacceptable to probe every single possible PCI device 
-> > for something like this.
-> > 
-> > If we don't know enough about the hardware workings of those Intel bridges 
-> > to know when they are active and how they decode things, then please let's 
-> > just disable intel_bus.c entirely.
-> > 
-> > There's no excuse for hacky tests like this.
+> > If that's the case, we could drop intel_bus.c from .33 and just use
+> > "pci=use_crs" on those boxes until we can figure out how to turn it
+> > on automatically.
 > 
-> Ok, we'll just kill it entirely then.  I'll send a patch tomorrow
-> unless Yinghai beats me to it.
+> BIOS fixed that problem already. but
+> 1. how to turn that pci=use_crs for that box automatically ?
+> how about our other kind of boxes?
 
-What about something like this (works for me, without pci=use_crs)?
+Yes, we need a way to turn on "pci=use_crs" automatically.  My first
+thought is to turn it on for all BIOSes with dates of 2010 or later, and
+in addition, have a whitelist of the pre-2010 machines that require it.
 
----
-    Remove intel_bus.c Intel-specific PCI/IOH logic
-    
-    Signed-off-by: Jeff Garrett <jeff@jgarrett.org>
----
- arch/x86/pci/Makefile    |    2 +-
- arch/x86/pci/intel_bus.c |   94 ----------------------------------------------
- 2 files changed, 1 insertions(+), 95 deletions(-)
+> 2. how about when apci is disabled?
 
-diff --git a/arch/x86/pci/Makefile b/arch/x86/pci/Makefile
-index 564b008..39fba37 100644
---- a/arch/x86/pci/Makefile
-+++ b/arch/x86/pci/Makefile
-@@ -15,7 +15,7 @@ obj-$(CONFIG_X86_NUMAQ)		+= numaq_32.o
- 
- obj-y				+= common.o early.o
- obj-y				+= amd_bus.o
--obj-$(CONFIG_X86_64)		+= bus_numa.o intel_bus.o
-+obj-$(CONFIG_X86_64)		+= bus_numa.o
- 
- ifeq ($(CONFIG_PCI_DEBUG),y)
- EXTRA_CFLAGS += -DDEBUG
-diff --git a/arch/x86/pci/intel_bus.c b/arch/x86/pci/intel_bus.c
-deleted file mode 100644
-index f81a2fa..0000000
---- a/arch/x86/pci/intel_bus.c
-+++ /dev/null
-@@ -1,94 +0,0 @@
--/*
-- * to read io range from IOH pci conf, need to do it after mmconfig is there
-- */
--
--#include <linux/delay.h>
--#include <linux/dmi.h>
--#include <linux/pci.h>
--#include <linux/init.h>
--#include <asm/pci_x86.h>
--
--#include "bus_numa.h"
--
--static inline void print_ioh_resources(struct pci_root_info *info)
--{
--	int res_num;
--	int busnum;
--	int i;
--
--	printk(KERN_DEBUG "IOH bus: [%02x, %02x]\n",
--			info->bus_min, info->bus_max);
--	res_num = info->res_num;
--	busnum = info->bus_min;
--	for (i = 0; i < res_num; i++) {
--		struct resource *res;
--
--		res = &info->res[i];
--		printk(KERN_DEBUG "IOH bus: %02x index %x %s: [%llx, %llx]\n",
--			busnum, i,
--			(res->flags & IORESOURCE_IO) ? "io port" :
--							"mmio",
--			res->start, res->end);
--	}
--}
--
--#define IOH_LIO			0x108
--#define IOH_LMMIOL		0x10c
--#define IOH_LMMIOH		0x110
--#define IOH_LMMIOH_BASEU	0x114
--#define IOH_LMMIOH_LIMITU	0x118
--#define IOH_LCFGBUS		0x11c
--
--static void __devinit pci_root_bus_res(struct pci_dev *dev)
--{
--	u16 word;
--	u32 dword;
--	struct pci_root_info *info;
--	u16 io_base, io_end;
--	u32 mmiol_base, mmiol_end;
--	u64 mmioh_base, mmioh_end;
--	int bus_base, bus_end;
--
--	/* some sys doesn't get mmconf enabled */
--	if (dev->cfg_size < 0x120)
--		return;
--
--	if (pci_root_num >= PCI_ROOT_NR) {
--		printk(KERN_DEBUG "intel_bus.c: PCI_ROOT_NR is too small\n");
--		return;
--	}
--
--	info = &pci_root_info[pci_root_num];
--	pci_root_num++;
--
--	pci_read_config_word(dev, IOH_LCFGBUS, &word);
--	bus_base = (word & 0xff);
--	bus_end = (word & 0xff00) >> 8;
--	sprintf(info->name, "PCI Bus #%02x", bus_base);
--	info->bus_min = bus_base;
--	info->bus_max = bus_end;
--
--	pci_read_config_word(dev, IOH_LIO, &word);
--	io_base = (word & 0xf0) << (12 - 4);
--	io_end = (word & 0xf000) | 0xfff;
--	update_res(info, io_base, io_end, IORESOURCE_IO, 0);
--
--	pci_read_config_dword(dev, IOH_LMMIOL, &dword);
--	mmiol_base = (dword & 0xff00) << (24 - 8);
--	mmiol_end = (dword & 0xff000000) | 0xffffff;
--	update_res(info, mmiol_base, mmiol_end, IORESOURCE_MEM, 0);
--
--	pci_read_config_dword(dev, IOH_LMMIOH, &dword);
--	mmioh_base = ((u64)(dword & 0xfc00)) << (26 - 10);
--	mmioh_end = ((u64)(dword & 0xfc000000) | 0x3ffffff);
--	pci_read_config_dword(dev, IOH_LMMIOH_BASEU, &dword);
--	mmioh_base |= ((u64)(dword & 0x7ffff)) << 32;
--	pci_read_config_dword(dev, IOH_LMMIOH_LIMITU, &dword);
--	mmioh_end |= ((u64)(dword & 0x7ffff)) << 32;
--	update_res(info, mmioh_base, mmioh_end, IORESOURCE_MEM, 0);
--
--	print_ioh_resources(info);
--}
--
--/* intel IOH */
--DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_INTEL, 0x342e, pci_root_bus_res);
+When ACPI is disabled, I think we just have to accept that we lose some
+functionality.  I don't see the need for alternate ways to accomplish
+everything that ACPI does.  It's becoming less and less useful to
+disable ACPI; I think it's only interesting as a debugging tool, and
+even then it's a sledgehammer.
+
+Bjorn
+
