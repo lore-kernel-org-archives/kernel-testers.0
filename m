@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15197] padlock_sha1 and hmac broken?
-Date: Mon,  1 Feb 2010 01:43:22 +0100 (CET)
-Message-ID: <de962C6zBxL.A.OsD.6EiZLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15096] Resume lock up -- bisected, commit 3a1151e3f124fd1a2c54b8153f510f1a7c715369
+Date: Mon,  1 Feb 2010 01:43:20 +0100 (CET)
+Message-ID: <de962C6zBxL.A.qbE.NFiZLB@chimera>
 References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>, Wolfgang Walter <wolfgang.walter-617JrYRs16E@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Len Brown <len.brown@intel.com>, =?utf-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>, Stefan Bader <stefan.bader@canonical.com>, Zhang Rui <rui.zhang@intel.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,11 +22,11 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15197
-Subject		: padlock_sha1 and hmac broken?
-Submitter	: Wolfgang Walter <wolfgang.walter-617JrYRs16E@public.gmane.org>
-Date		: 2010-01-29 23:44 (3 days old)
-References	: http://marc.info/?l=linux-kernel&m=126480912924283&w=4
-Handled-By	: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
-Patch		: http://patchwork.kernel.org/patch/75959/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15096
+Subject		: Resume lock up -- bisected, commit 3a1151e3f124fd1a2c54b8153=
+f510f1a7c715369
+Submitter	: Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com>
+Date		: 2010-01-20 23:15 (12 days old)
+=46irst-Bad-Commit: http://git.kernel.org/?p=3Dlinux/kernel/git/torvald=
+s/linux-2.6.git;a=3Dcommit;h=3D3a1151e3f124fd1a2c54b8153f510f1a7c715369
 
