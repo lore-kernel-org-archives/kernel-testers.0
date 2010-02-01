@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15134] gobi_loader hangs after commit 8e8dce065088
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15135] Kernel 2.6.32.x hangs during boot process
 Date: Mon,  1 Feb 2010 01:43:22 +0100 (CET)
-Message-ID: <de962C6zBxL.A.REE.EFiZLB@chimera>
+Message-ID: <de962C6zBxL.A.V8D.CFiZLB@chimera>
 References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>, Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>
+Content-Type: text/plain; charset="macroman"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, =?utf-8?q?Fran=C3=A7ois=20Figarola?= <francois.figarola@i-consult.fr>, Jun'ichi Nomura <j-nomura@ce.jp.nec.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,12 +22,12 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15134
-Subject		: gobi_loader hangs after commit 8e8dce065088
-Submitter	: Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
-Date		: 2010-01-17 2:55 (15 days old)
-References	: http://marc.info/?l=linux-kernel&m=126369696509502&w=4
-Handled-By	: Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>
-		  Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
-Patch		: http://patchwork.kernel.org/patch/73878/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15135
+Subject		: Kernel 2.6.32.x hangs during boot process
+Submitter	: Fran=C3=A7ois Figarola <francois.figarola@i-consult.fr>
+Date		: 2010-01-16 9:58 (16 days old)
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126363593817261&w=3D=
+4
+Handled-By	: Jun'ichi Nomura <j-nomura@ce.jp.nec.com>
+Patch		: http://patchwork.kernel.org/patch/75560/
 
