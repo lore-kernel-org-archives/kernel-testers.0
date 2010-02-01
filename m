@@ -1,28 +1,40 @@
-From: Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>
-Subject: Re: [Bug #15196] kmem_cache_create: duplicate cache ccid2_h
-Date: Mon, 1 Feb 2010 16:06:05 +0100
-Message-ID: <20100201150605.GA6175@fancy-poultry.org>
-References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera>
- <d3IDKWHT5gE.A.8sB.Q7hZLB@chimera>
- <7b6bb4a51001311930i7d72f60dj3b15ca3e1a715607@mail.gmail.com>
+From: Thomas Backlund <tmb@mandriva.org>
+Subject: Re: [Bug #14482] kernel BUG at fs/dcache.c:670 +lvm +md +ext3
+Date: Mon, 01 Feb 2010 17:47:42 +0200
+Message-ID: <4B66F79E.1040606@mandriva.org>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.85G.9HiZLB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <7b6bb4a51001311930i7d72f60dj3b15ca3e1a715607-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Xiaotian Feng <xtfeng-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <de962C6zBxL.A.85G.9HiZLB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Alexander Clouter <alex@digriz.org.uk>
 
-On 01.02.2010, Xiaotian Feng wrote: 
+01.02.2010 02:43, Rafael J. Wysocki skrev:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.31 and 2.6.32.
+>
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> be listed and let me know (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14482
+> Subject		: kernel BUG at fs/dcache.c:670 +lvm +md +ext3
+> Submitter	: Alexander Clouter<alex@digriz.org.uk>
+> Date		: 2009-10-23 10:30 (101 days old)
+> References	: http://lkml.org/lkml/2009/10/23/50
+>
+>
 
-> Does following patch resolve this bug, Heinz?
-[....]
+Afaik this is the same issue as the one referenced here:
 
-The patch was completely malformed, don't know what happened on the way,
-but I applied it by hand. Yes, it fixes the problem for me.
+http://lkml.org/lkml/2010/1/28/292
 
-Thanks,
-Heinz.
+The patch in the above thread should fix the issue.
+
+--
+Thomas
