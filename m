@@ -1,68 +1,50 @@
-From: Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
-Subject: Re: [Bug #15127] Bluetooth: sleeping function called from invalid
- context
-Date: Sun, 31 Jan 2010 17:06:46 -0800
-Message-ID: <1264986406.31341.5.camel@localhost.localdomain>
+From: Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #14922] 2.6.32 seemed to have broken nVidia MCP7A sata 
+	controller
+Date: Sun, 31 Jan 2010 19:13:00 -0600
+Message-ID: <51f3faa71001311713sf4dbd45w240003a77de24f68@mail.gmail.com>
 References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
-	 <de962C6zBxL.A.lME.FFiZLB@chimera>
+	 <de962C6zBxL.A.AMF.tFiZLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <de962C6zBxL.A.lME.FFiZLB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=yh6DcvdnuUfVpm5nmAnMgqSuS3stWehwdMxmpcAFVA4=;
+        b=iQ9jQLMhYfHk2qB7kQeD9bjn5ZQoCnrLl4jZmVgYlHI0O2bP0iVRld0T6IvSDYeGsP
+         Phr7ucrA7KfqjBUzqqYIpvOytg9QW/2iSURDTrrMnNUuKx1Sv3RzdrCdWrGdhsnTy6nD
+         tDRKSC8W7JgOuw88ur+AfYvv01cWCgWJV+IUs=
+In-Reply-To: <de962C6zBxL.A.AMF.tFiZLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="iso-8859-1"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>, Luiz Augusto von Dentz <luiz.dentz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Mike Cui <cuicui-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Hi Rafael,
-
+On Sun, Jan 31, 2010 at 6:43 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 > This message has been generated automatically as a part of a report
 > of regressions introduced between 2.6.31 and 2.6.32.
-> 
+>
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> introduced between 2.6.31 and 2.6.32. =A0Please verify if it still sh=
+ould
 > be listed and let me know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15127
-> Subject		: Bluetooth: sleeping function called from invalid context
-> Submitter	: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
-> Date		: 2010-01-12 9:19 (20 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=9e726b17422bade75fba94e625cd35fd1353e682
-> References	: http://marc.info/?l=linux-kernel&m=126328727021949&w=4
+>
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+14922
+> Subject =A0 =A0 =A0 =A0 : 2.6.32 seemed to have broken nVidia MCP7A s=
+ata controller
+> Submitter =A0 =A0 =A0 : Mike Cui <cuicui-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-12-19 6:13 (44 days old)
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-ide&m=3D126120323=
+407742&w=3D4
+> Handled-By =A0 =A0 =A0: Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0Robert Hancock <hancockrwd@gmail.c=
+om>
 
-you have an outdated email from Luiz and I change it to the right one
-now.
-
-I looked with him at the patch and I think this will fix it:
-
-diff --git a/net/bluetooth/rfcomm/core.c b/net/bluetooth/rfcomm/core.c
-index fc5ee32..2b50637 100644
---- a/net/bluetooth/rfcomm/core.c
-+++ b/net/bluetooth/rfcomm/core.c
-@@ -252,7 +252,6 @@ static void rfcomm_session_timeout(unsigned long
-arg)
- 	BT_DBG("session %p state %ld", s, s->state);
- 
- 	set_bit(RFCOMM_TIMED_OUT, &s->flags);
--	rfcomm_session_put(s);
- 	rfcomm_schedule(RFCOMM_SCHED_TIMEO);
- }
- 
-@@ -1920,6 +1919,7 @@ static inline void rfcomm_process_sessions(void)
- 		if (test_and_clear_bit(RFCOMM_TIMED_OUT, &s->flags)) {
- 			s->state = BT_DISCONN;
- 			rfcomm_send_disc(s, 0);
-+			rfcomm_session_put(s);
- 			continue;
- 		}
- 
-We need some extra testing on this with the actual hardware we did the
-patch for. So this will take at least a few days before we get our hands
-on it.
-
-Regards
-
-Marcel
-
+Still outstanding. I posted a patch that should fix the problem,
+waiting for feedback from the reporter.
