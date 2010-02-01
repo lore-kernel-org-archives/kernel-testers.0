@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14898] ksoftirqd problem
-Date: Mon,  1 Feb 2010 01:43:17 +0100 (CET)
-Message-ID: <de962C6zBxL.A.1QF.xFiZLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14670] i915: playing video via XVideo extension makes the screen flicker
+Date: Mon,  1 Feb 2010 01:43:12 +0100 (CET)
+Message-ID: <de962C6zBxL.A.TKG.HHiZLB@chimera>
 References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Nico <segfault2-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Eric Anholt <eric@anholt.net>, Jesse Barnes <jbarnes@virtuousgeek.org>, Thomas Meyer <thomas@m3y3r.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,9 +22,10 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14898
-Subject		: ksoftirqd problem
-Submitter	: Nico <segfault2-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
-Date		: 2009-12-13 19:05 (50 days old)
-References	: http://marc.info/?l=linux-kernel&m=126073114325690&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14670
+Subject		: i915: playing video via XVideo extension makes the screen flicker
+Submitter	: Thomas Meyer <thomas@m3y3r.de>
+Date		: 2009-11-23 13:15 (70 days old)
+First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=b42d4c5c6a872815d711e5d51a600f5122c38eee
+References	: http://lkml.org/lkml/2010/1/11/150
 
