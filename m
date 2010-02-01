@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14621] specjbb2005 and aim7 regression with 2.6.32-rc kernels
-Date: Mon,  1 Feb 2010 01:43:11 +0100 (CET)
-Message-ID: <de962C6zBxL.A.CuG.lHiZLB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14442] resume after hibernate: /dev/sdb drops and returns as /dev/sde
+Date: Mon,  1 Feb 2010 01:43:10 +0100 (CET)
+Message-ID: <de962C6zBxL.A.N-G.LIiZLB@chimera>
 References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Gautham R Shenoy <ego@in.ibm.com>, Ingo Molnar <mingo@elte.hu>, Mike Galbraith <efault@gmx.de>, Peter Zijlstra <peterz@infradead.org>, "Zhang, Yanmin" <yanmin_zhang@linux.intel.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,9 +22,8 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14621
-Subject		: specjbb2005 and aim7 regression with 2.6.32-rc kernels
-Submitter	: Zhang, Yanmin <yanmin_zhang@linux.intel.com>
-Date		: 2009-11-06 7:38 (87 days old)
-References	: http://marc.info/?l=linux-kernel&m=125749310413174&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14442
+Subject		: resume after hibernate: /dev/sdb drops and returns as /dev/sde
+Submitter	: Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>
+Date		: 2009-10-20 01:52 (104 days old)
 
