@@ -1,62 +1,44 @@
-From: "Justin P. Mattock" <justinmattock@gmail.com>
-Subject: Re: [Bug #14487] PANIC: early exception 08 rip 246:10 error ffffffff810251b5
- cr2 0
-Date: Sun, 31 Jan 2010 17:39:22 -0800
-Message-ID: <4B6630CA.9010207@gmail.com>
-References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.H1G.1HiZLB@chimera>
+From: Sid Boyce <sboyce@blueyonder.co.uk>
+Subject: Re: [Bug #15144] HDA Intel Audio hang on boot
+Date: Mon, 01 Feb 2010 02:01:21 +0000
+Message-ID: <4B6635F1.8060909@blueyonder.co.uk>
+References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera> <d3IDKWHT5gE.A.MEC.a7hZLB@chimera>
+Reply-To: sboyce@blueyonder.co.uk
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=+TcNslR1wZDCC8LMaQmMj73hU6hWPz6zLV+CRlFMDD8=;
-        b=ivHWLhdxKNICvLATVlAy8nM3oqLvwZZVOpJghdlM8yKN/qHeiwozfwZ1IkevpeqwxP
-         vehVoGzEwXyDT3jUj50CCkEbfwXEbeU4YKIcVAeadG3kSpIV7zNNHmOUDlSed/e8A3fn
-         ScVQPFUlGwpm0eCjdwXhlJgz9RWkDXmdJzrZk=
-In-Reply-To: <de962C6zBxL.A.H1G.1HiZLB@chimera>
+In-Reply-To: <d3IDKWHT5gE.A.MEC.a7hZLB@chimera>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Takashi Iwai <tiwai@suse.de>
 
-On 01/31/10 16:43, Rafael J. Wysocki wrote:
+On 01/02/10 00:22, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.31 and 2.6.32.
->
+> of recent regressions.
+> 
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
-> be listed and let me know (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14487
-> Subject		: PANIC: early exception 08 rip 246:10 error ffffffff810251b5 cr2 0
-> Submitter	: Justin P. Mattock<justinmattock@gmail.com>
-> Date		: 2009-10-23 16:45 (101 days old)
-> References	: http://lkml.org/lkml/2009/10/23/252
->
->
->
+> from 2.6.32.  Please verify if it still should be listed and let me know
+> (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15144
+> Subject		: HDA Intel Audio hang on boot
+> Submitter	: Sid Boyce <sboyce@blueyonder.co.uk>
+> Date		: 2010-01-15 1:24 (17 days old)
+> References	: http://marc.info/?l=linux-kernel&m=126351866722507&w=4
+> 
+> 
+> 
 
-
-yeah still hitting this.
-looking at the issue if I change:
-
-@@ 260
-
-if ((class == 0xffffffff))
-	continue;
-to
-
-if ((class == 0xffffffff || 0xffffffffffffffff))
-	continue;
-
-I'm able to boot, but don't have enough knowledge to know
-what is really happening(or how to execute this).
-will continue looking at this
-(hopefully I get somewhere on this);
-
-Justin P. Mattock
+Still not fixed in 2.6.33-rc6. Takashi wrote that the fix was scheduled
+for 2.6.33-rc6, but it did not appear. I have gone back to using the
+workaround with 2.6.33-rc6.
+Regards
+Sid.
+-- 
+Sid Boyce ... Hamradio License G3VBV, Licensed Private Pilot
+Emeritus IBM/Amdahl Mainframes and Sun/Fujitsu Servers Tech Support
+Specialist, Cricket Coach
+Microsoft Windows Free Zone - Linux used for all Computing Tasks
