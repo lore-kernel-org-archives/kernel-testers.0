@@ -1,50 +1,62 @@
-From: Robert Hancock <hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14922] 2.6.32 seemed to have broken nVidia MCP7A sata 
-	controller
-Date: Sun, 31 Jan 2010 19:13:00 -0600
-Message-ID: <51f3faa71001311713sf4dbd45w240003a77de24f68@mail.gmail.com>
-References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
-	 <de962C6zBxL.A.AMF.tFiZLB@chimera>
+From: "Justin P. Mattock" <justinmattock@gmail.com>
+Subject: Re: [Bug #14487] PANIC: early exception 08 rip 246:10 error ffffffff810251b5
+ cr2 0
+Date: Sun, 31 Jan 2010 17:39:22 -0800
+Message-ID: <4B6630CA.9010207@gmail.com>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.H1G.1HiZLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=yh6DcvdnuUfVpm5nmAnMgqSuS3stWehwdMxmpcAFVA4=;
-        b=iQ9jQLMhYfHk2qB7kQeD9bjn5ZQoCnrLl4jZmVgYlHI0O2bP0iVRld0T6IvSDYeGsP
-         Phr7ucrA7KfqjBUzqqYIpvOytg9QW/2iSURDTrrMnNUuKx1Sv3RzdrCdWrGdhsnTy6nD
-         tDRKSC8W7JgOuw88ur+AfYvv01cWCgWJV+IUs=
-In-Reply-To: <de962C6zBxL.A.AMF.tFiZLB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=+TcNslR1wZDCC8LMaQmMj73hU6hWPz6zLV+CRlFMDD8=;
+        b=ivHWLhdxKNICvLATVlAy8nM3oqLvwZZVOpJghdlM8yKN/qHeiwozfwZ1IkevpeqwxP
+         vehVoGzEwXyDT3jUj50CCkEbfwXEbeU4YKIcVAeadG3kSpIV7zNNHmOUDlSed/e8A3fn
+         ScVQPFUlGwpm0eCjdwXhlJgz9RWkDXmdJzrZk=
+In-Reply-To: <de962C6zBxL.A.H1G.1HiZLB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>, Mike Cui <cuicui-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Sun, Jan 31, 2010 at 6:43 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On 01/31/10 16:43, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of regressions introduced between 2.6.31 and 2.6.32.
 >
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.31 and 2.6.32. =A0Please verify if it still sh=
-ould
+> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 > be listed and let me know (either way).
 >
 >
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-14922
-> Subject =A0 =A0 =A0 =A0 : 2.6.32 seemed to have broken nVidia MCP7A s=
-ata controller
-> Submitter =A0 =A0 =A0 : Mike Cui <cuicui-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2009-12-19 6:13 (44 days old)
-> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-ide&m=3D126120323=
-407742&w=3D4
-> Handled-By =A0 =A0 =A0: Jeff Garzik <jeff-o2qLIJkoznsdnm+yROfE0A@public.gmane.org>
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0Robert Hancock <hancockrwd@gmail.c=
-om>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14487
+> Subject		: PANIC: early exception 08 rip 246:10 error ffffffff810251b5 cr2 0
+> Submitter	: Justin P. Mattock<justinmattock@gmail.com>
+> Date		: 2009-10-23 16:45 (101 days old)
+> References	: http://lkml.org/lkml/2009/10/23/252
+>
+>
+>
 
-Still outstanding. I posted a patch that should fix the problem,
-waiting for feedback from the reporter.
+
+yeah still hitting this.
+looking at the issue if I change:
+
+@@ 260
+
+if ((class == 0xffffffff))
+	continue;
+to
+
+if ((class == 0xffffffff || 0xffffffffffffffff))
+	continue;
+
+I'm able to boot, but don't have enough knowledge to know
+what is really happening(or how to execute this).
+will continue looking at this
+(hopefully I get somewhere on this);
+
+Justin P. Mattock
