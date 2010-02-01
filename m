@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15108] Blank screen with KMS enabled (on clevo M5xN laptop)
-Date: Mon,  1 Feb 2010 01:43:21 +0100 (CET)
-Message-ID: <de962C6zBxL.A.YOE.IFiZLB@chimera>
+Subject: [Bug #15134] gobi_loader hangs after commit 8e8dce065088
+Date: Mon,  1 Feb 2010 01:43:22 +0100 (CET)
+Message-ID: <de962C6zBxL.A.REE.EFiZLB@chimera>
 References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?utf-8?q?J=C3=A9r=C3=A9my=20Lal?= <kapouer-QATUhw8NPUbYtjvyW6yDsg@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>, Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,8 +22,12 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let me know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15108
-Subject		: Blank screen with KMS enabled (on clevo M5xN laptop)
-Submitter	: J=C3=A9r=C3=A9my Lal <kapouer-QATUhw8NPUbYtjvyW6yDsg@public.gmane.org>
-Date		: 2010-01-22 20:30 (10 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15134
+Subject		: gobi_loader hangs after commit 8e8dce065088
+Submitter	: Matthew Garrett <mjg59-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
+Date		: 2010-01-17 2:55 (15 days old)
+References	: http://marc.info/?l=linux-kernel&m=126369696509502&w=4
+Handled-By	: Oliver Neukum <oliver-GvhC2dPhHPQdnm+yROfE0A@public.gmane.org>
+		  Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+Patch		: http://patchwork.kernel.org/patch/73878/
 
