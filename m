@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14999] possible circular locking dependency detected in rfkill at suspend
-Date: Mon,  1 Feb 2010 01:22:08 +0100 (CET)
-Message-ID: <d3IDKWHT5gE.A.s8C.Y8hZLB@chimera>
+Subject: [Bug #15125] hung task - jbd2/dm-1-8 (during raid rebuild)
+Date: Mon,  1 Feb 2010 01:22:10 +0100 (CET)
+Message-ID: <d3IDKWHT5gE.A.vVC.q7hZLB@chimera>
 References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Breuer <mbreuer-P//MSfjsEjDQT0dZR+AlfA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of recent regressions.
@@ -22,8 +22,9 @@ from 2.6.32.  Please verify if it still should be listed and let me know
 (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14999
-Subject		: possible circular locking dependency detected in rfkill at suspend
-Submitter	: Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
-Date		: 2010-01-06 21:52 (26 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15125
+Subject		: hung task - jbd2/dm-1-8 (during raid rebuild)
+Submitter	: Michael Breuer <mbreuer-P//MSfjsEjDQT0dZR+AlfA@public.gmane.org>
+Date		: 2010-01-10 21:47 (22 days old)
+References	: http://marc.info/?l=linux-kernel&m=126316012025978&w=4
 
