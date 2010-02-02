@@ -1,140 +1,80 @@
-From: Evgeniy Polyakov <zbr-i6C2adt8DTjR7s880joybQ@public.gmane.org>
-Subject: Re: [Bug #14894] pohmelfs: NULL pointer dereference
-Date: Tue, 2 Feb 2010 23:57:43 +0300
-Message-ID: <20100202205743.GA26703@ioremap.net>
-References: <oBElxfTZdhL.A.bx.-vhOLB@chimera> <srmJ8vMxKPH.A.iAC.TwhOLB@chimera> <20091229163512.GA4958@ioremap.net> <200912292237.54182.rjw@sisk.pl> <20091230091433.GU4489@kernel.dk>
+From: Borislav Petkov <petkovbb@googlemail.com>
+Subject: Re: [Bug #14949] drm_vm.c:drm_mmap: possible circular locking
+ dependency detected
+Date: Tue, 2 Feb 2010 21:58:57 +0100
+Message-ID: <20100202205857.GA30024@liondog.tnic>
+References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera>
+ <d3IDKWHT5gE.A.DLD.q8hZLB@chimera>
+ <9ea470501002011001s7734a20ft4dd5d181baf714c3@mail.gmail.com>
+ <201002022146.45078.rjw@sisk.pl>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:cc
+         :subject:message-id:mail-followup-to:references:mime-version
+         :content-type:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=JgKMDxJMPiAZmnMbwlqhunItf74maI0v/O+glGEf8YM=;
+        b=CAz+RHEb1y35M12i/NpHTrvG3tuWuZFT5+I4c06ocIwBzVMr9W1v9EGd0j+Rs9fPAw
+         xjGANycwVI2cjO2j2kSmHr5kGe4XDMllqGga770RTsGrE4V2JoWFtZFHaMQetOZtO7SP
+         Y0OFUahz2siBPqkzPjewRQ2cC9A5Cy55cWv3Y=
 Content-Disposition: inline
-In-Reply-To: <20091230091433.GU4489-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <201002022146.45078.rjw@sisk.pl>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, GregKH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>, "Eric W. Biederman" <ebiederm@aristanetworks.com>, Greg KH <greg@kroah.com>
 
-Hi.
+(Adding Greg to Cc:)
 
-Sorry, it took really long to catch all the things around, but it is
-better than never.
+On Tue, Feb 02, 2010 at 09:46:45PM +0100, Rafael J. Wysocki wrote:
+> On Monday 01 February 2010, Borislav Petkov wrote:
+> > On Mon, Feb 1, 2010 at 1:22 AM, Rafael J. Wysocki <rjw@sisk.pl> wro=
+te:
+> > > This message has been generated automatically as a part of a repo=
+rt
+> > > of recent regressions.
+> > >
+> > > The following bug entry is on the current list of known regressio=
+ns
+> > > from 2.6.32.  Please verify if it still should be listed and let =
+me know
+> > > (either way).
+> > >
+> > >
+> > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D14=
+949
+> > > Subject         : drm_vm.c:drm_mmap: possible circular locking de=
+pendency detected
+> > > Submitter       : Borislav Petkov <petkovbb@googlemail.com>
+> > > Date            : 2009-12-26 9:45 (37 days old)
+> > > References      : http://marc.info/?l=3Dlinux-kernel&m=3D12618207=
+3616279&w=3D4
+> > > Handled-By      : Eric W. Biederman <ebiederm@aristanetworks.com>
+> > > Patch           : http://patchwork.kernel.org/patch/70461/
+> >=20
+> > Yes, this is fixed.
+>=20
+> Do you mean "fixed" as "the fix is in the Linus' tree" or "fixed" as =
+"the
+> patch fixed it for me"?
 
-History says that commit which introduced per-bdi writeback broke
-pohmelfs, since it does not have backing store device and did not fill
-appropriate superblock entry, which lead to crash on umoount.
+Rather the second one, i.e. it fixes it for me. The patch is named
 
-Jens provided a patch below, which I tested to fix the problem.
-There is a problem though, when all writes happend before umount,
-but did net yet written back to storage, get lost. I can not say whether
-this happens because of per-bdi writeback (it should not I think), but
-that's what happens.
+sysfs-cache-the-last-sysfs_dirent-to-improve-readdir-scalability-v2.pat=
+ch
 
-Albeit being a bug, it will not be fixed :)
-The reason is simple, new backing storage for POHMELFS (a distributed
-hash table called elliptics network) is essentially ready and I start
-working on porting POHMELFS to it, which means all its bugs will be
-fixed there^W^Werased and written from scratch.
+and is "stuck" in Greg's tree. Judging by the quilt series=C2=B9, the p=
+atch
+is slated for submission after 2.6.33. This late in the game for .32,
+I'm guessing maybe a stable backport after .33 is out?
 
-Jens, thanks a lot for you patch, Greg please pull it up.
-If you did not find it or can not extract from the reply, I will resend.
+[1] http://www.kernel.org/pub/linux/kernel/people/gregkh/gregkh-2.6/pat=
+ches/series
 
-Thanks everyone!
-
-On Wed, Dec 30, 2009 at 10:14:34AM +0100, Jens Axboe (jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org) wrote:
-> Since pohmelfs isn't tied to a single block device, it needs to setup a
-> backing dev like nfs/btrfs/etc do. Here's a completely untested patch.
-> 
-> diff --git a/drivers/staging/pohmelfs/inode.c b/drivers/staging/pohmelfs/inode.c
-> index f69b778..cd25811 100644
-> --- a/drivers/staging/pohmelfs/inode.c
-> +++ b/drivers/staging/pohmelfs/inode.c
-> @@ -36,6 +36,7 @@
->  #define POHMELFS_MAGIC_NUM	0x504f482e
->  
->  static struct kmem_cache *pohmelfs_inode_cache;
-> +static atomic_t psb_bdi_num = ATOMIC_INIT(0);
->  
->  /*
->   * Removes inode from all trees, drops local name cache and removes all queued
-> @@ -1331,6 +1332,8 @@ static void pohmelfs_put_super(struct super_block *sb)
->  	pohmelfs_crypto_exit(psb);
->  	pohmelfs_state_exit(psb);
->  
-> +	bdi_destroy(&psb->bdi);
-> +
->  	kfree(psb);
->  	sb->s_fs_info = NULL;
->  }
-> @@ -1815,11 +1818,22 @@ static int pohmelfs_fill_super(struct super_block *sb, void *data, int silent)
->  	if (!psb)
->  		goto err_out_exit;
->  
-> +	err = bdi_init(&psb->bdi);
-> +	if (err)
-> +		goto err_out_free_sb;
-> +
-> +	err = bdi_register(&psb->bdi, NULL, "pfs-%d", atomic_inc_return(&psb_bdi_num));
-> +	if (err) {
-> +		bdi_destroy(&psb->bdi);
-> +		goto err_out_free_sb;
-> +	}
-> +
->  	sb->s_fs_info = psb;
->  	sb->s_op = &pohmelfs_sb_ops;
->  	sb->s_magic = POHMELFS_MAGIC_NUM;
->  	sb->s_maxbytes = MAX_LFS_FILESIZE;
->  	sb->s_blocksize = PAGE_SIZE;
-> +	sb->s_bdi = &psb->bdi;
->  
->  	psb->sb = sb;
->  
-> @@ -1863,11 +1877,11 @@ static int pohmelfs_fill_super(struct super_block *sb, void *data, int silent)
->  
->  	err = pohmelfs_parse_options((char *) data, psb, 0);
->  	if (err)
-> -		goto err_out_free_sb;
-> +		goto err_out_free_bdi;
->  
->  	err = pohmelfs_copy_crypto(psb);
->  	if (err)
-> -		goto err_out_free_sb;
-> +		goto err_out_free_bdi;
->  
->  	err = pohmelfs_state_init(psb);
->  	if (err)
-> @@ -1916,6 +1930,8 @@ err_out_state_exit:
->  err_out_free_strings:
->  	kfree(psb->cipher_string);
->  	kfree(psb->hash_string);
-> +err_out_free_bdi:
-> +	bdi_destroy(&psb->bdi);
->  err_out_free_sb:
->  	kfree(psb);
->  err_out_exit:
-> diff --git a/drivers/staging/pohmelfs/netfs.h b/drivers/staging/pohmelfs/netfs.h
-> index 623a07d..01cba00 100644
-> --- a/drivers/staging/pohmelfs/netfs.h
-> +++ b/drivers/staging/pohmelfs/netfs.h
-> @@ -18,6 +18,7 @@
->  
->  #include <linux/types.h>
->  #include <linux/connector.h>
-> +#include <linux/backing-dev.h>
->  
->  #define POHMELFS_CN_IDX			5
->  #define POHMELFS_CN_VAL			0
-> @@ -624,6 +625,8 @@ struct pohmelfs_sb {
->  
->  	struct super_block	*sb;
->  
-> +	struct backing_dev_info	bdi;
-> +
->  	/*
->  	 * Algorithm strings.
->  	 */
-> 
-> -- 
-> Jens Axboe
-
--- 
-	Evgeniy Polyakov
+--=20
+Regards/Gruss,
+    Boris.
