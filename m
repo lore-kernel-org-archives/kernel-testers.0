@@ -1,20 +1,20 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
 Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with pci=use_crs)
-Date: Tue, 2 Feb 2010 22:13:53 +0100
-Message-ID: <201002022213.53446.rjw@sisk.pl>
-References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera> <201002022142.58762.rjw@sisk.pl> <20100202205031.GB13949@jgarrett.org>
+Date: Tue, 2 Feb 2010 22:15:19 +0100
+Message-ID: <201002022215.19129.rjw@sisk.pl>
+References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera> <201002022142.58762.rjw@sisk.pl> <201002021355.25248.bjorn.helgaas@hp.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100202205031.GB13949-184d8XiO+QJg9hUCZPvPmw@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-pci-owner@vger.kernel.org>
+In-Reply-To: <201002021355.25248.bjorn.helgaas@hp.com>
+Sender: linux-pci-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Jeff Garrett <jeff-184d8XiO+QJg9hUCZPvPmw@public.gmane.org>
-Cc: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, Linux PCI <linux-pci-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Bjorn Helgaas <bjorn.helgaas@hp.com>
+Cc: Yinghai Lu <yinghai@kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jeff Garrett <jeff@jgarrett.org>, Linux PCI <linux-pci@vger.kernel.org>
 
-On Tuesday 02 February 2010, Jeff Garrett wrote:
-> On Tue, Feb 02, 2010 at 09:42:58PM +0100, Rafael J. Wysocki wrote:
+On Tuesday 02 February 2010, Bjorn Helgaas wrote:
+> On Tuesday 02 February 2010 01:42:58 pm Rafael J. Wysocki wrote:
 > > On Monday 01 February 2010, Yinghai Lu wrote:
 > > > On 01/31/2010 04:22 PM, Rafael J. Wysocki wrote:
 > > > > This message has been generated automatically as a part of a report
@@ -27,21 +27,22 @@ On Tuesday 02 February 2010, Jeff Garrett wrote:
 > > > > 
 > > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15124
 > > > > Subject		: PCI host bridge windows ignored (works with pci=use_crs)
-> > > > Submitter	: Jeff Garrett <jeff-184d8XiO+QJg9hUCZPvPmw@public.gmane.org>
+> > > > Submitter	: Jeff Garrett <jeff@jgarrett.org>
 > > > > Date		: 2010-01-13 5:37 (19 days old)
 > > > > References	: http://marc.info/?l=linux-kernel&m=126336296600307&w=4
-> > > > Handled-By	: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-> > > > 		  Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+> > > > Handled-By	: Yinghai Lu <yinghai@kernel.org>
+> > > > 		  Bjorn Helgaas <bjorn.helgaas@hp.com>
 > > > > 
 > > > 
 > > > should be closed.
 > > 
 > > Is there a fix in the Linus' tree?
-> > 
-> > Rafael
 > 
-> Yes, it is fixed by commit e8e06eae4ffd683931b928f460c11c40cd3f7fd8
+> Yes.  The regression was caused by the addition of arch/x86/pci/intel_bus.c.
+> 
+> Jeff's patch: http://lkml.org/lkml/2010/1/27/449 is in Linus' tree as
+> commit e8e06eae4ffd68, and Jeff confirmed that it works for him.
 
-Thanks, closing.
+Thanks, closed.
 
 Rafael
