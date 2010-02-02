@@ -1,115 +1,68 @@
-From: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
-Subject: Re: [Bug #15127] Bluetooth: sleeping function called from invalid
- context
-Date: Tue, 02 Feb 2010 11:27:12 +0530
-Message-ID: <4B67BEB8.4060709@xenontk.org>
-References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>	 <de962C6zBxL.A.lME.FFiZLB@chimera>	 <1264986406.31341.5.camel@localhost.localdomain>	 <4B6711E2.6010409@xenontk.org>	 <1265051657.31341.56.camel@localhost.localdomain>	 <4B67B57A.7000709@xenontk.org> <1265089284.31341.63.camel@localhost.localdomain>
-Reply-To: davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org
+From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: ohci1394_dma=early crash since 2.6.32 (was Re: [Bug #14487] PANIC:
+ early exception 08 rip 246:10 error	ffffffff810251b5 cr2 0)
+Date: Mon, 01 Feb 2010 22:23:14 -0800
+Message-ID: <4B67C4D2.5050205@gmail.com>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.H1G.1HiZLB@chimera> <4B6630CA.9010207@gmail.com> <20100201125441.GB2576@bicker> <4B671606.3080405@gmail.com> <4B673233.8000300@s5r6.in-berlin.de> <4B6740B5.5070601@gmail.com> <4B675534.5070107@s5r6.in-berlin.de> <4B676917.2080506@gmail.com> <4B67BC12.4080709@s5r6.in-berlin.de>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1265089284.31341.63.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=cTyxq4IJxESOuJBh5scd9TjyFOvHgy5cm552txMAH9A=;
+        b=w+rhCSd3A0sgy7B1Tflb4Wwq0zoR2t7dBxTZdfRKy7PKfvVbcmWEV8HLZyD/9ocV3P
+         LfXDh049xBJ5k2QNhp1DDpszX4x2GKBOvmtmOujNHYPXM8gcu2b5QMzstyXt2cmpsU88
+         sZQkuUgp5Y8hD8xdfXgnT1p+AZ53a142sjoJk=
+In-Reply-To: <4B67BC12.4080709-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Luiz Augusto von Dentz <luiz.dentz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Stefan Richter <stefanr-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
+Cc: Dan Carpenter <error27-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux1394-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On 02/02/2010 11:11 AM, Marcel Holtmann wrote:
-> Hi David,
-> 
->>>>>> This message has been generated automatically as a part of a report
->>>>>> of regressions introduced between 2.6.31 and 2.6.32.
->>>>>>
->>>>>> The following bug entry is on the current list of known regressions
->>>>>> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
->>>>>> be listed and let me know (either way).
->>>>>>
->>>>>>
->>>>>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15127
->>>>>> Subject		: Bluetooth: sleeping function called from invalid context
->>>>>> Submitter	: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
->>>>>> Date		: 2010-01-12 9:19 (20 days old)
->>>>>> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=9e726b17422bade75fba94e625cd35fd1353e682
->>>>>> References	: http://marc.info/?l=linux-kernel&m=126328727021949&w=4
->>>>>
->>>>> you have an outdated email from Luiz and I change it to the right one
->>>>> now.
->>>>>
->>>>> I looked with him at the patch and I think this will fix it:
->>>>>
->>>>> diff --git a/net/bluetooth/rfcomm/core.c b/net/bluetooth/rfcomm/core.c
->>>>> index fc5ee32..2b50637 100644
->>>>> --- a/net/bluetooth/rfcomm/core.c
->>>>> +++ b/net/bluetooth/rfcomm/core.c
->>>>> @@ -252,7 +252,6 @@ static void rfcomm_session_timeout(unsigned long
->>>>> arg)
->>>>>  	BT_DBG("session %p state %ld", s, s->state);
->>>>>  
->>>>>  	set_bit(RFCOMM_TIMED_OUT, &s->flags);
->>>>> -	rfcomm_session_put(s);
->>>>>  	rfcomm_schedule(RFCOMM_SCHED_TIMEO);
->>>>>  }
->>>>>  
->>>>> @@ -1920,6 +1919,7 @@ static inline void rfcomm_process_sessions(void)
->>>>>  		if (test_and_clear_bit(RFCOMM_TIMED_OUT, &s->flags)) {
->>>>>  			s->state = BT_DISCONN;
->>>>>  			rfcomm_send_disc(s, 0);
->>>>> +			rfcomm_session_put(s);
->>>>>  			continue;
->>>>>  		}
->>>>>  
->>>>> We need some extra testing on this with the actual hardware we did the
->>>>> patch for. So this will take at least a few days before we get our hands
->>>>> on it.
->>>>
->>>> FWIW, your patch fixes the issue.
->>>
->>> nice. So I can add a tested-by line to the final patch?
->>
->> Sure,
->>
->> Tested-by: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
->>
->>>
->>> Just our of curiosity, which hardware did you test this with. 
->>
->> I have an inbuilt (laptop) USB Dell Wireless 365 Bluetooth Module
->> (413c:8160). I can send more info about the device if you want.
-> 
-> I meant which device you are connection to. Is it a headset or another
-> computer.
-> 
->>> We only know about one headset that should cause this issue.
->>
->> That's weird. I assumed it would happen for any device, since
->> rfcomm_session_add is called from multiple places and it adds
->> rfcomm_session_timeout on a timer which will cause the trace
->> if the timer fires.
-> 
-> The timer will only fire for non-behaving remote stacks. With a proper
-> stack following the RFCOMM specification it should never fire.
-> 
-> Regards
-> 
-> Marcel
-> 
-> 
-> 
+On 02/01/10 21:45, Stefan Richter wrote:
+> Justin P. Mattock wrote:
+>> So(correct me if I'm wrong), I'm generating a 64 bit register
+>> and the kernel is looking for a 32 bit register causing the crash.
+>
+> No, the class = read_pci_config(); if (class == ...) ... parts of the
+> code are entirely innocent as far as I can tell.  This is just the
+> FireWire--PCI chip detection.  It is the subsequent driver setup for the
+> chip that crashes somewhere.
+>
+> When you modified that chip detection code earlier, you only prevented
+> crashes when your modifications ended up as "ignore all PCI devices,
+> also FireWire ones" == "do nothing at all".
+>
+> Perhaps the bootup sequence of the x86(-64) platform was changed from
+> 2.6.31 to .32 thus that some assumptions in init_ohci1394_dma about when
+> are what resources available are not true anymore.  According to your
+> screenshot in http://lkml.org/lkml/2009/10/27/335 the issue is about
+> memory allocation, not about PCI bus access.
 
-Ah. It's a Sony Ericsson W800i phone. I noticed a new problem while
-testing yesterday: Transferring a file to the phone seems to happen
-correctly, but at the end of the transfer, the phone reports that the
-connection was lost and I get this in the log:
 
-btusb_bulk_complete: hci0 urb ffff88007a5b59c0 failed to resubmit (19)
-btusb_bulk_complete: hci0 urb ffff880077a200c0 failed to resubmit (19)
-btusb_intr_complete: hci0 urb ffff88007a5b5780 failed to resubmit (19)
-btusb_send_frame: hci0 urb ffff88004db809c0 submission failed
+Alright.. I'll keep focus on that
+and see if I can figure this out.
 
-To remove btusb, I have to shutdown the laptop Bluetooth. I'll check and
-see if I can reproduce and track down the issue. Note that the phone was
-working okay pre 2.3.32.
+As for anything changed in the kernel
+(2.6.31 - present), tough to say
+from what I remember I had created a new fresh
+lfs system using these CFLAGS:
 
-Regards,
-David.
+CFLAGS="-mtune=core2 -march=core2 -O2 -pipe -fomit-frame-pointer" 
+CXXFLAGS="${CFLAGS}" MAKEOPTS="{-j3}"
+(without -m option gcc defaults(I think)to -m32).
+
+which booted with ohci1394_dma=early just fine.
+
+then decided to build another lfs system with the same CFLAGS except
+added -m64 (pure64) to the build process.
+(then this showed up).
+
+What I can try is do a git revert to 2.6.29/27 to see if this thing
+fires off(before going any further). if the system boots then do a bisect.
+
+Justin P. Mattock
