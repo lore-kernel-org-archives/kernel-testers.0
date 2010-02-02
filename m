@@ -1,53 +1,98 @@
-From: Kevin Winchester <kjwinchester@gmail.com>
-Subject: Re: [Bug #15198] Radeon KMS regression
-Date: Mon, 01 Feb 2010 20:04:50 -0400
-Message-ID: <1265069090.1515.1.camel@localhost.localdomain>
-References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera>
-	 <d3IDKWHT5gE.A.UoB.P7hZLB@chimera>
+From: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
+Subject: Re: [Bug #15127] Bluetooth: sleeping function called from invalid
+ context
+Date: Tue, 02 Feb 2010 10:47:46 +0530
+Message-ID: <4B67B57A.7000709@xenontk.org>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>	 <de962C6zBxL.A.lME.FFiZLB@chimera>	 <1264986406.31341.5.camel@localhost.localdomain>	 <4B6711E2.6010409@xenontk.org> <1265051657.31341.56.camel@localhost.localdomain>
+Reply-To: davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:subject:from:to:cc
-         :in-reply-to:references:content-type:date:message-id:mime-version
-         :x-mailer:content-transfer-encoding;
-        bh=qNbFU6FFDeAYnl6ewE2B0tNiEYVXicjfdskYDhcvWWc=;
-        b=gFtKzs6+P8+IeTQ8HnIA/5z5imyh2cxFeW2zCHOf9M9um7ZNmt3MnNUgS4DI1rSDjm
-         hF1hNBKCquLit+wzOUqVxuAWgKdWyC0aoOrAAx2SXS+SvRaDtgVlipHZsNWAXpVOtXlD
-         0Q2EFlNEipA0hVaMoXjmPCowy7tp7/2puA1RQ=
-In-Reply-To: <d3IDKWHT5gE.A.UoB.P7hZLB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1265051657.31341.56.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, FUJITA Tomonori <fujita.tomonori@lab.ntt.co.jp>, Ingo Molnar <mingo@elte.hu>
+To: Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Luiz Augusto von Dentz <luiz.dentz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Mon, 2010-02-01 at 01:22 +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of recent regressions.
+On 02/02/2010 12:44 AM, Marcel Holtmann wrote:
+> Hi David,
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.32.  Please verify if it still should be listed and let me know
-> (either way).
+>>>> This message has been generated automatically as a part of a report
+>>>> of regressions introduced between 2.6.31 and 2.6.32.
+>>>>
+>>>> The following bug entry is on the current list of known regressions
+>>>> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+>>>> be listed and let me know (either way).
+>>>>
+>>>>
+>>>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15127
+>>>> Subject		: Bluetooth: sleeping function called from invalid context
+>>>> Submitter	: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
+>>>> Date		: 2010-01-12 9:19 (20 days old)
+>>>> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=9e726b17422bade75fba94e625cd35fd1353e682
+>>>> References	: http://marc.info/?l=linux-kernel&m=126328727021949&w=4
+>>>
+>>> you have an outdated email from Luiz and I change it to the right one
+>>> now.
+>>>
+>>> I looked with him at the patch and I think this will fix it:
+>>>
+>>> diff --git a/net/bluetooth/rfcomm/core.c b/net/bluetooth/rfcomm/core.c
+>>> index fc5ee32..2b50637 100644
+>>> --- a/net/bluetooth/rfcomm/core.c
+>>> +++ b/net/bluetooth/rfcomm/core.c
+>>> @@ -252,7 +252,6 @@ static void rfcomm_session_timeout(unsigned long
+>>> arg)
+>>>  	BT_DBG("session %p state %ld", s, s->state);
+>>>  
+>>>  	set_bit(RFCOMM_TIMED_OUT, &s->flags);
+>>> -	rfcomm_session_put(s);
+>>>  	rfcomm_schedule(RFCOMM_SCHED_TIMEO);
+>>>  }
+>>>  
+>>> @@ -1920,6 +1919,7 @@ static inline void rfcomm_process_sessions(void)
+>>>  		if (test_and_clear_bit(RFCOMM_TIMED_OUT, &s->flags)) {
+>>>  			s->state = BT_DISCONN;
+>>>  			rfcomm_send_disc(s, 0);
+>>> +			rfcomm_session_put(s);
+>>>  			continue;
+>>>  		}
+>>>  
+>>> We need some extra testing on this with the actual hardware we did the
+>>> patch for. So this will take at least a few days before we get our hands
+>>> on it.
+>>
+>> FWIW, your patch fixes the issue.
 > 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15198
-> Subject		: Radeon KMS regression
-> Submitter	: Kevin Winchester <kjwinchester@gmail.com>
-> Date		: 2010-01-30 17:18 (2 days old)
-> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=42590a75019a50012f25a962246498dead428433
-> References	: http://marc.info/?l=linux-kernel&m=126487191019612&w=4
-> Handled-By	: FUJITA Tomonori <fujita.tomonori@lab.ntt.co.jp>
-> Patch		: http://patchwork.kernel.org/patch/75023/
-> 
-> 
+> nice. So I can add a tested-by line to the final patch?
 
-This is fixed by the patch from FUJITA Tomonori - I just confirmed with
-my latest build of Linus' tree (which has the patch).
+Sure,
 
-Thanks,
+Tested-by: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
 
--- 
-Kevin Winchester
+> 
+> Just our of curiosity, which hardware did you test this with. 
 
+I have an inbuilt (laptop) USB Dell Wireless 365 Bluetooth Module
+(413c:8160). I can send more info about the device if you want.
+
+> We only know about one headset that should cause this issue.
+
+That's weird. I assumed it would happen for any device, since
+rfcomm_session_add is called from multiple places and it adds
+rfcomm_session_timeout on a timer which will cause the trace
+if the timer fires.
+
+I could be wrong though.
+
+Regards,
+David.
+
+>
+> Regards
+>
+> Marcel
+>
+>
+>
