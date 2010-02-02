@@ -1,80 +1,42 @@
-From: Borislav Petkov <petkovbb@googlemail.com>
-Subject: Re: [Bug #14949] drm_vm.c:drm_mmap: possible circular locking
- dependency detected
-Date: Tue, 2 Feb 2010 21:58:57 +0100
-Message-ID: <20100202205857.GA30024@liondog.tnic>
-References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera>
- <d3IDKWHT5gE.A.DLD.q8hZLB@chimera>
- <9ea470501002011001s7734a20ft4dd5d181baf714c3@mail.gmail.com>
- <201002022146.45078.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #14482] kernel BUG at fs/dcache.c:670 +lvm +md +ext3
+Date: Tue, 2 Feb 2010 22:04:34 +0100
+Message-ID: <201002022204.34787.rjw@sisk.pl>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.85G.9HiZLB@chimera> <4B66F79E.1040606@mandriva.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:received:received:received:date:from:to:cc
-         :subject:message-id:mail-followup-to:references:mime-version
-         :content-type:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=JgKMDxJMPiAZmnMbwlqhunItf74maI0v/O+glGEf8YM=;
-        b=CAz+RHEb1y35M12i/NpHTrvG3tuWuZFT5+I4c06ocIwBzVMr9W1v9EGd0j+Rs9fPAw
-         xjGANycwVI2cjO2j2kSmHr5kGe4XDMllqGga770RTsGrE4V2JoWFtZFHaMQetOZtO7SP
-         Y0OFUahz2siBPqkzPjewRQ2cC9A5Cy55cWv3Y=
-Content-Disposition: inline
-In-Reply-To: <201002022146.45078.rjw@sisk.pl>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4B66F79E.1040606-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>, "Eric W. Biederman" <ebiederm@aristanetworks.com>, Greg KH <greg@kroah.com>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexander Clouter <alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org>
 
-(Adding Greg to Cc:)
+On Monday 01 February 2010, Thomas Backlund wrote:
+> 01.02.2010 02:43, Rafael J. Wysocki skrev:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
+> >
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> > be listed and let me know (either way).
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14482
+> > Subject		: kernel BUG at fs/dcache.c:670 +lvm +md +ext3
+> > Submitter	: Alexander Clouter<alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org>
+> > Date		: 2009-10-23 10:30 (101 days old)
+> > References	: http://lkml.org/lkml/2009/10/23/50
+> >
+> >
+> 
+> Afaik this is the same issue as the one referenced here:
+> 
+> http://lkml.org/lkml/2010/1/28/292
+> 
+> The patch in the above thread should fix the issue.
 
-On Tue, Feb 02, 2010 at 09:46:45PM +0100, Rafael J. Wysocki wrote:
-> On Monday 01 February 2010, Borislav Petkov wrote:
-> > On Mon, Feb 1, 2010 at 1:22 AM, Rafael J. Wysocki <rjw@sisk.pl> wro=
-te:
-> > > This message has been generated automatically as a part of a repo=
-rt
-> > > of recent regressions.
-> > >
-> > > The following bug entry is on the current list of known regressio=
-ns
-> > > from 2.6.32.  Please verify if it still should be listed and let =
-me know
-> > > (either way).
-> > >
-> > >
-> > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D14=
-949
-> > > Subject         : drm_vm.c:drm_mmap: possible circular locking de=
-pendency detected
-> > > Submitter       : Borislav Petkov <petkovbb@googlemail.com>
-> > > Date            : 2009-12-26 9:45 (37 days old)
-> > > References      : http://marc.info/?l=3Dlinux-kernel&m=3D12618207=
-3616279&w=3D4
-> > > Handled-By      : Eric W. Biederman <ebiederm@aristanetworks.com>
-> > > Patch           : http://patchwork.kernel.org/patch/70461/
-> >=20
-> > Yes, this is fixed.
->=20
-> Do you mean "fixed" as "the fix is in the Linus' tree" or "fixed" as =
-"the
-> patch fixed it for me"?
+Thanks, updated.
 
-Rather the second one, i.e. it fixes it for me. The patch is named
-
-sysfs-cache-the-last-sysfs_dirent-to-improve-readdir-scalability-v2.pat=
-ch
-
-and is "stuck" in Greg's tree. Judging by the quilt series=C2=B9, the p=
-atch
-is slated for submission after 2.6.33. This late in the game for .32,
-I'm guessing maybe a stable backport after .33 is out?
-
-[1] http://www.kernel.org/pub/linux/kernel/people/gregkh/gregkh-2.6/pat=
-ches/series
-
---=20
-Regards/Gruss,
-    Boris.
+Rafael
