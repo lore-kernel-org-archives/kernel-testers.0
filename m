@@ -1,45 +1,44 @@
-From: Jeff Garrett <jeff@jgarrett.org>
-Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with pci=use_crs)
-Date: Tue, 2 Feb 2010 14:50:32 -0600
-Message-ID: <20100202205031.GB13949@jgarrett.org>
-References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera> <d3IDKWHT5gE.A.ydC.r7hZLB@chimera> <4B666960.8000304@kernel.org> <201002022142.58762.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #15127] Bluetooth: sleeping function called from invalid context
+Date: Tue, 2 Feb 2010 21:52:33 +0100
+Message-ID: <201002022152.33465.rjw@sisk.pl>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.lME.FFiZLB@chimera> <1264986406.31341.5.camel@localhost.localdomain>
 Mime-Version: 1.0
-Return-path: <linux-pci-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <201002022142.58762.rjw@sisk.pl>
-Sender: linux-pci-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Yinghai Lu <yinghai@kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Bjorn Helgaas <bjorn.helgaas@hp.com>, Linux PCI <linux-pci@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1264986406.31341.5.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>, Luiz Augusto von Dentz <luiz.dentz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Tue, Feb 02, 2010 at 09:42:58PM +0100, Rafael J. Wysocki wrote:
-> On Monday 01 February 2010, Yinghai Lu wrote:
-> > On 01/31/2010 04:22 PM, Rafael J. Wysocki wrote:
-> > > This message has been generated automatically as a part of a report
-> > > of recent regressions.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > from 2.6.32.  Please verify if it still should be listed and let me know
-> > > (either way).
-> > > 
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15124
-> > > Subject		: PCI host bridge windows ignored (works with pci=use_crs)
-> > > Submitter	: Jeff Garrett <jeff@jgarrett.org>
-> > > Date		: 2010-01-13 5:37 (19 days old)
-> > > References	: http://marc.info/?l=linux-kernel&m=126336296600307&w=4
-> > > Handled-By	: Yinghai Lu <yinghai@kernel.org>
-> > > 		  Bjorn Helgaas <bjorn.helgaas@hp.com>
-> > > 
+On Monday 01 February 2010, Marcel Holtmann wrote:
+> Hi Rafael,
+> 
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
 > > 
-> > should be closed.
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> > be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15127
+> > Subject		: Bluetooth: sleeping function called from invalid context
+> > Submitter	: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
+> > Date		: 2010-01-12 9:19 (20 days old)
+> > First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=9e726b17422bade75fba94e625cd35fd1353e682
+> > References	: http://marc.info/?l=linux-kernel&m=126328727021949&w=4
 > 
-> Is there a fix in the Linus' tree?
-> 
-> Rafael
+> you have an outdated email from Luiz and I change it to the right one
+> now.
 
-Yes, it is fixed by commit e8e06eae4ffd683931b928f460c11c40cd3f7fd8
+Thanks.  Unfortunately the address is from a commit sign-off and the script
+picks it up automatically, so I can't really help it (well, I'd have to
+remember to edit this particular message manually each time before posting it,
+but I tend to forget).
 
--Jeff
+The entry has been updated with a link to your patch.
+
+Rafael
