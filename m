@@ -1,39 +1,45 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14949] drm_vm.c:drm_mmap: possible circular locking dependency detected
-Date: Tue, 2 Feb 2010 21:46:45 +0100
-Message-ID: <201002022146.45078.rjw@sisk.pl>
-References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera> <d3IDKWHT5gE.A.DLD.q8hZLB@chimera> <9ea470501002011001s7734a20ft4dd5d181baf714c3@mail.gmail.com>
+From: Jeff Garrett <jeff@jgarrett.org>
+Subject: Re: [Bug #15124] PCI host bridge windows ignored (works with pci=use_crs)
+Date: Tue, 2 Feb 2010 14:50:32 -0600
+Message-ID: <20100202205031.GB13949@jgarrett.org>
+References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera> <d3IDKWHT5gE.A.ydC.r7hZLB@chimera> <4B666960.8000304@kernel.org> <201002022142.58762.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <9ea470501002011001s7734a20ft4dd5d181baf714c3-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-pci-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <201002022142.58762.rjw@sisk.pl>
+Sender: linux-pci-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Borislav Petkov <petkovbb-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, "Eric W. Biederman" <ebiederm-BGArkANP9klv6pq1l3V1OdBPR1lH4CV8@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Yinghai Lu <yinghai@kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Bjorn Helgaas <bjorn.helgaas@hp.com>, Linux PCI <linux-pci@vger.kernel.org>
 
-On Monday 01 February 2010, Borislav Petkov wrote:
-> On Mon, Feb 1, 2010 at 1:22 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.32.  Please verify if it still should be listed and let me know
-> > (either way).
-> >
-> >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14949
-> > Subject         : drm_vm.c:drm_mmap: possible circular locking dependency detected
-> > Submitter       : Borislav Petkov <petkovbb-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-> > Date            : 2009-12-26 9:45 (37 days old)
-> > References      : http://marc.info/?l=linux-kernel&m=126182073616279&w=4
-> > Handled-By      : Eric W. Biederman <ebiederm-BGArkANP9klv6pq1l3V1OdBPR1lH4CV8@public.gmane.org>
-> > Patch           : http://patchwork.kernel.org/patch/70461/
+On Tue, Feb 02, 2010 at 09:42:58PM +0100, Rafael J. Wysocki wrote:
+> On Monday 01 February 2010, Yinghai Lu wrote:
+> > On 01/31/2010 04:22 PM, Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of recent regressions.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.32.  Please verify if it still should be listed and let me know
+> > > (either way).
+> > > 
+> > > 
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15124
+> > > Subject		: PCI host bridge windows ignored (works with pci=use_crs)
+> > > Submitter	: Jeff Garrett <jeff@jgarrett.org>
+> > > Date		: 2010-01-13 5:37 (19 days old)
+> > > References	: http://marc.info/?l=linux-kernel&m=126336296600307&w=4
+> > > Handled-By	: Yinghai Lu <yinghai@kernel.org>
+> > > 		  Bjorn Helgaas <bjorn.helgaas@hp.com>
+> > > 
+> > 
+> > should be closed.
 > 
-> Yes, this is fixed.
+> Is there a fix in the Linus' tree?
+> 
+> Rafael
 
-Do you mean "fixed" as "the fix is in the Linus' tree" or "fixed" as "the
-patch fixed it for me"?
+Yes, it is fixed by commit e8e06eae4ffd683931b928f460c11c40cd3f7fd8
 
-Rafael
+-Jeff
