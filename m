@@ -1,99 +1,38 @@
-From: Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
-Subject: Re: [Bug #15127] Bluetooth: sleeping function called from invalid
- context
-Date: Mon, 01 Feb 2010 21:41:24 -0800
-Message-ID: <1265089284.31341.63.camel@localhost.localdomain>
-References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
-	 <de962C6zBxL.A.lME.FFiZLB@chimera>
-	 <1264986406.31341.5.camel@localhost.localdomain>
-	 <4B6711E2.6010409@xenontk.org>
-	 <1265051657.31341.56.camel@localhost.localdomain>
-	 <4B67B57A.7000709@xenontk.org>
+From: Stefan Richter <stefanr-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
+Subject: Re: ohci1394_dma=early crash since 2.6.32 (was Re: [Bug #14487] PANIC:
+ early exception 08 rip 246:10 error	ffffffff810251b5 cr2 0)
+Date: Tue, 02 Feb 2010 06:45:54 +0100
+Message-ID: <4B67BC12.4080709@s5r6.in-berlin.de>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.H1G.1HiZLB@chimera> <4B6630CA.9010207@gmail.com> <20100201125441.GB2576@bicker> <4B671606.3080405@gmail.com> <4B673233.8000300@s5r6.in-berlin.de> <4B6740B5.5070601@gmail.com> <4B675534.5070107@s5r6.in-berlin.de> <4B676917.2080506@gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B67B57A.7000709-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
+In-Reply-To: <4B676917.2080506-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Luiz Augusto von Dentz <luiz.dentz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Dan Carpenter <error27-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux1394-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Hi David,
+Justin P. Mattock wrote:
+> So(correct me if I'm wrong), I'm generating a 64 bit register
+> and the kernel is looking for a 32 bit register causing the crash.
 
-> >>>> This message has been generated automatically as a part of a report
-> >>>> of regressions introduced between 2.6.31 and 2.6.32.
-> >>>>
-> >>>> The following bug entry is on the current list of known regressions
-> >>>> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
-> >>>> be listed and let me know (either way).
-> >>>>
-> >>>>
-> >>>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15127
-> >>>> Subject		: Bluetooth: sleeping function called from invalid context
-> >>>> Submitter	: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
-> >>>> Date		: 2010-01-12 9:19 (20 days old)
-> >>>> First-Bad-Commit: http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=9e726b17422bade75fba94e625cd35fd1353e682
-> >>>> References	: http://marc.info/?l=linux-kernel&m=126328727021949&w=4
-> >>>
-> >>> you have an outdated email from Luiz and I change it to the right one
-> >>> now.
-> >>>
-> >>> I looked with him at the patch and I think this will fix it:
-> >>>
-> >>> diff --git a/net/bluetooth/rfcomm/core.c b/net/bluetooth/rfcomm/core.c
-> >>> index fc5ee32..2b50637 100644
-> >>> --- a/net/bluetooth/rfcomm/core.c
-> >>> +++ b/net/bluetooth/rfcomm/core.c
-> >>> @@ -252,7 +252,6 @@ static void rfcomm_session_timeout(unsigned long
-> >>> arg)
-> >>>  	BT_DBG("session %p state %ld", s, s->state);
-> >>>  
-> >>>  	set_bit(RFCOMM_TIMED_OUT, &s->flags);
-> >>> -	rfcomm_session_put(s);
-> >>>  	rfcomm_schedule(RFCOMM_SCHED_TIMEO);
-> >>>  }
-> >>>  
-> >>> @@ -1920,6 +1919,7 @@ static inline void rfcomm_process_sessions(void)
-> >>>  		if (test_and_clear_bit(RFCOMM_TIMED_OUT, &s->flags)) {
-> >>>  			s->state = BT_DISCONN;
-> >>>  			rfcomm_send_disc(s, 0);
-> >>> +			rfcomm_session_put(s);
-> >>>  			continue;
-> >>>  		}
-> >>>  
-> >>> We need some extra testing on this with the actual hardware we did the
-> >>> patch for. So this will take at least a few days before we get our hands
-> >>> on it.
-> >>
-> >> FWIW, your patch fixes the issue.
-> > 
-> > nice. So I can add a tested-by line to the final patch?
-> 
-> Sure,
-> 
-> Tested-by: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
-> 
-> > 
-> > Just our of curiosity, which hardware did you test this with. 
-> 
-> I have an inbuilt (laptop) USB Dell Wireless 365 Bluetooth Module
-> (413c:8160). I can send more info about the device if you want.
+No, the class = read_pci_config(); if (class == ...) ... parts of the
+code are entirely innocent as far as I can tell.  This is just the
+FireWire--PCI chip detection.  It is the subsequent driver setup for the
+chip that crashes somewhere.
 
-I meant which device you are connection to. Is it a headset or another
-computer.
+When you modified that chip detection code earlier, you only prevented
+crashes when your modifications ended up as "ignore all PCI devices,
+also FireWire ones" == "do nothing at all".
 
-> > We only know about one headset that should cause this issue.
-> 
-> That's weird. I assumed it would happen for any device, since
-> rfcomm_session_add is called from multiple places and it adds
-> rfcomm_session_timeout on a timer which will cause the trace
-> if the timer fires.
-
-The timer will only fire for non-behaving remote stacks. With a proper
-stack following the RFCOMM specification it should never fire.
-
-Regards
-
-Marcel
-
+Perhaps the bootup sequence of the x86(-64) platform was changed from
+2.6.31 to .32 thus that some assumptions in init_ohci1394_dma about when
+are what resources available are not true anymore.  According to your
+screenshot in http://lkml.org/lkml/2009/10/27/335 the issue is about
+memory allocation, not about PCI bus access.
+-- 
+Stefan Richter
+-=====-==-=- --=- ---=-
+http://arcgraph.de/sr/
