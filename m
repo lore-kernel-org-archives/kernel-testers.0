@@ -1,20 +1,29 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15076] System panic under load with clockevents_program_event
-Date: Tue, 2 Feb 2010 21:44:43 +0100
-Message-ID: <201002022144.43606.rjw@sisk.pl>
-References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera> <d3IDKWHT5gE.A.CjC.57hZLB@chimera> <c2673ca61001312315s3e50611fm81171ddca6d19477@mail.gmail.com>
+Subject: Re: [Bug #14950] tbench regression with 2.6.33-rc1
+Date: Tue, 2 Feb 2010 21:45:35 +0100
+Message-ID: <201002022145.35520.rjw@sisk.pl>
+References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera> <d3IDKWHT5gE.A.GDD.o8hZLB@chimera> <1265011035.6220.8.camel@marge.simson.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <c2673ca61001312315s3e50611fm81171ddca6d19477-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1265011035.6220.8.camel-YqMYhexLQo1vAv1Ojkdn7Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: okias <d.okias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Monday 01 February 2010, okias wrote:
-> Still valid. But reproduction without HIGHMEM is minimal, but still annoying.
+On Monday 01 February 2010, Mike Galbraith wrote:
+> On Mon, 2010-02-01 at 01:22 +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.32.  Please verify if it still should be listed and let me know
+> > (either way).
+> 
+> Yes, it should remain open.  Looking for places to trim overhead without
+> injuring other things.  The regression is a moving target on my HW.
 
 Thanks for the update.
 
