@@ -1,53 +1,61 @@
-From: "Justin P. Mattock" <justinmattock@gmail.com>
-Subject: Re: ohci1394_dma=early crash since 2.6.32 (was Re: [Bug #14487] PANIC:
- early exception 08 rip 246:10 error	ffffffff810251b5 cr2 0)
-Date: Tue, 02 Feb 2010 17:43:38 -0800
-Message-ID: <4B68D4CA.2010803@gmail.com>
-References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.H1G.1HiZLB@chimera> <4B6630CA.9010207@gmail.com> <20100201125441.GB2576@bicker> <4B671606.3080405@gmail.com> <4B673233.8000300@s5r6.in-berlin.de> <4B6740B5.5070601@gmail.com> <4B675534.5070107@s5r6.in-berlin.de> <4B676917.2080506@gmail.com> <4B67BC12.4080709@s5r6.in-berlin.de> <4B67C4D2.5050205@gmail.com> <4B67CC55.40301@s5r6.in-berlin.de> <4B67CCEC.2030103@s5r6.in-berlin.de>
+From: Sid Boyce <sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
+Subject: Re: [Bug #15144] HDA Intel Audio hang on boot
+Date: Wed, 03 Feb 2010 02:37:05 +0000
+Message-ID: <4B68E151.9030505@blueyonder.co.uk>
+References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera> <4B6635F1.8060909@blueyonder.co.uk> <s5h3a1lh2wr.wl%tiwai@suse.de> <201002022140.06721.rjw@sisk.pl>
+Reply-To: sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=Zdz8cVA0xDDab2Rd7iwWz+gSkAN8Ai7ACwLEg0gUURw=;
-        b=TNggeW1cYg2fRH1ieuUQG4UjX04yRzbE0sZddk7+rwSuZe9sja3kkScLYQ5J/WDOiJ
-         /cckzcgawNOWaYwuV4xAcAO2D0LyxRGs72unMm209zVLgONXGs7bhtR0scG+5RV+vI+H
-         SOKx7Dd0/krMczEaRleavV2/lHarh/hGh/p1k=
-In-Reply-To: <4B67CCEC.2030103@s5r6.in-berlin.de>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <201002022140.06721.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Stefan Richter <stefanr@s5r6.in-berlin.de>
-Cc: Dan Carpenter <error27@gmail.com>, linux1394-devel@lists.sourceforge.net, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Jan Beulich <jbeulich@novell.com>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-o.k. finally finished with the bisect:
+On 02/02/10 20:40, Rafael J. Wysocki wrote:
+> On Monday 01 February 2010, Takashi Iwai wrote:
+>> At Mon, 01 Feb 2010 02:01:21 +0000,
+>> Sid Boyce wrote:
+>>>
+>>> On 01/02/10 00:22, Rafael J. Wysocki wrote:
+>>>> This message has been generated automatically as a part of a report
+>>>> of recent regressions.
+>>>>
+>>>> The following bug entry is on the current list of known regressions
+>>>> from 2.6.32.  Please verify if it still should be listed and let me know
+>>>> (either way).
+>>>>
+>>>>
+>>>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15144
+>>>> Subject		: HDA Intel Audio hang on boot
+>>>> Submitter	: Sid Boyce <sboyce-QgLWrMLu8clzjhtm8Ag3mw@public.gmane.org>
+>>>> Date		: 2010-01-15 1:24 (17 days old)
+>>>> References	: http://marc.info/?l=linux-kernel&m=126351866722507&w=4
+>>>>
+>>>>
+>>>>
+>>>
+>>> Still not fixed in 2.6.33-rc6. Takashi wrote that the fix was scheduled
+>>> for 2.6.33-rc6, but it did not appear.
+>>
+>> It just slipped from rc6 due to my busy load.
+>> The pull request was sent yesterday.
+> 
+> Linus has already merged it, so I've closed the bug.
+> 
+> Rafael
+> 
 
-reverting this gets things going on 2.6.33-rc5
-
-789d03f584484af85dbdc64935270c8e45f36ef7 is the first bad commit
-commit 789d03f584484af85dbdc64935270c8e45f36ef7
-Author: Jan Beulich <JBeulich@novell.com>
-Date:   Tue Jun 30 11:52:23 2009 +0100
-
-     x86: Fix fixmap ordering
-
-     The merge of the 32- and 64-bit fixmap headers made a latent
-     bug on x86-64 a real one: with the right config settings
-     it is possible for FIX_OHCI1394_BASE to overlap the FIX_BTMAP_*
-     range.
-
-     Signed-off-by: Jan Beulich <jbeulich@novell.com>
-     Cc: <stable@kernel.org> # for 2.6.30.x
-     LKML-Reference: <4A4A0A8702000078000082E8@vpn.id2.novell.com>
-     Signed-off-by: Ingo Molnar <mingo@elte.hu>
-
-The only thing I can think of at this point
-is maybe the CFLAGS I used to build this system.
-(as for the x86_32 working and x86_64 failing not sure);
-
-I'm curious to see if anybody else is hitting this?
-
-Justin P. Mattock
+I added the line to hda_intel.c in 2.6.33-rc6 as I had oopses in
+2.6.33-rc6-git1 that I haven't yet captured.
+SND_PCI_QUIRK(0x1043, 0x829c, "ASUS", 0), /* nvidia */
+The problem was still there. I shall have a further look later today.
+Regards
+Sid.
+-- 
+Sid Boyce ... Hamradio License G3VBV, Licensed Private Pilot
+Emeritus IBM/Amdahl Mainframes and Sun/Fujitsu Servers Tech Support
+Specialist, Cricket Coach
+Microsoft Windows Free Zone - Linux used for all Computing Tasks
