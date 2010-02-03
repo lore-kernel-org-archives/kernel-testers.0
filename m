@@ -1,59 +1,54 @@
-From: Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #14949] drm_vm.c:drm_mmap: possible circular locking
-	dependency detected
-Date: Tue, 2 Feb 2010 18:18:35 -0800
-Message-ID: <20100203021835.GA9812@kroah.com>
-References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera> <d3IDKWHT5gE.A.DLD.q8hZLB@chimera> <9ea470501002011001s7734a20ft4dd5d181baf714c3@mail.gmail.com> <201002022146.45078.rjw@sisk.pl> <20100202205857.GA30024@liondog.tnic>
+From: "Jan Beulich" <JBeulich@novell.com>
+Subject: Re: ohci1394_dma=early crash since 2.6.32 (was Re: [Bug
+	 #14487] PANIC: early exception 08 rip 246:10
+	 error	ffffffff810251b5 cr2 0)
+Date: Wed, 03 Feb 2010 09:18:04 +0000
+Message-ID: <4B694D5C020000780002D6DA@vpn.id2.novell.com>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
+ <de962C6zBxL.A.H1G.1HiZLB@chimera> <4B6630CA.9010207@gmail.com>
+ <20100201125441.GB2576@bicker> <4B671606.3080405@gmail.com>
+ <4B673233.8000300@s5r6.in-berlin.de> <4B6740B5.5070601@gmail.com>
+ <4B675534.5070107@s5r6.in-berlin.de> <4B676917.2080506@gmail.com>
+ <4B67BC12.4080709@s5r6.in-berlin.de> <4B67C4D2.5050205@gmail.com>
+ <4B67CC55.40301@s5r6.in-berlin.de> <4B67CCEC.2030103@s5r6.in-berlin.de>
+ <4B68D4CA.2010803@gmail.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <4B68D4CA.2010803@gmail.com>
 Content-Disposition: inline
-In-Reply-To: <20100202205857.GA30024-f9CnO7I+Q6zU6FkGJEIX5A@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Borislav Petkov <petkovbb-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TZUIDd8j+nm9g@public.gmane.org>
+To: "Justin P. Mattock" <justinmattock@gmail.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>
+Cc: Ingo Molnar <mingo@elte.hu>, Dan Carpenter <error27@gmail.com>, bernhard.kaindl@gmx.net, Thomas Gleixner <tglx@linutronix.de>, linux1394-devel@lists.sourceforge.net, Rafael Wysocki <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, ebiderman@xmission.com, hpa@zytor.com
 
-On Tue, Feb 02, 2010 at 09:58:57PM +0100, Borislav Petkov wrote:
-> (Adding Greg to Cc:)
-> 
-> On Tue, Feb 02, 2010 at 09:46:45PM +0100, Rafael J. Wysocki wrote:
-> > On Monday 01 February 2010, Borislav Petkov wrote:
-> > > On Mon, Feb 1, 2010 at 1:22 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > > > This message has been generated automatically as a part of a report
-> > > > of recent regressions.
-> > > >
-> > > > The following bug entry is on the current list of known regressions
-> > > > from 2.6.32.  Please verify if it still should be listed and let me know
-> > > > (either way).
-> > > >
-> > > >
-> > > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=14949
-> > > > Subject         : drm_vm.c:drm_mmap: possible circular locking dependency detected
-> > > > Submitter       : Borislav Petkov <petkovbb-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-> > > > Date            : 2009-12-26 9:45 (37 days old)
-> > > > References      : http://marc.info/?l=linux-kernel&m=126182073616279&w=4
-> > > > Handled-By      : Eric W. Biederman <ebiederm-BGArkANP9klv6pq1l3V1OdBPR1lH4CV8@public.gmane.org>
-> > > > Patch           : http://patchwork.kernel.org/patch/70461/
-> > > 
-> > > Yes, this is fixed.
-> > 
-> > Do you mean "fixed" as "the fix is in the Linus' tree" or "fixed" as "the
-> > patch fixed it for me"?
-> 
-> Rather the second one, i.e. it fixes it for me. The patch is named
-> 
-> sysfs-cache-the-last-sysfs_dirent-to-improve-readdir-scalability-v2.patch
-> 
-> and is "stuck" in Greg's tree. Judging by the quilt series??, the patch
-> is slated for submission after 2.6.33. This late in the game for .32,
-> I'm guessing maybe a stable backport after .33 is out?
-> 
-> [1] http://www.kernel.org/pub/linux/kernel/people/gregkh/gregkh-2.6/patches/series
+>>> "Justin P. Mattock" <justinmattock@gmail.com> 03.02.10 02:43 >>>
+>The only thing I can think of at this point
+>is maybe the CFLAGS I used to build this system.
+>(as for the x86_32 working and x86_64 failing not sure);
+>
+>I'm curious to see if anybody else is hitting this?
 
-I'll mark it for stable, I'd prefer to wait for .33 to come out before
-sending it in.
+I think it is pretty clear how a page fault can happen here (but you're
+observing a double fault, which I cannot explain [nor can I explain
+why the fault apparently didn't get an error code pushed, which is
+why address and error code displayed are mixed up]): I would
+suspect that FIX_OHCI1394_BASE is now in a different (virtual) 2Mb
+range than what is covered by level{1,2}_fixmap_pgt, but this was
+a latent issue even before that patch (just waiting for sufficiently
+many fixmap entries getting inserted before
+__end_of_permanent_fixed_addresses).
 
-thanks,
+The thing is that head_64.S uses hard-coded numbers, but doesn't 
+really make sure (at build time) that the fixmap page tables established
+indeed cover all the entries of importance (and honestly I even can't
+easily tell which of the candidates - FIX_DBGP_BASE,
+FIX_EARLYCON_MEM_BASE, and FIX_OHCI1394_BASE afaict - really
+matter). If either of the first does, the only reasonable solution imo
+is to move FIX_OHCI1394_BASE out of the boot time only range into
+the permanent range (unless the other two can be moved into the
+boot time only range). And obviously the hard coded numbers
+should be eliminated from head_64.S.
 
-greg k-h
+Jan
