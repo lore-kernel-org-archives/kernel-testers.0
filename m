@@ -1,51 +1,39 @@
-From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Subject: Re: [Bug #15043] Display goes off with i915.powersave=1 after
- suspend-resume
-Date: Fri, 5 Feb 2010 11:29:52 -0800
-Message-ID: <20100205112952.01affddb@jbarnes-piketon>
-References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera>
-	<d3IDKWHT5gE.A.-nC.G8hZLB@chimera>
-	<1265314137.10203.0.camel@no>
-	<201002042142.02127.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #15108] Blank screen with KMS enabled (on clevo M5xN laptop)
+Date: Fri, 5 Feb 2010 23:31:58 +0100
+Message-ID: <201002052331.58297.rjw@sisk.pl>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.YOE.IFiZLB@chimera> <20100205110811.16d64ded@jbarnes-piketon>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201002042142.02127.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <20100205110811.16d64ded@jbarnes-piketon>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Soeren Sonnenburg <sonne-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org
+Content-Type: Text/Plain; charset="utf-8"
+To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>,  =?utf-8?q?J=C3=A9r=C3=A9my?= Lal <kapouer-QATUhw8NPUbYtjvyW6yDsg@public.gmane.org>, rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 
-On Thu, 4 Feb 2010 21:42:02 +0100
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Friday 05 February 2010, Jesse Barnes wrote:
+> On Mon,  1 Feb 2010 01:43:21 +0100 (CET)
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+>=20
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
+> >=20
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still
+> > should be listed and let me know (either way).
+> >=20
+> >=20
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15108
+> > Subject		: Blank screen with KMS enabled (on clevo M5xN
+> > laptop) Submitter	: J=C3=A9r=C3=A9my Lal <kapouer-QATUhw8NPUbYtjvyW6yDsg@public.gmane.org>
+> > Date		: 2010-01-22 20:30 (10 days old)
+>=20
+> Looks like this one has a patch available.
+>=20
+> Rui, is the patch upstream already?
 
-> On Thursday 04 February 2010, Soeren Sonnenburg wrote:
-> > On Mon, 2010-02-01 at 01:22 +0100, Rafael J. Wysocki wrote:
-> > > This message has been generated automatically as a part of a
-> > > report of recent regressions.
-> > > 
-> > > The following bug entry is on the current list of known
-> > > regressions from 2.6.32.  Please verify if it still should be
-> > > listed and let me know (either way).
-> > > 
-> > > 
-> > > Bug-Entry	:
-> > > http://bugzilla.kernel.org/show_bug.cgi?id=15043
-> > > Subject		: Display goes off with i915.powersave=1
-> > > after suspend-resume Submitter	: Soeren Sonnenburg
-> > > <sonne-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> Date		: 2010-01-10 20:09 (22
-> > > days old) References	:
-> > > http://marc.info/?l=linux-kernel&m=126315457519505&w=4
-> > 
-> > yes still exists in current git.
-> 
-> Thanks for the update.
+I don't see it in there.
 
-Just updated the corresponding FDO bug
-(https://bugs.freedesktop.org/show_bug.cgi?id=24314).  There are some
-hw bugs related to FBC handling on 945GM though, so we may have to
-disable it on some machines.
-
--- 
-Jesse Barnes, Intel Open Source Technology Center
+Rafael
