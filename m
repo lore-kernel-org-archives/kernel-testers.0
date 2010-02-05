@@ -1,39 +1,47 @@
-From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Subject: Re: [Bug #15108] Blank screen with KMS enabled (on clevo M5xN
- laptop)
-Date: Fri, 5 Feb 2010 11:08:11 -0800
-Message-ID: <20100205110811.16d64ded@jbarnes-piketon>
+From: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #15004] i915: *ERROR* Execbuf while wedged
+Date: Fri, 5 Feb 2010 14:09:16 -0500
+Message-ID: <20100205190916.GD2858@think>
 References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
-	<de962C6zBxL.A.YOE.IFiZLB@chimera>
+ <de962C6zBxL.A.bvE.cFiZLB@chimera>
+ <20100205110100.57852c31@jbarnes-piketon>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <de962C6zBxL.A.YOE.IFiZLB@chimera>
+Content-Disposition: inline
+In-Reply-To: <20100205110100.57852c31@jbarnes-piketon>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?UTF-8?B?SsOpcsOpbXk=?= Lal <kapouer-QATUhw8NPUbYtjvyW6yDsg@public.gmane.org>, rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>, tomas m <tmezzadra-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Mon,  1 Feb 2010 01:43:21 +0100 (CET)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Fri, Feb 05, 2010 at 11:01:00AM -0800, Jesse Barnes wrote:
+> On Mon,  1 Feb 2010 01:43:19 +0100 (CET)
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> 
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still
+> > should be listed and let me know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15004
+> > Subject		: i915: *ERROR* Execbuf while wedged
+> > Submitter	: tomas m <tmezzadra-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date		: 2010-01-07 18:53 (25 days old)
+> 
+> Can you bisect this to a particular kernel commit?  The particular
+> error message means the kernel detected a GPU hang.  That's usually
+> a userspace bug, but the kernel should recover from it.
 
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.31 and 2.6.32.
->=20
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.31 and 2.6.32.  Please verify if it still
-> should be listed and let me know (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15108
-> Subject		: Blank screen with KMS enabled (on clevo M5xN
-> laptop) Submitter	: J=C3=A9r=C3=A9my Lal <kapouer-QATUhw8NPUbYtjvyW6yDsg@public.gmane.org>
-> Date		: 2010-01-22 20:30 (10 days old)
+I see these about once a week, which would be a very difficult bisect.
+The kernel does recover when I reboot, but beyond that the messages loop
+forever.
 
-Looks like this one has a patch available.
+I haven't yet seen it on 2.6.33-rc, but I'm still struggling with
+suspend/resume failures and haven't really had a one week up time yet.
 
-Rui, is the patch upstream already?
-
---=20
-Jesse Barnes, Intel Open Source Technology Center
+-chris
