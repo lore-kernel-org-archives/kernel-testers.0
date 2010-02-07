@@ -1,76 +1,72 @@
-From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: ohci1394_dma=early crash since 2.6.32 (was Re: [Bug		 #14487]
- PANIC: early exception 08 rip 246:10 error		 ffffffff810251b5 cr2 0)
-Date: Sat, 06 Feb 2010 15:57:55 -0800
-Message-ID: <4B6E0203.8030900@gmail.com>
-References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.H1G.1HiZLB@chimera> <4B6630CA.9010207@gmail.com> <20100201125441.GB2576@bicker> <4B671606.3080405@gmail.com> <4B673233.8000300@s5r6.in-berlin.de> <4B6740B5.5070601@gmail.com> <4B675534.5070107@s5r6.in-berlin.de> <4B676917.2080506@gmail.com> <4B67BC12.4080709@s5r6.in-berlin.de> <4B67C4D2.5050205@gmail.com> <4B67CC55.40301@s5r6.in-berlin.de> <4B67CCEC.2030103@s5r6.in-berlin.de> <4B68D4CA.2010803@gmail.com> <4B694D5C020000780002D6DA@vpn.id2.novell.com> <4B6A0123.3010607@gmail.com> <4B6A9960020000780002DA6B@vpn.id2.novell.com> <4B6A8DA9.4090804@gmail.com> <4B6A9D4C020000780002DA99@vpn.id2.novell.com> <4B6A90BB.7090405@gmail.com> <4B6AA2D6020000780002DAD1@vpn.id2.novell.com> <4B6A97ED.6080605@gmail.com> <4B6AA817020000780002DB11@vpn.
- id2.novell.com>
+From: Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>
+Subject: Re: [Bug #15196] kmem_cache_create: duplicate cache ccid2_h
+Date: Sun, 7 Feb 2010 11:54:48 +0100
+Message-ID: <20100207105448.GA6623@fancy-poultry.org>
+References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera>
+ <d3IDKWHT5gE.A.8sB.Q7hZLB@chimera>
+ <7b6bb4a51001311930i7d72f60dj3b15ca3e1a715607@mail.gmail.com>
+ <20100201150605.GA6175@fancy-poultry.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=TTnS2GVR+X+/N0TpoNpnpvx3BGIRHz1vAZrPnSvJ2LU=;
-        b=DBRlkH0MSULcIwknWRyE8UeNDPzzV+zdfJJfd+KqBIE/BcRcSm4YRTpA98tUxdtyS3
-         QKtQuGdMEsTW4WLOijcmPzWIERy7hrZsZvw4wyDD+R84hC7z368kW2UfOk0FyCxn3gi5
-         l+rVkpkMmkat5YQ9HIKPag1F9bawdSynb5ZJw=
-In-Reply-To: <4B6AA817020000780002DB11-Qfbpwmsw6RoS3W1tAdPHOtBPR1lH4CV8@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20100201150605.GA6175-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Jan Beulich <JBeulich-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Dan Carpenter <error27-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, bernhard.kaindl-hi6Y0CQ0nG0@public.gmane.org, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, linux1394-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, Stefan Richter <stefanr-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>, Rafael Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, ebiderman-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org, hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Xiaotian Feng <xtfeng-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org
 
-On 02/04/10 01:57, Jan Beulich wrote:
->>>> "Justin P. Mattock"<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  04.02.10 10:48>>>
->> I see:
->>
->> ohci.registers = (void *)fix_to_virt(FIX_OHCI1394_BASE);
->>
->> then I think it calls:
->>
->> set_fixmap_nocache(FIX_OHCI1394_BASE, ohci_base);
->>
->> I'm guessing somewhere with the fix_to_virt might be something
->> (but could be wrong);
->
-> No, it ought to be that set_fixmap_nocache().
->
-> Jan
->
->
+On 01.02.2010, Heinz Diehl wrote: 
 
+[....]
 
-looking into fixmap.h I started to look into:
-  #define NR_FIX_BTMAPS           64
-  #define FIX_BTMAPS_SLOTS        4
-          FIX_BTMAP_END = __end_of_permanent_fixed_addresses + 256 -
-                          (__end_of_permanent_fixed_addresses & 255),
-          FIX_BTMAP_BEGIN = FIX_BTMAP_END + 
-NR_FIX_BTMAPS*FIX_BTMAPS_SLOTS - 1,
+Quoting myself here...
 
-which led me to a patch you had submitted:
-http://patchwork.kernel.org/patch/68719/
-and another located here:
-http://lists.openwall.net/linux-kernel/2008/08/29/211
+> The patch was completely malformed, don't know what happened on the way,
+> but I applied it by hand. Yes, it fixes the problem for me.
 
-your patch works, I reapplied it to the latest HEAD, and added a
-bisected-and-tested-by unto it and sent it as an attachment to
-the bug report.
+Xiaotiangs patch quoted in the thread listed here (coming via kernel.org's
+bugtracker)
 
-the other thread(patch) I was able to get the system boot with that, as 
-well but with it only changed the size of page(256 to 512 etc..).
-
-Let me know what would be the best approach with this.
-
-Justin P. Mattock
+ http://patchwork.kernel.org/patch/76023/
+ 
+is missing some lines, and the patch attached at the end of the
+thread is incomplete and malformed, as reported earlier. I guess this is
+how it should have looked like (please correct me if I'm wrong):
 
 
-
-
-
-
-
+--- /a/ccid.c	2010-02-06 23:17:12.000000000 +0100
++++ /b/ccid.c	2010-02-07 09:50:40.000000000 +0100
+@@ -77,13 +77,13 @@
+ 	return err;
+ }
+ 
+-static struct kmem_cache *ccid_kmem_cache_create(int obj_size, char *slab_name_fmt, const char *fmt,...)
++static struct kmem_cache *ccid_kmem_cache_create(int obj_size, char *slab_name_fmt, int length, const char *fmt,...)
+ {
+ 	struct kmem_cache *slab;
+ 	va_list args;
+ 
+ 	va_start(args, fmt);
+-	vsnprintf(slab_name_fmt, sizeof(slab_name_fmt), fmt, args);
++	vsnprintf(slab_name_fmt, length, fmt, args);
+ 	va_end(args);
+ 
+ 	slab = kmem_cache_create(slab_name_fmt, sizeof(struct ccid) + obj_size, 0,
+@@ -104,6 +104,7 @@
+ 	ccid_ops->ccid_hc_rx_slab =
+ 			ccid_kmem_cache_create(ccid_ops->ccid_hc_rx_obj_size,
+ 					       ccid_ops->ccid_hc_rx_slab_name,
++					       sizeof(ccid_ops->ccid_hc_rx_slab_name),
+ 					       "ccid%u_hc_rx_sock",
+ 					       ccid_ops->ccid_id);
+ 	if (ccid_ops->ccid_hc_rx_slab == NULL)
+@@ -112,6 +113,7 @@
+ 	ccid_ops->ccid_hc_tx_slab =
+ 			ccid_kmem_cache_create(ccid_ops->ccid_hc_tx_obj_size,
+ 					       ccid_ops->ccid_hc_tx_slab_name,
++					       sizeof(ccid_ops->ccid_hc_tx_slab_name),
+ 					       "ccid%u_hc_tx_sock",
+ 					       ccid_ops->ccid_id);
+ 	if (ccid_ops->ccid_hc_tx_slab == NULL)
