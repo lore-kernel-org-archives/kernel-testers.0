@@ -1,30 +1,35 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14937] WARNING: at kernel/lockdep.c:2830
-Date: Sun,  7 Feb 2010 23:28:48 +0100 (CET)
-Message-ID: <445R0ey9hAI.A.khC.KqzbLB@chimera>
-References: <4Ht3jFrT7uE.A.JI.-nzbLB@chimera>
+From: Werner LEMBERG <wl@gnu.org>
+Subject: Re: [Bug #15158] oops related to
+ i915_gem_object_save_bit_17_swizzle
+Date: Mon, 08 Feb 2010 00:11:02 +0100 (CET)
+Message-ID: <20100208.001102.25410141.wl@gnu.org>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
+	<de962C6zBxL.A.wzD.9EiZLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4Ht3jFrT7uE.A.JI.-nzbLB@chimera>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <de962C6zBxL.A.wzD.9EiZLB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Grant Wilson <grant.wilson-1HOZaDBbGgxaa/9Udqfwiw@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: rjw@sisk.pl
+Cc: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org
 
-This message has been generated automatically as a part of a summary report
-of recent regressions.
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.31 and 2.6.32.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> be listed and let me know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15158
+> Subject		: oops related to i915_gem_object_save_bit_17_swizzle
+> Submitter	: Werner Lemberg <wl@gnu.org>
+> Date		: 2010-01-28 08:26 (4 days old)
 
-The following bug entry is on the current list of known regressions
-from 2.6.32.  Please verify if it still should be listed and let the tracking team
-know (either way).
+I've just experienced the crash again, this time with openSuSE kernel
+2.6.33-rc6-11-pae and xorg-x11-driver-video-7.4-245.1
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14937
-Subject		: WARNING: at kernel/lockdep.c:2830
-Submitter	: Grant Wilson <grant.wilson-1HOZaDBbGgxaa/9Udqfwiw@public.gmane.org>
-Date		: 2009-12-27 13:35 (43 days old)
-References	: http://marc.info/?l=linux-kernel&m=126192220404829&w=4
-
+    Werner
