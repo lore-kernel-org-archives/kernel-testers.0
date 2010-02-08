@@ -1,50 +1,40 @@
-From: Alexander Clouter <alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org>
-Subject: Re: [Bug #14482] kernel BUG at fs/dcache.c:670 +lvm +md +ext3
-Date: Mon, 8 Feb 2010 09:59:43 +0000
-Message-ID: <20100208095943.GJ14551@chipmunk>
-References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.85G.9HiZLB@chimera> <4B66F79E.1040606@mandriva.org>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #15096] Resume lock up -- bisected, commit 3a1151e3f124fd1a2c54b8153f510f1a7c715369
+Date: Mon, 8 Feb 2010 11:56:23 +0100
+Message-ID: <201002081156.24020.rjw@sisk.pl>
+References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera> <iuJeop2ribM.A.fyH.fY1bLB@chimera> <b170af451002072345x1e7666adv7f105a5f847f4d0d@mail.gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <4B66F79E.1040606-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>
+In-Reply-To: <b170af451002072345x1e7666adv7f105a5f847f4d0d-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="utf-8"
+To: =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Stefan Bader <stefan.bader-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-Hi,
+On Monday 08 February 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
+> 2010/2/8 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
+> >
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still sh=
+ould
+> > be listed and let the tracking team know (either way).
+> >
+> >
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D1509=
+6
+> > Subject         : Resume lock up -- bisected, commit 3a1151e3f124fd=
+1a2c54b8153f510f1a7c715369
+> > Submitter       : Rafa=C5=82 Mi=C5=82ecki <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2010-01-20 23:15 (19 days old)
+> > First-Bad-Commit: http://git.kernel.org/git/linus/3a1151e3f124fd1a2=
+c54b8153f510f1a7c715369
 
-* Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org> [2010-02-01 17:47:42+0200]:
->
-> 01.02.2010 02:43, Rafael J. Wysocki skrev:
->> This message has been generated automatically as a part of a report
->> of regressions introduced between 2.6.31 and 2.6.32.
->>
->> The following bug entry is on the current list of known regressions
->> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
->> be listed and let me know (either way).
->>
->>
->> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14482
->> Subject		: kernel BUG at fs/dcache.c:670 +lvm +md +ext3
->> Submitter	: Alexander Clouter<alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org>
->> Date		: 2009-10-23 10:30 (101 days old)
->> References	: http://lkml.org/lkml/2009/10/23/50
->>
->
-> Afaik this is the same issue as the one referenced here:
->
-> http://lkml.org/lkml/2010/1/28/292
->
-> The patch in the above thread should fix the issue.
->
-I'm getting my hands on some not-in-production-state equipment to test 
-this with, so bear with me :)
+It looks like we should revert this commit, seems broken.
 
-Cheers
+Anyway, I'll do my best to have a look at this bug later today.
 
--- 
-Alexander Clouter
-.sigmonster says: Dealer prices may vary.
+Rafael
