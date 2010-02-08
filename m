@@ -1,76 +1,70 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #15096] Resume lock up -- bisected, commit 3a1151e3f124fd1a2c54b8153f510f1a7c715369
-Date: Mon, 8 Feb 2010 21:41:31 +0100
-Message-ID: <201002082141.31512.rjw@sisk.pl>
-References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera> <201002082024.32483.rjw@sisk.pl> <b170af451002081131w6f1e185epc4e0c13323b75934@mail.gmail.com>
+From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Subject: Re: [Bug #15015] blank screen at random times in laptop when
+ sitting idle
+Date: Mon, 8 Feb 2010 13:51:35 -0800
+Message-ID: <20100208135135.0c7367b1@jbarnes-piketon>
+References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera>
+	<iuJeop2ribM.A.WL.qY1bLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <b170af451002081131w6f1e185epc4e0c13323b75934@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <iuJeop2ribM.A.WL.qY1bLB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Len Brown <len.brown@intel.com>, Stefan Bader <stefan.bader@canonical.com>, Zhang Rui <rui.zhang@intel.com>, =?utf-8?q?J=C3=A9r=C3=B4me_Glisse?= <glisse@freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jithin Emmanuel <jithin1987-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Monday 08 February 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
-> W dniu 8 lutego 2010 20:24 u=C5=BCytkownik Rafael J. Wysocki <rjw@sis=
-k.pl> napisa=C5=82:
-> > On Monday 08 February 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
-> >> W dniu 8 lutego 2010 11:56 u=C5=BCytkownik Rafael J. Wysocki <rjw@=
-sisk.pl> napisa=C5=82:
-> >> > On Monday 08 February 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
-> >> >> 2010/2/8 Rafael J. Wysocki <rjw@sisk.pl>:
-> >> >> > This message has been generated automatically as a part of a =
-report
-> >> >> > of regressions introduced between 2.6.31 and 2.6.32.
-> >> >> >
-> >> >> > The following bug entry is on the current list of known regre=
-ssions
-> >> >> > introduced between 2.6.31 and 2.6.32.  Please verify if it st=
-ill should
-> >> >> > be listed and let the tracking team know (either way).
-> >> >> >
-> >> >> >
-> >> >> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-15096
-> >> >> > Subject         : Resume lock up -- bisected, commit 3a1151e3=
-f124fd1a2c54b8153f510f1a7c715369
-> >> >> > Submitter       : Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com>
-> >> >> > Date            : 2010-01-20 23:15 (19 days old)
-> >> >> > First-Bad-Commit: http://git.kernel.org/git/linus/3a1151e3f12=
-4fd1a2c54b8153f510f1a7c715369
-> >> >
-> >> > It looks like we should revert this commit, seems broken.
-> >> >
-> >> > Anyway, I'll do my best to have a look at this bug later today.
-> >>
-> >> In such case I'd prefer to add "broken_DOS" flag for devices that =
-were
-> >> enabled by this patch. We could avoid restoring backlight on resum=
-e
-> >> for broken_DOS then and maybe just update brightness to current va=
-lue.
-> >
-> > Or perhaps we can try to restore the backlight at a different place=
-=2E
->=20
-> I wanted to find out what causes this lock up by syncing modules
-> resume or putting some delays. See bug report of my question.
-> Unfortunately didn't get answer.
+On Mon,  8 Feb 2010 01:28:20 +0100 (CET)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-Hmm.
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.31 and 2.6.32.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.31 and 2.6.32.  Please verify if it still
+> should be listed and let the tracking team know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15015
+> Subject		: blank screen at random times in laptop when
+> sitting idle Submitter	: Jithin Emmanuel <jithin1987-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-01-09 16:48 (30 days old)
 
-I think the J=C3=A9r=C3=B4me's comment at
+Care to try this patch?  Just attached it to the bug too...
 
-http://bugzilla.kernel.org/show_bug.cgi?id=3D15096#c19
-
-is actually correct.  It looks like acpi_video_resume() is executed bef=
-ore the
-KMS driver's resume and things go south.
-
-In fact, we seem to have a design issue with acpi_video_resume(), becau=
-se it's
-called too early.
-
-Rafael
+diff --git a/drivers/gpu/drm/i915/intel_display.c b/drivers/gpu/drm/i915/intel_display.c
+index 06761e4..88d52a3 100644
+--- a/drivers/gpu/drm/i915/intel_display.c
++++ b/drivers/gpu/drm/i915/intel_display.c
+@@ -927,19 +927,28 @@ static void i8xx_enable_fbc(struct drm_crtc *crtc, unsigned long interval)
+ void i8xx_disable_fbc(struct drm_device *dev)
+ {
+ 	struct drm_i915_private *dev_priv = dev->dev_private;
++	unsigned long timeout = jiffies + msecs_to_jiffies(1);
+ 	u32 fbc_ctl;
+ 
+ 	if (!I915_HAS_FBC(dev))
+ 		return;
+ 
++	if (!(I915_READ(FBC_CONTROL) & FBC_CTL_EN))
++		return;	/* Already off, just return */
++
+ 	/* Disable compression */
+ 	fbc_ctl = I915_READ(FBC_CONTROL);
+ 	fbc_ctl &= ~FBC_CTL_EN;
+ 	I915_WRITE(FBC_CONTROL, fbc_ctl);
+ 
+ 	/* Wait for compressing bit to clear */
+-	while (I915_READ(FBC_STATUS) & FBC_STAT_COMPRESSING)
+-		; /* nothing */
++	while (I915_READ(FBC_STATUS) & FBC_STAT_COMPRESSING) {
++		if (time_after(jiffies, timeout)) {
++			DRM_DEBUG_DRIVER("FBC idle timed out\n");
++			break;
++		}
++		; /* do nothing */
++	}
+ 
+ 	intel_wait_for_vblank(dev);
+ 
