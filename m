@@ -1,36 +1,37 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15202] lockdep warning during elevator_switch
-Date: Mon, 8 Feb 2010 01:08:56 +0100
-Message-ID: <201002080108.56180.rjw@sisk.pl>
-References: <4Ht3jFrT7uE.A.JI.-nzbLB@chimera> <445R0ey9hAI.A.h3.RozbLB@chimera> <alpine.LSU.2.00.1002072334290.22220@sister.anvils>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #15114] X.org hang with [drm:i915_gem_do_execbuffer] *ERROR* in dmesg
+Date: Mon, 8 Feb 2010 01:09:58 +0100
+Message-ID: <201002080109.58924.rjw@sisk.pl>
+References: <4Ht3jFrT7uE.A.JI.-nzbLB@chimera> <445R0ey9hAI.A.1tB.7ozbLB@chimera> <201002080016.36393.strohel@gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LSU.2.00.1002072334290.22220-T/S/X05ZC3jbmfIwyoSfiQ@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <201002080016.36393.strohel@gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Hugh Dickins <hugh.dickins-IWqWACnzNjwqdlJmJB21zg@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: Text/Plain; charset="iso-8859-1"
+To: =?iso-8859-2?q?Mat=ECj_Laitl?= <strohel@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-On Monday 08 February 2010, Hugh Dickins wrote:
-> On Sun, 7 Feb 2010, Rafael J. Wysocki wrote:
-> 
-> > This message has been generated automatically as a part of a summary report
+On Monday 08 February 2010, Mat=ECj Laitl wrote:
+> On Sunday 07 February 2010 23:28:50 Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a summar=
+y report
 > > of recent regressions.
-> > 
+> >=20
 > > The following bug entry is on the current list of known regressions
-> > from 2.6.32.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15202
-> > Subject		: lockdep warning during elevator_switch
-> > Submitter	: Hugh Dickins <hugh.dickins-IWqWACnzNjwqdlJmJB21zg@public.gmane.org>
-> > Date		: 2010-01-31 23:55 (8 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=126498212613051&w=4
-> 
-> Yes, still so in 2.6.33-rc7.
+> > from 2.6.32.  Please verify if it still should be listed and let th=
+e
+> > tracking team know (either way).
+> >=20
+> >=20
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15114
+> > Subject		: X.org hang with [drm:i915_gem_do_execbuffer] *ERROR* in =
+dmesg
+> > Submitter	: Matej Laitl <strohel@gmail.com>
+> > Date		: 2010-01-23 19:54 (16 days old)
+>=20
+> I confirm the regression still exists in 2.6.33-rc6-00228-g56dca4c
 
 Thanks for the update.
 
