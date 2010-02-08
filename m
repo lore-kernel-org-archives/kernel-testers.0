@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15021] agpgart sometimes fails to initialize sometimes
+Subject: [Bug #15040] High cpu temperature with 2.6.32 - bisected to cpuidle menu update
 Date: Mon,  8 Feb 2010 01:28:21 +0100 (CET)
-Message-ID: <iuJeop2ribM.A.hJ.nY1bLB@chimera>
+Message-ID: <iuJeop2ribM.A.mH.lY1bLB@chimera>
 References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Maciej Piechotka <uzytkownik2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Dimitrios Apostolou <jimis-hi6Y0CQ0nG0@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,8 +22,11 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15021
-Subject		: agpgart sometimes fails to initialize sometimes
-Submitter	: Maciej Piechotka <uzytkownik2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2010-01-09 23:31 (30 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15040
+Subject		: High cpu temperature with 2.6.32 - bisected to cpuidle menu update
+Submitter	: Dimitrios Apostolou <jimis-hi6Y0CQ0nG0@public.gmane.org>
+Date		: 2010-01-06 17:39 (33 days old)
+References	: http://marc.info/?l=linux-kernel&m=126279952723036&w=4
+Handled-By	: Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Patch		: http://patchwork.kernel.org/patch/71962/
 
