@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14657] perf subsystem breakage in 2.6.32-rc7
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #14748] e1000e NIC not working after reboot
 Date: Mon,  8 Feb 2010 01:28:15 +0100 (CET)
-Message-ID: <iuJeop2ribM.A.2wB.ga1bLB@chimera>
+Message-ID: <iuJeop2ribM.A.ZaB.5Z1bLB@chimera>
 References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Arjan van de Ven <arjan@infradead.org>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Maciek Sitarz <macieks-yngNwrTfnRnVItvQsEIGlw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,9 +22,8 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14657
-Subject		: perf subsystem breakage in 2.6.32-rc7
-Submitter	: Arjan van de Ven <arjan@infradead.org>
-Date		: 2009-11-19 19:50 (81 days old)
-References	: http://marc.info/?l=linux-kernel&m=125866013419738&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14748
+Subject		: e1000e NIC not working after reboot
+Submitter	: Maciek Sitarz <macieks-yngNwrTfnRnVItvQsEIGlw@public.gmane.org>
+Date		: 2009-12-06 13:04 (64 days old)
 
