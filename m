@@ -1,44 +1,53 @@
-From: Marcel Holtmann <marcel@holtmann.org>
-Subject: Re: [Bug #15127] Bluetooth: sleeping function called from invalid
- context
-Date: Mon, 08 Feb 2010 09:05:01 +0100
-Message-ID: <1265616301.31341.259.camel@localhost.localdomain>
-References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera>
-	 <iuJeop2ribM.A.DgH.XY1bLB@chimera>  <4B6F82B7.4090501@xenontk.org>
+From: Toralf =?iso-8859-1?q?F=F6rster?= <toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [Bug #15100] X11 is black after resume from s2ram if my T400 was previous in docking station before
+Date: Mon, 8 Feb 2010 09:52:55 +0100
+Message-ID: <201002080952.55900.toralf.foerster@gmx.de>
+References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera> <iuJeop2ribM.A.YrH.bY1bLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <4B6F82B7.4090501@xenontk.org>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <iuJeop2ribM.A.YrH.bY1bLB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: davidjon@xenontk.org
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Luiz Augusto von Dentz <luiz.dentz@openbossa.org>
+Content-Type: Text/Plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-Hi David,
 
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.31 and 2.6.32.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.31 and 2.6.32.  Please verify if it still should
-> > be listed and let the tracking team know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15127
-> > Subject		: Bluetooth: sleeping function called from invalid context
-> > Submitter	: David John <davidjon@xenontk.org>
-> > Date		: 2010-01-12 9:19 (27 days old)
-> > First-Bad-Commit: http://git.kernel.org/git/linus/9e726b17422bade75fba94e625cd35fd1353e682
-> > References	: http://marc.info/?l=linux-kernel&m=126328727021949&w=4
-> > Handled-By	: Marcel Holtmann <marcel@holtmann.org>
-> > Patch		: http://patchwork.kernel.org/patch/76019/
->
-> The fix has not been merged yet, so please keep this open.
+Rafael J. Wysocki wrote at 01:28:23
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.31 and 2.6.32.
+>=20
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.31 and 2.6.32.  Please verify if it still shou=
+ld
+> be listed and let the tracking team know (either way).
+>=20
+>=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15100
+> Subject		: X11 is black after resume from s2ram if my T400 was previo=
+us in
+>  docking station before Submitter	: Toralf F=F6rster <toralf.foerster=
+@gmx.de>
+> Date		: 2010-01-21 08:56 (18 days old)
+> First-Bad-Commit:
+>  http://git.kernel.org/git/linus/c1c7af60892070e4b82ad63bbfb95ae74505=
+6de0
+>=20
 
-a set of fixes has been sent to Dave Miller for pulling on Friday.
+The current 2.6.33-rc7 has a much more worse behaviour. With the previu=
+os=20
+series I could (sometimes) put the ThinkPAd into the docking station ag=
+ain=20
+(after wakeup) and the external screen shows the X11 screen or at least=
+ I=20
+could press Ctr-Alt-Backspace and restart the X11 server. The current -=
+rc7=20
+however is balck, don't accept after wakeup key nor mouse nor any SysRQ=
+=20
+keyboard sequence.
 
-Regards
 
-Marcel
-
+--=20
+MfG/Sincerely
+Toralf F=F6rster
