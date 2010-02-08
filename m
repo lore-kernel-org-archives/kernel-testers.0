@@ -1,70 +1,76 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Subject: Re: [Bug #15196] kmem_cache_create: duplicate cache ccid2_h
-Date: Mon, 08 Feb 2010 12:34:54 -0800 (PST)
-Message-ID: <20100208.123454.38911094.davem@davemloft.net>
-References: <445R0ey9hAI.A.tNB.XozbLB@chimera>
-	<20100208071515.GA6473@fancy-poultry.org>
-	<201002081204.28039.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #15096] Resume lock up -- bisected, commit 3a1151e3f124fd1a2c54b8153f510f1a7c715369
+Date: Mon, 8 Feb 2010 21:41:31 +0100
+Message-ID: <201002082141.31512.rjw@sisk.pl>
+References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera> <201002082024.32483.rjw@sisk.pl> <b170af451002081131w6f1e185epc4e0c13323b75934@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201002081204.28039.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <b170af451002081131w6f1e185epc4e0c13323b75934@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: rjw-KKrjLPT3xs0@public.gmane.org
-Cc: htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org, xtfeng-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: Text/Plain; charset="utf-8"
+To: =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Len Brown <len.brown@intel.com>, Stefan Bader <stefan.bader@canonical.com>, Zhang Rui <rui.zhang@intel.com>, =?utf-8?q?J=C3=A9r=C3=B4me_Glisse?= <glisse@freedesktop.org>
 
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Date: Mon, 8 Feb 2010 12:04:27 +0100
+On Monday 08 February 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
+> W dniu 8 lutego 2010 20:24 u=C5=BCytkownik Rafael J. Wysocki <rjw@sis=
+k.pl> napisa=C5=82:
+> > On Monday 08 February 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
+> >> W dniu 8 lutego 2010 11:56 u=C5=BCytkownik Rafael J. Wysocki <rjw@=
+sisk.pl> napisa=C5=82:
+> >> > On Monday 08 February 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
+> >> >> 2010/2/8 Rafael J. Wysocki <rjw@sisk.pl>:
+> >> >> > This message has been generated automatically as a part of a =
+report
+> >> >> > of regressions introduced between 2.6.31 and 2.6.32.
+> >> >> >
+> >> >> > The following bug entry is on the current list of known regre=
+ssions
+> >> >> > introduced between 2.6.31 and 2.6.32.  Please verify if it st=
+ill should
+> >> >> > be listed and let the tracking team know (either way).
+> >> >> >
+> >> >> >
+> >> >> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+15096
+> >> >> > Subject         : Resume lock up -- bisected, commit 3a1151e3=
+f124fd1a2c54b8153f510f1a7c715369
+> >> >> > Submitter       : Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com>
+> >> >> > Date            : 2010-01-20 23:15 (19 days old)
+> >> >> > First-Bad-Commit: http://git.kernel.org/git/linus/3a1151e3f12=
+4fd1a2c54b8153f510f1a7c715369
+> >> >
+> >> > It looks like we should revert this commit, seems broken.
+> >> >
+> >> > Anyway, I'll do my best to have a look at this bug later today.
+> >>
+> >> In such case I'd prefer to add "broken_DOS" flag for devices that =
+were
+> >> enabled by this patch. We could avoid restoring backlight on resum=
+e
+> >> for broken_DOS then and maybe just update brightness to current va=
+lue.
+> >
+> > Or perhaps we can try to restore the backlight at a different place=
+=2E
+>=20
+> I wanted to find out what causes this lock up by syncing modules
+> resume or putting some delays. See bug report of my question.
+> Unfortunately didn't get answer.
 
-> Hmm.  The bug is in net/dccp/ccid.c, so it looks like something for the
-> networking guys to merge.
-> 
-> Any chance to send a singed-off version of the patch do David?
+Hmm.
 
-Fixes for this are already in my net-2.6 tree, will send them
-off to Linus later today, I was waiting for some netfilter
-fixes which I just received:
+I think the J=C3=A9r=C3=B4me's comment at
 
-commit 1386be55e32a3c5d8ef4a2b243c530a7b664c02c
-Author: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
-Date:   Tue Feb 2 20:16:56 2010 +0000
+http://bugzilla.kernel.org/show_bug.cgi?id=3D15096#c19
 
-    dccp: fix auto-loading of dccp(_probe)
-    
-    This fixes commit (38ff3e6bb987ec583268da8eb22628293095d43b) ("dccp_probe:
-    Fix module load dependencies between dccp and dccp_probe", from 15 Jan).
-    
-    It fixes the construction of the first argument of try_then_request_module(),
-    where only valid return codes from the first argument should be returned.
-    
-    What we do now is assign the result of register_jprobe() to ret, without
-    the side effect of the comparison.
-    
-    Acked-by: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
-    Signed-off-by: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-    Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+is actually correct.  It looks like acpi_video_resume() is executed bef=
+ore the
+KMS driver's resume and things go south.
 
-commit 8ed030dd0aa400d18c63861c2c6deb7c38f4edde
-Author: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
-Date:   Mon Feb 1 02:12:19 2010 +0000
+In fact, we seem to have a design issue with acpi_video_resume(), becau=
+se it's
+called too early.
 
-    dccp: fix bug in cache allocation
-    
-    This fixes a bug introduced in commit de4ef86cfce60d2250111f34f8a084e769f23b16
-    ("dccp: fix dccp rmmod when kernel configured to use slub", 17 Jan): the
-    vsnprintf used sizeof(slab_name_fmt), which became truncated to 4 bytes, since
-    slab_name_fmt is now a 4-byte pointer and no longer a 32-character array.
-    
-    This lead to error messages such as
-     FATAL: Error inserting dccp: No buffer space available
-    
-     >> kernel: [ 1456.341501] kmem_cache_create: duplicate cache cci
-    generated due to the truncation after the 3rd character.
-    
-    Fixed for the moment by introducing a symbolic constant. Tested to fix the bug.
-    
-    Signed-off-by: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
-    Acked-by: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-    Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Rafael
