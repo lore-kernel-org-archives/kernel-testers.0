@@ -1,50 +1,70 @@
-From: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #15004] i915: *ERROR* Execbuf while wedged
-Date: Mon, 8 Feb 2010 15:00:44 -0500
-Message-ID: <20100208200044.GA2677@think>
-References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
- <de962C6zBxL.A.bvE.cFiZLB@chimera>
- <20100205110100.57852c31@jbarnes-piketon>
- <20100205190916.GD2858@think>
- <20100205111747.6619b09b@jbarnes-piketon>
- <20100208172410.GA11311@think>
- <20100208093551.58a10643@jbarnes-piketon>
+From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Subject: Re: [Bug #15196] kmem_cache_create: duplicate cache ccid2_h
+Date: Mon, 08 Feb 2010 12:34:54 -0800 (PST)
+Message-ID: <20100208.123454.38911094.davem@davemloft.net>
+References: <445R0ey9hAI.A.tNB.XozbLB@chimera>
+	<20100208071515.GA6473@fancy-poultry.org>
+	<201002081204.28039.rjw@sisk.pl>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20100208093551.58a10643@jbarnes-piketon>
+In-Reply-To: <201002081204.28039.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>, tomas m <tmezzadra-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: rjw-KKrjLPT3xs0@public.gmane.org
+Cc: htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org, xtfeng-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Mon, Feb 08, 2010 at 09:35:51AM -0800, Jesse Barnes wrote:
-> > 
-> > Ok, updating to rc7 and updating my xf86 driver to 2.10 seems to have
-> > fixed up my suspend/resume problems.  So, I should be able to trigger
-> > the execbuf problem again.
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Date: Mon, 8 Feb 2010 12:04:27 +0100
+
+> Hmm.  The bug is in net/dccp/ccid.c, so it looks like something for the
+> networking guys to merge.
 > 
-> I've heard some reports that the 2D driver introduces and fixes hangs,
-> so it's possible 2.10 will fix both issues for you.
-> 
-> > Well, the rebooting isn't a huge deal, but if there's something I can
-> > track/kick or force to core dump, would it help?
-> 
-> We do have a test in intel-gpu-tools that will instigate a hang, but it
-> would be best to figure out what's causing it in your environment.
-> 
+> Any chance to send a singed-off version of the patch do David?
 
-[63516.632060] [drm:i915_hangcheck_elapsed] *ERROR* Hangcheck timer elapsed... GPU hung
-[63516.632069] render error detected, EIR: 0x00000000
-[63516.632092] [drm:i915_do_wait_request] *ERROR* i915_do_wait_request returns -5 (awaiting 2590581 at 2590579)
+Fixes for this are already in my net-2.6 tree, will send them
+off to Linus later today, I was waiting for some netfilter
+fixes which I just received:
 
-So, this popped up while surfing in firefox, which is usually where I
-hit the execbuf errors.  X was totally stuck afterwards, but I could
-switch to a vc and get the dmesg.
+commit 1386be55e32a3c5d8ef4a2b243c530a7b664c02c
+Author: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
+Date:   Tue Feb 2 20:16:56 2010 +0000
 
-If there are specific procs that I can try to get traces of, just let
-me know for next time.
+    dccp: fix auto-loading of dccp(_probe)
+    
+    This fixes commit (38ff3e6bb987ec583268da8eb22628293095d43b) ("dccp_probe:
+    Fix module load dependencies between dccp and dccp_probe", from 15 Jan).
+    
+    It fixes the construction of the first argument of try_then_request_module(),
+    where only valid return codes from the first argument should be returned.
+    
+    What we do now is assign the result of register_jprobe() to ret, without
+    the side effect of the comparison.
+    
+    Acked-by: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
+    Signed-off-by: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+    Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 
--chris
+commit 8ed030dd0aa400d18c63861c2c6deb7c38f4edde
+Author: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
+Date:   Mon Feb 1 02:12:19 2010 +0000
+
+    dccp: fix bug in cache allocation
+    
+    This fixes a bug introduced in commit de4ef86cfce60d2250111f34f8a084e769f23b16
+    ("dccp: fix dccp rmmod when kernel configured to use slub", 17 Jan): the
+    vsnprintf used sizeof(slab_name_fmt), which became truncated to 4 bytes, since
+    slab_name_fmt is now a 4-byte pointer and no longer a 32-character array.
+    
+    This lead to error messages such as
+     FATAL: Error inserting dccp: No buffer space available
+    
+     >> kernel: [ 1456.341501] kmem_cache_create: duplicate cache cci
+    generated due to the truncation after the 3rd character.
+    
+    Fixed for the moment by introducing a symbolic constant. Tested to fix the bug.
+    
+    Signed-off-by: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
+    Acked-by: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+    Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
