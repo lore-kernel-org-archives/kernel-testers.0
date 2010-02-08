@@ -1,81 +1,64 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [PATCH] i915 / PM: Fix crash while aborting hibernation (Re: [linux-pm] [regression] "drm/i915: implement new pm ops" disables irq on aborted s2disk)
-Date: Mon, 8 Feb 2010 12:06:08 +0100
-Message-ID: <201002081206.08946.rjw@sisk.pl>
-References: <4B695BA0.4000007@tuffmail.co.uk> <201002072148.24588.rjw@sisk.pl> <4B6FDE14.8070406@tuffmail.co.uk>
+From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #15096] Resume lock up -- bisected, commit 
+	3a1151e3f124fd1a2c54b8153f510f1a7c715369
+Date: Mon, 8 Feb 2010 12:49:35 +0100
+Message-ID: <b170af451002080349x4fb955b2wb9d0bdf6e6e03d0e@mail.gmail.com>
+References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera>
+	 <iuJeop2ribM.A.fyH.fY1bLB@chimera>
+	 <b170af451002072345x1e7666adv7f105a5f847f4d0d@mail.gmail.com>
+	 <201002081156.24020.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B6FDE14.8070406-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=X8k7LjyJKFexbe6PXSLbZqqqMelDHKFh64bw/yDmLxM=;
+        b=wmaUIIuKJcwzCO1DwOO+uQa9oOS6o/D4O71+JQixrU2XuVP8ULtdbb116z63h1ZkgW
+         MmI2+SA7FWw5JMHITXpax5i4JauYRHN6NlhcvV9IbY+WhPnN7RpN7gOl0+2gVT4yRNgl
+         SmIYP+Z/OTYkkVZxTDKFZjqrNZERqCe8Ltww8=
+In-Reply-To: <201002081156.24020.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Cc: Zhenyu Wang <zhenyuw-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Stefan Bader <stefan.bader-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, Zhang Rui <rui.zhang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Monday 08 February 2010, Alan Jenkins wrote:
-> Rafael J. Wysocki wrote:
-> > On Thursday 04 February 2010, Zhenyu Wang wrote:
-> >   
-> >> On 2010.02.03 23:44:41 +0100, Rafael J. Wysocki wrote:
-> >>     
-> >>> On Wednesday 03 February 2010, Alan Jenkins wrote:
-> >>>       
-> >>>> Hi
-> >>>>
-> >>>> I found this regression on my EeePC 701 with modesetting enabled.  When 
-> >>>> I hibernate using s2disk, I can abort the hibernation by pressing the 
-> >>>> backspace key.  Doing so breaks X on 2.6.32-rc6 (but not 2.6.32).
-> >>>>         
-> >>> Yeah.
-> >>>
-> >>> To be honest, I knew that's going to happen, but didn't have the time to take
-> >>> care of it.
-> >>>
-> >>> The problem is that i915 does literally _nothing_ in its .thaw() callback,
-> >>> although it should at least reverse whatever .freeze() did to the hardware
-> >>> (and memory allocations and so on), so that the adapter is functional
-> >>> after creating the image.
-> >>>
-> >>> Fixing this requires some thought, though, because at the moment .freeze()
-> >>> thinks it's .suspend(), which is not the case as this report clearly shows.
-> >>> So, in fact i915_pci_suspend() has to be split into the .freeze() part and
-> >>> the poweroff part cleanly and that's not  so simple (at least to me).
-> >>>
-> >>>       
-> >> Right, I think that'll be more clean, stuff in i915_save/restore_state() need
-> >> to be splited too, especially isolate stuff for mode setting and other device
-> >> state, as what my original purpose for this is to remove extra mode setting 
-> >> cycle in old behavior so not waste time for hibernate.
-> >>     
-> >
-> > We can't really do that, because we'll need to restore the saved state at the
-> > resume-from-hibernation stage.
-> >
-> > The appended patch fixes the issue for me, although it's been only tested
-> > a little.  It sort of defeats the purpose of commit
-> > cbda12d77ea590082edb6d30bd342a67ebc459e0, but I don't see any less invasive
-> > way to fix this except maybe for reverting that commit entirely.
-> >
-> > Note that the drm_irq_[un]install() thing may be unnecessary, but I wasn't sure
-> > about that and surely wouldn't suggest doing that for 2.6.33.  Also it looks like
-> > some things from the freeze and thaw parts may be moved to the "low-level"
-> > suspend and resume parts, respectively, but that would require some
-> > i915_gem_* surgery I was too scared to do.
-> >
-> > Alan, please test, i915 guys, please review.
-> >
-> > Rafael
-> >   
-> 
-> The patch works very nicely on my eeepc.
+W dniu 8 lutego 2010 11:56 u=C5=BCytkownik Rafael J. Wysocki <rjw@sisk.=
+pl> napisa=C5=82:
+> On Monday 08 February 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
+>> 2010/2/8 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
+>> > This message has been generated automatically as a part of a repor=
+t
+>> > of regressions introduced between 2.6.31 and 2.6.32.
+>> >
+>> > The following bug entry is on the current list of known regression=
+s
+>> > introduced between 2.6.31 and 2.6.32. =C2=A0Please verify if it st=
+ill should
+>> > be listed and let the tracking team know (either way).
+>> >
+>> >
+>> > Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_b=
+ug.cgi?id=3D15096
+>> > Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : Resume lock up -- bisected, =
+commit 3a1151e3f124fd1a2c54b8153f510f1a7c715369
+>> > Submitter =C2=A0 =C2=A0 =C2=A0 : Rafa=C5=82 Mi=C5=82ecki <zajec5@g=
+mail.com>
+>> > Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2010-01-20 23:15 (=
+19 days old)
+>> > First-Bad-Commit: http://git.kernel.org/git/linus/3a1151e3f124fd1a=
+2c54b8153f510f1a7c715369
+>
+> It looks like we should revert this commit, seems broken.
+>
+> Anyway, I'll do my best to have a look at this bug later today.
 
-Great, thanks for testing.
+In such case I'd prefer to add "broken_DOS" flag for devices that were
+enabled by this patch. We could avoid restoring backlight on resume
+for broken_DOS then and maybe just update brightness to current value.
 
-> Thanks
-> (and thanks again for all your hard work this cycle, and specifically 
-> for pointing me to the s2disk hang-fix)
-
-You're welcome. :-)
-
-Rafael
+--=20
+Rafa=C5=82
