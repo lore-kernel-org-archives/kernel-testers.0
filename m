@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15205] blank screen with KMS if lid is closed before kernel boots
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #15193] kswapd continuously active
 Date: Mon,  8 Feb 2010 01:28:29 +0100 (CET)
-Message-ID: <iuJeop2ribM.A.t-G.DY1bLB@chimera>
+Message-ID: <iuJeop2ribM.A.-EH.GY1bLB@chimera>
 References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Eric Anholt <eric@anholt.net>, Jesse Barnes <jbarnes@virtuousgeek.org>, Sven Joachim <svenjoac@gmx.de>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,9 +22,10 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15205
-Subject		: blank screen with KMS if lid is closed before kernel boots
-Submitter	: Sven Joachim <svenjoac@gmx.de>
-Date		: 2010-02-01 09:08 (7 days old)
-First-Bad-Commit: http://git.kernel.org/git/linus/b42d4c5c6a872815d711e5d51a600f5122c38eee
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15193
+Subject		: kswapd continuously active
+Submitter	: Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org>
+Date		: 2010-01-22 23 (17 days old)
+References	: http://marc.info/?l=linux-kernel&m=126420434519039&w=4
+Handled-By	: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
