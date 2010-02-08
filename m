@@ -1,68 +1,33 @@
-From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Subject: Re: [Bug #15096] Resume lock up -- bisected, commit 
-	3a1151e3f124fd1a2c54b8153f510f1a7c715369
-Date: Mon, 8 Feb 2010 13:38:30 +0100
-Message-ID: <b170af451002080438i18a1e541x8dc038f4b5f129f4@mail.gmail.com>
-References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera>
-	 <iuJeop2ribM.A.fyH.fY1bLB@chimera>
-	 <b170af451002072345x1e7666adv7f105a5f847f4d0d@mail.gmail.com>
-	 <201002081156.24020.rjw@sisk.pl> <4B7004F4.3030804@canonical.com>
+From: Toralf =?iso-8859-1?q?F=F6rster?= <toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [Bug #15100] X11 is black after resume from s2ram if my T400 was previous in docking station before
+Date: Mon, 8 Feb 2010 15:38:59 +0100
+Message-ID: <201002081538.59453.toralf.foerster@gmx.de>
+References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera> <201002080952.55900.toralf.foerster@gmx.de> <201002081158.36284.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=PXYYoseUkqbgL55np5FHjoGISQis1Anx2DZWo86Y0vQ=;
-        b=jH4Sr0AmCRkbNyEwvF+EJjdbu/UWPG90MZiKYxphxAjRIIIr8H33Qo8WevJCqp4X8V
-         UFPfISygQRDNhMXGKNREC3cV/avRou76msiDIRGxAd5py6ORPFv1ISY6tPNgq0RifldG
-         3pNFYDG/16tTgmvK6knu9sm2BMu6JBUbM+JeU=
-In-Reply-To: <4B7004F4.3030804@canonical.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <201002081158.36284.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Stefan Bader <stefan.bader@canonical.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Len Brown <len.brown@intel.com>, Zhang Rui <rui.zhang@intel.com>
+Content-Type: Text/Plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-2010/2/8 Stefan Bader <stefan.bader@canonical.com>:
-> Rafael J. Wysocki wrote:
->> On Monday 08 February 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
->>> 2010/2/8 Rafael J. Wysocki <rjw@sisk.pl>:
->>>> This message has been generated automatically as a part of a repor=
-t
->>>> of regressions introduced between 2.6.31 and 2.6.32.
->>>>
->>>> The following bug entry is on the current list of known regression=
-s
->>>> introduced between 2.6.31 and 2.6.32. =C2=A0Please verify if it st=
-ill should
->>>> be listed and let the tracking team know (either way).
->>>>
->>>>
->>>> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_b=
-ug.cgi?id=3D15096
->>>> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : Resume lock up -- bisected, =
-commit 3a1151e3f124fd1a2c54b8153f510f1a7c715369
->>>> Submitter =C2=A0 =C2=A0 =C2=A0 : Rafa=C5=82 Mi=C5=82ecki <zajec5@g=
-mail.com>
->>>> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2010-01-20 23:15 (=
-19 days old)
->>>> First-Bad-Commit: http://git.kernel.org/git/linus/3a1151e3f124fd1a=
-2c54b8153f510f1a7c715369
->>
->> It looks like we should revert this commit, seems broken.
->
-> Hm, otoh we had definitely people with some Asus laptops who where on=
-ly be able
-> to use backlight control with it. So I would rather prefer some work =
-around to
-> the suspend/resume problem (_DOS if I understood correctly).
 
-It's same case with my Sony VAIO. Without this I can not control
-backlight. Eventually I can hack on GPU registers directly, but I
-don't think it can be called solution.
+Rafael J. Wysocki wrote at 11:58:36
+> I wonder if the patch from http://bugzilla.kernel.org/show_bug.cgi?id=
+=3D15000
+> helps?
+>=20
+> Rafael
+>=20
+No, tested patch against 2.6.32.8-rc2 and current git (-rc7) - no succe=
+ss.
+
+BTW the mentioned commit fe06fba29 of bug #15000 is 1 month younger tha=
+n the=20
+first bad commit c1c7af608 of bug #15100.
 
 --=20
-Rafa=C5=82
+MfG/Sincerely
+Toralf F=F6rster
