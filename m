@@ -1,51 +1,68 @@
-From: Luca Tettamanti <kronos.it-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #15195] kernel BUG at include/net/netns/generic.h:41, 
-	pfkey_create+0x36/0x18b [af_key]
-Date: Wed, 10 Feb 2010 16:59:52 +0100
-Message-ID: <68676e01002100759v37f79938p51f3aeb6c068d39a@mail.gmail.com>
-References: <4Ht3jFrT7uE.A.JI.-nzbLB@chimera>
-	 <445R0ey9hAI.A.4VB.YozbLB@chimera>
+From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Subject: Re: [Bug #15004] i915: *ERROR* Execbuf while wedged
+Date: Wed, 10 Feb 2010 08:44:22 -0800
+Message-ID: <20100210084422.0132c0b1@jbarnes-piketon>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera>
+	<de962C6zBxL.A.bvE.cFiZLB@chimera>
+	<20100205110100.57852c31@jbarnes-piketon>
+	<20100205190916.GD2858@think>
+	<20100205111747.6619b09b@jbarnes-piketon>
+	<20100208172410.GA11311@think>
+	<20100208093551.58a10643@jbarnes-piketon>
+	<20100208200044.GA2677@think>
+	<20100208153950.73f4e9a5@jbarnes-piketon>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=Bqi7rlW1OkV9z6UxjVeUCa/2TYNYgXK+2E0feJZGh4I=;
-        b=S4jWdhjcb4smSyYwMJfLQKMrTtQkZfozUYPiIXYrrvV7+ukQzjEx4J7lyayFjz5fgh
-         STnJTp1asoDISlQU2BGprQnp59Rc8K3GIhJ4Az2dM8ddKqkjqhc5sAqmWkKISR6K4pWC
-         sqgsCR0ObvQ1RU78WceWVbgzNarJdVMSbuzCk=
-In-Reply-To: <445R0ey9hAI.A.4VB.YozbLB@chimera>
+In-Reply-To: <20100208153950.73f4e9a5@jbarnes-piketon>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>, tomas m <tmezzadra-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Sun, Feb 7, 2010 at 11:28 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> The following bug entry is on the current list of known regressions
-> from 2.6.32. =C2=A0Please verify if it still should be listed and let=
- the tracking team
-> know (either way).
->
->
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D15195
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : kernel BUG at include/net/netns=
-/generic.h:41, pfkey_create+0x36/0x18b [af_key]
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Luca Tettamanti <kronos.it-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org=
->
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2010-01-30 13:23 (9 d=
-ays old)
-> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-netdev&m=
-=3D126485785004775&w=3D4
-> Handled-By =C2=A0 =C2=A0 =C2=A0: Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org=
->
-> Patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : http://patchwork.kernel.or=
-g/patch/75891/
+On Mon, 8 Feb 2010 15:39:50 -0800
+Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org> wrote:
 
-=46ixed by commit 180211b841b5bf13ab10d19202adab3eb7749f6c
+> On Mon, 8 Feb 2010 15:00:44 -0500
+> Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org> wrote:
+> 
+> > On Mon, Feb 08, 2010 at 09:35:51AM -0800, Jesse Barnes wrote:
+> > > > 
+> > > > Ok, updating to rc7 and updating my xf86 driver to 2.10 seems to
+> > > > have fixed up my suspend/resume problems.  So, I should be able
+> > > > to trigger the execbuf problem again.
+> > > 
+> > > I've heard some reports that the 2D driver introduces and fixes
+> > > hangs, so it's possible 2.10 will fix both issues for you.
+> > > 
+> > > > Well, the rebooting isn't a huge deal, but if there's something
+> > > > I can track/kick or force to core dump, would it help?
+> > > 
+> > > We do have a test in intel-gpu-tools that will instigate a hang,
+> > > but it would be best to figure out what's causing it in your
+> > > environment.
+> > > 
+> > 
+> > [63516.632060] [drm:i915_hangcheck_elapsed] *ERROR* Hangcheck timer
+> > elapsed... GPU hung [63516.632069] render error detected, EIR:
+> > 0x00000000 [63516.632092] [drm:i915_do_wait_request] *ERROR*
+> > i915_do_wait_request returns -5 (awaiting 2590581 at 2590579)
+> > 
+> > So, this popped up while surfing in firefox, which is usually where
+> > I hit the execbuf errors.  X was totally stuck afterwards, but I
+> > could switch to a vc and get the dmesg.
+> > 
+> > If there are specific procs that I can try to get traces of, just
+> > let me know for next time.
+> 
+> Hm, EIR is clear so this may be a failure of our hangcheck timer.
+> 
+> Chris Wilson saw these recently too; hoping he has ideas.
 
-Luca
+The kernel bz was updated with a patch to libdrm that fixed this issue
+for at least one user.  Can you confirm?
+
+Thanks,
+-- 
+Jesse Barnes, Intel Open Source Technology Center
