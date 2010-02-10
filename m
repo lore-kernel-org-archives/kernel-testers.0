@@ -1,24 +1,51 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bugme-new] [Bug 15259] New: Corruption with OpenGL since Intel's big DRM push on i945
-Date: Tue, 9 Feb 2010 22:58:50 +0100
-Message-ID: <201002092258.50747.rjw@sisk.pl>
-References: <bug-15259-10286@http.bugzilla.kernel.org/> <20100209134027.287dd24b.akpm@linux-foundation.org>
+From: Luca Tettamanti <kronos.it-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #15195] kernel BUG at include/net/netns/generic.h:41, 
+	pfkey_create+0x36/0x18b [af_key]
+Date: Wed, 10 Feb 2010 16:59:52 +0100
+Message-ID: <68676e01002100759v37f79938p51f3aeb6c068d39a@mail.gmail.com>
+References: <4Ht3jFrT7uE.A.JI.-nzbLB@chimera>
+	 <445R0ey9hAI.A.4VB.YozbLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100209134027.287dd24b.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=Bqi7rlW1OkV9z6UxjVeUCa/2TYNYgXK+2E0feJZGh4I=;
+        b=S4jWdhjcb4smSyYwMJfLQKMrTtQkZfozUYPiIXYrrvV7+ukQzjEx4J7lyayFjz5fgh
+         STnJTp1asoDISlQU2BGprQnp59Rc8K3GIhJ4Az2dM8ddKqkjqhc5sAqmWkKISR6K4pWC
+         sqgsCR0ObvQ1RU78WceWVbgzNarJdVMSbuzCk=
+In-Reply-To: <445R0ey9hAI.A.4VB.YozbLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Tuesday 09 February 2010, Andrew Morton wrote:
-> On Mon, 8 Feb 2010 13:19:12 GMT
-> bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org wrote:
-> 
-> > http://bugzilla.kernel.org/show_bug.cgi?id=15259
-> 
-> 1,987,777 :)
+On Sun, Feb 7, 2010 at 11:28 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> The following bug entry is on the current list of known regressions
+> from 2.6.32. =C2=A0Please verify if it still should be listed and let=
+ the tracking team
+> know (either way).
+>
+>
+> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
+cgi?id=3D15195
+> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : kernel BUG at include/net/netns=
+/generic.h:41, pfkey_create+0x36/0x18b [af_key]
+> Submitter =C2=A0 =C2=A0 =C2=A0 : Luca Tettamanti <kronos.it-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org=
+>
+> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2010-01-30 13:23 (9 d=
+ays old)
+> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-netdev&m=
+=3D126485785004775&w=3D4
+> Handled-By =C2=A0 =C2=A0 =C2=A0: Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org=
+>
+> Patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : http://patchwork.kernel.or=
+g/patch/75891/
 
-Added, CCing dri-devel and Eric.
+=46ixed by commit 180211b841b5bf13ab10d19202adab3eb7749f6c
+
+Luca
