@@ -1,35 +1,100 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15195] kernel BUG at include/net/netns/generic.h:41, pfkey_create+0x36/0x18b [af_key]
-Date: Wed, 10 Feb 2010 20:23:34 +0100
-Message-ID: <201002102023.34292.rjw@sisk.pl>
-References: <4Ht3jFrT7uE.A.JI.-nzbLB@chimera> <445R0ey9hAI.A.4VB.YozbLB@chimera> <68676e01002100759v37f79938p51f3aeb6c068d39a@mail.gmail.com>
+From: Eric Anholt <eric@anholt.net>
+Subject: Re: [PATCH] i915 / PM: Fix crash while aborting hibernation (Re:
+ [linux-pm] [regression] "drm/i915: implement new pm ops" disables irq on
+ aborted s2disk)
+Date: Wed, 10 Feb 2010 16:59:59 -0800
+Message-ID: <87k4ukd1tc.fsf@pollan.anholt.net>
+References: <4B695BA0.4000007@tuffmail.co.uk>
+	<201002032344.41915.rjw@sisk.pl>
+	<20100204013157.GA30011@zhen-devel.sh.intel.com>
+	<201002072148.24588.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <68676e01002100759v37f79938p51f3aeb6c068d39a-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha1; protocol="application/pgp-signature"
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <201002072148.24588.rjw@sisk.pl>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Luca Tettamanti <kronos.it-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>, Zhenyu Wang <zhenyuw@linux.intel.com>, Alan Jenkins <alan-jenkins@tuffmail.co.uk>
+Cc: linux-pm@lists.linux-foundation.org, dri-devel@lists.sourceforge.net, Kernel Testers List <kernel-testers@vger.kernel.org>, Jesse Barnes <jbarnes@virtuousgeek.org>, LKML <linux-kernel@vger.kernel.org>
 
-On Wednesday 10 February 2010, Luca Tettamanti wrote:
-> On Sun, Feb 7, 2010 at 11:28 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.32.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> >
-> >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=15195
-> > Subject         : kernel BUG at include/net/netns/generic.h:41, pfkey_create+0x36/0x18b [af_key]
-> > Submitter       : Luca Tettamanti <kronos.it-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date            : 2010-01-30 13:23 (9 days old)
-> > References      : http://marc.info/?l=linux-netdev&m=126485785004775&w=4
-> > Handled-By      : Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Patch           : http://patchwork.kernel.org/patch/75891/
-> 
-> Fixed by commit 180211b841b5bf13ab10d19202adab3eb7749f6c
+--=-=-=
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, closing.
+On Sun, 7 Feb 2010 21:48:24 +0100, "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+> On Thursday 04 February 2010, Zhenyu Wang wrote:
+> > On 2010.02.03 23:44:41 +0100, Rafael J. Wysocki wrote:
+> > > On Wednesday 03 February 2010, Alan Jenkins wrote:
+> > > > Hi
+> > > >=20
+> > > > I found this regression on my EeePC 701 with modesetting enabled.  =
+When=20
+> > > > I hibernate using s2disk, I can abort the hibernation by pressing t=
+he=20
+> > > > backspace key.  Doing so breaks X on 2.6.32-rc6 (but not 2.6.32).
+> > >=20
+> > > Yeah.
+> > >=20
+> > > To be honest, I knew that's going to happen, but didn't have the time=
+ to take
+> > > care of it.
+> > >=20
+> > > The problem is that i915 does literally _nothing_ in its .thaw() call=
+back,
+> > > although it should at least reverse whatever .freeze() did to the har=
+dware
+> > > (and memory allocations and so on), so that the adapter is functional
+> > > after creating the image.
+> > >=20
+> > > Fixing this requires some thought, though, because at the moment .fre=
+eze()
+> > > thinks it's .suspend(), which is not the case as this report clearly =
+shows.
+> > > So, in fact i915_pci_suspend() has to be split into the .freeze() par=
+t and
+> > > the poweroff part cleanly and that's not  so simple (at least to me).
+> > >=20
+> >=20
+> > Right, I think that'll be more clean, stuff in i915_save/restore_state(=
+) need
+> > to be splited too, especially isolate stuff for mode setting and other =
+device
+> > state, as what my original purpose for this is to remove extra mode set=
+ting=20
+> > cycle in old behavior so not waste time for hibernate.
+>=20
+> We can't really do that, because we'll need to restore the saved state at=
+ the
+> resume-from-hibernation stage.
+>=20
+> The appended patch fixes the issue for me, although it's been only tested
+> a little.  It sort of defeats the purpose of commit
+> cbda12d77ea590082edb6d30bd342a67ebc459e0, but I don't see any less invasi=
+ve
+> way to fix this except maybe for reverting that commit entirely.
+>=20
+> Note that the drm_irq_[un]install() thing may be unnecessary, but I wasn'=
+t sure
+> about that and surely wouldn't suggest doing that for 2.6.33.  Also it lo=
+oks like
+> some things from the freeze and thaw parts may be moved to the "low-level"
+> suspend and resume parts, respectively, but that would require some
+> i915_gem_* surgery I was too scared to do.
+>=20
+> Alan, please test, i915 guys, please review.
+>=20
+> Rafael
 
-Rafael
+Applied to for-linus.  Thanks!
+
+--=-=-=
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.10 (GNU/Linux)
+
+iEYEARECAAYFAktzVo8ACgkQHUdvYGzw6vfS6gCeNgzfLt1E4344PFHPcz/EugiB
+yRgAn3zQfEsLNatDur7Rc5HxHQNCHWE3
+=1SKk
+-----END PGP SIGNATURE-----
+--=-=-=--
