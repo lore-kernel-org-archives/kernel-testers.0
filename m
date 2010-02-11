@@ -1,100 +1,45 @@
-From: Eric Anholt <eric@anholt.net>
-Subject: Re: [PATCH] i915 / PM: Fix crash while aborting hibernation (Re:
- [linux-pm] [regression] "drm/i915: implement new pm ops" disables irq on
- aborted s2disk)
-Date: Wed, 10 Feb 2010 16:59:59 -0800
-Message-ID: <87k4ukd1tc.fsf@pollan.anholt.net>
-References: <4B695BA0.4000007@tuffmail.co.uk>
-	<201002032344.41915.rjw@sisk.pl>
-	<20100204013157.GA30011@zhen-devel.sh.intel.com>
-	<201002072148.24588.rjw@sisk.pl>
+From: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
+Subject: Re: [Bug #15127] Bluetooth: sleeping function called from invalid
+ context
+Date: Thu, 11 Feb 2010 08:17:47 +0530
+Message-ID: <4B736FD3.2000707@xenontk.org>
+References: <2uzMDuY-7_O.A.M1G.7X1bLB@chimera> <iuJeop2ribM.A.DgH.XY1bLB@chimera>
+Reply-To: davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha1; protocol="application/pgp-signature"
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <201002072148.24588.rjw@sisk.pl>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <iuJeop2ribM.A.DgH.XY1bLB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: "Rafael J. Wysocki" <rjw@sisk.pl>, Zhenyu Wang <zhenyuw@linux.intel.com>, Alan Jenkins <alan-jenkins@tuffmail.co.uk>
-Cc: linux-pm@lists.linux-foundation.org, dri-devel@lists.sourceforge.net, Kernel Testers List <kernel-testers@vger.kernel.org>, Jesse Barnes <jbarnes@virtuousgeek.org>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Luiz Augusto von Dentz <luiz.dentz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
 
---=-=-=
-Content-Transfer-Encoding: quoted-printable
+On 02/08/2010 05:58 AM, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.31 and 2.6.32.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> be listed and let the tracking team know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15127
+> Subject		: Bluetooth: sleeping function called from invalid context
+> Submitter	: David John <davidjon-XRr60H37pjdAfugRpC6u6w@public.gmane.org>
+> Date		: 2010-01-12 9:19 (27 days old)
+> First-Bad-Commit: http://git.kernel.org/git/linus/9e726b17422bade75fba94e625cd35fd1353e682
+> References	: http://marc.info/?l=linux-kernel&m=126328727021949&w=4
+> Handled-By	: Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
+> Patch		: http://patchwork.kernel.org/patch/76019/
+> 
+> 
+> 
 
-On Sun, 7 Feb 2010 21:48:24 +0100, "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
-> On Thursday 04 February 2010, Zhenyu Wang wrote:
-> > On 2010.02.03 23:44:41 +0100, Rafael J. Wysocki wrote:
-> > > On Wednesday 03 February 2010, Alan Jenkins wrote:
-> > > > Hi
-> > > >=20
-> > > > I found this regression on my EeePC 701 with modesetting enabled.  =
-When=20
-> > > > I hibernate using s2disk, I can abort the hibernation by pressing t=
-he=20
-> > > > backspace key.  Doing so breaks X on 2.6.32-rc6 (but not 2.6.32).
-> > >=20
-> > > Yeah.
-> > >=20
-> > > To be honest, I knew that's going to happen, but didn't have the time=
- to take
-> > > care of it.
-> > >=20
-> > > The problem is that i915 does literally _nothing_ in its .thaw() call=
-back,
-> > > although it should at least reverse whatever .freeze() did to the har=
-dware
-> > > (and memory allocations and so on), so that the adapter is functional
-> > > after creating the image.
-> > >=20
-> > > Fixing this requires some thought, though, because at the moment .fre=
-eze()
-> > > thinks it's .suspend(), which is not the case as this report clearly =
-shows.
-> > > So, in fact i915_pci_suspend() has to be split into the .freeze() par=
-t and
-> > > the poweroff part cleanly and that's not  so simple (at least to me).
-> > >=20
-> >=20
-> > Right, I think that'll be more clean, stuff in i915_save/restore_state(=
-) need
-> > to be splited too, especially isolate stuff for mode setting and other =
-device
-> > state, as what my original purpose for this is to remove extra mode set=
-ting=20
-> > cycle in old behavior so not waste time for hibernate.
->=20
-> We can't really do that, because we'll need to restore the saved state at=
- the
-> resume-from-hibernation stage.
->=20
-> The appended patch fixes the issue for me, although it's been only tested
-> a little.  It sort of defeats the purpose of commit
-> cbda12d77ea590082edb6d30bd342a67ebc459e0, but I don't see any less invasi=
-ve
-> way to fix this except maybe for reverting that commit entirely.
->=20
-> Note that the drm_irq_[un]install() thing may be unnecessary, but I wasn'=
-t sure
-> about that and surely wouldn't suggest doing that for 2.6.33.  Also it lo=
-oks like
-> some things from the freeze and thaw parts may be moved to the "low-level"
-> suspend and resume parts, respectively, but that would require some
-> i915_gem_* surgery I was too scared to do.
->=20
-> Alan, please test, i915 guys, please review.
->=20
-> Rafael
+Hi Rafael,
 
-Applied to for-linus.  Thanks!
+This bug is now fixed by the upstream commit 485f1e ("Bluetooth: Fix
+sleeping function in RFCOMM within invalid context") and can be closed.
 
---=-=-=
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
-
-iEYEARECAAYFAktzVo8ACgkQHUdvYGzw6vfS6gCeNgzfLt1E4344PFHPcz/EugiB
-yRgAn3zQfEsLNatDur7Rc5HxHQNCHWE3
-=1SKk
------END PGP SIGNATURE-----
---=-=-=--
+Thanks,
+David.
