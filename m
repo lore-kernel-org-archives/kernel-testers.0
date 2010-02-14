@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15190] second suspend fails and system freezes in hp 6910P laptop
-Date: Mon, 15 Feb 2010 00:52:51 +0100 (CET)
-Message-ID: <Xv2rBFCTXTH.A.MxB.XyIeLB@chimera>
+Subject: [Bug #15108] Blank screen with KMS enabled (on clevo M5xN laptop)
+Date: Mon, 15 Feb 2010 00:52:50 +0100 (CET)
+Message-ID: <Xv2rBFCTXTH.A.1EC.pyIeLB@chimera>
 References: <fQEllunEdO.A.-LB.HyIeLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <fQEllunEdO.A.-LB.HyIeLB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jithin Emmanuel <jithin1987@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, =?utf-8?q?J=C3=A9r=C3=A9my=20Lal?= <kapouer@melix.org>, Zhang Rui <rui.zhang@intel.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,8 +22,10 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15190
-Subject		: second suspend fails and system freezes in hp 6910P laptop
-Submitter	: Jithin Emmanuel <jithin1987@gmail.com>
-Date		: 2010-01-31 15:53 (15 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15108
+Subject		: Blank screen with KMS enabled (on clevo M5xN laptop)
+Submitter	: J=C3=A9r=C3=A9my Lal <kapouer@melix.org>
+Date		: 2010-01-22 20:30 (24 days old)
+Handled-By	: Zhang Rui <rui.zhang@intel.com>
+Patch		: http://bugzilla.kernel.org/attachment.cgi?id=3D24740
 
