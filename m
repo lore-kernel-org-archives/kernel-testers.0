@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14943] nfs regression?
-Date: Mon, 15 Feb 2010 00:52:46 +0100 (CET)
-Message-ID: <Xv2rBFCTXTH.A.K2C.MzIeLB@chimera>
+Subject: [Bug #14656] Oops at __rmqueue+0x98 with 2.6.32-rc6
+Date: Mon, 15 Feb 2010 00:52:42 +0100 (CET)
+Message-ID: <Xv2rBFCTXTH.A.sGE.-0IeLB@chimera>
 References: <fQEllunEdO.A.-LB.HyIeLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Nikola Ciprich <extmaillist@linuxbox.cz>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "Lucas C. Villa Real" <lucasvr@gobolinux.org>, "reiserfs-devel@vger.kernel.org"@ogre.sisk.pl
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,9 +22,9 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14943
-Subject		: nfs regression?
-Submitter	: Nikola Ciprich <extmaillist@linuxbox.cz>
-Date		: 2009-12-28 12:10 (49 days old)
-References	: http://marc.info/?l=linux-kernel&m=126200276223524&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14656
+Subject		: Oops at __rmqueue+0x98 with 2.6.32-rc6
+Submitter	: Lucas C. Villa Real <lucasvr@gobolinux.org>
+Date		: 2009-11-19 3:48 (88 days old)
+References	: http://marc.info/?l=linux-kernel&m=125860255229092&w=4
 
