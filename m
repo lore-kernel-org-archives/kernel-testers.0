@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15304] SMT scheduler regression in find_busiest_queue()
-Date: Mon, 15 Feb 2010 00:52:52 +0100 (CET)
-Message-ID: <Xv2rBFCTXTH.A.cdB.NyIeLB@chimera>
+Subject: [Bug #15000] Thinkpad dock button no longer works
+Date: Mon, 15 Feb 2010 00:52:47 +0100 (CET)
+Message-ID: <Xv2rBFCTXTH.A.UnC.CzIeLB@chimera>
 References: <fQEllunEdO.A.-LB.HyIeLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Suresh Siddha <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,13 +22,10 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15304
-Subject		: SMT scheduler regression in find_busiest_queue()
-Submitter	: Suresh Siddha <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Date		: 2010-02-13 1:14 (2 days old)
-First-Bad-Commit: http://git.kernel.org/git/linus/bdb94aa5dbd8b55e75f5a50b61312fe589e2c2d1
-Message-ID	: <1266023662.2808.118.camel-H4kgHbQyNB/mO6KZMuUCQVaTQe2KTcn/@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=126602374511831&w=4
-Handled-By	: Suresh Siddha <suresh.b.siddha-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Patch		: http://patchwork.kernel.org/patch/79039/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15000
+Subject		: Thinkpad dock button no longer works
+Submitter	: Paul Martin <pm-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Date		: 2010-01-07 02:11 (39 days old)
+Handled-By	: Chris Mason <chris.mason-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Patch		: http://patchwork.kernel.org/patch/76110/
 
