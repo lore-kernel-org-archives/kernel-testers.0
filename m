@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14898] ksoftirqd problem
-Date: Mon, 15 Feb 2010 00:52:46 +0100 (CET)
-Message-ID: <Xv2rBFCTXTH.A.BDD.VzIeLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15096] Resume lock up -- bisected, commit 3a1151e3f124fd1a2c54b8153f510f1a7c715369
+Date: Mon, 15 Feb 2010 00:52:48 +0100 (CET)
+Message-ID: <Xv2rBFCTXTH.A.DTC.vyIeLB@chimera>
 References: <fQEllunEdO.A.-LB.HyIeLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <fQEllunEdO.A.-LB.HyIeLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Nico <segfault2-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Len Brown <len.brown@intel.com>, =?utf-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>, Stefan Bader <stefan.bader@canonical.com>, Zhang Rui <rui.zhang@intel.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,9 +22,11 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14898
-Subject		: ksoftirqd problem
-Submitter	: Nico <segfault2-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
-Date		: 2009-12-13 19:05 (64 days old)
-References	: http://marc.info/?l=linux-kernel&m=126073114325690&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15096
+Subject		: Resume lock up -- bisected, commit 3a1151e3f124fd1a2c54b8153=
+f510f1a7c715369
+Submitter	: Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com>
+Date		: 2010-01-20 23:15 (26 days old)
+=46irst-Bad-Commit: http://git.kernel.org/git/linus/3a1151e3f124fd1a2c5=
+4b8153f510f1a7c715369
 
