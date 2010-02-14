@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #14868] flood of "don't try to register things with the same name in the same directory." on upgrade to 2.6.32
-Date: Mon, 15 Feb 2010 00:52:44 +0100 (CET)
-Message-ID: <Xv2rBFCTXTH.A.LhD.rzIeLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14748] e1000e NIC not working after reboot
+Date: Mon, 15 Feb 2010 00:52:43 +0100 (CET)
+Message-ID: <Xv2rBFCTXTH.A.3qD.T0IeLB@chimera>
 References: <fQEllunEdO.A.-LB.HyIeLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <fQEllunEdO.A.-LB.HyIeLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Rich Ercolani <rercola-YxllIAoeIHiVc3sceRu5cw@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Maciek Sitarz <macieks@freesco.pl>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.31 and 2.6.32.
@@ -22,8 +22,8 @@ introduced between 2.6.31 and 2.6.32.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14868
-Subject		: flood of "don't try to register things with the same name in the same directory." on upgrade to 2.6.32
-Submitter	: Rich Ercolani <rercola-YxllIAoeIHiVc3sceRu5cw@public.gmane.org>
-Date		: 2009-12-24 02:44 (53 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14748
+Subject		: e1000e NIC not working after reboot
+Submitter	: Maciek Sitarz <macieks@freesco.pl>
+Date		: 2009-12-06 13:04 (71 days old)
 
