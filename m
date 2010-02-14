@@ -1,42 +1,103 @@
-From: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bugme-new] [Bug 15273] New: Regression in ptrace (Wine)
-	starting with 2.6.33-rc1
-Date: Fri, 12 Feb 2010 19:10:49 +0100
-Message-ID: <20100212181043.GA5475@nowhere>
-References: <bug-15273-10286@http.bugzilla.kernel.org/> <20100211222058.321448c0.akpm@linux-foundation.org>
+From: Marc Haber <mh+linux-kernel-bugs@zugschlus.de>
+Subject: Re: [Bug #15042] socket(PF_INET6 hangs when ipv6 not yet
+	initialized
+Date: Sun, 14 Feb 2010 07:20:15 +0100
+Message-ID: <20100214062015.GA16912@torres.zugschlus.de>
+References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera> <q60Z28d_9yH.A.oqH.NZMXLB@chimera> <2375c9f91001270110t2a8d08b8n4578df310a6129@mail.gmail.com>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:received:date:from:to:cc
-         :subject:message-id:references:mime-version:content-type
-         :content-disposition:in-reply-to:user-agent;
-        bh=yc0hfDkrw05NedTyjMEAhpA9dODcZPP5qwXyU6BTxhg=;
-        b=Jg+qFwTdJqG0ro/9mjK6wqPbbkoxUnT46XS4N54yukNB2nlcDwO023gApjhbPGVSO8
-         7h2UZOrpNXbXLFyCJB3VRL/u1tuv8xF52MHGHToc7MU7OrZ9Fcl3Pz6DTZ7NqWWerTe4
-         UM2e+sl+6zRht/UlZF905QF53heaFl0l47BqI=
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <20100211222058.321448c0.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <2375c9f91001270110t2a8d08b8n4578df310a6129@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: =?utf-8?Q?Am=C3=A9rico?= Wang <xiyou.wangcong@gmail.com>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux Kernel Network Developers <netdev@vger.kernel.org>
 
-On Thu, Feb 11, 2010 at 10:20:58PM -0800, Andrew Morton wrote:
-> 
-> post-2.6.32 rerression.
+Hi,
 
+sorry for the late reply.
 
-I'm handling it in the thread entitled
-"Regression in ptrace (Wine) starting with 2.6.33-rc1"
+On Wed, Jan 27, 2010 at 05:10:44PM +0800, Am=C3=A9rico Wang wrote:
+> On Mon, Jan 25, 2010 at 6:23 AM, Rafael J. Wysocki <rjw@sisk.pl> wrot=
+e:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
+> >
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32. =C2=A0Please verify if it sti=
+ll should
+> > be listed and let me know (either way).
+> >
+> >
+> > Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bu=
+g.cgi?id=3D15042
+> > Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : socket(PF_INET6 hangs when ip=
+v6 not yet initialized
+> > Submitter =C2=A0 =C2=A0 =C2=A0 : Marc Haber <mh+linux-kernel@zugsch=
+lus.de>
+> > Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2010-01-10 14:28 (1=
+5 days old)
+> > References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel=
+&m=3D126313553029280&w=3D4
+> >
+>=20
+> (Adding net-dev into Cc)
+>=20
+> Hi, Marc,
+>=20
+> Sorry, I don't really understand your description of the problem, you=
+r mean
+> your ssh hangs on socket PF_INET6 for 30 seconds?
 
-Thanks.
+No, it hangs on socket PF_INET6 indefinetely (max time I waited was
+like ten minutes), ignoring SIGTERM while hanging. This does only
+happen if the sshd is started within seconds of the ipv6 module being
+loaded (or the Interface being brought up), so I guess that the kernel
+needs to be in a state where it already thinks that it has IPv6 but
+hasn't completed autoconfiguration yet.
 
+To obtain an strace, I had to use timeout --signal=3D9 30. The
+virtualbox process this happens inside takes all host CPU while the
+ssh process hangs.
 
- 
-> On Thu, 11 Feb 2010 16:21:38 GMT bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org wrote:
-> 
-> > http://bugzilla.kernel.org/show_bug.cgi?id=15273
-[...]
+> Have you enabled CONFIG_DETECT_SOFTLOCKUP for your kernel?
+
+yes, that's enabled.
+
+Greetings
+Marc
+
+--=20
+-----------------------------------------------------------------------=
+------
+Marc Haber         | "I don't trust Computers. They | Mailadresse im He=
+ader
+Mannheim, Germany  |  lose things."    Winona Ryder | Fon: *49 621 7273=
+9834
+Nordisch by Nature |  How to make an American Quilt | Fax: *49 3221 232=
+3190
+
+Bitte beachten Sie, da=C3=9F dem [m.E. grundgesetzwidrigen] Gesetz zur
+Vorratsdatenspeicherung zufolge, seit dem 1. Januar 2008 jeglicher
+elektronische Kontakt (E-Mail, Telefongespr=C3=A4che, SMS, Internet-
+Telefonie, Mobilfunk, Fax) mit mir oder anderen Nutzern verdachts-
+unabh=C3=A4ngig f=C3=BCr den automatisierten geheimen Zugriff durch Str=
+afver-
+folgungs- u. Polizeivollzugsbeh=C3=B6rden, die Bundesanstalt f=C3=BCr F=
+inanz-
+dienstleistungsaufsicht, Zollkriminal- und Zollfahndungs=C3=A4mter,die
+Zollverwaltung zur Schwarzarbeitsbek=C3=A4mpfung, Notrufabfragestellen,
+Verfassungsschutzbeh=C3=B6rden, den Milit=C3=A4rischen Abschirmdienst, =
+Bundes-
+nachrichtendienst sowie 52 Staaten wie beispielsweise Aserbeidschan
+oder die USA sechs Monate lang gespeichert wird, einschlie=C3=9Flich de=
+r
+Kommunikation mit Berufsgeheimnistr=C3=A4gern wie =C3=84rzten, Journali=
+sten und
+Anw=C3=A4lten. Mehr Infos zur totalen Protokollierung Ihrer Kommunikati=
+ons-
+daten auf www.vorratsdatenspeicherung.de. (leicht ver=C3=A4ndert =C3=BC=
+bernommen
+kopiert von www.lawblog.de)
