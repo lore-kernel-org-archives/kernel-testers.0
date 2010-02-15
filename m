@@ -1,53 +1,46 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #14482] kernel BUG at fs/dcache.c:670 +lvm +md +ext3
-Date: Mon, 15 Feb 2010 22:00:12 +0100
-Message-ID: <201002152200.12332.rjw@sisk.pl>
-References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <20100208095943.GJ14551@chipmunk> <20100215162452.GA22823@chipmunk>
+From: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+Subject: Re: 2.6.33-rc8 regression: irq11: nobody cared, during yenta
+ registration
+Date: Mon, 15 Feb 2010 23:19:05 +0200 (EET)
+Message-ID: <alpine.SOC.1.00.1002152315580.12096@math.ut.ee>
+References: <alpine.SOC.1.00.1002141720120.679@math.ut.ee> <201002150018.21417.rjw@sisk.pl> <alpine.SOC.1.00.1002150743540.21314@math.ut.ee> <201002152048.59832.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100215162452.GA22823@chipmunk>
+In-Reply-To: <201002152048.59832.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Alexander Clouter <alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org>
-Cc: Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel list <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-On Monday 15 February 2010, Alexander Clouter wrote:
-> Hi,
-> 
-> * Alexander Clouter <alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org> [2010-02-08 09:59:43+0000]:
-> >
-> > * Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org> [2010-02-01 17:47:42+0200]:
-> > >
-> > > 01.02.2010 02:43, Rafael J. Wysocki skrev:
-> > >> This message has been generated automatically as a part of a report
-> > >> of regressions introduced between 2.6.31 and 2.6.32.
-> > >>
-> > >> The following bug entry is on the current list of known regressions
-> > >> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
-> > >> be listed and let me know (either way).
-> > >>
-> > >>
-> > >> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14482
-> > >> Subject		: kernel BUG at fs/dcache.c:670 +lvm +md +ext3
-> > >> Submitter	: Alexander Clouter<alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org>
-> > >> Date		: 2009-10-23 10:30 (101 days old)
-> > >> References	: http://lkml.org/lkml/2009/10/23/50
-> > >>
-> > >
-> > > Afaik this is the same issue as the one referenced here:
-> > >
-> > > http://lkml.org/lkml/2010/1/28/292
-> > >
-> > > The patch in the above thread should fix the issue.
-> > >
-> > I'm getting my hands on some not-in-production-state equipment to test 
-> > this with, so bear with me :)
+> > > I have created the Bugzilla entry at http://bugzilla.kernel.org/show_bug.cgi?id=15307
+> > > for your report.
+> > > 
+> > > Peter, Ingo, did we do anything to the interrupt handling between .33-rc5 and .33-rc8?
 > > 
-> I can confirm this patch fixes the problem I was seeing.  Once applied I 
-> could no longer OOP's my kernel.
+> > I just retested it and the problem appears even in -rc5 (missed it 
+> > before). Come to think of it, I only tested -rc5 out of dock before.
+> > 
+> > With dock, the problem is there in 2.6.33-rc4-00399-g24bc734.
+> > 
+> > Without dock, even -rc8 is OK, so it only happens docked.
+> > 
+> > Will try to bisect but this takes time because I'm rarely near that 
+> > computer.
 
-The patch has already been merged, so the bug is closed.
+It's even worse - or my memory is, actually.
 
-Rafael
+With dock, both 2.6.32 and 2.6.31 exhibit the problem, so it's not a 
+recent regression - but the bugzilla entry still holds.
+
+In fact, googling tells that I reported the issue back in 2006 together 
+with a USB problem that I thought was related, and that has been fixed 
+meanwhile:
+
+http://lkml.indiana.edu/hypermail/linux/kernel/0607.2/1331.html
+
+Strange that I haven't noticed it meanwhile.
+
+-- 
+Meelis Roos (mroos-Y27EyoLml9s@public.gmane.org)
