@@ -1,38 +1,42 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.33-rc8 regression: irq11: nobody cared, during yenta registration
-Date: Mon, 15 Feb 2010 20:48:59 +0100
-Message-ID: <201002152048.59832.rjw@sisk.pl>
-References: <alpine.SOC.1.00.1002141720120.679@math.ut.ee> <201002150018.21417.rjw@sisk.pl> <alpine.SOC.1.00.1002150743540.21314@math.ut.ee>
+Subject: Re: [Bug #15100] X11 is black after resume from s2ram if my T400 was previous in docking station before
+Date: Mon, 15 Feb 2010 21:44:10 +0100
+Message-ID: <201002152144.10422.rjw@sisk.pl>
+References: <fQEllunEdO.A.-LB.HyIeLB@chimera> <Xv2rBFCTXTH.A.8LC.ryIeLB@chimera> <201002150934.23888.toralf.foerster@gmx.de>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.SOC.1.00.1002150743540.21314-ptEonEWSGqKptlylMvRsHA@public.gmane.org>
+In-Reply-To: <201002150934.23888.toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
-Cc: Linux Kernel list <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Content-Type: Text/Plain; charset="iso-8859-1"
+To: Toralf =?iso-8859-1?q?F=F6rster?= <toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-On Monday 15 February 2010, Meelis Roos wrote:
-> > > Just tried 2.6.33-rcx8 on my laptop (Thinkpad X20 in a dock) that was 
-> > > last running 2.6.33-rc5 without problems. Gor irq11: nobody carec like 
-> > > below. Seems to be repeatabale. lspci also below.
-> > 
-> > I have created the Bugzilla entry at http://bugzilla.kernel.org/show_bug.cgi?id=15307
-> > for your report.
-> > 
-> > Peter, Ingo, did we do anything to the interrupt handling between .33-rc5 and .33-rc8?
-> 
-> I just retested it and the problem appears even in -rc5 (missed it 
-> before). Come to think of it, I only tested -rc5 out of dock before.
-> 
-> With dock, the problem is there in 2.6.33-rc4-00399-g24bc734.
-> 
-> Without dock, even -rc8 is OK, so it only happens docked.
-> 
-> Will try to bisect but this takes time because I'm rarely near that 
-> computer.
+On Monday 15 February 2010, Toralf F=F6rster wrote:
+>=20
+> Rafael J. Wysocki wrote at 00:52:50
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.31 and 2.6.32.
+> >=20
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.31 and 2.6.32.  Please verify if it still sh=
+ould
+> > be listed and let the tracking team know (either way).
+> >=20
+> >=20
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15100
+> > Subject		: X11 is black after resume from s2ram if my T400 was prev=
+ious in
+> >  docking station before Submitter	: Toralf F=F6rster <toralf.foerst=
+er-Mmb7MZpHnFY@public.gmane.org>
+> > Date		: 2010-01-21 08:56 (25 days old)
+> > First-Bad-Commit:
+> >  http://git.kernel.org/git/linus/c1c7af60892070e4b82ad63bbfb95ae745=
+056de0
+> >=20
+> Issue present in 2.6.33-rc8
 
-OK, thanks for the update.
+Thanks for the update.
 
 Rafael
