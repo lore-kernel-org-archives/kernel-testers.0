@@ -1,42 +1,55 @@
-From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
-Subject: Re: [Bug #14999] possible circular locking dependency detected in rfkill at suspend
-Date: Mon, 15 Feb 2010 03:19:11 -0800
-Message-ID: <m1wryed9w0.fsf@fess.ebiederm.org>
-References: <Z5cmiqDComP.A.gyF.OiIeLB@chimera>
-	<4un6Gst5rKB.A.Im.WkIeLB@chimera>
+From: Alexander Clouter <alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org>
+Subject: Re: [Bug #14482] kernel BUG at fs/dcache.c:670 +lvm +md +ext3
+Date: Mon, 15 Feb 2010 16:24:52 +0000
+Message-ID: <20100215162452.GA22823@chipmunk>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <de962C6zBxL.A.85G.9HiZLB@chimera> <4B66F79E.1040606@mandriva.org> <20100208095943.GJ14551@chipmunk>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4un6Gst5rKB.A.Im.WkIeLB@chimera> (Rafael J. Wysocki's message of "Mon\, 15 Feb 2010 00\:38\:29 +0100 \(CET\)")
+Content-Disposition: inline
+In-Reply-To: <20100208095943.GJ14551@chipmunk>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>
+To: Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+Hi,
 
-> This message has been generated automatically as a part of a summary report
-> of recent regressions.
+* Alexander Clouter <alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org> [2010-02-08 09:59:43+0000]:
 >
-> The following bug entry is on the current list of known regressions
-> from 2.6.32.  Please verify if it still should be listed and let the tracking team
-> know (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14999
-> Subject		: possible circular locking dependency detected in rfkill at suspend
-> Submitter	: Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
-> Date		: 2010-01-06 21:52 (40 days old)
+> * Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org> [2010-02-01 17:47:42+0200]:
+> >
+> > 01.02.2010 02:43, Rafael J. Wysocki skrev:
+> >> This message has been generated automatically as a part of a report
+> >> of regressions introduced between 2.6.31 and 2.6.32.
+> >>
+> >> The following bug entry is on the current list of known regressions
+> >> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> >> be listed and let me know (either way).
+> >>
+> >>
+> >> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14482
+> >> Subject		: kernel BUG at fs/dcache.c:670 +lvm +md +ext3
+> >> Submitter	: Alexander Clouter<alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org>
+> >> Date		: 2009-10-23 10:30 (101 days old)
+> >> References	: http://lkml.org/lkml/2009/10/23/50
+> >>
+> >
+> > Afaik this is the same issue as the one referenced here:
+> >
+> > http://lkml.org/lkml/2010/1/28/292
+> >
+> > The patch in the above thread should fix the issue.
+> >
+> I'm getting my hands on some not-in-production-state equipment to test 
+> this with, so bear with me :)
+> 
+I can confirm this patch fixes the problem I was seeing.  Once applied I 
+could no longer OOP's my kernel.
 
-I have a set of patches to clear up the sysfs lockdep false positives.  
-http://lkml.org/lkml/2010/2/11/329
+Cheers
 
-It requires sprinking a bunch of sysfs_attr_init on the few dynamically
-allocated sysfs attributes, and I haven't found them all yet.  Otherwise
-it seems to be working well.
-
-Greg should pick up those patches shortly and they should be appearing
-in linux-next and then ultimately in 2.6.34.
-
-Eric
+-- 
+Alexander Clouter
+.sigmonster says: Please take note:
