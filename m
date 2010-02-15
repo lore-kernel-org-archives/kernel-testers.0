@@ -1,30 +1,53 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.33-rc8: Reported regressions from 2.6.32
-Date: Mon, 15 Feb 2010 21:59:03 +0100
-Message-ID: <201002152159.03458.rjw@sisk.pl>
-References: <Z5cmiqDComP.A.gyF.OiIeLB@chimera> <b170af451002150152r43d7d916kd3d2013b8990627d@mail.gmail.com>
+Subject: Re: [Bug #14482] kernel BUG at fs/dcache.c:670 +lvm +md +ext3
+Date: Mon, 15 Feb 2010 22:00:12 +0100
+Message-ID: <201002152200.12332.rjw@sisk.pl>
+References: <UgwvXSBS_tM.A.alD.1EiZLB@chimera> <20100208095943.GJ14551@chipmunk> <20100215162452.GA22823@chipmunk>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b170af451002150152r43d7d916kd3d2013b8990627d-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20100215162452.GA22823@chipmunk>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Alexander Clouter <alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org>
+Cc: Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Monday 15 February 2010, Rafa=C5=82 Mi=C5=82ecki wrote:
-> 2010/2/15 Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>:
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D1528=
-7
-> > Subject         : RadeonKMS segfaults kdm on mobility radeon x700 p=
-cie
-> > Submitter       : Jan Kreuzer <kontrollator-Mmb7MZpHnFY@public.gmane.org>
-> > Date            : 2010-02-12 17:58 (3 days old)
->=20
-> Can you reassign this according to last comments, please?
+On Monday 15 February 2010, Alexander Clouter wrote:
+> Hi,
+> 
+> * Alexander Clouter <alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org> [2010-02-08 09:59:43+0000]:
+> >
+> > * Thomas Backlund <tmb-4qZELD6Fgxhg9hUCZPvPmw@public.gmane.org> [2010-02-01 17:47:42+0200]:
+> > >
+> > > 01.02.2010 02:43, Rafael J. Wysocki skrev:
+> > >> This message has been generated automatically as a part of a report
+> > >> of regressions introduced between 2.6.31 and 2.6.32.
+> > >>
+> > >> The following bug entry is on the current list of known regressions
+> > >> introduced between 2.6.31 and 2.6.32.  Please verify if it still should
+> > >> be listed and let me know (either way).
+> > >>
+> > >>
+> > >> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14482
+> > >> Subject		: kernel BUG at fs/dcache.c:670 +lvm +md +ext3
+> > >> Submitter	: Alexander Clouter<alex-L4GPcECwBoDe9xe1eoZjHA@public.gmane.org>
+> > >> Date		: 2009-10-23 10:30 (101 days old)
+> > >> References	: http://lkml.org/lkml/2009/10/23/50
+> > >>
+> > >
+> > > Afaik this is the same issue as the one referenced here:
+> > >
+> > > http://lkml.org/lkml/2010/1/28/292
+> > >
+> > > The patch in the above thread should fix the issue.
+> > >
+> > I'm getting my hands on some not-in-production-state equipment to test 
+> > this with, so bear with me :)
+> > 
+> I can confirm this patch fixes the problem I was seeing.  Once applied I 
+> could no longer OOP's my kernel.
 
-Reassigned to PCI.
+The patch has already been merged, so the bug is closed.
 
-Thanks,
 Rafael
