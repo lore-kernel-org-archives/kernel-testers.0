@@ -1,179 +1,116 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: s2disk hang update
-Date: Tue, 16 Feb 2010 00:08:51 +0100
-Message-ID: <201002160008.51875.rjw@sisk.pl>
-References: <9b2b86521001020703v23152d0cy3ba2c08df88c0a79@mail.gmail.com> <9b2b86521002030314s6f84b482v8cd680be556f8a4d@mail.gmail.com> <4B718F11.2010402@tuffmail.co.uk>
+From: Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: [Bug #15040] High cpu temperature with 2.6.32
+Date: Tue, 16 Feb 2010 04:12:04 -0500 (EST)
+Message-ID: <alpine.LFD.2.00.1002160411480.21595@localhost.localdomain>
+References: <pYFNu11z2aM.A.pJH.CZMXLB@chimera> <201001252152.33031.rjw@sisk.pl>
+ <20100125214150.1f2e1410@infradead.org> <201001261343.15685.rjw@sisk.pl>
+ <20100127152539.eb2c8231.akpm@linux-foundation.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B718F11.2010402-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+In-reply-to: <20100127152539.eb2c8231.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Cc: Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, hugh.dickins-IWqWACnzNjwqdlJmJB21zg@public.gmane.org, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Arjan van de Ven <arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Dimitrios Apostolou <jimis-hi6Y0CQ0nG0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Tuesday 09 February 2010, Alan Jenkins wrote:
-> Alan Jenkins wrote:
-> > On 2/2/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> >   
-> >> On Tuesday 02 February 2010, Alan Jenkins wrote:
-> >>     
-> >>> On 1/2/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> >>>       
-> >>>> On Saturday 02 January 2010, Alan Jenkins wrote:
-> >>>> Hi,
-> >>>>
-> >>>>         
-> >>>>> I've been suffering from s2disk hangs again.  This time, the hangs
-> >>>>> were always before the hibernation image was written out.
-> >>>>>
-> >>>>> They're still frustratingly random.  I just started trying to work out
-> >>>>> whether doubling PAGES_FOR_IO makes them go away, but they went away
-> >>>>> on their own again.
-> >>>>>
-> >>>>> I did manage to capture a backtrace with debug info though.  Here it
-> >>>>> is for 2.6.33-rc2.  (It has also happened on rc1).  I was able to get
-> >>>>> the line numbers (using gdb, e.g.  "info line
-> >>>>> *stop_machine_create+0x27"), having built the kernel with debug info.
-> >>>>>
-> >>>>> [top of trace lost due to screen height]
-> >>>>> ? sync_page	(filemap.c:183)
-> >>>>> ? wait_on_page_bit	(filemap.c:506)
-> >>>>> ? wake_bit_function	(wait.c:174)
-> >>>>> ? shrink_page_list	(vmscan.c:696)
-> >>>>> ? __delayacct_blkio_end	(delayacct.c:94)
-> >>>>> ? finish_wait	(list.h:142)
-> >>>>> ? congestion_wait	(backing-dev.c:761)
-> >>>>> ? shrink_inactive_list	(vmscan.c:1193)
-> >>>>> ? scsi_request_fn	(spinlock.h:306)
-> >>>>> ? blk_run_queue	(blk-core.c:434)
-> >>>>> ? shrink_zone	(vmscan.c:1484)
-> >>>>> ? do_try_to_free_pages	(vmscan.c:1684)
-> >>>>> ? try_to_free_pages	(vmscan.c:1848)
-> >>>>> ? isolate_pages_global	(vmscan.c:980)
-> >>>>> ? __alloc_pages_nodemask	(page_alloc.c:1702)
-> >>>>> ? __get_free_pages	(page_alloc.c:1990)
-> >>>>> ? copy_process	(fork.c:237)
-> >>>>> ? do_fork	(fork.c:1443)
-> >>>>> ? rb_erase
-> >>>>> ? __switch_to
-> >>>>> ? kthread
-> >>>>> ? kernel_thread
-> >>>>> ? kthread
-> >>>>> ? kernel_thread_helper
-> >>>>> ? kthreadd
-> >>>>> ? kthreadd
-> >>>>> ? kernel_thread_helper
-> >>>>>
-> >>>>> INFO: task s2disk:2174 blocked for more than 120 seconds
-> >>>>>           
-> >>>> This looks like we have run out of memory while creating a new kernel
-> >>>> thread
-> >>>> and we have blocked on I/O while trying to free some space (quite
-> >>>> obviously,
-> >>>> because the I/O doesn't work at this point).
-> >>>>         
-> >>> For context, the kernel thread being created here is the stop_machine
-> >>> thread.  It is created by disable_nonboot_cpus(), called from
-> >>> hibernation_snapshot().  See e.g. this hung task backtrace -
-> >>>
-> >>> http://picasaweb.google.com/lh/photo/BkKUwZCrQ2ceBIM9ZOh7Ow?feat=directlink
-> >>>
-> >>>       
-> >>>> I think it should help if you increase PAGES_FOR_IO, then.
-> >>>>         
-> >>> Ok, it's been happening again on 2.6.33-rc6.  Unfortunately increasing
-> >>> PAGES_FOR_IO doesn't help.
-> >>>
-> >>> I've been using a test patch to make PAGES_FOR_IO tunable at run time.
-> >>>  I get the same hang if I increase it by a factor of 10, to 10240:
-> >>>
-> >>> # cd /sys/module/kernel/parameters/
-> >>> # ls
-> >>> consoleblank  initcall_debug  PAGES_FOR_IO  panic  pause_on_oops
-> >>> SPARE_PAGES
-> >>> # echo 10240 > PAGES_FOR_IO
-> >>> # echo 2560 > SPARE_PAGES
-> >>> # cat SPARE_PAGES
-> >>> 2560
-> >>> # cat PAGES_FOR_IO
-> >>> 10240
-> >>>
-> >>> I also added a debug patch to try and understand the calculations with
-> >>> PAGES_FOR_IO in hibernate_preallocate_memory().  I still don't really
-> >>> understand them and there could easily be errors in my debug patch,
-> >>> but the output is interesting.
-> >>>
-> >>> Increasing PAGES_FOR_IO by almost 10000 has the expected effect of
-> >>> decreasing "max_size" by the same amount.  However it doesn't appear
-> >>> to increase the number of free pages at the critical moment.
-> >>>
-> >>> PAGES_FOR_IO = 1024:
-> >>> http://picasaweb.google.com/lh/photo/DYQGvB_4hvCvVuxZf2ibxg?feat=directlink
-> >>>
-> >>> PAGES_FOR_IO = 10240:
-> >>> http://picasaweb.google.com/lh/photo/AIkV_ZBwt22nzN-JdOJCWA?feat=directlink
-> >>>
-> >>>
-> >>> You may remember that I was originally able to avoid the hang by
-> >>> reverting commit 5f8dcc2.  It doesn't revert cleanly any more.
-> >>> However, I tried applying my test&debug patches on top of 5f8dcc2~1
-> >>> (just before the commit that triggered the hang).  That kernel
-> >>> apparently left ~5000 pages free at hibernation time, v.s. ~1200 when
-> >>> testing the same scenario on 2.6.33-rc6.  (As before, the number of
-> >>> free pages remained the same if I increased PAGES_FOR_IO to 10240).
-> >>>       
-> >> I think the hang may be avoided by using this patch
-> >> http://patchwork.kernel.org/patch/74740/
-> >> but the hibernation will fail instead.
-> >>
-> >> Can you please repeat your experiments with the patch below applied and
-> >> report back?
-> >>
-> >> Rafael
-> >>     
-> >
-> > It causes hibernation to succeed <grin>.
-> >   
+applied
+
+thanks,
+Len Brown, Intel Open Source Technology Center
+
+On Wed, 27 Jan 2010, Andrew Morton wrote:
+
+> On Tue, 26 Jan 2010 13:43:15 +0100
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 > 
-> Perhaps I spoke too soon.  I see the same hang if I run too many 
-> applications.  The first hibernation fails with "not enough swap" as 
-> expected, but the second or third attempt hangs (with the same backtrace 
-> as before).
+> > On Tuesday 26 January 2010, Arjan van de Ven wrote:
+> > > On Mon, 25 Jan 2010 21:52:32 +0100
+> > > "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > > 
+> > > > On Monday 25 January 2010, Dimitrios Apostolou wrote:
+> > > > > I will let you know when this bug is fixed in a regular kernel
+> > > > > release. I just tested 2.6.32.5 and the bug persists. BTW, Arjan, I
+> > > > > think this bug will be biting other people too, see the following
+> > > > > thread: http://bugs.archlinux.org/task/17771
+> > > > 
+> > > > I don't think it's fixed, I haven't seen the Arjan's patch anywhere
+> > > > close to the mainline.
+> > > > 
+> > > > Arjan, perhaps send it directly to Linus, please (unless it's already
+> > > > waiting somewhere for merging)?
+> > > 
+> > > I sent it to Len and Andrew (Len as maintainer, Andrew as maintainer of
+> > > last resort)..... what more would I need?
+> > 
+> > Well, Andrew, do you have the patch at http://patchwork.kernel.org/patch/71962/
+> > in your queue?  It's a regression fix.
+> > 
 > 
-> The patch definitely helps though.  Without the patch, I see a hang the 
-> first time I try to hibernate with too many applications running.
-
-Well, I have an idea.
-
-Can you try to apply the appended patch in addition and see if that helps?
-
-Rafael
-
----
- kernel/power/snapshot.c |   11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-Index: linux-2.6/kernel/power/snapshot.c
-===================================================================
---- linux-2.6.orig/kernel/power/snapshot.c
-+++ linux-2.6/kernel/power/snapshot.c
-@@ -1179,6 +1179,17 @@ static void free_unnecessary_pages(void)
- 		to_free_normal -= save_highmem - alloc_highmem;
- 	}
- 
-+	/*
-+	 * After we have preallocated memory for the image there may be too
-+	 * little memory for other things done later down the road, like
-+	 * starting new kernel threads for disabling nonboot CPUs.  Try to
-+	 * mitigate this by reducing the number of pages that we're going to
-+	 * keep preallocated by 20%.
-+	 */
-+	to_free_normal += (alloc_normal - to_free_normal) / 5;
-+	if (to_free_normal > alloc_normal)
-+		to_free_normal = alloc_normal;
-+
- 	memory_bm_position_reset(&copy_bm);
- 
- 	while (to_free_normal > 0 && to_free_highmem > 0) {
+> I had half of it, as
+> acpi-add-the-hp-pavilion-zv5000-to-the-power-dmi-table.patch.  Updated.
+> 
+> 
+> 
+> From: Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> 
+> Since the rewrite of the CPU idle governor in 2.6.32, two laptops have
+> surfaced where the BIOS advertises a C2 power state, but for some reason
+> this state is not functioning (as verified in both cases by powertop
+> before the patch in .32).
+> 
+> The old governor had the accidental behavior that if a non-working state
+> was chosen too many times, it would end up falling back to C1.  The new
+> governor works differently and this accidental behavior is no longer
+> there; the result is a high temperature on these two machines.
+> 
+> This patch adds these 2 machines to the DMI table for C state anomalies;
+> by just not using C2 both these machines are better off (the TSC can be
+> used instead of the pm timer, giving a performance boost for example).
+> 
+> Addresses http://bugzilla.kernel.org/show_bug.cgi?id=14742
+> 
+> Signed-off-by: Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> Reported-by: <akwatts-DaQTI0RpDDMAvxtiuMwx3w@public.gmane.org>
+> Cc: Dimitrios Apostolou <jimis-hi6Y0CQ0nG0@public.gmane.org>
+> Cc: Alex Chiang <achiang-VXdhtT5mjnY@public.gmane.org>
+> Cc: Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> Cc: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+> Cc: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> Cc: Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> Cc: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+> Cc: <stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> Signed-off-by: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+> ---
+> 
+>  drivers/acpi/processor_idle.c |    8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff -puN drivers/acpi/processor_idle.c~drivers-acpi-processor_idlec-add-two-laptops-to-the-c-state-dmi-table drivers/acpi/processor_idle.c
+> --- a/drivers/acpi/processor_idle.c~drivers-acpi-processor_idlec-add-two-laptops-to-the-c-state-dmi-table
+> +++ a/drivers/acpi/processor_idle.c
+> @@ -110,6 +110,14 @@ static struct dmi_system_id __cpuinitdat
+>  	  DMI_MATCH(DMI_BIOS_VENDOR,"Phoenix Technologies LTD"),
+>  	  DMI_MATCH(DMI_BIOS_VERSION,"SHE845M0.86C.0013.D.0302131307")},
+>  	 (void *)2},
+> +	{ set_max_cstate, "Pavilion zv5000", {
+> +	  DMI_MATCH(DMI_SYS_VENDOR, "Hewlett-Packard"),
+> +	  DMI_MATCH(DMI_PRODUCT_NAME,"Pavilion zv5000 (DS502A#ABA)")},
+> +	 (void *)1},
+> +	{ set_max_cstate, "Asus L8400B", {
+> +	  DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK Computer Inc."),
+> +	  DMI_MATCH(DMI_PRODUCT_NAME,"L8400B series Notebook PC")},
+> +	 (void *)1},
+>  	{},
+>  };
+>  
+> _
+> 
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
+> 
