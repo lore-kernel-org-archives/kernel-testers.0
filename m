@@ -1,80 +1,48 @@
-From: Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: s2disk hang update
-Date: Wed, 17 Feb 2010 11:27:30 +0000
-Message-ID: <9b2b86521002170327m1f08ff73ncca9e5eff77b1966@mail.gmail.com>
-References: <9b2b86521001020703v23152d0cy3ba2c08df88c0a79@mail.gmail.com>
-	 <9b2b86521002160309g26d60bd2t4c19bd2294b76c28@mail.gmail.com>
-	 <9b2b86521002160712r39ecb2b1q5e01389e9209e17b@mail.gmail.com>
-	 <201002162216.30192.rjw@sisk.pl>
+From: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #15273] Regression in ptrace (Wine) starting with
+	2.6.33-rc1
+Date: Wed, 17 Feb 2010 17:15:47 +0100
+Message-ID: <20100217161543.GB5041@nowhere>
+References: <Z5cmiqDComP.A.gyF.OiIeLB@chimera> <4un6Gst5rKB.A.j0G.oiIeLB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type;
-        bh=6mDhdPlwJZhuPDoH2LpmhNCpoOyPTJe1iNgFXwTkxzI=;
-        b=UHfYRylLxJY3axcsxCwEIbK1NfUzq02rfQieyyY9tmVtvSgOra6NAFpTthTPRyyeNe
-         EUh/xI4Ylh9P6UKt4kPt/1tDOewxvdy7eh9Cy0HP/pZgQ/If4m4agSJcqvvAp3Ca42FW
-         2KfmVUdSAlnfGu/QgRVLqf1OQ2eFtbANOd5sM=
-In-Reply-To: <201002162216.30192.rjw-KKrjLPT3xs0@public.gmane.org>
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:cc
+         :subject:message-id:references:mime-version:content-type
+         :content-disposition:in-reply-to:user-agent;
+        bh=PlF8NNmz12hUxHdgMobptpLFX6FZncFmBjm1+TX1f/o=;
+        b=ZOJhKcc78Hz1obcZYpsgY9EXhTEKJ2bFb6NaJjUGs6h07QyWiAZlKdsvGUyISD033O
+         JwIZ/Kd9+qzoEXJwm0HHEv05Ev/caRg/N37kHYL0hfy6TUJIu3TKKIphmyhPhhki7Eju
+         kwgNI2676n9uPypL6xeHZO5dTHtDgD92K33bw=
+Content-Disposition: inline
+In-Reply-To: <4un6Gst5rKB.A.j0G.oiIeLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, hugh.dickins-IWqWACnzNjwqdlJmJB21zg@public.gmane.org, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "K.Prasad" <prasad-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Maneesh Soni <maneesh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Michael Stefaniuc <mstefani-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-On 2/16/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> On Tuesday 16 February 2010, Alan Jenkins wrote:
->> On 2/16/10, Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
->> > On 2/15/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
->> >> On Tuesday 09 February 2010, Alan Jenkins wrote:
->> >>> Perhaps I spoke too soon.  I see the same hang if I run too many
->> >>> applications.  The first hibernation fails with "not enough swap" as
->> >>> expected, but the second or third attempt hangs (with the same
->> >>> backtrace
->> >>> as before).
->> >>>
->> >>> The patch definitely helps though.  Without the patch, I see a hang
->> >>> the
->> >>> first time I try to hibernate with too many applications running.
->> >>
->> >> Well, I have an idea.
->> >>
->> >> Can you try to apply the appended patch in addition and see if that
->> >> helps?
->> >>
->> >> Rafael
->> >
->> > It doesn't seem to help.
->>
->> To be clear: It doesn't stop the hang when I hibernate with too many
->> applications.
->>
->> It does stop the same hang in a different case though.
->>
->> 1. boot with init=/bin/bash
->> 2. run s2disk
->> 3. cancel the s2disk
->> 4. repeat steps 2&3
->>
->> With the patch, I can run 10s of iterations, with no hang.
->> Without the patch, it soon hangs, (in disable_nonboot_cpus(), as always).
->>
->> That's what happens on 2.6.33-rc7.  On 2.6.30, there is no problem.
->> On 2.6.31 and 2.6.32 I don't get a hang, but dmesg shows an allocation
->> failure after a couple of iterations ("kthreadd: page allocation
->> failure. order:1, mode:0xd0").  It looks like it might be the same
->> stop_machine thread allocation failure that causes the hang.
->
-> Have you tested it alone or on top of the previous one?  If you've tested it
-> alone, please apply the appended one in addition to it and retest.
->
-> Rafael
+On Mon, Feb 15, 2010 at 12:38:35AM +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.32.  Please verify if it still should be listed and let the tracking team
+> know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15273
+> Subject		: Regression in ptrace (Wine) starting with 2.6.33-rc1
+> Submitter	: Michael Stefaniuc <mstefani-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Date		: 2010-02-11 16:21 (4 days old)
 
-I did test with both patches applied together -
 
-1. [Update] MM / PM: Force GFP_NOIO during suspend/hibernation and resume
-2. "reducing the number of pages that we're going to keep preallocated by 20%"
+We are taking care of it. It's actually two regressions.
+One has a fix that seems to work, and I'm working on the other one,
+trying to get that upstream before 2.6.33 gets released.
 
-Alan
+Please keep the ticket open for now.
+
+Thanks.
