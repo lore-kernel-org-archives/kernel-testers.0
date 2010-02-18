@@ -1,73 +1,93 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+From: Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Subject: Re: s2disk hang update
-Date: Wed, 17 Feb 2010 20:58:03 +0100
-Message-ID: <201002172058.04043.rjw@sisk.pl>
-References: <9b2b86521001020703v23152d0cy3ba2c08df88c0a79@mail.gmail.com> <201002162216.30192.rjw@sisk.pl> <9b2b86521002170327m1f08ff73ncca9e5eff77b1966@mail.gmail.com>
+Date: Thu, 18 Feb 2010 12:53:55 +0000
+Message-ID: <9b2b86521002180453l176a83dand809dc239c220c08@mail.gmail.com>
+References: <9b2b86521001020703v23152d0cy3ba2c08df88c0a79@mail.gmail.com>
+	 <201002162216.30192.rjw@sisk.pl>
+	 <9b2b86521002170327m1f08ff73ncca9e5eff77b1966@mail.gmail.com>
+	 <201002172058.04043.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <9b2b86521002170327m1f08ff73ncca9e5eff77b1966-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type;
+        bh=g3rgjJ6xQ/CXnpqIM3scJ68C520IaiQNnRA7I5R5P2U=;
+        b=dMY/7xZKLl+Sev7MrYkCZhmgRpv4K1P/pfIuVNsjeUaWmnEyPbUIy/WQxeISw2RufZ
+         5T9VcoPD+Yhe+/SLuU+nFrUbw7bMkk3ax5Fv7fdBO2YfiKY5lP41ewuhsxSys01z9sQs
+         /sOgICRi/VT/cJDEyTDZRp5veTc6mKfe+hb3Q=
+In-Reply-To: <201002172058.04043.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 Cc: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, hugh.dickins-IWqWACnzNjwqdlJmJB21zg@public.gmane.org, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Wednesday 17 February 2010, Alan Jenkins wrote:
-> On 2/16/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > On Tuesday 16 February 2010, Alan Jenkins wrote:
-> >> On 2/16/10, Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> >> > On 2/15/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> >> >> On Tuesday 09 February 2010, Alan Jenkins wrote:
-> >> >>> Perhaps I spoke too soon.  I see the same hang if I run too many
-> >> >>> applications.  The first hibernation fails with "not enough swap" as
-> >> >>> expected, but the second or third attempt hangs (with the same
-> >> >>> backtrace
-> >> >>> as before).
-> >> >>>
-> >> >>> The patch definitely helps though.  Without the patch, I see a hang
-> >> >>> the
-> >> >>> first time I try to hibernate with too many applications running.
-> >> >>
-> >> >> Well, I have an idea.
-> >> >>
-> >> >> Can you try to apply the appended patch in addition and see if that
-> >> >> helps?
-> >> >>
-> >> >> Rafael
-> >> >
-> >> > It doesn't seem to help.
-> >>
-> >> To be clear: It doesn't stop the hang when I hibernate with too many
-> >> applications.
-> >>
-> >> It does stop the same hang in a different case though.
-> >>
-> >> 1. boot with init=/bin/bash
-> >> 2. run s2disk
-> >> 3. cancel the s2disk
-> >> 4. repeat steps 2&3
-> >>
-> >> With the patch, I can run 10s of iterations, with no hang.
-> >> Without the patch, it soon hangs, (in disable_nonboot_cpus(), as always).
-> >>
-> >> That's what happens on 2.6.33-rc7.  On 2.6.30, there is no problem.
-> >> On 2.6.31 and 2.6.32 I don't get a hang, but dmesg shows an allocation
-> >> failure after a couple of iterations ("kthreadd: page allocation
-> >> failure. order:1, mode:0xd0").  It looks like it might be the same
-> >> stop_machine thread allocation failure that causes the hang.
-> >
-> > Have you tested it alone or on top of the previous one?  If you've tested it
-> > alone, please apply the appended one in addition to it and retest.
-> >
-> > Rafael
-> 
-> I did test with both patches applied together -
-> 
-> 1. [Update] MM / PM: Force GFP_NOIO during suspend/hibernation and resume
-> 2. "reducing the number of pages that we're going to keep preallocated by 20%"
+On 2/17/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> On Wednesday 17 February 2010, Alan Jenkins wrote:
+>> On 2/16/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+>> > On Tuesday 16 February 2010, Alan Jenkins wrote:
+>> >> On 2/16/10, Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+>> >> > On 2/15/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+>> >> >> On Tuesday 09 February 2010, Alan Jenkins wrote:
+>> >> >>> Perhaps I spoke too soon.  I see the same hang if I run too many
+>> >> >>> applications.  The first hibernation fails with "not enough swap"
+>> >> >>> as
+>> >> >>> expected, but the second or third attempt hangs (with the same
+>> >> >>> backtrace
+>> >> >>> as before).
+>> >> >>>
+>> >> >>> The patch definitely helps though.  Without the patch, I see a hang
+>> >> >>> the
+>> >> >>> first time I try to hibernate with too many applications running.
+>> >> >>
+>> >> >> Well, I have an idea.
+>> >> >>
+>> >> >> Can you try to apply the appended patch in addition and see if that
+>> >> >> helps?
+>> >> >>
+>> >> >> Rafael
+>> >> >
+>> >> > It doesn't seem to help.
+>> >>
+>> >> To be clear: It doesn't stop the hang when I hibernate with too many
+>> >> applications.
+>> >>
+>> >> It does stop the same hang in a different case though.
+>> >>
+>> >> 1. boot with init=/bin/bash
+>> >> 2. run s2disk
+>> >> 3. cancel the s2disk
+>> >> 4. repeat steps 2&3
+>> >>
+>> >> With the patch, I can run 10s of iterations, with no hang.
+>> >> Without the patch, it soon hangs, (in disable_nonboot_cpus(), as
+>> >> always).
+>> >>
+>> >> That's what happens on 2.6.33-rc7.  On 2.6.30, there is no problem.
+>> >> On 2.6.31 and 2.6.32 I don't get a hang, but dmesg shows an allocation
+>> >> failure after a couple of iterations ("kthreadd: page allocation
+>> >> failure. order:1, mode:0xd0").  It looks like it might be the same
+>> >> stop_machine thread allocation failure that causes the hang.
+>> >
+>> > Have you tested it alone or on top of the previous one?  If you've
+>> > tested it
+>> > alone, please apply the appended one in addition to it and retest.
+>> >
+>> > Rafael
+>>
+>> I did test with both patches applied together -
+>>
+>> 1. [Update] MM / PM: Force GFP_NOIO during suspend/hibernation and resume
+>> 2. "reducing the number of pages that we're going to keep preallocated by
+>> 20%"
+>
+> In that case you can try to reduce the number of preallocated pages even
+> more,
+> ie. change "/ 5" to "/ 2" (for example) in the second patch.
 
-In that case you can try to reduce the number of preallocated pages even more,
-ie. change "/ 5" to "/ 2" (for example) in the second patch.
+It still hangs if I try to hibernate a couple of times with too many
+applications.
 
-Rafael
+Alan
