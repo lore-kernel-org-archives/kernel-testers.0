@@ -1,42 +1,48 @@
-From: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #15192] netperf ~50% regression with 2.6.33-rc1, bisect
- to 1b9508f
-Date: Sat, 20 Feb 2010 15:52:57 +0800
-Message-ID: <1266652377.3464.6.camel@minggr.sh.intel.com>
-References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera>
-	 <d3IDKWHT5gE.A.Z-B.V7hZLB@chimera>
-	 <1265011447.6220.15.camel@marge.simson.net>
+From: =?utf-8?Q?Am=C3=A9rico?= Wang <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #15308] 2.6.33-rc8 breaks UML with Restrict initial stack
+	space expansion to rlimit
+Date: Sat, 20 Feb 2010 22:48:10 +0800
+Message-ID: <20100220144810.GF3000@hack>
+References: <Z5cmiqDComP.A.gyF.OiIeLB@chimera> <4un6Gst5rKB.A.u_F.UiIeLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1265011447.6220.15.camel-YqMYhexLQo1vAv1Ojkdn7Q@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=YbSCoeLeONTqBgH3fbRxfroAGWfCGYU7taPOh/SwZWA=;
+        b=dK3WUJhoVK1xf4M0/KVUwdPjd5Sl3Nr31qeEzy3AoK6XgRwXPGy8a4yzXENnbuqjxx
+         PxbO09BAvQ+89iaxxWcQvBR1ywQFVaZTyGqP7V1a6paaTwNEZBn81v3DatGyNadCxE1R
+         /PyDLSor/awdWIQ/1gmWEMikCZl62AmgUpMJM=
+Content-Disposition: inline
+In-Reply-To: <4un6Gst5rKB.A.u_F.UiIeLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Jouni Malinen <j@w1.fi>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Michael Neuling <mikey-/owAOxkjmzZAfugRpC6u6w@public.gmane.org>
 
-On Mon, 2010-02-01 at 16:04 +0800, Mike Galbraith wrote:
-> On Mon, 2010-02-01 at 01:22 +0100, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.32.  Please verify if it still should be listed and let me know
-> > (either way).
-> 
-> Yes, it should remain open.  We're currently waiting for some data from
-> Lin Ming.  The regression itself isn't making much sense.. a kernel with
-> NEWIDLE disabled should show the same performance, but does not.  
+On Mon, Feb 15, 2010 at 12:38:37AM +0100, Rafael J. Wysocki wrote:
+>This message has been generated automatically as a part of a summary report
+>of recent regressions.
+>
+>The following bug entry is on the current list of known regressions
+>from 2.6.32.  Please verify if it still should be listed and let the tracking team
+>know (either way).
+>
+>
+>Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15308
+>Subject		: 2.6.33-rc8 breaks UML with Restrict initial stack space expansion to rlimit
+>Submitter	: Jouni Malinen <j@w1.fi>
+>Date		: 2010-02-14 16:40 (1 days old)
+>First-Bad-Commit: http://git.kernel.org/git/linus/803bf5ec259941936262d10ecc84511b76a20921
+>Message-ID	: <20100214164023.GA2726-mgr6C1c9aYeHXe+LvDLADg@public.gmane.org>
+>References	: http://marc.info/?l=linux-kernel&m=126616751807902&w=4
+>Handled-By	: Michael Neuling <mikey-/owAOxkjmzZAfugRpC6u6w@public.gmane.org>
+>
 
-(sorry for late response, I'm just back from vacation)
+It should be fixed by this patch:
 
-We finally located this to a bug in mwait based C-state entry.
-Venki's patch has fixed it.
-http://patchwork.kernel.org/patch/78544/
-
-Venki, this is the original report,
-http://marc.info/?l=linux-kernel&m=126441481427331&w=4
-
-Thanks,
-Lin Ming
+http://lkml.org/lkml/2010/2/15/61
