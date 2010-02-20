@@ -1,109 +1,42 @@
-From: Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: s2disk hang update
-Date: Fri, 19 Feb 2010 11:48:15 +0000
-Message-ID: <9b2b86521002190348k61e3bce0m8d036d1068c05644@mail.gmail.com>
-References: <9b2b86521001020703v23152d0cy3ba2c08df88c0a79@mail.gmail.com>
-	 <201002172058.04043.rjw@sisk.pl>
-	 <9b2b86521002180453l176a83dand809dc239c220c08@mail.gmail.com>
-	 <201002182104.49631.rjw@sisk.pl>
+From: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #15192] netperf ~50% regression with 2.6.33-rc1, bisect
+ to 1b9508f
+Date: Sat, 20 Feb 2010 15:52:57 +0800
+Message-ID: <1266652377.3464.6.camel@minggr.sh.intel.com>
+References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera>
+	 <d3IDKWHT5gE.A.Z-B.V7hZLB@chimera>
+	 <1265011447.6220.15.camel@marge.simson.net>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type;
-        bh=pZdn7+mkl5scCj/Wnh1FoKumKW3oQ9CTLd2IQdOxrsM=;
-        b=B/6NWjXH+Hh5KzVnH+u7O9HCY7/+2aSHT2aFxTf0+NEiimLLQrdEUT5RCLGoCP6s86
-         cKaUnrObqCbLY/IcgkwmQN6/QgmjKtjUSsYBRVdJF7BqtWX9j+Cg/NdEGO4eilLcltmi
-         65H44YS78gldv0rcSrt+iTNirWX5pQTH5x5IE=
-In-Reply-To: <201002182104.49631.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <1265011447.6220.15.camel-YqMYhexLQo1vAv1Ojkdn7Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, hugh.dickins-IWqWACnzNjwqdlJmJB21zg@public.gmane.org, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 
-On 2/18/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> On Thursday 18 February 2010, Alan Jenkins wrote:
->> On 2/17/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
->> > On Wednesday 17 February 2010, Alan Jenkins wrote:
->> >> On 2/16/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
->> >> > On Tuesday 16 February 2010, Alan Jenkins wrote:
->> >> >> On 2/16/10, Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
->> >> >> > On 2/15/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
->> >> >> >> On Tuesday 09 February 2010, Alan Jenkins wrote:
->> >> >> >>> Perhaps I spoke too soon.  I see the same hang if I run too many
->> >> >> >>> applications.  The first hibernation fails with "not enough
->> >> >> >>> swap"
->> >> >> >>> as
->> >> >> >>> expected, but the second or third attempt hangs (with the same
->> >> >> >>> backtrace
->> >> >> >>> as before).
->> >> >> >>>
->> >> >> >>> The patch definitely helps though.  Without the patch, I see a
->> >> >> >>> hang
->> >> >> >>> the
->> >> >> >>> first time I try to hibernate with too many applications
->> >> >> >>> running.
->> >> >> >>
->> >> >> >> Well, I have an idea.
->> >> >> >>
->> >> >> >> Can you try to apply the appended patch in addition and see if
->> >> >> >> that
->> >> >> >> helps?
->> >> >> >>
->> >> >> >> Rafael
->> >> >> >
->> >> >> > It doesn't seem to help.
->> >> >>
->> >> >> To be clear: It doesn't stop the hang when I hibernate with too many
->> >> >> applications.
->> >> >>
->> >> >> It does stop the same hang in a different case though.
->> >> >>
->> >> >> 1. boot with init=/bin/bash
->> >> >> 2. run s2disk
->> >> >> 3. cancel the s2disk
->> >> >> 4. repeat steps 2&3
->> >> >>
->> >> >> With the patch, I can run 10s of iterations, with no hang.
->> >> >> Without the patch, it soon hangs, (in disable_nonboot_cpus(), as
->> >> >> always).
->> >> >>
->> >> >> That's what happens on 2.6.33-rc7.  On 2.6.30, there is no problem.
->> >> >> On 2.6.31 and 2.6.32 I don't get a hang, but dmesg shows an
->> >> >> allocation
->> >> >> failure after a couple of iterations ("kthreadd: page allocation
->> >> >> failure. order:1, mode:0xd0").  It looks like it might be the same
->> >> >> stop_machine thread allocation failure that causes the hang.
->> >> >
->> >> > Have you tested it alone or on top of the previous one?  If you've
->> >> > tested it
->> >> > alone, please apply the appended one in addition to it and retest.
->> >> >
->> >> > Rafael
->> >>
->> >> I did test with both patches applied together -
->> >>
->> >> 1. [Update] MM / PM: Force GFP_NOIO during suspend/hibernation and
->> >> resume
->> >> 2. "reducing the number of pages that we're going to keep preallocated
->> >> by
->> >> 20%"
->> >
->> > In that case you can try to reduce the number of preallocated pages even
->> > more,
->> > ie. change "/ 5" to "/ 2" (for example) in the second patch.
->>
->> It still hangs if I try to hibernate a couple of times with too many
->> applications.
->
-> Hmm.  I guess I asked that before, but is this a 32-bit or 64-bit system and
-> how much RAM is there in the box?
->
-> Rafael
+On Mon, 2010-02-01 at 16:04 +0800, Mike Galbraith wrote:
+> On Mon, 2010-02-01 at 01:22 +0100, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.32.  Please verify if it still should be listed and let me know
+> > (either way).
+> 
+> Yes, it should remain open.  We're currently waiting for some data from
+> Lin Ming.  The regression itself isn't making much sense.. a kernel with
+> NEWIDLE disabled should show the same performance, but does not.  
 
-EeePC 701.  32 bit.  512Mb RAM.  350Mb swap file, on a "first-gen" SSD.
+(sorry for late response, I'm just back from vacation)
 
-Alan
+We finally located this to a bug in mwait based C-state entry.
+Venki's patch has fixed it.
+http://patchwork.kernel.org/patch/78544/
+
+Venki, this is the original report,
+http://marc.info/?l=linux-kernel&m=126441481427331&w=4
+
+Thanks,
+Lin Ming
