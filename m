@@ -1,47 +1,45 @@
-From: Bret Towe <magnade@gmail.com>
-Subject: Re: [Bug #15309] reiserfs issue with 2.6.32.8
-Date: Sun, 21 Feb 2010 18:18:17 -0800
-Message-ID: <dda83e781002211818s1b654266m9763a4d20e78ee3b@mail.gmail.com>
-References: <4u4d-2M3yXH.A.XW.XqagLB@chimera> <wj3ZQZlk_KB.A.Ye.iqagLB@chimera>
+From: Mike Galbraith <efault@gmx.de>
+Subject: Re: [Bug #15192] netperf ~50% regression with 2.6.33-rc1, bisect
+ to 1b9508f
+Date: Mon, 22 Feb 2010 05:59:22 +0100
+Message-ID: <1266814762.6072.3.camel@marge.simson.net>
+References: <vZZJKzCUn4G.A.CPB.F7hZLB@chimera>
+	 <d3IDKWHT5gE.A.Z-B.V7hZLB@chimera>
+	 <1265011447.6220.15.camel@marge.simson.net>
+	 <1266652377.3464.6.camel@minggr.sh.intel.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=WwyCptr/8tmNygBazll5bt4gwwkXh66snFLoSyppJFw=;
-        b=LOB9LoxxhuS2yLT00Zx5brPJRkbEktfJoHZ2W6iDfzLTfm0oY4ZTbs3jJzmXNLgKwb
-         CC7gqC+AzuqdBKuKTApT6jG7c5SvTzhZ/gMJ5pU9F978KxLRX+io57ix3x+kBqJYjsOl
-         OMBaLZHfHMFN9bQZr1FLq48TaRw1tR42Pc92k=
-In-Reply-To: <wj3ZQZlk_KB.A.Ye.iqagLB@chimera>
+In-Reply-To: <1266652377.3464.6.camel@minggr.sh.intel.com>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+To: Lin Ming <ming.m.lin@intel.com>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Ingo Molnar <mingo@elte.hu>, Peter Zijlstra <peterz@infradead.org>, venkatesh.pallipadi@intel.com, Len Brown <lenb@kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>
 
-On Sun, Feb 21, 2010 at 1:42 PM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.31 and 2.6.32.
->
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.31 and 2.6.32. =A0Please verify if it still sh=
-ould
-> be listed and let the tracking team know (either way).
->
->
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-15309
-> Subject =A0 =A0 =A0 =A0 : reiserfs issue with 2.6.32.8
-> Submitter =A0 =A0 =A0 : Bret Towe <magnade@gmail.com>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-02-14 18:23 (8 days old)
-> Message-ID =A0 =A0 =A0: <dda83e781002141023t2abe95b8w83f59d6f411f68a2=
-@mail.gmail.com>
-> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D126617=
-185512707&w=3D4
->
->
+On Sat, 2010-02-20 at 15:52 +0800, Lin Ming wrote:
+> On Mon, 2010-02-01 at 16:04 +0800, Mike Galbraith wrote:
+> > On Mon, 2010-02-01 at 01:22 +0100, Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of recent regressions.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.32.  Please verify if it still should be listed and let me know
+> > > (either way).
+> > 
+> > Yes, it should remain open.  We're currently waiting for some data from
+> > Lin Ming.  The regression itself isn't making much sense.. a kernel with
+> > NEWIDLE disabled should show the same performance, but does not.  
+> 
+> (sorry for late response, I'm just back from vacation)
+> 
+> We finally located this to a bug in mwait based C-state entry.
+> Venki's patch has fixed it.
+> http://patchwork.kernel.org/patch/78544/
+> 
+> Venki, this is the original report,
+> http://marc.info/?l=linux-kernel&m=126441481427331&w=4
 
-I'm still doing some bisecting trying to narrow down the problem
+Excellent, mystery solved.  (adds acpi)
+
+	-Mike
