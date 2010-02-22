@@ -1,43 +1,50 @@
-From: Daniel Mack <daniel-rDUAYElUppE@public.gmane.org>
-Subject: Re: [Bug #15039] leds_alix2: can't allocate I/O for GPIO
-Date: Mon, 22 Feb 2010 00:37:36 +0100
-Message-ID: <20100221233736.GI28972@buzzloop.caiaq.de>
+From: =?UTF-8?Q?Am=C3=A9rico_Wang?= <xiyou.wangcong@gmail.com>
+Subject: Re: [Bug #15142] sysfs-related lockdep warning in __blkdev_get
+Date: Mon, 22 Feb 2010 09:25:46 +0800
+Message-ID: <2375c9f91002211725u699a4b49y8dcae9829a3d3659@mail.gmail.com>
 References: <b_eAfX__uZL.A.lvE.HcagLB@chimera>
- <ClJsQB_ZlxO.A.wdH.7fagLB@chimera>
+	 <ClJsQB_ZlxO.A.eNH.WeagLB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <ClJsQB_ZlxO.A.wdH.7fagLB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=mKG55qer9wus/brKTLyO0gM5H14M4Vvv6Tv75gplVZ4=;
+        b=OfOk0YD+YAWf9znmglMFx30y34bDkt+Yh5UTmrC3381sNYoACytd5sVzmbPEZxvGcQ
+         zvMC2BH685KiQHKyk2DvKjKgekAw0wH35Zbe1PBTDMkjK3KztPnG2CANEL6YOHh8K5lr
+         IpIufHltd3YEz4Ta44CQUjCJEW6X5pCjL7w/Y=
+In-Reply-To: <ClJsQB_ZlxO.A.eNH.WeagLB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Richard Purdie <rpurdie-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Arnd Hannemann <hannemann-JasiFyN5vQG662+jY7v6MhvVK+yQ3ZXh@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Matti Aarnio <matti.aarnio--kernel-bugzilla@zmailer.org>, NeilBrown <neilb@suse.de>
 
-Hi Richard,
-
-On Sun, Feb 21, 2010 at 10:30:13PM +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a summary report
+On Mon, Feb 22, 2010 at 5:30 AM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> This message has been generated automatically as a part of a summary =
+report
 > of recent regressions.
-> 
+>
 > The following bug entry is on the current list of known regressions
-> from 2.6.32.  Please verify if it still should be listed and let the tracking team
+> from 2.6.32. =C2=A0Please verify if it still should be listed and let=
+ the tracking team
 > know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15039
-> Subject		: leds_alix2: can't allocate I/O for GPIO
-> Submitter	: Arnd Hannemann <hannemann-JasiFyN5vQG662+jY7v6MhvVK+yQ3ZXh@public.gmane.org>
-> Date		: 2010-01-07 10:26 (46 days old)
-> References	: http://marc.info/?l=linux-kernel&m=126286001106257&w=4
-> Handled-By	: Daniel Mack <daniel-rDUAYElUppE@public.gmane.org>
-> Patch		: http://patchwork.kernel.org/patch/72006/
-> 
+>
+>
+> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
+cgi?id=3D15142
+> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : sysfs-related lockdep warning i=
+n __blkdev_get
+> Submitter =C2=A0 =C2=A0 =C2=A0 : Matti Aarnio <matti.aarnio--kernel-b=
+ugzilla@zmailer.org>
+> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2010-01-25 13:38 (28 =
+days old)
+>
+>
 
-This regression is fixedi (or better worked around) in your git by the
-commit "leds: ALIX2: Add dependency to !GPIO_CS5335" (38b52483) but it
-seems this isn't merged yet. Any plans to get this in for -rc8?
+This should be fixed by the patchset from Eric too. Here:
 
-Thanks,
-Daniel
+http://lkml.org/lkml/2010/2/11/329
