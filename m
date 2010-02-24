@@ -1,46 +1,54 @@
-From: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Subject: Re: s2disk hang update
-Date: Wed, 24 Feb 2010 10:20:37 +0900
-Message-ID: <20100224102037.2cca4f83.kamezawa.hiroyu@jp.fujitsu.com>
-References: <9b2b86521001020703v23152d0cy3ba2c08df88c0a79@mail.gmail.com>
-	<201002222017.55588.rjw@sisk.pl>
-	<9b2b86521002230624g20661564mc35093ee0423ff77@mail.gmail.com>
-	<201002232213.56455.rjw@sisk.pl>
+From: Christian Kujau <lists@nerdbynature.de>
+Subject: Re: [Bug #14656] Oops at __rmqueue+0x98 with 2.6.32-rc6
+Date: Tue, 23 Feb 2010 23:58:42 -0800 (PST)
+Message-ID: <alpine.DEB.2.01.1002232323440.28195@bogon.housecafe.de>
+References: <4u4d-2M3yXH.A.XW.XqagLB@chimera> <wj3ZQZlk_KB.A.Q0C.hwagLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201002232213.56455.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <reiserfs-devel-owner@vger.kernel.org>
+In-Reply-To: <wj3ZQZlk_KB.A.Q0C.hwagLB@chimera>
+Sender: reiserfs-devel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, hugh.dickins-IWqWACnzNjwqdlJmJB21zg@public.gmane.org, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux MM <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Lucas C. Villa Real" <lucasvr@gobolinux.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, reiserfs-devel@vger.kernel.org, aneesh.kumar@linux.vnet.ibm.com
 
-On Tue, 23 Feb 2010 22:13:56 +0100
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+Lucas,
 
-> Well, it still looks like we're waiting for create_workqueue_thread() to
-> return, which probably is trying to allocate memory for the thread
-> structure.
-> 
-> My guess is that the preallocated memory pages freed by
-> free_unnecessary_pages() go into a place from where they cannot be taken for
-> subsequent NOIO allocations.  I have no idea why that happens though.
-> 
-> To test that theory you can try to change GFP_IOFS to GFP_KERNEL in the
-> calls to clear_gfp_allowed_mask() in kernel/power/hibernate.c (and in
-> kernel/power/suspend.c for completness).
-> 
+On Sun, 21 Feb 2010 at 22:42, Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14656
+> Subject		: Oops at __rmqueue+0x98 with 2.6.32-rc6
+> References : http://marc.info/?l=linux-kernel&m=125860255229092&w=4
 
-If allocation of kernel threads for stop_machine_run() is the problem,
+Your initial report said:
 
-What happens when
-1. use CONIFG_4KSTACK
-or
-2. make use of stop_machine_create(), stop_machine_destroy().
-   A new interface added by this commit.
-  http://git.kernel.org/?p=linux/kernel/git/torvalds/  linux-2.6.git;a=commit;h=9ea09af3bd3090e8349ca2899ca2011bd94cda85
-   You can do no-fail stop_machine_run().
+kernel: BUG: unable to handle kernel paging request at 0000b2cb
+kernel: IP: [<c0198266>] __rmqueue+0x98/0x36c
 
-Thanks,
--Kame
+
+However, the backtraces you posted later (with DEBUG_LIST=y) always 
+contained:
+
+
+------------[ cut here ]------------
+WARNING: at lib/list_debug.c:51 list_del+0x41/0x60()
+Hardware name: MacBook3,1
+list_del corruption. next->prev should be c1b71018, but was 00005095
+
+
+Not being a kernel hacker, this "list_del corruption" looks kinda weird. At 
+one point[0] it was suggested to reproduce this with an untainted 
+(ndiswrapper?) kernel; on other occurences[1] some code surgery was indeed 
+needed.
+
+I'm afraid I can't help here though, just thinking out loud...
+
+Christian.
+
+[0] http://lkml.org/lkml/2007/1/12/214
+[1] http://lkml.org/lkml/2008/9/26/85
+    http://lkml.indiana.edu/hypermail/linux/kernel/0902.1/01992.html
+-- 
+BOFH excuse #275:
+
+Bit rot
