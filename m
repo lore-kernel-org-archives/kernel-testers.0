@@ -1,108 +1,64 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: s2disk hang update
-Date: Wed, 24 Feb 2010 21:52:55 +0100
-Message-ID: <201002242152.55408.rjw@sisk.pl>
-References: <9b2b86521001020703v23152d0cy3ba2c08df88c0a79@mail.gmail.com> <201002232213.56455.rjw@sisk.pl> <9b2b86521002240823t126d5ad8nbd292da0f4090e6c@mail.gmail.com>
+From: Hugh Dickins <hugh.dickins-IWqWACnzNjwqdlJmJB21zg@public.gmane.org>
+Subject: Re: [Bug #15202] lockdep warning during elevator_switch
+Date: Thu, 25 Feb 2010 01:03:14 +0000 (GMT)
+Message-ID: <alpine.LSU.2.00.1002250051380.4394@sister.anvils>
+References: <b_eAfX__uZL.A.lvE.HcagLB@chimera>  <ClJsQB_ZlxO.A.YyG.4dagLB@chimera> <2375c9f91002211730l6835cae1x1693da3d94fccc0c@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323584-1347328712-1267059808=:4394"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <9b2b86521002240823t126d5ad8nbd292da0f4090e6c-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=google.com; s=beta;
+	t=1267059814; bh=V0fZlmyRLxNUaTZWfRHe15E7C5I=;
+	h=Sender:Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type;
+	b=e8PSpNhpetGKVmMRmKFyNBo4fWQ0NqmieLKCb90KfLqXVV9+e32O5mHklEdpOeTUa
+	 T9MUM0kTIOBbgfDPaW06g==
+In-Reply-To: <2375c9f91002211730l6835cae1x1693da3d94fccc0c-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Alan Jenkins <sourcejedi.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: Mel Gorman <mel-wPRd99KPJ+uzQB+pC5nmwQ@public.gmane.org>, hugh.dickins-IWqWACnzNjwqdlJmJB21zg@public.gmane.org, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>, pm list <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Linux MM <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Americo Wang <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 
-On Wednesday 24 February 2010, Alan Jenkins wrote:
-> On 2/23/10, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-...
-> > My guess is that the preallocated memory pages freed by
-> > free_unnecessary_pages() go into a place from where they cannot be taken for
-> > subsequent NOIO allocations.  I have no idea why that happens though.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323584-1347328712-1267059808=:4394
+Content-Type: TEXT/PLAIN; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+On Mon, 22 Feb 2010, Am=C3=A9rico Wang wrote:
+> On Mon, Feb 22, 2010 at 5:30 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > This message has been generated automatically as a part of a summary re=
+port
+> > of recent regressions.
 > >
-> > To test that theory you can try to change GFP_IOFS to GFP_KERNEL in the
-> > calls to clear_gfp_allowed_mask() in kernel/power/hibernate.c (and in
-> > kernel/power/suspend.c for completness).
-> 
-> Effectively forcing GFP_NOWAIT, so the allocation should fail instead
-> of hanging?
-> 
-> It seems to stop the hang, but I don't see any other difference - the
-> hibernation process isn't stopped earlier, and I don't get any new
-> kernel messages about allocation failures.  I wonder if it's because
-> GFP_NOWAIT triggers ALLOC_HARDER.
-> 
-> I have other evidence which argues for your theory:
-> 
-> [ successful s2disk, with forced NOIO (but not NOWAIT), and test code
-> as attached ]
-> 
->  Freezing remaining freezable tasks ... (elapsed 0.01 seconds) done.
->  1280 GFP_NOWAIT allocations of order 0 are possible
->  640 GFP_NOWAIT allocations of order 1 are possible
->  320 GFP_NOWAIT allocations of order 2 are possible
-> 
-> [ note - 1280 pages is the maximum test allocation used here.  The
-> test code is only accurate when talking about smaller numbers of free
-> pages ]
-> 
->  1280 GFP_KERNEL allocations of order 0 are possible
->  640 GFP_KERNEL allocations of order 1 are possible
->  320 GFP_KERNEL allocations of order 2 are possible
-> 
->  PM: Preallocating image memory...
->  212 GFP_NOWAIT allocations of order 0 are possible
->  102 GFP_NOWAIT allocations of order 1 are possible
->  50 GFP_NOWAIT allocations of order 2 are possible
-> 
->  Freeing all 90083 preallocated pages
->  (and 0 highmem pages, out of 0)
->  190 GFP_NOWAIT allocations of order 0 are possible
->  102 GFP_NOWAIT allocations of order 1 are possible
->  50 GFP_NOWAIT allocations of order 2 are possible
->  1280 GFP_KERNEL allocations of order 0 are possible
->  640 GFP_KERNEL allocations of order 1 are possible
->  320 GFP_KERNEL allocations of order 2 are possible
->  done (allocated 90083 pages)
-> 
-> It looks like you're right and the freed pages are not accessible with
-> GFP_NOWAIT for some reason.
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.32. =C2=A0Please verify if it still should be listed and let t=
+he tracking team
+> > know (either way).
+> >
+> >
+> > Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.cg=
+i?id=3D15202
+> > Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : lockdep warning during elevator_s=
+witch
+> > Submitter =C2=A0 =C2=A0 =C2=A0 : Hugh Dickins <hugh.dickins-IWqWACnzNjxTgsEVMPZbmg@public.gmane.org=
+uk>
+> > Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2010-01-31 23:55 (22 da=
+ys old)
+> > References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
+=3D126498212613051&w=3D4
+> >
+>=20
+> This should be fixed by:
+> http://lkml.org/lkml/2010/2/11/329
 
-I'd expect this, really.  There only is a limited number of pages you can
-allocate with GFP_NOWAIT.
+This regression does still need to be listed for 2.6.33-rc8-git.
 
-> I also tried a number of test runs with too many applications, and saw this:
-> 
-> Freeing all 104006 preallocated pages ...
-> 65 GFP_NOWAIT allocations of order 0 ...
-> 18 GFP_NOWAIT allocations of order 1 ...
-> 9 GFP_NOWAIT allocations of order 2 ...
-> 0 GFP_KERNEL allocations of order 0 are possible
-> ...
+Americo is right that the warning goes away if I apply those patches from E=
+ric,
+but they look like more than we'd be adding into 2.6.33 at this stage ...
+and bootup of latest git plus those patches gave me 71 messages of the form
+BUG: key fxxxxxxx not in .data!
 
-Now that's interesting.  We've just freed 104006 pages and we can't allocate
-any, so where did all of these freed pages go, actually?
-
-OK, I think I see what the problem is.  Quite embarassing, actually ...
-
-Can you check if the patch below helps?
-
-Rafael
-
----
- kernel/power/snapshot.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-Index: linux-2.6/kernel/power/snapshot.c
-===================================================================
---- linux-2.6.orig/kernel/power/snapshot.c
-+++ linux-2.6/kernel/power/snapshot.c
-@@ -1181,7 +1181,7 @@ static void free_unnecessary_pages(void)
- 
- 	memory_bm_position_reset(&copy_bm);
- 
--	while (to_free_normal > 0 && to_free_highmem > 0) {
-+	while (to_free_normal > 0 || to_free_highmem > 0) {
- 		unsigned long pfn = memory_bm_next_pfn(&copy_bm);
- 		struct page *page = pfn_to_page(pfn);
- 
+Hugh
+--8323584-1347328712-1267059808=:4394--
