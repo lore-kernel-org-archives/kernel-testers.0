@@ -1,31 +1,35 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15548] BUG: key f70f4b50 not in .data
-Date: Sun, 21 Mar 2010 21:13:28 +0100 (CET)
-Message-ID: <3Qs6IGJaRe.A.IrC.uBopLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15555] 2.6.34-rc1: kernel BUG at mm/slab.c:2989!
+Date: Sun, 21 Mar 2010 21:13:29 +0100 (CET)
+Message-ID: <3Qs6IGJaRe.A.GfC.oBopLB@chimera>
 References: <M9dVcHY7TxH.A.2GC.ZBopLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <M9dVcHY7TxH.A.2GC.ZBopLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="macroman"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, =?utf-8?q?Am=C3=A9rico=20Wang?= <xiyou.wangcong@gmail.com>
 
-This message has been generated automatically as a part of a summary report
+This message has been generated automatically as a part of a summary re=
+port
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.33.  Please verify if it still should be listed and let the tracking team
+from 2.6.33.  Please verify if it still should be listed and let the tr=
+acking team
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15548
-Subject		: BUG: key f70f4b50 not in .data
-Submitter	: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2010-03-09 10:27 (13 days old)
-Message-ID	: <20100309102754.GA3316-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=126813046113130&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15555
+Subject		: 2.6.34-rc1: kernel BUG at mm/slab.c:2989!
+Submitter	: Am=C3=A9rico Wang <xiyou.wangcong@gmail.com>
+Date		: 2010-03-10 8:29 (12 days old)
+Message-ID	: <2375c9f91003100029q7d64bbf7xce15eee97f7e2190@mail.gmail.c=
+om>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126820979017089&w=3D=
+2
 
