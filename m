@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15192] netperf ~50% regression with 2.6.33-rc1, bisect to 1b9508f
-Date: Sun, 21 Mar 2010 21:30:45 +0100 (CET)
-Message-ID: <hTwaxgnIZ2O.A.81F.hQopLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15244] PROBLEM: hda-intel divide by zero kernel crash in azx_position_ok()
+Date: Sun, 21 Mar 2010 21:30:46 +0100 (CET)
+Message-ID: <hTwaxgnIZ2O.A.WcF.BQopLB@chimera>
 References: <QQGfxbJf48H.A.NFD.uNopLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <QQGfxbJf48H.A.NFD.uNopLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jody Bruchon <jody@nctritech.com>, Takashi Iwai <tiwai@suse.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.32 and 2.6.33.
@@ -22,14 +22,11 @@ introduced between 2.6.32 and 2.6.33.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15192
-Subject		: netperf ~50% regression with 2.6.33-rc1, bisect to 1b9508f
-Submitter	: Lin Ming <ming.m.lin-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Date		: 2010-01-25 10:03 (56 days old)
-First-Bad-Commit: http://git.kernel.org/git/linus/1b9508f6831e10d53256825de8904caa22d1ca2c
-References	: http://marc.info/?l=linux-kernel&m=126441481427331&w=4
-Handled-By	: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
-		  Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-		  Venkatesh Pallipadi <venkatesh.pallipadi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Patch		: http://patchwork.kernel.org/patch/78544/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15244
+Subject		: PROBLEM: hda-intel divide by zero kernel crash in azx_position_ok()
+Submitter	: Jody Bruchon <jody@nctritech.com>
+Date		: 2010-02-06 0:32 (44 days old)
+References	: http://marc.info/?l=linux-kernel&m=126541276028173&w=2
+Handled-By	: Takashi Iwai <tiwai@suse.de>
+		  Jody Bruchon <jody@nctritech.com>
 
