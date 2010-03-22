@@ -1,35 +1,35 @@
-From: Sarah Sharp <sarah.a.sharp-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Subject: Re: [Bug #15376] regression (oops) with usb in 2.6.33-rc8
-Date: Mon, 22 Mar 2010 08:02:57 -0700
-Message-ID: <20100322150257.GA6653@xanatos>
-References: <QQGfxbJf48H.A.NFD.uNopLB@chimera>
- <hTwaxgnIZ2O.A.9IE.7OopLB@chimera>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: 2.6.34-rc2: Reported regressions from 2.6.33
+Date: Mon, 22 Mar 2010 10:12:38 -0700 (PDT)
+Message-ID: <alpine.LFD.2.00.1003221012270.18017@i5.linux-foundation.org>
+References: <M9dVcHY7TxH.A.2GC.ZBopLB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <hTwaxgnIZ2O.A.9IE.7OopLB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Christophe Fergeau <cfergeau-4qZELD6FgxhWk0Htik3J/w@public.gmane.org>
+Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+In-Reply-To: <M9dVcHY7TxH.A.2GC.ZBopLB@chimera>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
+List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
+List-Post: <mailto:linux-pm@lists.linux-foundation.org>
+List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
+List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
+Sender: linux-pm-bounces@lists.linux-foundation.org
+Errors-To: linux-pm-bounces@lists.linux-foundation.org
+To: "Rafael J. Wysocki" <rjw@sisk.pl>, Alex Villacis Lasso <avillaci@ceibo.fiec.espol.edu.ec>
+Cc: DRI <dri-devel@lists.sourceforge.net>, Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-On Sun, Mar 21, 2010 at 09:30:49PM +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.32 and 2.6.33.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.32 and 2.6.33.  Please verify if it still should
-> be listed and let the tracking team know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15376
-> Subject		: regression (oops) with usb in 2.6.33-rc8
-> Submitter	: Christophe Fergeau <cfergeau-4qZELD6FgxhWk0Htik3J/w@public.gmane.org>
-> Date		: 2010-02-23 10:58 (27 days old)
-> Handled-By	: Sarah Sharp <sarah.a.sharp-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
-Yes, this should still be included.
+On Sun, 21 Mar 2010, Rafael J. Wysocki wrote:
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15495
+> Subject		: Flood of SELinux denials on polkitd
+> Submitter	: Alex Villacis Lasso <avillaci@ceibo.fiec.espol.edu.ec>
+> Date		: 2010-03-09 16:47 (13 days old)
 
-Sarah Sharp
+Fixed by commit 3836a03d978e68b0ae00d3589089343c998cd4ff ("anon_inodes: 
+mark the anon inode private"), I'm pretty sure.
+
+		Linus
