@@ -1,40 +1,38 @@
-From: Bruce Fields <bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org>
-Subject: Re: [Bug #15200] NFS problems in 2.6.33-rc6: Unknown error 526
-Date: Mon, 22 Mar 2010 15:26:48 -0400
-Message-ID: <20100322192648.GM5359@fieldses.org>
-References: <QQGfxbJf48H.A.NFD.uNopLB@chimera> <hTwaxgnIZ2O.A.6nF.UQopLB@chimera>
+From: Etienne Basset <etienne.basset@numericable.fr>
+Subject: Re: [Bug #15549] [2.6.34-rc1][libata] regression?
+Date: Mon, 22 Mar 2010 20:50:16 +0100
+Message-ID: <4BA7C9F8.30000@numericable.fr>
+References: <fa.0ATnC9jnJLEG9H3v5nxRBlETRRs@ifi.uio.no> <fa.ZWYjYwS2FWNa/1ZvJa5P5hXf5J0@ifi.uio.no>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <hTwaxgnIZ2O.A.6nF.UQopLB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <fa.ZWYjYwS2FWNa/1ZvJa5P5hXf5J0@ifi.uio.no>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-9"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, =?utf-8?B?Si5BLiBNYWdhbGzDs24=?= <jamagallon-sh/6fXdz2Rs@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-On Sun, Mar 21, 2010 at 09:30:45PM +0100, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.32 and 2.6.33.
->=20
+Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
+> 
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.32 and 2.6.33.  Please verify if it still shou=
-ld
-> be listed and let the tracking team know (either way).
+> from 2.6.33.  Please verify if it still should be listed and let the tracking team
+> know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15549
+> Subject		: [2.6.34-rc1][libata] regression?
+> Submitter	: Etienne Basset <etienne.basset@numericable.fr>
+> Date		: 2010-03-09 21:47 (13 days old)
+> Message-ID	: <4B96C202.6050606@numericable.fr>
+> References	: http://marc.info/?l=linux-kernel&m=126817180811846&w=2
+> 
+> 
+hello,
+ 
+this can be closed,  it is a duplicate of #15537; the patch attached to 15537 helps but is not yet upstream
 
-This was dealt with by 260c64d23532caf19abb77e696971da05c388489.
-
---b.
-
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15200
-> Subject		: NFS problems in 2.6.33-rc6: Unknown error 526
-> Submitter	: J.A. Magall=C3=B3n <jamagallon-sh/6fXdz2Rs@public.gmane.org>
-> Date		: 2010-01-31 22:46 (50 days old)
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D126497800408928&w=
-=3D4
-> Handled-By	: Bruce Fields <bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org>
->=20
->=20
+thanks,
+Etienne
