@@ -1,51 +1,51 @@
-From: =?UTF-8?Q?Am=C3=A9rico_Wang?= <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #15142] sysfs-related lockdep warning in __blkdev_get
-Date: Fri, 26 Mar 2010 14:11:39 +0800
-Message-ID: <2375c9f91003252311j24d0a13ekbe1484f0d789e392@mail.gmail.com>
-References: <QQGfxbJf48H.A.NFD.uNopLB@chimera>
-	 <hTwaxgnIZ2O.A.J8F.wQopLB@chimera>
+From: =?UTF-8?Q?Am=C3=A9rico_Wang?= <xiyou.wangcong@gmail.com>
+Subject: Re: [Bug #15555] 2.6.34-rc1: kernel BUG at mm/slab.c:2989!
+Date: Fri, 26 Mar 2010 14:13:10 +0800
+Message-ID: <2375c9f91003252313x69aae301h1290c81891f156d3@mail.gmail.com>
+References: <M9dVcHY7TxH.A.2GC.ZBopLB@chimera>
+	 <3Qs6IGJaRe.A.GfC.oBopLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
         h=domainkey-signature:mime-version:received:in-reply-to:references
          :date:received:message-id:subject:from:to:cc:content-type
          :content-transfer-encoding;
-        bh=YZEHHE5sqasWb5z2sXNpiI6QWhVgCvOJUUHuIHtxeBE=;
-        b=rHHNBwJlrfrblmTysrx7TNj3aCSCWrR8un3Czpuo1I5NORO+eviFk6MiBEXAVYsYz3
-         dUikf52Dg/f0bY9sq1jElJGNpZsOL6LRMfPfCeV1Bc6o43zYFjcua5LYpLvF3LZ8bj8W
-         C0FfeOqE0LnUJPw6UXKqBuz031dHGuzR7Vz1c=
-In-Reply-To: <hTwaxgnIZ2O.A.J8F.wQopLB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+        bh=aVneSjxCgPraoS8UO+/Bw+R+uIqmWU8sGoTVPmfDlk0=;
+        b=RyeY7fyf/wFNvSddpAYtj5AxgCj2sue4engi9U3Yj2hWT1KAQx+W519uBHWOmNlBWG
+         WX14EF+C/SGSpX56Xe2ITdeNlCUttO1dcTLohnM77LAblN4LrXdDrZqMn5lsAAojF52G
+         cxbwbiXu1Xm0OXjs9kwNiBR2jxlnfi+zo1a5A=
+In-Reply-To: <3Qs6IGJaRe.A.GfC.oBopLB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Matti Aarnio <matti.aarnio--kernel-bugzilla-VYF+RMHuKCpAfugRpC6u6w@public.gmane.org>, NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-On Mon, Mar 22, 2010 at 4:30 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.32 and 2.6.33.
+On Mon, Mar 22, 2010 at 4:13 AM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> This message has been generated automatically as a part of a summary =
+report
+> of recent regressions.
 >
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.32 and 2.6.33. =C2=A0Please verify if it still=
- should
-> be listed and let the tracking team know (either way).
+> from 2.6.33. =C2=A0Please verify if it still should be listed and let=
+ the tracking team
+> know (either way).
 >
 >
 > Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D15142
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : sysfs-related lockdep warning i=
-n __blkdev_get
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Matti Aarnio <matti.aarnio--kernel-b=
-ugzilla-VYF+RMHuKCpAfugRpC6u6w@public.gmane.org>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2010-01-25 13:38 (56 =
-days old)
-> Handled-By =C2=A0 =C2=A0 =C2=A0: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-> Patch =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : https://bugzilla.kernel.or=
-g/attachment.cgi?id=3D25085
+cgi?id=3D15555
+> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : 2.6.34-rc1: kernel BUG at mm/sl=
+ab.c:2989!
+> Submitter =C2=A0 =C2=A0 =C2=A0 : Am=C3=A9rico Wang <xiyou.wangcong@gm=
+ail.com>
+> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2010-03-10 8:29 (12 d=
+ays old)
+> Message-ID =C2=A0 =C2=A0 =C2=A0: <2375c9f91003100029q7d64bbf7xce15eee=
+97f7e2190@mail.gmail.com>
+> References =C2=A0 =C2=A0 =C2=A0: http://marc.info/?l=3Dlinux-kernel&m=
+=3D126820979017089&w=3D2
 >
 
-This is supposed to be fixed by Eric's patch which is now in upstream.
-
-Thanks!
+I can't reproduce this bug any more.
