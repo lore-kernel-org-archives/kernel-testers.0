@@ -1,37 +1,33 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15719] virtio_net causing kernel BUG when running under VirtualBox
-Date: Wed,  7 Apr 2010 23:13:54 +0200 (CEST)
-Message-ID: <JVS2s9dmTsP.A.6eF.xsPvLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15718] File corruption regression on NFS related to commit 1f36f774
+Date: Wed,  7 Apr 2010 23:13:53 +0200 (CEST)
+Message-ID: <JVS2s9dmTsP.A.ApF.zsPvLB@chimera>
 References: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Shirley Ma <mashirle-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Shirley Ma <xma-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, =?utf-8?q?Thomas=20M=C3=BCller?= <thomas-5bHTHlrcoh6zQB+pC5nmwQ@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>, Boaz Harrosh <bharrosh@panasas.com>
 
-This message has been generated automatically as a part of a summary re=
-port
+This message has been generated automatically as a part of a summary report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.33.  Please verify if it still should be listed and let the tr=
-acking team
+from 2.6.33.  Please verify if it still should be listed and let the tracking team
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15719
-Subject		: virtio_net causing kernel BUG when running under VirtualBox
-Submitter	: Thomas M=C3=BCller <thomas-5bHTHlrcoh6zQB+pC5nmwQ@public.gmane.org>
-Date		: 2010-03-27 14:32 (12 days old)
-=46irst-Bad-Commit: http://git.kernel.org/git/linus/9ab86bbcf8be755256f=
-0a5e994e0b38af6b4d399
-Message-ID	: <4BAE1707.2050803-5bHTHlrcoh6zQB+pC5nmwQ@public.gmane.org>
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D126970039227740&w=3D=
-4
-Handled-By	: Shirley Ma <mashirle-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15718
+Subject		: File corruption regression on NFS related to commit 1f36f774
+Submitter	: Boaz Harrosh <bharrosh@panasas.com>
+Date		: 2010-03-24 15:49 (15 days old)
+First-Bad-Commit: http://git.kernel.org/git/linus/1f36f774b22a0ceb7dd33eca626746c81a97b6a5
+Message-ID	: <4BAA3493.1030802@panasas.com>
+References	: http://marc.info/?l=linux-kernel&m=126944579810350&w=4
+Handled-By	: Al Viro <viro@zeniv.linux.org.uk>
 
