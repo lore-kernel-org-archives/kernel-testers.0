@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15672] KVM bug, git bisected
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15669] INFO: suspicious rcu_dereference_check()
 Date: Wed,  7 Apr 2010 23:13:51 +0200 (CEST)
-Message-ID: <JVS2s9dmTsP.A.11G.QtPvLB@chimera>
+Message-ID: <JVS2s9dmTsP.A.3BH.VtPvLB@chimera>
 References: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kent Overstreet <kent.overstreet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Zdenek Kabelac <zdenek.kabelac@gmail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,11 +22,10 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15672
-Subject		: KVM bug, git bisected
-Submitter	: Kent Overstreet <kent.overstreet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2010-03-27 12:43 (12 days old)
-First-Bad-Commit: http://git.kernel.org/git/linus/5beb49305251e5669852ed541e8e2f2f7696c53e
-Message-ID	: <4BADFD74.8060904-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=126969385121711&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15669
+Subject		: INFO: suspicious rcu_dereference_check()
+Submitter	: Zdenek Kabelac <zdenek.kabelac@gmail.com>
+Date		: 2010-03-08 1:26 (31 days old)
+Message-ID	: <c4e36d111003250348q678eb2e6w4f3e8133e7fd6e58@mail.gmail.com>
+References	: http://marc.info/?l=linux-kernel&m=126801163107713&w=2
 
