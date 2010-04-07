@@ -1,44 +1,31 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15555] 2.6.34-rc1: kernel BUG at mm/slab.c:2989!
-Date: Fri, 26 Mar 2010 22:59:12 +0100
-Message-ID: <201003262259.12813.rjw@sisk.pl>
-References: <M9dVcHY7TxH.A.2GC.ZBopLB@chimera> <3Qs6IGJaRe.A.GfC.oBopLB@chimera> <2375c9f91003252313x69aae301h1290c81891f156d3@mail.gmail.com>
+Subject: [Bug #15480] [regression] Fails to boot properly unless given pci=nocrs
+Date: Wed,  7 Apr 2010 23:08:37 +0200 (CEST)
+Message-ID: <JVS2s9dmTsP.A.pr.JvPvLB@chimera>
+References: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <2375c9f91003252313x69aae301h1290c81891f156d3-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: =?utf-8?q?Am=C3=A9rico_Wang?= <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, Yanko Kaneti <yaneti-jUE9FD3ILm5BDgjK7y7TUQ@public.gmane.org>
 
-On Friday 26 March 2010, Am=C3=A9rico Wang wrote:
-> On Mon, Mar 22, 2010 at 4:13 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrot=
-e:
-> > This message has been generated automatically as a part of a summar=
-y report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.33.  Please verify if it still should be listed and let th=
-e tracking team
-> > know (either way).
-> >
-> >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D1555=
-5
-> > Subject         : 2.6.34-rc1: kernel BUG at mm/slab.c:2989!
-> > Submitter       : Am=C3=A9rico Wang <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date            : 2010-03-10 8:29 (12 days old)
-> > Message-ID      : <2375c9f91003100029q7d64bbf7xce15eee97f7e2190@mai=
-l.gmail.com>
-> > References      : http://marc.info/?l=3Dlinux-kernel&m=3D1268209790=
-17089&w=3D2
-> >
->=20
-> I can't reproduce this bug any more.
+This message has been generated automatically as a part of a summary report
+of recent regressions.
 
-Thanks, closing.
+The following bug entry is on the current list of known regressions
+from 2.6.33.  Please verify if it still should be listed and let the tracking team
+know (either way).
 
-Rafael
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15480
+Subject		: [regression] Fails to boot properly unless given pci=nocrs
+Submitter	: Yanko Kaneti <yaneti-jUE9FD3ILm5BDgjK7y7TUQ@public.gmane.org>
+Date		: 2010-03-09 01:24 (30 days old)
+Handled-By	: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+Patch		: http://lkml.org/lkml/2010/3/11/512
+
