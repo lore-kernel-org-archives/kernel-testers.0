@@ -1,40 +1,46 @@
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [Bug #15715] vmscan: underflow for get_scan_ratio
-Date: Wed, 7 Apr 2010 15:05:25 -0700 (PDT)
-Message-ID: <alpine.LFD.2.00.1004071505100.3586@i5.linux-foundation.org>
-References: <6Pphclm24fK.A.lSF.qsPvLB@chimera> <JVS2s9dmTsP.A.2EG.7sPvLB@chimera>
+From: Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Subject: Re: 2.6.34-rc3-git6: Reported regressions from 2.6.33
+Date: Wed, 7 Apr 2010 23:19:41 +0100
+Message-ID: <20100407221941.GL30031@ZenIV.linux.org.uk>
+References: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
+ <alpine.LFD.2.00.1004071444440.3586@i5.linux-foundation.org>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <JVS2s9dmTsP.A.2EG.7sPvLB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.LFD.2.00.1004071444440.3586-GpypE611fyS63QaFMGN2QEqCLAeBNdoH@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>, Shaohua Li <shaohua.li@intel.com>, Wu Fengguang <fengguang.wu@intel.com>
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
 
+On Wed, Apr 07, 2010 at 03:04:46PM -0700, Linus Torvalds wrote:
 
-
-On Wed, 7 Apr 2010, Rafael J. Wysocki wrote:
->
-> This message has been generated automatically as a part of a summary report
-> of recent regressions.
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15674
+> > Subject		: [2.6.34-rc2 NFS4 oops] open error path failure...
+> > Submitter	: Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date		: 2010-03-29 18:36 (10 days old)
+> > Message-ID	: <6278d2221003291136p6481fe8emfb039403343c082-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+> > References	: http://marc.info/?l=linux-kernel&m=126988782722711&w=2
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.33.  Please verify if it still should be listed and let the tracking team
-> know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15715
-> Subject		: vmscan: underflow for get_scan_ratio
-> Submitter	: Shaohua Li <shaohua.li@intel.com>
-> Date		: 2010-03-30 5:53 (9 days old)
-> First-Bad-Commit: http://git.kernel.org/git/linus/84b18490d1f1bc7ed5095c929f78bc002eb70f26
-> Message-ID	: <20100330055304.GA2983@sli10-desk.sh.intel.com>
-> References	: http://marc.info/?l=linux-kernel&m=126992842105754&w=4
-> Handled-By	: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
-> 		  Wu Fengguang <fengguang.wu@intel.com>
+> This smells like the same LOOKUP_DIRECTORY thing as the first entry, but.. 
 
-Reverted by commit d6da1a5abc2bf3a06a5bda08e0f6833409234666
+No, it's not the same thing; the fix is to have nfs ->d_revalidate()
+return an error on failing open attempt (in insane codepath that has
+->d_revalidate() handling open()).  Confirmed to work by reporter...
 
-			Linus
+diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
+index d79a7b3..fe0cd9e 100644
+--- a/fs/nfs/nfs4proc.c
++++ b/fs/nfs/nfs4proc.c
+@@ -2068,8 +2068,7 @@ nfs4_open_revalidate(struct inode *dir, struct dentry *dentry, int openflags, st
+ 			case -EDQUOT:
+ 			case -ENOSPC:
+ 			case -EROFS:
+-				lookup_instantiate_filp(nd, (struct dentry *)state, NULL);
+-				return 1;
++				return PTR_ERR(state);
+ 			default:
+ 				goto out_drop;
+ 		}
