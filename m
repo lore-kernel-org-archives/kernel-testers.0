@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15615] NULL pointer deref in task_is_waking
-Date: Wed,  7 Apr 2010 23:13:48 +0200 (CEST)
-Message-ID: <JVS2s9dmTsP.A.ivH.2tPvLB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15625] BUG: 2.6.34-rc1, RIP is (null)
+Date: Wed,  7 Apr 2010 23:13:49 +0200 (CEST)
+Message-ID: <JVS2s9dmTsP.A.lhH.qtPvLB@chimera>
 References: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Amit Shah <shahamit-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Randy Dunlap <randy.dunlap@oracle.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,10 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15615
-Subject		: NULL pointer deref in task_is_waking
-Submitter	: Amit Shah <shahamit-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2010-03-23 04:04 (16 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15625
+Subject		: BUG: 2.6.34-rc1, RIP is (null)
+Submitter	: Randy Dunlap <randy.dunlap@oracle.com>
+Date		: 2010-03-18 22:22 (21 days old)
+Message-ID	: <4BA2A7A9.4080503@oracle.com>
+References	: http://marc.info/?l=linux-kernel&m=126895098217351&w=2
 
