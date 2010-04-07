@@ -1,46 +1,29 @@
-From: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #15624] [BUG] percpu misaligned allocation
-Date: Wed, 7 Apr 2010 23:59:29 +0200
-Message-ID: <20100407215926.GA10002@nowhere>
-References: <6Pphclm24fK.A.lSF.qsPvLB@chimera> <JVS2s9dmTsP.A.mnH.stPvLB@chimera>
+From: "John W. Linville" <linville@tuxdriver.com>
+Subject: Re: 2.6.34-rc3-git6: Reported regressions from 2.6.33
+Date: Wed, 7 Apr 2010 17:53:19 -0400
+Message-ID: <20100407215319.GA25932@tuxdriver.com>
+References: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:received:date:from:to:cc
-         :subject:message-id:references:mime-version:content-type
-         :content-disposition:in-reply-to:user-agent;
-        bh=o7LVVMo0d/tm2rNmFXGlEscAdloawf1dXJ3IVKuWAMQ=;
-        b=w6NtooWNN+YcNEW49slFvtEN/8y2oFnAkRBQ/VUJGcyXoGpV441lAeIijd5D6CFbEV
-         R9zgYdJGAjk5LlYFAKnVg1NJYKT6jH8gSbMsf+Ym9+RfwxBpdZg5pnple6odpVV+m6zx
-         hSL8l+PJoFweTEHPnUmyVqJN/DywrV/kQ5NSs=
+Return-path: <netdev-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <JVS2s9dmTsP.A.mnH.stPvLB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-On Wed, Apr 07, 2010 at 11:13:49PM +0200, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a summary report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.33.  Please verify if it still should be listed and let the tracking team
-> know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15624
-> Subject		: [BUG] percpu misaligned allocation
-> Submitter	: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2010-03-18 4:49 (21 days old)
-> Message-ID	: <20100318044930.GC5045@nowhere>
-> References	: http://marc.info/?l=linux-kernel&m=126888780031992&w=2
+On Wed, Apr 07, 2010 at 11:08:30PM +0200, Rafael J. Wysocki wrote:
 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15551
+> Subject		: WARNING: at net/mac80211/work.c:811 ieee80211_work_work+0x7f/0xde8 [mac80211]()
+> Submitter	: Alex Zhavnerchik <alex.vizor@gmail.com>
+> Date		: 2010-03-16 22:03 (23 days old)
 
-This has been fixed with "eb1e79611cc9bfe21978230e3521e77ea2d7874a"
-(perf: Correctly align perf event tracing buffer).
+I sent a pull request with the patch for this to Dave M. today. :-)
 
-The ticket can be closed, thanks!
+John
+-- 
+John W. Linville		Someday the world will need a hero, and you
+linville@tuxdriver.com			might be all we have.  Be ready.
