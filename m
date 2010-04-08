@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #14937] WARNING: at kernel/lockdep.c:2830
-Date: Fri,  9 Apr 2010 01:04:27 +0200 (CEST)
-Message-ID: <onZ81XwyNTD.A.uLE.wImvLB@chimera>
+Subject: [Bug #15311] Starting pulseaudio causes a NULL pointer hit
+Date: Fri,  9 Apr 2010 01:04:29 +0200 (CEST)
+Message-ID: <onZ81XwyNTD.A.PAD.SFmvLB@chimera>
 References: <cjwJ7Pf9h0L.A.9pB.1DmvLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Grant Wilson <grant.wilson@zen.co.uk>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Ed Tomlinson <edt@aei.ca>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.32 and 2.6.33.
@@ -22,9 +22,8 @@ introduced between 2.6.32 and 2.6.33.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14937
-Subject		: WARNING: at kernel/lockdep.c:2830
-Submitter	: Grant Wilson <grant.wilson@zen.co.uk>
-Date		: 2009-12-27 13:35 (103 days old)
-References	: http://marc.info/?l=linux-kernel&m=126192220404829&w=4
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15311
+Subject		: Starting pulseaudio causes a NULL pointer hit
+Submitter	: Ed Tomlinson <edt@aei.ca>
+Date		: 2010-02-14 23:41 (54 days old)
 
