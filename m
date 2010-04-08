@@ -1,53 +1,48 @@
-From: Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
-Subject: Re: 2.6.34-rc3-git6: Reported regressions from 2.6.33
-Date: Thu, 8 Apr 2010 00:06:07 +0100
-Message-ID: <20100407230607.GM30031@ZenIV.linux.org.uk>
+From: Yong Zhang <yong.zhang-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
+Subject: Re: [Bug #15661] PROBLEM: crash on halt with
+ 2.6.34-0.16.rc2.git0.fc14.x86_64
+Date: Thu, 8 Apr 2010 10:29:45 +0800
+Message-ID: <20100408022945.GA12905@windriver.com>
 References: <6Pphclm24fK.A.lSF.qsPvLB@chimera>
- <alpine.LFD.2.00.1004071444440.3586@i5.linux-foundation.org>
- <20100407221941.GL30031@ZenIV.linux.org.uk>
- <alpine.LFD.2.00.1004071521500.3586@i5.linux-foundation.org>
+ <JVS2s9dmTsP.A.uTH.ftPvLB@chimera>
+Reply-To: Yong Zhang <yong.zhang-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <alpine.LFD.2.00.1004071521500.3586-GpypE611fyS63QaFMGN2QEqCLAeBNdoH@public.gmane.org>
+In-Reply-To: <JVS2s9dmTsP.A.uTH.ftPvLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jon Masters <jonathan-Zp4isUonpHBD60Wz+7aTrA@public.gmane.org>
 
-On Wed, Apr 07, 2010 at 03:22:20PM -0700, Linus Torvalds wrote:
+On Wed, Apr 07, 2010 at 11:13:50PM +0200, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.33.  Please verify if it still should be listed and let the tracking team
+> know (either way).
 > 
 > 
-> On Wed, 7 Apr 2010, Al Viro wrote:
-> > 
-> > No, it's not the same thing; the fix is to have nfs ->d_revalidate()
-> > return an error on failing open attempt (in insane codepath that has
-> > ->d_revalidate() handling open()).  Confirmed to work by reporter...
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15661
+> Subject		: PROBLEM: crash on halt with 2.6.34-0.16.rc2.git0.fc14.x86_64
+> Submitter	: Jon Masters <jonathan-Zp4isUonpHBD60Wz+7aTrA@public.gmane.org>
+> Date		: 2010-03-26 15:29 (13 days old)
+> Message-ID	: <1269617372.3779.234.camel@localhost>
+> References	: http://marc.info/?l=linux-kernel&m=126961739803949&w=2
 > 
-> Ok, can you do the proper changelog description and sign-offs etc?
 
-[PATCH] Have nfs ->d_revalidate() report errors properly
+Seems a duplicate of http://lkml.org/lkml/2010/3/20/142
+and it's reslovled by commit a90110c61073eab95d1986322693c2b9a8a6a5f6
 
-	If nfs atomic open implementation ends up doing open request from
-->d_revalidate() codepath and gets an error from server, return that error
-to caller explicitly and don't bother with lookup_instantiate_filp() at all.
-->d_revalidate() can return an error itself just fine...
+Thanks,
+Yong
 
-Signed-off-by: Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
----
-diff --git a/fs/nfs/nfs4proc.c b/fs/nfs/nfs4proc.c
-index d79a7b3..fe0cd9e 100644
---- a/fs/nfs/nfs4proc.c
-+++ b/fs/nfs/nfs4proc.c
-@@ -2068,8 +2068,7 @@ nfs4_open_revalidate(struct inode *dir, struct dentry *dentry, int openflags, st
- 			case -EDQUOT:
- 			case -ENOSPC:
- 			case -EROFS:
--				lookup_instantiate_filp(nd, (struct dentry *)state, NULL);
--				return 1;
-+				return PTR_ERR(state);
- 			default:
- 				goto out_drop;
- 		}
+> 
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
