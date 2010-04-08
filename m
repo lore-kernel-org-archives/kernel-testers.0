@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15076] System panic under load with clockevents_program_event
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #14937] WARNING: at kernel/lockdep.c:2830
 Date: Fri,  9 Apr 2010 01:04:27 +0200 (CEST)
-Message-ID: <onZ81XwyNTD.A.m3D.XHmvLB@chimera>
+Message-ID: <onZ81XwyNTD.A.uLE.wImvLB@chimera>
 References: <cjwJ7Pf9h0L.A.9pB.1DmvLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <cjwJ7Pf9h0L.A.9pB.1DmvLB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, okias <d.okias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Grant Wilson <grant.wilson@zen.co.uk>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.32 and 2.6.33.
@@ -22,8 +22,9 @@ introduced between 2.6.32 and 2.6.33.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15076
-Subject		: System panic under load with clockevents_program_event
-Submitter	: okias <d.okias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2010-01-17 13:03 (82 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=14937
+Subject		: WARNING: at kernel/lockdep.c:2830
+Submitter	: Grant Wilson <grant.wilson@zen.co.uk>
+Date		: 2009-12-27 13:35 (103 days old)
+References	: http://marc.info/?l=linux-kernel&m=126192220404829&w=4
 
