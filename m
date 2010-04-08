@@ -1,41 +1,38 @@
-From: Boaz Harrosh <bharrosh-C4P08NqkoRlBDgjK7y7TUQ@public.gmane.org>
-Subject: Re: [Bug #15718] File corruption regression on NFS related to commit
- 1f36f774
-Date: Thu, 08 Apr 2010 14:56:46 +0300
-Message-ID: <4BBDC47E.1060405@panasas.com>
-References: <6Pphclm24fK.A.lSF.qsPvLB@chimera> <JVS2s9dmTsP.A.ApF.zsPvLB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #15480] [regression] Fails to boot properly unless given pci=nocrs
+Date: Thu, 8 Apr 2010 21:54:15 +0200
+Message-ID: <201004082154.15714.rjw@sisk.pl>
+References: <6Pphclm24fK.A.lSF.qsPvLB@chimera> <JVS2s9dmTsP.A.pr.JvPvLB@chimera> <201004071602.22200.bjorn.helgaas@hp.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <JVS2s9dmTsP.A.ApF.zsPvLB@chimera>
+In-Reply-To: <201004071602.22200.bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Yanko Kaneti <yaneti-jUE9FD3ILm5BDgjK7y7TUQ@public.gmane.org>
 
-On 04/08/2010 12:13 AM, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a summary report
-> of recent regressions.
+On Thursday 08 April 2010, Bjorn Helgaas wrote:
+> On Wednesday 07 April 2010 03:08:37 pm Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a summary report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.33.  Please verify if it still should be listed and let the tracking team
+> > know (either way).
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15480
+> > Subject		: [regression] Fails to boot properly unless given pci=nocrs
+> > Submitter	: Yanko Kaneti <yaneti-jUE9FD3ILm5BDgjK7y7TUQ@public.gmane.org>
+> > Date		: 2010-03-09 01:24 (30 days old)
+> > Handled-By	: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+> > Patch		: http://lkml.org/lkml/2010/3/11/512
 > 
-> The following bug entry is on the current list of known regressions
-> from 2.6.33.  Please verify if it still should be listed and let the tracking team
-> know (either way).
+> This should be closed.  The fix is in Linus' tree:
 > 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15718
-> Subject		: File corruption regression on NFS related to commit 1f36f774
-> Submitter	: Boaz Harrosh <bharrosh-C4P08NqkoRlBDgjK7y7TUQ@public.gmane.org>
-> Date		: 2010-03-24 15:49 (15 days old)
-> First-Bad-Commit: http://git.kernel.org/git/linus/1f36f774b22a0ceb7dd33eca626746c81a97b6a5
-> Message-ID	: <4BAA3493.1030802-C4P08NqkoRlBDgjK7y7TUQ@public.gmane.org>
-> References	: http://marc.info/?l=linux-kernel&m=126944579810350&w=4
-> Handled-By	: Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
-> 
-> 
+> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=d558b483d5a73f5718705b270cb2090f66ea48c8
 
-Fix already in main line: 3e297b613491f0d4928aa652a2cd266aa06dc409
-	Author: Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
-	Restore LOOKUP_DIRECTORY hint handling in final lookup on open()
+Thanks, closing.
 
-Boaz
+Rafael
