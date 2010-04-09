@@ -1,28 +1,29 @@
-From: David Dillow <dave-i1Mk8JYDVaaSihdK6806/g@public.gmane.org>
-Subject: Re: [Bug #15454] r8169 exits with error -22 since 2.6.33
-Date: Thu, 08 Apr 2010 21:14:43 -0400
-Message-ID: <1270775683.26861.4.camel@obelisk.thedillows.org>
+From: Gertjan van Wingerde <gwingerde@gmail.com>
+Subject: Re: 2.6.34-rc3-git8: Reported regressions 2.6.32 -> 2.6.33
+Date: Fri, 09 Apr 2010 04:36:30 +0200
+Message-ID: <4BBE92AE.6090301@gmail.com>
 References: <cjwJ7Pf9h0L.A.9pB.1DmvLB@chimera>
-	 <onZ81XwyNTD.A.PlC.tEmvLB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <onZ81XwyNTD.A.PlC.tEmvLB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <cjwJ7Pf9h0L.A.9pB.1DmvLB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Conrad Kostecki <ConiKost-Mmb7MZpHnFY@public.gmane.org>, romieu-W8zweXLXuWQS+FvcfC7Uqw@public.gmane.org
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-On Fri, 2010-04-09 at 01:04 +0200, Rafael J. Wysocki wrote:
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15454
-> Subject		: r8169 exits with error -22 since 2.6.33
-> Submitter	: Conrad Kostecki <ConiKost-Mmb7MZpHnFY@public.gmane.org>
-> Date		: 2010-03-05 22:32 (35 days old)
+On 04/09/10 00:54, Rafael J. Wysocki wrote:
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15699
+> Subject		: rt2500usb driver cannot remain connected
+> Submitter	:  <abcd@gentoo.org>
+> Date		: 2010-04-05 19:30 (4 days old)
+> Handled-By	: Ivo van Doorn <IvDoorn@gmail.com>
+> 
 
-Francois attached a patch to the bugzilla entry that ignores the failure
-to enable MWI on the device. That may get the NIC up and running, but
-that area of the driver doesn't seem to have changed since 2.6.32, so
-perhaps this is just a canary -- I'm betting that the cache line size is
-not getting set properly, and it probably affects more than just this
-NIC.
+This one ought to be fixed by commit 9e76ad2a27f592c1390248867391880c7efe78b3
+in Linus' tree.
+
+---
+Gertjan.
