@@ -1,49 +1,28 @@
-From: =?UTF-8?B?IlJBTE9WSUNILCBLcmlzdMOzZiI=?= 
-	<kristof.ralovich-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #15392] The kernel does not start up.
-Date: Thu, 8 Apr 2010 19:48:46 -0400
-Message-ID: <i2h5712ce4f1004081648r35f74370k6109cb4dfa7a1e53@mail.gmail.com>
-References: <cjwJ7Pf9h0L.A.9pB.1DmvLB@chimera> <onZ81XwyNTD.A.9qC.9EmvLB@chimera>
+From: David Dillow <dave-i1Mk8JYDVaaSihdK6806/g@public.gmane.org>
+Subject: Re: [Bug #15454] r8169 exits with error -22 since 2.6.33
+Date: Thu, 08 Apr 2010 21:14:43 -0400
+Message-ID: <1270775683.26861.4.camel@obelisk.thedillows.org>
+References: <cjwJ7Pf9h0L.A.9pB.1DmvLB@chimera>
+	 <onZ81XwyNTD.A.PlC.tEmvLB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:in-reply-to:references
-         :from:date:received:message-id:subject:to:cc:content-type
-         :content-transfer-encoding;
-        bh=pPkIomiXT06uTsBbKIwECgpIpvGij7NtlhZFdaBvLeM=;
-        b=WTmO5ljnzHTQ+MP3hp8ecICIce4s3ZhzFhs6+bs3EWprkMRQsf+kZj2Iq75o0uyAkj
-         124Ropg7/goA1hxhVGGpJV8gXGhsHs3OfVQfnvuFPP7n8THamAgcIKLGIwIHfyu7Xk1B
-         E/tl2fUoTLgfvVoKBwx862e/uOwzpq2FhD3pQ=
-In-Reply-To: <onZ81XwyNTD.A.9qC.9EmvLB@chimera>
+In-Reply-To: <onZ81XwyNTD.A.PlC.tEmvLB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Conrad Kostecki <ConiKost-Mmb7MZpHnFY@public.gmane.org>, romieu-W8zweXLXuWQS+FvcfC7Uqw@public.gmane.org
 
-The issue still exists!
+On Fri, 2010-04-09 at 01:04 +0200, Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15454
+> Subject		: r8169 exits with error -22 since 2.6.33
+> Submitter	: Conrad Kostecki <ConiKost-Mmb7MZpHnFY@public.gmane.org>
+> Date		: 2010-03-05 22:32 (35 days old)
 
-Kristof
-
-On Thu, Apr 8, 2010 at 19:04, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.32 and 2.6.33.
->
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.32 and 2.6.33. =C2=A0Please verify if it still=
- should
-> be listed and let the tracking team know (either way).
->
->
-> Bug-Entry =C2=A0 =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.=
-cgi?id=3D15392
-> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 : The kernel does not start up.
-> Submitter =C2=A0 =C2=A0 =C2=A0 : Krist=C3=B3f Ralovich <kristof.ralov=
-ich-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2010-02-25 06:52 (43 =
-days old)
->
->
->
+Francois attached a patch to the bugzilla entry that ignores the failure
+to enable MWI on the device. That may get the NIC up and running, but
+that area of the driver doesn't seem to have changed since 2.6.32, so
+perhaps this is just a canary -- I'm betting that the cache line size is
+not getting set properly, and it probably affects more than just this
+NIC.
