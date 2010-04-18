@@ -1,82 +1,30 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
-Date: Thu, 15 Apr 2010 19:16:08 +0200
-Message-ID: <201004151916.08821.rjw@sisk.pl>
-References: <6Pphclm24fK.A.lSF.qsPvLB@chimera> <JVS2s9dmTsP.A.YhG.FtPvLB@chimera> <20100414101220.GA3681@swordfish.minsk.epam.com>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100414101220.GA3681-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: Sanjoy Mahajan <sanjoy@MIT.EDU>
+Subject: Re: [Bug #15544] black screen upon S3 resume, syslog has "render error" and "page table error"
+Date: Sat, 17 Apr 2010 22:19:30 -0400
+Message-ID: <E1O3K6c-0000ly-GA@approx.mit.edu>
+References: <201004092152.21306.rjw@sisk.pl>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: Your message of "Fri, 09 Apr 2010 21:52:21 +0200."
+             <201004092152.21306.rjw@sisk.pl>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-On Wednesday 14 April 2010, Sergey Senozhatsky wrote:
-> Hello,
-> Sorry for the delay, I've been away.
-> 
-> On (04/07/10 23:13), Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.33.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15704
-> > Subject		: [r8169] WARNING: at net/sched/sch_generic.c
-> > Submitter	: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2010-03-31 10:21 (8 days old)
-> > Message-ID	: <20100331102142.GA3294-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>
-> > References	: http://marc.info/?l=linux-kernel&m=127003090406108&w=2
-> > 
-> > 
-> 
-> 
-> Yes, bug is still here (though I'm not sure whether it's correct to test with frame size 2048).
-> 
-> Here it is:
-> 
-> kernel: [ 2292.172886] pktgen 2.72: Packet Generator for packet performance testing.
-> kernel: [ 2339.999788] ------------[ cut here ]------------
-> kernel: [ 2339.999800] WARNING: at net/sched/sch_generic.c:256 dev_watchdog+0xc1/0x125()
-> kernel: [ 2339.999803] Hardware name: F3JC                
-> kernel: [ 2339.999806] NETDEV WATCHDOG: eth0 (r8169): transmit queue 0 timed out
-> kernel: [ 2339.999809] Modules linked in: pktgen ipv6 snd_hwdep snd_hda_codec_si3054 snd_hda_codec_realtek sdhci_pci sdhci asus_laptop sparse_keymap snd_hda_intel mmc_core
-> led_class snd_hda_codec psmouse snd_pcm snd_timer snd soundcore snd_page_alloc i2c_i801 serio_raw sg evdev rng_core r8169 mii usbhid hid uhci_hcd ehci_hcd sr_mod cdrom sd_mod
-> usbcore ata_piix
-> kernel: [ 2339.999857] Pid: 3720, comm: kpktgend_0 Not tainted 2.6.34-rc3-dbg-r8169-git6 #81
-> kernel: [ 2339.999861] Call Trace:
-> kernel: [ 2339.999868]  [<c102e7f7>] warn_slowpath_common+0x65/0x7c
-> kernel: [ 2339.999874]  [<c126e4f8>] ? dev_watchdog+0xc1/0x125
-> kernel: [ 2339.999879]  [<c102e842>] warn_slowpath_fmt+0x24/0x27
-> kernel: [ 2339.999884]  [<c126e4f8>] dev_watchdog+0xc1/0x125
-> kernel: [ 2339.999891]  [<c1040039>] ? abort_exclusive_wait+0x26/0x63
-> kernel: [ 2339.999897]  [<c103712b>] ? run_timer_softirq+0x120/0x1eb
-> kernel: [ 2339.999902]  [<c1037181>] run_timer_softirq+0x176/0x1eb
-> kernel: [ 2339.999907]  [<c103712b>] ? run_timer_softirq+0x120/0x1eb
-> kernel: [ 2339.999913]  [<c126e437>] ? dev_watchdog+0x0/0x125
-> kernel: [ 2339.999919]  [<c10332a1>] __do_softirq+0x8d/0x117
-> kernel: [ 2339.999925]  [<c1033356>] do_softirq+0x2b/0x43
-> kernel: [ 2339.999929]  [<c103347b>] irq_exit+0x38/0x75
-> kernel: [ 2339.999936]  [<c1015200>] smp_apic_timer_interrupt+0x6d/0x7b
-> kernel: [ 2339.999943]  [<c12cbcda>] apic_timer_interrupt+0x36/0x3c
-> kernel: [ 2339.999948]  [<c104007b>] ? finish_wait+0x5/0x49
-> kernel: [ 2339.999953]  [<c10400d8>] ? prepare_to_wait_exclusive+0x19/0x5b
-> kernel: [ 2339.999959]  [<c105106d>] ? lock_release+0x19a/0x1a1
-> kernel: [ 2339.999965]  [<c12cb259>] _raw_spin_unlock+0x16/0x3f
-> kernel: [ 2339.999972]  [<f80ea460>] pktgen_thread_worker+0xe0/0x631 [pktgen]
-> kernel: [ 2339.999978]  [<c103ffad>] ? autoremove_wake_function+0x0/0x2f
-> kernel: [ 2339.999983]  [<c103ffad>] ? autoremove_wake_function+0x0/0x2f
-> kernel: [ 2339.999989]  [<f80ea380>] ? pktgen_thread_worker+0x0/0x631 [pktgen]
-> kernel: [ 2339.999994]  [<c103fc8a>] kthread+0x6a/0x6f
-> kernel: [ 2339.999999]  [<c103fc20>] ? kthread+0x0/0x6f
-> kernel: [ 2340.000005]  [<c1002e82>] kernel_thread_helper+0x6/0x1a
-> kernel: [ 2340.000008] ---[ end trace 25113681b662d02f ]---
+Just 10 minutes ago I had a similar or maybe an identical problem: When
+the laptop woke up from (S3) sleep, the screen was very dim and almost
+black, although everything else seemed normal -- e.g. I could use my Fn
+key bindings in twm, switch windows, type, switch to a console, etc..
 
-Thanks for the update.
+The screen was so dim that I could barely see the outlines of the emacs
+and xpdf windows.  Restarting xdm (and therefore the X server) didn't
+restore the brightness.  But it probably is not a hardware problem,
+because rebooting the laptop restored the brightness to normal.
 
-Rafael
+-Sanjoy
+
+`Until lions have their historians, tales of the hunt shall always
+ glorify the hunters.'  --African Proverb
