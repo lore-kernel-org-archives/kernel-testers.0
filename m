@@ -1,37 +1,34 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15719] virtio_net causing kernel BUG when running under VirtualBox
-Date: Tue, 20 Apr 2010 05:19:23 +0200 (CEST)
-Message-ID: <YeFfFNFyTSF.A.sRH.jRSzLB@tosh>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15713] hackbench regression due to commit 9dfc6e68bfe6e
+Date: Tue, 20 Apr 2010 05:19:22 +0200 (CEST)
+Message-ID: <YeFfFNFyTSF.A.vjH.sRSzLB@tosh>
 References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Shirley Ma <mashirle-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Shirley Ma <xma-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, =?utf-8?q?Thomas=20M=C3=BCller?= <thomas-5bHTHlrcoh6zQB+pC5nmwQ@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Alex Shi <alex.shi@intel.com>, Christoph Lameter <cl@linux-foundation.org>, Pekka Enberg <penberg@cs.helsinki.fi>
 
-This message has been generated automatically as a part of a summary re=
-port
+This message has been generated automatically as a part of a summary report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.33.  Please verify if it still should be listed and let the tr=
-acking team
+from 2.6.33.  Please verify if it still should be listed and let the tracking team
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15719
-Subject		: virtio_net causing kernel BUG when running under VirtualBox
-Submitter	: Thomas M=C3=BCller <thomas-5bHTHlrcoh6zQB+pC5nmwQ@public.gmane.org>
-Date		: 2010-03-27 14:32 (24 days old)
-=46irst-Bad-Commit: http://kernel.org/git/linus/9ab86bbcf8be755256f0a5e=
-994e0b38af6b4d399
-Message-ID	: <4BAE1707.2050803-5bHTHlrcoh6zQB+pC5nmwQ@public.gmane.org>
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D126970039227740&w=3D=
-4
-Handled-By	: Shirley Ma <mashirle-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15713
+Subject		: hackbench regression due to commit 9dfc6e68bfe6e
+Submitter	: Alex Shi <alex.shi@intel.com>
+Date		: 2010-03-25 8:40 (26 days old)
+First-Bad-Commit: http://kernel.org/git/linus/9dfc6e68bfe6ee452efb1a4e9ca26a9007f2b864
+Message-ID	: <1269506457.4513.141.camel@alexs-hp.sh.intel.com>
+References	: http://marc.info/?l=linux-kernel&m=126950632920682&w=4
+Handled-By	: Christoph Lameter <cl@linux-foundation.org>
+		  Pekka Enberg <penberg@cs.helsinki.fi>
 
