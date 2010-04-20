@@ -1,53 +1,31 @@
-From: Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #15795] 2.6.34-rc4 : OOPS in unmap_vma
-Date: Tue, 20 Apr 2010 16:24:00 -0400 (EDT)
-Message-ID: <alpine.DEB.2.00.1004201623280.10496@parag-laptop>
-References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.GdG.KRSzLB@tosh>
+From: Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>
+Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
+Date: Tue, 20 Apr 2010 22:53:19 +0200
+Message-ID: <m2k4s1hmm8.fsf@igel.home>
+References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.vUB.fSSzLB@tosh>
+	<alpine.DEB.2.01.1004192339190.13016@bogon.housecafe.de>
+	<1271765898.4324.2.camel@concordia>
+	<alpine.DEB.2.01.1004201104170.13016@bogon.housecafe.de>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:x-x-sender:to:cc
-         :subject:in-reply-to:message-id:references:user-agent:mime-version
-         :content-type;
-        bh=jm4sAdphShFvHxIj7ZkbTOqr56r46nN0P26keFuqnj0=;
-        b=msamfZjHlfNsKnGF+pX5iMc+FsxdzJBPBkIJ1uUju9EUyaVRq9226+TnG8nyQbzr8o
-         Ws+tGNNtUsQcNlNkdgCYMi2p0Sso7ynk6sQx+lQHMPstGWajTOrom/4JFp+YGagwhEcU
-         9cm8lyszgRIt5DymXjMZN7P3mDx+LYOCjcnsk=
-In-Reply-To: <YeFfFNFyTSF.A.GdG.KRSzLB@tosh>
+In-Reply-To: <alpine.DEB.2.01.1004201104170.13016-uKsf7x9sgtqQ/Pez2Lbyp4QuADTiUCJX@public.gmane.org>
+	(Christian Kujau's message of "Tue, 20 Apr 2010 11:15:05 -0700 (PDT)")
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Christian Kujau <lists-AanptEQQ3TL9uQeqpI+JUg@public.gmane.org>
+Cc: Michael Ellerman <michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linuxppc-dev-mnsaURCQ41sdnm+yROfE0A@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
+Christian Kujau <lists-AanptEQQ3TL9uQeqpI+JUg@public.gmane.org> writes:
 
+> +	while ((p = strstr(p, "/")))
 
-On Tue, 20 Apr 2010, Rafael J. Wysocki wrote:
+You want to use strchr.
 
-> This message has been generated automatically as a part of a summary report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.33.  Please verify if it still should be listed and let the tracking team
-> know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15795
-> Subject		: 2.6.34-rc4 : OOPS in unmap_vma
-> Submitter	: Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2010-04-14 (6 days old)
-> Message-ID	: <alpine.DEB.2.00.1004132147260.1881@parag-laptop>
-> References	: http://marc.info/?l=linux-kernel&m=127121006625429&w=2
-> 
-> 
-> 
+Andreas.
 
-Hasn't reproduced after many retries and I am not sure it can be called a 
-regression, may be it's always been there, just not reproducible easily - 
-let's close this, I will reopen if needed.
-
-Thanks,
-
-Parag
+-- 
+Andreas Schwab, schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org
+GPG Key fingerprint = 58CA 54C7 6D53 942B 1756  01D3 44D5 214B 8276 4ED5
+"And now for something completely different."
