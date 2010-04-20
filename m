@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15730] Ugly rmap NULL ptr deref oopsie on hibernate (was Linux 2.6.34-rc3)
-Date: Tue, 20 Apr 2010 05:19:23 +0200 (CEST)
-Message-ID: <YeFfFNFyTSF.A.K_G.dRSzLB@tosh>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #15711] 2.6.34-rc3, BUG at mm/slab.c:2989
+Date: Tue, 20 Apr 2010 05:19:22 +0200 (CEST)
+Message-ID: <YeFfFNFyTSF.A.zvH.wRSzLB@tosh>
 References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Borislav Petkov <bp@alien8.de>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15730
-Subject		: Ugly rmap NULL ptr deref oopsie on hibernate (was Linux 2.6.34-rc3)
-Submitter	: Borislav Petkov <bp@alien8.de>
-Date		: 2010-04-02 17:59 (18 days old)
-Message-ID	: <20100402175937.GA19690@liondog.tnic>
-References	: http://marc.info/?l=linux-kernel&m=127023173329741&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15711
+Subject		: 2.6.34-rc3, BUG at mm/slab.c:2989
+Submitter	: Heinz Diehl <htd-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>
+Date		: 2010-04-01 17:52 (19 days old)
+Message-ID	: <20100401175225.GA6581-HjJ2MNWy62to6+H+lsi3Gti2O/JbrIOy@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=127014437406250&w=2
 
