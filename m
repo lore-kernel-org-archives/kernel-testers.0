@@ -1,33 +1,30 @@
-From: Nick Bowler <nbowler@elliptictech.com>
-Subject: Re: 2.6.34-rc5: Reported regressions from 2.6.33
-Date: Tue, 20 Apr 2010 09:56:36 -0400
-Message-ID: <20100420135636.GA10674@elliptictech.com>
+From: Rabin Vincent <rabin-66gdRtMMWGc@public.gmane.org>
+Subject: Re: [Bug #15668] start_kernel(): bug: interrupts were enabled early
+Date: Tue, 20 Apr 2010 19:41:08 +0530
+Message-ID: <20100420141108.GA2131@debian>
 References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
+ <YeFfFNFyTSF.A.sj.BSSzLB@tosh>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
-Sender: linux-kernel-owner@vger.kernel.org
+In-Reply-To: <YeFfFNFyTSF.A.sj.BSSzLB@tosh>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
-On 05:15 Tue 20 Apr     , Rafael J. Wysocki wrote:
-> If you know of any other unresolved regressions from 2.6.33, please let us
-> know either and we'll add them to the list.  Also, please let us know
-> if any of the entries below are invalid.
+On Tue, Apr 20, 2010 at 05:19:21AM +0200, Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15668
+> Subject		: start_kernel(): bug: interrupts were enabled early
+> Submitter	: Rabin Vincent <rabin-66gdRtMMWGc@public.gmane.org>
+> Date		: 2010-03-25 19:53 (26 days old)
+> First-Bad-Commit: http://kernel.org/git/linus/773e3eb7b81e5ba13b5155dfb3bb75b8ce37f8f9
+> Message-ID	: <20100325194100.GA2364@debian>
+> References	: http://marc.info/?l=linux-kernel&m=126954607216519&w=2
 
-Please list these two similar regressions from 2.6.33 in the r600 DRM:
+This was fixed by 3eac4abaa69949af0e2f64e5c55ee8a22bbdd3e7 ("rwsem
+generic spinlock: use IRQ save/restore spinlocks").
 
- * r600 CS checker rejects GL_DEPTH_TEST w/o depth buffer:
-           https://bugs.freedesktop.org/show_bug.cgi?id=27571
-
- * r600 CS checker rejects narrow FBO renderbuffers:
-           https://bugs.freedesktop.org/show_bug.cgi?id=27609
-
-Thanks.
-
--- 
-Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
+Rabin
