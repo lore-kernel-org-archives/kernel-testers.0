@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15659] [Regresion] [2.6.34-rc1] [drm:i915_hangcheck_elapsed] *ERROR* Hangcheck timer elapsed... GPU hung
-Date: Tue, 20 Apr 2010 05:19:20 +0200 (CEST)
-Message-ID: <YeFfFNFyTSF.A.zz.KSSzLB@tosh>
+Subject: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
+Date: Tue, 20 Apr 2010 05:19:22 +0200 (CEST)
+Message-ID: <YeFfFNFyTSF.A.62H.yRSzLB@tosh>
 References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Maciej Rutecki <maciej.rutecki@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15659
-Subject		: [Regresion] [2.6.34-rc1] [drm:i915_hangcheck_elapsed] *ERROR* Hangcheck timer elapsed... GPU hung
-Submitter	: Maciej Rutecki <maciej.rutecki@gmail.com>
-Date		: 2010-03-25 20:04 (26 days old)
-Message-ID	: <201003252104.24965.maciej.rutecki@gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=126954749618319&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15704
+Subject		: [r8169] WARNING: at net/sched/sch_generic.c
+Submitter	: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Date		: 2010-03-31 10:21 (20 days old)
+Message-ID	: <<20100331102142.GA3294@swordfish.minsk.epam.com>>
+References	: http://marc.info/?l=linux-kernel&m=127003090406108&w=2
 
