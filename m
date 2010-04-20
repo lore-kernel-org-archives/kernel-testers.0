@@ -1,29 +1,23 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15551] WARNING: at net/mac80211/work.c:811 ieee80211_work_work+0x7f/0xde8 [mac80211]()
-Date: Tue, 20 Apr 2010 05:19:19 +0200 (CEST)
-Message-ID: <YeFfFNFyTSF.A.vYB.mSSzLB@tosh>
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: 2.6.34-rc5: Reported regressions from 2.6.33
+Date: Mon, 19 Apr 2010 20:57:23 -0400
+Message-ID: <20100419205723.8724338c.akpm@linux-foundation.org>
 References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-acpi-owner@vger.kernel.org>
 In-Reply-To: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alex Zhavnerchik <alex.vizor-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-This message has been generated automatically as a part of a summary report
-of recent regressions.
+On Tue, 20 Apr 2010 05:15:57 +0200 (CEST) "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
 
-The following bug entry is on the current list of known regressions
-from 2.6.33.  Please verify if it still should be listed and let the tracking team
-know (either way).
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15812
+> Subject		: utsname.domainname not set in x86_32 processes (causing "YPBINDPROC_DOMAIN: domain not bound" errors)
+> Submitter	:  <adi@hexapodia.org>
+> Date		: 2010-04-19 21:28 (1 days old)
 
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15551
-Subject		: WARNING: at net/mac80211/work.c:811 ieee80211_work_work+0x7f/0xde8 [mac80211]()
-Submitter	: Alex Zhavnerchik <alex.vizor-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2010-03-16 22:03 (35 days old)
-
+I merged hch's fix for this twelve seconds ago.
