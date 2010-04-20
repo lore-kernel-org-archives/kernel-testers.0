@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
-Date: Tue, 20 Apr 2010 05:19:22 +0200 (CEST)
-Message-ID: <YeFfFNFyTSF.A.62H.yRSzLB@tosh>
+Subject: [Bug #15768] Incorrectly calculated free blocks result in ENOSPC from writepage
+Date: Tue, 20 Apr 2010 05:19:24 +0200 (CEST)
+Message-ID: <YeFfFNFyTSF.A.toG.RRSzLB@tosh>
 References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Dmitry Monakhov <dmonakhov@openvz.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,8 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15704
-Subject		: [r8169] WARNING: at net/sched/sch_generic.c
-Submitter	: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Date		: 2010-03-31 10:21 (20 days old)
-Message-ID	: <<20100331102142.GA3294@swordfish.minsk.epam.com>>
-References	: http://marc.info/?l=linux-kernel&m=127003090406108&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15768
+Subject		: Incorrectly calculated free blocks result in ENOSPC from writepage
+Submitter	: Dmitry Monakhov <dmonakhov@openvz.org>
+Date		: 2010-04-12 11:24 (8 days old)
 
