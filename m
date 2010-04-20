@@ -1,13 +1,13 @@
-From: Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Alexey Dobriyan <adobriyan@gmail.com>
 Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
-Date: Tue, 20 Apr 2010 15:54:53 +0000 (UTC)
-Message-ID: <20100421155547.GA4222@x200>
+Date: Tue, 20 Apr 2010 15:55:06 +0000 (UTC)
+Message-ID: <20100421155547.GA4222__27213.2240621888$1271778906$gmane$org@x200>
 References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
  <YeFfFNFyTSF.A.vUB.fSSzLB@tosh>
  <alpine.DEB.2.01.1004192339190.13016@bogon.housecafe.de>
  <1271765898.4324.2.camel@concordia>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
         h=domainkey-signature:received:received:date:from:to:cc:subject
@@ -20,12 +20,12 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 Date: Wed, 21 Apr 2010 18:55:47 +0300
 Content-Disposition: inline
 In-Reply-To: <1271765898.4324.2.camel@concordia>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Michael Ellerman <michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>
-Cc: Christian Kujau <lists-AanptEQQ3TL9uQeqpI+JUg@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linuxppc-dev-mnsaURCQ41sdnm+yROfE0A@public.gmane.org, schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Michael Ellerman <michael@ellerman.id.au>
+Cc: Christian Kujau <lists@nerdbynature.de>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linuxppc-dev@ozlabs.org, schwab@linux-m68k.org, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
 On Tue, Apr 20, 2010 at 10:18:18PM +1000, Michael Ellerman wrote:
 > On Mon, 2010-04-19 at 23:45 -0700, Christian Kujau wrote:
