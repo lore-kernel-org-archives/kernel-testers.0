@@ -1,23 +1,29 @@
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: 2.6.34-rc5: Reported regressions from 2.6.33
-Date: Mon, 19 Apr 2010 20:57:23 -0400
-Message-ID: <20100419205723.8724338c.akpm@linux-foundation.org>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #15610] fsck leads to swapper - BUG: unable to handle kernel NULL pointer dereference & panic
+Date: Tue, 20 Apr 2010 05:19:20 +0200 (CEST)
+Message-ID: <YeFfFNFyTSF.A.eCB.XSSzLB@tosh>
 References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
-Sender: linux-acpi-owner@vger.kernel.org
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ozgur Yuksel <ozgur.yuksel-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
-On Tue, 20 Apr 2010 05:15:57 +0200 (CEST) "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+This message has been generated automatically as a part of a summary report
+of recent regressions.
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15812
-> Subject		: utsname.domainname not set in x86_32 processes (causing "YPBINDPROC_DOMAIN: domain not bound" errors)
-> Submitter	:  <adi@hexapodia.org>
-> Date		: 2010-04-19 21:28 (1 days old)
+The following bug entry is on the current list of known regressions
+from 2.6.33.  Please verify if it still should be listed and let the tracking team
+know (either way).
 
-I merged hch's fix for this twelve seconds ago.
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15610
+Subject		: fsck leads to swapper - BUG: unable to handle kernel NULL pointer dereference & panic
+Submitter	: Ozgur Yuksel <ozgur.yuksel-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Date		: 2010-03-22 15:59 (29 days old)
+
