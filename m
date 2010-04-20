@@ -1,14 +1,14 @@
 From: Alexey Dobriyan <adobriyan@gmail.com>
 Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
 Date: Tue, 20 Apr 2010 15:55:28 +0000 (UTC)
-Message-ID: <20100421155547.GA4222__866.930388338183$1271778928$gmane$org@x200>
+Message-ID: <20100421155547.GA4222__10989.4281755716$1271778928$gmane$org@x200>
 References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.vUB.fSSzLB@tosh>
 	<alpine.DEB.2.01.1004192339190.13016@bogon.housecafe.de>
 	<1271765898.4324.2.camel@concordia>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linuxppc-dev-bounces+glppd-linuxppc64-dev=m.gmane.org@lists.ozlabs.org>
+Return-path: <linuxppc-dev-bounces+glppe-linuxppc-embedded-2=m.gmane.org@lists.ozlabs.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
 	h=domainkey-signature:received:received:date:from:to:cc:subject
 	:message-id:references:mime-version:content-type:content-disposition
@@ -28,8 +28,8 @@ List-Post: <mailto:linuxppc-dev@lists.ozlabs.org>
 List-Help: <mailto:linuxppc-dev-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linuxppc-dev>,
 	<mailto:linuxppc-dev-request@lists.ozlabs.org?subject=subscribe>
-Sender: linuxppc-dev-bounces+glppd-linuxppc64-dev=m.gmane.org@lists.ozlabs.org
-Errors-To: linuxppc-dev-bounces+glppd-linuxppc64-dev=m.gmane.org@lists.ozlabs.org
+Sender: linuxppc-dev-bounces+glppe-linuxppc-embedded-2=m.gmane.org@lists.ozlabs.org
+Errors-To: linuxppc-dev-bounces+glppe-linuxppc-embedded-2=m.gmane.org@lists.ozlabs.org
 To: Michael Ellerman <michael@ellerman.id.au>
 Cc: Christian Kujau <lists@nerdbynature.de>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, linuxppc-dev@ozlabs.org, schwab@linux-m68k.org, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
