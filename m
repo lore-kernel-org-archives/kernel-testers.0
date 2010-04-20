@@ -1,53 +1,45 @@
-From: Borislav Petkov <bp@alien8.de>
-Subject: Re: [Bug #15730] Ugly rmap NULL ptr deref oopsie on hibernate (was
- Linux 2.6.34-rc3)
-Date: Tue, 20 Apr 2010 07:27:40 +0200
-Message-ID: <20100420052740.GA20482@liondog.tnic>
-References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
- <YeFfFNFyTSF.A.K_G.dRSzLB@tosh>
+From: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+Subject: Re: [Bug #15601] [BUG] SLOB breaks Crypto
+Date: Tue, 20 Apr 2010 09:40:41 +0300
+Message-ID: <z2h84144f021004192340z98fcc1c5m1544233f2ea6c0c4@mail.gmail.com>
+References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.mIB.aSSzLB@tosh>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=alien8.de; s=alien8;
-	t=1271741264; bh=nTd7xOVSyxKFTrghP1hPR8VtWKaxUD1VQFFsv6Kwibc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:In-Reply-To; b=t2TpFtV4sp0sog0ty4gnZxWjDHIm6tNGIWUXxj
-	X0a1Y3m9llO6i1erZxQRkYzGX4Pj3RmSTtrfwP9Ihgndh2wkMYdtfFM09j9O/oa8m/6
-	rSq2lUwUWlhAwyJ15iBrPgfAMfIgJz4RGcYDcau/qEMrxKnkE7BrO4H7Hs8UIt/og8=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=alien8.de; s=alien8;
-	t=1271741264; bh=nTd7xOVSyxKFTrghP1hPR8VtWKaxUD1VQFFsv6Kwibc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:In-Reply-To; b=t2TpFtV4sp0sog0ty4gnZxWjDHIm6tNGIWUXxj
-	X0a1Y3m9llO6i1erZxQRkYzGX4Pj3RmSTtrfwP9Ihgndh2wkMYdtfFM09j9O/oa8m/6
-	rSq2lUwUWlhAwyJ15iBrPgfAMfIgJz4RGcYDcau/qEMrxKnkE7BrO4H7Hs8UIt/og8=
-Content-Disposition: inline
-In-Reply-To: <YeFfFNFyTSF.A.K_G.dRSzLB@tosh>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:sender:received:in-reply-to
+         :references:date:x-google-sender-auth:received:message-id:subject
+         :from:to:cc:content-type:content-transfer-encoding;
+        bh=gQnbB5UJhWSvfNOOCiD+OwGbePk0m5Ln5/em0kOpWrU=;
+        b=bO1g/dLgfo/4BVRwiLTteSLN5bJ6dgw1kl1MndWrfwODrDFtoFJlAAwHRpIagkG6OI
+         0abvHo4W4BJl4KkHzJ9R5RpZRp2TTd8Hh2/uJswP/OhfNgpbwGyEHheP+t1cZSOjTQbQ
+         Xf9dloKa+LaWEaxg7f06ZQy6MgGKu0MOvAZ9s=
+In-Reply-To: <YeFfFNFyTSF.A.mIB.aSSzLB@tosh>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "michael-dev-1SGGS//iJ+Y38rf8aCqVIw@public.gmane.org"@ogre.sisk.pl, Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>, Matt Mackall <mpm-VDJrAJ4Gl5ZBDgjK7y7TUQ@public.gmane.org>
 
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Date: Tue, Apr 20, 2010 at 05:19:23AM +0200
-
-> This message has been generated automatically as a part of a summary report
+On Tue, Apr 20, 2010 at 6:19 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a summary =
+report
 > of recent regressions.
-> 
+>
 > The following bug entry is on the current list of known regressions
-> from 2.6.33.  Please verify if it still should be listed and let the tracking team
+> from 2.6.33. =A0Please verify if it still should be listed and let th=
+e tracking team
 > know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15730
-> Subject		: Ugly rmap NULL ptr deref oopsie on hibernate (was Linux 2.6.34-rc3)
-> Submitter	: Borislav Petkov <bp@alien8.de>
-> Date		: 2010-04-02 17:59 (18 days old)
-> Message-ID	: <20100402175937.GA19690@liondog.tnic>
-> References	: http://marc.info/?l=linux-kernel&m=127023173329741&w=2
+>
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+15601
+> Subject =A0 =A0 =A0 =A0 : [BUG] SLOB breaks Crypto
+> Submitter =A0 =A0 =A0 : michael-dev-1SGGS//iJ+Y38rf8aCqVIw@public.gmane.org
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-03-15 13:39 (36 days old)
+> Message-ID =A0 =A0 =A0: <4B9E38AF.70309-1SGGS//iJ+Y38rf8aCqVIw@public.gmane.org>
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D126866=
+044724539&w=3D2
 
-Fixed by commit ea90002b0fa7bdee86ec22eba1d951f30bf043a6.
-
--- 
-Regards/Gruss,
-    Boris.
+Ping?
