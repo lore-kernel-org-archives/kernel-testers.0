@@ -1,31 +1,39 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15668] start_kernel(): bug: interrupts were enabled early
-Date: Wed, 21 Apr 2010 07:04:09 +0200
-Message-ID: <201004210704.09668.rjw@sisk.pl>
-References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.sj.BSSzLB@tosh> <20100420141108.GA2131@debian>
+Subject: Re: [Bug #15730] Ugly rmap NULL ptr deref oopsie on hibernate (was Linux 2.6.34-rc3)
+Date: Wed, 21 Apr 2010 07:09:30 +0200
+Message-ID: <201004210709.30228.rjw@sisk.pl>
+References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.K_G.dRSzLB@tosh> <20100420052740.GA20482@liondog.tnic>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100420141108.GA2131@debian>
+In-Reply-To: <20100420052740.GA20482-f9CnO7I+Q6zU6FkGJEIX5A@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Rabin Vincent <rabin-66gdRtMMWGc@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+To: Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Tuesday 20 April 2010, Rabin Vincent wrote:
-> On Tue, Apr 20, 2010 at 05:19:21AM +0200, Rafael J. Wysocki wrote:
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15668
-> > Subject		: start_kernel(): bug: interrupts were enabled early
-> > Submitter	: Rabin Vincent <rabin-66gdRtMMWGc@public.gmane.org>
-> > Date		: 2010-03-25 19:53 (26 days old)
-> > First-Bad-Commit: http://kernel.org/git/linus/773e3eb7b81e5ba13b5155dfb3bb75b8ce37f8f9
-> > Message-ID	: <20100325194100.GA2364@debian>
-> > References	: http://marc.info/?l=linux-kernel&m=126954607216519&w=2
+On Tuesday 20 April 2010, Borislav Petkov wrote:
+> From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+> Date: Tue, Apr 20, 2010 at 05:19:23AM +0200
 > 
-> This was fixed by 3eac4abaa69949af0e2f64e5c55ee8a22bbdd3e7 ("rwsem
-> generic spinlock: use IRQ save/restore spinlocks").
+> > This message has been generated automatically as a part of a summary report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.33.  Please verify if it still should be listed and let the tracking team
+> > know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15730
+> > Subject		: Ugly rmap NULL ptr deref oopsie on hibernate (was Linux 2.6.34-rc3)
+> > Submitter	: Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>
+> > Date		: 2010-04-02 17:59 (18 days old)
+> > Message-ID	: <20100402175937.GA19690-f9CnO7I+Q6zU6FkGJEIX5A@public.gmane.org>
+> > References	: http://marc.info/?l=linux-kernel&m=127023173329741&w=2
+> 
+> Fixed by commit ea90002b0fa7bdee86ec22eba1d951f30bf043a6.
 
-Thanks, closed.
+Yup, closed.
 
 Rafael
