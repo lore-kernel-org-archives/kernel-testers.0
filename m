@@ -1,44 +1,35 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15795] 2.6.34-rc4 : OOPS in unmap_vma
-Date: Wed, 21 Apr 2010 07:12:26 +0200
-Message-ID: <201004210712.26169.rjw@sisk.pl>
-References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.GdG.KRSzLB@tosh> <alpine.DEB.2.00.1004201623280.10496@parag-laptop>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: 2.6.34-rc5: Reported regressions from 2.6.33
+Date: Wed, 21 Apr 2010 07:14:52 +0200
+Message-ID: <201004210714.53050.rjw@sisk.pl>
+References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <4bce5cc3.966bdc0a.2ef7.fffff5de@mx.google.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.00.1004201623280.10496@parag-laptop>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <4bce5cc3.966bdc0a.2ef7.fffff5de@mx.google.com>
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Ben Gamari <bgamari.foss@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-On Tuesday 20 April 2010, Parag Warudkar wrote:
-> 
-> On Tue, 20 Apr 2010, Rafael J. Wysocki wrote:
-> 
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
+On Wednesday 21 April 2010, Ben Gamari wrote:
+> On Tue, 20 Apr 2010 05:15:57 +0200 (CEST), "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+> > This message contains a list of some regressions from 2.6.33,
+> > for which there are no fixes in the mainline known to the tracking team.
+> > If any of them have been fixed already, please let us know.
 > > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.33.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15795
-> > Subject		: 2.6.34-rc4 : OOPS in unmap_vma
-> > Submitter	: Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2010-04-14 (6 days old)
-> > Message-ID	: <alpine.DEB.2.00.1004132147260.1881@parag-laptop>
-> > References	: http://marc.info/?l=linux-kernel&m=127121006625429&w=2
-> > 
-> > 
+> > If you know of any other unresolved regressions from 2.6.33, please let us
+> > know either and we'll add them to the list.  Also, please let us know
+> > if any of the entries below are invalid.
 > > 
 > 
-> Hasn't reproduced after many retries and I am not sure it can be called a 
-> regression, may be it's always been there, just not reproducible easily - 
-> let's close this, I will reopen if needed.
+> I have recently reported this suspend regression on my Dell laptop hardware.
+> 
+> References: http://lkml.org/lkml/2010/4/18/20
+> Bug-report: https://bugzilla.kernel.org/show_bug.cgi?id=15820
 
-Done.
+This has been added to the list now.  Please check my comment in the Bugzilla
+entry.
 
 Rafael
