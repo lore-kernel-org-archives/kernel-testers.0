@@ -1,41 +1,40 @@
-From: Ben Gamari <bgamari.foss-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: 2.6.34-rc5: Reported regressions from 2.6.33
-Date: Tue, 20 Apr 2010 19:02:43 -0700 (PDT)
-Message-ID: <4bce5cc3.966bdc0a.2ef7.fffff5de@mx.google.com>
-References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from:subject
-         :to:cc:in-reply-to:references;
-        bh=Jl+nBSSiOD0X1xXBgA/0+QRSCY+rzRopmJ6cHJR85hY=;
-        b=ckHf6nqH8cGLGYRX8aGa/NVRDhSLYSp3BU8G7DnoNTbz50BlpqL8iyl6uJhaExmHhB
-         qm+KktvSFfq0gh5Hz1BUF4lG9ekKr56qrNRvWO/MkSE0eWUbg+GbmPrF59DClf9Cs88l
-         vHgUCndFp5A4TQD5NQ+/57odMtEnnOvZ1sles=
-In-Reply-To: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+From: Rik van Riel <riel@redhat.com>
+Subject: Re: [Bug #15672] KVM bug, git bisected
+Date: Tue, 20 Apr 2010 23:36:54 -0400
+Message-ID: <4BCE72D6.6010809@redhat.com>
+References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.7L.6RSzLB@tosh> <4BCE188A.1060408@redhat.com>
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <4BCE188A.1060408@redhat.com>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Kent Overstreet <kent.overstreet@gmail.com>
 
-On Tue, 20 Apr 2010 05:15:57 +0200 (CEST), "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message contains a list of some regressions from 2.6.33,
-> for which there are no fixes in the mainline known to the tracking team.
-> If any of them have been fixed already, please let us know.
-> 
-> If you know of any other unresolved regressions from 2.6.33, please let us
-> know either and we'll add them to the list.  Also, please let us know
-> if any of the entries below are invalid.
-> 
+On 04/20/2010 05:11 PM, Rik van Riel wrote:
+> On 04/19/2010 11:19 PM, Rafael J. Wysocki wrote:
+>> This message has been generated automatically as a part of a summary
+>> report
+>> of recent regressions.
+>>
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.33. Please verify if it still should be listed and let the
+>> tracking team
+>> know (either way).
+>>
+>>
+>> Bug-Entry : http://bugzilla.kernel.org/show_bug.cgi?id=15672
+>> Subject : KVM bug, git bisected
+>> Submitter : Kent Overstreet<kent.overstreet@gmail.com>
+>> Date : 2010-03-27 12:43 (24 days old)
+>> First-Bad-Commit:
+>> http://kernel.org/git/linus/5beb49305251e5669852ed541e8e2f2f7696c53e
+>> Message-ID :<4BADFD74.8060904@gmail.com>
+>> References : http://marc.info/?l=linux-kernel&m=126969385121711&w=2
+>
+> Should be fixed by commit ea90002b0fa7bdee86ec22eba1d951f30bf043a6
 
-I have recently reported this suspend regression on my Dell laptop hardware.
-
-References: http://lkml.org/lkml/2010/4/18/20
-Bug-report: https://bugzilla.kernel.org/show_bug.cgi?id=15820
-
-Thanks,
-
-- Ben
+Never mind me - this is a harmless (but loud) overflow
+of PREEMPT_BITS in the preempt count.
