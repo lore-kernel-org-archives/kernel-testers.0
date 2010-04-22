@@ -1,49 +1,59 @@
-From: Nick Bowler <nbowler@elliptictech.com>
-Subject: Re: 2.6.34-rc5: Reported regressions from 2.6.33
-Date: Wed, 21 Apr 2010 12:57:58 -0400
-Message-ID: <20100421165758.GA23565@elliptictech.com>
-References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
- <20100420135636.GA10674@elliptictech.com>
- <201004210715.38621.rjw@sisk.pl>
- <20100421085739.GA2576@barney.localdomain>
+From: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #15805] reiserfs locking
+Date: Thu, 22 Apr 2010 04:52:27 +0200
+Message-ID: <20100422025224.GA12888@nowhere>
+References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.wMG.FRSzLB@tosh>
 Mime-Version: 1.0
-Return-path: <linux-acpi-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:cc
+         :subject:message-id:references:mime-version:content-type
+         :content-disposition:in-reply-to:user-agent;
+        bh=77eCJR9hZU1vi8xIZZMzpu4NnLjhE8CbmYceP9xJGmc=;
+        b=eesvvcbM6ZhxUzK1ATSm05QA4k9uM2O58hkamjtXR3i+PX2ijcvLsqER8SRZ3qU/33
+         FDXjdKYcACYo08LqPqyVypm2iyu3OgsnAHCE+X+QI78eeeB0ffz7EkWxWaeFq6jl8Mb8
+         TQVwbTX2GWijRLalLJMzhlGu6chCBS4xtojok=
 Content-Disposition: inline
-In-Reply-To: <20100421085739.GA2576@barney.localdomain>
-Sender: linux-acpi-owner@vger.kernel.org
+In-Reply-To: <YeFfFNFyTSF.A.wMG.FRSzLB@tosh>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Jerome Glisse <glisse@freedesktop.org>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, DRI <dri-devel@lists.sourceforge.net>, Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jeff Mahoney <jeffm-UqG9ebRoC6bqu1fStC9NPNBPR1lH4CV8@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-On Wed, Apr 21, 2010 at 07:15:38AM +0200, Rafael J. Wysocki wrote:
-> On Tuesday 20 April 2010, Nick Bowler wrote:
-> > Please list these two similar regressions from 2.6.33 in the r600 DRM:
-> > 
-> >  * r600 CS checker rejects GL_DEPTH_TEST w/o depth buffer:
-> >            https://bugs.freedesktop.org/show_bug.cgi?id=27571
-> > 
-> >  * r600 CS checker rejects narrow FBO renderbuffers:
-> >            https://bugs.freedesktop.org/show_bug.cgi?id=27609
+On Tue, Apr 20, 2010 at 05:19:25AM +0200, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
 > 
-> Do you want to me to add them as one entry or as two separate bugs?
+> The following bug entry is on the current list of known regressions
+> from 2.6.33.  Please verify if it still should be listed and let the tracking team
+> know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15805
+> Subject		: reiserfs locking
+> Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-04-15 21:02 (5 days old)
+> Message-ID	: <t2ka4423d671004151402n7b2dc425mdc9c6bb9640d63fb-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=127136535323933&w=2
 
-As upstream doesn't consider the first to be a kernel issue, I guess you
-should just list the second.
 
-On 10:57 Wed 21 Apr     , Jerome Glisse wrote:
-> First one is userspace bug, i need to look into the second one.
-> ie we were lucky the hw didn't lockup without depth buffer and
-> depth test enabled.
+That doesn't look like related to the bkl removal.
 
-OK, if the failure is due to userspace is doing Very Bad Things(tm),
-catching that seems reasonable.
+In fact what I wonder is how we missed that before.
 
-Nevertheless, even if it happened by luck, the result was (ostensibly)
-working programs that suddenly break once one "upgrades" to the latest
-kernel.  If userspace can't be fixed before 2.6.34 is released, perhaps
-a less cryptic log message would be appropriate?
+vfs_readdir() take the directory inode mutex
+    |
+    ------- copy_to_user() takes the mm->mmap_sem
 
--- 
-Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
+sys_unmap() takes mm->mmap_sem
+    |
+    ------- reiserfs_file_release() takes inode mutex
+
+
+The lock inversion can not happen as sys_getdents() can't be called
+after the directory is closed.
+
+I'm not sure what to do. Adding more people in Cc.
