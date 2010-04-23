@@ -1,28 +1,56 @@
-From: Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
-Subject: Re: [Bug #15713] hackbench regression due to commit 9dfc6e68bfe6e
-Date: Thu, 22 Apr 2010 20:26:40 +0300
-Message-ID: <4BD086D0.9090309@cs.helsinki.fi>
-References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.vjH.sRSzLB@tosh> <alpine.DEB.2.00.1004221045270.1204@router.home>
+From: Jerome Glisse <glisse-CC+yJ3UmIYqDUpFQwHEjaQ@public.gmane.org>
+Subject: Re: 2.6.34-rc5: Reported regressions from 2.6.33
+Date: Fri, 23 Apr 2010 12:23:38 +0200
+Message-ID: <20100423102338.GA3151@barney.localdomain>
+References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
+ <20100420135636.GA10674@elliptictech.com>
+ <201004210715.38621.rjw@sisk.pl>
+ <20100421085739.GA2576@barney.localdomain>
+ <20100421165758.GA23565@elliptictech.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.00.1004221045270.1204-sBS69tsa9Uj/9pzu0YdTqQ@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20100421165758.GA23565-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alex Shi <alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org, tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, DRI <dri-devel-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew
 
-Christoph Lameter wrote:
-> On Tue, 20 Apr 2010, Rafael J. Wysocki wrote:
+On Wed, Apr 21, 2010 at 12:57:58PM -0400, Nick Bowler wrote:
+> On Wed, Apr 21, 2010 at 07:15:38AM +0200, Rafael J. Wysocki wrote:
+> > On Tuesday 20 April 2010, Nick Bowler wrote:
+> > > Please list these two similar regressions from 2.6.33 in the r600 DRM:
+> > > 
+> > >  * r600 CS checker rejects GL_DEPTH_TEST w/o depth buffer:
+> > >            https://bugs.freedesktop.org/show_bug.cgi?id=27571
+> > > 
+> > >  * r600 CS checker rejects narrow FBO renderbuffers:
+> > >            https://bugs.freedesktop.org/show_bug.cgi?id=27609
+> > 
+> > Do you want to me to add them as one entry or as two separate bugs?
 > 
->> The following bug entry is on the current list of known regressions
->> from 2.6.33.  Please verify if it still should be listed and let the tracking team
->> know (either way).
+> As upstream doesn't consider the first to be a kernel issue, I guess you
+> should just list the second.
 > 
-> I have not been able to reproduce it so far.
+> On 10:57 Wed 21 Apr     , Jerome Glisse wrote:
+> > First one is userspace bug, i need to look into the second one.
+> > ie we were lucky the hw didn't lockup without depth buffer and
+> > depth test enabled.
+> 
+> OK, if the failure is due to userspace is doing Very Bad Things(tm),
+> catching that seems reasonable.
+> 
+> Nevertheless, even if it happened by luck, the result was (ostensibly)
+> working programs that suddenly break once one "upgrades" to the latest
+> kernel.  If userspace can't be fixed before 2.6.34 is released, perhaps
+> a less cryptic log message would be appropriate?
+> 
+> -- 
+> Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
 
-So what are our options? We can revert the SLUB conversion patch for now 
-but I still can't see what's wrong with it...
+I pushed fix into mesa for the depth issue i will look into the other
+one today and likely push kernel fix.
 
-			Pekka
+Cheers,
+Jerome
