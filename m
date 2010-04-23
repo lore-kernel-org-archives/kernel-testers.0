@@ -1,45 +1,38 @@
-From: =?UTF-8?B?VGhvbWFzIE3DvGxsZXI=?= <thomas-5bHTHlrcoh6zQB+pC5nmwQ@public.gmane.org>
-Subject: Re: [Bug #15719] virtio_net causing kernel BUG when running under
- VirtualBox
-Date: Fri, 23 Apr 2010 16:10:14 +0200
-Message-ID: <4BD1AA46.2050007@mathtm.de>
-References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.sRH.jRSzLB@tosh>
+From: Nick Bowler <nbowler-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
+Subject: Re: 2.6.34-rc5: Reported regressions from 2.6.33
+Date: Fri, 23 Apr 2010 11:31:45 -0400
+Message-ID: <20100423153145.GA6072@elliptictech.com>
+References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
+ <20100420135636.GA10674@elliptictech.com>
+ <201004210715.38621.rjw@sisk.pl>
+ <20100421085739.GA2576@barney.localdomain>
+ <20100421165758.GA23565@elliptictech.com>
+ <20100423102338.GA3151@barney.localdomain>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <YeFfFNFyTSF.A.sRH.jRSzLB@tosh>
+Content-Disposition: inline
+In-Reply-To: <20100423102338.GA3151-N6zOBCg9HoVSq9BJjBFyUp/QNRX+jHPU@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Shirley Ma <mashirle-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Shirley Ma <xma-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Jerome Glisse <glisse-CC+yJ3UmIYqDUpFQwHEjaQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, DRI <dri-devel-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-=46ixed by commit 0e413f22e4c1cbfe12907e462a7d739a2e316f2b.
+On 12:23 Fri 23 Apr     , Jerome Glisse wrote:
+> On Wed, Apr 21, 2010 at 12:57:58PM -0400, Nick Bowler wrote:
+> > OK, if the failure is due to userspace is doing Very Bad Things(tm),
+> > catching that seems reasonable.
+> > 
+> > Nevertheless, even if it happened by luck, the result was (ostensibly)
+> > working programs that suddenly break once one "upgrades" to the latest
+> > kernel.  If userspace can't be fixed before 2.6.34 is released, perhaps
+> > a less cryptic log message would be appropriate?
+> 
+> I pushed fix into mesa for the depth issue i will look into the other
+> one today and likely push kernel fix.
 
-Regards
-Thomas
+Great, thanks.  I'll try out the depth fix tonight.
 
-On 20.04.2010 05:19, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a summary =
-report
-> of recent regressions.
->=20
-> The following bug entry is on the current list of known regressions
-> from 2.6.33.  Please verify if it still should be listed and let the =
-tracking team
-> know (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15719
-> Subject		: virtio_net causing kernel BUG when running under VirtualBo=
-x
-> Submitter	: Thomas M=C3=BCller <thomas-5bHTHlrcoh6zQB+pC5nmwQ@public.gmane.org>
-> Date		: 2010-03-27 14:32 (24 days old)
-> First-Bad-Commit: http://kernel.org/git/linus/9ab86bbcf8be755256f0a5e=
-994e0b38af6b4d399
-> Message-ID	: <4BAE1707.2050803-5bHTHlrcoh6zQB+pC5nmwQ@public.gmane.org>
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D126970039227740&w=
-=3D4
-> Handled-By	: Shirley Ma <mashirle-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
->=20
->=20
+-- 
+Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
