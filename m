@@ -1,133 +1,135 @@
-From: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
-Date: Mon, 26 Apr 2010 15:51:19 +0300
-Message-ID: <20100426125119.GA3291@swordfish.minsk.epam.com>
-References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh>
- <YeFfFNFyTSF.A.62H.yRSzLB@tosh>
+From: Pekka J Enberg <penberg@cs.helsinki.fi>
+Subject: Re: [Bug #15713] hackbench regression due to commit 9dfc6e68bfe6e
+Date: Mon, 26 Apr 2010 17:17:21 +0300 (EEST)
+Message-ID: <alpine.DEB.2.00.1004261710500.16526@melkki.cs.helsinki.fi>
+References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.vjH.sRSzLB@tosh>  <alpine.DEB.2.00.1004221045270.1204@router.home>  <4BD086D0.9090309@cs.helsinki.fi>  <alpine.DEB.2.00.1004232214520.29018@melkki.cs.helsinki.fi>  <1272265147.2078.648.camel@ymzhang.sh.intel.com>
+  <i2m84144f021004260022nb58e3e27vd351d6646b99f265@mail.gmail.com>  <4BD564BE.6020700@kernel.org> <x2o84144f021004260309k9edf9e88t92e4c988d12de234@mail.gmail.com> <4BD570A8.90304@kernel.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="n8g4imXOkfNTN/H1"
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=NIR9LFJDWhBoWrcK6t5EsUxI/FVXL2gf6xNdKY4lQ/8=;
-        b=xfIjWitPSeajCwa8gduZ+GrS5wqrpcj3a092y+Jsle/z3l33qLQ0NyQIft/mAkgvRJ
-         WaEKDm7JA2y1PV4N/bdpRExg+Sbw5rpCb+9l2PFCOKthbyG0n57uEEDXTgP2I6WsWOv+
-         n+lHotk22UC9n9xs7SmiTirJr55ho++qKb47E=
-Content-Disposition: inline
-In-Reply-To: <YeFfFNFyTSF.A.62H.yRSzLB@tosh>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <4BD570A8.90304@kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Tejun Heo <tj@kernel.org>
+Cc: "Zhang, Yanmin" <yanmin_zhang@linux.intel.com>, Christoph Lameter <cl@linux.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Alex Shi <alex.shi@intel.com>, tim.c.chen@intel.com, npiggin@suse.de, rientjes@google.com
 
+On 04/26/2010 12:09 PM, Pekka Enberg wrote:
+>>> My wild speculation is that previously the cpu_slub structures of two
+>>> neighboring threads ended up on the same cacheline by accident thanks
+>>> to the back to back allocation.  W/ the percpu allocator, this no
+>>> longer would happen as the allocator groups percpu data together
+>>> per-cpu.
+>>
+>> Yanmin, do we see a lot of remote frees for your hackbench run? IIRC,
+>> it's the "deactivate_remote_frees" stat when CONFIG_SLAB_STATS is
+>> enabled.
 
---n8g4imXOkfNTN/H1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 26 Apr 2010, Tejun Heo wrote:
+> I'm not familiar with the details or scales here so please take
+> whatever I say with a grain of salt.  For hyperthreading configuration
+> I think operations don't have to be remote to be affected.  If the
+> data for cpu0 and cpu1 were on the same cache line, and cpu0 and cpu1
+> are occupying the same physical core thus sharing all the resources it
+> would benefit from the sharing whether any operation was remote or not
+> as it saves the physical processor one cache line.
 
-Hello,
+Even if the cacheline is dirtied like in the struct kmem_cache_cpu case? 
+If that's the case, don't we want the per-CPU allocator to support 
+back to back allocation for cores that are in the same package?
 
-On (04/20/10 05:19), Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a summary repo=
-rt
-> of recent regressions.
->=20
-> The following bug entry is on the current list of known regressions
-> from 2.6.33.  Please verify if it still should be listed and let the trac=
-king team
-> know (either way).
->=20
->
+Btw, I focused on remote frees initially before I understood what you 
+actually meant and scetched the following untested patch to take advantage 
+of the fact that struct kmem_cache_cpu doesn't fill a whole cache line. It 
+tries amortize remote free costs by "queuing" objects. It would be 
+interesting to see if it helps here (or in the other SLUB regressions like 
+netperf and the famous Intel one).
 
-=2E34-rc5-git7
+ 			Pekka
 
-kernel: [12887.906682] pktgen 2.72: Packet Generator for packet performance=
- testing.
-kernel: [12938.998730] ------------[ cut here ]------------
-kernel: [12938.998741] WARNING: at net/sched/sch_generic.c:256 dev_watchdog=
-+0xc1/0x129()
-kernel: [12938.998745] Hardware name: F3JC               =20
-kernel: [12938.998748] NETDEV WATCHDOG: eth0 (r8169): transmit queue 0 time=
-d out
-kernel: [12938.998751] Modules linked in: pktgen usb_storage ipv6 snd_hwdep=
- snd_hda_codec_si3054 snd_hda_codec_realtek asus_laptop sparse_keymap sdhci=
-_pci sdhci snd_hda_intel mmc_core led_class psmouse snd_hda_codec snd_pcm s=
-nd_timer snd
-soundcore snd_page_alloc serio_raw rng_core sg i2c_i801 evdev r8169 mii usb=
-hid hid uhci_hcd ehci_hcd sr_mod cdrom sd_mod usbcore ata_piix
-kernel: [12938.998808] Pid: 4617, comm: kpktgend_0 Not tainted 2.6.34-rc5-d=
-bg-r8169-git7 #97
-kernel: [12938.998811] Call Trace:
-kernel: [12938.998819]  [<c102e1b2>] warn_slowpath_common+0x65/0x7c
-kernel: [12938.998824]  [<c1268085>] ? dev_watchdog+0xc1/0x129
-kernel: [12938.998829]  [<c102e1fd>] warn_slowpath_fmt+0x24/0x27
-kernel: [12938.998834]  [<c1268085>] dev_watchdog+0xc1/0x129
-kernel: [12938.998841]  [<c1040039>] ? __kfifo_from_user_generic+0x30/0x5c
-kernel: [12938.998848]  [<c1036ae3>] ? run_timer_softirq+0x136/0x203
-kernel: [12938.998853]  [<c1036b3c>] run_timer_softirq+0x18f/0x203
-kernel: [12938.998858]  [<c1036ae3>] ? run_timer_softirq+0x136/0x203
-kernel: [12938.998864]  [<c1267fc4>] ? dev_watchdog+0x0/0x129
-kernel: [12938.998870]  [<c1032a72>] __do_softirq+0x88/0x10c
-kernel: [12938.998875]  [<c1032b25>] do_softirq+0x2f/0x47
-kernel: [12938.998883]  [<f8095488>] ? pktgen_xmit+0xd3e/0xe0b [pktgen]
-kernel: [12938.998888]  [<c1032d08>] _local_bh_enable_ip+0x8b/0xb3
-kernel: [12938.998894]  [<c1032d38>] local_bh_enable_ip+0x8/0xa
-kernel: [12938.998900]  [<c12c3818>] _raw_spin_unlock_bh+0x2f/0x32
-kernel: [12938.998906]  [<f8095488>] pktgen_xmit+0xd3e/0xe0b [pktgen]
-kernel: [12938.998913]  [<c104463c>] ? sched_clock_cpu+0x121/0x131
-kernel: [12938.998922]  [<fd1cf5e4>] ? rtl8169_start_xmit+0x0/0x2f9 [r8169]
-kernel: [12938.998928]  [<f8095793>] ? pktgen_thread_worker+0xd9/0x5e8 [pkt=
-gen]
-kernel: [12938.998934]  [<c1044679>] ? cpu_clock+0x2d/0x4e
-kernel: [12938.998941]  [<c104d1f7>] ? put_lock_stats+0xd/0x21
-kernel: [12938.998946]  [<c104d2c0>] ? lock_release_holdtime+0xb5/0xba
-kernel: [12938.998952]  [<f8095793>] ? pktgen_thread_worker+0xd9/0x5e8 [pkt=
-gen]
-kernel: [12938.998959]  [<f809582a>] pktgen_thread_worker+0x170/0x5e8 [pktg=
-en]
-kernel: [12938.998965]  [<c103fa46>] ? autoremove_wake_function+0x0/0x2f
-kernel: [12938.998971]  [<c103fa46>] ? autoremove_wake_function+0x0/0x2f
-kernel: [12938.998977]  [<f80956ba>] ? pktgen_thread_worker+0x0/0x5e8 [pktg=
-en]
-kernel: [12938.998982]  [<c103f76a>] kthread+0x6a/0x6f
-kernel: [12938.998988]  [<c103f700>] ? kthread+0x0/0x6f
-kernel: [12938.998994]  [<c1002dc2>] kernel_thread_helper+0x6/0x10
-kernel: [12938.998998] ---[ end trace 030ae30a64f8cf05 ]---
-kernel: [12939.012657] r8169 0000:02:00.0: eth0: link up
-kernel: [12951.012273] r8169 0000:02:00.0: eth0: link up
-kernel: [12951.475547] pktgen: interface: eth0 is already stopped
+diff --git a/include/linux/slub_def.h b/include/linux/slub_def.h
+index 0249d41..b554a67 100644
+--- a/include/linux/slub_def.h
++++ b/include/linux/slub_def.h
+@@ -34,10 +34,14 @@ enum stat_item {
+  	ORDER_FALLBACK,		/* Number of times fallback was necessary */
+  	NR_SLUB_STAT_ITEMS };
 
++#define SLUB_MAX_NR_REMOTES	5
++
+  struct kmem_cache_cpu {
+  	void **freelist;	/* Pointer to first free per cpu object */
+  	struct page *page;	/* The slab from which we are allocating */
+  	int node;		/* The node of the page (or -1 for debug) */
++	int nr_remotes;		/* Number of remotely free'd objects */
++	void *remotelist[SLUB_MAX_NR_REMOTES];	/* List of remotely free'd objects */
+  #ifdef CONFIG_SLUB_STATS
+  	unsigned stat[NR_SLUB_STAT_ITEMS];
+  #endif
+diff --git a/mm/slub.c b/mm/slub.c
+index 7d6c8b1..e8e5523 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -1480,6 +1480,24 @@ static void deactivate_slab(struct kmem_cache *s, struct kmem_cache_cpu *c)
+  	unfreeze_slab(s, page, tail);
+  }
 
++static void __slab_free(struct kmem_cache *s, struct page *page, void *x, unsigned long addr);
++
++static void flush_remotelist(struct kmem_cache *s, struct kmem_cache_cpu *c)
++{
++	int i;
++
++	for (i = 0; i < c->nr_remotes; i++) {
++		struct page *page;
++		void *x;
++
++		x = c->remotelist[i];
++		page = virt_to_head_page(x);
++
++		__slab_free(s, page, x, _RET_IP_);
++	}
++	c->nr_remotes = 0;
++}
++
+  static inline void flush_slab(struct kmem_cache *s, struct kmem_cache_cpu *c)
+  {
+  	stat(s, CPUSLAB_FLUSH);
+@@ -1496,7 +1514,12 @@ static inline void __flush_cpu_slab(struct kmem_cache *s, int cpu)
+  {
+  	struct kmem_cache_cpu *c = per_cpu_ptr(s->cpu_slab, cpu);
 
-=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15704
-> Subject		: [r8169] WARNING: at net/sched/sch_generic.c
-> Submitter	: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2010-03-31 10:21 (20 days old)
-> Message-ID	: <<20100331102142.GA3294-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>>
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D127003090406108&w=3D2
->=20
->=20
+-	if (likely(c && c->page))
++	if (unlikely(!c))
++		return;
++
++	flush_remotelist(s, c);
++
++	if (likely(c->page))
+  		flush_slab(s, c);
+  }
 
+@@ -1709,6 +1732,8 @@ static __always_inline void *slab_alloc(struct kmem_cache *s,
 
-	Sergey
---n8g4imXOkfNTN/H1
-Content-Type: application/pgp-signature
-Content-Disposition: inline
+  	local_irq_save(flags);
+  	c = __this_cpu_ptr(s->cpu_slab);
++	if (unlikely(c->nr_remotes == SLUB_MAX_NR_REMOTES))
++		flush_remotelist(s, c);
+  	object = c->freelist;
+  	if (unlikely(!object || !node_match(c, node)))
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
+@@ -1865,8 +1890,12 @@ static __always_inline void slab_free(struct kmem_cache *s,
+  		set_freepointer(s, object, c->freelist);
+  		c->freelist = object;
+  		stat(s, FREE_FASTPATH);
+-	} else
+-		__slab_free(s, page, x, addr);
++	} else {
++		if (unlikely(c->nr_remotes == SLUB_MAX_NR_REMOTES))
++			flush_remotelist(s, c);
++
++		c->remotelist[c->nr_remotes++] = x;
++	}
 
-iJwEAQECAAYFAkvVjEcACgkQfKHnntdSXjQBhAQApWJ03Cz6vNdiLXnfn2bVi2pU
-Kw5CEDyErs50iaryd4pVbnR3ULd06h/kpSNck2Aa0rnYe+iKo4rpSes6UIEGVXph
-K9WrjRKomxlvCT/FeonEz7yqNk2WMByTXuf51WGFjsEyjx/rcyW6Q2tr5vN+HeyT
-+HqHjTe0BwlC7fjyMV4=
-=OlQI
------END PGP SIGNATURE-----
-
---n8g4imXOkfNTN/H1--
+  	local_irq_restore(flags);
+  }
