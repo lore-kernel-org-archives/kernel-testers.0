@@ -1,74 +1,76 @@
-From: "Zhang, Yanmin" <yanmin_zhang@linux.intel.com>
-Subject: Re: [Bug #15713] hackbench regression due to commit 9dfc6e68bfe6e
-Date: Tue, 27 Apr 2010 09:41:17 +0800
-Message-ID: <1272332477.2078.674.camel@ymzhang.sh.intel.com>
-References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.vjH.sRSzLB@tosh>
-	 <alpine.DEB.2.00.1004221045270.1204@router.home>
-	 <4BD086D0.9090309@cs.helsinki.fi>
-	 <alpine.DEB.2.00.1004232214520.29018@melkki.cs.helsinki.fi>
-	 <1272265147.2078.648.camel@ymzhang.sh.intel.com>
-	 <i2m84144f021004260022nb58e3e27vd351d6646b99f265@mail.gmail.com>
-	 <4BD564BE.6020700@kernel.org>
-	 <x2o84144f021004260309k9edf9e88t92e4c988d12de234@mail.gmail.com>
+From: "Stefan Lippers-Hollmann" <s.L-H@gmx.de>
+Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
+Date: Fri, 30 Apr 2010 04:44:03 +0200
+Message-ID: <201004300444.05842.s.L-H@gmx.de>
+References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.vUB.fSSzLB@tosh>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <x2o84144f021004260309k9edf9e88t92e4c988d12de234@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <linux-media-owner@vger.kernel.org>
+In-Reply-To: <YeFfFNFyTSF.A.vUB.fSSzLB@tosh>
+Sender: linux-media-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Pekka Enberg <penberg@cs.helsinki.fi>
-Cc: Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Alex Shi <alex.shi@intel.com>, tim.c.chen@intel.com
+Content-Type: Text/Plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Christian Kujau <lists@nerdbynature.de>, linux-media@vger.kernel.org, Trent Piepho <xyzzy@speakeasy.org>
 
-On Mon, 2010-04-26 at 13:09 +0300, Pekka Enberg wrote:
-> Hi,
+Hi
+
+On Friday 30 April 2010, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
 > 
-> On Mon, Apr 26, 2010 at 9:59 AM, Zhang, Yanmin
-> <yanmin_zhang@linux.intel.com> wrote:
-> >>>> I haven't been able to reproduce this either on my Core 2 machine.
-> >>> Mostly, the regression exists on Nehalem machines. I suspect it's related to
-> >>> hyper-threading machine.
+> The following bug entry is on the current list of known regressions
+> from 2.6.33.  Please verify if it still should be listed and let the tracking team
+> know (either way).
 > 
-> On 04/26/2010 09:22 AM, Pekka Enberg wrote:
-> >> OK, so does anyone know why hyper-threading would change things for
-> >> the per-CPU allocator?
 > 
-> On Mon, Apr 26, 2010 at 1:02 PM, Tejun Heo <tj@kernel.org> wrote:
-> > My wild speculation is that previously the cpu_slub structures of two
-> > neighboring threads ended up on the same cacheline by accident thanks
-> > to the back to back allocation.  W/ the percpu allocator, this no
-> > longer would happen as the allocator groups percpu data together
-> > per-cpu.
-> 
-> Yanmin, do we see a lot of remote frees for your hackbench run? IIRC,
-> it's the "deactivate_remote_frees" stat when CONFIG_SLAB_STATS is
-> enabled.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15589
+> Subject		: 2.6.34-rc1: Badness at fs/proc/generic.c:316
+> Submitter	: Christian Kujau <lists@nerdbynature.de>
+> Date		: 2010-03-13 23:53 (38 days old)
+> Message-ID	: <alpine.DEB.2.01.1003131544340.5493@bogon.housecafe.de>
+> References	: http://marc.info/?l=linux-kernel&m=126852442903680&w=2
 
-After runing the testing with 2.6.34-rc5:
+This also continues to be a problem with b2c2-flexcop and 2.6.34-rc5-git10:
 
-#slabinfo -AD
-Name                   Objects      Alloc       Free   %Fast Fallb O
-skbuff_head_cache         2518  800011810  800009770  95  19     0 1
-kmalloc-512               1101  800009118  800008441  95  19     0 2
-anon_vma_chain            2500     195878     194477  98  13     0 0
-vm_area_struct            2487     160755     158908  97  20     0 1
-anon_vma                  2645      88626      87637  99  12     0 0
+[   10.119807] b2c2-flexcop: B2C2 FlexcopII/II(b)/III digital TV receiver chip loaded successfully
+[   10.129183] flexcop-pci: will use the HW PID filter.
+[   10.129187] flexcop-pci: card revision 2
+[   10.129195] b2c2_flexcop_pci 0000:06:01.0: PCI INT A -> GSI 19 (level, low) -> IRQ 19
+[   10.129239] ------------[ cut here ]------------
+[   10.129244] WARNING: at /tmp/buildd/linux-sidux-2.6-2.6.34~rc5/debian/build/source_amd64_none/fs/proc/generic.c:317 __xlate_proc_name+0xb5/0xd0()
+[   10.129246] Hardware name: EP45-DS3
+[   10.129247] name 'Technisat/B2C2 FlexCop II/IIb/III Digital TV PCI Driver'
+[   10.129248] Modules linked in: b2c2_flexcop_pci(+) ath9k_common b2c2_flexcop v4l1_compat snd_timer radeon(+) dvb_core ar9170usb(+) ath9k_hw snd_seq_device ir_common tveeprom ttm v4l2_compat_ioctl32 snd drm_kms_helper ir_core ath mac80211 soundcore videobuf_dma_sg cx24123 drm i2c_i801 i2c_algo_bit snd_page_alloc videobuf_core cx24113 s5h1420 cfg80211 rfkill evdev i2c_core tpm_tis btcx_risc tpm led_class pcspkr tpm_bios rtc_cmos button rtc_core intel_agp rtc_lib processor ext4 mbcache jbd2 crc16 dm_mod sg sr_mod cdrom sd_mod usbhid hid uhci_hcd firewire_ohci firewire_core ahci r8169 ehci_hcd mii libata crc_itu_t scsi_mod thermal usbcore nls_base [last unloaded: scsi_wait_scan]
+[   10.129279] Pid: 1124, comm: modprobe Not tainted 2.6.34-rc5-sidux-amd64 #1
+[   10.129281] Call Trace:
+[   10.129285]  [<ffffffff8104ba83>] ? warn_slowpath_common+0x73/0xb0
+[   10.129287]  [<ffffffff8104bb20>] ? warn_slowpath_fmt+0x40/0x50
+[   10.129290]  [<ffffffff8114f545>] ? __xlate_proc_name+0xb5/0xd0
+[   10.129292]  [<ffffffff8114fb2e>] ? __proc_create+0x7e/0x150
+[   10.129294]  [<ffffffff811504e7>] ? proc_mkdir_mode+0x27/0x60
+[   10.129297]  [<ffffffff8109fb55>] ? register_handler_proc+0x115/0x130
+[   10.129300]  [<ffffffff8109d4c1>] ? __setup_irq+0x1d1/0x330
+[   10.129303]  [<ffffffffa011b160>] ? flexcop_pci_isr+0x0/0x190 [b2c2_flexcop_pci]
+[   10.129305]  [<ffffffff8109d735>] ? request_threaded_irq+0x115/0x1b0
+[   10.129308]  [<ffffffffa011b495>] ? flexcop_pci_probe+0x1a5/0x330 [b2c2_flexcop_pci]
+[   10.129312]  [<ffffffff811ceef2>] ? local_pci_probe+0x12/0x20
+[   10.129314]  [<ffffffff811d02ca>] ? pci_device_probe+0x10a/0x130
+[   10.129317]  [<ffffffff8125cdda>] ? driver_sysfs_add+0x5a/0x80
+[   10.129320]  [<ffffffff8125cf03>] ? driver_probe_device+0x93/0x190
+[   10.129322]  [<ffffffff8125d093>] ? __driver_attach+0x93/0xa0
+[   10.129324]  [<ffffffff8125d000>] ? __driver_attach+0x0/0xa0
+[   10.129326]  [<ffffffff8125c638>] ? bus_for_each_dev+0x58/0x80
+[   10.129328]  [<ffffffff8125be70>] ? bus_add_driver+0xb0/0x250
+[   10.129330]  [<ffffffff8125d38a>] ? driver_register+0x6a/0x130
+[   10.129332]  [<ffffffff811d056c>] ? __pci_register_driver+0x4c/0xc0
+[   10.129335]  [<ffffffffa012e000>] ? flexcop_pci_module_init+0x0/0x20 [b2c2_flexcop_pci]
+[   10.129338]  [<ffffffff81002044>] ? do_one_initcall+0x34/0x1a0
+[   10.129341]  [<ffffffff8107d15f>] ? sys_init_module+0xdf/0x260
+[   10.129344]  [<ffffffff81009f42>] ? system_call_fastpath+0x16/0x1b
+[   10.129345] ---[ end trace 370a62256537c67a ]---
+[   10.134144] DVB: registering new adapter (FlexCop Digital TV device)
+[   10.135610] b2c2-flexcop: MAC address = 00:d0:d7:0c:83:d6
 
-[ymzhang@lkp-ne01 ~]$ cat /sys/kernel/slab/skbuff_head_cache/deactivate_remote_frees
-1 C13=1
-[ymzhang@lkp-ne01 ~]$ cat /sys/kernel/slab/kmalloc-512/deactivate_remote_frees       
-3 C8=2 C15=1
-
-
-After running testing against 2.6.33 kernel:
-#slabinfo -AD
-Name                   Objects      Alloc       Free   %Fast Fallb O
-kmalloc-1024               961  800011628  800011167  93   1     0 3
-skbuff_head_cache         2518  800012055  800010015  93   1     0 1
-vm_area_struct            2892     162196     159987  97  19     0 1
-names_cache                128      47139      47141  99  97     0 3
-kmalloc-64                3612      40180      37287  99  89     0 0
-Acpi-State                 816      36301      36301  99  98     0 0
-
-I remember with 2.6.34-rc1, the fast alloc/free are close to the one of 2.6.33.
-
+Regards
+	Stefan Lippers-Hollmann
