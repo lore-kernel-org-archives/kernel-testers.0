@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15673] 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
-Date: Tue,  4 May 2010 23:21:15 +0200 (CEST)
-Message-ID: <8VO9AsMlpMD.A.SOB.XJJ4LB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #15729] BUG: physmap modprobe & rmmod
+Date: Tue,  4 May 2010 23:21:17 +0200 (CEST)
+Message-ID: <8VO9AsMlpMD.A.-m.4IJ4LB@chimera>
 References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Thomas Meyer <thomas@m3y3r.de>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Hartley Sweeten <hsweeten-3FF4nKcrg1dE2c76skzGb0EOCMrvLtNR@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,12 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15673
-Subject		: 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
-Submitter	: Thomas Meyer <thomas@m3y3r.de>
-Date		: 2010-03-28 11:31 (38 days old)
-Message-ID	: <1269775909.5301.4.camel@localhost.localdomain>
-References	: http://marc.info/?l=linux-kernel&m=126977593326800&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15729
+Subject		: BUG: physmap modprobe & rmmod
+Submitter	: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Date		: 2010-04-02 20:40 (33 days old)
+Message-ID	: <20100402134058.c4682716.randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=127024096210230&w=2
+Handled-By	: Hartley Sweeten <hsweeten-3FF4nKcrg1dE2c76skzGb0EOCMrvLtNR@public.gmane.org>
+Patch		: https://patchwork.kernel.org/patch/90497/
 
