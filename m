@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15768] Incorrectly calculated free blocks result in ENOSPC from writepage
-Date: Tue,  4 May 2010 23:21:17 +0200 (CEST)
-Message-ID: <8VO9AsMlpMD.A.Ge.TIJ4LB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15858] [2.6.34-rc5] bad page state copying to/from HFS+ filesystem...
+Date: Tue,  4 May 2010 23:21:19 +0200 (CEST)
+Message-ID: <8VO9AsMlpMD.A._O.wHJ4LB@chimera>
 References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dmitry Monakhov <dmonakhov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Daniel J Blueman <daniel.blueman@gmail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15768
-Subject		: Incorrectly calculated free blocks result in ENOSPC from writepage
-Submitter	: Dmitry Monakhov <dmonakhov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Date		: 2010-04-12 11:24 (23 days old)
-Handled-By	: Dmitry Monakhov <dmonakhov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Patch		: http://patchwork.ozlabs.org/patch/49989/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15858
+Subject		: [2.6.34-rc5] bad page state copying to/from HFS+ filesystem...
+Submitter	: Daniel J Blueman <daniel.blueman@gmail.com>
+Date		: 2010-04-25 21:14 (10 days old)
+Message-ID	: <v2k6278d2221004251414kbbcc41baw78b86120d81dce7d@mail.gmail.com>
+References	: http://marc.info/?l=linux-kernel&m=127223008621881&w=2
 
