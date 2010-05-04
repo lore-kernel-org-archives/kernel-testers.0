@@ -1,31 +1,31 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15788] external usb sound card doesn't work after resume
-Date: Tue,  4 May 2010 23:21:18 +0200 (CEST)
-Message-ID: <8VO9AsMlpMD.A.7Z.HIJ4LB@chimera>
+Subject: [Bug #15673] 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
+Date: Tue,  4 May 2010 23:21:15 +0200 (CEST)
+Message-ID: <8VO9AsMlpMD.A.SOB.XJJ4LB@chimera>
 References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="macroman"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, =?utf-8?q?Fran=C3=A7ois=20Valenduc?= <francois.valenduc@tvcablenet.be>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Thomas Meyer <thomas@m3y3r.de>
 
-This message has been generated automatically as a part of a summary re=
-port
+This message has been generated automatically as a part of a summary report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.33.  Please verify if it still should be listed and let the tr=
-acking team
+from 2.6.33.  Please verify if it still should be listed and let the tracking team
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15788
-Subject		: external usb sound card doesn't work after resume
-Submitter	: Fran=C3=A7ois Valenduc <francois.valenduc@tvcablenet.be>
-Date		: 2010-04-15 10:16 (20 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15673
+Subject		: 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
+Submitter	: Thomas Meyer <thomas@m3y3r.de>
+Date		: 2010-03-28 11:31 (38 days old)
+Message-ID	: <1269775909.5301.4.camel@localhost.localdomain>
+References	: http://marc.info/?l=linux-kernel&m=126977593326800&w=2
 
