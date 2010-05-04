@@ -1,20 +1,22 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15625] BUG: 2.6.34-rc1, RIP is (null)
-Date: Wed, 5 May 2010 00:22:15 +0200
-Message-ID: <201005050022.16064.rjw@sisk.pl>
-References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera> <8VO9AsMlpMD.A.rqB.3JJ4LB@chimera> <4BE09B71.30003@oracle.com>
+From: David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: RE: [Bug #15729] BUG: physmap modprobe & rmmod
+Date: Tue, 04 May 2010 23:22:31 +0100
+Message-ID: <1273011751.31892.5700.camel@macbook.infradead.org>
+References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
+	 <8VO9AsMlpMD.A.-m.4IJ4LB@chimera>
+	 <0D753D10438DA54287A00B0270842697636EB83FB2@AUSP01VMBX24.collaborationhost.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4BE09B71.30003-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <0D753D10438DA54287A00B0270842697636EB83FB2-gaq956PjLg32KbjnnMDalRurcAul1UnsRrxOEX5GOmysTnJN9+BGXg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: H Hartley Sweeten <hartleys-3FF4nKcrg1dE2c76skzGb0EOCMrvLtNR@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
-On Wednesday 05 May 2010, Randy Dunlap wrote:
-> On 05/04/10 14:21, Rafael J. Wysocki wrote:
+On Tue, 2010-05-04 at 17:15 -0500, H Hartley Sweeten wrote:
+> On Tuesday, May 04, 2010 2:21 PM, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a summary report
 > > of recent regressions.
 > > 
@@ -23,17 +25,19 @@ On Wednesday 05 May 2010, Randy Dunlap wrote:
 > > know (either way).
 > > 
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15625
-> > Subject		: BUG: 2.6.34-rc1, RIP is (null)
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15729
+> > Subject		: BUG: physmap modprobe & rmmod
 > > Submitter	: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-> > Date		: 2010-03-18 22:22 (48 days old)
-> > Message-ID	: <4BA2A7A9.4080503-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-> > References	: http://marc.info/?l=linux-kernel&m=126895098217351&w=2
+> > Date		: 2010-04-02 20:40 (33 days old)
+> > Message-ID	: <20100402134058.c4682716.randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+> > References	: http://marc.info/?l=linux-kernel&m=127024096210230&w=2
+> > Handled-By	: Hartley Sweeten <hsweeten-3FF4nKcrg1dE2c76skzGb0EOCMrvLtNR@public.gmane.org>
+> > Patch		: https://patchwork.kernel.org/patch/90497/
 > 
-> 
-> Let's drop this one as not reproducible.
+> This patch is not yet in Linus' tree, it is in linux-next.  David?
 
-Done.
+Is it a regression? People have been configuring their kernel stupidly
+and then acting surprised when it didn't work for _ages_... what's new?
 
-Thanks,
-Rafael
+-- 
+dwmw2
