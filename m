@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15858] [2.6.34-rc5] bad page state copying to/from HFS+ filesystem...
-Date: Tue,  4 May 2010 23:21:19 +0200 (CEST)
-Message-ID: <8VO9AsMlpMD.A._O.wHJ4LB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #15625] BUG: 2.6.34-rc1, RIP is (null)
+Date: Tue,  4 May 2010 23:21:14 +0200 (CEST)
+Message-ID: <8VO9AsMlpMD.A.rqB.3JJ4LB@chimera>
 References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Daniel J Blueman <daniel.blueman@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15858
-Subject		: [2.6.34-rc5] bad page state copying to/from HFS+ filesystem...
-Submitter	: Daniel J Blueman <daniel.blueman@gmail.com>
-Date		: 2010-04-25 21:14 (10 days old)
-Message-ID	: <v2k6278d2221004251414kbbcc41baw78b86120d81dce7d@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=127223008621881&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15625
+Subject		: BUG: 2.6.34-rc1, RIP is (null)
+Submitter	: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Date		: 2010-03-18 22:22 (48 days old)
+Message-ID	: <4BA2A7A9.4080503-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=126895098217351&w=2
 
