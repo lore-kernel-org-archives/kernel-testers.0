@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15880] Very bad regression from 2.6.33 as of 1600f9def
-Date: Tue,  4 May 2010 23:21:20 +0200 (CEST)
-Message-ID: <8VO9AsMlpMD.A.G4H.iHJ4LB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #15768] Incorrectly calculated free blocks result in ENOSPC from writepage
+Date: Tue,  4 May 2010 23:21:17 +0200 (CEST)
+Message-ID: <8VO9AsMlpMD.A.Ge.TIJ4LB@chimera>
 References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Alex Elsayed <eternaleye@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dmitry Monakhov <dmonakhov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15880
-Subject		: Very bad regression from 2.6.33 as of 1600f9def
-Submitter	: Alex Elsayed <eternaleye@gmail.com>
-Date		: 2010-04-29 2:28 (6 days old)
-Message-ID	: <loom.20100429T041908-663@post.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=127250825306178&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15768
+Subject		: Incorrectly calculated free blocks result in ENOSPC from writepage
+Submitter	: Dmitry Monakhov <dmonakhov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Date		: 2010-04-12 11:24 (23 days old)
+Handled-By	: Dmitry Monakhov <dmonakhov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Patch		: http://patchwork.ozlabs.org/patch/49989/
 
