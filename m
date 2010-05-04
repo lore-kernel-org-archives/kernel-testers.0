@@ -1,76 +1,308 @@
-From: "Stefan Lippers-Hollmann" <s.L-H@gmx.de>
-Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
-Date: Fri, 30 Apr 2010 04:44:03 +0200
-Message-ID: <201004300444.05842.s.L-H@gmx.de>
-References: <deuQKFRcc0B.A.3EG.BRSzLB@tosh> <YeFfFNFyTSF.A.vUB.fSSzLB@tosh>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: 2.6.34-rc6-git2: Reported regressions from 2.6.33
+Date: Tue,  4 May 2010 22:49:09 +0200 (CEST)
+Message-ID: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-media-owner@vger.kernel.org>
-In-Reply-To: <YeFfFNFyTSF.A.vUB.fSSzLB@tosh>
-Sender: linux-media-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-acpi-owner@vger.kernel.org>
+Content-Disposition: inline
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Christian Kujau <lists@nerdbynature.de>, linux-media@vger.kernel.org, Trent Piepho <xyzzy@speakeasy.org>
+Content-Type: text/plain; charset="macroman"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
 
-Hi
+This message contains a list of some regressions from 2.6.33,
+for which there are no fixes in the mainline known to the tracking team=
+=2E
+If any of them have been fixed already, please let us know.
 
-On Friday 30 April 2010, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a summary report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.33.  Please verify if it still should be listed and let the tracking team
-> know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15589
-> Subject		: 2.6.34-rc1: Badness at fs/proc/generic.c:316
-> Submitter	: Christian Kujau <lists@nerdbynature.de>
-> Date		: 2010-03-13 23:53 (38 days old)
-> Message-ID	: <alpine.DEB.2.01.1003131544340.5493@bogon.housecafe.de>
-> References	: http://marc.info/?l=linux-kernel&m=126852442903680&w=2
+If you know of any other unresolved regressions from 2.6.33, please let=
+ us
+know either and we'll add them to the list.  Also, please let us know
+if any of the entries below are invalid.
 
-This also continues to be a problem with b2c2-flexcop and 2.6.34-rc5-git10:
+Each entry from the list will be sent additionally in an automatic repl=
+y
+to this message with CCs to the people involved in reporting and handli=
+ng
+the issue.
 
-[   10.119807] b2c2-flexcop: B2C2 FlexcopII/II(b)/III digital TV receiver chip loaded successfully
-[   10.129183] flexcop-pci: will use the HW PID filter.
-[   10.129187] flexcop-pci: card revision 2
-[   10.129195] b2c2_flexcop_pci 0000:06:01.0: PCI INT A -> GSI 19 (level, low) -> IRQ 19
-[   10.129239] ------------[ cut here ]------------
-[   10.129244] WARNING: at /tmp/buildd/linux-sidux-2.6-2.6.34~rc5/debian/build/source_amd64_none/fs/proc/generic.c:317 __xlate_proc_name+0xb5/0xd0()
-[   10.129246] Hardware name: EP45-DS3
-[   10.129247] name 'Technisat/B2C2 FlexCop II/IIb/III Digital TV PCI Driver'
-[   10.129248] Modules linked in: b2c2_flexcop_pci(+) ath9k_common b2c2_flexcop v4l1_compat snd_timer radeon(+) dvb_core ar9170usb(+) ath9k_hw snd_seq_device ir_common tveeprom ttm v4l2_compat_ioctl32 snd drm_kms_helper ir_core ath mac80211 soundcore videobuf_dma_sg cx24123 drm i2c_i801 i2c_algo_bit snd_page_alloc videobuf_core cx24113 s5h1420 cfg80211 rfkill evdev i2c_core tpm_tis btcx_risc tpm led_class pcspkr tpm_bios rtc_cmos button rtc_core intel_agp rtc_lib processor ext4 mbcache jbd2 crc16 dm_mod sg sr_mod cdrom sd_mod usbhid hid uhci_hcd firewire_ohci firewire_core ahci r8169 ehci_hcd mii libata crc_itu_t scsi_mod thermal usbcore nls_base [last unloaded: scsi_wait_scan]
-[   10.129279] Pid: 1124, comm: modprobe Not tainted 2.6.34-rc5-sidux-amd64 #1
-[   10.129281] Call Trace:
-[   10.129285]  [<ffffffff8104ba83>] ? warn_slowpath_common+0x73/0xb0
-[   10.129287]  [<ffffffff8104bb20>] ? warn_slowpath_fmt+0x40/0x50
-[   10.129290]  [<ffffffff8114f545>] ? __xlate_proc_name+0xb5/0xd0
-[   10.129292]  [<ffffffff8114fb2e>] ? __proc_create+0x7e/0x150
-[   10.129294]  [<ffffffff811504e7>] ? proc_mkdir_mode+0x27/0x60
-[   10.129297]  [<ffffffff8109fb55>] ? register_handler_proc+0x115/0x130
-[   10.129300]  [<ffffffff8109d4c1>] ? __setup_irq+0x1d1/0x330
-[   10.129303]  [<ffffffffa011b160>] ? flexcop_pci_isr+0x0/0x190 [b2c2_flexcop_pci]
-[   10.129305]  [<ffffffff8109d735>] ? request_threaded_irq+0x115/0x1b0
-[   10.129308]  [<ffffffffa011b495>] ? flexcop_pci_probe+0x1a5/0x330 [b2c2_flexcop_pci]
-[   10.129312]  [<ffffffff811ceef2>] ? local_pci_probe+0x12/0x20
-[   10.129314]  [<ffffffff811d02ca>] ? pci_device_probe+0x10a/0x130
-[   10.129317]  [<ffffffff8125cdda>] ? driver_sysfs_add+0x5a/0x80
-[   10.129320]  [<ffffffff8125cf03>] ? driver_probe_device+0x93/0x190
-[   10.129322]  [<ffffffff8125d093>] ? __driver_attach+0x93/0xa0
-[   10.129324]  [<ffffffff8125d000>] ? __driver_attach+0x0/0xa0
-[   10.129326]  [<ffffffff8125c638>] ? bus_for_each_dev+0x58/0x80
-[   10.129328]  [<ffffffff8125be70>] ? bus_add_driver+0xb0/0x250
-[   10.129330]  [<ffffffff8125d38a>] ? driver_register+0x6a/0x130
-[   10.129332]  [<ffffffff811d056c>] ? __pci_register_driver+0x4c/0xc0
-[   10.129335]  [<ffffffffa012e000>] ? flexcop_pci_module_init+0x0/0x20 [b2c2_flexcop_pci]
-[   10.129338]  [<ffffffff81002044>] ? do_one_initcall+0x34/0x1a0
-[   10.129341]  [<ffffffff8107d15f>] ? sys_init_module+0xdf/0x260
-[   10.129344]  [<ffffffff81009f42>] ? system_call_fastpath+0x16/0x1b
-[   10.129345] ---[ end trace 370a62256537c67a ]---
-[   10.134144] DVB: registering new adapter (FlexCop Digital TV device)
-[   10.135610] b2c2-flexcop: MAC address = 00:d0:d7:0c:83:d6
 
-Regards
-	Stefan Lippers-Hollmann
+Listed regressions statistics:
+
+  Date          Total  Pending  Unresolved
+  ----------------------------------------
+  2010-05-04       76       26          22
+  2010-04-20       64       35          34
+  2010-04-07       48       35          33
+  2010-03-21       15       13          10
+
+
+Unresolved regressions
+----------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15880
+Subject		: Very bad regression from 2.6.33 as of 1600f9def
+Submitter	: Alex Elsayed <eternaleye@gmail.com>
+Date		: 2010-04-29 2:28 (6 days old)
+Message-ID	: <loom.20100429T041908-663@post.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127250825306178&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15863
+Subject		: 2.6.34-rc5-git7 (plus all patches) -- another suspicious rcu=
+_dereference_check() usage.
+Submitter	: Miles Lane <miles.lane@gmail.com>
+Date		: 2010-04-27 0:51 (8 days old)
+Message-ID	: <h2ya44ae5cd1004261751waa5cb65ei3d139cbcfa2cc5cf@mail.gmai=
+l.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127232949104878&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15862
+Subject		: 2.6.34-rc4/5: iwlagn unusable until reload
+Submitter	: Nico Schottelius <nico-linux-20100427@schottelius.org>
+Date		: 2010-04-27 7:49 (8 days old)
+Message-ID	: <20100427074934.GB3261@ikn.schottelius.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127235784004839&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15858
+Subject		: [2.6.34-rc5] bad page state copying to/from HFS+ filesystem.=
+=2E.
+Submitter	: Daniel J Blueman <daniel.blueman@gmail.com>
+Date		: 2010-04-25 21:14 (10 days old)
+Message-ID	: <v2k6278d2221004251414kbbcc41baw78b86120d81dce7d@mail.gmai=
+l.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127223008621881&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15805
+Subject		: reiserfs locking
+Submitter	: Alexander Beregalov <a.beregalov@gmail.com>
+Date		: 2010-04-15 21:02 (20 days old)
+Message-ID	: <t2ka4423d671004151402n7b2dc425mdc9c6bb9640d63fb@mail.gmai=
+l.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127136535323933&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15790
+Subject		: Meta-Bug: Regressions
+Submitter	: Florian Mickler <fmickler@gmx.de>
+Date		: 2010-04-15 18:21 (20 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15788
+Subject		: external usb sound card doesn't work after resume
+Submitter	: Fran=C3=A7ois Valenduc <francois.valenduc@tvcablenet.be>
+Date		: 2010-04-15 10:16 (20 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15717
+Subject		: bluetooth oops
+Submitter	: Pavel Machek <pavel@ucw.cz>
+Date		: 2010-03-14 20:14 (52 days old)
+Message-ID	: <20100314201434.GE22059@elf.ucw.cz>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126859771528426&w=3D=
+4
+Handled-By	: Marcel Holtmann <marcel@holtmann.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15713
+Subject		: hackbench regression due to commit 9dfc6e68bfe6e
+Submitter	: Alex Shi <alex.shi@intel.com>
+Date		: 2010-03-25 8:40 (41 days old)
+=46irst-Bad-Commit: http://git.kernel.org/linus/9dfc6e68bfe6ee452efb1a4=
+e9ca26a9007f2b864
+Message-ID	: <1269506457.4513.141.camel@alexs-hp.sh.intel.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126950632920682&w=3D=
+4
+Handled-By	: Christoph Lameter <cl@linux-foundation.org>
+		  Pekka Enberg <penberg@cs.helsinki.fi>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15712
+Subject		: [regression] 2.6.34-rc1 to -rc3 on zaurus: no longer boots
+Submitter	: Pavel Machek <pavel@ucw.cz>
+Date		: 2010-04-01 6:06 (34 days old)
+Message-ID	: <20100401060624.GA1329@ucw.cz>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127010200817402&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15704
+Subject		: [r8169] WARNING: at net/sched/sch_generic.c
+Submitter	: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Date		: 2010-03-31 10:21 (35 days old)
+Message-ID	: <<20100331102142.GA3294@swordfish.minsk.epam.com>>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127003090406108&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15673
+Subject		: 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
+Submitter	: Thomas Meyer <thomas@m3y3r.de>
+Date		: 2010-03-28 11:31 (38 days old)
+Message-ID	: <1269775909.5301.4.camel@localhost.localdomain>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126977593326800&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15671
+Subject		: intel graphic card hanging (Hangcheck timer elapsed... GPU h=
+ung)
+Submitter	: Norbert Preining <preining@logic.at>
+Date		: 2010-03-27 16:11 (39 days old)
+Message-ID	: <20100327161104.GA12043@gamma.logic.tuwien.ac.at>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126970883105262&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15669
+Subject		: INFO: suspicious rcu_dereference_check()
+Submitter	: Zdenek Kabelac <zdenek.kabelac@gmail.com>
+Date		: 2010-03-08 1:26 (58 days old)
+Message-ID	: <c4e36d111003250348q678eb2e6w4f3e8133e7fd6e58@mail.gmail.c=
+om>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126801163107713&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15664
+Subject		: Graphics hang and kernel backtrace when starting Azureus wit=
+h Compiz enabled
+Submitter	: Alex Villacis Lasso <avillaci@ceibo.fiec.espol.edu.ec>
+Date		: 2010-04-01 01:09 (34 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15659
+Subject		: [Regresion] [2.6.34-rc1] [drm:i915_hangcheck_elapsed] *ERROR=
+* Hangcheck timer elapsed... GPU hung
+Submitter	: Maciej Rutecki <maciej.rutecki@gmail.com>
+Date		: 2010-03-25 20:04 (41 days old)
+Message-ID	: <<201003252104.24965.maciej.rutecki@gmail.com>>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126954749618319&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15625
+Subject		: BUG: 2.6.34-rc1, RIP is (null)
+Submitter	: Randy Dunlap <randy.dunlap@oracle.com>
+Date		: 2010-03-18 22:22 (48 days old)
+Message-ID	: <4BA2A7A9.4080503@oracle.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126895098217351&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15611
+Subject		: Failure with the 2.6.34-rc1 kernel
+Submitter	: Rupjyoti Sarmah <rsarmah@amcc.com>
+Date		: 2010-03-16 15:45 (50 days old)
+Message-ID	: <AC311A8E81420D4EBC1F26E6479848FE065B7D3D@SDCEXCHANGE01.ad=
+=2Eamcc.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126875435718396&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15610
+Subject		: fsck leads to swapper - BUG: unable to handle kernel NULL po=
+inter dereference & panic
+Submitter	: Ozgur Yuksel <ozgur.yuksel@oracle.com>
+Date		: 2010-03-22 15:59 (44 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15601
+Subject		: [BUG] SLOB breaks Crypto
+Submitter	: michael-dev@fami-braun.de
+Date		: 2010-03-15 13:39 (51 days old)
+Message-ID	: <4B9E38AF.70309@fami-braun.de>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126866044724539&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15590
+Subject		: 2.6.34-rc1: regression: ^Z no longer stops sound
+Submitter	: Pavel Machek <pavel@ucw.cz>
+Date		: 2010-03-14 7:58 (52 days old)
+Message-ID	: <20100314075831.GA13457@elf.ucw.cz>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126855353122623&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15589
+Subject		: 2.6.34-rc1: Badness at fs/proc/generic.c:316
+Submitter	: Christian Kujau <lists@nerdbynature.de>
+Date		: 2010-03-13 23:53 (53 days old)
+Message-ID	: <alpine.DEB.2.01.1003131544340.5493@bogon.housecafe.de>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126852442903680&w=3D=
+2
+
+
+Regressions with patches
+------------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15893
+Subject		: Alps: No edge-scrolling since 2.6.34-rc5
+Submitter	: Felix Zweig <f.zweig@yahoo.de>
+Date		: 2010-05-01 16:23 (4 days old)
+Handled-By	:  Dan Carpenter <error27@gmail.com>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=3D26218
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15768
+Subject		: Incorrectly calculated free blocks result in ENOSPC from wri=
+tepage
+Submitter	: Dmitry Monakhov <dmonakhov@openvz.org>
+Date		: 2010-04-12 11:24 (23 days old)
+Handled-By	: Dmitry Monakhov <dmonakhov@openvz.org>
+Patch		: http://patchwork.ozlabs.org/patch/49989/
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15729
+Subject		: BUG: physmap modprobe & rmmod
+Submitter	: Randy Dunlap <randy.dunlap@oracle.com>
+Date		: 2010-04-02 20:40 (33 days old)
+Message-ID	: <20100402134058.c4682716.randy.dunlap@oracle.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127024096210230&w=3D=
+2
+Handled-By	: Hartley Sweeten <hsweeten@visionengravers.com>
+Patch		: https://patchwork.kernel.org/patch/90497/
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15505
+Subject		: No more b43 wireless interface since 2.6.34-rc1
+Submitter	: Christian Casteyde <casteyde.christian@free.fr>
+Date		: 2010-03-10 06:59 (56 days old)
+Handled-By	: Yinghai Lu <yinghai@kernel.org>
+Patch		: https://bugzilla.kernel.org/show_bug.cgi?id=3D15505#c11
+
+
+=46or details, please visit the bug entries and follow the links given =
+in
+references.
+
+As you can see, there is a Bugzilla entry for each of the listed regres=
+sions.
+There also is a Bugzilla entry used for tracking the regressions from 2=
+=2E6.33,
+unresolved as well as resolved, at:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=3D15310
+
+Please let the tracking team know if there are any Bugzilla entries tha=
+t
+should be added to the list in there.
+
+Thanks!
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-acpi" i=
+n
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
