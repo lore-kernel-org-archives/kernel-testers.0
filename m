@@ -1,22 +1,20 @@
-From: David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: RE: [Bug #15729] BUG: physmap modprobe & rmmod
-Date: Tue, 04 May 2010 23:22:31 +0100
-Message-ID: <1273011751.31892.5700.camel@macbook.infradead.org>
-References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
-	 <8VO9AsMlpMD.A.-m.4IJ4LB@chimera>
-	 <0D753D10438DA54287A00B0270842697636EB83FB2@AUSP01VMBX24.collaborationhost.net>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #15729] BUG: physmap modprobe & rmmod
+Date: Wed, 5 May 2010 00:24:15 +0200
+Message-ID: <201005050024.15254.rjw@sisk.pl>
+References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera> <8VO9AsMlpMD.A.-m.4IJ4LB@chimera> <4BE09D4A.6040808@oracle.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <0D753D10438DA54287A00B0270842697636EB83FB2-gaq956PjLg32KbjnnMDalRurcAul1UnsRrxOEX5GOmysTnJN9+BGXg@public.gmane.org>
+In-Reply-To: <4BE09D4A.6040808-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: H Hartley Sweeten <hartleys-3FF4nKcrg1dE2c76skzGb0EOCMrvLtNR@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Hartley Sweeten <hsweeten-3FF4nKcrg1dE2c76skzGb0EOCMrvLtNR@public.gmane.org>
 
-On Tue, 2010-05-04 at 17:15 -0500, H Hartley Sweeten wrote:
-> On Tuesday, May 04, 2010 2:21 PM, Rafael J. Wysocki wrote:
+On Wednesday 05 May 2010, Randy Dunlap wrote:
+> On 05/04/10 14:21, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a summary report
 > > of recent regressions.
 > > 
@@ -34,10 +32,8 @@ On Tue, 2010-05-04 at 17:15 -0500, H Hartley Sweeten wrote:
 > > Handled-By	: Hartley Sweeten <hsweeten-3FF4nKcrg1dE2c76skzGb0EOCMrvLtNR@public.gmane.org>
 > > Patch		: https://patchwork.kernel.org/patch/90497/
 > 
-> This patch is not yet in Linus' tree, it is in linux-next.  David?
+> Yes, leave it as open until the patch is merged, please.
 
-Is it a regression? People have been configuring their kernel stupidly
-and then acting surprised when it didn't work for _ages_... what's new?
+Sure (that's the default policy).
 
--- 
-dwmw2
+Rafael
