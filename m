@@ -1,33 +1,42 @@
-From: H Hartley Sweeten <hartleys-3FF4nKcrg1dE2c76skzGb0EOCMrvLtNR@public.gmane.org>
-Subject: RE: [Bug #15729] BUG: physmap modprobe & rmmod
-Date: Tue, 4 May 2010 17:15:36 -0500
-Message-ID: <0D753D10438DA54287A00B0270842697636EB83FB2@AUSP01VMBX24.collaborationhost.net>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: 2.6.34-rc6-git2: Reported regressions from 2.6.33
+Date: Tue, 4 May 2010 17:00:32 -0700 (PDT)
+Message-ID: <alpine.LFD.2.00.1005041654400.5478@i5.linux-foundation.org>
 References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
- <8VO9AsMlpMD.A.-m.4IJ4LB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: base64
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <8VO9AsMlpMD.A.-m.4IJ4LB@chimera>
-Content-Language: en-US
+In-Reply-To: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Woodhouse <dwmw2-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
 
-T24gVHVlc2RheSwgTWF5IDA0LCAyMDEwIDI6MjEgUE0sIFJhZmFlbCBKLiBXeXNvY2tpIHdyb3Rl
-Og0KPiBUaGlzIG1lc3NhZ2UgaGFzIGJlZW4gZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYXMgYSBw
-YXJ0IG9mIGEgc3VtbWFyeSByZXBvcnQNCj4gb2YgcmVjZW50IHJlZ3Jlc3Npb25zLg0KPiANCj4g
-VGhlIGZvbGxvd2luZyBidWcgZW50cnkgaXMgb24gdGhlIGN1cnJlbnQgbGlzdCBvZiBrbm93biBy
-ZWdyZXNzaW9ucw0KPiBmcm9tIDIuNi4zMy4gIFBsZWFzZSB2ZXJpZnkgaWYgaXQgc3RpbGwgc2hv
-dWxkIGJlIGxpc3RlZCBhbmQgbGV0IHRoZSB0cmFja2luZyB0ZWFtDQo+IGtub3cgKGVpdGhlciB3
-YXkpLg0KPiANCj4gDQo+IEJ1Zy1FbnRyeQk6IGh0dHA6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3No
-b3dfYnVnLmNnaT9pZD0xNTcyOQ0KPiBTdWJqZWN0CQk6IEJVRzogcGh5c21hcCBtb2Rwcm9iZSAm
-IHJtbW9kDQo+IFN1Ym1pdHRlcgk6IFJhbmR5IER1bmxhcCA8cmFuZHkuZHVubGFwQG9yYWNsZS5j
-b20+DQo+IERhdGUJCTogMjAxMC0wNC0wMiAyMDo0MCAoMzMgZGF5cyBvbGQpDQo+IE1lc3NhZ2Ut
-SUQJOiA8MjAxMDA0MDIxMzQwNTguYzQ2ODI3MTYucmFuZHkuZHVubGFwQG9yYWNsZS5jb20+DQo+
-IFJlZmVyZW5jZXMJOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEyNzAyNDA5
-NjIxMDIzMCZ3PTINCj4gSGFuZGxlZC1CeQk6IEhhcnRsZXkgU3dlZXRlbiA8aHN3ZWV0ZW5Admlz
-aW9uZW5ncmF2ZXJzLmNvbT4NCj4gUGF0Y2gJCTogaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9y
-Zy9wYXRjaC85MDQ5Ny8NCg0KVGhpcyBwYXRjaCBpcyBub3QgeWV0IGluIExpbnVzJyB0cmVlLCBp
-dCBpcyBpbiBsaW51eC1uZXh0LiAgRGF2aWQ/DQoNClJlZ2FyZHMsDQpIYXJ0bGV5
+
+
+On Tue, 4 May 2010, Rafael J. Wysocki wrote:
+> 
+> Unresolved regressions
+> ----------------------
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15880
+> Subject		: Very bad regression from 2.6.33 as of 1600f9def
+> Submitter	: Alex Elsayed <eternaleye-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-04-29 2:28 (6 days old)
+> Message-ID	: <loom.20100429T041908-663-eS7Uydv5nfjZ+VzJOa5vwg@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=127250825306178&w=2
+
+This looks like it wasn't a regression, but some other compile/install 
+issue. See
+
+	http://marc.info/?l=linux-kernel&m=127274294422719&w=2
+
+where he reports that his self-compiled 2.6.33 doesn't boot either. 
+
+There's some confusion about .config, but it might well be an install 
+problem too (in fact, that sounds more likely - the original bug-report 
+seems to reboot before the kernel has really even booted - it apparently 
+hasn't done the graphics mode switch by the early bootloader)
+
+		Linus
