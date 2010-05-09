@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15659] [Regresion] [2.6.34-rc1] [drm:i915_hangcheck_elapsed] *ERROR* Hangcheck timer elapsed... GPU hung
-Date: Sun,  9 May 2010 23:17:33 +0200 (CEST)
-Message-ID: <HqroMXsT-CJ.A.1PG.F_y5LB@chimera>
+Subject: [Bug #15729] BUG: physmap modprobe & rmmod
+Date: Sun,  9 May 2010 23:17:35 +0200 (CEST)
+Message-ID: <HqroMXsT-CJ.A.YTF.R-y5LB@chimera>
 References: <10aqDnTJcLO.A.mLE.48y5LB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Maciej Rutecki <maciej.rutecki@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Hartley Sweeten <hsweeten@visionengravers.com>, Randy Dunlap <randy.dunlap@oracle.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,12 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15659
-Subject		: [Regresion] [2.6.34-rc1] [drm:i915_hangcheck_elapsed] *ERROR* Hangcheck timer elapsed... GPU hung
-Submitter	: Maciej Rutecki <maciej.rutecki@gmail.com>
-Date		: 2010-03-25 20:04 (46 days old)
-Message-ID	: <<201003252104.24965.maciej.rutecki@gmail.com>>
-References	: http://marc.info/?l=linux-kernel&m=126954749618319&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15729
+Subject		: BUG: physmap modprobe & rmmod
+Submitter	: Randy Dunlap <randy.dunlap@oracle.com>
+Date		: 2010-04-02 20:40 (38 days old)
+Message-ID	: <20100402134058.c4682716.randy.dunlap@oracle.com>
+References	: http://marc.info/?l=linux-kernel&m=127024096210230&w=2
+Handled-By	: Hartley Sweeten <hsweeten@visionengravers.com>
+Patch		: https://patchwork.kernel.org/patch/90497/
 
