@@ -1,74 +1,313 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
-Date: Thu, 6 May 2010 21:32:58 +0200
-Message-ID: <201005062132.58717.rjw@sisk.pl>
-References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera> <8VO9AsMlpMD.A.zHB.NJJ4LB@chimera> <20100506133102.GA3331@swordfish>
+Subject: 2.6.34-rc6-git6: Reported regressions from 2.6.33
+Date: Sun,  9 May 2010 23:13:46 +0200 (CEST)
+Message-ID: <10aqDnTJcLO.A.mLE.48y5LB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100506133102.GA3331@swordfish>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
 
-On Thursday 06 May 2010, Sergey Senozhatsky wrote:
-> Hello,
-> 
-> On (05/04/10 23:21), Rafael J. Wysocki wrote:
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15704
-> > Subject		: [r8169] WARNING: at net/sched/sch_generic.c
-> > Submitter	: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2010-03-31 10:21 (35 days old)
-> > Message-ID	: <<20100331102142.GA3294-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>>
-> > References	: http://marc.info/?l=linux-kernel&m=127003090406108&w=2
-> > 
-> > 
-> 
-> .34-rc6-git5
-> 
-> kernel: [ 1176.647885] pktgen 2.72: Packet Generator for packet performance testing.
-> kernel: [ 1210.999903] ------------[ cut here ]------------
-> kernel: [ 1210.999914] WARNING: at net/sched/sch_generic.c:256 dev_watchdog+0xc1/0x129()
-> kernel: [ 1210.999918] Hardware name: F3JC                
-> kernel: [ 1210.999921] NETDEV WATCHDOG: eth0 (r8169): transmit queue 0 timed out
-> kernel: [ 1210.999924] Modules linked in: pktgen ppp_async crc_ccitt ipv6 ppp_generic slhc asus_laptop sparse_keymap snd_hwdep sdhci_pci sdhci snd_hda_codec_si3054 mmc_core led_class snd_hda_codec_realtek snd_hda_intel snd_hda_codec
-> snd_pcm rng_core snd_timer snd_page_alloc psmouse snd evdev soundcore sg r8169 serio_raw mii i2c_i801 usbhid hid uhci_hcd sr_mod ehci_hcd cdrom usbcore sd_mod ata_piix
-> kernel: [ 1210.999983] Pid: 3819, comm: kpktgend_0 Not tainted 2.6.34-rc6-dbg-git5 #109
-> kernel: [ 1210.999987] Call Trace:
-> kernel: [ 1210.999994]  [<c102e1c6>] warn_slowpath_common+0x65/0x7c
-> kernel: [ 1210.999999]  [<c12690a5>] ? dev_watchdog+0xc1/0x129
-> kernel: [ 1211.000005]  [<c102e211>] warn_slowpath_fmt+0x24/0x27
-> kernel: [ 1211.000010]  [<c12690a5>] dev_watchdog+0xc1/0x129
-> kernel: [ 1211.000017]  [<c1040039>] ? __kfifo_from_user_generic+0x18/0x5c
-> kernel: [ 1211.000024]  [<c1036af7>] ? run_timer_softirq+0x136/0x203
-> kernel: [ 1211.000029]  [<c1036b50>] run_timer_softirq+0x18f/0x203
-> kernel: [ 1211.000034]  [<c1036af7>] ? run_timer_softirq+0x136/0x203
-> kernel: [ 1211.000039]  [<c1268fe4>] ? dev_watchdog+0x0/0x129
-> kernel: [ 1211.000046]  [<c1032a86>] __do_softirq+0x88/0x10c
-> kernel: [ 1211.000051]  [<c1032b39>] do_softirq+0x2f/0x47
-> kernel: [ 1211.000059]  [<f80a3488>] ? pktgen_xmit+0xd3e/0xe0b [pktgen]
-> kernel: [ 1211.000064]  [<c1032d1c>] _local_bh_enable_ip+0x8b/0xb3
-> kernel: [ 1211.000070]  [<c1032d4c>] local_bh_enable_ip+0x8/0xa
-> kernel: [ 1211.000076]  [<c12c4858>] _raw_spin_unlock_bh+0x2f/0x32
-> kernel: [ 1211.000082]  [<f80a3488>] pktgen_xmit+0xd3e/0xe0b [pktgen]
-> kernel: [ 1211.000088]  [<c1044654>] ? sched_clock_cpu+0x121/0x131
-> kernel: [ 1211.000098]  [<fd1e75e9>] ? rtl8169_start_xmit+0x0/0x2f9 [r8169]
-> kernel: [ 1211.000104]  [<c1044691>] ? cpu_clock+0x2d/0x4e
-> kernel: [ 1211.000111]  [<c104d20f>] ? put_lock_stats+0xd/0x21
-> kernel: [ 1211.000116]  [<c104d2d8>] ? lock_release_holdtime+0xb5/0xba
-> kernel: [ 1211.000122]  [<f80a3793>] ? pktgen_thread_worker+0xd9/0x5e8 [pktgen]
-> kernel: [ 1211.000129]  [<f80a382a>] pktgen_thread_worker+0x170/0x5e8 [pktgen]
-> kernel: [ 1211.000135]  [<c103fa5e>] ? autoremove_wake_function+0x0/0x2f
-> kernel: [ 1211.000141]  [<c103fa5e>] ? autoremove_wake_function+0x0/0x2f
-> kernel: [ 1211.000147]  [<f80a36ba>] ? pktgen_thread_worker+0x0/0x5e8 [pktgen]
-> kernel: [ 1211.000152]  [<c103f782>] kthread+0x6a/0x6f
-> kernel: [ 1211.000158]  [<c103f718>] ? kthread+0x0/0x6f
-> kernel: [ 1211.000163]  [<c1002dc2>] kernel_thread_helper+0x6/0x10
-> kernel: [ 1211.000167] ---[ end trace adf7c4da01cca262 ]---
-> kernel: [ 1211.013760] r8169 0000:02:00.0: eth0: link up
+This message contains a list of some regressions from 2.6.33,
+for which there are no fixes in the mainline known to the tracking team=
+=2E
+If any of them have been fixed already, please let us know.
 
-Thanks for the update.
+If you know of any other unresolved regressions from 2.6.33, please let=
+ us
+know either and we'll add them to the list.  Also, please let us know
+if any of the entries below are invalid.
 
-Rafael
+Each entry from the list will be sent additionally in an automatic repl=
+y
+to this message with CCs to the people involved in reporting and handli=
+ng
+the issue.
+
+
+Listed regressions statistics:
+
+  Date          Total  Pending  Unresolved
+  ----------------------------------------
+  2010-05-09       80       27          24
+  2010-05-04       76       26          22
+  2010-04-20       64       35          34
+  2010-04-07       48       35          33
+  2010-03-21       15       13          10
+
+
+Unresolved regressions
+----------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15951
+Subject		: commit 9630bdd9 changes behavior of the poweroff
+Submitter	: Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>
+Date		: 2010-04-01 13:39 (39 days old)
+Message-ID	: <20100401133923.GA4104-VqjxzfR4DlwKmadIfiO5sKVXKuFTiq87@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127012918316305&w=3D=
+4
+Handled-By	: Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15936
+Subject		: Suspicious rcu_dereference_check() usage detected during 2.6=
+=2E34-rc6 boot on PPC64/p5 processor
+Submitter	: Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Date		: 2010-05-06 7:29 (4 days old)
+Message-ID	: <1273130279.4898.5.camel-NRFfyExJdYpgXGGE5LP+UZlqa2bBAFbm0E9HWUfgJXw@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127313031922395&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15935
+Subject		: [BUG] btrfs: report a direct-IO bug
+Submitter	: liubo <liubo2009-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Date		: 2010-05-06 1:47 (4 days old)
+Message-ID	: <4BE21FC1.1010901-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127311036803487&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15924
+Subject		: kacpid consumes ~100% CPU, system freezes randomly
+Submitter	: Jaroslav Kamen=C3=ADk <jaroslav-FZZqD5xcwZ7rBKCeMvbIDA@public.gmane.org>
+Date		: 2010-05-06 21:12 (4 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15909
+Subject		: open("a/",O_NOFOLLOW) fails with ELOOP if "a" is a symbolic =
+link to a directory.
+Submitter	: Marius Tolzmann <tolzmann-KUpvgZVWgV9o1qOY/usvUg@public.gmane.org>
+Date		: 2010-05-05 13:01 (5 days old)
+Handled-By	: OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15880
+Subject		: Very bad regression from 2.6.33 as of 1600f9def
+Submitter	: Alex Elsayed <eternaleye-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2010-04-29 2:28 (11 days old)
+Message-ID	: <loom.20100429T041908-663-eS7Uydv5nfjZ+VzJOa5vwg@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127250825306178&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15863
+Subject		: 2.6.34-rc5-git7 (plus all patches) -- another suspicious rcu=
+_dereference_check() usage.
+Submitter	: Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2010-04-27 0:51 (13 days old)
+Message-ID	: <h2ya44ae5cd1004261751waa5cb65ei3d139cbcfa2cc5cf-JsoAwUIsXov1KXRcyAk9cg@public.gmane.org=
+l.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127232949104878&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15862
+Subject		: 2.6.34-rc4/5: iwlagn unusable until reload
+Submitter	: Nico Schottelius <nico-linux-20100427-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Date		: 2010-04-27 7:49 (13 days old)
+Message-ID	: <20100427074934.GB3261-9ll+q7fL1vOwdVNcq5OhcUB+6BGkLq7r@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127235784004839&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15858
+Subject		: [2.6.34-rc5] bad page state copying to/from HFS+ filesystem.=
+=2E.
+Submitter	: Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2010-04-25 21:14 (15 days old)
+Message-ID	: <v2k6278d2221004251414kbbcc41baw78b86120d81dce7d-JsoAwUIsXov1KXRcyAk9cg@public.gmane.org=
+l.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127223008621881&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15805
+Subject		: reiserfs locking
+Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2010-04-15 21:02 (25 days old)
+Message-ID	: <t2ka4423d671004151402n7b2dc425mdc9c6bb9640d63fb-JsoAwUIsXov1KXRcyAk9cg@public.gmane.org=
+l.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127136535323933&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15788
+Subject		: external usb sound card doesn't work after resume
+Submitter	: Fran=C3=A7ois Valenduc <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
+Date		: 2010-04-15 10:16 (25 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15717
+Subject		: bluetooth oops
+Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Date		: 2010-03-14 20:14 (57 days old)
+Message-ID	: <20100314201434.GE22059-I/5MKhXcvmPrBKCeMvbIDA@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126859771528426&w=3D=
+4
+Handled-By	: Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15713
+Subject		: hackbench regression due to commit 9dfc6e68bfe6e
+Submitter	: Alex Shi <alex.shi-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2010-03-25 8:40 (46 days old)
+=46irst-Bad-Commit: http://git.kernel.org/linus/9dfc6e68bfe6ee452efb1a4=
+e9ca26a9007f2b864
+Message-ID	: <1269506457.4513.141.camel-c8rhgrCDLIED0+JXs3kMbRL4W9x8LtSr@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126950632920682&w=3D=
+4
+Handled-By	: Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+		  Pekka Enberg <penberg-bbCR+/B0CizivPeTLB3BmA@public.gmane.org>
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15712
+Subject		: [regression] 2.6.34-rc1 to -rc3 on zaurus: no longer boots
+Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Date		: 2010-04-01 6:06 (39 days old)
+Message-ID	: <20100401060624.GA1329-+ZI9xUNit7I@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127010200817402&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15704
+Subject		: [r8169] WARNING: at net/sched/sch_generic.c
+Submitter	: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2010-03-31 10:21 (40 days old)
+Message-ID	: <<<20100331102142.GA3294-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>>>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127003090406108&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15673
+Subject		: 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
+Submitter	: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
+Date		: 2010-03-28 11:31 (43 days old)
+Message-ID	: <1269775909.5301.4.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126977593326800&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15671
+Subject		: intel graphic card hanging (Hangcheck timer elapsed... GPU h=
+ung)
+Submitter	: Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
+Date		: 2010-03-27 16:11 (44 days old)
+Message-ID	: <20100327161104.GA12043-DqSSrKF0TaySnEC3TeqHn5dqbFPxfnh/@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126970883105262&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15669
+Subject		: INFO: suspicious rcu_dereference_check()
+Submitter	: Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2010-03-08 1:26 (63 days old)
+Message-ID	: <c4e36d111003250348q678eb2e6w4f3e8133e7fd6e58-JsoAwUIsXounXO2b/Sh1tA@public.gmane.org=
+om>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126801163107713&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15664
+Subject		: Graphics hang and kernel backtrace when starting Azureus wit=
+h Compiz enabled
+Submitter	: Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>
+Date		: 2010-04-01 01:09 (39 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15659
+Subject		: [Regresion] [2.6.34-rc1] [drm:i915_hangcheck_elapsed] *ERROR=
+* Hangcheck timer elapsed... GPU hung
+Submitter	: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2010-03-25 20:04 (46 days old)
+Message-ID	: <<201003252104.24965.maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126954749618319&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15610
+Subject		: fsck leads to swapper - BUG: unable to handle kernel NULL po=
+inter dereference & panic
+Submitter	: Ozgur Yuksel <ozgur.yuksel-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Date		: 2010-03-22 15:59 (49 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15601
+Subject		: [BUG] SLOB breaks Crypto
+Submitter	: michael-dev-1SGGS//iJ+Y38rf8aCqVIw@public.gmane.org
+Date		: 2010-03-15 13:39 (56 days old)
+Message-ID	: <4B9E38AF.70309-1SGGS//iJ+Y38rf8aCqVIw@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126866044724539&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15590
+Subject		: 2.6.34-rc1: regression: ^Z no longer stops sound
+Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Date		: 2010-03-14 7:58 (57 days old)
+Message-ID	: <<20100314075831.GA13457-I/5MKhXcvmPrBKCeMvbIDA@public.gmane.org>>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126855353122623&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15589
+Subject		: 2.6.34-rc1: Badness at fs/proc/generic.c:316
+Submitter	: Christian Kujau <lists-AanptEQQ3TL9uQeqpI+JUg@public.gmane.org>
+Date		: 2010-03-13 23:53 (58 days old)
+Message-ID	: <<alpine.DEB.2.01.1003131544340.5493-uKsf7x9sgtqQ/Pez2Lbyp4QuADTiUCJX@public.gmane.org>>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D126852442903680&w=3D=
+2
+
+
+Regressions with patches
+------------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15768
+Subject		: Incorrectly calculated free blocks result in ENOSPC from wri=
+tepage
+Submitter	: Dmitry Monakhov <dmonakhov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Date		: 2010-04-12 11:24 (28 days old)
+Handled-By	: Dmitry Monakhov <dmonakhov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Patch		: http://patchwork.ozlabs.org/patch/49989/
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15729
+Subject		: BUG: physmap modprobe & rmmod
+Submitter	: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Date		: 2010-04-02 20:40 (38 days old)
+Message-ID	: <20100402134058.c4682716.randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127024096210230&w=3D=
+2
+Handled-By	: Hartley Sweeten <hsweeten-3FF4nKcrg1dE2c76skzGb0EOCMrvLtNR@public.gmane.org>
+Patch		: https://patchwork.kernel.org/patch/90497/
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15505
+Subject		: No more b43 wireless interface since 2.6.34-rc1
+Submitter	: Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
+Date		: 2010-03-10 06:59 (61 days old)
+Handled-By	: Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Patch		: https://bugzilla.kernel.org/show_bug.cgi?id=3D15505#c11
+
+
+=46or details, please visit the bug entries and follow the links given =
+in
+references.
+
+As you can see, there is a Bugzilla entry for each of the listed regres=
+sions.
+There also is a Bugzilla entry used for tracking the regressions from 2=
+=2E6.33,
+unresolved as well as resolved, at:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=3D15310
+
+Please let the tracking team know if there are any Bugzilla entries tha=
+t
+should be added to the list in there.
+
+Thanks!
