@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15713] hackbench regression due to commit 9dfc6e68bfe6e
-Date: Sun,  9 May 2010 23:17:34 +0200 (CEST)
-Message-ID: <HqroMXsT-CJ.A.rlF.f-y5LB@chimera>
+Subject: [Bug #15717] bluetooth oops
+Date: Sun,  9 May 2010 23:17:35 +0200 (CEST)
+Message-ID: <HqroMXsT-CJ.A.6aF.Z-y5LB@chimera>
 References: <10aqDnTJcLO.A.mLE.48y5LB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Alex Shi <alex.shi@intel.com>, Christoph Lameter <cl@linux-foundation.org>, Pekka Enberg <penberg@cs.helsinki.fi>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Marcel Holtmann <marcel@holtmann.org>, Pavel Machek <pavel@ucw.cz>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,13 +22,11 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15713
-Subject		: hackbench regression due to commit 9dfc6e68bfe6e
-Submitter	: Alex Shi <alex.shi@intel.com>
-Date		: 2010-03-25 8:40 (46 days old)
-First-Bad-Commit: http://git.kernel.org/linus/9dfc6e68bfe6ee452efb1a4e9ca26a9007f2b864
-Message-ID	: <1269506457.4513.141.camel@alexs-hp.sh.intel.com>
-References	: http://marc.info/?l=linux-kernel&m=126950632920682&w=4
-Handled-By	: Christoph Lameter <cl@linux-foundation.org>
-		  Pekka Enberg <penberg@cs.helsinki.fi>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15717
+Subject		: bluetooth oops
+Submitter	: Pavel Machek <pavel@ucw.cz>
+Date		: 2010-03-14 20:14 (57 days old)
+Message-ID	: <20100314201434.GE22059@elf.ucw.cz>
+References	: http://marc.info/?l=linux-kernel&m=126859771528426&w=4
+Handled-By	: Marcel Holtmann <marcel@holtmann.org>
 
