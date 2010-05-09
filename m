@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15858] [2.6.34-rc5] bad page state copying to/from HFS+ filesystem...
-Date: Sun,  9 May 2010 23:17:36 +0200 (CEST)
-Message-ID: <HqroMXsT-CJ.A.X9E.e9y5LB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15713] hackbench regression due to commit 9dfc6e68bfe6e
+Date: Sun,  9 May 2010 23:17:34 +0200 (CEST)
+Message-ID: <HqroMXsT-CJ.A.rlF.f-y5LB@chimera>
 References: <10aqDnTJcLO.A.mLE.48y5LB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <10aqDnTJcLO.A.mLE.48y5LB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Alex Shi <alex.shi@intel.com>, Christoph Lameter <cl@linux-foundation.org>, Pekka Enberg <penberg@cs.helsinki.fi>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,13 @@ from 2.6.33.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15858
-Subject		: [2.6.34-rc5] bad page state copying to/from HFS+ filesystem...
-Submitter	: Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2010-04-25 21:14 (15 days old)
-Message-ID	: <v2k6278d2221004251414kbbcc41baw78b86120d81dce7d-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=127223008621881&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15713
+Subject		: hackbench regression due to commit 9dfc6e68bfe6e
+Submitter	: Alex Shi <alex.shi@intel.com>
+Date		: 2010-03-25 8:40 (46 days old)
+First-Bad-Commit: http://git.kernel.org/linus/9dfc6e68bfe6ee452efb1a4e9ca26a9007f2b864
+Message-ID	: <1269506457.4513.141.camel@alexs-hp.sh.intel.com>
+References	: http://marc.info/?l=linux-kernel&m=126950632920682&w=4
+Handled-By	: Christoph Lameter <cl@linux-foundation.org>
+		  Pekka Enberg <penberg@cs.helsinki.fi>
 
