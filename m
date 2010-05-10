@@ -1,42 +1,34 @@
-From: Nick Bowler <nbowler@elliptictech.com>
-Subject: Re: 2.6.34-rc6-git6: Reported regressions from 2.6.33
-Date: Mon, 10 May 2010 12:07:24 -0400
-Message-ID: <20100510160724.GA31416@elliptictech.com>
+From: H Hartley Sweeten <hartleys@visionengravers.com>
+Subject: RE: [Bug #15729] BUG: physmap modprobe & rmmod
+Date: Mon, 10 May 2010 11:23:08 -0500
+Message-ID: <0D753D10438DA54287A00B0270842697636EDF56E5@AUSP01VMBX24.collaborationhost.net>
 References: <10aqDnTJcLO.A.mLE.48y5LB@chimera>
+ <HqroMXsT-CJ.A.YTF.R-y5LB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: base64
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <HqroMXsT-CJ.A.YTF.R-y5LB@chimera>
+Content-Language: en-US
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-pm-bounces@lists.linux-foundation.org>
-Content-Disposition: inline
-In-Reply-To: <10aqDnTJcLO.A.mLE.48y5LB@chimera>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
-	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
-List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
-List-Post: <mailto:linux-pm@lists.linux-foundation.org>
-List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
-List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
-	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
-Sender: linux-pm-bounces@lists.linux-foundation.org
-Errors-To: linux-pm-bounces@lists.linux-foundation.org
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: DRI <dri-devel@lists.sourceforge.net>, Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Randy Dunlap <randy.dunlap@oracle.com>
 
-On 23:13 Sun 09 May     , Rafael J. Wysocki wrote:
-> This message contains a list of some regressions from 2.6.33,
-> for which there are no fixes in the mainline known to the tracking team.
-> If any of them have been fixed already, please let us know.
-> 
-> If you know of any other unresolved regressions from 2.6.33, please let us
-> know either and we'll add them to the list.  Also, please let us know
-> if any of the entries below are invalid.
-
-Seems that
-
-  r600 CS checker rejects narrow FBO renderbuffers
-  https://bugs.freedesktop.org/show_bug.cgi?id=27609
-
-never got added to the list.  It is still an issue as of 2.6.34-rc7.
-
--- 
-Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
+T24gU3VuZGF5LCBNYXkgMDksIDIwMTAgMjoxOCBQTSwgUmFmYWVsIEouIFd5c29ja2kgd3JvdGU6
+DQo+IFRoaXMgbWVzc2FnZSBoYXMgYmVlbiBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBhcyBhIHBh
+cnQgb2YgYSBzdW1tYXJ5IHJlcG9ydA0KPiBvZiByZWNlbnQgcmVncmVzc2lvbnMuDQo+DQo+IFRo
+ZSBmb2xsb3dpbmcgYnVnIGVudHJ5IGlzIG9uIHRoZSBjdXJyZW50IGxpc3Qgb2Yga25vd24gcmVn
+cmVzc2lvbnMNCj4gZnJvbSAyLjYuMzMuICBQbGVhc2UgdmVyaWZ5IGlmIGl0IHN0aWxsIHNob3Vs
+ZCBiZSBsaXN0ZWQgYW5kIGxldCB0aGUgdHJhY2tpbmcgdGVhbQ0KPiBrbm93IChlaXRoZXIgd2F5
+KS4NCj4NCj4NCj4gQnVnLUVudHJ5CTogaHR0cDovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hvd19i
+dWcuY2dpP2lkPTE1NzI5DQo+IFN1YmplY3QJCTogQlVHOiBwaHlzbWFwIG1vZHByb2JlICYgcm1t
+b2QNCj4gU3VibWl0dGVyCTogUmFuZHkgRHVubGFwIDxyYW5keS5kdW5sYXBAb3JhY2xlLmNvbT4N
+Cj4gRGF0ZQkJOiAyMDEwLTA0LTAyIDIwOjQwICgzOCBkYXlzIG9sZCkNCj4gTWVzc2FnZS1JRAk6
+IDwyMDEwMDQwMjEzNDA1OC5jNDY4MjcxNi5yYW5keS5kdW5sYXBAb3JhY2xlLmNvbT4NCj4gUmVm
+ZXJlbmNlcwk6IGh0dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTI3MDI0MDk2MjEw
+MjMwJnc9Mg0KPiBIYW5kbGVkLUJ5CTogSGFydGxleSBTd2VldGVuIDxoc3dlZXRlbkB2aXNpb25l
+bmdyYXZlcnMuY29tPg0KPiBQYXRjaAkJOiBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Bh
+dGNoLzkwNDk3Lw0KDQpQbGVhc2Uga2VlcCBsaXN0ZWQuICBUaGlzIHBhdGNoIGlzIHN0aWxsIHdh
+aXRpbmcgdG8gYmUgbWVyZ2VkIHZpYSB0aGUgLW10ZA0KdHJlZS4NCg0KUmVnYXJkcywNCkhhcnRs
+ZXkNCg==
