@@ -1,57 +1,42 @@
-From: Michael Ellerman <michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>
-Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
-Date: Mon, 10 May 2010 09:34:42 +1000
-Message-ID: <1273448082.1431.1.camel@concordia>
+From: Nick Bowler <nbowler@elliptictech.com>
+Subject: Re: 2.6.34-rc6-git6: Reported regressions from 2.6.33
+Date: Mon, 10 May 2010 12:07:24 -0400
+Message-ID: <20100510160724.GA31416@elliptictech.com>
 References: <10aqDnTJcLO.A.mLE.48y5LB@chimera>
-	 <HqroMXsT-CJ.A.DnG.m_y5LB@chimera>
-	 <alpine.DEB.2.01.1005091519130.3067@bogon.housecafe.de>
-Reply-To: michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-Cx+W6AuJMtKF04V8Q+IB"
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.01.1005091519130.3067-uKsf7x9sgtqQ/Pez2Lbyp4QuADTiUCJX@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-To: Christian Kujau <lists-AanptEQQ3TL9uQeqpI+JUg@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org, linuxppc-dev-mnsaURCQ41sdnm+yROfE0A@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+Content-Disposition: inline
+In-Reply-To: <10aqDnTJcLO.A.mLE.48y5LB@chimera>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
+List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
+List-Post: <mailto:linux-pm@lists.linux-foundation.org>
+List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
+List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
+Sender: linux-pm-bounces@lists.linux-foundation.org
+Errors-To: linux-pm-bounces@lists.linux-foundation.org
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: DRI <dri-devel@lists.sourceforge.net>, Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
+On 23:13 Sun 09 May     , Rafael J. Wysocki wrote:
+> This message contains a list of some regressions from 2.6.33,
+> for which there are no fixes in the mainline known to the tracking team.
+> If any of them have been fixed already, please let us know.
+> 
+> If you know of any other unresolved regressions from 2.6.33, please let us
+> know either and we'll add them to the list.  Also, please let us know
+> if any of the entries below are invalid.
 
---=-Cx+W6AuJMtKF04V8Q+IB
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Seems that
 
-On Sun, 2010-05-09 at 15:27 -0700, Christian Kujau wrote:
-> On Sun, 9 May 2010 at 23:17, Rafael J. Wysocki wrote:
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15589
-> > Subject		: 2.6.34-rc1: Badness at fs/proc/generic.c:316
-> > Submitter	: Christian Kujau <lists-AanptEQQ3TL9uQeqpI+JUg@public.gmane.org>
-> > Date		: 2010-03-13 23:53 (58 days old)
-> > Message-ID	: <<alpine.DEB.2.01.1003131544340.5493-uKsf7x9sgtqQ/Pez2Lbyp4QuADTiUCJX@public.gmane.org>>
-> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D126852442903680&w=
-=3D2
->=20
-> The bug is still present in -rc6, but Michael Ellerman has a patch[0]=20
-> which made the warning go away.
->=20
-> @Michael: will you post your patch with a Sign-Off, so that it can be=20
->           pushed into mainline?
+  r600 CS checker rejects narrow FBO renderbuffers
+  https://bugs.freedesktop.org/show_bug.cgi?id=27609
 
-No, Benh and I decided it's better to just drop those properties all
-together. But it's too late in this cycle for a patch like that just to
-fix a warning - so we'll do that patch for 35.
+never got added to the list.  It is still an issue as of 2.6.34-rc7.
 
-cheers
-
---=-Cx+W6AuJMtKF04V8Q+IB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
-
-iEYEABECAAYFAkvnRo8ACgkQdSjSd0sB4dJLUACcDOW1oY8pgDWviiKGYNWTrwBe
-SbEAn0P0EwEVSV6wG6nfN044aNwlDxI6
-=npWM
------END PGP SIGNATURE-----
-
---=-Cx+W6AuJMtKF04V8Q+IB--
+-- 
+Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
