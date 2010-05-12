@@ -1,85 +1,111 @@
-From: Thomas Meyer <thomas@m3y3r.de>
-Subject: Re: [Bug #15673] 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
-Date: Mon, 10 May 2010 18:18:44 +0200
-Message-ID: <1273508324.2241.1.camel@localhost.localdomain>
+From: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
+Date: Wed, 12 May 2010 16:47:04 +0300
+Message-ID: <20100512134704.GG3302@swordfish>
 References: <10aqDnTJcLO.A.mLE.48y5LB@chimera>
-	 <HqroMXsT-CJ.A.d6F.w-y5LB@chimera>
+ <HqroMXsT-CJ.A.D0F.m-y5LB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <HqroMXsT-CJ.A.d6F.w-y5LB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bFsKbPszpzYNtEU6"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=cg+N8fSj2BqJ8JkFqtJ5nc3Mrrhk1y63Dg1L98Ive/g=;
+        b=JSxmX/Srv38DBAn4X/691mLOczB+3WcYrbg/KgLvwXxAp8AzMMy3R5S00vbqf0jF1S
+         oVG0uckkfPtcupwoZhHD4EpZ1QOoo5KHbzgvman+hK77vjKucJvb26K/CEvErRPkhtvm
+         dpZawW9pnTYLNwmoXC0uq+tw2L5+H+RnUSgqo=
+Content-Disposition: inline
+In-Reply-To: <HqroMXsT-CJ.A.D0F.m-y5LB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Am Sonntag, den 09.05.2010, 23:17 +0200 schrieb Rafael J. Wysocki:
-> This message has been generated automatically as a part of a summary report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.33.  Please verify if it still should be listed and let the tracking team
-> know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15673
-> Subject		: 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
-> Submitter	: Thomas Meyer <thomas@m3y3r.de>
-> Date		: 2010-03-28 11:31 (43 days old)
-> Message-ID	: <1269775909.5301.4.camel@localhost.localdomain>
-> References	: http://marc.info/?l=linux-kernel&m=126977593326800&w=2
-> 
-> 
 
-I still see this message in 2.6.34-rc7:
+--bFsKbPszpzYNtEU6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[  252.947229] sd 0:0:0:0: [sda] Stopping disk
-[  252.998073] atl1c 0000:01:00.0: PCI INT A disabled
-[  252.998353] uhci_hcd 0000:00:1d.2: PCI INT D disabled
-[  252.998364] uhci_hcd 0000:00:1d.1: PCI INT B disabled
-[  252.998374] uhci_hcd 0000:00:1d.0: PCI INT A disabled
-[  252.998436] HDA Intel 0000:00:1b.0: PCI INT A disabled
-[  252.998481] ACPI handle has no context!
-[  252.998505] ehci_hcd 0000:00:1a.7: PCI INT D disabled
-[  252.998521] uhci_hcd 0000:00:1a.0: PCI INT A disabled
-[  252.998582] IMA: unmeasured files on fsmagic: 1021994
-[  252.998585] ima_dec_counts: open/free imbalance (r:0 w:-1 o:-1)
-[  252.998590] Pid: 2509, comm: async/10 Tainted: G        W  2.6.34-rc7 #102
-[  252.998592] Call Trace:
-[  252.998601]  [<c08860a5>] ? printk+0x1d/0x20
-[  252.998608]  [<c05f98af>] ima_file_free+0x16f/0x210
-[  252.998615]  [<c04d7722>] __fput+0xf2/0x1f0
-[  252.998619]  [<c04d783d>] fput+0x1d/0x30
-[  252.998631]  [<c06cad0f>] drm_gem_object_free_common+0x1f/0x40
-[  252.998636]  [<c06cadb0>] ? drm_gem_object_free+0x0/0x40
-[  252.998640]  [<c06cade1>] drm_gem_object_free+0x31/0x40
-[  252.998645]  [<c061d4dc>] kref_put+0x2c/0x60
-[  252.998650]  [<c06e7288>] i915_gem_cleanup_ringbuffer+0x48/0x70
-[  252.998654]  [<c06e89ec>] i915_gem_idle+0x9c/0x120
-[  252.998658]  [<c06dbdad>] i915_drm_freeze+0x3d/0xa0
-[  252.998662]  [<c06dbf6e>] i915_pm_suspend+0x2e/0x80
-[  252.998666]  [<c08867ea>] ? wait_for_common+0x1a/0xf0
-[  252.998671]  [<c0636569>] pci_pm_suspend+0x49/0x110
-[  252.998676]  [<c0636520>] ? pci_pm_suspend+0x0/0x110
-[  252.998680]  [<c0718ac1>] pm_op+0x181/0x1d0
-[  252.998685]  [<c0711c24>] ? device_for_each_child+0x54/0x60
-[  252.998689]  [<c071947f>] __device_suspend+0xbf/0x110
-[  252.998693]  [<c07198c3>] async_suspend+0x23/0x60
-[  252.998697]  [<c0450005>] async_thread+0xc5/0x210
-[  252.998701]  [<c0886411>] ? schedule+0x1e1/0x450
-[  252.998706]  [<c042bd50>] ? default_wake_function+0x0/0x20
-[  252.998709]  [<c044ff40>] ? async_thread+0x0/0x210
-[  252.998714]  [<c04493a4>] kthread+0x74/0x80
-[  252.998717]  [<c0449330>] ? kthread+0x0/0x80
-[  252.998721]  [<c040347e>] kernel_thread_helper+0x6/0x10
-[  253.003324] iint_free: writecount: -1
-[  253.003327] iint_free: opencount: -1
-[  253.003329] iint_free: writecount: -1
-[  253.003331] iint_free: opencount: -1
-[  253.010040] ehci_hcd 0000:00:1d.7: PCI INT A disabled
-[  253.696666] PM: suspend of devices complete after 749.760 msecs
-[  253.723385] PM: late suspend of devices complete after 26.714 msecs
-[  253.723979] ACPI: Preparing to enter system sleep state S3
-[  253.723979] Back to C!
+On (05/09/10 23:17), Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15704
+> Subject		: [r8169] WARNING: at net/sched/sch_generic.c
+> Submitter	: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-03-31 10:21 (40 days old)
+> Message-ID	: <<<20100331102142.GA3294-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>>>
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D127003090406108&w=3D2
+>=20
+>=20
 
+ kernel: [13898.863507] pktgen 2.72: Packet Generator for packet performanc=
+e testing.
+ kernel: [13928.998629] ------------[ cut here ]------------
+ kernel: [13928.998641] WARNING: at net/sched/sch_generic.c:256 dev_watchdo=
+g+0xc1/0x129()
+ kernel: [13928.998645] Hardware name: F3JC               =20
+ kernel: [13928.998648] NETDEV WATCHDOG: eth0 (r8169): transmit queue 0 tim=
+ed out
+ kernel: [13928.998651] Modules linked in: pktgen ppp_async crc_ccitt ipv6 =
+ppp_generic slhc snd_hda_codec_si3054 snd_hda_codec_realtek snd_hwdep snd_h=
+da_intel asus_laptop sparse_keymap snd_hda_codec sdhci_pci sdhci snd_pcm sn=
+d_timer
+ mmc_core led_class snd_page_alloc psmouse i2c_i801 snd soundcore sg rng_co=
+re r8169 evdev serio_raw mii usbhid hid uhci_hcd ehci_hcd sr_mod cdrom usbc=
+ore sd_mod ata_piix
+ kernel: [13928.998709] Pid: 6159, comm: kpktgend_0 Not tainted 2.6.34-rc7-=
+dbg-git2 #116
+ kernel: [13928.998712] Call Trace:
+ kernel: [13928.998720]  [<c102dd26>] warn_slowpath_common+0x65/0x7c
+ kernel: [13928.998726]  [<c12612bd>] ? dev_watchdog+0xc1/0x129
+ kernel: [13928.998731]  [<c102dd71>] warn_slowpath_fmt+0x24/0x27
+ kernel: [13928.998736]  [<c12612bd>] dev_watchdog+0xc1/0x129
+ kernel: [13928.998743]  [<c1040039>] ? cleanup_timers+0x31/0xcd
+ kernel: [13928.998749]  [<c1036657>] ? run_timer_softirq+0x136/0x203
+ kernel: [13928.998754]  [<c10366b0>] run_timer_softirq+0x18f/0x203
+ kernel: [13928.998759]  [<c1036657>] ? run_timer_softirq+0x136/0x203
+ kernel: [13928.998765]  [<c12611fc>] ? dev_watchdog+0x0/0x129
+ kernel: [13928.998771]  [<c10325e6>] __do_softirq+0x88/0x10c
+ kernel: [13928.998778]  [<f80a3793>] ? pktgen_thread_worker+0xd9/0x5e8 [pk=
+tgen]
+ kernel: [13928.998784]  [<c1032699>] do_softirq+0x2f/0x47
+ kernel: [13928.998789]  [<c1032956>] irq_exit+0x38/0x75
+ kernel: [13928.998795]  [<c1014691>] smp_apic_timer_interrupt+0x5f/0x6d
+ kernel: [13928.998801]  [<c12bd52a>] apic_timer_interrupt+0x36/0x3c
+ kernel: [13928.998807]  [<f80a3793>] ? pktgen_thread_worker+0xd9/0x5e8 [pk=
+tgen]
+ kernel: [13928.998813]  [<c104007b>] ? cleanup_timers+0x73/0xcd
+ kernel: [13928.998818]  [<c10400d8>] ? process_cpu_nsleep_restart+0x3/0xa
+ kernel: [13928.998825]  [<c10504f2>] ? lock_release+0x19d/0x1a4
+ kernel: [13928.998832]  [<c12bcaa1>] _raw_spin_unlock+0x16/0x3f
+ kernel: [13928.998838]  [<f80a3793>] pktgen_thread_worker+0xd9/0x5e8 [pktg=
+en]
+ kernel: [13928.998844]  [<c103f5be>] ? autoremove_wake_function+0x0/0x2f
+ kernel: [13928.998849]  [<c103f5be>] ? autoremove_wake_function+0x0/0x2f
+ kernel: [13928.998855]  [<f80a36ba>] ? pktgen_thread_worker+0x0/0x5e8 [pkt=
+gen]
+ kernel: [13928.998860]  [<c103f2e2>] kthread+0x6a/0x6f
+ kernel: [13928.998866]  [<c103f278>] ? kthread+0x0/0x6f
+ kernel: [13928.998872]  [<c1002dc2>] kernel_thread_helper+0x6/0x10
+ kernel: [13928.998876] ---[ end trace 7e230fb0e7444e5e ]---
+ kernel: [13929.012534] r8169 0000:02:00.0: eth0: link up
+
+
+	Sergey
+--bFsKbPszpzYNtEU6
+Content-Type: application/pgp-signature
+Content-Disposition: inline
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.10 (GNU/Linux)
+
+iJwEAQECAAYFAkvqsVgACgkQfKHnntdSXjSm9AQAn2ILro7f0KVVOkUeNtwvwDXD
+pW+gnioJrMahsC1/c1ZtqFrKf1E76mgPIMIm99Auz+lL9DWUF2U/+s7dPK23ektM
+MBcKXUpJVcBbGDZDR96Nk0pfQoUg4wmalkcp69tS977wzBg7wv+VnLzlPtZEisRL
+H7uEzVzdaIcTsSS5DLY=
+=/Jyn
+-----END PGP SIGNATURE-----
+
+--bFsKbPszpzYNtEU6--
