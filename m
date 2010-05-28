@@ -1,42 +1,30 @@
-From: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-Subject: Re: [Bug #15717] bluetooth oops
-Date: Mon, 24 May 2010 21:00:21 +0200
-Message-ID: <20100524190021.GG1292@ucw.cz>
-References: <JzEGxUyyQHG.A.ZtH.YHJ4LB@chimera>
- <8VO9AsMlpMD.A.gu.AJJ4LB@chimera>
+From: JD <jd1008-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: udevd high cpu hogging in kernel-2.6.34   git8 to git-13
+Date: Thu, 27 May 2010 21:14:51 -0700
+Message-ID: <4BFF433B.6060506@gmail.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <8VO9AsMlpMD.A.gu.AJJ4LB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:subject:content-type
+         :content-transfer-encoding;
+        bh=rs9+Cosl8n+J+zudeokOAmzF9WyB72QuEwi4wiNx8Ek=;
+        b=RGMlsuYZihmCEDFklP4rLQh8EyAvazb/ZLxy3T/RSxTWevN0HPihInmY6B0ySJC3qz
+         gMCrQ1It0IXLP+o9t3k/OaRbfVQNXcIRdvWuA/rddrnt+Gsmma+cr/lKJXYsxCYe58bh
+         tuwKxyvh3by6s8p/0KbGCN1Y6MqnRnd+BQWuU=
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Hi!
+I noticed that since git8, udevd consumes from 50 to 80 percent of cpu.
+The main udevd thread is niced to -4, and 6 or more child threads are 
+niced -2.
 
-> This message has been generated automatically as a part of a summary report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.33.  Please verify if it still should be listed and let the tracking team
-> know (either way).
-> 
+So, I backpedaled to git7, which does not have this "feature" :)
 
-This one happened really often in the early -rcS, now I have not seen
-it for a while. Maybe it is fixed.
+Cheers,
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15717
-> Subject		: bluetooth oops
-> Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-> Date		: 2010-03-14 20:14 (52 days old)
-> Message-ID	: <20100314201434.GE22059-I/5MKhXcvmPrBKCeMvbIDA@public.gmane.org>
-> References	: http://marc.info/?l=linux-kernel&m=126859771528426&w=4
-> Handled-By	: Marcel Holtmann <marcel-kz+m5ild9QBg9hUCZPvPmw@public.gmane.org>
-
-
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+JD
