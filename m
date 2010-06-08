@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #16092] Caught 64-bit read from uninitialized memory in memtype_rb_augment_cb
-Date: Wed,  9 Jun 2010 00:10:18 +0200 (CEST)
-Message-ID: <C9Q3XEnHPeG.A.wqG.r8rDMB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #16160] 2.6.35 Radeon KMS power management regression?
+Date: Wed,  9 Jun 2010 00:10:19 +0200 (CEST)
+Message-ID: <C9Q3XEnHPeG.A.gOG.R8rDMB@chimera>
 References: <Rlf_Qjov7bG.A.a8F.I8rDMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <Rlf_Qjov7bG.A.a8F.I8rDMB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>, Venki <venki-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Nigel Cunningham <ncunningham@crca.org.au>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16092
-Subject		: Caught 64-bit read from uninitialized memory in memtype_rb_augment_cb
-Submitter	: Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
-Date		: 2010-06-01 18:08 (8 days old)
-Handled-By	: Venki <venki-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Patch		: https://bugzilla.kernel.org/show_bug.cgi?id=16092#c2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16160
+Subject		: 2.6.35 Radeon KMS power management regression?
+Submitter	: Nigel Cunningham <ncunningham@crca.org.au>
+Date		: 2010-06-01 6:23 (8 days old)
+Message-ID	: <4C04A767.8000209@crca.org.au>
+References	: http://marc.info/?l=linux-kernel&m=127537343722290&w=2
 
