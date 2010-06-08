@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16090] sysfs: cannot create duplicate filename
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16092] Caught 64-bit read from uninitialized memory in memtype_rb_augment_cb
 Date: Wed,  9 Jun 2010 00:10:18 +0200 (CEST)
-Message-ID: <C9Q3XEnHPeG.A.5uG.v8rDMB@chimera>
+Message-ID: <C9Q3XEnHPeG.A.wqG.r8rDMB@chimera>
 References: <Rlf_Qjov7bG.A.a8F.I8rDMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <Rlf_Qjov7bG.A.a8F.I8rDMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Alex Chiang <achiang@hp.com>, Jesse Barnes <jbarnes@virtuousgeek.org>, Tobias <devnull@plzk.org>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>, Venki <venki-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16090
-Subject		: sysfs: cannot create duplicate filename
-Submitter	: Tobias <devnull@plzk.org>
-Date		: 2010-06-01 15:59 (8 days old)
-Handled-By	: Jesse Barnes <jbarnes@virtuousgeek.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16092
+Subject		: Caught 64-bit read from uninitialized memory in memtype_rb_augment_cb
+Submitter	: Christian Casteyde <casteyde.christian-GANU6spQydw@public.gmane.org>
+Date		: 2010-06-01 18:08 (8 days old)
+Handled-By	: Venki <venki-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Patch		: https://bugzilla.kernel.org/show_bug.cgi?id=16092#c2
 
