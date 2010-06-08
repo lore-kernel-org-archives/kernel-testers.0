@@ -1,40 +1,29 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: Regression: BUG when battery is removed before resuming from hibernation
-Date: Tue, 8 Jun 2010 22:52:49 +0200
-Message-ID: <201006082252.49452.rjw@sisk.pl>
-References: <4C0E40E1.2080108@tuffmail.co.uk>
+Subject: [Bug #16037] NULL Pointer dereference in __ir_input_register/budget_ci_attach
+Date: Wed,  9 Jun 2010 00:06:36 +0200 (CEST)
+Message-ID: <C9Q3XEnHPeG.A.6wG.58rDMB@chimera>
+References: <Rlf_Qjov7bG.A.a8F.I8rDMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4C0E40E1.2080108-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
+In-Reply-To: <Rlf_Qjov7bG.A.a8F.I8rDMB@chimera>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Alan Jenkins <alan-jenkins-cCz0Lq7MMjm9FHfhHBbuYA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux acpi <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Sean Finney <seanius-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 
-On Tuesday 08 June 2010, Alan Jenkins wrote:
-> I found this bug 2.6.34 on my Asus EeePC 701 (x86_32 arch).  It didn't 
-> happen to me before, when I was running nearly-2.6.33 or 2.6.32-release.
-> 
-> I used git-bisect, but unfortunately the result isn't very helpful.  My 
-> next step will be to try to narrowing down the culprits by disabling 
-> individual CONFIG options.  Here are my results so far, in case anyone 
-> is interested.
-> 
-> 
-> == Steps to reproduce ==
-> 
-> I) Boot off mains power, with battery removed.  Login to KDE4 session, 
-> with Konsole as the only running application.
-> II) Run "sudo pm-hibernate"
-> 
-> 1. When the system switches to text mode (a.k.a the console), 
-> immediately insert the battery.
-> 2. Once the system has fully hibernated, remove the battery.
-> 3. Press the power button to resume.  The backtrace below is generated 
-> during resume.
+This message has been generated automatically as a part of a summary report
+of recent regressions.
 
-You're not supposed to be doing that.
+The following bug entry is on the current list of known regressions
+from 2.6.34.  Please verify if it still should be listed and let the tracking team
+know (either way).
 
-Rafael
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16037
+Subject		: NULL Pointer dereference in __ir_input_register/budget_ci_attach
+Submitter	: Sean Finney <seanius-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Date		: 2010-05-23 19:52 (17 days old)
+
