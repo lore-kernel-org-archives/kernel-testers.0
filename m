@@ -1,29 +1,34 @@
-From: Jens Axboe <jaxboe@fusionio.com>
-Subject: Re: 2.6.35-rc2-git2: Reported regressions from 2.6.34
-Date: Wed, 09 Jun 2010 11:39:25 +0200
-Message-ID: <4C0F614D.7050808@fusionio.com>
-References: <Rlf_Qjov7bG.A.a8F.I8rDMB@chimera> <alpine.LFD.2.00.1006081814240.4506@i5.linux-foundation.org> <4C0F4872.7090909@fusionio.com> <20100609093249.GA17026@elte.hu>
+From: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Subject: Re: [Bug #16161] [2.6.35-rc1 regression] sysfs: cannot create duplicate filename ... XVR-600 related?
+Date: Wed, 9 Jun 2010 14:39:47 +0200
+Message-ID: <19471.35731.889910.990185@pilspetsen.it.uu.se>
+References: <Rlf_Qjov7bG.A.a8F.I8rDMB@chimera>
+	<C9Q3XEnHPeG.A.fIG.P8rDMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <20100609093249.GA17026@elte.hu>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <C9Q3XEnHPeG.A.fIG.P8rDMB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Ingo Molnar <mingo@elte.hu>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, Carl Worth <cworth@cworth.org>, Eric Anholt <eric@anholt.net>, Venkatesh Pallipadi <venki@google.com>, Dave Airlie <airlied@gmail.com>, Jesse Barnes <jbarnes@virtuousgeek.org>, David H?rdeman <david@hardeman.nu>, Mauro Carvalho Chehab <mchehab@redhat.com>, Eric Dumazet <eric.dumazet@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
 
-On 2010-06-09 11:32, Ingo Molnar wrote:
->> This should be fixed by commit 28f4197e which was merged on friday.
+Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
 > 
-> The scheduler commit adding local_clock() (for .36) is:
+> The following bug entry is on the current list of known regressions
+> from 2.6.34.  Please verify if it still should be listed and let the tracking team
+> know (either way).
 > 
->   c676329: sched_clock: Add local_clock() API and improve documentation
 > 
-> So once that is upstream the block IO statistics code can use that.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D16161
+> Subject		: [2.6.35-rc1 regression] sysfs: cannot create duplicate filename =
+> ... XVR-600 related?
+> Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+> Date		: 2010-06-01 19:57 (8 days old)
+> Message-ID	: <19461.26166.427857.612983-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D127542227511925&w=3D2
 
-Thanks, I'll have to make a note of that.
-
--- 
-Jens Axboe
-
+The bug is still there in 2.6.35-rc2. I haven't checked post-rc2 git snapshots.
