@@ -1,235 +1,65 @@
-From: Vivek Goyal <vgoyal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: Jens Axboe <jaxboe-5c4llco8/ftWk0Htik3J/w@public.gmane.org>
 Subject: Re: 2.6.35-rc2-git2: Reported regressions from 2.6.34
-Date: Fri, 11 Jun 2010 15:07:14 -0400
-Message-ID: <20100611190714.GA20837@redhat.com>
-References: <Rlf_Qjov7bG.A.a8F.I8rDMB@chimera>
- <alpine.LFD.2.00.1006081814240.4506@i5.linux-foundation.org>
- <4C0F4872.7090909@fusionio.com>
- <20100611083249.GA11143@elte.hu>
- <4C11F661.3070604@fusionio.com>
- <20100611085520.GA20218@elte.hu>
- <4C11FF77.1000101@fusionio.com>
+Date: Fri, 11 Jun 2010 21:11:49 +0200
+Message-ID: <4C128A75.3030501@fusionio.com>
+References: <Rlf_Qjov7bG.A.a8F.I8rDMB@chimera> <alpine.LFD.2.00.1006081814240.4506@i5.linux-foundation.org> <4C0F4872.7090909@fusionio.com> <20100611083249.GA11143@elte.hu> <4C11F661.3070604@fusionio.com> <20100611085520.GA20218@elte.hu> <4C11FF77.1000101@fusionio.com> <20100611190714.GA20837@redhat.com>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <4C11FF77.1000101-5c4llco8/ftWk0Htik3J/w@public.gmane.org>
+In-Reply-To: <20100611190714.GA20837-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Jens Axboe <jaxboe-5c4llco8/ftWk0Htik3J/w@public.gmane.org>
-Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Carl Worth <cworth-4HiWtcSh4w0dnm+yROfE0A@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Divyesh Shah <dpshah-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, guijianfeng-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Vivek Goyal <vgoyal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Carl Worth <cworth-4HiWtcSh4w0dnm+yROfE0A@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Divyesh Shah <dpshah-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, "guijianfeng-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <guijianfeng-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Fri, Jun 11, 2010 at 11:18:47AM +0200, Jens Axboe wrote:
-> On 2010-06-11 10:55, Ingo Molnar wrote:
-> >>> Caused by the same blkiocg_update_io_add_stats() function. Bootlog and config 
-> >>> attached. Reproducible on that sha1 and with that config.
-> >>
-> >> I think I see it, the internal CFQ blkg groups are not properly
-> >> initialized... Will send a patch shortly.
-> > 
-> > Cool - can test it with a short turnaround, the bug is easy to reproduce.
+On 11/06/10 21.07, Vivek Goyal wrote:
+> On Fri, Jun 11, 2010 at 11:18:47AM +0200, Jens Axboe wrote:
+>> On 2010-06-11 10:55, Ingo Molnar wrote:
+>>>>> Caused by the same blkiocg_update_io_add_stats() function. Bootlog and config 
+>>>>> attached. Reproducible on that sha1 and with that config.
+>>>>
+>>>> I think I see it, the internal CFQ blkg groups are not properly
+>>>> initialized... Will send a patch shortly.
+>>>
+>>> Cool - can test it with a short turnaround, the bug is easy to reproduce.
+>>
+>> Here's a nasty patch that should fix it. Not optimal, since we really
+>> just want empty functions for these when cfq group scheduling is not
+>> defined.
+>>
+>> CC'ing the guilty parties to come up with a better patch that does NOT
+>> involve ifdefs in cfq-iosched.c. We want blk-cgroup.[ch] fixed up.
+>> And trimming the CC list a bit.
 > 
-> Here's a nasty patch that should fix it. Not optimal, since we really
-> just want empty functions for these when cfq group scheduling is not
-> defined.
+> Jens, Ingo, I am sorry for this mess.
 > 
-> CC'ing the guilty parties to come up with a better patch that does NOT
-> involve ifdefs in cfq-iosched.c. We want blk-cgroup.[ch] fixed up.
-> And trimming the CC list a bit.
-
-Jens, Ingo, I am sorry for this mess.
-
-Jens,
-
-How about introducing "block/cfq.h" and declaring additional set of wrapper
-functions to update blkiocg stats and make these do nothing if
-CFQ_GROUP_IOSCHED=n.
-
-For example, in linux-2.6/block/cfq.h, we can define functions as follows.
-
-#ifdef CONFIG_CFQ_GROUP_IOSCHED
-cfq_blkiocg_update_dequeue_stats () {
-	blkiocg_update_dequeue_stats()
-}
-#else
-cfq_blkiocg_update_dequeue_stats () {}
-#endif
-
-Fixing it blk-cgroup.[ch] might not be best as BLK_CGROUP is set.
-Secondly, if there are other IO control policies later, they might
-want to make use of BLK_CGROUP while cfq has disabled the group io 
-scheduling.
-
-I will prepare a patch and see how does it look.
-
-Thanks
-Vivek
-
+> Jens,
 > 
+> How about introducing "block/cfq.h" and declaring additional set of wrapper
+> functions to update blkiocg stats and make these do nothing if
+> CFQ_GROUP_IOSCHED=n.
 > 
-> diff --git a/block/cfq-iosched.c b/block/cfq-iosched.c
-> index 5ff4f48..7067c97 100644
-> --- a/block/cfq-iosched.c
-> +++ b/block/cfq-iosched.c
-> @@ -879,7 +879,9 @@ cfq_group_service_tree_del(struct cfq_data *cfqd, struct cfq_group *cfqg)
->  	if (!RB_EMPTY_NODE(&cfqg->rb_node))
->  		cfq_rb_erase(&cfqg->rb_node, st);
->  	cfqg->saved_workload_slice = 0;
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_dequeue_stats(&cfqg->blkg, 1);
-> +#endif
->  }
->  
->  static inline unsigned int cfq_cfqq_slice_usage(struct cfq_queue *cfqq)
-> @@ -939,8 +941,10 @@ static void cfq_group_served(struct cfq_data *cfqd, struct cfq_group *cfqg,
->  
->  	cfq_log_cfqg(cfqd, cfqg, "served: vt=%llu min_vt=%llu", cfqg->vdisktime,
->  					st->min_vdisktime);
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_timeslice_used(&cfqg->blkg, used_sl);
->  	blkiocg_set_start_empty_time(&cfqg->blkg);
-> +#endif
->  }
->  
->  #ifdef CONFIG_CFQ_GROUP_IOSCHED
-> @@ -1421,12 +1425,17 @@ static void cfq_reposition_rq_rb(struct cfq_queue *cfqq, struct request *rq)
->  {
->  	elv_rb_del(&cfqq->sort_list, rq);
->  	cfqq->queued[rq_is_sync(rq)]--;
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_io_remove_stats(&(RQ_CFQG(rq))->blkg, rq_data_dir(rq),
->  						rq_is_sync(rq));
-> +#endif
->  	cfq_add_rq_rb(rq);
-> +
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_io_add_stats(&(RQ_CFQG(rq))->blkg,
->  			&cfqq->cfqd->serving_group->blkg, rq_data_dir(rq),
->  			rq_is_sync(rq));
-> +#endif
->  }
->  
->  static struct request *
-> @@ -1482,8 +1491,10 @@ static void cfq_remove_request(struct request *rq)
->  	cfq_del_rq_rb(rq);
->  
->  	cfqq->cfqd->rq_queued--;
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_io_remove_stats(&(RQ_CFQG(rq))->blkg, rq_data_dir(rq),
->  						rq_is_sync(rq));
-> +#endif
->  	if (rq_is_meta(rq)) {
->  		WARN_ON(!cfqq->meta_pending);
->  		cfqq->meta_pending--;
-> @@ -1518,8 +1529,10 @@ static void cfq_merged_request(struct request_queue *q, struct request *req,
->  static void cfq_bio_merged(struct request_queue *q, struct request *req,
->  				struct bio *bio)
->  {
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_io_merged_stats(&(RQ_CFQG(req))->blkg, bio_data_dir(bio),
->  					cfq_bio_sync(bio));
-> +#endif
->  }
->  
->  static void
-> @@ -1539,8 +1552,10 @@ cfq_merged_requests(struct request_queue *q, struct request *rq,
->  	if (cfqq->next_rq == next)
->  		cfqq->next_rq = rq;
->  	cfq_remove_request(next);
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_io_merged_stats(&(RQ_CFQG(rq))->blkg, rq_data_dir(next),
->  					rq_is_sync(next));
-> +#endif
->  }
->  
->  static int cfq_allow_merge(struct request_queue *q, struct request *rq,
-> @@ -1571,7 +1586,9 @@ static int cfq_allow_merge(struct request_queue *q, struct request *rq,
->  static inline void cfq_del_timer(struct cfq_data *cfqd, struct cfq_queue *cfqq)
->  {
->  	del_timer(&cfqd->idle_slice_timer);
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_idle_time_stats(&cfqq->cfqg->blkg);
-> +#endif
->  }
->  
->  static void __cfq_set_active_queue(struct cfq_data *cfqd,
-> @@ -1580,7 +1597,9 @@ static void __cfq_set_active_queue(struct cfq_data *cfqd,
->  	if (cfqq) {
->  		cfq_log_cfqq(cfqd, cfqq, "set_active wl_prio:%d wl_type:%d",
->  				cfqd->serving_prio, cfqd->serving_type);
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  		blkiocg_update_avg_queue_size_stats(&cfqq->cfqg->blkg);
-> +#endif
->  		cfqq->slice_start = 0;
->  		cfqq->dispatch_start = jiffies;
->  		cfqq->allocated_slice = 0;
-> @@ -1911,7 +1930,9 @@ static void cfq_arm_slice_timer(struct cfq_data *cfqd)
->  	sl = cfqd->cfq_slice_idle;
->  
->  	mod_timer(&cfqd->idle_slice_timer, jiffies + sl);
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_set_idle_time_stats(&cfqq->cfqg->blkg);
-> +#endif
->  	cfq_log_cfqq(cfqd, cfqq, "arm_idle: %lu", sl);
->  }
->  
-> @@ -1931,8 +1952,10 @@ static void cfq_dispatch_insert(struct request_queue *q, struct request *rq)
->  	elv_dispatch_sort(q, rq);
->  
->  	cfqd->rq_in_flight[cfq_cfqq_sync(cfqq)]++;
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_dispatch_stats(&cfqq->cfqg->blkg, blk_rq_bytes(rq),
->  					rq_data_dir(rq), rq_is_sync(rq));
-> +#endif
->  }
->  
->  /*
-> @@ -3248,8 +3271,10 @@ cfq_rq_enqueued(struct cfq_data *cfqd, struct cfq_queue *cfqq,
->  				cfq_clear_cfqq_wait_request(cfqq);
->  				__blk_run_queue(cfqd->queue);
->  			} else {
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  				blkiocg_update_idle_time_stats(
->  						&cfqq->cfqg->blkg);
-> +#endif
->  				cfq_mark_cfqq_must_dispatch(cfqq);
->  			}
->  		}
-> @@ -3276,9 +3301,11 @@ static void cfq_insert_request(struct request_queue *q, struct request *rq)
->  	rq_set_fifo_time(rq, jiffies + cfqd->cfq_fifo_expire[rq_is_sync(rq)]);
->  	list_add_tail(&rq->queuelist, &cfqq->fifo);
->  	cfq_add_rq_rb(rq);
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_io_add_stats(&(RQ_CFQG(rq))->blkg,
->  			&cfqd->serving_group->blkg, rq_data_dir(rq),
->  			rq_is_sync(rq));
-> +#endif
->  	cfq_rq_enqueued(cfqd, cfqq, rq);
->  }
->  
-> @@ -3364,9 +3391,11 @@ static void cfq_completed_request(struct request_queue *q, struct request *rq)
->  	WARN_ON(!cfqq->dispatched);
->  	cfqd->rq_in_driver--;
->  	cfqq->dispatched--;
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_update_completion_stats(&cfqq->cfqg->blkg, rq_start_time_ns(rq),
->  			rq_io_start_time_ns(rq), rq_data_dir(rq),
->  			rq_is_sync(rq));
-> +#endif
->  
->  	cfqd->rq_in_flight[cfq_cfqq_sync(cfqq)]--;
->  
-> @@ -3730,7 +3759,9 @@ static void cfq_exit_queue(struct elevator_queue *e)
->  
->  	cfq_put_async_queues(cfqd);
->  	cfq_release_cfq_groups(cfqd);
-> +#ifdef CONFIG_CFQ_GROUP_IOSCHED
->  	blkiocg_del_blkio_group(&cfqd->root_group.blkg);
-> +#endif
->  
->  	spin_unlock_irq(q->queue_lock);
->  
+> For example, in linux-2.6/block/cfq.h, we can define functions as follows.
 > 
-> -- 
-> Jens Axboe
+> #ifdef CONFIG_CFQ_GROUP_IOSCHED
+> cfq_blkiocg_update_dequeue_stats () {
+> 	blkiocg_update_dequeue_stats()
+> }
+> #else
+> cfq_blkiocg_update_dequeue_stats () {}
+> #endif
+> 
+> Fixing it blk-cgroup.[ch] might not be best as BLK_CGROUP is set.
+> Secondly, if there are other IO control policies later, they might
+> want to make use of BLK_CGROUP while cfq has disabled the group io 
+> scheduling.
+
+I already tried such a patch, but it's not exactly pretty. How about
+splitting blk-cgroup.c into two parts, one that is built for
+BLK_CGROUP and an additional one that is also built for
+CFQ_GROUP_SCHED? Lets try and improve on the ifdef mess, not extend
+it.
+
+-- 
+Jens Axboe
