@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15858] [2.6.34-rc5] bad page state copying to/from HFS+ filesystem...
-Date: Sun, 13 Jun 2010 16:48:57 +0200 (CEST)
-Message-ID: <YPGdyfWGvNK.A.Cg.T7OFMB@chimera>
+Subject: [Bug #15909] open("a/",O_NOFOLLOW) fails with ELOOP if "a" is a symbolic link to a directory.
+Date: Sun, 13 Jun 2010 16:48:58 +0200 (CEST)
+Message-ID: <YPGdyfWGvNK.A.KL.C7OFMB@chimera>
 References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Daniel J Blueman <daniel.blueman@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jan Kara <jack@suse.cz>, Marius Tolzmann <tolzmann@molgen.mpg.de>, Miklos Szeredi <mszeredi@suse.cz>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,10 +22,11 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15858
-Subject		: [2.6.34-rc5] bad page state copying to/from HFS+ filesystem...
-Submitter	: Daniel J Blueman <daniel.blueman@gmail.com>
-Date		: 2010-04-25 21:14 (50 days old)
-Message-ID	: <v2k6278d2221004251414kbbcc41baw78b86120d81dce7d@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=127223008621881&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15909
+Subject		: open("a/",O_NOFOLLOW) fails with ELOOP if "a" is a symbolic link to a directory.
+Submitter	: Marius Tolzmann <tolzmann@molgen.mpg.de>
+Date		: 2010-05-05 13:01 (40 days old)
+Handled-By	: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+		  Jan Kara <jack@suse.cz>
+Patch		: https://patchwork.kernel.org/patch/99291/
 
