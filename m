@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15909] open("a/",O_NOFOLLOW) fails with ELOOP if "a" is a symbolic link to a directory.
-Date: Sun, 13 Jun 2010 16:48:58 +0200 (CEST)
-Message-ID: <YPGdyfWGvNK.A.KL.C7OFMB@chimera>
+Subject: [Bug #15951] commit 9630bdd9 changes behavior of the poweroff
+Date: Sun, 13 Jun 2010 16:48:59 +0200 (CEST)
+Message-ID: <YPGdyfWGvNK.A.qyH.w6OFMB@chimera>
 References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jan Kara <jack@suse.cz>, Marius Tolzmann <tolzmann@molgen.mpg.de>, Miklos Szeredi <mszeredi@suse.cz>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jesse Barnes <jbarnes@virtuousgeek.org>, Matthew Garrett <mjg@redhat.com>, Michal Hocko <mhocko@suse.cz>, "Rafael J. Wysocki" <rjw@sisk.pl>, Tony Vroon <tony@linx.net>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,11 +22,12 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15909
-Subject		: open("a/",O_NOFOLLOW) fails with ELOOP if "a" is a symbolic link to a directory.
-Submitter	: Marius Tolzmann <tolzmann@molgen.mpg.de>
-Date		: 2010-05-05 13:01 (40 days old)
-Handled-By	: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-		  Jan Kara <jack@suse.cz>
-Patch		: https://patchwork.kernel.org/patch/99291/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15951
+Subject		: commit 9630bdd9 changes behavior of the poweroff
+Submitter	: Michal Hocko <mhocko@suse.cz>
+Date		: 2010-04-01 13:39 (74 days old)
+First-Bad-Commit: http://git.kernel.org/linus/9630bdd9b15d2f489c646d8bc04b60e53eb5ec78
+Message-ID	: <20100401133923.GA4104@tiehlicka.suse.cz>
+References	: http://marc.info/?l=linux-kernel&m=127012918316305&w=4
+Handled-By	: Rafael J. Wysocki <rjw@sisk.pl>
 
