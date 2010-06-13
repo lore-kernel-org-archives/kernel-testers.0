@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15951] commit 9630bdd9 changes behavior of the poweroff
-Date: Sun, 13 Jun 2010 16:48:59 +0200 (CEST)
-Message-ID: <YPGdyfWGvNK.A.qyH.w6OFMB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16136] Linux 2.6.34 causes system lockup on Compaq Presario 2200 Laptop
+Date: Sun, 13 Jun 2010 16:49:05 +0200 (CEST)
+Message-ID: <YPGdyfWGvNK.A._eG.r5OFMB@chimera>
 References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jesse Barnes <jbarnes@virtuousgeek.org>, Matthew Garrett <mjg@redhat.com>, Michal Hocko <mhocko@suse.cz>, "Rafael J. Wysocki" <rjw@sisk.pl>, Tony Vroon <tony@linx.net>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jeffrey Merkey <jeffmerkey-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,12 +22,10 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15951
-Subject		: commit 9630bdd9 changes behavior of the poweroff
-Submitter	: Michal Hocko <mhocko@suse.cz>
-Date		: 2010-04-01 13:39 (74 days old)
-First-Bad-Commit: http://git.kernel.org/linus/9630bdd9b15d2f489c646d8bc04b60e53eb5ec78
-Message-ID	: <20100401133923.GA4104@tiehlicka.suse.cz>
-References	: http://marc.info/?l=linux-kernel&m=127012918316305&w=4
-Handled-By	: Rafael J. Wysocki <rjw@sisk.pl>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16136
+Subject		: Linux 2.6.34 causes system lockup on Compaq Presario 2200 Laptop
+Submitter	: Jeffrey Merkey <jeffmerkey-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2010-05-27 18:08 (18 days old)
+Message-ID	: <AANLkTil6GGSoc8TpzRacr1LZBZS3ee3H1ejYDSqfdul4-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=127498375415689&w=2
 
