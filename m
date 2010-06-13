@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15924] kacpid consumes ~100% CPU, system freezes randomly
-Date: Sun, 13 Jun 2010 16:48:58 +0200 (CEST)
-Message-ID: <YPGdyfWGvNK.A.x6H._6OFMB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15712] [regression] 2.6.34-rc1 to -rc3 on zaurus: no longer boots
+Date: Sun, 13 Jun 2010 16:48:56 +0200 (CEST)
+Message-ID: <YPGdyfWGvNK.A.2FB.W8OFMB@chimera>
 References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="macroman"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, =?utf-8?q?Jaroslav=20Kamen=C3=ADk?= <jaroslav-FZZqD5xcwZ7rBKCeMvbIDA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Eric Miao <eric.y.miao@gmail.com>, Pavel Machek <pavel@ucw.cz>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,8 +22,11 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15924
-Subject		: kacpid consumes ~100% CPU, system freezes randomly
-Submitter	: Jaroslav Kamen=C3=ADk <jaroslav-FZZqD5xcwZ7rBKCeMvbIDA@public.gmane.org>
-Date		: 2010-05-06 21:12 (39 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15712
+Subject		: [regression] 2.6.34-rc1 to -rc3 on zaurus: no longer boots
+Submitter	: Pavel Machek <pavel@ucw.cz>
+Date		: 2010-04-01 6:06 (74 days old)
+Message-ID	: <20100401060624.GA1329@ucw.cz>
+References	: http://marc.info/?l=linux-kernel&m=127010200817402&w=2
+Handled-By	: Eric Miao <eric.y.miao@gmail.com>
 
