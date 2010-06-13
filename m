@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15664] Graphics hang and kernel backtrace when starting Azureus with Compiz enabled
+Subject: [Bug #15673] 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
 Date: Sun, 13 Jun 2010 16:48:56 +0200 (CEST)
-Message-ID: <YPGdyfWGvNK.A.9oB.08OFMB@chimera>
+Message-ID: <YPGdyfWGvNK.A.nVB.m8OFMB@chimera>
 References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,8 +22,10 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15664
-Subject		: Graphics hang and kernel backtrace when starting Azureus with Compiz enabled
-Submitter	: Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>
-Date		: 2010-04-01 01:09 (74 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15673
+Subject		: 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
+Submitter	: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
+Date		: 2010-03-28 11:31 (78 days old)
+Message-ID	: <1269775909.5301.4.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=126977593326800&w=2
 
