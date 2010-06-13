@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15805] reiserfs locking
-Date: Sun, 13 Jun 2010 16:48:57 +0200 (CEST)
-Message-ID: <YPGdyfWGvNK.A.Jo.h7OFMB@chimera>
+Subject: [Bug #15863] 2.6.34-rc5-git7 (plus all patches) -- another suspicious rcu_dereference_check() usage.
+Date: Sun, 13 Jun 2010 16:48:58 +0200 (CEST)
+Message-ID: <YPGdyfWGvNK.A.6T.I7OFMB@chimera>
 References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Alexander Beregalov <a.beregalov@gmail.com>, Frederic Weisbecker <fweisbec@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Miles Lane <miles.lane@gmail.com>, "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,11 +22,12 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15805
-Subject		: reiserfs locking
-Submitter	: Alexander Beregalov <a.beregalov@gmail.com>
-Date		: 2010-04-15 21:02 (60 days old)
-Message-ID	: <t2ka4423d671004151402n7b2dc425mdc9c6bb9640d63fb@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=127136535323933&w=2
-Handled-By	: Frederic Weisbecker <fweisbec@gmail.com>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15863
+Subject		: 2.6.34-rc5-git7 (plus all patches) -- another suspicious rcu_dereference_check() usage.
+Submitter	: Miles Lane <miles.lane@gmail.com>
+Date		: 2010-04-27 0:51 (48 days old)
+Message-ID	: <h2ya44ae5cd1004261751waa5cb65ei3d139cbcfa2cc5cf@mail.gmail.com>
+References	: http://marc.info/?l=linux-kernel&m=127232949104878&w=2
+Handled-By	: Paul E. McKenney <paulmck@linux.vnet.ibm.com>
+Patch		: https://patchwork.kernel.org/patch/96096/
 
