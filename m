@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15673] 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15671] intel graphic card hanging (Hangcheck timer elapsed... GPU hung)
 Date: Sun, 13 Jun 2010 16:48:56 +0200 (CEST)
-Message-ID: <YPGdyfWGvNK.A.nVB.m8OFMB@chimera>
+Message-ID: <YPGdyfWGvNK.A.-cB.q8OFMB@chimera>
 References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jesse Barnes <jbarnes@virtuousgeek.org>, Norbert Preining <preining@logic.at>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,10 +22,11 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15673
-Subject		: 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
-Submitter	: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
-Date		: 2010-03-28 11:31 (78 days old)
-Message-ID	: <1269775909.5301.4.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=126977593326800&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15671
+Subject		: intel graphic card hanging (Hangcheck timer elapsed... GPU hung)
+Submitter	: Norbert Preining <preining@logic.at>
+Date		: 2010-03-27 16:11 (79 days old)
+Message-ID	: <20100327161104.GA12043@gamma.logic.tuwien.ac.at>
+References	: http://marc.info/?l=linux-kernel&m=126970883105262&w=2
+Handled-By	: Jesse Barnes <jbarnes@virtuousgeek.org>
 
