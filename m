@@ -1,38 +1,33 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15909] open("a/",O_NOFOLLOW) fails with ELOOP if "a" is a symbolic link to a directory.
-Date: Mon, 14 Jun 2010 16:10:31 +0200
-Message-ID: <201006141610.32134.rjw@sisk.pl>
-References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera> <YPGdyfWGvNK.A.KL.C7OFMB@chimera> <20100614084331.GB3903@quack.suse.cz>
+From: Grant Likely <grant.likely-s3s/WqlpOiPyB63q8FvJNQ@public.gmane.org>
+Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
+Date: Mon, 14 Jun 2010 09:42:40 -0600
+Message-ID: <AANLkTikukzksZJnp1ETRkiSYQYihhmT8nu9-m5zc0dlM@mail.gmail.com>
+References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera> <YPGdyfWGvNK.A.C8B.d9OFMB@chimera> 
+	<201006131722.44062.s.L-H@gmx.de> <alpine.DEB.2.01.1006131103590.3964@bogon.housecafe.de> 
+	<AANLkTily7ZDG16uE2vSsq8t3mssuATwtHnr8OajX8oga@mail.gmail.com> 
+	<20100614063948.GA3999@x200>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100614084331.GB3903-+0h/O2h83AeN3ZZ/Hiejyg@public.gmane.org>
+In-Reply-To: <20100614063948.GA3999@x200>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Marius Tolzmann <tolzmann-KUpvgZVWgV9o1qOY/usvUg@public.gmane.org>, Miklos Szeredi <mszeredi-AlSwsSmVLrQ@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Christian Kujau <lists-AanptEQQ3TL9uQeqpI+JUg@public.gmane.org>, Stefan Lippers-Hollmann <s.L-H-Mmb7MZpHnFY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Michael Ellerman <michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, linux-media-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mchehab-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org
 
-On Monday, June 14, 2010, Jan Kara wrote:
-> On Sun 13-06-10 16:48:58, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.33 and 2.6.34.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.33 and 2.6.34.  Please verify if it still should
-> > be listed and let the tracking team know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15909
-> > Subject		: open("a/",O_NOFOLLOW) fails with ELOOP if "a" is a symbolic link to a directory.
-> > Submitter	: Marius Tolzmann <tolzmann-KUpvgZVWgV9o1qOY/usvUg@public.gmane.org>
-> > Date		: 2010-05-05 13:01 (40 days old)
-> > Handled-By	: OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
-> > 		  Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-> > Patch		: https://patchwork.kernel.org/patch/99291/
->   The fix went in shortly before 2.6.34 was released (commit
-> 002baeecf53677d2034113e34197ec221f42e037). So everything should be fine.
+On Mon, Jun 14, 2010 at 12:39 AM, Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>=
+ wrote:
+> On Sun, Jun 13, 2010 at 01:57:40PM -0600, Grant Likely wrote:
+>> On brief review, they look like completely different issues. =A0I do=
+ubt
+>> the second patch will fix the flexcop-pci issue.
+>
+> It will, see how name wht slashes propagated by request_irq()
 
-Thanks, closing.
+I think we've crossed wires.  By second patch I mean the patch that
+changes OF code.  That change has absolutely no bearing on the
+flexcop-pci driver.  The patch to the flexcop-pci driver looks correct
+to me, but it is completely unrelated to the OF badness.
 
-Rafael
+g.
