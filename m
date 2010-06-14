@@ -1,60 +1,34 @@
-From: Pavel Machek <pavel@ucw.cz>
-Subject: Re: [Bug #15712] [regression] 2.6.34-rc1 to -rc3 on zaurus: no
- longer boots
-Date: Mon, 14 Jun 2010 08:10:38 +0200
-Message-ID: <20100614061038.GA31896@elf.ucw.cz>
+From: Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
+Date: Mon, 14 Jun 2010 09:39:48 +0300
+Message-ID: <20100614063948.GA3999@x200>
 References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
- <YPGdyfWGvNK.A.2FB.W8OFMB@chimera>
- <AANLkTilOhHVi6u0jmPj87s9PGvxPjiT_dxAmqDJ5qTUf@mail.gmail.com>
+ <YPGdyfWGvNK.A.C8B.d9OFMB@chimera>
+ <201006131722.44062.s.L-H@gmx.de>
+ <alpine.DEB.2.01.1006131103590.3964@bogon.housecafe.de>
+ <AANLkTily7ZDG16uE2vSsq8t3mssuATwtHnr8OajX8oga@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=hWJxat9GfcR2qYrhO3vs/Cy8vc9Z7p4OL393nukN4xc=;
+        b=xSdeujFheLljiBgu9kX10gNceR07aL1h+C5i8pB4tdOVENdITomEIfZOlU4OTrJ7UZ
+         dn9EkUBTFemRKo2VVuJD9S8yJjjqdkPtaEPnLI3xg+vuiBDKyZhA7cjZUVjb7Ur1JxFh
+         FtThjxZdRR0Nkai9LgIgCN8Wb4DK+ARz4g1D0=
 Content-Disposition: inline
-In-Reply-To: <AANLkTilOhHVi6u0jmPj87s9PGvxPjiT_dxAmqDJ5qTUf@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
+In-Reply-To: <AANLkTily7ZDG16uE2vSsq8t3mssuATwtHnr8OajX8oga-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Eric Miao <eric.y.miao@gmail.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Grant Likely <grant.likely-s3s/WqlpOiPyB63q8FvJNQ@public.gmane.org>
+Cc: Christian Kujau <lists-AanptEQQ3TL9uQeqpI+JUg@public.gmane.org>, Stefan Lippers-Hollmann <s.L-H-Mmb7MZpHnFY@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Michael Ellerman <michael-Gsx/Oe8HsFggBc27wqDAHg@public.gmane.org>, linux-media-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mchehab-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org
 
-Hi!
+On Sun, Jun 13, 2010 at 01:57:40PM -0600, Grant Likely wrote:
+> On brief review, they look like completely different issues.  I doubt
+> the second patch will fix the flexcop-pci issue.
 
-> I can boot successfully on my akita/corgi with my 2.6.35-rc3 kernel.
-> I'll find some time to test v2.6.34 though.
-
-This one is long solved. 2.6.34 works for me, as does 2.6.35-rc2.
-									Pavel
-
-> Pavel,
->=20
-> Is any more update on your side?
->=20
-> On Sun, Jun 13, 2010 at 10:48 PM, Rafael J. Wysocki <rjw@sisk.pl> wro=
-te:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.33 and 2.6.34.
-> >
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.33 and 2.6.34. =A0Please verify if it still =
-should
-> > be listed and let the tracking team know (either way).
-> >
-> >
-> > Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-15712
-> > Subject =A0 =A0 =A0 =A0 : [regression] 2.6.34-rc1 to -rc3 on zaurus=
-: no longer boots
-> > Submitter =A0 =A0 =A0 : Pavel Machek <pavel@ucw.cz>
-> > Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-04-01 6:06 (74 days old)
-> > Message-ID =A0 =A0 =A0: <20100401060624.GA1329@ucw.cz>
-> > References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D1270=
-10200817402&w=3D2
-> > Handled-By =A0 =A0 =A0: Eric Miao <eric.y.miao@gmail.com>
-> >
-> >
-> >
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses=
-/blog.html
+It will, see how name wht slashes propagated by request_irq()
