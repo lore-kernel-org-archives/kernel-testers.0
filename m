@@ -1,41 +1,38 @@
-From: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [Bug #15909] open("a/",O_NOFOLLOW) fails with ELOOP if "a" is
- a symbolic link to a directory.
-Date: Mon, 14 Jun 2010 10:43:32 +0200
-Message-ID: <20100614084331.GB3903@quack.suse.cz>
+From: Jindrich Makovicka <makovick@gmail.com>
+Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
+Date: Mon, 14 Jun 2010 14:27:08 +0200
+Message-ID: <20100614142708.668d382e@holly>
 References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
- <YPGdyfWGvNK.A.KL.C7OFMB@chimera>
+	<YPGdyfWGvNK.A.C8B.d9OFMB@chimera>
+	<201006131722.44062.s.L-H@gmx.de>
+	<alpine.DEB.2.01.1006131103590.3964@bogon.housecafe.de>
+	<AANLkTily7ZDG16uE2vSsq8t3mssuATwtHnr8OajX8oga@mail.gmail.com>
+	<20100614063948.GA3999@x200>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <YPGdyfWGvNK.A.KL.C7OFMB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20100614063948.GA3999@x200>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Marius Tolzmann <tolzmann-KUpvgZVWgV9o1qOY/usvUg@public.gmane.org>, Miklos Szeredi <mszeredi-AlSwsSmVLrQ@public.gmane.org>, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
+To: linux-kernel@vger.kernel.org
+Cc: kernel-testers@vger.kernel.org, linux-media@vger.kernel.org
 
-On Sun 13-06-10 16:48:58, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.33 and 2.6.34.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.33 and 2.6.34.  Please verify if it still should
-> be listed and let the tracking team know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15909
-> Subject		: open("a/",O_NOFOLLOW) fails with ELOOP if "a" is a symbolic link to a directory.
-> Submitter	: Marius Tolzmann <tolzmann-KUpvgZVWgV9o1qOY/usvUg@public.gmane.org>
-> Date		: 2010-05-05 13:01 (40 days old)
-> Handled-By	: OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>
-> 		  Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-> Patch		: https://patchwork.kernel.org/patch/99291/
-  The fix went in shortly before 2.6.34 was released (commit
-002baeecf53677d2034113e34197ec221f42e037). So everything should be fine.
+On Mon, 14 Jun 2010 09:39:48 +0300
+Alexey Dobriyan <adobriyan@gmail.com>
+wrote:
 
-								Honza
+> On Sun, Jun 13, 2010 at 01:57:40PM -0600, Grant Likely wrote:
+> > On brief review, they look like completely different issues.  I
+> > doubt the second patch will fix the flexcop-pci issue.
+> 
+> It will, see how name wht slashes propagated by request_irq()
+
+Yes, the latter patch dodges the issue with flexcop driver by simply
+skipping the directory creation, but both patches should be applied IMO.
+The former to fix the flexcop driver because we can trivially fix it,
+the latter to solve problems with any generic bogus firmware.
+
 -- 
-Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-SUSE Labs, CR
+Jindrich Makovicka
+
