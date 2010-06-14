@@ -1,38 +1,73 @@
-From: Jindrich Makovicka <makovick@gmail.com>
-Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
-Date: Mon, 14 Jun 2010 14:27:08 +0200
-Message-ID: <20100614142708.668d382e@holly>
-References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera>
-	<YPGdyfWGvNK.A.C8B.d9OFMB@chimera>
-	<201006131722.44062.s.L-H@gmx.de>
-	<alpine.DEB.2.01.1006131103590.3964@bogon.housecafe.de>
-	<AANLkTily7ZDG16uE2vSsq8t3mssuATwtHnr8OajX8oga@mail.gmail.com>
-	<20100614063948.GA3999@x200>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
+Date: Mon, 14 Jun 2010 16:07:47 +0200
+Message-ID: <201006141607.47679.rjw@sisk.pl>
+References: <g77CuMUl7QI.A.5wF.V5OFMB@chimera> <YPGdyfWGvNK.A.lOB.b8OFMB@chimera> <20100614074155.GA3352@swordfish.minsk.epam.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20100614063948.GA3999@x200>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20100614074155.GA3352-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: linux-kernel@vger.kernel.org
-Cc: kernel-testers@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Mon, 14 Jun 2010 09:39:48 +0300
-Alexey Dobriyan <adobriyan@gmail.com>
-wrote:
-
-> On Sun, Jun 13, 2010 at 01:57:40PM -0600, Grant Likely wrote:
-> > On brief review, they look like completely different issues.  I
-> > doubt the second patch will fix the flexcop-pci issue.
+On Monday, June 14, 2010, Sergey Senozhatsky wrote:
+> On (06/13/10 16:48), Rafael J. Wysocki wrote:
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15704
+> > Subject		: [r8169] WARNING: at net/sched/sch_generic.c
+> > Submitter	: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date		: 2010-03-31 10:21 (75 days old)
+> > Message-ID	: <<<20100331102142.GA3294-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>>>
+> > References	: http://marc.info/?l=linux-kernel&m=127003090406108&w=2
+> > 
+> > 
 > 
-> It will, see how name wht slashes propagated by request_irq()
+> 
+> Hello,
+> 
+> .35-rc3
+> 
+> kernel: [  109.024175] pktgen 2.73: Packet Generator for packet performance testing.
+> kernel: [  144.360001] ------------[ cut here ]------------
+> kernel: [  144.360012] WARNING: at net/sched/sch_generic.c:258 dev_watchdog+0xc1/0x129()
+> kernel: [  144.360016] Hardware name: F3JC                
+> kernel: [  144.360019] NETDEV WATCHDOG: eth0 (r8169): transmit queue 0 timed out
+> kernel: [  144.360022] Modules linked in: pktgen snd_hwdep snd_hda_codec_si3054 snd_hda_codec_realtek snd_hda_intel asus_laptop sparse_keymap sdhci_pci sdhci mmc_core led_class snd_hda_codec i2c_i801 rng_core snd_pcm snd_timer
+> snd_page_alloc snd soundcore psmouse sg serio_raw evdev r8169 mii usbhid hid uhci_hcd ehci_hcd sr_mod usbcore cdrom sd_mod ata_piix
+> kernel: [  144.360073] Pid: 3424, comm: kpktgend_0 Not tainted 2.6.35-rc3-dbg-00106-ga75e02b #2
+> kernel: [  144.360076] Call Trace:
+> kernel: [  144.360085]  [<c102dc0a>] warn_slowpath_common+0x65/0x7a
+> kernel: [  144.360090]  [<c1266683>] ? dev_watchdog+0xc1/0x129
+> kernel: [  144.360095]  [<c102dc83>] warn_slowpath_fmt+0x26/0x2a
+> kernel: [  144.360100]  [<c1266683>] dev_watchdog+0xc1/0x129
+> kernel: [  144.360107]  [<c10365af>] ? run_timer_softirq+0x136/0x22b
+> kernel: [  144.360113]  [<c1036608>] run_timer_softirq+0x18f/0x22b
+> kernel: [  144.360118]  [<c10365af>] ? run_timer_softirq+0x136/0x22b
+> kernel: [  144.360123]  [<c12665c2>] ? dev_watchdog+0x0/0x129
+> kernel: [  144.360129]  [<c10322d2>] __do_softirq+0x79/0xec
+> kernel: [  144.360135]  [<c103236f>] do_softirq+0x2a/0x2f
+> kernel: [  144.360140]  [<c1032519>] _local_bh_enable_ip+0x65/0x86
+> kernel: [  144.360145]  [<c1032542>] local_bh_enable_ip+0x8/0xa
+> kernel: [  144.360151]  [<c12c354b>] _raw_spin_unlock_bh+0x2f/0x32
+> kernel: [  144.360158]  [<f808e5c7>] pktgen_xmit+0xda2/0xe6f [pktgen]
+> kernel: [  144.360168]  [<fd1d57b8>] ? rtl8169_start_xmit+0x0/0x307 [r8169]
+> kernel: [  144.360174]  [<c1002d70>] ? common_interrupt+0x30/0x38
+> kernel: [  144.360180]  [<c104c65d>] ? __lock_acquire+0x1d6/0x3ca
+> kernel: [  144.360187]  [<f808e88f>] ? pktgen_thread_worker+0x96/0x5c3 [pktgen]
+> kernel: [  144.360193]  [<c1028a2f>] ? get_parent_ip+0xb/0x31
+> kernel: [  144.360198]  [<c1028ad1>] ? sub_preempt_count+0x7c/0x89
+> kernel: [  144.360205]  [<f808e969>] pktgen_thread_worker+0x170/0x5c3 [pktgen]
+> kernel: [  144.360209]  [<c12c1e13>] ? schedule+0x535/0x545
+> kernel: [  144.360216]  [<c103f1d2>] ? autoremove_wake_function+0x0/0x2f
+> kernel: [  144.360221]  [<c103f1d2>] ? autoremove_wake_function+0x0/0x2f
+> kernel: [  144.360227]  [<f808e7f9>] ? pktgen_thread_worker+0x0/0x5c3 [pktgen]
+> kernel: [  144.360232]  [<c103eee2>] kthread+0x6a/0x6f
+> kernel: [  144.360238]  [<c103ee78>] ? kthread+0x0/0x6f
+> kernel: [  144.360243]  [<c1002d7e>] kernel_thread_helper+0x6/0x10
+> kernel: [  144.360247] ---[ end trace a692664bf7dac635 ]---
 
-Yes, the latter patch dodges the issue with flexcop driver by simply
-skipping the directory creation, but both patches should be applied IMO.
-The former to fix the flexcop driver because we can trivially fix it,
-the latter to solve problems with any generic bogus firmware.
+Thanks for the update.
 
--- 
-Jindrich Makovicka
-
+Rafael
