@@ -1,60 +1,64 @@
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: 2.6.35-rc2-git2: Reported regressions from 2.6.34
-Date: Wed, 16 Jun 2010 14:34:27 -0700
-Message-ID: <20100616143427.a0323701.akpm@linux-foundation.org>
+From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Subject: Re: [Bug #16161] [2.6.35-rc1 regression] sysfs: cannot create
+ duplicate filename ... XVR-600 related?
+Date: Fri, 18 Jun 2010 13:10:49 -0700
+Message-ID: <20100618131049.462ca7ce@virtuousgeek.org>
 References: <Rlf_Qjov7bG.A.a8F.I8rDMB@chimera>
-	<AANLkTiksbL1qHg7Q0A-6TbX0uUrxra4jctUoIGVk5vnE@mail.gmail.com>
-	<201006091122.35304.rjw@sisk.pl>
-	<20100616134231.23ff30da.akpm@linux-foundation.org>
-	<AANLkTil-X5IMZMer7fHVPOMalsTJNliv-gMimzKmJ3Od@mail.gmail.com>
+	<19472.47559.578732.941291@pilspetsen.it.uu.se>
+	<19475.45707.157935.788004@pilspetsen.it.uu.se>
+	<201006122052.25204.rjw@sisk.pl>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <AANLkTil-X5IMZMer7fHVPOMalsTJNliv-gMimzKmJ3Od@mail.gmail.com>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <201006122052.25204.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: sedat.dilek@gmail.com
-Cc: Sedat Dilek <sedat.dilek@googlemail.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.sourceforge.net>, dmonakhov@openvz.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Wed, 16 Jun 2010 23:00:37 +0200
-Sedat Dilek <sedat.dilek@googlemail.com> wrote:
+On Sat, 12 Jun 2010 20:52:25 +0200
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-> On Wed, Jun 16, 2010 at 10:42 PM, Andrew Morton
-> <akpm@linux-foundation.org> wrote:
-> > On Wed, 9 Jun 2010 11:22:35 +0200
-> > "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
-> >
-> >> On Wednesday 09 June 2010, Sedat Dilek wrote:
-> >> > The patch from [1] is still missing.
-> >> >
-> >> > __ __"cpufreq-call-nr_iowait_cpu-with-disabled-preemption.patch" from
-> >> > Dmitry Monakhoc
-> >> >
-> >> > Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
-> >> > Tested-by Maciej Rutecki <maciej.rutecki@gmail.com>
-> >> >
-> >> > I have already reported this issue on LKML [2] and cpufreq ML [3].
-> >> >
-> >> > - Sedat -
-> >> >
-> >> > [1] http://www.spinics.net/lists/cpufreq/msg01631.html
-> >> > [2] http://lkml.org/lkml/2010/5/31/77
-> >> > [3] http://www.spinics.net/lists/cpufreq/msg01637.html
-> >>
-> >> Thanks, added.
-> >
-> > I just merged a different patch whcih should address this:
->
-> How do cpu-freq related stuff find its way into mainline?
-> Is there a GIT repository/branch on <git.kernel.org> where you can pull from?
+> On Saturday, June 12, 2010, Mikael Pettersson wrote:
+> > Mikael Pettersson writes:
+> >  > Rafael J. Wysocki writes:
+> >  >  > On Wednesday, June 09, 2010, Mikael Pettersson wrote:
+> >  >  > > Rafael J. Wysocki wrote:
+> >  >  > > > This message has been generated automatically as a part of a summary report
+> >  >  > > > of recent regressions.
+> >  >  > > > 
+> >  >  > > > The following bug entry is on the current list of known regressions
+> >  >  > > > from 2.6.34.  Please verify if it still should be listed and let the tracking team
+> >  >  > > > know (either way).
+> >  >  > > > 
+> >  >  > > > 
+> >  >  > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D16161
+> >  >  > > > Subject		: [2.6.35-rc1 regression] sysfs: cannot create duplicate filename =
+> >  >  > > > ... XVR-600 related?
+> >  >  > > > Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+> >  >  > > > Date		: 2010-06-01 19:57 (8 days old)
+> >  >  > > > Message-ID	: <19461.26166.427857.612983-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>
+> >  >  > > > References	: http://marc.info/?l=3Dlinux-kernel&m=3D127542227511925&w=3D2
+> >  >  > > 
+> >  >  > > The bug is still there in 2.6.35-rc2. I haven't checked post-rc2 git snapshots.
+> >  >  > 
+> >  >  > Please test post-rc2 too.
+> >  > 
+> >  > The bug is still there in 2.6.35-rc2-git4.
+> > 
+> > The bug appears to be gone in 2.6.35-rc3.
 > 
+> Good.
+> 
+> > I don't know which commit actually fixed it.
+> 
+> Well, it would be useful information, but it's much more important it's not
+> there anymore.
 
-(top-posting repaired.  Please don't)
+I reverted the symlink patch that was causing the trouble.  The root
+cause is elsewhere though; it seems some firmwares report duplicate PCI
+slot numbers...
 
-Usually via the cpufreq git tree, mailing list and maintainer, as
-described in ./MAINTAINERS.
-
-But for a patch like this one, I'll just scoot it into mainline unless
-Dave happens to grab it before I do that.
-
+-- 
+Jesse Barnes, Intel Open Source Technology Center
