@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #15664] Graphics hang and kernel backtrace when starting Azureus with Compiz enabled
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #15671] intel graphic card hanging (Hangcheck timer elapsed... GPU hung)
 Date: Mon, 21 Jun 2010 00:34:24 +0200 (CEST)
-Message-ID: <rHrHQMIU4rI.A.v2C.KepHMB@chimera>
+Message-ID: <rHrHQMIU4rI.A.HrC.8dpHMB@chimera>
 References: <g77CuMUl7QI.A.qMH.4ZpHMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <g77CuMUl7QI.A.qMH.4ZpHMB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jesse Barnes <jbarnes@virtuousgeek.org>, Norbert Preining <preining@logic.at>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,8 +22,11 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15664
-Subject		: Graphics hang and kernel backtrace when starting Azureus with Compiz enabled
-Submitter	: Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>
-Date		: 2010-04-01 01:09 (81 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15671
+Subject		: intel graphic card hanging (Hangcheck timer elapsed... GPU hung)
+Submitter	: Norbert Preining <preining@logic.at>
+Date		: 2010-03-27 16:11 (86 days old)
+Message-ID	: <20100327161104.GA12043@gamma.logic.tuwien.ac.at>
+References	: http://marc.info/?l=linux-kernel&m=126970883105262&w=2
+Handled-By	: Jesse Barnes <jbarnes@virtuousgeek.org>
 
