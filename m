@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16082] host panic on kernel 2.6.34
-Date: Mon, 21 Jun 2010 00:34:28 +0200 (CEST)
-Message-ID: <rHrHQMIU4rI.A.Jy.oapHMB@chimera>
+Subject: [Bug #16040] kacpid consumes ~40% of cpu all the time beginning with 2.6.34
+Date: Mon, 21 Jun 2010 00:34:27 +0200 (CEST)
+Message-ID: <rHrHQMIU4rI.A.-EB.xapHMB@chimera>
 References: <g77CuMUl7QI.A.qMH.4ZpHMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "Hao, Xudong" <xudong.hao@intel.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Mehmet Giritli <mehmet@giritli.eu>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,10 +22,13 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16082
-Subject		: host panic on kernel 2.6.34
-Submitter	: Hao, Xudong <xudong.hao@intel.com>
-Date		: 2010-05-24 8:23 (28 days old)
-Message-ID	: <BC00F5384FCFC9499AF06F92E8B78A9E04DCCCE242@shsmsx502.ccr.corp.intel.com>
-References	: http://marc.info/?l=linux-kernel&m=127468951208864&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16040
+Subject		: kacpid consumes ~40% of cpu all the time beginning with 2.6.34
+Submitter	: Mehmet Giritli <mehmet@giritli.eu>
+Date		: 2010-05-24 07:32 (28 days old)
+Patch		: https://patchwork.kernel.org/patch/104903/
+		  https://patchwork.kernel.org/patch/104912/
+		  https://patchwork.kernel.org/patch/104909/
+		  https://patchwork.kernel.org/patch/104911/
+		  https://patchwork.kernel.org/patch/104910/
 
