@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16201] SIOCGIWFREQ ioctl fails to get frequency info
-Date: Mon, 21 Jun 2010 00:17:41 +0200 (CEST)
-Message-ID: <W8JfMs9cZw.A.rMF.BNpHMB@chimera>
+Subject: [Bug #16222] 2.6.35-rc{12} regression: inactive console corrupted
+Date: Mon, 21 Jun 2010 00:17:44 +0200 (CEST)
+Message-ID: <W8JfMs9cZw.A.c2E.wMpHMB@chimera>
 References: <lc60d4toGTL.A.QzD._LpHMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, nuh <nuh@mailinator.net>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Pavel Machek <pavel@ucw.cz>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,10 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16201
-Subject		: SIOCGIWFREQ ioctl fails to get frequency info
-Submitter	: nuh <nuh@mailinator.net>
-Date		: 2010-06-14 10:45 (7 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16222
+Subject		: 2.6.35-rc{12} regression: inactive console corrupted
+Submitter	: Pavel Machek <pavel@ucw.cz>
+Date		: 2010-06-12 10:33 (9 days old)
+Message-ID	: <20100612103321.GA1458@ucw.cz>
+References	: http://marc.info/?l=linux-kernel&m=127633882614501&w=2
 
