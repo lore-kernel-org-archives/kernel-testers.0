@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #16175] 2.6.35-rc1 system oom, many processes killed but memory not free
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #16169] Complain from preemptive debug
 Date: Mon, 21 Jun 2010 00:17:38 +0200 (CEST)
-Message-ID: <W8JfMs9cZw.A.EEG.ZNpHMB@chimera>
+Message-ID: <W8JfMs9cZw.A.PcG.hNpHMB@chimera>
 References: <lc60d4toGTL.A.QzD._LpHMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <lc60d4toGTL.A.QzD._LpHMB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, andrew hendry <andrew.hendry-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Dmitry Monakhov <dmonakhov@openvz.org>, Sedat Dilek <sedat.dilek@googlemail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,12 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16175
-Subject		: 2.6.35-rc1 system oom, many processes killed but memory not free
-Submitter	: andrew hendry <andrew.hendry-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2010-06-05 0:46 (16 days old)
-Message-ID	: <AANLkTim7CiW-yfugZUAHZCqLvXKgt9CwolCvbLGdCLAk-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=127569877714937&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16169
+Subject		: Complain from preemptive debug
+Submitter	: Sedat Dilek <sedat.dilek@googlemail.com>
+Date		: 2010-05-31 10:10 (21 days old)
+Message-ID	: <AANLkTilTnAAZIizKinYsxFkNTkrmPqk6XJJuUjjhJ7EP@mail.gmail.com>
+References	: http://lkml.org/lkml/2010/5/31/77
+Handled-By	: Dmitry Monakhov <dmonakhov@openvz.org>
+Patch		: http://www.spinics.net/lists/cpufreq/msg01631.html
 
