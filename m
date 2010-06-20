@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #16184] Container, X86-64, i386, iptables rule
-Date: Mon, 21 Jun 2010 00:17:40 +0200 (CEST)
-Message-ID: <W8JfMs9cZw.A.CsF.NNpHMB@chimera>
+Subject: [Bug #16220] md/raid/udev fails to create md partition devices (/dev/mdXpY)
+Date: Mon, 21 Jun 2010 00:17:41 +0200 (CEST)
+Message-ID: <W8JfMs9cZw.A.mAF.2MpHMB@chimera>
 References: <lc60d4toGTL.A.QzD._LpHMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jean-Marc Pigeon <jmp-4qkeo2rQ0gg@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>, Neil Brown <neilb-l3A5Bk7waGM@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,10 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16184
-Subject		: Container, X86-64, i386, iptables rule
-Submitter	: Jean-Marc Pigeon <jmp-4qkeo2rQ0gg@public.gmane.org>
-Date		: 2010-06-12 04:17 (9 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16220
+Subject		: md/raid/udev fails to create md partition devices (/dev/mdXpY)
+Submitter	: Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>
+Date		: 2010-06-15 17:19 (6 days old)
+Handled-By	: Neil Brown <neilb-l3A5Bk7waGM@public.gmane.org>
+Patch		: https://bugzilla.kernel.org/show_bug.cgi?id=16220#c2
 
