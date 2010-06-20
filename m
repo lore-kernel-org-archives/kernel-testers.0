@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16138] PCMCIA regression
-Date: Mon, 21 Jun 2010 00:34:30 +0200 (CEST)
-Message-ID: <rHrHQMIU4rI.A.pP.TapHMB@chimera>
+Subject: [Bug #16254] TCP stream performance regression due to c377411f2494a931ff7facdbb3a6839b1266bcf6
+Date: Mon, 21 Jun 2010 00:34:32 +0200 (CEST)
+Message-ID: <rHrHQMIU4rI.A.uWH.-ZpHMB@chimera>
 References: <g77CuMUl7QI.A.qMH.4ZpHMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Dominik Brodowski <linux@brodo.de>, Mikulas Patocka <mpatocka@redhat.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "Alex,Shi" <alex.shi@intel.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <eric.dumazet@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,12 +22,11 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16138
-Subject		: PCMCIA regression
-Submitter	: Mikulas Patocka <mpatocka@redhat.com>
-Date		: 2010-05-25 20:25 (27 days old)
-Message-ID	: <Pine.LNX.4.64.1005251619020.12278@hs20-bc2-1.build.redhat.com>
-References	: http://marc.info/?l=linux-kernel&m=127481913909672&w=2
-Handled-By	: Dominik Brodowski <linux@brodo.de>
-Patch		: https://bugzilla.kernel.org/attachment.cgi?id=26685
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16254
+Subject		: TCP stream performance regression due to c377411f2494a931ff7facdbb3a6839b1266bcf6
+Submitter	: Alex,Shi <alex.shi@intel.com>
+Date		: 2010-06-18 7:17 (3 days old)
+First-Bad-Commit: http://git.kernel.org/linus/c377411f2494a931ff7facdbb3a6839b1266bcf6
+Message-ID	: <1276845448.2118.346.camel@debian>
+References	: http://marc.info/?l=linux-kernel&m=127684931020672&w=2
 
