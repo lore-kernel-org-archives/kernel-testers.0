@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16228] BUG/boot failure on Dell Precision T3500 (pci/ahci_stop_engine)
-Date: Mon, 21 Jun 2010 00:17:44 +0200 (CEST)
-Message-ID: <W8JfMs9cZw.A.bwE.tMpHMB@chimera>
+Subject: [Bug #16232] 2.6.35-rc3 - WARNING:iwl_set_dynamic_key
+Date: Mon, 21 Jun 2010 00:17:45 +0200 (CEST)
+Message-ID: <W8JfMs9cZw.A.caE.SMpHMB@chimera>
 References: <lc60d4toGTL.A.QzD._LpHMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Brian Bloniarz <phunge0@hotmail.com>, Yinghai Lu <yinghai@kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Mario Guenterberg <mario.guenterberg@googlemail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,10 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16228
-Subject		: BUG/boot failure on Dell Precision T3500 (pci/ahci_stop_engine)
-Submitter	: Brian Bloniarz <phunge0@hotmail.com>
-Date		: 2010-06-16 17:57 (5 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16232
+Subject		: 2.6.35-rc3 - WARNING:iwl_set_dynamic_key
+Submitter	: Mario Guenterberg <mario.guenterberg@googlemail.com>
+Date		: 2010-06-14 11:55 (7 days old)
+Message-ID	: <20100614115510.GA7904@guenti-laptop>
+References	: http://marc.info/?l=linux-kernel&m=127651695627147&w=2
 
