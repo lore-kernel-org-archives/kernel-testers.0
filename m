@@ -1,62 +1,35 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
-Date: Mon, 21 Jun 2010 20:36:42 +0200
-Message-ID: <201006212036.42387.rjw@sisk.pl>
-References: <g77CuMUl7QI.A.qMH.4ZpHMB@chimera> <rHrHQMIU4rI.A.edC.tdpHMB@chimera> <20100621105934.GB4010@swordfish.minsk.epam.com>
+Subject: Re: [Bug #16122] 2.6.35-rc1: WARNING at fs/fs-writeback.c:1142 __mark_inode_dirty+0x103/0x170
+Date: Mon, 21 Jun 2010 20:39:25 +0200
+Message-ID: <201006212039.25962.rjw@sisk.pl>
+References: <lc60d4toGTL.A.QzD._LpHMB@chimera> <W8JfMs9cZw.A.N1G.5NpHMB@chimera> <4C1ECCDE.6050803@lwfinger.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100621105934.GB4010-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>
+In-Reply-To: <4C1ECCDE.6050803-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
 Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Monday, June 21, 2010, Sergey Senozhatsky wrote:
-> On (06/21/10 00:34), Rafael J. Wysocki wrote:
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15704
-> > Subject		: [r8169] WARNING: at net/sched/sch_generic.c
-> > Submitter	: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2010-03-31 10:21 (82 days old)
-> > Message-ID	: <20100331102142.GA3294-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>
-> > References	: http://marc.info/?l=linux-kernel&m=127003090406108&w=2
+On Monday, June 21, 2010, Larry Finger wrote:
+> On 06/20/2010 05:17 PM, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a summary report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.34.  Please verify if it still should be listed and let the tracking team
+> > know (either way).
 > > 
 > > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16122
+> > Subject		: 2.6.35-rc1: WARNING at fs/fs-writeback.c:1142 __mark_inode_dirty+0x103/0x170
+> > Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+> > Date		: 2010-06-04 13:18 (17 days old)
 > 
-> Hello,
-> 
-> [10117.304064] pktgen 2.73: Packet Generator for packet performance testing.
-> [10153.013177] ------------[ cut here ]------------
-> [10153.013189] WARNING: at net/sched/sch_generic.c:258 dev_watchdog+0xc1/0x129()
-> [10153.013193] Hardware name: F3JC                
-> [10153.013197] NETDEV WATCHDOG: eth0 (r8169): transmit queue 0 timed out
-> [10153.013200] Modules linked in: pktgen fuse usb_storage ipv6 snd_seq_dummy snd_seq_oss snd_seq_midi_event snd_seq snd_seq_device snd_hwdep snd_pcm_oss asus_laptop sparse_keymap sdhci_pci sdhci snd_mixer_oss mmc_core led_class
-> snd_hda_codec_si3054 snd_hda_codec_realtek snd_hda_intel psmouse snd_hda_codec snd_pcm sg snd_timer rng_core i2c_i801 evdev serio_raw snd_page_alloc snd soundcore r8169 mii usbhid hid uhci_hcd ehci_hcd sr_mod usbcore cdrom sd_mod ata_piix
-> [10153.013267] Pid: 0, comm: swapper Not tainted 2.6.35-rc3-dbg-00106-ga75e02b-dirty #57
-> [10153.013271] Call Trace:
-> [10153.013279]  [<c102e3ba>] warn_slowpath_common+0x65/0x7a
-> [10153.013284]  [<c12694af>] ? dev_watchdog+0xc1/0x129
-> [10153.013290]  [<c102e433>] warn_slowpath_fmt+0x26/0x2a
-> [10153.013295]  [<c12694af>] dev_watchdog+0xc1/0x129
-> [10153.013302]  [<c10370fb>] ? run_timer_softirq+0x136/0x22b
-> [10153.013307]  [<c1037154>] run_timer_softirq+0x18f/0x22b
-> [10153.013312]  [<c10370fb>] ? run_timer_softirq+0x136/0x22b
-> [10153.013318]  [<c12693ee>] ? dev_watchdog+0x0/0x129
-> [10153.013324]  [<c1032c7d>] __do_softirq+0x88/0x10c
-> [10153.013330]  [<c1032d30>] do_softirq+0x2f/0x47
-> [10153.013335]  [<c1032fed>] irq_exit+0x38/0x75
-> [10153.013340]  [<c10159a8>] smp_apic_timer_interrupt+0x5f/0x6d
-> [10153.013347]  [<c12c7192>] apic_timer_interrupt+0x36/0x3c
-> [10153.013354]  [<c104007b>] ? __init_waitqueue_head+0x24/0x3d
-> [10153.013360]  [<c11dd662>] ? acpi_idle_enter_simple+0x117/0x14b
-> [10153.013367]  [<c124691d>] cpuidle_idle_call+0x6a/0xa0
-> [10153.013372]  [<c100170d>] cpu_idle+0x89/0xbe
-> [10153.013379]  [<c12c1ce3>] start_secondary+0x1f4/0x1fb
-> [10153.013384] ---[ end trace 3fa0d4e1d1133bed ]---
-> [10153.027032] r8169 0000:02:00.0: eth0: link up
-> [10165.025777] r8169 0000:02:00.0: eth0: link up
+> This is still present in rc3.
 
-OK, thanks for the update.
+Thanks for the update.
 
 Rafael
