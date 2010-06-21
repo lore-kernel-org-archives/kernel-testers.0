@@ -1,63 +1,78 @@
-From: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #16248] inconsistent lock state
-Date: Mon, 21 Jun 2010 09:08:47 +0300
-Message-ID: <20100621060847.GA3965@swordfish>
-References: <lc60d4toGTL.A.QzD._LpHMB@chimera>
- <W8JfMs9cZw.A.b_D.HMpHMB@chimera>
+From: Borislav Petkov <bp@alien8.de>
+Subject: Re: [Bug #16054] UML broken for CONFIG_SLAB
+Date: Mon, 21 Jun 2010 08:35:52 +0200
+Message-ID: <20100621063552.GA16491@liondog.tnic>
+References: <g77CuMUl7QI.A.qMH.4ZpHMB@chimera>
+ <rHrHQMIU4rI.A.h6.rapHMB@chimera>
+ <AANLkTiks4DUvSLQLHb1Tr6cO_Mma-9UcDRqJ5uafdt1R@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ibTvN161/egqYuK8"
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=JjiB7YDj6ozjLi9bccgPApA7xk9wH1KESI2xkZkVsd4=;
-        b=tfYBY67EpgWCoAU3SozxIdIReH6ELryx777kApk87LS8mlnlBanBXmhqklZR3hoprG
-         TCq6dUe6VsQXVB30rcXq5B8/asrxNOittYfmUvdX+PLNqa1jBT6Nz3iRpOA+EKImgBet
-         NYbrggf6/JEfN2c7yPbO/jLg4gHpyXFW6/mTs=
+Return-path: <linux-kernel-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=alien8.de; s=alien8;
+	t=1277102155; bh=AxrOxvW2E4s0G43FsaE0l91KM267c36bee3run/CJ4I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:In-Reply-To; b=Z5T4g8bWvp2asP/YSK/UJ4Qi/MapHNeY6ZoyHZ
+	NHmn3Z6IMYEuM0XNLDMX69uJ/4BwOzL1PdhndqyMRI/Ihm08PYT4r5UGBUM0SNCuuEF
+	V+r6DeBEWfVdT6fNhXTUPAKzHapQjgPI5y7G/0OuIssxNL22HQe7rsOYSMwHeycwtU=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=alien8.de; s=alien8;
+	t=1277102155; bh=AxrOxvW2E4s0G43FsaE0l91KM267c36bee3run/CJ4I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:In-Reply-To; b=Z5T4g8bWvp2asP/YSK/UJ4Qi/MapHNeY6ZoyHZ
+	NHmn3Z6IMYEuM0XNLDMX69uJ/4BwOzL1PdhndqyMRI/Ihm08PYT4r5UGBUM0SNCuuEF
+	V+r6DeBEWfVdT6fNhXTUPAKzHapQjgPI5y7G/0OuIssxNL22HQe7rsOYSMwHeycwtU=
 Content-Disposition: inline
-In-Reply-To: <W8JfMs9cZw.A.b_D.HMpHMB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <AANLkTiks4DUvSLQLHb1Tr6cO_Mma-9UcDRqJ5uafdt1R@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Parag Warudkar <parag.lkml@gmail.com>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Maciej Rutecki <maciej.rutecki@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
+From: Parag Warudkar <parag.lkml@gmail.com>
+Date: Sun, Jun 20, 2010 at 06:48:55PM -0400
 
---ibTvN161/egqYuK8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Still broken. Borislav's fix on top of git a few days ago doesn't seem to
+> cure it.
 
-On (06/21/10 00:17), Rafael J. Wysocki wrote:
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D16248
-> Subject		: inconsistent lock state
-> Submitter	: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2010-06-15 11:24 (6 days old)
-> Message-ID	: <20100615112434.GA3967-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D127660087625903&w=3D2
->=20
->=20
+Everyone else has reported that
+http://git.kernel.org/tip/055c47272b8f5679d08ccc57efea3cb4aaeb5fc6 fixes
+the boot issue for them.
 
-Hello patch fs-fcntlc-kill_fasync_rcu-fa_lock-must-be-irq-safe.patch added =
-to -mm tree.
+One problem with testing this patch was making sure you do a completely
+clean build by removing the old build files through a 'make mrproper.'
+So, after applying this patch do (after having copied your .config to a
+safe place :))
 
+make mrproper
 
-	Sergey
+and just to make sure no arch_hweight stuff is left, do
 
---ibTvN161/egqYuK8
-Content-Type: application/pgp-signature
-Content-Disposition: inline
+grep -EriIn 'x86.*hweight\.h' arch/um/
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
+You shouldn't be getting any matches. If you do, than try to find out
+why you do because all those intermediary *.o.cmd files shouldn't
+contain any hweight-include files from arch/x86/.
 
-iJwEAQECAAYFAkwfAe8ACgkQfKHnntdSXjQVQwQA4ZpN8gLumDFIYBcHiUFj7DQc
-Eo27mdcTyUlb1Vw4b1jue/fMcby2be+GU4KUrH7GZLiM0YOF7kv5fk5ti9AH4Q0B
-6oa314Gcm8rfqvLb8DLQhowWqAOvRwYEvV+SXXsDNI8kfr6IDT5BgtnpA+XTTAAc
-4VCAf6JiUoOFW0kl5/E=
-=FJqb
------END PGP SIGNATURE-----
+> On Jun 20, 2010 6:45 PM, "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+> 
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.33 and 2.6.34.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.33 and 2.6.34.  Please verify if it still should
+> be listed and let the tracking team know (either way).
+> 
+> 
+> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=16054
+> Subject         : UML broken for CONFIG_SLAB
+> Submitter       : Parag Warudkar <parag.lkml@gmail.com>
+> Date            : 2010-05-23 21:40 (29 days old)
+> Message-ID      : <alpine.DEB.2.00.1005231149100.605@parag-laptop>
+> References      : http://marc.info/?l=linux-kernel&m=127465083806617&w=2
+> Handled-By      : Borislav Petkov <bp@alien8.de>
+> Patch           :
+> http://git.kernel.org/tip/055c47272b8f5679d08ccc57efea3cb4aaeb5fc6
 
---ibTvN161/egqYuK8--
+-- 
+Regards/Gruss,
+    Boris.
