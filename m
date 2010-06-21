@@ -1,29 +1,43 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: 2.6.35-rc3: Reported regressions from 2.6.34
-Date: Mon, 21 Jun 2010 20:56:08 +0200
-Message-ID: <201006212056.09000.rjw@sisk.pl>
-References: <lc60d4toGTL.A.QzD._LpHMB@chimera> <20100621135857.GA21159@elliptictech.com>
+From: "Berg, Johannes" <johannes.berg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: RE: [Bug #16235] [REGRESSION] [IWL3945] Broadcast is broken?
+Date: Mon, 21 Jun 2010 20:05:14 +0100
+Message-ID: <C5C86A19469DAE48AAAD0E5F3716E44501A571FE33@irsmsx504.ger.corp.intel.com>
+References: <lc60d4toGTL.A.QzD._LpHMB@chimera>
+ <W8JfMs9cZw.A.aOE.MMpHMB@chimera>
+ <C5C86A19469DAE48AAAD0E5F3716E44501A571F996@irsmsx504.ger.corp.intel.com>
+ <201006212045.32897.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100621135857.GA21159-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
+In-Reply-To: <201006212045.32897.rjw-KKrjLPT3xs0@public.gmane.org>
+Content-Language: en-US
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Nick Bowler <nbowler-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Chatre, Reinette" <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-On Monday, June 21, 2010, Nick Bowler wrote:
-> On 00:11 Mon 21 Jun     , Rafael J. Wysocki wrote:
-> > If you know of any other unresolved regressions from 2.6.34, please let us
-> > know either and we'll add them to the list.  Also, please let us know
-> > if any of the entries below are invalid.
-> 
-> Didn't see this one in the list:
-> 
->   Why is kslowd accumulating so much CPU time?
->   http://thread.gmane.org/gmane.linux.kernel/996907
-
-Thanks, I'm going to add it to the list.
-
-Rafael
+PiA+ID4gQnVnLUVudHJ5CTogaHR0cDovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hvd19idWcuY2dp
+P2lkPTE2MjM1DQo+ID4gPiBTdWJqZWN0CQk6IFtSRUdSRVNTSU9OXSBbSVdMMzk0NV0gQnJvYWRj
+YXN0IGlzIGJyb2tlbj8NCj4gPiA+IFN1Ym1pdHRlcgk6IE1hY2llaiBSdXRlY2tpIDxtYWNpZWou
+cnV0ZWNraUBnbWFpbC5jb20+DQo+ID4gPiBEYXRlCQk6IDIwMTAtMDYtMTQgMTc6MjQgKDcgZGF5
+cyBvbGQpDQo+ID4gPiBNZXNzYWdlLUlECTogPDIwMTAwNjE0MTkyNC4yNDA2MS5tYWNpZWoucnV0
+ZWNraUBnbWFpbC5jb20+DQo+ID4gPiBSZWZlcmVuY2VzCTogaHR0cDovL21hcmMuaW5mby8/bD1s
+aW51eC0NCj4ga2VybmVsJm09MTI3NjUzNjI4MzAxMzAwJnc9Mg0KPiA+DQo+ID4gSSBhc2tlZCBN
+YXhpbSB0byB0ZXN0IGEgcGF0Y2gsIHdoaWNoIGhlIGhhcywgYW5kIGFtIGluIHRoZSBwcm9jZXNz
+IG9mDQo+IHB1c2hpbmcgaXQgdXBzdHJlYW0uDQo+IA0KPiBPSw0KPiANCj4gRG8geW91IGhhdmUg
+YSBwb2ludGVyIHRvIHRoZSBwYXRjaD8NCg0KaHR0cDovL2dpdC5rZXJuZWwub3JnLz9wPWxpbnV4
+L2tlcm5lbC9naXQvaXdsd2lmaS9pd2x3aWZpLTIuNi5naXQ7YT1jb21taXRkaWZmO2g9NGQyM2U0
+ZTVlYjUwNDMxNDI2ZmFjZjE5MjM1NGFkMjUwNmUyZGQ0MDtocD03NWMwYWRmNDY2Njc4NTkxMjhk
+ZDUxNWUxNzUxZWQxNzE4MzMyMTlmDQoNCmpvaGFubmVzDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KSW50ZWwgR21i
+SApEb3JuYWNoZXIgU3RyYXNzZSAxCjg1NjIyIEZlbGRraXJjaGVuL011ZW5jaGVuIEdlcm1hbnkK
+U2l0eiBkZXIgR2VzZWxsc2NoYWZ0OiBGZWxka2lyY2hlbiBiZWkgTXVlbmNoZW4KR2VzY2hhZWZ0
+c2Z1ZWhyZXI6IERvdWdsYXMgTHVzaywgUGV0ZXIgR2xlaXNzbmVyLCBIYW5uZXMgU2Nod2FkZXJl
+cgpSZWdpc3RlcmdlcmljaHQ6IE11ZW5jaGVuIEhSQiA0NzQ1NiBVc3QuLUlkTnIuClZBVCBSZWdp
+c3RyYXRpb24gTm8uOiBERTEyOTM4NTg5NQpDaXRpYmFuayBGcmFua2Z1cnQgKEJMWiA1MDIgMTA5
+IDAwKSA2MDAxMTkwNTIKClRoaXMgZS1tYWlsIGFuZCBhbnkgYXR0YWNobWVudHMgbWF5IGNvbnRh
+aW4gY29uZmlkZW50aWFsIG1hdGVyaWFsIGZvcgp0aGUgc29sZSB1c2Ugb2YgdGhlIGludGVuZGVk
+IHJlY2lwaWVudChzKS4gQW55IHJldmlldyBvciBkaXN0cmlidXRpb24KYnkgb3RoZXJzIGlzIHN0
+cmljdGx5IHByb2hpYml0ZWQuIElmIHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZApyZWNpcGllbnQs
+IHBsZWFzZSBjb250YWN0IHRoZSBzZW5kZXIgYW5kIGRlbGV0ZSBhbGwgY29waWVzLgo=
