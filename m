@@ -1,54 +1,56 @@
-From: Alex Chiang <achiang-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
-Subject: Re: [Bug #16161] [2.6.35-rc1 regression] sysfs: cannot create
- duplicate filename ... XVR-600 related?
-Date: Sun, 20 Jun 2010 22:58:33 -0600
-Message-ID: <20100621045832.GA2274@canonical.com>
-References: <20100618131049.462ca7ce@virtuousgeek.org>
- <20100618.132655.260090086.davem@davemloft.net>
- <4C1BD9CC.5060300@athenacr.com>
- <20100618.140110.246534188.davem@davemloft.net>
+From: Chris Clayton <chris2553-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [Bug #16231] Noticeable slow-down in 2.6.35-rc3
+Date: Mon, 21 Jun 2010 06:58:08 +0100
+Message-ID: <201006210658.08740.chris2553@googlemail.com>
+References: <lc60d4toGTL.A.QzD._LpHMB@chimera> <W8JfMs9cZw.A.xkE.aMpHMB@chimera>
+Reply-To: chris2553-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=gamma;
+        h=domainkey-signature:received:received:from:reply-to:to:subject:date
+         :user-agent:cc:references:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:content-disposition:message-id;
+        bh=mMnkl/5NR/7NlDzbBCJaptwK7FPcZqdxgktOqWKK1vI=;
+        b=JcpVpUsZm6ue4DhKvqs+qYYBHoTR0kb6vdygJES920ki1OvwHdM2itnJU4AXKbTEGk
+         vTKj8Jqr9ggs1UYXI3ReWc5sQp4y/z3Mo4g8Yasd3EwZAGAieAqIBdD1fyeMV5ClSxoo
+         OA8Qi6mIP3k7icN3GcXoOw2O33Sq1946/fCZY=
+In-Reply-To: <W8JfMs9cZw.A.xkE.aMpHMB@chimera>
 Content-Disposition: inline
-In-Reply-To: <20100618.140110.246534188.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Cc: bmb-FfUH/8kkONhWk0Htik3J/w@public.gmane.org, jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org, mikpe-1zs4UD6AkMk@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, John Fastabend <john.r.fastabend-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
-* David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>:
-> From: Brian Bloniarz <bmb-FfUH/8kkONhWk0Htik3J/w@public.gmane.org>
-> Date: Fri, 18 Jun 2010 16:40:44 -0400
-> 
-> > In the patch, 2 individual code paths were trying to
-> > create the same symlinks:
-> > pci-sysfs.c:pci_create_slot_links(struct pci_dev *dev)
-> > and
-> > slot.c:create_sysfs_files(struct pci_slot *slot).
-> > I think some archs managed to call those both during
-> > initialization, and some not.
-> 
-> Right, and if I recall correctly when adding sparc64 support for
-> the sysfs slot stuff if you wanted to create the slots in a
-> non-hotplug situation (which all of the sparc64 cases are) you
-> had to defer the sysfs node creation to later in the boot than
-> when the PCI buses are actually probed and populated.
+On Sunday 20 June 2010, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.34.  Please verify if it still should be listed and let the
+> tracking team know (either way).
+>
 
-Yeah, we call pci_create_sysfs_dev_files() from pci_sysfs_init()
-and from pci_bus_add_device().
+As noted below, the problem is fixed by John's patch. I added a Tested-by to the 
+bugzilla report a few days ago. I guess it should stay open, however, until 
+Linus has applied the patch to mainline.
 
-I haven't figured out why it is that creating other sysfs files,
-e.g. rom files, capabilities, etc. don't also result in duplicate
-entries while the slots do.
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16231
+> Subject		: Noticeable slow-down in 2.6.35-rc3
+> Submitter	: Chris Clayton <chris2553-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+> Date		: 2010-06-13 20:15 (8 days old)
+> First-Bad-Commit:
+> http://git.kernel.org/linus/597a264b1a9c7e36d1728f677c66c5c1f7e3b837
+> Message-ID	: <AANLkTimDUf0N6b5PBy2wTGeAWEIY-lUvQPHQ7D7Gyrq4-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=127646015226601&w=2
+> Handled-By	: John Fastabend <john.r.fastabend-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> Patch		: https://patchwork.kernel.org/patch/105859/
 
-Clearly my expectation was incorrect for the cases when
-pci_create_sysfs_dev_files() gets called on the different
-architectures.
 
-Anyhow, thanks for the revert Jesse. I wish I had more
-time/energy to dig into this right now, but I really don't.
-Sorry.
 
-/ac
+-- 
+The more I see, the more I know. The more I know, the less I understand. 
+Changing Man - Paul Weller
