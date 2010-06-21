@@ -1,43 +1,65 @@
-From: "Berg, Johannes" <johannes.berg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: RE: [Bug #16235] [REGRESSION] [IWL3945] Broadcast is broken?
-Date: Mon, 21 Jun 2010 20:05:14 +0100
-Message-ID: <C5C86A19469DAE48AAAD0E5F3716E44501A571FE33@irsmsx504.ger.corp.intel.com>
-References: <lc60d4toGTL.A.QzD._LpHMB@chimera>
- <W8JfMs9cZw.A.aOE.MMpHMB@chimera>
- <C5C86A19469DAE48AAAD0E5F3716E44501A571F996@irsmsx504.ger.corp.intel.com>
- <201006212045.32897.rjw@sisk.pl>
+From: "Stefan Lippers-Hollmann" <s.L-H@gmx.de>
+Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
+Date: Tue, 22 Jun 2010 00:19:34 +0200
+Message-ID: <201006220019.34874.s.L-H@gmx.de>
+References: <g77CuMUl7QI.A.qMH.4ZpHMB@chimera> <rHrHQMIU4rI.A.5FD.vepHMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: base64
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201006212045.32897.rjw-KKrjLPT3xs0@public.gmane.org>
-Content-Language: en-US
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: multipart/signed;
+  boundary="nextPart1370548.zVSHKF1gOA";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <rHrHQMIU4rI.A.5FD.vepHMB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Chatre, Reinette" <reinette.chatre-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-PiA+ID4gQnVnLUVudHJ5CTogaHR0cDovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvc2hvd19idWcuY2dp
-P2lkPTE2MjM1DQo+ID4gPiBTdWJqZWN0CQk6IFtSRUdSRVNTSU9OXSBbSVdMMzk0NV0gQnJvYWRj
-YXN0IGlzIGJyb2tlbj8NCj4gPiA+IFN1Ym1pdHRlcgk6IE1hY2llaiBSdXRlY2tpIDxtYWNpZWou
-cnV0ZWNraUBnbWFpbC5jb20+DQo+ID4gPiBEYXRlCQk6IDIwMTAtMDYtMTQgMTc6MjQgKDcgZGF5
-cyBvbGQpDQo+ID4gPiBNZXNzYWdlLUlECTogPDIwMTAwNjE0MTkyNC4yNDA2MS5tYWNpZWoucnV0
-ZWNraUBnbWFpbC5jb20+DQo+ID4gPiBSZWZlcmVuY2VzCTogaHR0cDovL21hcmMuaW5mby8/bD1s
-aW51eC0NCj4ga2VybmVsJm09MTI3NjUzNjI4MzAxMzAwJnc9Mg0KPiA+DQo+ID4gSSBhc2tlZCBN
-YXhpbSB0byB0ZXN0IGEgcGF0Y2gsIHdoaWNoIGhlIGhhcywgYW5kIGFtIGluIHRoZSBwcm9jZXNz
-IG9mDQo+IHB1c2hpbmcgaXQgdXBzdHJlYW0uDQo+IA0KPiBPSw0KPiANCj4gRG8geW91IGhhdmUg
-YSBwb2ludGVyIHRvIHRoZSBwYXRjaD8NCg0KaHR0cDovL2dpdC5rZXJuZWwub3JnLz9wPWxpbnV4
-L2tlcm5lbC9naXQvaXdsd2lmaS9pd2x3aWZpLTIuNi5naXQ7YT1jb21taXRkaWZmO2g9NGQyM2U0
-ZTVlYjUwNDMxNDI2ZmFjZjE5MjM1NGFkMjUwNmUyZGQ0MDtocD03NWMwYWRmNDY2Njc4NTkxMjhk
-ZDUxNWUxNzUxZWQxNzE4MzMyMTlmDQoNCmpvaGFubmVzDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KSW50ZWwgR21i
-SApEb3JuYWNoZXIgU3RyYXNzZSAxCjg1NjIyIEZlbGRraXJjaGVuL011ZW5jaGVuIEdlcm1hbnkK
-U2l0eiBkZXIgR2VzZWxsc2NoYWZ0OiBGZWxka2lyY2hlbiBiZWkgTXVlbmNoZW4KR2VzY2hhZWZ0
-c2Z1ZWhyZXI6IERvdWdsYXMgTHVzaywgUGV0ZXIgR2xlaXNzbmVyLCBIYW5uZXMgU2Nod2FkZXJl
-cgpSZWdpc3RlcmdlcmljaHQ6IE11ZW5jaGVuIEhSQiA0NzQ1NiBVc3QuLUlkTnIuClZBVCBSZWdp
-c3RyYXRpb24gTm8uOiBERTEyOTM4NTg5NQpDaXRpYmFuayBGcmFua2Z1cnQgKEJMWiA1MDIgMTA5
-IDAwKSA2MDAxMTkwNTIKClRoaXMgZS1tYWlsIGFuZCBhbnkgYXR0YWNobWVudHMgbWF5IGNvbnRh
-aW4gY29uZmlkZW50aWFsIG1hdGVyaWFsIGZvcgp0aGUgc29sZSB1c2Ugb2YgdGhlIGludGVuZGVk
-IHJlY2lwaWVudChzKS4gQW55IHJldmlldyBvciBkaXN0cmlidXRpb24KYnkgb3RoZXJzIGlzIHN0
-cmljdGx5IHByb2hpYml0ZWQuIElmIHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZApyZWNpcGllbnQs
-IHBsZWFzZSBjb250YWN0IHRoZSBzZW5kZXIgYW5kIGRlbGV0ZSBhbGwgY29waWVzLgo=
+--nextPart1370548.zVSHKF1gOA
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Tuesday 22 June 2010, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.33 and 2.6.34.
+>=20
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.33 and 2.6.34.  Please verify if it still should
+> be listed and let the tracking team know (either way).
+>=20
+>=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15589
+> Subject		: 2.6.34-rc1: Badness at fs/proc/generic.c:316
+> Submitter	: Christian Kujau <lists@nerdbynature.de>
+> Date		: 2010-03-13 23:53 (100 days old)
+> Message-ID	: < <AANLkTikNcCtUn9SQwKu2b3IE6NiAwAhciHsm1HVH4EJh@mail.gmail.=
+com>>
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D126852442903680&w=3D2
+> Handled-By	: Michael Ellerman <michael@ellerman.id.au>
+> 		  Jind=C5=99ich Makovi=C4=8Dka <makovick@gmail.com>
+> Patch		: http://patchwork.ozlabs.org/patch/52978/
+> 		  http://lkml.indiana.edu/hypermail/linux/kernel/1006.0/00137.html
+
+At least the effects on b2c2-flexcop-pci are still valid, in linux-2.6
+HEAD and linux-next (next-20100621).
+
+Regards
+	Stefan Lippers-Hollmann
+
+--nextPart1370548.zVSHKF1gOA
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.10 (GNU/Linux)
+
+iEYEABECAAYFAkwf5XYACgkQORbEMfgJlPZVlACdE1/k3U7a8zNYIj6J9x9CKrmW
+wS8Ani/xU9WEn/M/7e76/GpRQKVcUIk6
+=fnak
+-----END PGP SIGNATURE-----
+
+--nextPart1370548.zVSHKF1gOA--
