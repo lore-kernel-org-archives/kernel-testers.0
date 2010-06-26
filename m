@@ -1,47 +1,46 @@
-From: Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #16054] UML broken for CONFIG_SLAB
-Date: Wed, 23 Jun 2010 18:28:18 -0400
-Message-ID: <AANLkTintzv8areadp7DJO5qdq_V6ZdTmZb5MNnCWzzDs__39784.4041152441$1277332125$gmane$org@mail.gmail.com>
-References: <g77CuMUl7QI.A.qMH.4ZpHMB@chimera>
-	<rHrHQMIU4rI.A.h6.rapHMB@chimera>
-	<AANLkTiks4DUvSLQLHb1Tr6cO_Mma-9UcDRqJ5uafdt1R@mail.gmail.com>
-	<20100621063552.GA16491@liondog.tnic>
+From: Christian Kujau <lists@nerdbynature.de>
+Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
+Date: Fri, 25 Jun 2010 18:04:51 -0700 (PDT)
+Message-ID: <alpine.DEB.2.01.1006251801350.3964@bogon.housecafe.de>
+References: <g77CuMUl7QI.A.qMH.4ZpHMB@chimera> <rHrHQMIU4rI.A.5FD.vepHMB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:received:in-reply-to
-         :references:date:message-id:subject:from:to:content-type;
-        bh=7EfIV6zrXp7suKlPOMjHTb3d82Bt1A4tEaxpgIzQ5po=;
-        b=ubyiBMtgOa049EVQav0i5FtgMoLSOloy40aJYzEzBjfEzhF2PcnafkYSYSh8mR8Oqt
-         D4Rz2BVS5PO78VeFYLCs9oK37gsEe+psjBJMCZwoaatluiHI/F2Zse160CCvV2VRA9sQ
-         qGl+44qStVRwMNHkh+JQBB4a3pmtphzho7Zto=
-In-Reply-To: <20100621063552.GA16491-f9CnO7I+Q6zU6FkGJEIX5A@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <rHrHQMIU4rI.A.5FD.vepHMB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>, Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux->
+Content-Type: TEXT/PLAIN; charset="utf-8"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, =?UTF-8?Q?Jind=C5=99ich_Makovi=C4=8Dka?= <makovick@gmail.com>, Michael Ellerman <michael@ellerman.id.au>, Grant Likely <grant.likely@secretlab.ca>, Alexey Dobriyan <adobriyan@gmail.com>
 
-On Mon, Jun 21, 2010 at 2:35 AM, Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org> wrote:
-> From: Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date: Sun, Jun 20, 2010 at 06:48:55PM -0400
+Sorry for the late reply:
 
-> make mrproper
->
-> and just to make sure no arch_hweight stuff is left, do
->
-> grep -EriIn 'x86.*hweight\.h' arch/um/
->
-> You shouldn't be getting any matches. If you do, than try to find out
-> why you do because all those intermediary *.o.cmd files shouldn't
-> contain any hweight-include files from arch/x86/.
->
+On Mon, 21 Jun 2010 at 00:32, Rafael J. Wysocki wrote:
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.33 and 2.6.34.  Please verify if it still shou=
+ld
+> be listed and let the tracking team know (either way).
 
-Ok. That solves the cfq related crash due to hweight stuff. However
-the second issue - UM is broken for CONFIG_SLAB still exists.
-So I think we can keep the bug open.
+Yes, the bug is still present in 2.6.34 and .35-rc3, but a tested patch=
+ is=20
+available, hopefully to be included in 2.6.35.
 
-Thanks
+Thanks,
+Christian.
 
-Parag
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15589
+> Subject		: 2.6.34-rc1: Badness at fs/proc/generic.c:316
+> Submitter	: Christian Kujau <lists@nerdbynature.de>
+> Date		: 2010-03-13 23:53 (100 days old)
+> Message-ID	: < <AANLkTikNcCtUn9SQwKu2b3IE6NiAwAhciHsm1HVH4EJh@mail.gm=
+ail.com>>
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D126852442903680&w=
+=3D2
+> Handled-By	: Michael Ellerman <michael@ellerman.id.au>
+> 		  Jind=C5=99ich Makovi=C4=8Dka <makovick@gmail.com>
+> Patch		: http://patchwork.ozlabs.org/patch/52978/
+> 		  http://lkml.indiana.edu/hypermail/linux/kernel/1006.0/00137.html
+--=20
+BOFH excuse #302:
+
+microelectronic Riemannian curved-space fault in write-only file system
