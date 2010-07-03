@@ -1,46 +1,54 @@
-From: Christian Kujau <lists@nerdbynature.de>
-Subject: Re: [Bug #15589] 2.6.34-rc1: Badness at fs/proc/generic.c:316
-Date: Fri, 25 Jun 2010 18:04:51 -0700 (PDT)
-Message-ID: <alpine.DEB.2.01.1006251801350.3964@bogon.housecafe.de>
-References: <g77CuMUl7QI.A.qMH.4ZpHMB@chimera> <rHrHQMIU4rI.A.5FD.vepHMB@chimera>
+From: Alexey Fisher <bug-track@fisher-privat.net>
+Subject: trouble to bisect current acpi-pm regression
+Date: Sat, 03 Jul 2010 22:47:09 +0200
+Message-ID: <1278190029.5209.26.camel@zwerg>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <rHrHQMIU4rI.A.5FD.vepHMB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-acpi-owner@vger.kernel.org>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, =?UTF-8?Q?Jind=C5=99ich_Makovi=C4=8Dka?= <makovick@gmail.com>, Michael Ellerman <michael@ellerman.id.au>, Grant Likely <grant.likely@secretlab.ca>, Alexey Dobriyan <adobriyan@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+To: linux-acpi@vger.kernel.org, kernel-testers@vger.kernel.org
 
-Sorry for the late reply:
+Hallo all,
+i have regression in current master HEAD wich i can't properly bisect,
+so i need your help. Please point me if i make some mistake or you have
+some other ideas.
 
-On Mon, 21 Jun 2010 at 00:32, Rafael J. Wysocki wrote:
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.33 and 2.6.34.  Please verify if it still shou=
-ld
-> be listed and let the tracking team know (either way).
+Regression: Standby do not working with newest linus/master.git .
+To reproduce i use plain: "echo mem > /sys/power/state"
+After this, standby initiated, but will freeze with black screen and
+cursors on the left top corner. Nothing other is working, power button
+will not return it to normals state. So i need to hard reset it.
 
-Yes, the bug is still present in 2.6.34 and .35-rc3, but a tested patch=
- is=20
-available, hopefully to be included in 2.6.35.
+For bisect i used two points: v2.6.35-rc2 - good; and HEAD - bad.
+A result i get:
+commit 7c8d20d40f29e7c08332d406d7a65678dece4627
+Merge: 63a07cb 9a40ac8
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu Jun 10 07:35:41 2010 -0700
 
-Thanks,
-Christian.
+    Merge master.kernel.org:/home/rmk/linux-2.6-arm
+    
+    * master.kernel.org:/home/rmk/linux-2.6-arm:
+      ARM: 6164/1: Add kto and kfrom to input operands list.
+      ARM: 6166/1: Proper prefetch abort handling on pre-ARMv6
+      ARM: 6165/1: trap overflows on highmem pages from kmap_atomic when
+debuggi
+      ARM: 6152/1: ux500 make it possible to disable localtimers
+      [ARM] pxa/spitz: Correctly register WM8750
+      [ARM] pxa/palmtc: storage class should be before const qualifier
+      ARM: 6146/1: sa1111: Prevent deadlock in resume path
+      ARM: 6145/1: ux500 MTU clockrate correction
+      ARM: 6144/1: TCM memory bug freeing bug
+      ARM: VFP: Fix vfp_put_double() for d16-d31
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15589
-> Subject		: 2.6.34-rc1: Badness at fs/proc/generic.c:316
-> Submitter	: Christian Kujau <lists@nerdbynature.de>
-> Date		: 2010-03-13 23:53 (100 days old)
-> Message-ID	: < <AANLkTikNcCtUn9SQwKu2b3IE6NiAwAhciHsm1HVH4EJh@mail.gm=
-ail.com>>
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D126852442903680&w=
-=3D2
-> Handled-By	: Michael Ellerman <michael@ellerman.id.au>
-> 		  Jind=C5=99ich Makovi=C4=8Dka <makovick@gmail.com>
-> Patch		: http://patchwork.ozlabs.org/patch/52978/
-> 		  http://lkml.indiana.edu/hypermail/linux/kernel/1006.0/00137.html
---=20
-BOFH excuse #302:
+what can't be true. I double checked it and steel get same result. This
+commit, is currently first commit, where i can reproduce this
+regression.
 
-microelectronic Riemannian curved-space fault in write-only file system
+Is it possible git bisect miss some branch? Any tips to find real patch?
+
+Regards,
+Alexey
+
