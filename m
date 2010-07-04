@@ -1,53 +1,56 @@
-From: Alexey Fisher <bug-track@fisher-privat.net>
-Subject: trouble to bisect current acpi-pm regression
-Date: Sat, 03 Jul 2010 22:47:09 +0200
-Message-ID: <1278190029.5209.26.camel@zwerg>
+From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
+Subject: regression after "drm/i915: fix page flip finish vs. prepare on
+ plane B"
+Date: Sun, 04 Jul 2010 20:08:13 +0200
+Message-ID: <1278266893.5132.18.camel@zwerg>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: linux-acpi@vger.kernel.org, kernel-testers@vger.kernel.org
+To: jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org, simon.farnsworth-ByZzAK2WNt/QT0dZR+AlfA@public.gmane.org
+Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
 Hallo all,
-i have regression in current master HEAD wich i can't properly bisect,
-so i need your help. Please point me if i make some mistake or you have
-some other ideas.
+i have suspend problem after this patch:
 
-Regression: Standby do not working with newest linus/master.git .
-To reproduce i use plain: "echo mem > /sys/power/state"
-After this, standby initiated, but will freeze with black screen and
-cursors on the left top corner. Nothing other is working, power button
-will not return it to normals state. So i need to hard reset it.
+commit 70565d00db6ef5735819db973fa8da95bd34a6ab
+Author: Jesse Barnes <jbarnes-i+zFwBhNuU+v7KeE/7ZovXzaFgp7qdfK@public.gmane.org>
+Date:   Thu Jul 1 04:45:43 2010 -0700
 
-For bisect i used two points: v2.6.35-rc2 - good; and HEAD - bad.
-A result i get:
-commit 7c8d20d40f29e7c08332d406d7a65678dece4627
-Merge: 63a07cb 9a40ac8
-Author: Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu Jun 10 07:35:41 2010 -0700
-
-    Merge master.kernel.org:/home/rmk/linux-2.6-arm
+    drm/i915: fix page flip finish vs. prepare on plane B
     
-    * master.kernel.org:/home/rmk/linux-2.6-arm:
-      ARM: 6164/1: Add kto and kfrom to input operands list.
-      ARM: 6166/1: Proper prefetch abort handling on pre-ARMv6
-      ARM: 6165/1: trap overflows on highmem pages from kmap_atomic when
-debuggi
-      ARM: 6152/1: ux500 make it possible to disable localtimers
-      [ARM] pxa/spitz: Correctly register WM8750
-      [ARM] pxa/palmtc: storage class should be before const qualifier
-      ARM: 6146/1: sa1111: Prevent deadlock in resume path
-      ARM: 6145/1: ux500 MTU clockrate correction
-      ARM: 6144/1: TCM memory bug freeing bug
-      ARM: VFP: Fix vfp_put_double() for d16-d31
+    The refreshed patch had a copy & paste bug.
+    
+    Reported-by: Simon Farnsworth <simon.farnsworth-ByZzAK2WNt/QT0dZR+AlfA@public.gmane.org>
+    Signed-off-by: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+    Signed-off-by: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 
-what can't be true. I double checked it and steel get same result. This
-commit, is currently first commit, where i can reproduce this
-regression.
+diff --git a/drivers/gpu/drm/i915/i915_irq.c
+b/drivers/gpu/drm/i915/i915_irq.c
+index d676e55..dba53d4 100644
+--- a/drivers/gpu/drm/i915/i915_irq.c
++++ b/drivers/gpu/drm/i915/i915_irq.c
+@@ -947,9 +947,9 @@ irqreturn_t i915_driver_irq_handler(DRM_IRQ_ARGS)
+                }
+ 
+                if (iir & I915_DISPLAY_PLANE_B_FLIP_PENDING_INTERRUPT) {
++                       intel_prepare_page_flip(dev, 1);
+                        if (dev_priv->flip_pending_is_done)
+                                intel_finish_page_flip_plane(dev, 1);
+-                       intel_prepare_page_flip(dev, 1);
+                }
+ 
+                if (pipea_stats & vblank_status) {
 
-Is it possible git bisect miss some branch? Any tips to find real patch?
+=============================================
+
+for testing i use plain "echo mem > /sys/power/state"
+after this, pc will initiate suspending and freeze with black screen and
+cursor on the top left corner.
+after reversing this patch suspend working again.
+My conf: Intel DG45ID board (G45 + ICH10) and 64bit ubuntu 10.04
 
 Regards,
 Alexey
