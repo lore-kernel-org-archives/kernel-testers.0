@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16173] After uncompressing the kernel, at boot time, the server hangs.
+Subject: [Bug #16175] 2.6.35-rc1 system oom, many processes killed but memory not free
 Date: Fri,  9 Jul 2010 01:41:33 +0200 (CEST)
-Message-ID: <TXb9XdQzJoD.A.h9D.AOmNMB@chimera>
+Message-ID: <TXb9XdQzJoD.A.n2D.8NmNMB@chimera>
 References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, David Hill <hilld@binarystorm.net>, "Eric W. Biederman" <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, andrew hendry <andrew.hendry@gmail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16173
-Subject		: After uncompressing the kernel, at boot time, the server hangs.
-Submitter	: David Hill <hilld@binarystorm.net>
-Date		: 2010-06-09 23:25 (30 days old)
-First-Bad-Commit: http://git.kernel.org/linus/cf7500c0ea133d66f8449d86392d83f840102632
-Handled-By	: Eric W. Biederman <ebiederm@xmission.com>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16175
+Subject		: 2.6.35-rc1 system oom, many processes killed but memory not free
+Submitter	: andrew hendry <andrew.hendry@gmail.com>
+Date		: 2010-06-05 0:46 (34 days old)
+Message-ID	: <AANLkTim7CiW-yfugZUAHZCqLvXKgt9CwolCvbLGdCLAk@mail.gmail.com>
+References	: http://marc.info/?l=linux-kernel&m=127569877714937&w=2
 
