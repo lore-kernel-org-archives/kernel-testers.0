@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16257] sysfs changes break hwsim and bnep drivers
-Date: Fri,  9 Jul 2010 01:41:37 +0200 (CEST)
-Message-ID: <TXb9XdQzJoD.A.3MC.yMmNMB@chimera>
+Subject: [Bug #16215] sysfs: cannot create duplicate filename '/class/net/bnep0'
+Date: Fri,  9 Jul 2010 01:41:34 +0200 (CEST)
+Message-ID: <TXb9XdQzJoD.A.mGD.bNmNMB@chimera>
 References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "Eric W. Biederman" <ebiederm@xmission.com>, Johannes Berg <johannes@sipsolutions.net>, Kay Sievers <kay.sievers@vrfy.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "Eric W. Biederman" <ebiederm@xmission.com>, Janusz Krzysztofik <jkrzyszt@tis.icnet.pl>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,11 +22,10 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16257
-Subject		: sysfs changes break hwsim and bnep drivers
-Submitter	: Johannes Berg <johannes@sipsolutions.net>
-Date		: 2010-06-20 11:23 (19 days old)
-References	: http://thread.gmane.org/gmane.linux.network/162754
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16215
+Subject		: sysfs: cannot create duplicate filename '/class/net/bnep0'
+Submitter	: Janusz Krzysztofik <jkrzyszt@tis.icnet.pl>
+Date		: 2010-06-15 14:55 (24 days old)
 Handled-By	: Eric W. Biederman <ebiederm@xmission.com>
-		  Kay Sievers <kay.sievers@vrfy.org>
+Patch		: https://bugzilla.kernel.org/show_bug.cgi?id=16215#c10
 
