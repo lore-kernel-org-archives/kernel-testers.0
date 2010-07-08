@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16205] acpi: freeing invalid memtype bf799000-bf79a000
-Date: Fri,  9 Jul 2010 01:41:34 +0200 (CEST)
-Message-ID: <TXb9XdQzJoD.A.sND.dNmNMB@chimera>
+Subject: [Bug #16230] inconsistent IN-HARDIRQ-W -> HARDIRQ-ON-W usage: fasync, 2.6.35-rc3
+Date: Fri,  9 Jul 2010 01:41:35 +0200 (CEST)
+Message-ID: <TXb9XdQzJoD.A.c1C.INmNMB@chimera>
 References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Marcin Slusarz <marcin.slusarz@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Dominik Brodowski <linux@dominikbrodowski.net>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,11 +22,10 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16205
-Subject		: acpi: freeing invalid memtype bf799000-bf79a000
-Submitter	: Marcin Slusarz <marcin.slusarz@gmail.com>
-Date		: 2010-06-09 20:09 (30 days old)
-Message-ID	: <20100609200910.GA2876@joi.lan>
-References	: http://marc.info/?l=linux-kernel&m=127611427029914&w=2
-		  http://marc.info/?l=linux-kernel&m=127688398513862&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16230
+Subject		: inconsistent IN-HARDIRQ-W -> HARDIRQ-ON-W usage: fasync, 2.6.35-rc3
+Submitter	: Dominik Brodowski <linux@dominikbrodowski.net>
+Date		: 2010-06-13 9:53 (26 days old)
+Message-ID	: <20100613095305.GA13231@comet.dominikbrodowski.net>
+References	: http://marc.info/?l=linux-kernel&m=127642282208277&w=2
 
