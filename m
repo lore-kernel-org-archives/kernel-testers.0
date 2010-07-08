@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16324] Oops while running fs_racer test on a POWER6 box against latest git
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16332] Kernel crashes in tty code (tty_open)
 Date: Fri,  9 Jul 2010 01:41:42 +0200 (CEST)
-Message-ID: <TXb9XdQzJoD.A.Bw.7LmNMB@chimera>
+Message-ID: <TXb9XdQzJoD.A.vd.0LmNMB@chimera>
 References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, divya <dipraksh@linux.vnet.ibm.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "werner-K1X7VnsBORrsrOwW+9ziJQ@public.gmane.org"@ogre.sisk.pl
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16324
-Subject		: Oops while running fs_racer test on a POWER6 box against latest git
-Submitter	: divya <dipraksh@linux.vnet.ibm.com>
-Date		: 2010-06-30 11:34 (9 days old)
-Message-ID	: <4C2B28F3.7000006@linux.vnet.ibm.com>
-References	: http://marc.info/?l=linux-kernel&m=127789697303061&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16332
+Subject		: Kernel crashes in tty code (tty_open)
+Submitter	: werner-K1X7VnsBORrsrOwW+9ziJQ@public.gmane.org
+Date		: 2010-07-02 3:34 (7 days old)
+Message-ID	: <1278041650.12788-K1X7VnsBORrsrOwW+9ziJQ@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=127804167511930&w=2
 
