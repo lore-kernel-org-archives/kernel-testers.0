@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16232] 2.6.35-rc3 - WARNING:iwl_set_dynamic_key
-Date: Fri,  9 Jul 2010 01:41:36 +0200 (CEST)
-Message-ID: <TXb9XdQzJoD.A.VvC.ENmNMB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16271] 2.6.35-rc3 regression: IBM Maia system is unbootable [ACPI related?]
+Date: Fri,  9 Jul 2010 01:41:38 +0200 (CEST)
+Message-ID: <TXb9XdQzJoD.A.X-B.oMmNMB@chimera>
 References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Mario Guenterberg <mario.guenterberg@googlemail.com>, Reinette Chatre <reinette.chatre@intel.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,12 +22,12 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16232
-Subject		: 2.6.35-rc3 - WARNING:iwl_set_dynamic_key
-Submitter	: Mario Guenterberg <mario.guenterberg@googlemail.com>
-Date		: 2010-06-14 11:55 (25 days old)
-Message-ID	: <20100614115510.GA7904@guenti-laptop>
-References	: http://marc.info/?l=linux-kernel&m=127651695627147&w=2
-Handled-By	: Reinette Chatre <reinette.chatre@intel.com>
-Patch		: http://article.gmane.org/gmane.linux.kernel.wireless.general/52893
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16271
+Subject		: 2.6.35-rc3 regression: IBM Maia system is unbootable [ACPI related?]
+Submitter	: James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
+Date		: 2010-06-21 16:03 (18 days old)
+Message-ID	: <1277136189.10998.63.camel-0iu6Cu4xQGLYCGPCin2YbQ@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=127713622821166&w=2
+Handled-By	: Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Patch		: https://patchwork.kernel.org/patch/108497/
 
