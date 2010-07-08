@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16175] 2.6.35-rc1 system oom, many processes killed but memory not free
+Subject: [Bug #16169] Complain from preemptive debug
 Date: Fri,  9 Jul 2010 01:41:33 +0200 (CEST)
-Message-ID: <TXb9XdQzJoD.A.n2D.8NmNMB@chimera>
+Message-ID: <TXb9XdQzJoD.A.SIE.FOmNMB@chimera>
 References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, andrew hendry <andrew.hendry@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Dmitry Monakhov <dmonakhov@openvz.org>, Sedat Dilek <sedat.dilek@googlemail.com>, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,14 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16175
-Subject		: 2.6.35-rc1 system oom, many processes killed but memory not free
-Submitter	: andrew hendry <andrew.hendry@gmail.com>
-Date		: 2010-06-05 0:46 (34 days old)
-Message-ID	: <AANLkTim7CiW-yfugZUAHZCqLvXKgt9CwolCvbLGdCLAk@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=127569877714937&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16169
+Subject		: Complain from preemptive debug
+Submitter	: Sedat Dilek <sedat.dilek@googlemail.com>
+Date		: 2010-05-31 10:10 (39 days old)
+Message-ID	: <AANLkTilTnAAZIizKinYsxFkNTkrmPqk6XJJuUjjhJ7EP@mail.gmail.com>
+References	: http://lkml.org/lkml/2010/5/31/77
+Handled-By	: Dmitry Monakhov <dmonakhov@openvz.org>
+		  Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Patch		: http://www.spinics.net/lists/cpufreq/msg01631.html
+		  https://patchwork.kernel.org/patch/106555/
 
