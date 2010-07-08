@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16256] tpm_tis breaks suspend/hibernate on kernels > 2.6.34
-Date: Fri,  9 Jul 2010 01:41:37 +0200 (CEST)
-Message-ID: <TXb9XdQzJoD.A.QYC.1MmNMB@chimera>
+Subject: [Bug #16288] kernel panic with iwlagn for Intel Wifi Link 5100
+Date: Fri,  9 Jul 2010 01:41:38 +0200 (CEST)
+Message-ID: <TXb9XdQzJoD.A.yrB.fMmNMB@chimera>
 References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, David Safford <safford@watson.ibm.com>, Helmut Schaa <helmut.schaa@googlemail.com>, James Morris <jmorris@namei.org>, Rajiv Andrade <srajiv@linux.vnet.ibm.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Reinette Chatre <reinette.chatre@intel.com>, yanshuang.zheng@intel.com
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,11 +22,9 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16256
-Subject		: tpm_tis breaks suspend/hibernate on kernels > 2.6.34
-Submitter	: Helmut Schaa <helmut.schaa@googlemail.com>
-Date		: 2010-06-20 11:15 (19 days old)
-First-Bad-Commit: http://git.kernel.org/linus/225a9be24d799aa16d543c31fb09f0c9ed1d9caa
-Handled-By	: Helmut Schaa <helmut.schaa@googlemail.com>
-Patch		: http://marc.info/?l=tpmdd-devel&m=127609160616162&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16288
+Subject		: kernel panic with iwlagn for Intel Wifi Link 5100
+Submitter	:  <yanshuang.zheng@intel.com>
+Date		: 2010-06-25 08:14 (14 days old)
+Handled-By	: Reinette Chatre <reinette.chatre@intel.com>
 
