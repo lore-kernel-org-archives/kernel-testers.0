@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16234] [2.6.35-rc3] reboot mutex 'bug'...
-Date: Fri,  9 Jul 2010 01:41:36 +0200 (CEST)
-Message-ID: <TXb9XdQzJoD.A._mC.CNmNMB@chimera>
+Subject: [Bug #16184] Container, X86-64, i386, iptables rule
+Date: Fri,  9 Jul 2010 01:41:33 +0200 (CEST)
+Message-ID: <TXb9XdQzJoD.A.MqD.xNmNMB@chimera>
 References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Daniel J Blueman <daniel.blueman@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jean-Marc Pigeon <jmp@safe.ca>, Patrick McHardy <kaber@trash.net>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,9 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16234
-Subject		: [2.6.35-rc3] reboot mutex 'bug'...
-Submitter	: Daniel J Blueman <daniel.blueman@gmail.com>
-Date		: 2010-06-14 15:16 (25 days old)
-Message-ID	: <AANLkTimDcTnyEPmt2ZcCM1UWtn4AYKotiqyjobJApkO7@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=127652861118933&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16184
+Subject		: Container, X86-64, i386, iptables rule
+Submitter	: Jean-Marc Pigeon <jmp@safe.ca>
+Date		: 2010-06-12 04:17 (27 days old)
+Handled-By	: Patrick McHardy <kaber@trash.net>
 
