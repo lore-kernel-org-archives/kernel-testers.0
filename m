@@ -1,89 +1,36 @@
-From: Norbert Preining <preining@logic.at>
-Subject: Re: 2.6.35-rc4-git3: Reported regressions from 2.6.34
-Date: Sat, 10 Jul 2010 01:04:08 +0900
-Message-ID: <20100709160408.GU30043@gamma.logic.tuwien.ac.at>
-References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera> <AANLkTiknnzWyVpqnPCpyiEVHLgkewd0zaGzLInABRe2G@mail.gmail.com> <20100709081239.4eb8fddd@virtuousgeek.org>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #16122] 2.6.35-rc1: WARNING at fs/fs-writeback.c:1142 __mark_inode_dirty+0x103/0x170
+Date: Fri, 9 Jul 2010 22:48:31 +0200
+Message-ID: <201007092248.31404.rjw@sisk.pl>
+References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera> <TXb9XdQzJoD.A.TQE.dOmNMB@chimera> <4C367930.9000107@lwfinger.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <20100709081239.4eb8fddd@virtuousgeek.org>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4C367930.9000107-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Jesse Barnes <jbarnes@virtuousgeek.org>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
 
-Hi Jesse,
+On Friday, July 09, 2010, Larry Finger wrote:
+> On 07/08/2010 06:33 PM, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a summary report
+> > of recent regressions.
+> >
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.34.  Please verify if it still should be listed and let the tracking team
+> > know (either way).
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16122
+> > Subject		: 2.6.35-rc1: WARNING at fs/fs-writeback.c:1142 __mark_inode_dirty+0x103/0x170
+> > Submitter	: Larry Finger<Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+> > Date		: 2010-06-04 13:18 (35 days old)
+> > Handled-By	: Jens Axboe<axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
+> 
+> This bug is still present in 2.6.35-rc4.
 
-(stripping some people from Cc, hopefully not too many)
+Thanks for the update.
 
-On Fr, 09 Jul 2010, Jesse Barnes wrote:
-> > > Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?i=
-d=3D16179
-> > > Subject =A0 =A0 =A0 =A0 : 2.6.35-rc2 completely hosed on intel gf=
-x?
-> > > Submitter =A0 =A0 =A0 : Norbert Preining <preining@logic.at>
-> > > Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-06-06 11:55 (33 days old)
-> > > Message-ID =A0 =A0 =A0: <20100606115534.GA9399@gamma.logic.tuwien=
-=2Eac.at>
-> > > References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D12=
-7582534931581&w=3D2 =20
-> >=20
-> > Hmm. That one is the vt.c bug coupled with another problem, which i=
-n
-> > turn got opened as a separate bugzilla entry:
-> >=20
-> >    http://bugzilla.kernel.org/show_bug.cgi?id=3D16252
-> >=20
-> > which in turn then got closed. I dunno.
->=20
-> Yeah, this is weird.  Norbert, do you still see this?  Have you tried
-> to bisect it?
-
-I wrote in my last comment of this bug that in *most* of the cases
-the=20
-	echo "mem" > /sys/power/state
-works perfectly, and I'm using it permanently now.
-
-The problem seems to be in combination with some pm-utils scripts.
-I still haven't been able to pin-point the actual pm-utils script that
-causes the problem, since that is something not 100% reproducible.
-
-=46uthermore, *once* (only once!) the echo mem > method failed as writt=
-en in
-the bug report with :
-[16273.....] PM: resume of devices complete after 2115.046 msecs
-[16273.....] Restarting tasks ... done
-[16273.....] video LNXVIDEO:00: Restoring backlight state
-hanging here, but only once, not any time again.
-
-It is hard to say what the culprit is, some new pm-utils script maybe,
-since it happens even when I switch pm-utils to use the kernel method
-(echo mem) to suspend, and not uswsusp (s2ram prog).
-
-I would suggest keeping that bug closed until I have found the pm-utils
-or a specific culprit, then I can reopen it or open a new bug.
-
-(more disturbing are iwlagn bugs, they are a PITA without any progress)
-
-Best wishes
-
-Norbert
------------------------------------------------------------------------=
--
-Norbert Preining            preining@{jaist.ac.jp, logic.at, debian.org=
-}
-JAIST, Japan                                 TeX Live & Debian Develope=
-r
-DSA: 0x09C5B094   fp: 14DF 2E6C 0307 BE6D AD76  A9C0 D2BF 4AA3 09C5 B09=
-4
------------------------------------------------------------------------=
--
-BLEAN
-Scientific measure of luminosity : 1 glimmer =3D 100,000
-bleans. Usherettes' torches are designed to produce between 2.5 and 4
-bleans, enabling them to assist you in falling downstairs, treading on
-people or putting your hand into a Neapolitan tub when reaching for
-change.
-			--- Douglas Adams, The Meaning of Liff
+Rafael
