@@ -1,36 +1,40 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #16122] 2.6.35-rc1: WARNING at fs/fs-writeback.c:1142 __mark_inode_dirty+0x103/0x170
-Date: Fri, 9 Jul 2010 22:48:31 +0200
-Message-ID: <201007092248.31404.rjw@sisk.pl>
-References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera> <TXb9XdQzJoD.A.TQE.dOmNMB@chimera> <4C367930.9000107@lwfinger.net>
+Subject: Re: [Bug #16169] Complain from preemptive debug
+Date: Fri, 9 Jul 2010 22:49:19 +0200
+Message-ID: <201007092249.19612.rjw@sisk.pl>
+References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera> <TXb9XdQzJoD.A.SIE.FOmNMB@chimera> <20100709063836.GA3965@swordfish>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4C367930.9000107-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+In-Reply-To: <20100709063836.GA3965@swordfish>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
+To: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dmitry Monakhov <dmonakhov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, Sedat Dilek <sedat.dilek-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 
-On Friday, July 09, 2010, Larry Finger wrote:
-> On 07/08/2010 06:33 PM, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.34.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16122
-> > Subject		: 2.6.35-rc1: WARNING at fs/fs-writeback.c:1142 __mark_inode_dirty+0x103/0x170
-> > Submitter	: Larry Finger<Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-> > Date		: 2010-06-04 13:18 (35 days old)
-> > Handled-By	: Jens Axboe<axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
+On Friday, July 09, 2010, Sergey Senozhatsky wrote:
+> On (07/09/10 01:41), Rafael J. Wysocki wrote:
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16169
+> > Subject		: Complain from preemptive debug
+> > Submitter	: Sedat Dilek <sedat.dilek-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+> > Date		: 2010-05-31 10:10 (39 days old)
+> > Message-ID	: <AANLkTilTnAAZIizKinYsxFkNTkrmPqk6XJJuUjjhJ7EP-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+> > References	: http://lkml.org/lkml/2010/5/31/77
+> > Handled-By	: Dmitry Monakhov <dmonakhov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+> > 		  Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Patch		: http://www.spinics.net/lists/cpufreq/msg01631.html
+> > 		  https://patchwork.kernel.org/patch/106555/
+> > 
+> > 
 > 
-> This bug is still present in 2.6.35-rc4.
+> Hello,
+> The patch (Signed-off-by: Peter Zijlstra - http://lkml.org/lkml/2010/7/1/32) 
+> is already in the kernel. Please see this thread
+> http://lkml.org/lkml/2010/6/15/309
+> 
+> 8c215bd3890c347dfb6a2db4779755f8b9c298a9
 
-Thanks for the update.
+The bug has been closed, thanks for the update.
 
 Rafael
