@@ -1,47 +1,54 @@
-From: Kees Cook <kees-oSa+0FWJbaXR7s880joybQ@public.gmane.org>
-Subject: Re: [Bug #16294] [Q35 bisected] hang at init of i915 driver
-Date: Thu, 8 Jul 2010 17:45:05 -0700
-Message-ID: <20100709004505.GU828@outflux.net>
+From: Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #16306] 2.6.35-rc3 BUG: unable to handle kernel NULL
+ pointer dereference at 0000000000000048 cifs_show_options
+Date: Thu, 8 Jul 2010 20:49:45 -0400
+Message-ID: <20100708204945.01ca1236@corrin.poochiereds.net>
 References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
- <TXb9XdQzJoD.A.uoB.WMmNMB@chimera>
+	<TXb9XdQzJoD.A.DhB.SMmNMB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <TXb9XdQzJoD.A.uoB.WMmNMB@chimera>
+In-Reply-To: <TXb9XdQzJoD.A.DhB.SMmNMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Chris Wilson <"email addresshidden"@ogre.sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Hendry <andrew.hendry-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Hi Rafael,
+On Fri,  9 Jul 2010 01:41:39 +0200 (CEST)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-On Fri, Jul 09, 2010 at 01:41:39AM +0200, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
+> 
 > The following bug entry is on the current list of known regressions
 > from 2.6.34.  Please verify if it still should be listed and let the tracking team
 > know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16306
+> Subject		: 2.6.35-rc3 BUG: unable to handle kernel NULL pointer dereference at 0000000000000048 cifs_show_options
+> Submitter	: Andrew Hendry <andrew.hendry-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-06-26 10:46 (13 days old)
+> Message-ID	: <AANLkTilhTrEBYZd4HxeXQk8B6-yV8rCJ2C0jXsEREgIR-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=127754922110501&w=2
+> Handled-By	: Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> 
+> 
 
-Yup, this is still a regression.  The fix is trivial (see below).
+Not sure if this is a new bug or not...
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16294
-> Subject		: [Q35 bisected] hang at init of i915 driver
-> Submitter	: Kees Cook <kees-oSa+0FWJbaXR7s880joybQ@public.gmane.org>
-> Date		: 2010-06-25 18:20 (14 days old)
-> First-Bad-Commit: http://git.kernel.org/linus/f1befe71fa7a79ab733011b045639d8d809924ad
+I don't think this is really a CIFS bug, per-se. It seems like the
+problem may be that the iterator for /proc/pid/mountinfo is not
+sufficiently protected against removal from the vfsmount list.
 
-diff --git a/drivers/char/agp/intel-gtt.c b/drivers/char/agp/intel-gtt.c
-index 9344216..0d9007d 100644
---- a/drivers/char/agp/intel-gtt.c
-+++ b/drivers/char/agp/intel-gtt.c
-@@ -1229,6 +1229,7 @@ static int intel_i915_get_gtt_size(void)
- 				(gmch_ctrl & G33_PGETBL_SIZE_MASK));
- 			size = 512;
- 		}
-+		size = 1024;
- 	} else {
- 		/* On previous hardware, the GTT size was just what was
- 		 * required to map the aperture.
+Filesystems don't seem to be expected to do any locking in their
+show_options routines though so I'm guessing that something is borked
+in the generic vfs layer.
+
+Either that or this is some sort of generic mem corruption? I'm open to
+input from others that have a better grasp of this stuff at the VFS
+layer...
 
 -- 
-Kees Cook                                            @outflux.net
+Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
