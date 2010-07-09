@@ -1,59 +1,65 @@
-From: Andrew Hendry <andrew.hendry-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #16175] 2.6.35-rc1 system oom, many processes killed but 
-	memory not free
-Date: Fri, 9 Jul 2010 17:08:47 +1000
-Message-ID: <AANLkTine2GbsnGfqZLzgDq2AWmAPpHqjDUugumpX2Ymv@mail.gmail.com>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: 2.6.35-rc4-git3: Reported regressions from 2.6.34
+Date: Fri, 9 Jul 2010 09:11:31 +0200
+Message-ID: <20100709071131.GB10743@elte.hu>
 References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera>
-	<TXb9XdQzJoD.A.n2D.8NmNMB@chimera>
-	<20100709115010.CD72.A69D9226@jp.fujitsu.com>
+ <AANLkTiknnzWyVpqnPCpyiEVHLgkewd0zaGzLInABRe2G@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:received:in-reply-to
-         :references:date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=KVnSKMoMLK9tgdx4+jYYxLuOHFaSaWnaMn/CTkRWRaA=;
-        b=GDDQVaNP9cRQwWMPr7AoLh5usWptL622Bjk1xMJstX5LkFOBPF6Vj2wISpTuIvS48m
-         HJSmzuwy0rlFFObMXxENIsDCj1Em6kEifkpHQsH6ZeM8qJP0uhZD0p1ivPmAIIJLb/IB
-         oKPau1paFd3iIX1EdIW/mvPg/uV1+t4NG9Nbc=
-In-Reply-To: <20100709115010.CD72.A69D9226-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <AANLkTiknnzWyVpqnPCpyiEVHLgkewd0zaGzLInABRe2G-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Paul E. McKenney" <paulmck-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>, Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>, Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
 
-Yes this one can be closed, it was ramdisk too big.
 
-On Fri, Jul 9, 2010 at 12:53 PM, KOSAKI Motohiro
-<kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org> wrote:
->> This message has been generated automatically as a part of a summary=
- report
->> of recent regressions.
->>
->> The following bug entry is on the current list of known regressions
->> from 2.6.34. =A0Please verify if it still should be listed and let t=
-he tracking team
->> know (either way).
->>
->>
->> Bug-Entry =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D161=
-75
->> Subject =A0 =A0 =A0 =A0 =A0 =A0 =A0 : 2.6.35-rc1 system oom, many pr=
-ocesses killed but memory not free
->> Submitter =A0 =A0 : andrew hendry <andrew.hendry-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> Date =A0 =A0 =A0 =A0 =A0: 2010-06-05 0:46 (34 days old)
->> Message-ID =A0 =A0: <AANLkTim7CiW-yfugZUAHZCqLvXKgt9CwolCvbLGdCLAk@m=
-ail.gmail.com>
->> References =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D127569877=
-714937&w=3D2
->
-> Andrew, I think this ticket can be closed, right?
->
-> Rafael, can you please see following discussion?
->
-> http://marc.info/?l=3Dlinux-kernel&m=3D127744262109629&w=3D2
->
->
+* Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> wrote:
+
+> > Bug-Entry ? ? ? : http://bugzilla.kernel.org/show_bug.cgi?id=16346
+> > Subject ? ? ? ? : 2.6.35-rc3-git8 - include/linux/fdtable.h:88 invoked rcu_dereference_check() without protection!
+> > Submitter ? ? ? : Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date ? ? ? ? ? ?: 2010-07-04 22:04 (5 days old)
+> > Message-ID ? ? ?: <AANLkTinof0k28rk4rMr66aubxcRL2rFa5ZEArj1lqD3o-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+> > References ? ? ?: http://marc.info/?l=linux-kernel&m=127828107815930&w=2
+> 
+> I'm not entirely sure if these RCU proving things should count as 
+> regressions.
+
+Generally not - and we've delayed at least one more complex (cgroups) fix to 
+v2.6.36 because the patch itself was riskier than the warning.
+
+Still most of the warning fixes turned out to be simple, so we merged the 
+very-low-risk ones and right now we seem to be on top of them.
+
+But in general the default rule is that we delay these fixes to v2.6.36.
+
+> Sure, the option to enable RCU proving is new, but the things it reports 
+> about generally are not new - and they are usually not even bugs in the 
+> sense that they necessarily cause any real problems.
+> 
+> That particular one is in the single-thread optimizated case for fget_light, ie
+> 
+>         if (likely((atomic_read(&files->count) == 1))) {
+>                 file = fcheck_files(files, fd);
+> 
+> where I think it should be entirely safe in all ways without any locking. So 
+> I think it's a false positive too.
+
+Yeah, it's a bit like with lockdep (and it's a bit like with compiler warning 
+fixes): we had to punch through a large stack of false positives that 
+accumulated in the past 10 years.
+
+( Because real bugs eventually get fixed, while false positives always just
+  accumulate. So almost by definition we always start with a very assymetric
+  collection of warnings and a large stack of false positives. )
+
+Having said that, it appears we got most of the false positives and are 
+beginning to be in a more representative equilibrium now. If v2.6.35 isnt 
+going to be warning-free then v2.6.36 certainly will be and new warnings will 
+have a much higher likelyhood of being real (and new) bugs (not just 
+accumulated false-positives).
+
+	Ingo
