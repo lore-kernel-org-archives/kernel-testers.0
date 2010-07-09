@@ -1,67 +1,59 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: 2.6.35-rc4-git3: Reported regressions from 2.6.34
-Date: Fri, 9 Jul 2010 23:42:18 +0200
-Message-ID: <201007092342.18286.rjw@sisk.pl>
-References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera> <20100709081239.4eb8fddd@virtuousgeek.org> <20100709160408.GU30043@gamma.logic.tuwien.ac.at>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #16294] [Q35 bisected] hang at init of i915 driver
+Date: Fri, 9 Jul 2010 23:50:05 +0200
+Message-ID: <201007092350.05954.rjw@sisk.pl>
+References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera> <201007092256.48672.rjw@sisk.pl> <4C3790CA.5070009@canonical.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20100709160408.GU30043@gamma.logic.tuwien.ac.at>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4C3790CA.5070009-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Norbert Preining <preining@logic.at>
-Cc: Jesse Barnes <jbarnes@virtuousgeek.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>
+To: tim.gardner-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org
+Cc: Kees Cook <kees-oSa+0FWJbaXR7s880joybQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Friday, July 09, 2010, Norbert Preining wrote:
-> Hi Jesse,
+On Friday, July 09, 2010, Tim Gardner wrote:
+> On 07/09/2010 02:56 PM, Rafael J. Wysocki wrote:
+> > On Friday, July 09, 2010, Kees Cook wrote:
+> >> Hi Rafael,
+> >>
+> >> On Fri, Jul 09, 2010 at 01:41:39AM +0200, Rafael J. Wysocki wrote:
+> >>> The following bug entry is on the current list of known regressions
+> >>> from 2.6.34.  Please verify if it still should be listed and let the tracking team
+> >>> know (either way).
+> >>
+> >> Yup, this is still a regression.  The fix is trivial (see below).
+> >
+> > Thanks for the update.
+> >
+> >>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16294
+> >>> Subject		: [Q35 bisected] hang at init of i915 driver
+> >>> Submitter	: Kees Cook<kees-oSa+0FWJbaXR7s880joybQ@public.gmane.org>
+> >>> Date		: 2010-06-25 18:20 (14 days old)
+> >>> First-Bad-Commit: http://git.kernel.org/linus/f1befe71fa7a79ab733011b045639d8d809924ad
+> >>
+> >> diff --git a/drivers/char/agp/intel-gtt.c b/drivers/char/agp/intel-gtt.c
+> >> index 9344216..0d9007d 100644
+> >> --- a/drivers/char/agp/intel-gtt.c
+> >> +++ b/drivers/char/agp/intel-gtt.c
+> >> @@ -1229,6 +1229,7 @@ static int intel_i915_get_gtt_size(void)
+> >>   				(gmch_ctrl&  G33_PGETBL_SIZE_MASK));
+> >>   			size = 512;
+> >>   		}
+> >> +		size = 1024;
+> >>   	} else {
+> >>   		/* On previous hardware, the GTT size was just what was
+> >>   		 * required to map the aperture.
+> >
+> > Rafael
+> > --
 > 
-> (stripping some people from Cc, hopefully not too many)
+> Rafael - I forgot to Cc you on the patch I just sent to Dave Arlie. Kees 
+> has confirmed that it fixes his problem.
 > 
-> On Fr, 09 Jul 2010, Jesse Barnes wrote:
-> > > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=16179
-> > > > Subject         : 2.6.35-rc2 completely hosed on intel gfx?
-> > > > Submitter       : Norbert Preining <preining@logic.at>
-> > > > Date            : 2010-06-06 11:55 (33 days old)
-> > > > Message-ID      : <20100606115534.GA9399@gamma.logic.tuwien.ac.at>
-> > > > References      : http://marc.info/?l=linux-kernel&m=127582534931581&w=2  
-> > > 
-> > > Hmm. That one is the vt.c bug coupled with another problem, which in
-> > > turn got opened as a separate bugzilla entry:
-> > > 
-> > >    http://bugzilla.kernel.org/show_bug.cgi?id=16252
-> > > 
-> > > which in turn then got closed. I dunno.
-> > 
-> > Yeah, this is weird.  Norbert, do you still see this?  Have you tried
-> > to bisect it?
-> 
-> I wrote in my last comment of this bug that in *most* of the cases
-> the 
-> 	echo "mem" > /sys/power/state
-> works perfectly, and I'm using it permanently now.
-> 
-> The problem seems to be in combination with some pm-utils scripts.
-> I still haven't been able to pin-point the actual pm-utils script that
-> causes the problem, since that is something not 100% reproducible.
-> 
-> Futhermore, *once* (only once!) the echo mem > method failed as written in
-> the bug report with :
-> [16273.....] PM: resume of devices complete after 2115.046 msecs
-> [16273.....] Restarting tasks ... done
-> [16273.....] video LNXVIDEO:00: Restoring backlight state
-> hanging here, but only once, not any time again.
-> 
-> It is hard to say what the culprit is, some new pm-utils script maybe,
-> since it happens even when I switch pm-utils to use the kernel method
-> (echo mem) to suspend, and not uswsusp (s2ram prog).
-> 
-> I would suggest keeping that bug closed until I have found the pm-utils
-> or a specific culprit, then I can reopen it or open a new bug.
-> 
-> (more disturbing are iwlagn bugs, they are a PITA without any progress)
+> http://marc.info/?l=linux-kernel&m=127870855118533&w=2
 
-OK, closing.
+OK, I've added the patch information to the bug entry.
 
-Thanks,
 Rafael
