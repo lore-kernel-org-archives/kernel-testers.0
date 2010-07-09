@@ -1,59 +1,56 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #16294] [Q35 bisected] hang at init of i915 driver
-Date: Fri, 9 Jul 2010 23:50:05 +0200
-Message-ID: <201007092350.05954.rjw@sisk.pl>
-References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera> <201007092256.48672.rjw@sisk.pl> <4C3790CA.5070009@canonical.com>
+From: Shawn Starr <shawn.starr@rogers.com>
+Subject: Re: [Bug #16311] [REGRESSION][SUSPEND] 2.6.35-rcX won't suspend Lenovo W500 laptop
+Date: Fri, 9 Jul 2010 15:29:36 -0700 (PDT)
+Message-ID: <170016.53786.qm@web88004.mail.re2.yahoo.com>
+References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera> <TXb9XdQzJoD.A.YHB.IMmNMB@chimera> <201007082300.51672.shawn.starr@rogers.com> <201007092301.25839.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4C3790CA.5070009-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rogers.com; s=s1024; t=1278714576; bh=giwMV6CHx4Ul/Cpsl35JMmFzDlzE0mI8iuJh542mXpM=; h=Message-ID:X-YMail-OSG:Received:X-Mailer:References:Date:From:Subject:To:Cc:In-Reply-To:MIME-Version:Content-Type; b=LOIHybreLh790Un6BOf7jE0hDwATH1tofTjzrsFMPX3n6JGCwef9vgxfkUru+gU0dqxLCt+BqdDY4N/0bskWvUQ8s24a7rng+PXJ9NCTb0N9ZFX1QowhiVQDiW1HKXMtixPHN1Y3317BgVYPjqaKsAPmSVft566IGRarh1rmR3o=
+In-Reply-To: <201007092301.25839.rjw@sisk.pl>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: tim.gardner-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org
-Cc: Kees Cook <kees-oSa+0FWJbaXR7s880joybQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-On Friday, July 09, 2010, Tim Gardner wrote:
-> On 07/09/2010 02:56 PM, Rafael J. Wysocki wrote:
-> > On Friday, July 09, 2010, Kees Cook wrote:
-> >> Hi Rafael,
-> >>
-> >> On Fri, Jul 09, 2010 at 01:41:39AM +0200, Rafael J. Wysocki wrote:
-> >>> The following bug entry is on the current list of known regressions
-> >>> from 2.6.34.  Please verify if it still should be listed and let the tracking team
-> >>> know (either way).
-> >>
-> >> Yup, this is still a regression.  The fix is trivial (see below).
-> >
-> > Thanks for the update.
-> >
-> >>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16294
-> >>> Subject		: [Q35 bisected] hang at init of i915 driver
-> >>> Submitter	: Kees Cook<kees-oSa+0FWJbaXR7s880joybQ@public.gmane.org>
-> >>> Date		: 2010-06-25 18:20 (14 days old)
-> >>> First-Bad-Commit: http://git.kernel.org/linus/f1befe71fa7a79ab733011b045639d8d809924ad
-> >>
-> >> diff --git a/drivers/char/agp/intel-gtt.c b/drivers/char/agp/intel-gtt.c
-> >> index 9344216..0d9007d 100644
-> >> --- a/drivers/char/agp/intel-gtt.c
-> >> +++ b/drivers/char/agp/intel-gtt.c
-> >> @@ -1229,6 +1229,7 @@ static int intel_i915_get_gtt_size(void)
-> >>   				(gmch_ctrl&  G33_PGETBL_SIZE_MASK));
-> >>   			size = 512;
-> >>   		}
-> >> +		size = 1024;
-> >>   	} else {
-> >>   		/* On previous hardware, the GTT size was just what was
-> >>   		 * required to map the aperture.
-> >
-> > Rafael
-> > --
+----- Original Message ----
+
+From: Rafael J. Wysocki <rjw@sisk.pl>
+To: Shawn Starr <shawn.starr@rogers.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>; Kernel Testers 
+List <kernel-testers@vger.kernel.org>; Maciej Rutecki <maciej.rutecki@gmail.com>
+Sent: Fri, July 9, 2010 5:01:25 PM
+Subject: Re: [Bug #16311] [REGRESSION][SUSPEND] 2.6.35-rcX won't suspend Lenovo 
+W500 laptop
+
+On Friday, July 09, 2010, Shawn Starr wrote:
+> On Thursday, July 08, 2010 07:41:40 pm Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a summary report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.34.  Please verify if it still should be listed and let the
+> > tracking team know (either way).
+> > 
+> > 
+> > Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=16311
+> > Subject        : [REGRESSION][SUSPEND] 2.6.35-rcX won't suspend Lenovo W500
+> > laptop Submitter    : Shawn Starr <shawn.starr@rogers.com>
+> > Date        : 2010-06-28 0:45 (11 days old)
+> > Message-ID    : <201006272045.17004.shawn.starr@rogers.com>
+> > References    : http://marc.info/?l=linux-kernel&m=127768633705286&w=2
 > 
-> Rafael - I forgot to Cc you on the patch I just sent to Dave Arlie. Kees 
-> has confirmed that it fixes his problem.
+> Continues with July 7th, snapshot of 2.6.35-rc4. 
 > 
-> http://marc.info/?l=linux-kernel&m=127870855118533&w=2
+> Some more info: I have USB in use while trying to suspend.  A USB Microsoft 
+> Mouse and a QuickCam Pro 9000 camera connected.
+>>Well, can you please try to suspend without the USB devices and see if the bug
+>>is still reproducible, then?
+>>
+>>Rafael
 
-OK, I've added the patch information to the bug entry.
+Yes, will try that today.
 
-Rafael
+Thanks, 
+Shawn
