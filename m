@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16233] Fwd: [2.6.34] INFO: task rsync:20019 blocked for more than 120 seconds.
-Date: Sat, 10 Jul 2010 02:33:28 +0200 (CEST)
-Message-ID: <Hc02ROPrUsG.A.yXH.aq7NMB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16270] Image is a hit-or-a-miss. Often displayed green+purple
+Date: Sat, 10 Jul 2010 02:33:29 +0200 (CEST)
+Message-ID: <Hc02ROPrUsG.A.rRH.Wq7NMB@chimera>
 References: <xkNyyYrLiTN.A.s_G.7p7NMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <xkNyyYrLiTN.A.s_G.7p7NMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jan De Luyck <mailinglists+linuxkernel_20080830@kcore.org>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jean-Francois Moine <moinejf-GANU6spQydw@public.gmane.org>, Vish <drkvi-a-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,10 +22,10 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16233
-Subject		: Fwd: [2.6.34] INFO: task rsync:20019 blocked for more than 120 seconds.
-Submitter	: Jan De Luyck <mailinglists+linuxkernel_20080830@kcore.org>
-Date		: 2010-06-14 19:49 (26 days old)
-Message-ID	: <AANLkTimutyh3WIALv3NIxA8Xt5JtU6tp4EWOnuSqhdyD@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=127654498016377&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16270
+Subject		: Image is a hit-or-a-miss. Often displayed green+purple
+Submitter	: Vish <drkvi-a-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Date		: 2010-06-22 10:47 (18 days old)
+First-Bad-Commit: http://git.kernel.org/linus/acef4a407ed6e0a9ed87a2747be592fe49e64bdd
+Handled-By	: Jean-Francois Moine <moinejf-GANU6spQydw@public.gmane.org>
 
