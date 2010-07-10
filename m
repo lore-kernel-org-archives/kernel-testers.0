@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16097] 2.6.34 on Samsung P460: reset after "Waiting for /dev to be fully populated"
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16137] Ooops in BTRFS in 2.6.34 / x86_64 when mounting subvolume by name
 Date: Sat, 10 Jul 2010 02:33:26 +0200 (CEST)
-Message-ID: <Hc02ROPrUsG.A.P6H.3q7NMB@chimera>
+Message-ID: <Hc02ROPrUsG.A.2zH.tq7NMB@chimera>
 References: <xkNyyYrLiTN.A.s_G.7p7NMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <xkNyyYrLiTN.A.s_G.7p7NMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Harald Dunkel <harald.dunkel@aixigo.de>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, armin walland <a.walland-3PHDqMh92CpBDgjK7y7TUQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,10 +22,10 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16097
-Subject		: 2.6.34 on Samsung P460: reset after "Waiting for /dev to be fully populated"
-Submitter	: Harald Dunkel <harald.dunkel@aixigo.de>
-Date		: 2010-05-25 9:12 (46 days old)
-Message-ID	: <4BFB947E.9080509@aixigo.de>
-References	: http://marc.info/?l=linux-kernel&m=127477877432254&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16137
+Subject		: Ooops in BTRFS in 2.6.34 / x86_64 when mounting subvolume by name
+Submitter	: armin walland <a.walland-3PHDqMh92CpBDgjK7y7TUQ@public.gmane.org>
+Date		: 2010-05-27 12:27 (44 days old)
+Message-ID	: <201005271428.01239.a.walland-3PHDqMh92CpBDgjK7y7TUQ@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=127496434110736&w=2
 
