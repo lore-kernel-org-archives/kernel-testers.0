@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
-Date: Sat, 10 Jul 2010 02:33:24 +0200 (CEST)
-Message-ID: <Hc02ROPrUsG.A.F4.bt7NMB@chimera>
+Subject: [Bug #16082] host panic on kernel 2.6.34
+Date: Sat, 10 Jul 2010 02:33:26 +0200 (CEST)
+Message-ID: <Hc02ROPrUsG.A.CF.7q7NMB@chimera>
 References: <xkNyyYrLiTN.A.s_G.7p7NMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "Hao, Xudong" <xudong.hao@intel.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,10 +22,10 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15704
-Subject		: [r8169] WARNING: at net/sched/sch_generic.c
-Submitter	: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Date		: 2010-03-31 10:21 (101 days old)
-Message-ID	: <20100331102142.GA3294@swordfish.minsk.epam.com>
-References	: http://marc.info/?l=linux-kernel&m=127003090406108&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16082
+Subject		: host panic on kernel 2.6.34
+Submitter	: Hao, Xudong <xudong.hao@intel.com>
+Date		: 2010-05-24 8:23 (47 days old)
+Message-ID	: <BC00F5384FCFC9499AF06F92E8B78A9E04DCCCE242@shsmsx502.ccr.corp.intel.com>
+References	: http://marc.info/?l=linux-kernel&m=127468951208864&w=2
 
