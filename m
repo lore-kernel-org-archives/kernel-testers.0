@@ -1,70 +1,100 @@
-From: Thomas Meyer <thomas@m3y3r.de>
-Subject: Re: [Bug #15673] 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
-Date: Sat, 10 Jul 2010 10:41:46 +0200
-Message-ID: <1278751306.2955.3.camel@localhost.localdomain>
+From: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
+Date: Sat, 10 Jul 2010 12:52:44 +0300
+Message-ID: <20100710095244.GA4121@swordfish>
 References: <xkNyyYrLiTN.A.s_G.7p7NMB@chimera>
-	 <Hc02ROPrUsG.A.n-.nt7NMB@chimera>
+ <Hc02ROPrUsG.A.F4.bt7NMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <Hc02ROPrUsG.A.n-.nt7NMB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="PEIAKu/WMn1b1Hv9"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=aP8afcGURttioLxC9ywAbX1hpy6CTy/NTFLnX927i40=;
+        b=CGzzw2fsmfa9JeD5q3d6KoMXjyAITS/eTY4dtqXMecX6c3Ljr1vK7p7X9f3NDbbvjq
+         SIzcilSE6mj3DU932niupGY/MNIJpKZgNwor0BwcQRrClzi4lmmi+Tev6OL7hbayrB5r
+         lJQgs+EctoHENVk4qw+8DhEiWQSASqQWg8SyY=
+Content-Disposition: inline
+In-Reply-To: <Hc02ROPrUsG.A.F4.bt7NMB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Am Samstag, den 10.07.2010, 02:33 +0200 schrieb Rafael J. Wysocki:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.33 and 2.6.34.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.33 and 2.6.34.  Please verify if it still should
-> be listed and let the tracking team know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15673
-> Subject		: 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
-> Submitter	: Thomas Meyer <thomas@m3y3r.de>
-> Date		: 2010-03-28 11:31 (104 days old)
-> Message-ID	: <1269775909.5301.4.camel@localhost.localdomain>
-> References	: http://marc.info/?l=linux-kernel&m=126977593326800&w=2
 
-Still see the warning in 2.6.34.1:
+--PEIAKu/WMn1b1Hv9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[ 1466.091349] IMA: unmeasured files on fsmagic: 1021994
-[ 1466.091356] ima_dec_counts: open/free imbalance (r:0 w:-1 o:-1)
-[ 1466.091360] Pid: 2357, comm: async/10 Tainted: G        W  2.6.34.1 #3
-[ 1466.091362] Call Trace:
-[ 1466.091371]  [<c08865c7>] ? printk+0x1d/0x26
-[ 1466.091377]  [<c05f994f>] ima_file_free+0x16f/0x210
-[ 1466.091384]  [<c04d7742>] __fput+0xf2/0x1f0
-[ 1466.091388]  [<c04d785d>] fput+0x1d/0x30
-[ 1466.091394]  [<c06cad8f>] drm_gem_object_free_common+0x1f/0x40
-[ 1466.091398]  [<c06cae30>] ? drm_gem_object_free+0x0/0x40
-[ 1466.091402]  [<c06cae61>] drm_gem_object_free+0x31/0x40
-[ 1466.091407]  [<c061d59c>] kref_put+0x2c/0x60
-[ 1466.091412]  [<c06e7308>] i915_gem_cleanup_ringbuffer+0x48/0x70
-[ 1466.091416]  [<c06e8a6c>] i915_gem_idle+0x9c/0x120
-[ 1466.091420]  [<c06dbe1d>] i915_drm_freeze+0x3d/0xa0
-[ 1466.091423]  [<c06dbfde>] i915_pm_suspend+0x2e/0x80
-[ 1466.091427]  [<c0886d0a>] ? wait_for_common+0x1a/0xf0
-[ 1466.091432]  [<c0636629>] pci_pm_suspend+0x49/0x110
-[ 1466.091436]  [<c06365e0>] ? pci_pm_suspend+0x0/0x110
-[ 1466.091441]  [<c0718be1>] pm_op+0x181/0x1d0
-[ 1466.091445]  [<c0711d34>] ? device_for_each_child+0x54/0x60
-[ 1466.091449]  [<c071959f>] __device_suspend+0xbf/0x110
-[ 1466.091453]  [<c07199e3>] async_suspend+0x23/0x60
-[ 1466.091457]  [<c0450025>] async_thread+0xc5/0x210
-[ 1466.091461]  [<c0886931>] ? schedule+0x1e1/0x450
-[ 1466.091472]  [<c042bd60>] ? default_wake_function+0x0/0x20
-[ 1466.091476]  [<c044ff60>] ? async_thread+0x0/0x210
-[ 1466.091480]  [<c04493c4>] kthread+0x74/0x80
-[ 1466.091483]  [<c0449350>] ? kthread+0x0/0x80
-[ 1466.091488]  [<c040347e>] kernel_thread_helper+0x6/0x10
-[ 1466.096531] iint_free: writecount: -1
-[ 1466.096533] iint_free: opencount: -1
-[ 1466.096535] iint_free: writecount: -1
-[ 1466.096537] iint_free: opencount: -1
-[ 1466.103256] ehci_hcd 0000:00:1d.7: PCI INT A disabled
+On (07/10/10 02:33), Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15704
+> Subject		: [r8169] WARNING: at net/sched/sch_generic.c
+> Submitter	: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-03-31 10:21 (101 days old)
+> Message-ID	: <20100331102142.GA3294-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D127003090406108&w=3D2
+>=20
+>=20
 
+Hello,
+
+[ 3564.850086] pktgen 2.73: Packet Generator for packet performance testing.
+[ 3580.993027] ------------[ cut here ]------------
+[ 3580.993039] WARNING: at net/sched/sch_generic.c:258 dev_watchdog+0xc1/0x=
+129()
+[ 3580.993043] Hardware name: F3JC               =20
+[ 3580.993046] NETDEV WATCHDOG: eth0 (r8169): transmit queue 0 timed out
+[ 3580.993049] Modules linked in: pktgen ppp_async crc_ccitt ipv6 ppp_gener=
+ic slhc usb_storage snd_seq_dummy snd_seq_oss snd_seq_midi_event snd_seq sn=
+d_seq_device snd_hwdep snd_hda_codec_si3054 snd_pcm_oss snd_mixer_oss
+snd_hda_codec_realtek sdhci_pci sdhci mmc_core asus_laptop sparse_keymap le=
+d_class snd_hda_intel snd_hda_codec snd_pcm psmouse rng_core i2c_i801 snd_t=
+imer snd_page_alloc sg snd soundcore serio_raw evdev r8169 mii usbhid hid u=
+hci_hcd
+ehci_hcd sr_mod usbcore cdrom sd_mod ata_piix
+[ 3580.993120] Pid: 0, comm: swapper Not tainted 2.6.35-rc4-dbg-git4-00247-=
+g5bbf43d-dirty #72
+[ 3580.993124] Call Trace:
+[ 3580.993132]  [<c102e3a6>] warn_slowpath_common+0x65/0x7a
+[ 3580.993137]  [<c12694af>] ? dev_watchdog+0xc1/0x129
+[ 3580.993143]  [<c102e41f>] warn_slowpath_fmt+0x26/0x2a
+[ 3580.993148]  [<c12694af>] dev_watchdog+0xc1/0x129
+[ 3580.993155]  [<c10370ab>] ? run_timer_softirq+0x136/0x22b
+[ 3580.993160]  [<c1037104>] run_timer_softirq+0x18f/0x22b
+[ 3580.993165]  [<c10370ab>] ? run_timer_softirq+0x136/0x22b
+[ 3580.993171]  [<c12693ee>] ? dev_watchdog+0x0/0x129
+[ 3580.993177]  [<c1032c2d>] __do_softirq+0x88/0x10c
+[ 3580.993183]  [<c1032ce0>] do_softirq+0x2f/0x47
+[ 3580.993188]  [<c1032f9d>] irq_exit+0x38/0x75
+[ 3580.993193]  [<c10159b8>] smp_apic_timer_interrupt+0x5f/0x6d
+[ 3580.993200]  [<c12c732a>] apic_timer_interrupt+0x36/0x3c
+[ 3580.993207]  [<c104007b>] ? __kfifo_peek_n+0x1b/0x2b
+[ 3580.993213]  [<c11dd5f6>] ? acpi_idle_enter_simple+0x117/0x14b
+[ 3580.993220]  [<c12468e9>] cpuidle_idle_call+0x6a/0xa0
+[ 3580.993225]  [<c100170d>] cpu_idle+0x89/0xbe
+[ 3580.993232]  [<c12c1e6d>] start_secondary+0x1f4/0x1fb
+[ 3580.993237] ---[ end trace 0e0b0610391f3050 ]---
+[ 3581.009527] r8169 0000:02:00.0: eth0: link up
+
+
+	Sergey
+
+--PEIAKu/WMn1b1Hv9
+Content-Type: application/pgp-signature
+Content-Disposition: inline
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.10 (GNU/Linux)
+
+iJwEAQECAAYFAkw4QuwACgkQfKHnntdSXjTPIAP9HTpYXvSYkQAepGCPljaEmZpp
+lRCuFJUK2IrS2+V3UqdxH21EKuT/r2S+qbC439veYj9saYfK5k8sXQcbZDcIBdS5
+g4GCRU2MghKZtLWzUeZuwn/CNmq0GkfoscKATTw9A4h+rW5MiqTLpHAVa01ccm+Y
+qu6nSYtBklSSJzkDz9Y=
+=b7UE
+-----END PGP SIGNATURE-----
+
+--PEIAKu/WMn1b1Hv9--
