@@ -1,53 +1,70 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #15805] reiserfs locking
-Date: Sat, 10 Jul 2010 09:06:50 +0200
-Message-ID: <20100710070650.GA16248@elte.hu>
+From: Thomas Meyer <thomas@m3y3r.de>
+Subject: Re: [Bug #15673] 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
+Date: Sat, 10 Jul 2010 10:41:46 +0200
+Message-ID: <1278751306.2955.3.camel@localhost.localdomain>
 References: <xkNyyYrLiTN.A.s_G.7p7NMB@chimera>
- <Hc02ROPrUsG.A.vs.ls7NMB@chimera>
- <20100710014504.GC5269@nowhere>
+	 <Hc02ROPrUsG.A.n-.nt7NMB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20100710014504.GC5269@nowhere>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <Hc02ROPrUsG.A.n-.nt7NMB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Alexander Viro <viro-rfM+Q5joDG/XmaaqVzeoHQ@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-
-* Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-
-> On Sat, Jul 10, 2010 at 02:33:24AM +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.33 and 2.6.34.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.33 and 2.6.34.  Please verify if it still should
-> > be listed and let the tracking team know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15805
-> > Subject		: reiserfs locking
-> > Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2010-04-15 21:02 (86 days old)
-> > Message-ID	: <t2ka4423d671004151402n7b2dc425mdc9c6bb9640d63fb-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-> > References	: http://marc.info/?l=linux-kernel&m=127136535323933&w=2
-> > Handled-By	: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Am Samstag, den 10.07.2010, 02:33 +0200 schrieb Rafael J. Wysocki:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.33 and 2.6.34.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.33 and 2.6.34.  Please verify if it still should
+> be listed and let the tracking team know (either way).
 > 
 > 
-> It's a duplicate of 16334. Or rather 16334 is a duplicate of this
-> but the discussion about the issue was more developped in 16334.
-> 
-> Anyway this is not a regression (at least not recent) and the fix
-> from Al is in the vfs tree in the for-next branch on commit
-> 6c2bdaf089a3876226893fab00dd83596c465ad2
-> "Fix reiserfs_file_release()"
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15673
+> Subject		: 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
+> Submitter	: Thomas Meyer <thomas@m3y3r.de>
+> Date		: 2010-03-28 11:31 (104 days old)
+> Message-ID	: <1269775909.5301.4.camel@localhost.localdomain>
+> References	: http://marc.info/?l=linux-kernel&m=126977593326800&w=2
 
-Since it's a reproducible deadlock maybe the fix should go upstream faster 
-than v2.6.36?
+Still see the warning in 2.6.34.1:
 
-Thanks,
+[ 1466.091349] IMA: unmeasured files on fsmagic: 1021994
+[ 1466.091356] ima_dec_counts: open/free imbalance (r:0 w:-1 o:-1)
+[ 1466.091360] Pid: 2357, comm: async/10 Tainted: G        W  2.6.34.1 #3
+[ 1466.091362] Call Trace:
+[ 1466.091371]  [<c08865c7>] ? printk+0x1d/0x26
+[ 1466.091377]  [<c05f994f>] ima_file_free+0x16f/0x210
+[ 1466.091384]  [<c04d7742>] __fput+0xf2/0x1f0
+[ 1466.091388]  [<c04d785d>] fput+0x1d/0x30
+[ 1466.091394]  [<c06cad8f>] drm_gem_object_free_common+0x1f/0x40
+[ 1466.091398]  [<c06cae30>] ? drm_gem_object_free+0x0/0x40
+[ 1466.091402]  [<c06cae61>] drm_gem_object_free+0x31/0x40
+[ 1466.091407]  [<c061d59c>] kref_put+0x2c/0x60
+[ 1466.091412]  [<c06e7308>] i915_gem_cleanup_ringbuffer+0x48/0x70
+[ 1466.091416]  [<c06e8a6c>] i915_gem_idle+0x9c/0x120
+[ 1466.091420]  [<c06dbe1d>] i915_drm_freeze+0x3d/0xa0
+[ 1466.091423]  [<c06dbfde>] i915_pm_suspend+0x2e/0x80
+[ 1466.091427]  [<c0886d0a>] ? wait_for_common+0x1a/0xf0
+[ 1466.091432]  [<c0636629>] pci_pm_suspend+0x49/0x110
+[ 1466.091436]  [<c06365e0>] ? pci_pm_suspend+0x0/0x110
+[ 1466.091441]  [<c0718be1>] pm_op+0x181/0x1d0
+[ 1466.091445]  [<c0711d34>] ? device_for_each_child+0x54/0x60
+[ 1466.091449]  [<c071959f>] __device_suspend+0xbf/0x110
+[ 1466.091453]  [<c07199e3>] async_suspend+0x23/0x60
+[ 1466.091457]  [<c0450025>] async_thread+0xc5/0x210
+[ 1466.091461]  [<c0886931>] ? schedule+0x1e1/0x450
+[ 1466.091472]  [<c042bd60>] ? default_wake_function+0x0/0x20
+[ 1466.091476]  [<c044ff60>] ? async_thread+0x0/0x210
+[ 1466.091480]  [<c04493c4>] kthread+0x74/0x80
+[ 1466.091483]  [<c0449350>] ? kthread+0x0/0x80
+[ 1466.091488]  [<c040347e>] kernel_thread_helper+0x6/0x10
+[ 1466.096531] iint_free: writecount: -1
+[ 1466.096533] iint_free: opencount: -1
+[ 1466.096535] iint_free: writecount: -1
+[ 1466.096537] iint_free: opencount: -1
+[ 1466.103256] ehci_hcd 0000:00:1d.7: PCI INT A disabled
 
-	Ingo
