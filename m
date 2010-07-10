@@ -1,56 +1,29 @@
-From: Shawn Starr <shawn.starr@rogers.com>
-Subject: Re: [Bug #16311] [REGRESSION][SUSPEND] 2.6.35-rcX won't suspend Lenovo W500 laptop
-Date: Fri, 9 Jul 2010 15:29:36 -0700 (PDT)
-Message-ID: <170016.53786.qm@web88004.mail.re2.yahoo.com>
-References: <-IGZ64uxA6G.A.P0H.bLmNMB@chimera> <TXb9XdQzJoD.A.YHB.IMmNMB@chimera> <201007082300.51672.shawn.starr@rogers.com> <201007092301.25839.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #15664] Graphics hang and kernel backtrace when starting Azureus with Compiz enabled
+Date: Sat, 10 Jul 2010 02:25:03 +0200 (CEST)
+Message-ID: <Hc02ROPrUsG.A.4FB.0t7NMB@chimera>
+References: <xkNyyYrLiTN.A.s_G.7p7NMB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rogers.com; s=s1024; t=1278714576; bh=giwMV6CHx4Ul/Cpsl35JMmFzDlzE0mI8iuJh542mXpM=; h=Message-ID:X-YMail-OSG:Received:X-Mailer:References:Date:From:Subject:To:Cc:In-Reply-To:MIME-Version:Content-Type; b=LOIHybreLh790Un6BOf7jE0hDwATH1tofTjzrsFMPX3n6JGCwef9vgxfkUru+gU0dqxLCt+BqdDY4N/0bskWvUQ8s24a7rng+PXJ9NCTb0N9ZFX1QowhiVQDiW1HKXMtixPHN1Y3317BgVYPjqaKsAPmSVft566IGRarh1rmR3o=
-In-Reply-To: <201007092301.25839.rjw@sisk.pl>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 8BIT
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <xkNyyYrLiTN.A.s_G.7p7NMB@chimera>
+Content-Disposition: inline
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
 
------ Original Message ----
+This message has been generated automatically as a part of a report
+of regressions introduced between 2.6.33 and 2.6.34.
 
-From: Rafael J. Wysocki <rjw@sisk.pl>
-To: Shawn Starr <shawn.starr@rogers.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>; Kernel Testers 
-List <kernel-testers@vger.kernel.org>; Maciej Rutecki <maciej.rutecki@gmail.com>
-Sent: Fri, July 9, 2010 5:01:25 PM
-Subject: Re: [Bug #16311] [REGRESSION][SUSPEND] 2.6.35-rcX won't suspend Lenovo 
-W500 laptop
+The following bug entry is on the current list of known regressions
+introduced between 2.6.33 and 2.6.34.  Please verify if it still should
+be listed and let the tracking team know (either way).
 
-On Friday, July 09, 2010, Shawn Starr wrote:
-> On Thursday, July 08, 2010 07:41:40 pm Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.34.  Please verify if it still should be listed and let the
-> > tracking team know (either way).
-> > 
-> > 
-> > Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=16311
-> > Subject        : [REGRESSION][SUSPEND] 2.6.35-rcX won't suspend Lenovo W500
-> > laptop Submitter    : Shawn Starr <shawn.starr@rogers.com>
-> > Date        : 2010-06-28 0:45 (11 days old)
-> > Message-ID    : <201006272045.17004.shawn.starr@rogers.com>
-> > References    : http://marc.info/?l=linux-kernel&m=127768633705286&w=2
-> 
-> Continues with July 7th, snapshot of 2.6.35-rc4. 
-> 
-> Some more info: I have USB in use while trying to suspend.  A USB Microsoft 
-> Mouse and a QuickCam Pro 9000 camera connected.
->>Well, can you please try to suspend without the USB devices and see if the bug
->>is still reproducible, then?
->>
->>Rafael
 
-Yes, will try that today.
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15664
+Subject		: Graphics hang and kernel backtrace when starting Azureus with Compiz enabled
+Submitter	: Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>
+Date		: 2010-04-01 01:09 (100 days old)
 
-Thanks, 
-Shawn
