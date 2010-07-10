@@ -1,63 +1,67 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
-Date: Sat, 10 Jul 2010 14:59:29 +0200
-Message-ID: <201007101459.29375.rjw@sisk.pl>
-References: <xkNyyYrLiTN.A.s_G.7p7NMB@chimera> <Hc02ROPrUsG.A.F4.bt7NMB@chimera> <20100710095244.GA4121@swordfish>
+From: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #15805] reiserfs locking
+Date: Sat, 10 Jul 2010 15:56:11 +0200
+Message-ID: <20100710135606.GB5306@nowhere>
+References: <xkNyyYrLiTN.A.s_G.7p7NMB@chimera> <Hc02ROPrUsG.A.vs.ls7NMB@chimera> <20100710014504.GC5269@nowhere> <20100710070650.GA16248@elte.hu>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <20100710095244.GA4121@swordfish>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:received:date:from:to:cc
+         :subject:message-id:references:mime-version:content-type
+         :content-disposition:in-reply-to:user-agent;
+        bh=7Q/mER7+a1OgOj3GK085e+nxe0GAsk+2JglpAKEltTM=;
+        b=mT8VYW25fgxS3qA0NgaDJ4Eybxb6CMrkXKx7wwL531mmxdTAg2ApbElGujIyhtrJ0y
+         sEf7vRtf16fBl6eQpm1g0pKVtQk24EXDMvkHuteEc2yPtvJzDMVrctJ4/7KBeuBzdnfP
+         tTUuQ6R0zdLZuzsXoSIHnFIBvphkhKQDxVts8=
+Content-Disposition: inline
+In-Reply-To: <20100710070650.GA16248-X9Un+BFzKDI@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Alexander Viro <viro-rfM+Q5joDG/XmaaqVzeoHQ@public.gmane.org>
 
-On Saturday, July 10, 2010, Sergey Senozhatsky wrote:
-> On (07/10/10 02:33), Rafael J. Wysocki wrote:
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15704
-> > Subject		: [r8169] WARNING: at net/sched/sch_generic.c
-> > Submitter	: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-> > Date		: 2010-03-31 10:21 (101 days old)
-> > Message-ID	: <20100331102142.GA3294@swordfish.minsk.epam.com>
-> > References	: http://marc.info/?l=linux-kernel&m=127003090406108&w=2
+On Sat, Jul 10, 2010 at 09:06:50AM +0200, Ingo Molnar wrote:
+> 
+> * Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> 
+> > On Sat, Jul 10, 2010 at 02:33:24AM +0200, Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a report
+> > > of regressions introduced between 2.6.33 and 2.6.34.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > introduced between 2.6.33 and 2.6.34.  Please verify if it still should
+> > > be listed and let the tracking team know (either way).
+> > > 
+> > > 
+> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15805
+> > > Subject		: reiserfs locking
+> > > Submitter	: Alexander Beregalov <a.beregalov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > > Date		: 2010-04-15 21:02 (86 days old)
+> > > Message-ID	: <t2ka4423d671004151402n7b2dc425mdc9c6bb9640d63fb-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+> > > References	: http://marc.info/?l=linux-kernel&m=127136535323933&w=2
+> > > Handled-By	: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > > 
 > > 
+> > It's a duplicate of 16334. Or rather 16334 is a duplicate of this
+> > but the discussion about the issue was more developped in 16334.
+> > 
+> > Anyway this is not a regression (at least not recent) and the fix
+> > from Al is in the vfs tree in the for-next branch on commit
+> > 6c2bdaf089a3876226893fab00dd83596c465ad2
+> > "Fix reiserfs_file_release()"
 > 
-> Hello,
+> Since it's a reproducible deadlock maybe the fix should go upstream faster 
+> than v2.6.36?
 > 
-> [ 3564.850086] pktgen 2.73: Packet Generator for packet performance testing.
-> [ 3580.993027] ------------[ cut here ]------------
-> [ 3580.993039] WARNING: at net/sched/sch_generic.c:258 dev_watchdog+0xc1/0x129()
-> [ 3580.993043] Hardware name: F3JC                
-> [ 3580.993046] NETDEV WATCHDOG: eth0 (r8169): transmit queue 0 timed out
-> [ 3580.993049] Modules linked in: pktgen ppp_async crc_ccitt ipv6 ppp_generic slhc usb_storage snd_seq_dummy snd_seq_oss snd_seq_midi_event snd_seq snd_seq_device snd_hwdep snd_hda_codec_si3054 snd_pcm_oss snd_mixer_oss
-> snd_hda_codec_realtek sdhci_pci sdhci mmc_core asus_laptop sparse_keymap led_class snd_hda_intel snd_hda_codec snd_pcm psmouse rng_core i2c_i801 snd_timer snd_page_alloc sg snd soundcore serio_raw evdev r8169 mii usbhid hid uhci_hcd
-> ehci_hcd sr_mod usbcore cdrom sd_mod ata_piix
-> [ 3580.993120] Pid: 0, comm: swapper Not tainted 2.6.35-rc4-dbg-git4-00247-g5bbf43d-dirty #72
-> [ 3580.993124] Call Trace:
-> [ 3580.993132]  [<c102e3a6>] warn_slowpath_common+0x65/0x7a
-> [ 3580.993137]  [<c12694af>] ? dev_watchdog+0xc1/0x129
-> [ 3580.993143]  [<c102e41f>] warn_slowpath_fmt+0x26/0x2a
-> [ 3580.993148]  [<c12694af>] dev_watchdog+0xc1/0x129
-> [ 3580.993155]  [<c10370ab>] ? run_timer_softirq+0x136/0x22b
-> [ 3580.993160]  [<c1037104>] run_timer_softirq+0x18f/0x22b
-> [ 3580.993165]  [<c10370ab>] ? run_timer_softirq+0x136/0x22b
-> [ 3580.993171]  [<c12693ee>] ? dev_watchdog+0x0/0x129
-> [ 3580.993177]  [<c1032c2d>] __do_softirq+0x88/0x10c
-> [ 3580.993183]  [<c1032ce0>] do_softirq+0x2f/0x47
-> [ 3580.993188]  [<c1032f9d>] irq_exit+0x38/0x75
-> [ 3580.993193]  [<c10159b8>] smp_apic_timer_interrupt+0x5f/0x6d
-> [ 3580.993200]  [<c12c732a>] apic_timer_interrupt+0x36/0x3c
-> [ 3580.993207]  [<c104007b>] ? __kfifo_peek_n+0x1b/0x2b
-> [ 3580.993213]  [<c11dd5f6>] ? acpi_idle_enter_simple+0x117/0x14b
-> [ 3580.993220]  [<c12468e9>] cpuidle_idle_call+0x6a/0xa0
-> [ 3580.993225]  [<c100170d>] cpu_idle+0x89/0xbe
-> [ 3580.993232]  [<c12c1e6d>] start_secondary+0x1f4/0x1fb
-> [ 3580.993237] ---[ end trace 0e0b0610391f3050 ]---
-> [ 3581.009527] r8169 0000:02:00.0: eth0: link up
+> Thanks,
+> 
+> 	Ingo
 
-Thanks for the update, but I'm not really sure if r8169 is involved.
-It seems that cpuidle is the source of the warning.
 
-Rafael
+May be yeah. Although the fix is not a naive trick and it changes a sensitive
+piece of code.
+
+Don't know what Al has planned with it.
