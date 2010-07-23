@@ -1,46 +1,38 @@
-From: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #16311] [REGRESSION][SUSPEND] 2.6.35-rcX won't suspend Lenovo W500 laptop
-Date: Fri, 23 Jul 2010 07:11:34 -0700 (PDT)
-Message-ID: <123290.24094.qm@web88006.mail.re2.yahoo.com>
-References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera> <tneGvaw1wLL.A.OLB.i3XSMB@chimera>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Subject: Re: 2.6.35-rc6: Reported regressions from 2.6.34
+Date: Fri, 23 Jul 2010 09:21:43 -0500
+Message-ID: <4C49A577.3020306@lwfinger.net>
+References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rogers.com; s=s1024; t=1279894295; bh=wcKvqyo4rxsv6ilGBl0R3jKC1nnwHBSDeJ2DjRaXoyI=; h=Message-ID:X-YMail-OSG:Received:X-Mailer:References:Date:From:Subject:To:Cc:In-Reply-To:MIME-Version:Content-Type; b=B4uCOLViF+Mlx7EbSxEgjhMf5E5sz2++C3o4MzqF0KZdTvvsq3/1gFknfyVcrPQVgiOuXSDR31toV64IqQHLrhenfxvGlhE4VjvOchAWFrNbXXd1nqqAnT0jKZRUcCT2zwhqiqLV3iIAB/uqQXjQQ0EaAafFVo04htbGMyzeZFk=
-In-Reply-To: <tneGvaw1wLL.A.OLB.i3XSMB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Return-path: <linux-pm-bounces@lists.linux-foundation.org>
+In-Reply-To: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=unsubscribe>
+List-Archive: <http://lists.linux-foundation.org/pipermail/linux-pm>
+List-Post: <mailto:linux-pm@lists.linux-foundation.org>
+List-Help: <mailto:linux-pm-request@lists.linux-foundation.org?subject=help>
+List-Subscribe: <https://lists.linux-foundation.org/mailman/listinfo/linux-pm>, 
+	<mailto:linux-pm-request@lists.linux-foundation.org?subject=subscribe>
+Sender: linux-pm-bounces@lists.linux-foundation.org
+Errors-To: linux-pm-bounces@lists.linux-foundation.org
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux SCSI List <linux-scsi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
+On 07/23/2010 06:42 AM, Rafael J. Wysocki wrote:
+> This message contains a list of some regressions from 2.6.34,
+> for which there are no fixes in the mainline known to the tracking team.
+> If any of them have been fixed already, please let us know.
 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16312
+> Subject		: WARNING: at fs/fs-writeback.c:1127 __mark_inode_dirty
+> Submitter	: Zdenek Kabelac<zdenek.kabelac@gmail.com>
+> Date		: 2010-06-28 9:40 (26 days old)
+> Message-ID	:<AANLkTin24fr5O4_q5Xbo9Y_NKkEmtcp6Hgmr9_4qXaFz@mail.gmail.com>
+> References	: http://marc.info/?l=linux-kernel&m=127771804806465&w=2
 
-Still continues. I can however hibernate and resume from hibernation ok.
+I still have this in 2.6.35-rc5.
 
-
->----- Original Message ----
->From: Rafael J. Wysocki <rjw@...>
->To: Linux Kernel Mailing List <linux-kernel@...>
->Cc: Kernel Testers List <kernel-testers@...>; Maciej Rutecki 
-><maciej.rutecki@...; Shawn Starr <shawn.starr@...
->Sent: Fri, July 23, 2010 7:47:31 AM
->Subject: [Bug #16311] [REGRESSION][SUSPEND] 2.6.35-rcX won't suspend Lenovo W500 
->laptop
->
->This message has been generated automatically as a part of a summary report
->of recent regressions.
->
->The following bug entry is on the current list of known regressions
->from 2.6.34.  Please verify if it still should be listed and let the tracking 
->team
->know (either way).
->
->
->Bug-Entry    : http://bugzilla.kernel.org/show_bug.cgi?id=16311
->Subject        : [REGRESSION][SUSPEND] 2.6.35-rcX won't suspend Lenovo W500 
->laptop
->Submitter    : Shawn Starr <shawn.starr@...>
->Date        : 2010-06-28 0:45 (26 days old)
->Message-ID    : <<201006272045.17004.shawn.starr@...>>
->References    : http://marc.info/?l=linux-kernel&m=127768633705286&w=2
+Larry
