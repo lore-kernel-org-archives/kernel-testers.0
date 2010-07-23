@@ -1,33 +1,27 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16111] hostap_pci: infinite registered netdevice wifi0
-Date: Fri, 23 Jul 2010 14:15:51 +0200 (CEST)
-Message-ID: <PRbv8sgxY6G.A.kQG.0VYSMB@chimera>
-References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera>
+From: Ben Hutchings <bhutchings-s/n/eUQHGBpZroRs9YW3xA@public.gmane.org>
+Subject: Re: 2.6.35-rc6: Reported regressions from 2.6.34
+Date: Fri, 23 Jul 2010 13:28:33 +0100
+Message-ID: <1279888113.2089.2.camel@achroite.uk.solarflarecom.com>
+References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <wQMMFC59mnE.A.v-E.iUYSMB@chimera>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Petr Pisar <petr.pisar@atlas.cz>, Tim Gardner <tim.gardner@canonical.com>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.33 and 2.6.34.
+Another one for you:
 
-The following bug entry is on the current list of known regressions
-introduced between 2.6.33 and 2.6.34.  Please verify if it still should
-be listed and let the tracking team know (either way).
+http://article.gmane.org/gmane.linux.drivers.mtd/30834
 
+This has no Bugzilla entry; should I submit one?
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16111
-Subject		: hostap_pci: infinite registered netdevice wifi0
-Submitter	: Petr Pisar <petr.pisar@atlas.cz>
-Date		: 2010-06-02 20:55 (52 days old)
-Handled-By	: Tim Gardner <tim.gardner@canonical.com>
-		   Petr Pisar <petr.pisar@atlas.cz>
-Patch		: https://patchwork.kernel.org/patch/105008/
-		  https://bugzilla.kernel.org/attachment.cgi?id=27109
+Ben.
 
+-- 
+Ben Hutchings, Senior Software Engineer, Solarflare Communications
+Not speaking for my employer; that's the marketing department's job.
+They asked us to note that Solarflare product names are trademarked.
