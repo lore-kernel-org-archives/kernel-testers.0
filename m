@@ -1,25 +1,33 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
 Subject: Re: 2.6.35-rc6: Reported regressions from 2.6.34
-Date: Fri, 23 Jul 2010 22:08:35 +0200
-Message-ID: <201007232208.35815.rjw@sisk.pl>
-References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera> <1279888113.2089.2.camel@achroite.uk.solarflarecom.com>
+Date: Fri, 23 Jul 2010 22:09:54 +0200
+Message-ID: <201007232209.54326.rjw@sisk.pl>
+References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera> <4C49A577.3020306@lwfinger.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1279888113.2089.2.camel-xQnnTUlwzDrdvaEqJLTMTA9jg9n5Vt1AMm0uRHvK7Nw@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-acpi-owner@vger.kernel.org>
+In-Reply-To: <4C49A577.3020306@lwfinger.net>
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Ben Hutchings <bhutchings-s/n/eUQHGBpZroRs9YW3xA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>
 
-On Friday, July 23, 2010, Ben Hutchings wrote:
-> Another one for you:
+On Friday, July 23, 2010, Larry Finger wrote:
+> On 07/23/2010 06:42 AM, Rafael J. Wysocki wrote:
+> > This message contains a list of some regressions from 2.6.34,
+> > for which there are no fixes in the mainline known to the tracking team.
+> > If any of them have been fixed already, please let us know.
 > 
-> http://article.gmane.org/gmane.linux.drivers.mtd/30834
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16312
+> > Subject		: WARNING: at fs/fs-writeback.c:1127 __mark_inode_dirty
+> > Submitter	: Zdenek Kabelac<zdenek.kabelac@gmail.com>
+> > Date		: 2010-06-28 9:40 (26 days old)
+> > Message-ID	:<AANLkTin24fr5O4_q5Xbo9Y_NKkEmtcp6Hgmr9_4qXaFz@mail.gmail.com>
+> > References	: http://marc.info/?l=linux-kernel&m=127771804806465&w=2
 > 
-> This has no Bugzilla entry; should I submit one?
+> I still have this in 2.6.35-rc5.
 
-Yes, please.  And please make it block bug #16055.
+Thanks for the update.
 
 Rafael
