@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16376] random - possibly Radeon DRM KMS related - freezes
+Subject: [Bug #16377] X.org crash while running a OpenGL composited KDE 4.4.4 session with Radeon KMS
 Date: Fri, 23 Jul 2010 14:15:55 +0200 (CEST)
-Message-ID: <PRbv8sgxY6G.A.XEF.xUYSMB@chimera>
+Message-ID: <PRbv8sgxY6G.A.iCF.uUYSMB@chimera>
 References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -22,8 +22,8 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16376
-Subject		: random - possibly Radeon DRM KMS related - freezes
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16377
+Subject		: X.org crash while running a OpenGL composited KDE 4.4.4 session with Radeon KMS
 Submitter	: Martin Steigerwald <Martin@Lichtvoll.de>
-Date		: 2010-07-13 09:24 (11 days old)
+Date		: 2010-07-13 12:41 (11 days old)
 
