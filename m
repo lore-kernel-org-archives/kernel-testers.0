@@ -1,46 +1,41 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #16007] x86/pci Oops with CONFIG_SND_HDA_INTEL
-Date: Fri, 23 Jul 2010 21:51:58 +0200
-Message-ID: <201007232151.58374.rjw@sisk.pl>
-References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera> <PRbv8sgxY6G.A.WmG.YWYSMB@chimera> <201007230820.29465.bjorn.helgaas@hp.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #16111] hostap_pci: infinite registered netdevice wifi0
+Date: Fri, 23 Jul 2010 21:53:06 +0200
+Message-ID: <201007232153.06721.rjw@sisk.pl>
+References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera> <PRbv8sgxY6G.A.kQG.0VYSMB@chimera> <4C49958E.6060808@mail.tpi.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-pci-owner@vger.kernel.org>
-In-Reply-To: <201007230820.29465.bjorn.helgaas@hp.com>
-Sender: linux-pci-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4C49958E.6060808-FkRxxPpxr6pWk0Htik3J/w@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Bjorn Helgaas <bjorn.helgaas@hp.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Graham Ramsey <ramsey.graham@ntlworld.com>, Yinghai Lu <yinghai@kernel.org>, Jesse Barnes <jbarnes@virtuousgeek.org>, linux-pci@vger.kernel.org
+To: tim.gardner-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Petr Pisar <petr.pisar-a4qEbw8STSk@public.gmane.org>
 
-On Friday, July 23, 2010, Bjorn Helgaas wrote:
-> On Friday, July 23, 2010 06:15:50 am Rafael J. Wysocki wrote:
+On Friday, July 23, 2010, Tim Gardner wrote:
+> On 07/23/2010 02:15 PM, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of regressions introduced between 2.6.33 and 2.6.34.
-> > 
+> >
 > > The following bug entry is on the current list of known regressions
 > > introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 > > be listed and let the tracking team know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16007
-> > Subject		: x86/pci Oops with CONFIG_SND_HDA_INTEL
-> > Submitter	: Graham Ramsey <ramsey.graham@ntlworld.com>
-> > Date		: 2010-05-19 17:09 (66 days old)
-> > Handled-By	: Yinghai Lu <yinghai@kernel.org>
-> > 		  Bjorn Helgaas <bjorn.helgaas@hp.com>
-> > Patch		: https://patchwork.kernel.org/patch/105662/
+> >
+> >
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16111
+> > Subject		: hostap_pci: infinite registered netdevice wifi0
+> > Submitter	: Petr Pisar<petr.pisar-a4qEbw8STSk@public.gmane.org>
+> > Date		: 2010-06-02 20:55 (52 days old)
+> > Handled-By	: Tim Gardner<tim.gardner-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
+> > 		Petr Pisar<petr.pisar-a4qEbw8STSk@public.gmane.org>
+> > Patch		: https://patchwork.kernel.org/patch/105008/
+> > 		  https://bugzilla.kernel.org/attachment.cgi?id=27109
+> >
+> >
 > 
-> This entry should remain on the regression list.
-> 
-> In my opinion, we should apply Graham's patch from comment 8:
->   https://bugzilla.kernel.org/attachment.cgi?id=26508
-> which turns on "pci=use_crs" for this machine.
-> 
-> BIOS is telling us what configuration works, and we should
-> pay attention to it.  amd_bus.c has no hope of ever discovering
-> this working configuration.
+> Commit d6a574ff6bfb842bdb98065da053881ff527be46 in Linus' tree
 
-I agree, FWIW.
+Thanks, closed.
 
 Rafael
