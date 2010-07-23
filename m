@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15912] Audio/video sync and crackling issues with snd-hda-intel (AD1981 codec)
-Date: Fri, 23 Jul 2010 14:15:49 +0200 (CEST)
-Message-ID: <PRbv8sgxY6G.A.owG.JXYSMB@chimera>
+Subject: [Bug #16206] PROBLEM: PPP and other serial port related application hangs in kernel space
+Date: Fri, 23 Jul 2010 14:15:51 +0200 (CEST)
+Message-ID: <PRbv8sgxY6G.A.k7F.dVYSMB@chimera>
 References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <wQMMFC59mnE.A.v-E.iUYSMB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="windows-1252"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jaroslav Kysela <perex@perex.cz>, =?utf-8?q?=C3=98yvind=20Stegard?= <oyvinst@ifi.uio.no>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Ales Teska <ales.teska@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,10 +22,10 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15912
-Subject		: Audio/video sync and crackling issues with snd-hda-intel (AD=
-1981 codec)
-Submitter	: =C3=98yvind Stegard <oyvinst@ifi.uio.no>
-Date		: 2010-05-05 16:20 (80 days old)
-Handled-By	: Jaroslav Kysela <perex@perex.cz>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16206
+Subject		: PROBLEM: PPP and other serial port related application hangs in kernel space
+Submitter	: Ales Teska <ales.teska@gmail.com>
+Date		: 2010-06-09 20:46 (45 days old)
+Message-ID	: <900E3B14-5B92-4A37-9581-049DB40F4D1C@gmail.com>
+References	: http://marc.info/?l=linux-kernel&m=127611640301071&w=2
 
