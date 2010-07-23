@@ -1,43 +1,40 @@
-From: Bjorn Helgaas <bjorn.helgaas@hp.com>
-Subject: Re: [Bug #16007] x86/pci Oops with CONFIG_SND_HDA_INTEL
-Date: Fri, 23 Jul 2010 08:20:29 -0600
-Message-ID: <201007230820.29465.bjorn.helgaas@hp.com>
-References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera> <PRbv8sgxY6G.A.WmG.YWYSMB@chimera>
+From: Nick Bowler <nbowler-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
+Subject: Re: [Bug #16265] Why is kslowd accumulating so much CPU time?
+Date: Fri, 23 Jul 2010 10:41:43 -0400
+Message-ID: <20100723144143.GA14650@elliptictech.com>
+References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
+ <tneGvaw1wLL.A.21B.E4XSMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <PRbv8sgxY6G.A.WmG.YWYSMB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <tneGvaw1wLL.A.21B.E4XSMB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Graham Ramsey <ramsey.graham@ntlworld.com>, Yinghai Lu <yinghai@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
 
-On Friday, July 23, 2010 06:15:50 am Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.33 and 2.6.34.
+On 13:47 Fri 23 Jul     , Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
 > 
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.33 and 2.6.34.  Please verify if it still should
-> be listed and let the tracking team know (either way).
+> from 2.6.34.  Please verify if it still should be listed and let the tracking team
+> know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16007
-> Subject		: x86/pci Oops with CONFIG_SND_HDA_INTEL
-> Submitter	: Graham Ramsey <ramsey.graham@ntlworld.com>
-> Date		: 2010-05-19 17:09 (66 days old)
-> Handled-By	: Yinghai Lu <yinghai@kernel.org>
-> 		  Bjorn Helgaas <bjorn.helgaas@hp.com>
-> Patch		: https://patchwork.kernel.org/patch/105662/
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16265
+> Subject		: Why is kslowd accumulating so much CPU time?
+> Submitter	: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+> Date		: 2010-06-09 18:36 (45 days old)
+> First-Bad-Commit: http://git.kernel.org/linus/fbf81762e385d3d45acad057b654d56972acf58c
+> Message-ID	: <E1OMQ88-0002a1-Gb-UK71uKi2zisAobODsErMgNi2O/JbrIOy@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=127610857819033&w=4
 
-This entry should remain on the regression list.
+I actually haven't been able to reproduce with kernels since a couple
+weeks ago (still reproducible if I go back to 2.6.35-rc3, though).
+Seems to be fixed somehow, can anyone else confirm?
 
-In my opinion, we should apply Graham's patch from comment 8:
-  https://bugzilla.kernel.org/attachment.cgi?id=26508
-which turns on "pci=use_crs" for this machine.
-
-BIOS is telling us what configuration works, and we should
-pay attention to it.  amd_bus.c has no hope of ever discovering
-this working configuration.
-
-Bjorn
+-- 
+Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
