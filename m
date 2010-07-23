@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16365] kernel BUG at fs/btrfs/extent-tree.c:1353
-Date: Fri, 23 Jul 2010 13:47:33 +0200 (CEST)
-Message-ID: <tneGvaw1wLL.A.Ij.12XSMB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16307] i915 in kernel 2.6.35-rc3, high number of wakeups
+Date: Fri, 23 Jul 2010 13:47:31 +0200 (CEST)
+Message-ID: <tneGvaw1wLL.A.mXB.p3XSMB@chimera>
 References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Johannes Hirte <johannes.hirte@fem.tu-ilmenau.de>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Enrico Bandiello <enban-c0jvKHQHzSzx4jp4WZvp5g@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16365
-Subject		: kernel BUG at fs/btrfs/extent-tree.c:1353
-Submitter	: Johannes Hirte <johannes.hirte@fem.tu-ilmenau.de>
-Date		: 2010-07-08 14:27 (16 days old)
-Message-ID	: <201007081627.24654.johannes.hirte@fem.tu-ilmenau.de>
-References	: http://marc.info/?l=linux-kernel&m=127859960725931&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16307
+Subject		: i915 in kernel 2.6.35-rc3, high number of wakeups
+Submitter	: Enrico Bandiello <enban-c0jvKHQHzSzx4jp4WZvp5g@public.gmane.org>
+Date		: 2010-06-26 16:57 (28 days old)
+Message-ID	: <4C26317A.5070309-c0jvKHQHzSzx4jp4WZvp5g@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=127757403404259&w=2
 
