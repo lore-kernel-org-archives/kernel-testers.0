@@ -1,37 +1,26 @@
-From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Subject: Re: [Bug #16207] Suspend and VT switch hangs since 2.6.34
-Date: Fri, 23 Jul 2010 10:57:24 -0700
-Message-ID: <20100723105724.043d8174@virtuousgeek.org>
-References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera>
-	<PRbv8sgxY6G.A.j1F.aVYSMB@chimera>
-	<20100723103336.539a3d61@virtuousgeek.org>
-	<20100723175056.GA30411@x61.home>
+From: Ted Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+Subject: Re: [Bug #16265] Why is kslowd accumulating so much CPU time?
+Date: Fri, 23 Jul 2010 14:27:38 -0400
+Message-ID: <20100723182738.GA1256@thunk.org>
+References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
+ <tneGvaw1wLL.A.21B.E4XSMB@chimera>
+ <20100723144143.GA14650@elliptictech.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100723175056.GA30411-dW8JlKMZij8@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20100723144143.GA14650-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Tino Keitel <tino.keitel-rAwCM5oiXHA@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki@gmail>
 
-On Fri, 23 Jul 2010 19:50:56 +0200
-Tino Keitel <tino.keitel-rAwCM5oiXHA@public.gmane.org> wrote:
+On Fri, Jul 23, 2010 at 10:41:43AM -0400, Nick Bowler wrote:
+> 
+> I actually haven't been able to reproduce with kernels since a couple
+> weeks ago (still reproducible if I go back to 2.6.35-rc3, though).
+> Seems to be fixed somehow, can anyone else confirm?
 
-> On Fri, Jul 23, 2010 at 10:33:36 -0700, Jesse Barnes wrote:
-> 
-> [...]
-> 
-> > I think this may actually be an X server bug.  2.6.34 introduced some
-> 
-> Hi,
-> 
-> that seems to be not a kernel issue indeed, as at some point I never
-> got this hang again. However, I upgraded to new versions of Mesa, DRM,
-> and also new bugfix releases of the Xserver (those in Debian unstable).
+I'll try to reproduce it over the weekend.
 
-Great, we can close this one out then.  Thanks.
-
--- 
-Jesse Barnes, Intel Open Source Technology Center
+							- Ted
