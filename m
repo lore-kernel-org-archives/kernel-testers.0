@@ -1,32 +1,25 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #16294] [Q35 bisected] hang at init of i915 driver
-Date: Fri, 23 Jul 2010 22:05:14 +0200
-Message-ID: <201007232205.14936.rjw@sisk.pl>
-References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera> <tneGvaw1wLL.A.9fB.v3XSMB@chimera> <20100723131825.GT3948@outflux.net>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: 2.6.35-rc6: Reported regressions from 2.6.34
+Date: Fri, 23 Jul 2010 22:08:35 +0200
+Message-ID: <201007232208.35815.rjw@sisk.pl>
+References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera> <1279888113.2089.2.camel@achroite.uk.solarflarecom.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20100723131825.GT3948@outflux.net>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1279888113.2089.2.camel-xQnnTUlwzDrdvaEqJLTMTA9jg9n5Vt1AMm0uRHvK7Nw@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Kees Cook <kees.cook@canonical.com>, Kernel Testers List <kernel-testers@vger.kernel.org>, Tim Gardner <tim.gardner@canonical.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+To: Ben Hutchings <bhutchings-s/n/eUQHGBpZroRs9YW3xA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-On Friday, July 23, 2010, Kees Cook wrote:
-> Hi Rafael,
+On Friday, July 23, 2010, Ben Hutchings wrote:
+> Another one for you:
 > 
-> On Fri, Jul 23, 2010 at 01:47:30PM +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.34.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
+> http://article.gmane.org/gmane.linux.drivers.mtd/30834
 > 
-> The regression still exists[1] in the mainline kernel -- the confirmed fix
-> mentioned below has not been committed.
+> This has no Bugzilla entry; should I submit one?
 
-That's why the bug entry hasn't been closed yet. :-)
+Yes, please.  And please make it block bug #16055.
 
 Rafael
