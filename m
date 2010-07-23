@@ -1,20 +1,20 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #15673] 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
-Date: Fri, 23 Jul 2010 21:50:33 +0200
-Message-ID: <201007232150.33454.rjw@sisk.pl>
-References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera> <PRbv8sgxY6G.A.nKH.yYYSMB@chimera> <1279897933.3126.1.camel@localhost.localdomain>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #16007] x86/pci Oops with CONFIG_SND_HDA_INTEL
+Date: Fri, 23 Jul 2010 21:51:58 +0200
+Message-ID: <201007232151.58374.rjw@sisk.pl>
+References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera> <PRbv8sgxY6G.A.WmG.YWYSMB@chimera> <201007230820.29465.bjorn.helgaas@hp.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1279897933.3126.1.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-pci-owner@vger.kernel.org>
+In-Reply-To: <201007230820.29465.bjorn.helgaas@hp.com>
+Sender: linux-pci-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Bjorn Helgaas <bjorn.helgaas@hp.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Graham Ramsey <ramsey.graham@ntlworld.com>, Yinghai Lu <yinghai@kernel.org>, Jesse Barnes <jbarnes@virtuousgeek.org>, linux-pci@vger.kernel.org
 
-On Friday, July 23, 2010, Thomas Meyer wrote:
-> Am Freitag, den 23.07.2010, 14:15 +0200 schrieb Rafael J. Wysocki:
+On Friday, July 23, 2010, Bjorn Helgaas wrote:
+> On Friday, July 23, 2010 06:15:50 am Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of regressions introduced between 2.6.33 and 2.6.34.
 > > 
@@ -23,18 +23,24 @@ On Friday, July 23, 2010, Thomas Meyer wrote:
 > > be listed and let the tracking team know (either way).
 > > 
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15673
-> > Subject		: 2.6.34-rc2: "ima_dec_counts: open/free imbalance"?
-> > Submitter	: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
-> > Date		: 2010-03-28 11:31 (118 days old)
-> > Message-ID	: <1269775909.5301.4.camel-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
-> > References	: http://marc.info/?l=linux-kernel&m=126977593326800&w=2
-> > 
-> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16007
+> > Subject		: x86/pci Oops with CONFIG_SND_HDA_INTEL
+> > Submitter	: Graham Ramsey <ramsey.graham@ntlworld.com>
+> > Date		: 2010-05-19 17:09 (66 days old)
+> > Handled-By	: Yinghai Lu <yinghai@kernel.org>
+> > 		  Bjorn Helgaas <bjorn.helgaas@hp.com>
+> > Patch		: https://patchwork.kernel.org/patch/105662/
 > 
-> I also see this message in 2.6.35-rc6:
+> This entry should remain on the regression list.
+> 
+> In my opinion, we should apply Graham's patch from comment 8:
+>   https://bugzilla.kernel.org/attachment.cgi?id=26508
+> which turns on "pci=use_crs" for this machine.
+> 
+> BIOS is telling us what configuration works, and we should
+> pay attention to it.  amd_bus.c has no hope of ever discovering
+> this working configuration.
 
-During suspend it seems?  Please attach the dmesg output to the bug entry
-above.
+I agree, FWIW.
 
 Rafael
