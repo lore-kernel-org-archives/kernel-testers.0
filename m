@@ -1,31 +1,34 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16337] general protection fault: 0000 [#1] SMP
-Date: Fri, 23 Jul 2010 13:47:32 +0200 (CEST)
-Message-ID: <tneGvaw1wLL.A.yy.F3XSMB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16392] BUG at arch/x86/mm/physaddr.c:5
+Date: Fri, 23 Jul 2010 13:47:36 +0200 (CEST)
+Message-ID: <tneGvaw1wLL.A.IN.n2XSMB@chimera>
 References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "Justin P. Mattock" <justinmattock@gmail.com>, Pauli Nieminen <suokkos@gmail.com>
+Content-Type: text/plain; charset="macroman"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, =?utf-8?q?Ortwin=20Gl=C3=BCck?= <odi-L693kI9kcNY@public.gmane.org>
 
-This message has been generated automatically as a part of a summary report
+This message has been generated automatically as a part of a summary re=
+port
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.34.  Please verify if it still should be listed and let the tracking team
+from 2.6.34.  Please verify if it still should be listed and let the tr=
+acking team
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16337
-Subject		: general protection fault: 0000 [#1] SMP
-Submitter	: Justin P. Mattock <justinmattock@gmail.com>
-Date		: 2010-07-03 22:59 (21 days old)
-Message-ID	: <4C2FC0E3.6050101@gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=127819798215589&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D16392
+Subject		: BUG at arch/x86/mm/physaddr.c:5
+Submitter	: Ortwin Gl=C3=BCck <odi-L693kI9kcNY@public.gmane.org>
+Date		: 2010-07-14 6:54 (10 days old)
+Message-ID	: <4C3D5F3F.7070901-L693kI9kcNY@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D127909052705341&w=3D=
+2
 
