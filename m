@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #16271] 2.6.35-rc3 regression: IBM Maia system is unbootable [ACPI related?]
-Date: Fri, 23 Jul 2010 13:47:30 +0200 (CEST)
-Message-ID: <tneGvaw1wLL.A.1sB.C4XSMB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #16310] arm omap invalid module format
+Date: Fri, 23 Jul 2010 13:47:31 +0200 (CEST)
+Message-ID: <tneGvaw1wLL.A.FRB.k3XSMB@chimera>
 References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>, Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Michal Marek <mmarek@suse.cz>, Robert Nelson <robertcnelson@gmail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,12 +22,11 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16271
-Subject		: 2.6.35-rc3 regression: IBM Maia system is unbootable [ACPI related?]
-Submitter	: James Bottomley <James.Bottomley-JuX6DAaQMKPCXq6kfMZ53/egYHeGw8Jk@public.gmane.org>
-Date		: 2010-06-21 16:03 (33 days old)
-Message-ID	: <1277136189.10998.63.camel-0iu6Cu4xQGLYCGPCin2YbQ@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=127713622821166&w=2
-Handled-By	: Len Brown <len.brown-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Patch		: https://patchwork.kernel.org/patch/108497/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16310
+Subject		: arm omap invalid module format
+Submitter	: Robert Nelson <robertcnelson@gmail.com>
+Date		: 2010-06-28 17:30 (26 days old)
+First-Bad-Commit: http://git.kernel.org/linus/d0679c730395d0bde9a46939e7ba255b4ba7dd7c
+Handled-By	: Michal Marek <mmarek@suse.cz>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=26999
 
