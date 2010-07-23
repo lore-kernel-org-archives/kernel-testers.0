@@ -1,33 +1,41 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
+From: Torsten Kaiser <just.for.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Subject: Re: 2.6.35-rc6: Reported regressions from 2.6.34
-Date: Fri, 23 Jul 2010 22:09:54 +0200
-Message-ID: <201007232209.54326.rjw@sisk.pl>
-References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera> <4C49A577.3020306@lwfinger.net>
+Date: Fri, 23 Jul 2010 22:36:12 +0200
+Message-ID: <AANLkTimK4XaXLNJtSFEsy3wygRK02BcLK=OZDJfAW63t@mail.gmail.com>
+References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <4C49A577.3020306@lwfinger.net>
-Sender: linux-acpi-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:received:in-reply-to
+         :references:date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=cSwnNhdpRbFn6sOH3bvHXjIwWkd1fIMfvGkBZ4lb30Q=;
+        b=PDonl3c9DRNq0cUFOu3pk9JLPdZOqC3yCu3JUPrh1Rr3u8z31X0WtekVGlYVTpuqM+
+         j8sB/c8LQnovSWX4Qxj2IwAM0wSX418dPhIJO5BzU1kr3fNi9e9jeT+cVog9Tua3rvI7
+         iW2sBnotF87toHOCyH8Ws7RwtkGTCA2PVLxXw=
+In-Reply-To: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org>
 
-On Friday, July 23, 2010, Larry Finger wrote:
-> On 07/23/2010 06:42 AM, Rafael J. Wysocki wrote:
-> > This message contains a list of some regressions from 2.6.34,
-> > for which there are no fixes in the mainline known to the tracking team.
-> > If any of them have been fixed already, please let us know.
-> 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16312
-> > Subject		: WARNING: at fs/fs-writeback.c:1127 __mark_inode_dirty
-> > Submitter	: Zdenek Kabelac<zdenek.kabelac@gmail.com>
-> > Date		: 2010-06-28 9:40 (26 days old)
-> > Message-ID	:<AANLkTin24fr5O4_q5Xbo9Y_NKkEmtcp6Hgmr9_4qXaFz@mail.gmail.com>
-> > References	: http://marc.info/?l=linux-kernel&m=127771804806465&w=2
-> 
-> I still have this in 2.6.35-rc5.
+On Fri, Jul 23, 2010 at 1:42 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+16372
+> Subject =A0 =A0 =A0 =A0 : Regression 2.6.34->2.6.35-rc4: radeaon KMS =
+an RS690 broken
+> Submitter =A0 =A0 =A0 : Torsten Kaiser <just.for.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-07-11 19:56 (13 days old)
+> Message-ID =A0 =A0 =A0: <AANLkTimkNg81yzxSHTcAa1QlTE9SYmvzL4eOTVHApWq=
+3@mail.gmail.com>
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D127887=
+822407672&w=3D2
 
-Thanks for the update.
+I just installed 2.6.35-rc6 and can confirm, that this bug is fixed.
 
-Rafael
+Thanks!
+
+Torsten
