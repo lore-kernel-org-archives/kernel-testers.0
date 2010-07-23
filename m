@@ -1,21 +1,21 @@
-From: Nick Bowler <nbowler-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
-Subject: Re: [Bug #16265] Why is kslowd accumulating so much CPU time?
-Date: Fri, 23 Jul 2010 10:41:43 -0400
-Message-ID: <20100723144143.GA14650@elliptictech.com>
+From: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Subject: Re: [Bug #16201] SIOCGIWFREQ ioctl fails to get frequency info
+Date: Fri, 23 Jul 2010 10:38:31 -0400
+Message-ID: <20100723143831.GB2426@tuxdriver.com>
 References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>
- <tneGvaw1wLL.A.21B.E4XSMB@chimera>
+ <tneGvaw1wLL.A.maC._4XSMB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <tneGvaw1wLL.A.21B.E4XSMB@chimera>
+In-Reply-To: <tneGvaw1wLL.A.maC._4XSMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, nuh <nuh-hRtevi7K+EWJQ7yn63+t2w@public.gmane.org>
 
-On 13:47 Fri 23 Jul     , Rafael J. Wysocki wrote:
+On Fri, Jul 23, 2010 at 01:47:29PM +0200, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a summary report
 > of recent regressions.
 > 
@@ -24,17 +24,13 @@ On 13:47 Fri 23 Jul     , Rafael J. Wysocki wrote:
 > know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16265
-> Subject		: Why is kslowd accumulating so much CPU time?
-> Submitter	: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
-> Date		: 2010-06-09 18:36 (45 days old)
-> First-Bad-Commit: http://git.kernel.org/linus/fbf81762e385d3d45acad057b654d56972acf58c
-> Message-ID	: <E1OMQ88-0002a1-Gb-UK71uKi2zisAobODsErMgNi2O/JbrIOy@public.gmane.org>
-> References	: http://marc.info/?l=linux-kernel&m=127610857819033&w=4
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16201
+> Subject		: SIOCGIWFREQ ioctl fails to get frequency info
+> Submitter	: nuh <nuh-hRtevi7K+EWJQ7yn63+t2w@public.gmane.org>
+> Date		: 2010-06-14 10:45 (40 days old)
 
-I actually haven't been able to reproduce with kernels since a couple
-weeks ago (still reproducible if I go back to 2.6.35-rc3, though).
-Seems to be fixed somehow, can anyone else confirm?
+No response for the submitter, no reproducer -- I think it should be closed.
 
 -- 
-Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
+John W. Linville		Someday the world will need a hero, and you
+linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org			might be all we have.  Be ready.
