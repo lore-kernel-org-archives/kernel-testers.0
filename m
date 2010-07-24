@@ -1,51 +1,40 @@
-From: Zeev Tarantov <zeev.tarantov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #16353] 2.6.35 regression
-Date: Sat, 24 Jul 2010 08:17:16 +0300
-Message-ID: <AANLkTinRWnb5wR5SQmf0DMTbAMTy=5X2LM3k3qPFJbPu@mail.gmail.com>
-References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera> <tneGvaw1wLL.A.mr.82XSMB@chimera>
+From: Enrico Bandiello <enban@postal.uv.es>
+Subject: Re: [Bug #16307] i915 in kernel 2.6.35-rc3, high number of wakeups
+Date: Sat, 24 Jul 2010 11:19:50 +0200
+Message-ID: <4C4AB036.3060003@postal.uv.es>
+References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera>	<tneGvaw1wLL.A.mXB.p3XSMB@chimera> <20100723102532.6bfade32@virtuousgeek.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:mime-version:received:in-reply-to
-         :references:from:date:message-id:subject:to:cc:content-type
-         :content-transfer-encoding;
-        bh=CM4gHopJtH2F1QfaN2VJ1v6ztCjj8nbriRn5KQrby/c=;
-        b=f5BKPcrs5T+SpeDCUo4RLtJvvyyGGhJIZgtr1cSa4GajwTp131ng5YyMTl7FA3Hldk
-         KkCVI48LfY1uSmdH+fNWBueztqFr8Ust5kywC+APecOqvfvrNE6VWfnYi5xisJPV3FtY
-         Lrycm7mSMVelGdi32QHO9w7ArPPAZtmAIo0os=
-In-Reply-To: <tneGvaw1wLL.A.mr.82XSMB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20100723102532.6bfade32@virtuousgeek.org>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Jesse Barnes <jbarnes@virtuousgeek.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Enrico Bandiello <enban@alumni.uv.es>
 
-On Fri, Jul 23, 2010 at 14:47, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> This message has been generated automatically as a part of a summary =
-report
-> of recent regressions.
+On 07/23/2010 07:25 PM, Jesse Barnes wrote:
+> On Fri, 23 Jul 2010 13:47:31 +0200 (CEST)
+> "Rafael J. Wysocki"<rjw@sisk.pl>  wrote:
 >
-> The following bug entry is on the current list of known regressions
-> from 2.6.34. =A0Please verify if it still should be listed and let th=
-e tracking team
-> know (either way).
+>> This message has been generated automatically as a part of a summary report
+>> of recent regressions.
+>>
+>> The following bug entry is on the current list of known regressions
+>> from 2.6.34.  Please verify if it still should be listed and let the tracking team
+>> know (either way).
+>>
+>>
+>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16307
+>> Subject		: i915 in kernel 2.6.35-rc3, high number of wakeups
+>> Submitter	: Enrico Bandiello<enban@postal.uv.es>
+>> Date		: 2010-06-26 16:57 (28 days old)
+>> Message-ID	:<4C26317A.5070309@postal.uv.es>
+>> References	: http://marc.info/?l=linux-kernel&m=127757403404259&w=2
 >
+> Just updated the bug for this one.  Enrico, you say this behavior is
+> recent.  Can you bisect between 2.6.34 and when the problem started?
 >
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-16353
-> Subject =A0 =A0 =A0 =A0 : 2.6.35 regression
-> Submitter =A0 =A0 =A0 : Zeev Tarantov <zeev.tarantov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-07-05 13:04 (19 days old)
-> Message-ID =A0 =A0 =A0: <loom.20100705T144459-919-eS7Uydv5nfjZ+VzJOa5vwg@public.gmane.org>
-> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D127836=
-002702522&w=3D2
-> Handled-By =A0 =A0 =A0: Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>
-> Patch =A0 =A0 =A0 =A0 =A0 : https://patchwork.kernel.org/patch/110988=
-/
->
-
-=46ixed in rc6.
-
--Zeev
+Hi. I just tried, but can't find anything useful until now (surely it's 
+my fault: it was my first attempt at bisection). Please let me try again 
+in the next days.
