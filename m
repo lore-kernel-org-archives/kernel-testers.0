@@ -1,91 +1,75 @@
-From: Kan-Ru Chen <kanru-+lMv398qL9qh6J55Ss3d3w@public.gmane.org>
-Subject: Re: [Bug #16307] i915 in kernel 2.6.35-rc3, high number of wakeups
-Date: Sun, 25 Jul 2010 10:54:13 +0800
-Message-ID: <87sk38b7ai.fsf@anar.kanru.info>
-References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera> <tneGvaw1wLL.A.mXB.p3XSMB@chimera> <20100723102532.6bfade32@virtuousgeek.org> <4C4AB036.3060003@postal.uv.es>
+From: Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #16206] PROBLEM: PPP and other serial port related
+ application hangs in kernel space
+Date: Sun, 25 Jul 2010 15:36:19 -0400
+Message-ID: <20100725153619.54280d71@katamari>
+References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera>
+	<PRbv8sgxY6G.A.k7F.dVYSMB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4C4AB036.3060003-c0jvKHQHzSzx4jp4WZvp5g@public.gmane.org>
+In-Reply-To: <PRbv8sgxY6G.A.k7F.dVYSMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Enrico Bandiello <enban-c0jvKHQHzSzx4jp4WZvp5g@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Enrico Bandiello <enban-cmaem7PIVQTx4jp4WZvp5g@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ales Teska <ales.teska-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
 
-Hi,
+On Fri, 23 Jul 2010 14:15:51 +0200 (CEST)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-On Sat, 24 Jul 2010 11:19:50 +0200, Enrico Bandiello <enban-c0jvKHQHzSzx4jp4WZvp5g@public.gmane.org> wrote:
-> On 07/23/2010 07:25 PM, Jesse Barnes wrote:
-> > On Fri, 23 Jul 2010 13:47:31 +0200 (CEST)
-> > "Rafael J. Wysocki"<rjw-KKrjLPT3xs0@public.gmane.org>  wrote:
-> >
-> >> This message has been generated automatically as a part of a summary report
-> >> of recent regressions.
-> >>
-> >> The following bug entry is on the current list of known regressions
-> >> from 2.6.34.  Please verify if it still should be listed and let the tracking team
-> >> know (either way).
-> >>
-> >>
-> >> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16307
-> >> Subject		: i915 in kernel 2.6.35-rc3, high number of wakeups
-> >> Submitter	: Enrico Bandiello<enban-c0jvKHQHzSzx4jp4WZvp5g@public.gmane.org>
-> >> Date		: 2010-06-26 16:57 (28 days old)
-> >> Message-ID	:<4C26317A.5070309-c0jvKHQHzSzx4jp4WZvp5g@public.gmane.org>
-> >> References	: http://marc.info/?l=linux-kernel&m=127757403404259&w=2
-> >
-> > Just updated the bug for this one.  Enrico, you say this behavior is
-> > recent.  Can you bisect between 2.6.34 and when the problem started?
-> >
-> Hi. I just tried, but can't find anything useful until now (surely it's 
-> my fault: it was my first attempt at bisection). Please let me try again 
-> in the next days.
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.33 and 2.6.34.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.33 and 2.6.34.  Please verify if it still should
+> be listed and let the tracking team know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16206
+> Subject		: PROBLEM: PPP and other serial port related application hangs in kernel space
+> Submitter	: Ales Teska <ales.teska-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-06-09 20:46 (45 days old)
+> Message-ID	: <900E3B14-5B92-4A37-9581-049DB40F4D1C-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=127611640301071&w=2
+> 
 
-I also noticed that interrupts keeps high in powertop. I bisected it
-today:
+I think this is some kind of race in the ldisc handling code.
 
-# bad: [e44a21b7268a022c7749f521c06214145bd161e4] Linux 2.6.35-rc2
-# good: [e40152ee1e1c7a63f4777791863215e3faa37a86] Linus 2.6.34
-git bisect start 'v2.6.35-rc2' 'v2.6.34'
-# good: [2086ca482f89950410527425913ca48d948e9622] i2c-algo-pca: Fix coding style issues
-git bisect good 2086ca482f89950410527425913ca48d948e9622
-# bad: [1756ac3d3c41341297ea25b818b7fce505bb2a9a] Merge branch 'virtio' of git://git.kernel.org/pub/scm/linux/kernel/git/rusty/linux-2.6-for-linus
-git bisect bad 1756ac3d3c41341297ea25b818b7fce505bb2a9a
-# bad: [ec2a7587e0a91d5c1afe23a0a73edfce06c5e4e0] Merge branch 'msm-video' of git://codeaurora.org/quic/kernel/dwalker/linux-msm
-git bisect bad ec2a7587e0a91d5c1afe23a0a73edfce06c5e4e0
-# good: [e0bc5d4a54938eedcde14005210e6c08aa9727e4] Merge branch 'i2c-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/jdelvare/staging
-git bisect good e0bc5d4a54938eedcde14005210e6c08aa9727e4
-# good: [ac3ee84c604502240122c47b52f0542ec8774f15] Merge branch 'dbg-early-merge' of git://git.kernel.org/pub/scm/linux/kernel/git/jwessel/linux-2.6-kgdb
-git bisect good ac3ee84c604502240122c47b52f0542ec8774f15
-# bad: [f4b7fb94c576265ceffc43031805ade32fa80c6a] drm/radeon/kms: take vram mutex pointer before derefing object.
-git bisect bad f4b7fb94c576265ceffc43031805ade32fa80c6a
-# bad: [0bcb1d844ac638a4c4280f697d5bfac9791e9a70] Merge branch 'drm-radeon-lockup' into drm-core-next
-git bisect bad 0bcb1d844ac638a4c4280f697d5bfac9791e9a70
-# bad: [77ffb5979de59efd1a6b280b10d647b09285bee0] drm/i915/pch: Use minimal number of FDI lanes (v2)
-git bisect bad 77ffb5979de59efd1a6b280b10d647b09285bee0
-# bad: [ab00a9ef8d4ce7de4d5b15cbf4101feeb8cf7f4d] drm/i915: Un-magic a DPCD register write
-git bisect bad ab00a9ef8d4ce7de4d5b15cbf4101feeb8cf7f4d
-# skip: [0f3ee801b332d6ff22285386675fe5aaedf035c3] drm/i915: Allow LVDS on pipe A on gen4+
-git bisect skip 0f3ee801b332d6ff22285386675fe5aaedf035c3
-# good: [5bf4c9c469ffc64b85fed1f3d2b0c8b19909ed13] drm/i915: use encoder_list for hotplug callback
-git bisect good 5bf4c9c469ffc64b85fed1f3d2b0c8b19909ed13
-# bad: [d275f6614e160fa71d6e2201eb34c9b41fd8473c] drm/i915: Clear the LVDS pipe B select bit when moving the LVDS to pipe A.
-git bisect bad d275f6614e160fa71d6e2201eb34c9b41fd8473c
-# good: [c1c43977e6fc789cbde094303fa9ace629a35aca] drm/i915: passing drm connector param for load detection
-git bisect good c1c43977e6fc789cbde094303fa9ace629a35aca
-# good: [6443170f6d862a1cc89e61e4bb2410b714b875f4] drm/i915: Remove dead KMS encoder save/restore code.
-git bisect good 6443170f6d862a1cc89e61e4bb2410b714b875f4
+This patch went in 2.6.34:
 
-The bisect stopped between d275f66 and 0f3ee80 so I reverted the
-following three commits:
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff_plain;h=638b9648ab51c9c549ff5735d3de519ef6199df3
 
-b3b095b drm/i915: enable LVDS on Cougarpoint
-d275f66 drm/i915: Clear the LVDS pipe B select bit when moving the LVDS to pipe A.
-0f3ee80 drm/i915: Allow LVDS on pipe A on gen4+
+"tty: Fix the ldisc hangup race"
 
-Now the powertop only shows about 0.2 interrupts per second. Hope this
-information is useful.
+Warning message from the original report:
 
-Regards,
-Kanru
+Line 1278 is:
+        WARN_ON(!test_bit(TTY_LDISC, &tty->flags));
+
+[ 1673.660876] ------------[ cut here ]------------
+[ 1673.661471] WARNING: at drivers/char/tty_io.c:1278 tty_open+0x213/0x451()
+[ 1673.689168] Pid: 1275, comm: ufoprobe_client Not tainted
+2.6.34-486-exiprobes #1
+[ 1673.690452] Call Trace:
+[ 1673.690947]  [<c10e93af>] ? tty_open+0x213/0x451
+[ 1673.691926]  [<c1018f51>] warn_slowpath_common+0x45/0x5c
+[ 1673.693006]  [<c1018f75>] warn_slowpath_null+0xd/0x10
+[ 1673.694293]  [<c10e93af>] tty_open+0x213/0x451
+
+With softlockup detection enabled, there is also this trace:
+
+[  841.121579] INFO: task pppd:1390 blocked for more than 120 seconds.
+[  841.122613] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
+message.
+[  841.123578] pppd          D cec53ea4     0  1390   1139 0x00000000
+[  841.151250] Call Trace:
+[  841.151815]  [<c1037b30>] ? trace_hardirqs_on+0xb/0xd
+[  841.152755]  [<c1198bf6>] ? _raw_spin_unlock_irqrestore+0x53/0x60
+[  841.153657]  [<c10f7049>] ? spin_unlock_irqrestore+0x8/0xa
+[  841.154601]  [<c10f79fb>] tty_ldisc_ref_wait+0x5d/0x75
+[  841.155265]  [<c102b471>] ? autoremove_wake_function+0x0/0x33
+[  841.156456]  [<d0c35211>] ? serial_ioctl+0x0/0x68 [usbserial]
+[  841.157913]  [<c10f3c54>] tty_ioctl+0x6d1/0x731
+
+I put the full traces into the bug report.
