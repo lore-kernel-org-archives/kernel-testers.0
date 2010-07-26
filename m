@@ -1,75 +1,121 @@
-From: Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #16206] PROBLEM: PPP and other serial port related
- application hangs in kernel space
-Date: Sun, 25 Jul 2010 15:36:19 -0400
-Message-ID: <20100725153619.54280d71@katamari>
+From: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #15704] [r8169] WARNING: at net/sched/sch_generic.c
+Date: Mon, 26 Jul 2010 16:16:29 +0300
+Message-ID: <20100726131629.GA4398@swordfish.minsk.epam.com>
 References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera>
-	<PRbv8sgxY6G.A.k7F.dVYSMB@chimera>
+ <PRbv8sgxY6G.A.UEH.mYYSMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="tKW2IUtsqtDRztdT"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <PRbv8sgxY6G.A.k7F.dVYSMB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=zykUfYFgRRX4Mj9qK4rs7y7Ckvsv198Z5B3STr3JHMY=;
+        b=xFQvTOYoGbyQF+fOVphHCSfSGAIGDl649+v6c5I8KfnG6G/nj0in30GjsMljl+n6CH
+         tLpFz9ceZYYgLZgnd1RmmcxzyqyltU5vIPldZcdE32iC7AW+BtSqQAcEtnGpb8yf7ib0
+         faxzsLLscB8i/SLTONECAQ5VS3LMl8c6WS0zo=
+Content-Disposition: inline
+In-Reply-To: <PRbv8sgxY6G.A.UEH.mYYSMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ales Teska <ales.teska-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Fri, 23 Jul 2010 14:15:51 +0200 (CEST)
-"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.33 and 2.6.34.
-> 
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.33 and 2.6.34.  Please verify if it still should
-> be listed and let the tracking team know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16206
-> Subject		: PROBLEM: PPP and other serial port related application hangs in kernel space
-> Submitter	: Ales Teska <ales.teska-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2010-06-09 20:46 (45 days old)
-> Message-ID	: <900E3B14-5B92-4A37-9581-049DB40F4D1C-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> References	: http://marc.info/?l=linux-kernel&m=127611640301071&w=2
-> 
+--tKW2IUtsqtDRztdT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think this is some kind of race in the ldisc handling code.
+On (07/23/10 14:15), Rafael J. Wysocki wrote:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D15704
+> Subject		: [r8169] WARNING: at net/sched/sch_generic.c
+> Submitter	: Sergey Senozhatsky <sergey.senozhatsky-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-03-31 10:21 (115 days old)
+> Message-ID	: <20100331102142.GA3294-dY8u8AhHFaWtd10JCjopabkcH5ONE+aC@public.gmane.org>
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D127003090406108&w=3D2
+>=20
+>=20
 
-This patch went in 2.6.34:
+Hello,
+Sorry for the dealy - I've been away.
+So, the bad news are that this is probably the last time I can test this bu=
+g. This laptop will
+no longer be available. Sorry.
 
-http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff_plain;h=638b9648ab51c9c549ff5735d3de519ef6199df3
 
-"tty: Fix the ldisc hangup race"
+[ 2599.495508] pktgen 2.73: Packet Generator for packet performance testing.
+[ 2630.016019] ------------[ cut here ]------------
+[ 2630.016031] WARNING: at net/sched/sch_generic.c:258 dev_watchdog+0xc1/0x=
+129()
+[ 2630.016035] Hardware name: F3JC               =20
+[ 2630.016038] NETDEV WATCHDOG: eth0 (r8169): transmit queue 0 timed out
+[ 2630.016041] Modules linked in: pktgen ipv6 arc4 ecb iwl3945 snd_hwdep iw=
+lcore snd_seq_dummy snd_hda_codec_si3054 snd_hda_codec_realtek snd_seq_oss =
+snd_seq_midi_event snd_seq snd_seq_device mac80211 snd_pcm_oss snd_mixer_os=
+s asus_laptop
+snd_hda_intel sparse_keymap sdhci_pci sdhci mmc_core led_class cfg80211 snd=
+_hda_codec snd_pcm snd_timer snd_page_alloc snd rng_core soundcore usb_stor=
+age sg psmouse evdev i2c_i801 serio_raw r8169 mii uhci_hcd ehci_hcd sd_mod =
+sr_mod usbcore
+cdrom ata_piix
+[ 2630.016114] Pid: 4282, comm: kpktgend_0 Not tainted 2.6.35-rc6-dbg-git1-=
+00136-g459ab2a-dirty #75
+[ 2630.016118] Call Trace:
+[ 2630.016125]  [<c102e3ae>] warn_slowpath_common+0x65/0x7a
+[ 2630.016131]  [<c12695f3>] ? dev_watchdog+0xc1/0x129
+[ 2630.016136]  [<c102e427>] warn_slowpath_fmt+0x26/0x2a
+[ 2630.016142]  [<c12695f3>] dev_watchdog+0xc1/0x129
+[ 2630.016149]  [<c10370b3>] ? run_timer_softirq+0x136/0x22b
+[ 2630.016154]  [<c103710c>] run_timer_softirq+0x18f/0x22b
+[ 2630.016160]  [<c10370b3>] ? run_timer_softirq+0x136/0x22b
+[ 2630.016165]  [<c1269532>] ? dev_watchdog+0x0/0x129
+[ 2630.016171]  [<c1032c35>] __do_softirq+0x88/0x10c
+[ 2630.016177]  [<c1032ce8>] do_softirq+0x2f/0x47
+[ 2630.016182]  [<c1032fa5>] irq_exit+0x38/0x75
+[ 2630.016187]  [<c10159b8>] smp_apic_timer_interrupt+0x5f/0x6d
+[ 2630.016195]  [<f80555e4>] ? pktgen_xmit+0xda2/0xe6f [pktgen]
+[ 2630.016202]  [<c12c75a2>] apic_timer_interrupt+0x36/0x3c
+[ 2630.016208]  [<f80555e4>] ? pktgen_xmit+0xda2/0xe6f [pktgen]
+[ 2630.016214]  [<f80555e4>] ? pktgen_xmit+0xda2/0xe6f [pktgen]
+[ 2630.016220]  [<c104007b>] ? __kfifo_peek_n+0x13/0x2b
+[ 2630.016226]  [<c1032edd>] ? _local_bh_enable_ip+0x9d/0xb3
+[ 2630.016231]  [<c1032efb>] local_bh_enable_ip+0x8/0xa
+[ 2630.016236]  [<c12c6aaa>] _raw_spin_unlock_bh+0x2f/0x32
+[ 2630.016242]  [<f80555e4>] pktgen_xmit+0xda2/0xe6f [pktgen]
+[ 2630.016253]  [<f91707b8>] ? rtl8169_start_xmit+0x0/0x307 [r8169]
+[ 2630.016261]  [<c11800d8>] ? plist_add+0x85/0x87
+[ 2630.016267]  [<f80558ac>] ? pktgen_thread_worker+0x96/0x5c3 [pktgen]
+[ 2630.016273]  [<c1029096>] ? get_parent_ip+0xb/0x31
+[ 2630.016279]  [<c1029138>] ? sub_preempt_count+0x7c/0x89
+[ 2630.016285]  [<f8055986>] pktgen_thread_worker+0x170/0x5c3 [pktgen]
+[ 2630.016290]  [<c12c52bb>] ? schedule+0x535/0x545
+[ 2630.016296]  [<c103fd96>] ? autoremove_wake_function+0x0/0x2f
+[ 2630.016301]  [<c103fd96>] ? autoremove_wake_function+0x0/0x2f
+[ 2630.016307]  [<f8055816>] ? pktgen_thread_worker+0x0/0x5c3 [pktgen]
+[ 2630.016313]  [<c103faa6>] kthread+0x6a/0x6f
+[ 2630.016318]  [<c103fa3c>] ? kthread+0x0/0x6f
+[ 2630.016324]  [<c1002d82>] kernel_thread_helper+0x6/0x10
+[ 2630.016328] ---[ end trace 0bdadff7f249bd0d ]---
+[ 2630.032549] r8169 0000:02:00.0: eth0: link up
 
-Warning message from the original report:
 
-Line 1278 is:
-        WARN_ON(!test_bit(TTY_LDISC, &tty->flags));
+	Sergey
+--tKW2IUtsqtDRztdT
+Content-Type: application/pgp-signature
+Content-Disposition: inline
 
-[ 1673.660876] ------------[ cut here ]------------
-[ 1673.661471] WARNING: at drivers/char/tty_io.c:1278 tty_open+0x213/0x451()
-[ 1673.689168] Pid: 1275, comm: ufoprobe_client Not tainted
-2.6.34-486-exiprobes #1
-[ 1673.690452] Call Trace:
-[ 1673.690947]  [<c10e93af>] ? tty_open+0x213/0x451
-[ 1673.691926]  [<c1018f51>] warn_slowpath_common+0x45/0x5c
-[ 1673.693006]  [<c1018f75>] warn_slowpath_null+0xd/0x10
-[ 1673.694293]  [<c10e93af>] tty_open+0x213/0x451
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.10 (GNU/Linux)
 
-With softlockup detection enabled, there is also this trace:
+iJwEAQECAAYFAkxNiq0ACgkQfKHnntdSXjTFEQP/RA7k1E0vVfOmkm+srKB1NldB
+m/GZaybTZI+hwBS8HyP/xXgwKfFDGAvWBC9b/wAp4yxY6f2H0jHpuHEJeS2e4q0T
+A/BhS/jl43yhBD9zP1bX9G9qrBhf8EBnEEQROgmQGVZ8nVblMjHj4tQRC15YZQHL
+LXweu/oYfzK7YXAHxIM=
+=LeAb
+-----END PGP SIGNATURE-----
 
-[  841.121579] INFO: task pppd:1390 blocked for more than 120 seconds.
-[  841.122613] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
-message.
-[  841.123578] pppd          D cec53ea4     0  1390   1139 0x00000000
-[  841.151250] Call Trace:
-[  841.151815]  [<c1037b30>] ? trace_hardirqs_on+0xb/0xd
-[  841.152755]  [<c1198bf6>] ? _raw_spin_unlock_irqrestore+0x53/0x60
-[  841.153657]  [<c10f7049>] ? spin_unlock_irqrestore+0x8/0xa
-[  841.154601]  [<c10f79fb>] tty_ldisc_ref_wait+0x5d/0x75
-[  841.155265]  [<c102b471>] ? autoremove_wake_function+0x0/0x33
-[  841.156456]  [<d0c35211>] ? serial_ioctl+0x0/0x68 [usbserial]
-[  841.157913]  [<c10f3c54>] tty_ioctl+0x6d1/0x731
-
-I put the full traces into the bug report.
+--tKW2IUtsqtDRztdT--
