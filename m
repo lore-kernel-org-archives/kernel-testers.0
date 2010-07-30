@@ -1,44 +1,85 @@
-From: Jiri Slaby <jirislaby-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #16294] [Q35 bisected] hang at init of i915 driver
-Date: Thu, 29 Jul 2010 22:31:51 +0200
-Message-ID: <4C51E537.9000701@gmail.com>
-References: <Lupw7pePXBO.A.fZH.G2XSMB@chimera> <tneGvaw1wLL.A.9fB.v3XSMB@chimera> <20100723131825.GT3948@outflux.net> <201007232205.14936.rjw@sisk.pl>
+From: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Subject: Re: [Bug #15977] WARNING: at lib/dma-debug.c:866 check_for_stack
+Date: Fri, 30 Jul 2010 15:58:04 +0900
+Message-ID: <20100730155605S.fujita.tomonori@lab.ntt.co.jp>
+References: <wQMMFC59mnE.A.v-E.iUYSMB@chimera>
+	<PRbv8sgxY6G.A.ksG.eWYSMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :x-enigmail-version:content-type:content-transfer-encoding;
-        bh=OUgcmvpVrHhWd2BcLu4qDH+6s/W5I+P9yfUM7DtSeBM=;
-        b=unrxjEA/+G1w0lnDfl8Az443qx0y7kEgLjImYfdtPdMMQRn+BeGmSf4pMgeu0sY0wK
-         6LI5bZxy1hl0hqriAaSI290ZoeaoPyte64gyOh16fCHfG+vazG1BXZ7jr1JXi6O/nM22
-         vxl0sXoVHO1fgpySYzXSg/gbyH+YZuhV/O2N0=
-In-Reply-To: <201007232205.14936.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <PRbv8sgxY6G.A.ksG.eWYSMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Kees Cook <kees.cook-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tim Gardner <tim.gardner-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: rjw-KKrjLPT3xs0@public.gmane.org, mchehab-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org
 
-On 07/23/2010 10:05 PM, Rafael J. Wysocki wrote:
-> On Friday, July 23, 2010, Kees Cook wrote:
->> On Fri, Jul 23, 2010 at 01:47:30PM +0200, Rafael J. Wysocki wrote:
->>> This message has been generated automatically as a part of a summary report
->>> of recent regressions.
->>>
->>> The following bug entry is on the current list of known regressions
->>> from 2.6.34.  Please verify if it still should be listed and let the tracking team
->>> know (either way).
->>
->> The regression still exists[1] in the mainline kernel -- the confirmed fix
->> mentioned below has not been committed.
+On Fri, 23 Jul 2010 14:15:49 +0200 (CEST)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.33 and 2.6.34.
 > 
-> That's why the bug entry hasn't been closed yet. :-)
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.33 and 2.6.34.  Please verify if it still should
+> be listed and let the tracking team know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15977
+> Subject		: WARNING: at lib/dma-debug.c:866 check_for_stack
+> Submitter	: Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-05-14 8:56 (71 days old)
+> Message-ID	: <AANLkTikyx2eaxaiUCFDSfpmn1UG0t2GOxArz6F4wp1LJ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=127382742729825&w=2
 
-Finally, it's merged as e7b96f28c...
+looks like easy to fix this. But seems that linux-next still has the
+bug. Or a fix was already posted somewhere else?
 
-regards,
+=
+From: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Subject: [PATCH] DVB: dib0700: fix the usage of stack buffers for DMA
+
+We can't use a stack buffer for DMA.
+
+This should fix:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=15977
+
+Signed-off-by: FUJITA Tomonori <fujita.tomonori-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+---
+ drivers/media/dvb/dvb-usb/dib0700_core.c |   15 ++++++++++++---
+ 1 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/dvb/dvb-usb/dib0700_core.c b/drivers/media/dvb/dvb-usb/dib0700_core.c
+index 7deade7..54a0d2c 100644
+--- a/drivers/media/dvb/dvb-usb/dib0700_core.c
++++ b/drivers/media/dvb/dvb-usb/dib0700_core.c
+@@ -301,14 +301,23 @@ struct i2c_algorithm dib0700_i2c_algo = {
+ int dib0700_identify_state(struct usb_device *udev, struct dvb_usb_device_properties *props,
+ 			struct dvb_usb_device_description **desc, int *cold)
+ {
+-	u8 b[16];
+-	s16 ret = usb_control_msg(udev, usb_rcvctrlpipe(udev,0),
+-		REQUEST_GET_VERSION, USB_TYPE_VENDOR | USB_DIR_IN, 0, 0, b, 16, USB_CTRL_GET_TIMEOUT);
++	void *b;
++	s16 ret;
++
++	b = kmalloc(16, GFP_KERNEL);
++	if (!b)
++		return -ENOMEM;
++
++	ret = usb_control_msg(udev, usb_rcvctrlpipe(udev,0),
++			      REQUEST_GET_VERSION, USB_TYPE_VENDOR | USB_DIR_IN,
++			      0, 0, b, 16, USB_CTRL_GET_TIMEOUT);
+ 
+ 	deb_info("FW GET_VERSION length: %d\n",ret);
+ 
+ 	*cold = ret <= 0;
+ 
++	kfree(b);
++
+ 	deb_info("cold: %d\n", *cold);
+ 	return 0;
+ }
 -- 
-js
+1.6.5
