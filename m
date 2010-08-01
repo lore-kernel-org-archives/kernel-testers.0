@@ -1,29 +1,43 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #16388] i915 drm BUG: unable to handle kernel paging request at a5e89046
-Date: Sun,  1 Aug 2010 16:44:24 +0200 (CEST)
-Message-ID: <FMobw2FohV.A.JQG.DMYVMB@chimera>
-References: <JKn8_uSlpqD.A.HLG.1LYVMB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: 2.6.35-rc6-git6: Reported regressions from 2.6.34
+Date: Sun, 1 Aug 2010 17:50:50 +0200
+Message-ID: <201008011750.50592.rjw@sisk.pl>
+References: <2dWFdr9kTFM.A.P0D.spXVMB@chimera>
+	<4C558945.3030501@s5r6.in-berlin.de>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <JKn8_uSlpqD.A.HLG.1LYVMB@chimera>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, lists-fyZcXyQrmZp8fCCB1iTX4w@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org>
+In-Reply-To: <4C558945.3030501@s5r6.in-berlin.de>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <http://lists.freedesktop.org/mailman/options/dri-devel>,
+	<mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <http://lists.freedesktop.org/archives/dri-devel>
+List-Post: <mailto:dri-devel@lists.freedesktop.org>
+List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <http://lists.freedesktop.org/mailman/listinfo/dri-devel>,
+	<mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Sender: dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org
+Errors-To: dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org
+To: Stefan Richter <stefanr@s5r6.in-berlin.de>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Thomas Meyer <thomas@m3y3r.de>, Paul Rolland <rol@as2917.net>
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.33 and 2.6.34.
+On Sunday, August 01, 2010, Stefan Richter wrote:
+> Rafael J. Wysocki wrote:
+> > If you know of any other unresolved regressions from 2.6.34, please let us
+> > know either and we'll add them to the list.
+> 
+> Subject		: 2.6.35-rc6+: i915: Bisected regression
+> Submitter	: Thomas Meyer <thomas@m3y3r.de>
+> Date		: Sun, 1 Aug 2010 11:01:00 +0200
+> Message-ID	: <201008011101.01429.thomas@m3y3r.de>
+> References	: http://lkml.org/lkml/2010/8/1/43
+> First-Bad-Commit:
+> http://git.kernel.org/linus/d1b851fc0d105caa6b6e3e7c92d2987dfb52cbe0
 
-The following bug entry is on the current list of known regressions
-introduced between 2.6.33 and 2.6.34.  Please verify if it still should
-be listed and let the tracking team know (either way).
+Thanks!
 
+Please note, however, that regressions reported by e-mail are only put into
+the Bugzilla if the reports are at least one week old.
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16388
-Subject		: i915 drm BUG: unable to handle kernel paging request at a5e89046
-Submitter	:  <lists-fyZcXyQrmZp8fCCB1iTX4w@public.gmane.org>
-Date		: 2010-07-14 16:59 (19 days old)
-
+Rafael
