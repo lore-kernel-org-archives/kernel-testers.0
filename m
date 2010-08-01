@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #16377] X.org crash while running a OpenGL composited KDE 4.4.4 session with Radeon KMS
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #16320] iwl3945 crashes, seems to be disconnecting from the PCI bus
 Date: Sun,  1 Aug 2010 16:44:24 +0200 (CEST)
-Message-ID: <FMobw2FohV.A.NTG.GMYVMB@chimera>
+Message-ID: <FMobw2FohV.A.eYG.ZMYVMB@chimera>
 References: <JKn8_uSlpqD.A.HLG.1LYVMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <JKn8_uSlpqD.A.HLG.1LYVMB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alex Deucher <alexdeucher-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Martin Steigerwald <Martin-SpPJhY7q8xqazgQtNeiOUg@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Satish <eerpini@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,9 +22,8 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16377
-Subject		: X.org crash while running a OpenGL composited KDE 4.4.4 session with Radeon KMS
-Submitter	: Martin Steigerwald <Martin-SpPJhY7q8xqazgQtNeiOUg@public.gmane.org>
-Date		: 2010-07-13 12:41 (20 days old)
-Handled-By	: Alex Deucher <alexdeucher-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16320
+Subject		: iwl3945 crashes, seems to be disconnecting from the PCI bus
+Submitter	: Satish <eerpini@gmail.com>
+Date		: 2010-07-01 08:24 (32 days old)
 
