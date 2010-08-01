@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16270] Image is a hit-or-a-miss. Often displayed green+purple
-Date: Sun,  1 Aug 2010 16:44:23 +0200 (CEST)
-Message-ID: <FMobw2FohV.A.9pG.pMYVMB@chimera>
+Subject: [Bug #15977] WARNING: at lib/dma-debug.c:866 check_for_stack
+Date: Sun,  1 Aug 2010 16:44:22 +0200 (CEST)
+Message-ID: <FMobw2FohV.A.VHH.vNYVMB@chimera>
 References: <JKn8_uSlpqD.A.HLG.1LYVMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jean-Francois Moine <moinejf@free.fr>, Vish <drkvi-a@yahoo.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Zdenek Kabelac <zdenek.kabelac@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,10 +22,10 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16270
-Subject		: Image is a hit-or-a-miss. Often displayed green+purple
-Submitter	: Vish <drkvi-a@yahoo.com>
-Date		: 2010-06-22 10:47 (41 days old)
-First-Bad-Commit: http://git.kernel.org/linus/acef4a407ed6e0a9ed87a2747be592fe49e64bdd
-Handled-By	: Jean-Francois Moine <moinejf@free.fr>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15977
+Subject		: WARNING: at lib/dma-debug.c:866 check_for_stack
+Submitter	: Zdenek Kabelac <zdenek.kabelac@gmail.com>
+Date		: 2010-05-14 8:56 (80 days old)
+Message-ID	: <AANLkTikyx2eaxaiUCFDSfpmn1UG0t2GOxArz6F4wp1LJ@mail.gmail.com>
+References	: http://marc.info/?l=linux-kernel&m=127382742729825&w=2
 
