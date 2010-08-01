@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16423] netfilter/iptables stopped logging 2.6.35-rc
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16405] Brightness Adjustment on Toshiba nb305 Netbooks is non-functional.
 Date: Sun,  1 Aug 2010 15:52:20 +0200 (CEST)
-Message-ID: <Aan7wZ97YaE.A.BGE.CqXVMB@chimera>
+Message-ID: <Aan7wZ97YaE.A.QRE.IqXVMB@chimera>
 References: <2dWFdr9kTFM.A.P0D.spXVMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <2dWFdr9kTFM.A.P0D.spXVMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "auto401300@hushmail.com"@ogre.sisk.pl
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, John Mesmon <jmesmon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Matthew Garrett <mjg59-kernel-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,11 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16423
-Subject		: netfilter/iptables stopped logging 2.6.35-rc
-Submitter	: auto401300@hushmail.com
-Date		: 2010-07-17 10:20 (16 days old)
-Message-ID	: <20100717072036.1BBE52804B@smtp.hushmail.com>
-References	: http://lkml.indiana.edu/hypermail/linux/kernel/1007.2/00440.html
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16405
+Subject		: Brightness Adjustment on Toshiba nb305 Netbooks is non-functional.
+Submitter	: John Mesmon <jmesmon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2010-07-15 23:40 (18 days old)
+First-Bad-Commit: http://git.kernel.org/linus/74a365b3f354fafc537efa5867deb7a9fadbfe27
+Handled-By	: Matthew Garrett <mjg59-kernel-1xO5oi07KQx4cg9Nei1l7Q@public.gmane.org>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=27236
 
