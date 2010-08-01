@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16462] unable to connect to AP on legal channels 12/13
-Date: Sun,  1 Aug 2010 15:52:23 +0200 (CEST)
-Message-ID: <Aan7wZ97YaE.A.H2D.0pXVMB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16406] Badness with the kernel version 2.6.35-rc1-git1 running on P6 box
+Date: Sun,  1 Aug 2010 15:52:20 +0200 (CEST)
+Message-ID: <Aan7wZ97YaE.A.CME.EqXVMB@chimera>
 References: <2dWFdr9kTFM.A.P0D.spXVMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <2dWFdr9kTFM.A.P0D.spXVMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Daniel J Blueman <daniel.blueman@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, divya <dipraksh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,10 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16462
-Subject		: unable to connect to AP on legal channels 12/13
-Submitter	: Daniel J Blueman <daniel.blueman@gmail.com>
-Date		: 2010-07-25 17:06 (8 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16406
+Subject		: Badness with the kernel version 2.6.35-rc1-git1 running on P6 box
+Submitter	: divya <dipraksh-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Date		: 2010-07-16 8:50 (17 days old)
+Message-ID	: <4C401D56.3070108-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=127927024906085&w=2
 
