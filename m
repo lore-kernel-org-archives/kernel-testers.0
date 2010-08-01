@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #16184] Container, X86-64, i386, iptables rule
+Subject: [Bug #16265] Why is kslowd accumulating so much CPU time?
 Date: Sun,  1 Aug 2010 15:52:16 +0200 (CEST)
-Message-ID: <Aan7wZ97YaE.A.1_F.osXVMB@chimera>
+Message-ID: <Aan7wZ97YaE.A.xoF.qrXVMB@chimera>
 References: <2dWFdr9kTFM.A.P0D.spXVMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jean-Marc Pigeon <jmp-4qkeo2rQ0gg@public.gmane.org>, Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dave Airlie <airlied-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,9 +22,11 @@ from 2.6.34.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16184
-Subject		: Container, X86-64, i386, iptables rule
-Submitter	: Jean-Marc Pigeon <jmp-4qkeo2rQ0gg@public.gmane.org>
-Date		: 2010-06-12 04:17 (51 days old)
-Handled-By	: Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16265
+Subject		: Why is kslowd accumulating so much CPU time?
+Submitter	: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+Date		: 2010-06-09 18:36 (54 days old)
+First-Bad-Commit: http://git.kernel.org/linus/fbf81762e385d3d45acad057b654d56972acf58c
+Message-ID	: <E1OMQ88-0002a1-Gb-UK71uKi2zisAobODsErMgNi2O/JbrIOy@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=127610857819033&w=4
 
