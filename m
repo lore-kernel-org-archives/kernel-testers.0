@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #15977] WARNING: at lib/dma-debug.c:866 check_for_stack
-Date: Sun,  1 Aug 2010 16:44:22 +0200 (CEST)
-Message-ID: <FMobw2FohV.A.VHH.vNYVMB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16431] does not seem to shut down one of two md raid-1 arrays on hibernation
+Date: Sun,  1 Aug 2010 16:44:25 +0200 (CEST)
+Message-ID: <FMobw2FohV.A.OOG.9LYVMB@chimera>
 References: <JKn8_uSlpqD.A.HLG.1LYVMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <JKn8_uSlpqD.A.HLG.1LYVMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Zdenek Kabelac <zdenek.kabelac@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Martin Steigerwald <ms-bpNQssZ55euzQB+pC5nmwQ@public.gmane.org>, Neil Brown <neilb-l3A5Bk7waGM@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.33 and 2.6.34.
@@ -22,10 +22,9 @@ introduced between 2.6.33 and 2.6.34.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=15977
-Subject		: WARNING: at lib/dma-debug.c:866 check_for_stack
-Submitter	: Zdenek Kabelac <zdenek.kabelac@gmail.com>
-Date		: 2010-05-14 8:56 (80 days old)
-Message-ID	: <AANLkTikyx2eaxaiUCFDSfpmn1UG0t2GOxArz6F4wp1LJ@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=127382742729825&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16431
+Subject		: does not seem to shut down one of two md raid-1 arrays on hibernation
+Submitter	: Martin Steigerwald <ms-bpNQssZ55euzQB+pC5nmwQ@public.gmane.org>
+Date		: 2010-07-21 13:08 (12 days old)
+Handled-By	: Neil Brown <neilb-l3A5Bk7waGM@public.gmane.org>
 
