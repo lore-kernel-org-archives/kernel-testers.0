@@ -1,7 +1,7 @@
 From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [Bug #16462] unable to connect to AP on legal channels 12/13
-Date: Mon, 02 Aug 2010 08:49:40 -0700
-Message-ID: <4C56E914.2080905@gmail.com>
+Date: Mon, 02 Aug 2010 08:51:02 -0700
+Message-ID: <4C56E966.3010503@gmail.com>
 References: <2dWFdr9kTFM.A.P0D.spXVMB@chimera>	<Aan7wZ97YaE.A.H2D.0pXVMB@chimera> <AANLkTikmgrKTLtgs1+h+BkS5X6qt9bP1wMDL4Gu7L3u3@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -11,10 +11,10 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         h=domainkey-signature:received:received:message-id:date:from
          :user-agent:mime-version:to:cc:subject:references:in-reply-to
          :content-type:content-transfer-encoding;
-        bh=w6k/0kFw2LteaCj7b1KhYxMI9Ii8wyoMaxHYlViIkX4=;
-        b=NNkj8Zn/ooVmBJ27+svuLwrby42BlQ42EpMM5/r8ewoUIyiKScq7DV7Wx3xPiFj+8r
-         2uDv3xXH9aZyYC7Fp7FJ88XNLMfSGHv3iiPhNg6zqQRFIqelAmfJYfn7QM99yVjugHP2
-         85hRJJuz/ZOdGVCdBKapDpDLThb7i82uFDxqU=
+        bh=UNQM8hcg2DXSjIJlqjScp7sZqDjAEofkfnFtuWCXcI8=;
+        b=u6wLoxvCIkQENI8R8qT8cOdUJzVMYUQF+SB7tL7Pr5r0TlEwr78ZUC7Vpi29KZmu8Q
+         IL1sw7WfUaMQYZy2fYpuef8fjMrM3fR25yEcl1k84flo1Fs7rCaUAt7e29MQdqNelAUy
+         Eta3F8j9LUQvhqQOmPISOduSO076zmlVeGoOM=
 In-Reply-To: <AANLkTikmgrKTLtgs1+h+BkS5X6qt9bP1wMDL4Gu7L3u3-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
@@ -40,6 +40,6 @@ On 08/02/2010 07:58 AM, Daniel J Blueman wrote:
 > update the bugzilla entry with the wire-capture needed.
 
 
-ahh.. cool.. lets get this bug fixed...
+Oops just realized your talking about another bug. nevermind.
 
 Justin P. Mattock
