@@ -1,45 +1,72 @@
-From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #16462] unable to connect to AP on legal channels 12/13
-Date: Mon, 02 Aug 2010 08:51:02 -0700
-Message-ID: <4C56E966.3010503@gmail.com>
-References: <2dWFdr9kTFM.A.P0D.spXVMB@chimera>	<Aan7wZ97YaE.A.H2D.0pXVMB@chimera> <AANLkTikmgrKTLtgs1+h+BkS5X6qt9bP1wMDL4Gu7L3u3@mail.gmail.com>
+From: Tejun Heo <tj@kernel.org>
+Subject: Re: 2.6.35-rc6-git6: Reported regressions from 2.6.34
+Date: Mon, 02 Aug 2010 18:32:13 +0200
+Message-ID: <4C56F30D.3020304@kernel.org>
+References: <2dWFdr9kTFM.A.P0D.spXVMB@chimera> <AANLkTimcH7+Bq1UEbaSU7SQpzArPgmSLegiqE13V8=CF@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=UNQM8hcg2DXSjIJlqjScp7sZqDjAEofkfnFtuWCXcI8=;
-        b=u6wLoxvCIkQENI8R8qT8cOdUJzVMYUQF+SB7tL7Pr5r0TlEwr78ZUC7Vpi29KZmu8Q
-         IL1sw7WfUaMQYZy2fYpuef8fjMrM3fR25yEcl1k84flo1Fs7rCaUAt7e29MQdqNelAUy
-         Eta3F8j9LUQvhqQOmPISOduSO076zmlVeGoOM=
-In-Reply-To: <AANLkTikmgrKTLtgs1+h+BkS5X6qt9bP1wMDL4Gu7L3u3-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-scsi-owner@vger.kernel.org>
+In-Reply-To: <AANLkTimcH7+Bq1UEbaSU7SQpzArPgmSLegiqE13V8=CF@mail.gmail.com>
+Sender: linux-scsi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Jens Axboe <jaxboe@fusionio.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>
 
-On 08/02/2010 07:58 AM, Daniel J Blueman wrote:
-> On 1 August 2010 14:52, Rafael J. Wysocki<rjw-KKrjLPT3xs0@public.gmane.org>  wrote:
->> This message has been generated automatically as a part of a summary report
->> of recent regressions.
->>
->> The following bug entry is on the current list of known regressions
->> from 2.6.34.  Please verify if it still should be listed and let the tracking team
->> know (either way).
->>
->> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=16462
->> Subject         : unable to connect to AP on legal channels 12/13
->> Submitter       : Daniel J Blueman<daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> Date            : 2010-07-25 17:06 (8 days old)
->
-> Yes, I just managed to reproduce this with 2.6.35-final, and will
-> update the bugzilla entry with the wire-capture needed.
+Hello, Linus.
 
+On 08/01/2010 08:01 PM, Linus Torvalds wrote:
+> This has a proposed patch. I don't know what the status of it is, though. Jens?
+> 
+>    http://marc.info/?l=linux-kernel&m=127950018204029&w=2
+> 
+>> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=16393
+>> Subject         : kernel BUG at fs/block_dev.c:765!
+>> Submitter       : Markus Trippelsdorf <markus@trippelsdorf.de>
+>> Date            : 2010-07-14 13:52 (19 days old)
+>> Message-ID      : <20100714135217.GA1797@arch.tripp.de>
+>> References      : http://marc.info/?l=linux-kernel&m=127911564213748&w=2
+> 
+> This one is interesting. And I think I perhaps see where it's coming from.
+> 
+> bd_start_claiming() (through bd_prepare_to_claim()) has two separate
+> success cases: either there was no holder (bd_claiming is NULL) or the
+> new holder was already claiming it (bd_claiming == holder).
+> 
+> Note in particular the case of the holder _already_ holding it. What happens is:
+> 
+>  - bd_start_claiming() succeeds because we had _already_ claimed it
+> with the same holder
+> 
+>  - then some error happens, and we call bd_abort_claiming(), which
+> does whole->bd_claiming = NULL;
+> 
+>  - the original holder thinks it still holds the bd, but it has been released!
+> 
+>  - a new claimer comes in, and succeeds because bd_claiming is now NULL.
+> 
+>  - we now have two "owners" of the bd, but bd_claiming only points to
+> the second one.
+> 
+> I think bd_start_claiming() needs to do some kind of refcount for the
+> nested holder case, and bd_abort_claiming() needs to decrement the
+> refcount and only clear the bd_claiming field when it goes down to
+> zero.
+> 
+> I dunno. Maybe there's something else going on, but it does look
+> suspicious, and the above would explain the BUG_ON().
 
-Oops just realized your talking about another bug. nevermind.
+Yeah, that definitely sounds plausible.  I think the condition check
+in bd_prepare_to_claim() should have been "if (whole->bd_claiming)"
+instead of "if (whole->bd_claiming && whole->bd_claiming != holder)".
+It doesn't make much sense to allow multiple parallel claiming
+operations anyway and the comment above already says - "This function
+fails if @bdev is already claimed by another holder and waits if
+another claiming is in progress."
 
-Justin P. Mattock
+I'll try to build a test case and verify it.
+
+Thank you.
+
+-- 
+tejun
