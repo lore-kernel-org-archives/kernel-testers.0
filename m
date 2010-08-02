@@ -1,68 +1,46 @@
-From: "Justin P. Mattock" <justinmattock@gmail.com>
-Subject: Re: [Bug #16337] general protection fault: 0000 [#1] SMP
-Date: Mon, 02 Aug 2010 06:47:43 -0700
-Message-ID: <4C56CC7F.9080105@gmail.com>
-References: <2dWFdr9kTFM.A.P0D.spXVMB@chimera> <Aan7wZ97YaE.A.TCF.1qXVMB@chimera> <4C5618DA.1020407@gmail.com> <201008021534.52133.rjw@sisk.pl>
+From: Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #16462] unable to connect to AP on legal channels 12/13
+Date: Mon, 2 Aug 2010 15:58:57 +0100
+Message-ID: <AANLkTikmgrKTLtgs1+h+BkS5X6qt9bP1wMDL4Gu7L3u3@mail.gmail.com>
+References: <2dWFdr9kTFM.A.P0D.spXVMB@chimera>
+	<Aan7wZ97YaE.A.H2D.0pXVMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=kD2WmNlRzZj4Xyk+dZswcrty6XFDySgBzc4Z4qB6BYo=;
-        b=eJdZp3PzB2LOZMq6dGJtfvesjl7uyz7F6i9RdXrbWjrW7RANy2xsyEingFIegLLUcI
-         nrloyBthBRyaNisvGcNXFdQG5y1cqU8ANUsgLZfD6zu0ve/qlJOWYtaqENU5y7iWWaI1
-         gB2fM5RPu8N1WFVw4jGUiA8vRdcoXP+Ir942M=
-In-Reply-To: <201008021534.52133.rjw@sisk.pl>
-Sender: linux-kernel-owner@vger.kernel.org
+        h=domainkey-signature:mime-version:received:received:in-reply-to
+         :references:date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=P+OQqcneyFXH4Sy/QFKhi8PW5Na9wJpQ5DKo/wE3wS8=;
+        b=lIgS6Ay6kU0fi5QNSqq8/f5Nw+Od8PfswGaKtPCbiGSPJIhRqi864weTNAXbFs8Rez
+         mMOA1I2LwiBzd5HRJU5eE0xZkaZbitZ016hOLHMVqWxbvaL78xuLcXvhSE7qwvKtqMiO
+         SzhkEUDZO+jx/sVcdCv1vL0MpfegsQzBTVGW4=
+In-Reply-To: <Aan7wZ97YaE.A.H2D.0pXVMB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Pauli Nieminen <suokkos@gmail.com>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On 08/02/2010 06:34 AM, Rafael J. Wysocki wrote:
-> On Monday, August 02, 2010, Justin P. Mattock wrote:
->> On 08/01/2010 06:52 AM, Rafael J. Wysocki wrote:
->>> This message has been generated automatically as a part of a summary report
->>> of recent regressions.
->>>
->>> The following bug entry is on the current list of known regressions
->>> from 2.6.34.  Please verify if it still should be listed and let the tracking team
->>> know (either way).
->>>
->>>
->>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16337
->>> Subject		: general protection fault: 0000 [#1] SMP
->>> Submitter	: Justin P. Mattock<justinmattock@gmail.com>
->>> Date		: 2010-07-03 22:59 (30 days old)
->>> Message-ID	:<4C2FC0E3.6050101@gmail.com>
->>> References	: http://marc.info/?l=linux-kernel&m=127819798215589&w=2
->>>
->>>
->>> --
->>> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
->>> the body of a message to majordomo@vger.kernel.org
->>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->>> Please read the FAQ at  http://www.tux.org/lkml/
->>>
->>
->> Ive played around with the machine that originally hit this. but still
->> cant seem to reproduce or trigger this.
+On 1 August 2010 14:52, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a summary =
+report
+> of recent regressions.
 >
-> I'll close it, then.  Please reopen if you reproduce the issue.
+> The following bug entry is on the current list of known regressions
+> from 2.6.34. =A0Please verify if it still should be listed and let th=
+e tracking team
+> know (either way).
 >
-> Rafael
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> Please read the FAQ at  http://www.tux.org/lkml/
->
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+16462
+> Subject =A0 =A0 =A0 =A0 : unable to connect to AP on legal channels 1=
+2/13
+> Submitter =A0 =A0 =A0 : Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-07-25 17:06 (8 days old)
 
-
-o.k. Ill keep my eye out for this.. and if im able to reproduce I'll 
-bisect it re-open this bug etc...
-
-Justin P. Mattock
+Yes, I just managed to reproduce this with 2.6.35-final, and will
+update the bugzilla entry with the wire-capture needed.
+--=20
+Daniel J Blueman
