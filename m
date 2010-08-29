@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #16323] 2.6.35-rc3-git4 - kernel/sched.c:616 invoked rcu_dereference_check() without protection!
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #16307] i915 in kernel 2.6.35-rc3, high number of wakeups
 Date: Mon, 30 Aug 2010 01:13:28 +0200 (CEST)
-Message-ID: <ByD_7B96czP.A.gKD.JgueMB@chimera>
+Message-ID: <ByD_7B96czP.A.kdD.pgueMB@chimera>
 References: <c1_O4wHrlB.A.63.mbueMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <c1_O4wHrlB.A.63.mbueMB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Enrico Bandiello <enban@postal.uv.es>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,10 +22,10 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16323
-Subject		: 2.6.35-rc3-git4 - kernel/sched.c:616 invoked rcu_dereference_check() without protection!
-Submitter	: Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2010-07-01 12:21 (60 days old)
-Message-ID	: <AANLkTini6hz2LFeZi8CMUmY3xw1MU7NxmyesuxZ4oCdo-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=127798693125541&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16307
+Subject		: i915 in kernel 2.6.35-rc3, high number of wakeups
+Submitter	: Enrico Bandiello <enban@postal.uv.es>
+Date		: 2010-06-26 16:57 (65 days old)
+Message-ID	: <<4C26317A.5070309@postal.uv.es>>
+References	: http://marc.info/?l=linux-kernel&m=127757403404259&w=2
 
