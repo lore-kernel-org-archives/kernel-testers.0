@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16312] WARNING: at fs/fs-writeback.c:1127 __mark_inode_dirty
-Date: Mon, 30 Aug 2010 01:13:28 +0200 (CEST)
-Message-ID: <ByD_7B96czP.A.CWD.XgueMB@chimera>
+Subject: [Bug #16393] kernel BUG at fs/block_dev.c:765!
+Date: Mon, 30 Aug 2010 01:13:29 +0200 (CEST)
+Message-ID: <ByD_7B96czP.A.u4C.yeueMB@chimera>
 References: <c1_O4wHrlB.A.63.mbueMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jan Kara <jack@suse.cz>, Zdenek Kabelac <zdenek.kabelac@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Markus Trippelsdorf <markus@trippelsdorf.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,12 +22,10 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16312
-Subject		: WARNING: at fs/fs-writeback.c:1127 __mark_inode_dirty
-Submitter	: Zdenek Kabelac <zdenek.kabelac@gmail.com>
-Date		: 2010-06-28 9:40 (63 days old)
-Message-ID	: <AANLkTin24fr5O4_q5Xbo9Y_NKkEmtcp6Hgmr9_4qXaFz@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=127771804806465&w=2
-Handled-By	: Jan Kara <jack@suse.cz>
-Patch		: https://bugzilla.kernel.org/attachment.cgi?id=27272
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16393
+Subject		: kernel BUG at fs/block_dev.c:765!
+Submitter	: Markus Trippelsdorf <markus@trippelsdorf.de>
+Date		: 2010-07-14 13:52 (47 days old)
+Message-ID	: <20100714135217.GA1797@arch.tripp.de>
+References	: http://marc.info/?l=linux-kernel&m=127911564213748&w=2
 
