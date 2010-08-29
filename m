@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #17041] 2.6.36-rc1 hangs during XFS barrier test for /
-Date: Mon, 30 Aug 2010 00:36:36 +0200 (CEST)
-Message-ID: <4AUWBNzTkbD.A.FI.7FueMB@chimera>
+Subject: [Bug #16951] hackbench regression with 2.6.36-rc1
+Date: Mon, 30 Aug 2010 00:36:35 +0200 (CEST)
+Message-ID: <4AUWBNzTkbD.A.rh.GGueMB@chimera>
 References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Torsten Kaiser <just.for.lkml@googlemail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "Zhang, Yanmin" <yanmin_zhang@linux.intel.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.35.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17041
-Subject		: 2.6.36-rc1 hangs during XFS barrier test for /
-Submitter	: Torsten Kaiser <just.for.lkml@googlemail.com>
-Date		: 2010-08-20 (10 days old)
-Message-ID	: <AANLkTim1PXibiY98GUdMj-UZLTav+n7GAnJ0Mjn6_5a3@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=128231691708710&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16951
+Subject		: hackbench regression with 2.6.36-rc1
+Submitter	: Zhang, Yanmin <yanmin_zhang@linux.intel.com>
+Date		: 2010-08-18 6:18 (12 days old)
+Message-ID	: <1282112318.21202.8.camel@ymzhang.sh.intel.com>
+References	: http://marc.info/?l=linux-kernel&m=128211235904910&w=2
 
