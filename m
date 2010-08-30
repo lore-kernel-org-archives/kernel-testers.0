@@ -1,52 +1,66 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #16337] general protection fault: 0000 [#1] SMP
-Date: Mon, 30 Aug 2010 19:26:35 +0200
-Message-ID: <201008301926.35443.rjw@sisk.pl>
-References: <c1_O4wHrlB.A.63.mbueMB@chimera> <4C7AF2C4.9040507@gmail.com> <AANLkTinzVmtWhhvuRNcKF1xKs+L=Lw0DT2osDxcbA6ze@mail.gmail.com>
+Subject: Re: [Bug #16399] perf failed with kernel 2.6.35-rc
+Date: Mon, 30 Aug 2010 19:32:20 +0200
+Message-ID: <201008301932.21073.rjw@sisk.pl>
+References: <c1_O4wHrlB.A.63.mbueMB@chimera> <ByD_7B96czP.A.XtC.eeueMB@chimera> <1283159563.1820.665.camel@laptop>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTinzVmtWhhvuRNcKF1xKs+L=Lw0DT2osDxcbA6ze-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1283159563.1820.665.camel@laptop>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Pauli Nieminen <suokkos-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
-On Monday, August 30, 2010, Pauli Nieminen wrote:
-> On Mon, Aug 30, 2010 at 2:52 AM, Justin P. Mattock
-> <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> > On 08/29/2010 04:13 PM, Rafael J. Wysocki wrote:
-> >>
-> >> This message has been generated automatically as a part of a report
-> >> of regressions introduced between 2.6.34 and 2.6.35.
-> >>
-> >> The following bug entry is on the current list of known regressions
-> >> introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-> >> be listed and let the tracking team know (either way).
-> >>
-> >>
-> >> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=16337
-> >> Subject         : general protection fault: 0000 [#1] SMP
-> >> Submitter       : Justin P. Mattock<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> >> Date            : 2010-07-03 22:59 (58 days old)
-> >> Message-ID      :<<4C2FC0E3.6050101-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>>
-> >> References      : http://marc.info/?l=linux-kernel&m=127819798215589&w=2
-> >>
-> >>
-> >>
-> >
-> >
-> > only have seen this once..on the other hand (If im correct)maciej or pauli
-> > where able to reproduce this.. I say leave open then go from there.
-> >
-> > Justin P. Mattock
-> >
+On Monday, August 30, 2010, Peter Zijlstra wrote:
+> On Mon, 2010-08-30 at 01:13 +0200, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.34 and 2.6.35.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+> > be listed and let the tracking team know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16399
+> > Subject		: perf failed with kernel 2.6.35-rc
+> > Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> > Date		: 2010-07-13 8:14 (48 days old)
+> > First-Bad-Commit: http://git.kernel.org/linus/1ac62cfff252fb668405ef3398a1fa7f4a0d6d15
+> > Message-ID	: <1279008849.2096.913.camel-sz7BYL/Y5Hu/P+R7jlPCFVaTQe2KTcn/@public.gmane.org>
+> > References	: http://marc.info/?l=linux-kernel&m=127900880212470&w=2
+> > 
+> > 
 > 
-> I was able to reproduce this with about 50% chance in boot. But that
-> happened in a few rc (rc2-rc4 iirc) versions only. After that never
-> again.
+> Should be fixed by:
+> 
+> commit 351af0725e5222e35741011d1ea62215c1ed06db
+> Author: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> Date:   Fri Aug 6 13:39:08 2010 +0800
+> 
+>     perf, x86: Fix Intel-nhm PMU programming errata workaround                                                                                                        
+>                                                                                                                                                                       
+>     Fix the Errata AAK100/AAP53/BD53 workaround, the officialy documented                                                                                             
+>     workaround we implemented in:                                                                                                                                     
+>                                                                                                                                                                       
+>      11164cd: perf, x86: Add Nehelem PMU programming errata workaround                                                                                                
+>                                                                                                                                                                       
+>     doesn't actually work fully and causes a stuck PMU state                                                                                                          
+>     under load and non-functioning perf profiling.                                                                                                                    
+>                                                                                                                                                                       
+>     A functional workaround was found by trial & error.                                                                                                               
+>                                                                                                                                                                       
+>     Affects all Nehalem-class Intel PMUs.                                                                                                                             
+>                                                                                                                                                                       
+>     Signed-off-by: Zhang Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>                                                                                                        
+>     Signed-off-by: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>                                                                                                            
+>     LKML-Reference: <1281073148.2125.63.camel-sz7BYL/Y5Hu/P+R7jlPCFVaTQe2KTcn/@public.gmane.org>                                                                                                   
+>     Cc: Arjan van de Ven <arjan-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>                                                                                                                      
+>     Cc: "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>                                                                                                                              
+>     Cc: <stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> # .35.x                                                                                                                                   
+>     Signed-off-by: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org> 
 
-OK, I'm closing it now, please reopen if you see it again.
+Thanks, closed.
 
 Rafael
