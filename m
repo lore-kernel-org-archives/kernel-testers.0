@@ -1,20 +1,20 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #16505] 2.6.34.2 breaks b43
-Date: Mon, 30 Aug 2010 19:34:19 +0200
-Message-ID: <201008301934.19463.rjw@sisk.pl>
-References: <c1_O4wHrlB.A.63.mbueMB@chimera> <ByD_7B96czP.A.h7B.DdueMB@chimera> <4C7AFE2C.1080204@lwfinger.net>
+Subject: Re: [Bug #16537] TREE_RCU hangs at boot
+Date: Mon, 30 Aug 2010 19:35:38 +0200
+Message-ID: <201008301935.38898.rjw@sisk.pl>
+References: <c1_O4wHrlB.A.63.mbueMB@chimera> <ByD_7B96czP.A.dpB.rcueMB@chimera> <201008301008.02137.eike-kernel@sf-tec.de>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4C7AFE2C.1080204-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+In-Reply-To: <201008301008.02137.eike-kernel-F+mm6HnICJmzQB+pC5nmwQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, archman <spermmail001-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+To: Rolf Eike Beer <eike-kernel-F+mm6HnICJmzQB+pC5nmwQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Monday, August 30, 2010, Larry Finger wrote:
-> On 08/29/2010 06:13 PM, Rafael J. Wysocki wrote:
+On Monday, August 30, 2010, Rolf Eike Beer wrote:
+> Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of regressions introduced between 2.6.34 and 2.6.35.
 > > 
@@ -23,16 +23,13 @@ On Monday, August 30, 2010, Larry Finger wrote:
 > > be listed and let the tracking team know (either way).
 > > 
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16505
-> > Subject		: 2.6.34.2 breaks b43
-> > Submitter	: archman <spermmail001-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-> > Date		: 2010-08-03 23:53 (27 days old)
-> > Handled-By	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-> > Patch		: https://bugzilla.kernel.org/attachment.cgi?id=27335
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16537
+> > Subject		: TREE_RCU hangs at boot
+> > Submitter	: Rolf Eike Beer <eike-kernel-F+mm6HnICJmzQB+pC5nmwQ@public.gmane.org>
+> > Date		: 2010-08-07 12:18 (23 days old)
 > 
-> This one was fixed in 2.6.34.3. Mainline was OK - only the patches to stable
-> were affected. The bug should be closed.
+> Yes, this is a regression that is still unfixed.
 
-Thanks, closing.
+Thanks for the update.
 
 Rafael
