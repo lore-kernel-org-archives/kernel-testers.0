@@ -1,87 +1,84 @@
-From: trapDoor <trapdoor6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #16881] [REGRESSION, Radeon-KMS] 2.6.36-rc1,2 - missing
- textures in 0 A.D.
-Date: Mon, 30 Aug 2010 15:45:54 +0100
-Message-ID: <AANLkTi=2c8FiPO6Mx9YLEscXx8FXxRPZWXyAusTpgwuJ@mail.gmail.com>
-References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera>
-	<4AUWBNzTkbD.A.mj.QGueMB@chimera>
-	<AANLkTikpoH-_od-SL3=Q7a=xbsraE4rYGicx7mmS92Cw@mail.gmail.com>
-	<20100830153953.1e5abc71@schatten.dmk.lab>
-Reply-To: trapdoor6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #16173] After uncompressing the kernel, at boot time, the server hangs.
+Date: Mon, 30 Aug 2010 19:24:06 +0200
+Message-ID: <201008301924.06603.rjw@sisk.pl>
+References: <c1_O4wHrlB.A.63.mbueMB@chimera> <201008300128.34970.rjw@sisk.pl> <m1wrr9asjx.fsf@fess.ebiederm.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:received:reply-to
-         :in-reply-to:references:date:message-id:subject:from:to:cc
-         :content-type:content-transfer-encoding;
-        bh=8+WDhwP4bQTQiAyFTcZeq7O2s+8M+nZLiTuo6uAniWU=;
-        b=NuJudMBODiVjKjMBJgBwwgTStIQghBB94lHeQ8GCVl9GLu0Z72WPWJt2DOYZl8WvWy
-         K/f1MfRzLT5s9hZQ+L0TP/yVcXgnhq/7U82iuPb891YIGxYmZs+wq3pmlW4jAjBXWLfb
-         p1KpSMzJejjVCnO3oD9rcdyTokH7esCMvkbRE=
-In-Reply-To: <20100830153953.1e5abc71-mGsOIKOveelVRbCss4o9kg@public.gmane.org>
+In-Reply-To: <m1wrr9asjx.fsf-+imSwln9KH6u2/kzUuoCbdi2O/JbrIOy@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Hill <hilld-HTiBYHdybX7UkGsOFmftXw@public.gmane.org>, "H. Peter Anvin" <hpa-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
 
-On Mon, Aug 30, 2010 at 2:39 PM, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org> =
-wrote:
->
->
-> On Mon, 30 Aug 2010 10:54:41 +0100
-> trapDoor <trapdoor6-Re5JQEeQqe8AvxtiuMwx3w-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org> wrote:
->
->> On Sun, Aug 29, 2010 at 11:36 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0=
-@public.gmane.org> wrote:
->> > This message has been generated automatically as a part of a summa=
-ry report
->> > of recent regressions.
->> >
->> > The following bug entry is on the current list of known regression=
-s
->> > from 2.6.35. =A0Please verify if it still should be listed and let=
- the tracking team
->> > know (either way).
->> >
->> >
->> > Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=
-=3D16881
->> > Subject =A0 =A0 =A0 =A0 : [REGRESSION, Radeon-KMS] 2.6.36-rc1,2 - =
-missing textures in 0 A.D.
->> > Submitter =A0 =A0 =A0 : =A0<trapdoor6-Re5JQEeQqe8AvxtiuMwx3w@publi=
-c.gmane.org>
->> > Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-08-24 12:20 (6 days old)
->> >
->> >
->> > --
->> > To unsubscribe from this list: send the line "unsubscribe linux-ke=
-rnel" in
->> > the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.g=
-mane.org
->> > More majordomo info at =A0http://vger.kernel.org/majordomo-info.ht=
-ml
->> > Please read the FAQ at =A0http://www.tux.org/lkml/
->> >
->>
->> There was at least one drm pull between 2.6.36-rc2 and -rc3. So I
->> tested on -rc3 and I confirm that the issue is still present.
->>
->> I was going to update the bugzilla entry but it won't let me log in =
-at
->> this moment.
->>
->
-> It seems to work now again. I've updated the entry for you.
->
-> Thx,
-> Flo
->
->
+On Monday, August 30, 2010, Eric W. Biederman wrote:
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+> 
+> > On Monday, August 30, 2010, Eric W. Biederman wrote:
+> >> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+> >> 
+> >> > This message has been generated automatically as a part of a report
+> >> > of regressions introduced between 2.6.34 and 2.6.35.
+> >> >
+> >> > The following bug entry is on the current list of known regressions
+> >> > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+> >> > be listed and let the tracking team know (either way).
+> >> >
+> >> 
+> >> Looks like it's fixed.
+> >
+> > Good.  What mainlne commit is that?
+> 
+> commit 910081322bf9c4ed392dc8f2ecbc33fdb42a2958
+> Author: Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+> Date:   Wed Aug 4 12:51:11 2010 -0700
+> 
+>     x86/apic: Map the local apic when parsing the MP table.
+>     
+>     This fixes a regression in 2.6.35 from 2.6.34, that is
+>     present for select models of Intel cpus when people are
+>     using an MP table.
+>     
+>     The commit cf7500c0ea133d66f8449d86392d83f840102632
+>     "x86, ioapic: In mpparse use mp_register_ioapic" started
+>     calling mp_register_ioapic from MP_ioapic_info.  An extremely
+>     simple change that was obviously correct.  Unfortunately
+>     mp_register_ioapic did just a little more than the previous
+>     hand crafted code and so we gained this call path.
+>     
+>     The problem call path is:
+>     MP_ioapic_info()
+>       mp_register_ioapic()
+>        io_apic_unique_id()
+>          io_apic_get_unique_id()
+>            get_physical_broadcast()
+>              modern_apic()
+>                lapic_get_version()
+>                  apic_read(APIC_LVR)
+>     
+>     Which turned out to be a problem because the local apic
+>     was not mapped, at that point, unlike the similar point
+>     in the ACPI parsing code.
+>     
+>     This problem is fixed by mapping the local apic when
+>     parsing the mptable as soon as we reasonably can.
+>     
+>     Looking at the number of places we setup the fixmap for
+>     the local apic, I see some serious simplification opportunities.
+>     For the moment except for not duplicating the setting up of the
+>     fixmap in init_apic_mappings, I have not acted on them.
+>     
+>     The regression from 2.6.34 is tracked in bug
+>     https://bugzilla.kernel.org/show_bug.cgi?id=16173
+>     
+>     Cc: stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+>     Reported-by: David Hill <hilld-HTiBYHdybX7UkGsOFmftXw@public.gmane.org>
+>     Reported-by: Tvrtko Ursulin <tvrtko.ursulin-j34lQMj1tz/QT0dZR+AlfA@public.gmane.org>
+>     Tested-by: Tvrtko Ursulin <tvrtko.ursulin-j34lQMj1tz/QT0dZR+AlfA@public.gmane.org>
+>     Signed-off-by: Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 
-Thanks Florian.
+Thanks, closed.
 
---
-Tomasz
+Rafael
