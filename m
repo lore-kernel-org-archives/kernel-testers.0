@@ -1,37 +1,53 @@
 From: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
-Subject: Re: [Bug #16971] qla4xxx compile failure on 32-bit PowerPC: missing
- readq and writeq
-Date: Mon, 30 Aug 2010 15:46:46 +0200
-Message-ID: <20100830154646.05db5587@schatten.dmk.lab>
-References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera>
-	<4AUWBNzTkbD.A.aU.BGueMB@chimera>
-	<alpine.SOC.1.00.1008301145230.29117@math.ut.ee>
+Subject: Re: [Bug #16399] perf failed with kernel 2.6.35-rc
+Date: Mon, 30 Aug 2010 15:56:36 +0200
+Message-ID: <20100830155636.23ef904b__20629.1892020547$1283176657$gmane$org@schatten.dmk.lab>
+References: <c1_O4wHrlB.A.63.mbueMB@chimera>
+	<ByD_7B96czP.A.XtC.eeueMB@chimera>
+	<1283159563.1820.665.camel@laptop>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.SOC.1.00.1008301145230.29117-ptEonEWSGqKptlylMvRsHA@public.gmane.org>
+In-Reply-To: <1283159563.1820.665.camel@laptop>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Peter Zijlstra <public-peterz-wEGCiKHe2LqWVfeAwA7xHQ-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>
+Cc: "Rafael J. Wysocki" <public-rjw-KKrjLPT3xs0-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Linux Kernel Mailing List <public-linux-kernel-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Kernel Testers List <public-kernel-testers-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Maciej Rutecki <public-maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, "Zhang, Yanmin" <public-yanmin_zhang-VuQAYsv1563Yd54FQh9/CA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>
 
-On Mon, 30 Aug 2010 11:45:56 +0300 (EEST)
-Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org> wrote:
 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16971
-> > Subject		: qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
-> > Submitter	: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
-> > Date		: 2010-08-19 21:03 (11 days old)
-> > Message-ID	: <alpine.SOC.1.00.1008192359310.19654-ptEonEWSGqKptlylMvRsHA@public.gmane.org>
-> > References	: http://marc.info/?l=linux-kernel&m=128225184900892&w=2
+
+On Mon, 30 Aug 2010 11:12:43 +0200
+Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org> wrote:
+
+> On Mon, 2010-08-30 at 01:13 +0200, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.34 and 2.6.35.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+> > be listed and let the tracking team know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16399
+> > Subject		: perf failed with kernel 2.6.35-rc
+> > Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+> > Date		: 2010-07-13 8:14 (48 days old)
+> > First-Bad-Commit: http://git.kernel.org/linus/1ac62cfff252fb668405ef3398a1fa7f4a0d6d15
+> > Message-ID	: <1279008849.2096.913.camel-sz7BYL/Y5Hu/P+R7jlPCFVaTQe2KTcn/@public.gmane.org>
+> > References	: http://marc.info/?l=linux-kernel&m=127900880212470&w=2
+> > 
+> > 
 > 
-> Still present in 2.6.36-rc3.
+> Should be fixed by:
 > 
+> commit 351af0725e5222e35741011d1ea62215c1ed06db
+> Author: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+> Date:   Fri Aug 6 13:39:08 2010 +0800
+> 
+>     perf, x86: Fix Intel-nhm PMU programming errata workaround                                                                                                        
 
-Thx for the update. 
-
-I've updated the bugzilla entry accordingly.
+Thx, closed.
 
 Cheers,
 Flo
