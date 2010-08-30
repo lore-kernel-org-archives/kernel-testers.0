@@ -1,24 +1,27 @@
 From: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
-Subject: Re: [Bug #16399] perf failed with kernel 2.6.35-rc
-Date: Mon, 30 Aug 2010 15:56:36 +0200
-Message-ID: <20100830155636.23ef904b__2251.10405958748$1283177124$gmane$org@schatten.dmk.lab>
+Subject: Re: [Bug #16505] 2.6.34.2 breaks b43
+Date: Mon, 30 Aug 2010 16:21:50 +0200
+Message-ID: <20100830162150.30a73403@schatten.dmk.lab>
 References: <c1_O4wHrlB.A.63.mbueMB@chimera>
-	<ByD_7B96czP.A.XtC.eeueMB@chimera>
-	<1283159563.1820.665.camel@laptop>
+	<ByD_7B96czP.A.h7B.DdueMB@chimera>
+	<4C7AFE2C.1080204@lwfinger.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1283159563.1820.665.camel@laptop>
+In-Reply-To: <4C7AFE2C.1080204-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Larry Finger <public-Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>
+Cc: "Rafael J. Wysocki" <public-rjw-KKrjLPT3xs0-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Linux Kernel Mailing List <public-linux-kernel-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Kernel Testers List <public-kernel-testers-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Maciej Rutecki <public-maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, archman <public-spermmail001-/E1597aS9LQAvxtiuMwx3w-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>
 
-On Mon, 30 Aug 2010 11:12:43 +0200
-Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
 
-> On Mon, 2010-08-30 at 01:13 +0200, Rafael J. Wysocki wrote:
+
+On Sun, 29 Aug 2010 19:41:16 -0500
+Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+wrote:
+
+> On 08/29/2010 06:13 PM, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a report
 > > of regressions introduced between 2.6.34 and 2.6.35.
 > > 
@@ -27,26 +30,21 @@ Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
 > > be listed and let the tracking team know (either way).
 > > 
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16399
-> > Subject		: perf failed with kernel 2.6.35-rc
-> > Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> > Date		: 2010-07-13 8:14 (48 days old)
-> > First-Bad-Commit: http://git.kernel.org/linus/1ac62cfff252fb668405ef3398a1fa7f4a0d6d15
-> > Message-ID	: <1279008849.2096.913.camel-sz7BYL/Y5Hu/P+R7jlPCFVaTQe2KTcn/@public.gmane.org>
-> > References	: http://marc.info/?l=linux-kernel&m=127900880212470&w=2
-> > 
-> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16505
+> > Subject		: 2.6.34.2 breaks b43
+> > Submitter	: archman <spermmail001-/E1597aS9LQAvxtiuMwx3w-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+> > Date		: 2010-08-03 23:53 (27 days old)
+> > Handled-By	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+> > Patch		: https://bugzilla.kernel.org/attachment.cgi?id=27335
 > 
-> Should be fixed by:
+> This one was fixed in 2.6.34.3. Mainline was OK - only the patches to stable
+> were affected. The bug should be closed.
 > 
-> commit 351af0725e5222e35741011d1ea62215c1ed06db
-> Author: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> Date:   Fri Aug 6 13:39:08 2010 +0800
+> Larry
 > 
->     perf, x86: Fix Intel-nhm PMU programming errata workaround                                                                                                        
 
-Thx, closed.
+In the bugzilla entry someone mentioned that 2.6.32.y need this
+too?
 
 Cheers,
 Flo
-
