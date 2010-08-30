@@ -1,99 +1,64 @@
-From: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
-Subject: Re: [Bug #16173] After uncompressing the kernel, at boot time, the
- server hangs.
-Date: Mon, 30 Aug 2010 11:31:12 +0200
-Message-ID: <20100830113112.29b670c0__18432.7665287585$1283161809$gmane$org@schatten.dmk.lab>
-References: <c1_O4wHrlB.A.63.mbueMB@chimera>
-	<ByD_7B96czP.A.vDE.diueMB@chimera>
-	<m11v9hc8a1.fsf@fess.ebiederm.org>
-	<201008300128.34970.rjw@sisk.pl>
-	<m1wrr9asjx.fsf@fess.ebiederm.org>
+From: trapDoor <trapdoor6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #16881] [REGRESSION, Radeon-KMS] 2.6.36-rc1,2 - missing
+ textures in 0 A.D.
+Date: Mon, 30 Aug 2010 10:54:41 +0100
+Message-ID: <AANLkTikpoH-_od-SL3=Q7a=xbsraE4rYGicx7mmS92Cw@mail.gmail.com>
+References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera>
+	<4AUWBNzTkbD.A.mj.QGueMB@chimera>
+Reply-To: trapdoor6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <m1wrr9asjx.fsf-+imSwln9KH6u2/kzUuoCbdi2O/JbrIOy@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:received:reply-to
+         :in-reply-to:references:date:message-id:subject:from:to:cc
+         :content-type:content-transfer-encoding;
+        bh=gYHhNYFFGaHmDiOmOC5Ju2t2s77/hDanMa3meVihuTA=;
+        b=cN5bAPtxtmKjUFjXJlbUGXQ+7F6Ogvk6DLpq+kqsjXyo3V7T2ILwJOfEFHgLVxiaKu
+         r8Hcjuub0cRouoEz1QapK/PAOvSLLZ7Jl5WTguEr/xwnjyWgz7Bspu8c3ZL5pZsHyI0K
+         fQDauSArjiAuNmm5mNC/xzYHfUd2Q0sR16baU=
+In-Reply-To: <4AUWBNzTkbD.A.mj.QGueMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Sun, 29 Aug 2010 16:49:06 -0700
-ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
-wrote:
+On Sun, Aug 29, 2010 at 11:36 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote=
+:
+> This message has been generated automatically as a part of a summary =
+report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.35. =A0Please verify if it still should be listed and let th=
+e tracking team
+> know (either way).
+>
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+16881
+> Subject =A0 =A0 =A0 =A0 : [REGRESSION, Radeon-KMS] 2.6.36-rc1,2 - mis=
+sing textures in 0 A.D.
+> Submitter =A0 =A0 =A0 : =A0<trapdoor6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-08-24 12:20 (6 days old)
+>
+>
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kerne=
+l" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at =A0http://www.tux.org/lkml/
+>
 
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
-> 
-> > On Monday, August 30, 2010, Eric W. Biederman wrote:
-> >> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
-> >> 
-> >> > This message has been generated automatically as a part of a report
-> >> > of regressions introduced between 2.6.34 and 2.6.35.
-> >> >
-> >> > The following bug entry is on the current list of known regressions
-> >> > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-> >> > be listed and let the tracking team know (either way).
-> >> >
-> >> 
-> >> Looks like it's fixed.
-> >
-> > Good.  What mainlne commit is that?
-> 
-> commit 910081322bf9c4ed392dc8f2ecbc33fdb42a2958
-> Author: Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-> Date:   Wed Aug 4 12:51:11 2010 -0700
-> 
->     x86/apic: Map the local apic when parsing the MP table.
->     
->     This fixes a regression in 2.6.35 from 2.6.34, that is
->     present for select models of Intel cpus when people are
->     using an MP table.
->     
->     The commit cf7500c0ea133d66f8449d86392d83f840102632
->     "x86, ioapic: In mpparse use mp_register_ioapic" started
->     calling mp_register_ioapic from MP_ioapic_info.  An extremely
->     simple change that was obviously correct.  Unfortunately
->     mp_register_ioapic did just a little more than the previous
->     hand crafted code and so we gained this call path.
->     
->     The problem call path is:
->     MP_ioapic_info()
->       mp_register_ioapic()
->        io_apic_unique_id()
->          io_apic_get_unique_id()
->            get_physical_broadcast()
->              modern_apic()
->                lapic_get_version()
->                  apic_read(APIC_LVR)
->     
->     Which turned out to be a problem because the local apic
->     was not mapped, at that point, unlike the similar point
->     in the ACPI parsing code.
->     
->     This problem is fixed by mapping the local apic when
->     parsing the mptable as soon as we reasonably can.
->     
->     Looking at the number of places we setup the fixmap for
->     the local apic, I see some serious simplification opportunities.
->     For the moment except for not duplicating the setting up of the
->     fixmap in init_apic_mappings, I have not acted on them.
->     
->     The regression from 2.6.34 is tracked in bug
->     https://bugzilla.kernel.org/show_bug.cgi?id=16173
->     
->     Cc: stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
->     Reported-by: David Hill <hilld-HTiBYHdybX7UkGsOFmftXw@public.gmane.org>
->     Reported-by: Tvrtko Ursulin <tvrtko.ursulin-j34lQMj1tz/QT0dZR+AlfA@public.gmane.org>
->     Tested-by: Tvrtko Ursulin <tvrtko.ursulin-j34lQMj1tz/QT0dZR+AlfA@public.gmane.org>
->     Signed-off-by: Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+There was at least one drm pull between 2.6.36-rc2 and -rc3. So I
+tested on -rc3 and I confirm that the issue is still present.
 
-Closed, thx.
+I was going to update the bugzilla entry but it won't let me log in at
+this moment.
 
-Guan Xin reported a stable regression from 2.6.35.1->2.6.35.2
-in this bugreport which I moved to
-https://bugzilla.kernel.org/show_bug.cgi?id=17411 .
-
-
-Cheers,
-Flo
-
+--=20
+Regards
+Tomasz
