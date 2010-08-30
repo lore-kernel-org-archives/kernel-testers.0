@@ -1,26 +1,101 @@
 From: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
-Subject: Re: [Bug #16613] i8042 kernel module failed to load after unloading
-Date: Mon, 30 Aug 2010 11:34:33 +0200
-Message-ID: <20100830113433.1d60bc66@schatten.dmk.lab>
+Subject: Re: [Bug #16173] After uncompressing the kernel, at boot time, the
+ server hangs.
+Date: Mon, 30 Aug 2010 11:31:12 +0200
+Message-ID: <20100830113112.29b670c0__8136.96706104583$1283161546$gmane$org@schatten.dmk.lab>
 References: <c1_O4wHrlB.A.63.mbueMB@chimera>
-	<ByD_7B96czP.A.XbB.bcueMB@chimera>
-	<AANLkTinruBeRL6im9qG3Y6jqKiYujzpLoAA-v1qDz34S@mail.gmail.com>
+	<ByD_7B96czP.A.vDE.diueMB@chimera>
+	<m11v9hc8a1.fsf@fess.ebiederm.org>
+	<201008300128.34970.rjw@sisk.pl>
+	<m1wrr9asjx.fsf@fess.ebiederm.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTinruBeRL6im9qG3Y6jqKiYujzpLoAA-v1qDz34S-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <m1wrr9asjx.fsf-+imSwln9KH6u2/kzUuoCbdi2O/JbrIOy@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Victor Seryodkin <vvscore-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Eric W.
+	Biederman" <public-ebiederm-aS9lmoZGLiVWk0Htik3J/w@plane.gmane.org>
+Cc: "Rafael J. Wysocki" <public-rjw-KKrjLPT3xs0-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Linux Kernel Mailing List <public-linux-kernel-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Kernel Testers List <public-kernel-testers-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Maciej Rutecki <public-maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, David Hill <public-hilld-HTiBYHdybX7UkGsOFmftXw-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, "H. Peter Anvin" <public-hpa-VuQAYsv1563Yd54FQh9/CA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, "H. Peter Anvin" <public-hpa-YMNOUZJC4hwAvxtiuMwx3w-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>
 
-On Mon, 30 Aug 2010 09:13:04 +0400
-Victor Seryodkin <vvscore-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 
-> Verifying: the bug is still actual
+
+On Sun, 29 Aug 2010 16:49:06 -0700
+ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
+wrote:
+
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org> writes:
 > 
+> > On Monday, August 30, 2010, Eric W. Biederman wrote:
+> >> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org> writes:
+> >> 
+> >> > This message has been generated automatically as a part of a report
+> >> > of regressions introduced between 2.6.34 and 2.6.35.
+> >> >
+> >> > The following bug entry is on the current list of known regressions
+> >> > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+> >> > be listed and let the tracking team know (either way).
+> >> >
+> >> 
+> >> Looks like it's fixed.
+> >
+> > Good.  What mainlne commit is that?
+> 
+> commit 910081322bf9c4ed392dc8f2ecbc33fdb42a2958
+> Author: Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+> Date:   Wed Aug 4 12:51:11 2010 -0700
+> 
+>     x86/apic: Map the local apic when parsing the MP table.
+>     
+>     This fixes a regression in 2.6.35 from 2.6.34, that is
+>     present for select models of Intel cpus when people are
+>     using an MP table.
+>     
+>     The commit cf7500c0ea133d66f8449d86392d83f840102632
+>     "x86, ioapic: In mpparse use mp_register_ioapic" started
+>     calling mp_register_ioapic from MP_ioapic_info.  An extremely
+>     simple change that was obviously correct.  Unfortunately
+>     mp_register_ioapic did just a little more than the previous
+>     hand crafted code and so we gained this call path.
+>     
+>     The problem call path is:
+>     MP_ioapic_info()
+>       mp_register_ioapic()
+>        io_apic_unique_id()
+>          io_apic_get_unique_id()
+>            get_physical_broadcast()
+>              modern_apic()
+>                lapic_get_version()
+>                  apic_read(APIC_LVR)
+>     
+>     Which turned out to be a problem because the local apic
+>     was not mapped, at that point, unlike the similar point
+>     in the ACPI parsing code.
+>     
+>     This problem is fixed by mapping the local apic when
+>     parsing the mptable as soon as we reasonably can.
+>     
+>     Looking at the number of places we setup the fixmap for
+>     the local apic, I see some serious simplification opportunities.
+>     For the moment except for not duplicating the setting up of the
+>     fixmap in init_apic_mappings, I have not acted on them.
+>     
+>     The regression from 2.6.34 is tracked in bug
+>     https://bugzilla.kernel.org/show_bug.cgi?id=16173
+>     
+>     Cc: stable-DgEjT+Ai2ygdnm+yROfE0A-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org
+>     Reported-by: David Hill <hilld-HTiBYHdybX7UkGsOFmftXw-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+>     Reported-by: Tvrtko Ursulin <tvrtko.ursulin-j34lQMj1tz/QT0dZR+AlfA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+>     Tested-by: Tvrtko Ursulin <tvrtko.ursulin-j34lQMj1tz/QT0dZR+AlfA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+>     Signed-off-by: Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 
-I updated the bugzilla entry accordingly.
-Thx,
+Closed, thx.
+
+Guan Xin reported a stable regression from 2.6.35.1->2.6.35.2
+in this bugreport which I moved to
+https://bugzilla.kernel.org/show_bug.cgi?id=17411 .
+
+
+Cheers,
 Flo
