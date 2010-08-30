@@ -1,50 +1,87 @@
-From: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
-Subject: Re: [Bug #16505] 2.6.34.2 breaks b43
-Date: Mon, 30 Aug 2010 16:21:50 +0200
-Message-ID: <20100830162150.30a73403@schatten.dmk.lab>
-References: <c1_O4wHrlB.A.63.mbueMB@chimera>
-	<ByD_7B96czP.A.h7B.DdueMB@chimera>
-	<4C7AFE2C.1080204@lwfinger.net>
+From: trapDoor <trapdoor6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #16881] [REGRESSION, Radeon-KMS] 2.6.36-rc1,2 - missing
+ textures in 0 A.D.
+Date: Mon, 30 Aug 2010 15:45:54 +0100
+Message-ID: <AANLkTi=2c8FiPO6Mx9YLEscXx8FXxRPZWXyAusTpgwuJ@mail.gmail.com>
+References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera>
+	<4AUWBNzTkbD.A.mj.QGueMB@chimera>
+	<AANLkTikpoH-_od-SL3=Q7a=xbsraE4rYGicx7mmS92Cw@mail.gmail.com>
+	<20100830153953.1e5abc71@schatten.dmk.lab>
+Reply-To: trapdoor6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4C7AFE2C.1080204-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:received:reply-to
+         :in-reply-to:references:date:message-id:subject:from:to:cc
+         :content-type:content-transfer-encoding;
+        bh=8+WDhwP4bQTQiAyFTcZeq7O2s+8M+nZLiTuo6uAniWU=;
+        b=NuJudMBODiVjKjMBJgBwwgTStIQghBB94lHeQ8GCVl9GLu0Z72WPWJt2DOYZl8WvWy
+         K/f1MfRzLT5s9hZQ+L0TP/yVcXgnhq/7U82iuPb891YIGxYmZs+wq3pmlW4jAjBXWLfb
+         p1KpSMzJejjVCnO3oD9rcdyTokH7esCMvkbRE=
+In-Reply-To: <20100830153953.1e5abc71-mGsOIKOveelVRbCss4o9kg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Larry Finger <public-Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>
-Cc: "Rafael J. Wysocki" <public-rjw-KKrjLPT3xs0-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Linux Kernel Mailing List <public-linux-kernel-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Kernel Testers List <public-kernel-testers-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Maciej Rutecki <public-maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, archman <public-spermmail001-/E1597aS9LQAvxtiuMwx3w-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-
-
-On Sun, 29 Aug 2010 19:41:16 -0500
-Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+On Mon, Aug 30, 2010 at 2:39 PM, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org> =
 wrote:
+>
+>
+> On Mon, 30 Aug 2010 10:54:41 +0100
+> trapDoor <trapdoor6-Re5JQEeQqe8AvxtiuMwx3w-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org> wrote:
+>
+>> On Sun, Aug 29, 2010 at 11:36 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0=
+@public.gmane.org> wrote:
+>> > This message has been generated automatically as a part of a summa=
+ry report
+>> > of recent regressions.
+>> >
+>> > The following bug entry is on the current list of known regression=
+s
+>> > from 2.6.35. =A0Please verify if it still should be listed and let=
+ the tracking team
+>> > know (either way).
+>> >
+>> >
+>> > Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=
+=3D16881
+>> > Subject =A0 =A0 =A0 =A0 : [REGRESSION, Radeon-KMS] 2.6.36-rc1,2 - =
+missing textures in 0 A.D.
+>> > Submitter =A0 =A0 =A0 : =A0<trapdoor6-Re5JQEeQqe8AvxtiuMwx3w@publi=
+c.gmane.org>
+>> > Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-08-24 12:20 (6 days old)
+>> >
+>> >
+>> > --
+>> > To unsubscribe from this list: send the line "unsubscribe linux-ke=
+rnel" in
+>> > the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.g=
+mane.org
+>> > More majordomo info at =A0http://vger.kernel.org/majordomo-info.ht=
+ml
+>> > Please read the FAQ at =A0http://www.tux.org/lkml/
+>> >
+>>
+>> There was at least one drm pull between 2.6.36-rc2 and -rc3. So I
+>> tested on -rc3 and I confirm that the issue is still present.
+>>
+>> I was going to update the bugzilla entry but it won't let me log in =
+at
+>> this moment.
+>>
+>
+> It seems to work now again. I've updated the entry for you.
+>
+> Thx,
+> Flo
+>
+>
 
-> On 08/29/2010 06:13 PM, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.34 and 2.6.35.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-> > be listed and let the tracking team know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16505
-> > Subject		: 2.6.34.2 breaks b43
-> > Submitter	: archman <spermmail001-/E1597aS9LQAvxtiuMwx3w-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
-> > Date		: 2010-08-03 23:53 (27 days old)
-> > Handled-By	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
-> > Patch		: https://bugzilla.kernel.org/attachment.cgi?id=27335
-> 
-> This one was fixed in 2.6.34.3. Mainline was OK - only the patches to stable
-> were affected. The bug should be closed.
-> 
-> Larry
-> 
+Thanks Florian.
 
-In the bugzilla entry someone mentioned that 2.6.32.y need this
-too?
-
-Cheers,
-Flo
+--
+Tomasz
