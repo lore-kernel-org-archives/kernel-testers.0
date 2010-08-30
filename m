@@ -2,7 +2,7 @@ From: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 Subject: Re: [Bug #16173] After uncompressing the kernel, at boot time, the
  server hangs.
 Date: Mon, 30 Aug 2010 11:31:12 +0200
-Message-ID: <20100830113112.29b670c0__8136.96706104583$1283161546$gmane$org@schatten.dmk.lab>
+Message-ID: <20100830113112.29b670c0__18432.7665287585$1283161809$gmane$org@schatten.dmk.lab>
 References: <c1_O4wHrlB.A.63.mbueMB@chimera>
 	<ByD_7B96czP.A.vDE.diueMB@chimera>
 	<m11v9hc8a1.fsf@fess.ebiederm.org>
@@ -15,20 +15,17 @@ In-Reply-To: <m1wrr9asjx.fsf-+imSwln9KH6u2/kzUuoCbdi2O/JbrIOy@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Eric W.
-	Biederman" <public-ebiederm-aS9lmoZGLiVWk0Htik3J/w@plane.gmane.org>
-Cc: "Rafael J. Wysocki" <public-rjw-KKrjLPT3xs0-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Linux Kernel Mailing List <public-linux-kernel-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Kernel Testers List <public-kernel-testers-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, Maciej Rutecki <public-maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, David Hill <public-hilld-HTiBYHdybX7UkGsOFmftXw-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, "H. Peter Anvin" <public-hpa-VuQAYsv1563Yd54FQh9/CA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, "H. Peter Anvin" <public-hpa-YMNOUZJC4hwAvxtiuMwx3w-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>
-
-
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
 On Sun, 29 Aug 2010 16:49:06 -0700
 ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
 wrote:
 
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org> writes:
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
 > 
 > > On Monday, August 30, 2010, Eric W. Biederman wrote:
-> >> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org> writes:
+> >> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
 > >> 
 > >> > This message has been generated automatically as a part of a report
 > >> > of regressions introduced between 2.6.34 and 2.6.35.
@@ -84,10 +81,10 @@ wrote:
 >     The regression from 2.6.34 is tracked in bug
 >     https://bugzilla.kernel.org/show_bug.cgi?id=16173
 >     
->     Cc: stable-DgEjT+Ai2ygdnm+yROfE0A-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org
->     Reported-by: David Hill <hilld-HTiBYHdybX7UkGsOFmftXw-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
->     Reported-by: Tvrtko Ursulin <tvrtko.ursulin-j34lQMj1tz/QT0dZR+AlfA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
->     Tested-by: Tvrtko Ursulin <tvrtko.ursulin-j34lQMj1tz/QT0dZR+AlfA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+>     Cc: stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+>     Reported-by: David Hill <hilld-HTiBYHdybX7UkGsOFmftXw@public.gmane.org>
+>     Reported-by: Tvrtko Ursulin <tvrtko.ursulin-j34lQMj1tz/QT0dZR+AlfA@public.gmane.org>
+>     Tested-by: Tvrtko Ursulin <tvrtko.ursulin-j34lQMj1tz/QT0dZR+AlfA@public.gmane.org>
 >     Signed-off-by: Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 
 Closed, thx.
@@ -99,3 +96,4 @@ https://bugzilla.kernel.org/show_bug.cgi?id=17411 .
 
 Cheers,
 Flo
+
