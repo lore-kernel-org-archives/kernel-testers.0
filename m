@@ -1,54 +1,27 @@
-From: Rolf Eike Beer <eike-kernel-F+mm6HnICJmzQB+pC5nmwQ@public.gmane.org>
-Subject: Re: [Bug #16537] TREE_RCU hangs at boot
-Date: Mon, 30 Aug 2010 10:08:01 +0200
-Message-ID: <201008301008.02137.eike-kernel@sf-tec.de>
-References: <c1_O4wHrlB.A.63.mbueMB@chimera> <ByD_7B96czP.A.dpB.rcueMB@chimera>
+From: Meelis Roos <mroos@linux.ee>
+Subject: Re: [Bug #16971] qla4xxx compile failure on 32-bit PowerPC: missing
+ readq and writeq
+Date: Mon, 30 Aug 2010 11:45:56 +0300 (EEST)
+Message-ID: <alpine.SOC.1.00.1008301145230.29117@math.ut.ee>
+References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera> <4AUWBNzTkbD.A.aU.BGueMB@chimera>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart23765505.o3L2QGZl3P";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <ByD_7B96czP.A.dpB.rcueMB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <4AUWBNzTkbD.A.aU.BGueMB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
---nextPart23765505.o3L2QGZl3P
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16971
+> Subject		: qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
+> Submitter	: Meelis Roos <mroos@linux.ee>
+> Date		: 2010-08-19 21:03 (11 days old)
+> Message-ID	: <alpine.SOC.1.00.1008192359310.19654@math.ut.ee>
+> References	: http://marc.info/?l=linux-kernel&m=128225184900892&w=2
 
-Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.34 and 2.6.35.
->=20
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-> be listed and let the tracking team know (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D16537
-> Subject		: TREE_RCU hangs at boot
-> Submitter	: Rolf Eike Beer <eike-kernel-F+mm6HnICJmzQB+pC5nmwQ@public.gmane.org>
-> Date		: 2010-08-07 12:18 (23 days old)
+Still present in 2.6.36-rc3.
 
-Yes, this is a regression that is still unfixed.
-
-Eike
-
---nextPart23765505.o3L2QGZl3P
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.15 (GNU/Linux)
-
-iEYEABECAAYFAkx7ZuIACgkQXKSJPmm5/E565ACghR86VWOVgeG6umrzduS6P5hN
-2dkAoKBtarUk9g1qy8h5XuIAPBXdmjvv
-=18mI
------END PGP SIGNATURE-----
-
---nextPart23765505.o3L2QGZl3P--
+-- 
+Meelis Roos (mroos@linux.ee)
