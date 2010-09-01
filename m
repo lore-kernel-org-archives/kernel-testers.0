@@ -1,106 +1,81 @@
-From: Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [Bug #16626] Machine hangs with EIP at skb_copy_and_csum_dev
-Date: Wed, 1 Sep 2010 11:20:26 +0000
-Message-ID: <20100901112026.GA9468@ff.dom.local>
-References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera> <4AUWBNzTkbD.A.ey.cGueMB@chimera> <courier.4C7C99F2.00001F74@fs.ru.acad.bg> <20100831192659.GA3093@del.dom.local> <1283338251.2556.124.camel@edumazet-laptop>
+Date: Wed, 01 Sep 2010 15:57:41 +0200
+Message-ID: <1283349461.2556.333.camel@edumazet-laptop>
+References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera>
+	 <4AUWBNzTkbD.A.ey.cGueMB@chimera> <courier.4C7C99F2.00001F74@fs.ru.acad.bg>
+	 <20100831192659.GA3093@del.dom.local>
+	 <1283338251.2556.124.camel@edumazet-laptop>
+	 <20100901112026.GA9468@ff.dom.local>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=P2UjCzvMnmb+QkHXRB74kRMINANaWaP/CJxwsmk+q/A=;
-        b=JZNRyRVLCEmF4OeMN9nH5JDYQUiKROhfORgJ4TR9GLr/Gf6MvDjSzRr/OFLVb8L6M9
-         ptYJZin6UiuIhW2ygmFPenLwxTfXNsWkBtRlRrlg46sY8icczVMdQTm1yqWi0uFlTcTU
-         3KR2oo0Zv7OYVlaCPjCN+ou3Ibnr7tQmYSPb4=
-Content-Disposition: inline
-In-Reply-To: <1283338251.2556.124.camel@edumazet-laptop>
+        h=domainkey-signature:received:received:subject:from:to:cc
+         :in-reply-to:references:content-type:date:message-id:mime-version
+         :x-mailer:content-transfer-encoding;
+        bh=hyFmhziXQVuGrWSyvO2Q4v+ZvVOehyTwC4A/1rL1ITY=;
+        b=YWHRelwiY/mONw2fpBNs4vr6m4uADSHHRBgU0Si4ekIZ86LtoeQQtmTr0h70iqYgmq
+         nD6dE6/ia/0AXr+AcYstpL/oAOqWaBihd18kHEgVloSsQK+/Mm6TTwAV37gnNY+G5DNv
+         Pk7gcOcIOyfRmXx4Y7qCBp/ZHmttyb0pv54MM=
+In-Reply-To: <20100901112026.GA9468-8HppEYmqbBCE+EvaaNYduQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: Plamen Petrov <pvp-lsts-s6OjJRe3oxUfI6EYonfoRA@public.gmane.org>, Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Wed, Sep 01, 2010 at 12:50:51PM +0200, Eric Dumazet wrote:
-> Plamen, could you test following patch ?
-> 
-> I reproduced problem on a dev machine and following patch cured it.
-> 
-> Thanks
-> 
-> [PATCH] gro: fix different skb headrooms
-> 
-> packets entering GRO might have different headrooms, even for a given
-> flow (because of implementation details in drivers, like copybreak).
-> We cant force drivers to deliver packets with a fixed headroom.
-> 
-> 1) fix skb_segment()
-> 
-> skb_segment() makes the false assumption headrooms of fragments are same
-> than the head. When CHECKSUM_PARTIAL is used, this can give csum_start
-> errors, and crash later in skb_copy_and_csum_dev()
+Le mercredi 01 septembre 2010 =C3=A0 11:20 +0000, Jarek Poplawski a =C3=
+=A9crit :
+> On Wed, Sep 01, 2010 at 12:50:51PM +0200, Eric Dumazet wrote:
+> > Plamen, could you test following patch ?
+> >=20
+> > I reproduced problem on a dev machine and following patch cured it.
+> >=20
+> > Thanks
+> >=20
+> > [PATCH] gro: fix different skb headrooms
+> >=20
+> > packets entering GRO might have different headrooms, even for a giv=
+en
+> > flow (because of implementation details in drivers, like copybreak)=
+=2E
+> > We cant force drivers to deliver packets with a fixed headroom.
+> >=20
+> > 1) fix skb_segment()
+> >=20
+> > skb_segment() makes the false assumption headrooms of fragments are=
+ same
+> > than the head. When CHECKSUM_PARTIAL is used, this can give csum_st=
+art
+> > errors, and crash later in skb_copy_and_csum_dev()
+>=20
+> Eric, probably I missed something, but since the same test as in
+> skb_copy_and_csum_dev() gave different result a bit earlier on exactl=
+y
+> the same skb, I've suspected some sharing (or use after free)
+> problems, so I'm not sure your current diagnose can explain this.
+> (Unless this old test was dismissed later.)
 
-Eric, probably I missed something, but since the same test as in
-skb_copy_and_csum_dev() gave different result a bit earlier on exactly
-the same skb, I've suspected some sharing (or use after free)
-problems, so I'm not sure your current diagnose can explain this.
-(Unless this old test was dismissed later.)
+Oh, this is because your patch had an error for the gso part that read =
+:
 
-Thanks,
-Jarek P.
+-               rc =3D ops->ndo_start_xmit(nskb, dev);
++               if (skb_csum_start_bug(skb, 50)) {
++                       kfree_skb(skb);
++                       rc =3D NETDEV_TX_OK;
++               } else
++                       rc =3D ops->ndo_start_xmit(nskb, dev);
++
+                if (unlikely(rc !=3D NETDEV_TX_OK)) {
+                        if (rc & ~NETDEV_TX_MASK)
+                                goto out_kfree_gso_skb;
 
-> 
-> 2) allocate a minimal skb for head of frag_list
-> 
-> skb_gro_receive() uses netdev_alloc_skb(headroom + skb_gro_offset(p)) to
-> allocate a fresh skb. This adds NET_SKB_PAD to a padding already
-> provided by netdevice, depending on various things, like copybreak.
-> 
-> Use alloc_skb() to allocate an exact padding, to reduce cache line
-> needs:
-> NET_SKB_PAD + NET_IP_ALIGN
-> 
-> bugzilla : https://bugzilla.kernel.org/show_bug.cgi?id=16626
-> 
-> Many thanks to Plamen Petrov, testing many debugging patches !
-> With help of Jarek Poplawski.
-> 
-> Reported-by: Plamen Petrov <pvp-lsts-s6OjJRe3oxUfI6EYonfoRA@public.gmane.org>
-> Signed-off-by: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> CC: Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
-> patch against linux-2.6 current tree
-> 
->  net/core/skbuff.c |    8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> index 3a2513f..26396ff 100644
-> --- a/net/core/skbuff.c
-> +++ b/net/core/skbuff.c
-> @@ -2573,6 +2573,10 @@ struct sk_buff *skb_segment(struct sk_buff *skb, int features)
->  		__copy_skb_header(nskb, skb);
->  		nskb->mac_len = skb->mac_len;
->  
-> +		/* nskb and skb might have different headroom */
-> +		if (nskb->ip_summed == CHECKSUM_PARTIAL)
-> +			nskb->csum_start += skb_headroom(nskb) - headroom;
-> +
->  		skb_reset_mac_header(nskb);
->  		skb_set_network_header(nskb, skb->mac_len);
->  		nskb->transport_header = (nskb->network_header +
-> @@ -2702,8 +2706,8 @@ int skb_gro_receive(struct sk_buff **head, struct sk_buff *skb)
->  	} else if (skb_gro_len(p) != pinfo->gso_size)
->  		return -E2BIG;
->  
-> -	headroom = skb_headroom(p);
-> -	nskb = netdev_alloc_skb(p->dev, headroom + skb_gro_offset(p));
-> +	headroom = NET_SKB_PAD + NET_IP_ALIGN;
-> +	nskb = alloc_skb(headroom + skb_gro_offset(p), GFP_ATOMIC);
->  	if (unlikely(!nskb))
->  		return -ENOMEM;
->  
-> 
-> 
+You called skb_csum_start_bug(skb, 50) instead of
+skb_csum_start_bug(nskb, 50)
+
+Hope this clarify a bit ;)
+
+Thanks
+
