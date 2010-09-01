@@ -1,49 +1,96 @@
-From: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [Bug #16771] [Bisected Regression in 2.6.35] A full tmpfs filesystemcauses hibernationto hang
-Date: Wed,  1 Sep 2010 10:28:13 +0900 (JST)
-Message-ID: <20100901102757.974A.A69D9226@jp.fujitsu.com>
-References: <4C7D146E.8020601@superonline.com> <201008312219.39694.rjw@sisk.pl>
+From: Eric Dumazet <eric.dumazet@gmail.com>
+Subject: Re: [Bug #16626] Machine hangs with EIP at skb_copy_and_csum_dev
+Date: Wed, 01 Sep 2010 12:50:51 +0200
+Message-ID: <1283338251.2556.124.camel@edumazet-laptop>
+References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera>
+	 <4AUWBNzTkbD.A.ey.cGueMB@chimera> <courier.4C7C99F2.00001F74@fs.ru.acad.bg>
+	 <20100831192659.GA3093@del.dom.local>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201008312219.39694.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <netdev-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:subject:from:to:cc
+         :in-reply-to:references:content-type:date:message-id:mime-version
+         :x-mailer:content-transfer-encoding;
+        bh=rlCdWkSckDhBQLwx5wfIiKWrkGYewCQjr+3pu42FsSg=;
+        b=xVMbEMfF9prpTb29jAEULaxFbhjYYy73A109B3+uHtgybtAqWxONnJ68+mFRJ8sRxK
+         v+i902L7QDZLWQkb8NZ4FXkHQY5PgIHpWbyvcs6kaEvdxlwZ7E6VUdvzHo3BFpyEV23S
+         PeOsKAU1Yk0ZOvkPao7S+MpQmQCZan7Ikho+U=
+In-Reply-To: <20100831192659.GA3093@del.dom.local>
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org, "M. Vefa Bicakci" <bicave-qUEp0r/b3FNfOZc0+OmrVg@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Jarek Poplawski <jarkao2@gmail.com>, Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>, Herbert Xu <herbert@gondor.apana.org.au>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "David S. Miller" <davem@davemloft.net>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, netdev@vger.kernel.org
 
-> On Tuesday, August 31, 2010, M. Vefa Bicakci wrote:
-> > On 30/08/10 02:13 AM, Rafael J. Wysocki wrote:
-> > > This message has been generated automatically as a part of a report
-> > > of regressions introduced between 2.6.34 and 2.6.35.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-> > > be listed and let the tracking team know (either way).
-> > > 
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16771
-> > > Subject		: [Bisected Regression in 2.6.35] A full tmpfs filesystem causes hibernationto hang
-> > > Submitter	: M. Vefa Bicakci <bicave-qUEp0r/b3FNfOZc0+OmrVg@public.gmane.org>
-> > > Date		: 2010-08-15 5:25 (15 days old)
-> > > First-Bad-Commit: http://git.kernel.org/linus/bb21c7ce18eff8e6e7877ca1d06c6db719376e3c
-> > > Message-ID	: <4C677A49.4030904-qUEp0r/b3FNfOZc0+OmrVg@public.gmane.org>
-> > > References	: http://marc.info/?l=linux-kernel&m=128184995401968&w=2
-> > > 
-> > 
-> > Dear Rafael Wysocki,
-> > 
-> > This regression still exists in 2.6.35.4. (I haven't tested 2.6.36-rcX
-> > series.) Kosaki Motohiro has kindly helped me with this issue and found
-> > a fix for the regression. Today I have successfully tested his patch,
-> > but I don't know whether the patch needs to be further refined and tested.
-> 
-> Thanks for the information.  Do you have a pointer to the patch?
+Plamen, could you test following patch ?
 
-http://lkml.org/lkml/2010/8/31/429
+I reproduced problem on a dev machine and following patch cured it.
 
-Thanks.
+Thanks
 
+[PATCH] gro: fix different skb headrooms
+
+packets entering GRO might have different headrooms, even for a given
+flow (because of implementation details in drivers, like copybreak).
+We cant force drivers to deliver packets with a fixed headroom.
+
+1) fix skb_segment()
+
+skb_segment() makes the false assumption headrooms of fragments are same
+than the head. When CHECKSUM_PARTIAL is used, this can give csum_start
+errors, and crash later in skb_copy_and_csum_dev()
+
+2) allocate a minimal skb for head of frag_list
+
+skb_gro_receive() uses netdev_alloc_skb(headroom + skb_gro_offset(p)) to
+allocate a fresh skb. This adds NET_SKB_PAD to a padding already
+provided by netdevice, depending on various things, like copybreak.
+
+Use alloc_skb() to allocate an exact padding, to reduce cache line
+needs:
+NET_SKB_PAD + NET_IP_ALIGN
+
+bugzilla : https://bugzilla.kernel.org/show_bug.cgi?id=16626
+
+Many thanks to Plamen Petrov, testing many debugging patches !
+With help of Jarek Poplawski.
+
+Reported-by: Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>
+Signed-off-by: Eric Dumazet <eric.dumazet@gmail.com>
+CC: Jarek Poplawski <jarkao2@gmail.com>
+---
+patch against linux-2.6 current tree
+
+ net/core/skbuff.c |    8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index 3a2513f..26396ff 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -2573,6 +2573,10 @@ struct sk_buff *skb_segment(struct sk_buff *skb, int features)
+ 		__copy_skb_header(nskb, skb);
+ 		nskb->mac_len = skb->mac_len;
+ 
++		/* nskb and skb might have different headroom */
++		if (nskb->ip_summed == CHECKSUM_PARTIAL)
++			nskb->csum_start += skb_headroom(nskb) - headroom;
++
+ 		skb_reset_mac_header(nskb);
+ 		skb_set_network_header(nskb, skb->mac_len);
+ 		nskb->transport_header = (nskb->network_header +
+@@ -2702,8 +2706,8 @@ int skb_gro_receive(struct sk_buff **head, struct sk_buff *skb)
+ 	} else if (skb_gro_len(p) != pinfo->gso_size)
+ 		return -E2BIG;
+ 
+-	headroom = skb_headroom(p);
+-	nskb = netdev_alloc_skb(p->dev, headroom + skb_gro_offset(p));
++	headroom = NET_SKB_PAD + NET_IP_ALIGN;
++	nskb = alloc_skb(headroom + skb_gro_offset(p), GFP_ATOMIC);
+ 	if (unlikely(!nskb))
+ 		return -ENOMEM;
+ 
 
 
