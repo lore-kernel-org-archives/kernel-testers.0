@@ -1,88 +1,49 @@
-From: Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #16626] Machine hangs with EIP at skb_copy_and_csum_dev
-Date: Wed, 1 Sep 2010 17:05:04 +0200
-Message-ID: <20100901150504.GA3091@del.dom.local>
-References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera>
- <4AUWBNzTkbD.A.ey.cGueMB@chimera>
- <courier.4C7C99F2.00001F74@fs.ru.acad.bg>
- <20100831192659.GA3093@del.dom.local>
- <1283338251.2556.124.camel@edumazet-laptop>
- <20100901112026.GA9468@ff.dom.local>
- <1283349461.2556.333.camel@edumazet-laptop>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #16771] [Bisected Regression in 2.6.35] A full tmpfs filesystemcauses hibernationto hang
+Date: Wed, 1 Sep 2010 21:35:22 +0200
+Message-ID: <201009012135.22956.rjw@sisk.pl>
+References: <4C7D146E.8020601@superonline.com> <201008312219.39694.rjw@sisk.pl> <20100901102757.974A.A69D9226@jp.fujitsu.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=1dDP2V10iHNAI5BS77h+uZPGmV186aRroxNUXDK6fTE=;
-        b=r13GY5Nqyr71fQE364xJTWOEMpENS5eWJcxUo25UYhSy62PoLKAiOTzUzUILZQDxyv
-         M4hXa/etj4Ckz0uoVyaFmiIomyCUgv+JgXvfr5Nv/9NO6OXHswKeznZRv6rDKfDcVM4G
-         +ul5sqw7SC5cIH1AVWteNBuVyGMW43rRqDLD4=
-Content-Disposition: inline
-In-Reply-To: <1283349461.2556.333.camel@edumazet-laptop>
+In-Reply-To: <20100901102757.974A.A69D9226-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Plamen Petrov <pvp-lsts-s6OjJRe3oxUfI6EYonfoRA@public.gmane.org>, Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Cc: "M. Vefa Bicakci" <bicave-qUEp0r/b3FNfOZc0+OmrVg@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Wed, Sep 01, 2010 at 03:57:41PM +0200, Eric Dumazet wrote:
-> Le mercredi 01 septembre 2010 ?? 11:20 +0000, Jarek Poplawski a =E9cr=
-it :
-> > On Wed, Sep 01, 2010 at 12:50:51PM +0200, Eric Dumazet wrote:
-> > > Plamen, could you test following patch ?
-> > >=20
-> > > I reproduced problem on a dev machine and following patch cured i=
-t.
-> > >=20
-> > > Thanks
-> > >=20
-> > > [PATCH] gro: fix different skb headrooms
-> > >=20
-> > > packets entering GRO might have different headrooms, even for a g=
-iven
-> > > flow (because of implementation details in drivers, like copybrea=
-k).
-> > > We cant force drivers to deliver packets with a fixed headroom.
-> > >=20
-> > > 1) fix skb_segment()
-> > >=20
-> > > skb_segment() makes the false assumption headrooms of fragments a=
-re same
-> > > than the head. When CHECKSUM_PARTIAL is used, this can give csum_=
-start
-> > > errors, and crash later in skb_copy_and_csum_dev()
-> >=20
-> > Eric, probably I missed something, but since the same test as in
-> > skb_copy_and_csum_dev() gave different result a bit earlier on exac=
-tly
-> > the same skb, I've suspected some sharing (or use after free)
-> > problems, so I'm not sure your current diagnose can explain this.
-> > (Unless this old test was dismissed later.)
->=20
-> Oh, this is because your patch had an error for the gso part that rea=
-d :
->=20
-> -               rc =3D ops->ndo_start_xmit(nskb, dev);
-> +               if (skb_csum_start_bug(skb, 50)) {
-> +                       kfree_skb(skb);
-> +                       rc =3D NETDEV_TX_OK;
-> +               } else
-> +                       rc =3D ops->ndo_start_xmit(nskb, dev);
-> +
->                 if (unlikely(rc !=3D NETDEV_TX_OK)) {
->                         if (rc & ~NETDEV_TX_MASK)
->                                 goto out_kfree_gso_skb;
->=20
-> You called skb_csum_start_bug(skb, 50) instead of
-> skb_csum_start_bug(nskb, 50)
->=20
-> Hope this clarify a bit ;)
+On Wednesday, September 01, 2010, KOSAKI Motohiro wrote:
+> > On Tuesday, August 31, 2010, M. Vefa Bicakci wrote:
+> > > On 30/08/10 02:13 AM, Rafael J. Wysocki wrote:
+> > > > This message has been generated automatically as a part of a report
+> > > > of regressions introduced between 2.6.34 and 2.6.35.
+> > > > 
+> > > > The following bug entry is on the current list of known regressions
+> > > > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+> > > > be listed and let the tracking team know (either way).
+> > > > 
+> > > > 
+> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16771
+> > > > Subject		: [Bisected Regression in 2.6.35] A full tmpfs filesystem causes hibernationto hang
+> > > > Submitter	: M. Vefa Bicakci <bicave-qUEp0r/b3FNfOZc0+OmrVg@public.gmane.org>
+> > > > Date		: 2010-08-15 5:25 (15 days old)
+> > > > First-Bad-Commit: http://git.kernel.org/linus/bb21c7ce18eff8e6e7877ca1d06c6db719376e3c
+> > > > Message-ID	: <4C677A49.4030904-qUEp0r/b3FNfOZc0+OmrVg@public.gmane.org>
+> > > > References	: http://marc.info/?l=linux-kernel&m=128184995401968&w=2
+> > > > 
+> > > 
+> > > Dear Rafael Wysocki,
+> > > 
+> > > This regression still exists in 2.6.35.4. (I haven't tested 2.6.36-rcX
+> > > series.) Kosaki Motohiro has kindly helped me with this issue and found
+> > > a fix for the regression. Today I have successfully tested his patch,
+> > > but I don't know whether the patch needs to be further refined and tested.
+> > 
+> > Thanks for the information.  Do you have a pointer to the patch?
+> 
+> http://lkml.org/lkml/2010/8/31/429
 
-All clear! Sorry for the false alarm!
+Thanks, I updated the bug entry with the patch information.
 
-Thanks,
-Jarek P.
+Rafael
