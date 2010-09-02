@@ -1,49 +1,52 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #16771] [Bisected Regression in 2.6.35] A full tmpfs filesystemcauses hibernationto hang
-Date: Wed, 1 Sep 2010 21:35:22 +0200
-Message-ID: <201009012135.22956.rjw@sisk.pl>
-References: <4C7D146E.8020601@superonline.com> <201008312219.39694.rjw@sisk.pl> <20100901102757.974A.A69D9226@jp.fujitsu.com>
+From: David Miller <davem@davemloft.net>
+Subject: Re: [Bug #16626] Machine hangs with EIP at skb_copy_and_csum_dev
+Date: Wed, 01 Sep 2010 18:23:18 -0700 (PDT)
+Message-ID: <20100901.182318.191170819.davem@davemloft.net>
+References: <courier.4C7C99F2.00001F74@fs.ru.acad.bg>
+	<20100831192659.GA3093@del.dom.local>
+	<1283338251.2556.124.camel@edumazet-laptop>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100901102757.974A.A69D9226-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <1283338251.2556.124.camel@edumazet-laptop>
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Cc: "M. Vefa Bicakci" <bicave-qUEp0r/b3FNfOZc0+OmrVg@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: eric.dumazet@gmail.com
+Cc: jarkao2@gmail.com, pvp-lsts@fs.uni-ruse.bg, herbert@gondor.apana.org.au, rjw@sisk.pl, kernel-testers@vger.kernel.org, maciej.rutecki@gmail.com, linux-kernel@vger.kernel.org, netdev@vger.kernel.org
 
-On Wednesday, September 01, 2010, KOSAKI Motohiro wrote:
-> > On Tuesday, August 31, 2010, M. Vefa Bicakci wrote:
-> > > On 30/08/10 02:13 AM, Rafael J. Wysocki wrote:
-> > > > This message has been generated automatically as a part of a report
-> > > > of regressions introduced between 2.6.34 and 2.6.35.
-> > > > 
-> > > > The following bug entry is on the current list of known regressions
-> > > > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-> > > > be listed and let the tracking team know (either way).
-> > > > 
-> > > > 
-> > > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16771
-> > > > Subject		: [Bisected Regression in 2.6.35] A full tmpfs filesystem causes hibernationto hang
-> > > > Submitter	: M. Vefa Bicakci <bicave-qUEp0r/b3FNfOZc0+OmrVg@public.gmane.org>
-> > > > Date		: 2010-08-15 5:25 (15 days old)
-> > > > First-Bad-Commit: http://git.kernel.org/linus/bb21c7ce18eff8e6e7877ca1d06c6db719376e3c
-> > > > Message-ID	: <4C677A49.4030904-qUEp0r/b3FNfOZc0+OmrVg@public.gmane.org>
-> > > > References	: http://marc.info/?l=linux-kernel&m=128184995401968&w=2
-> > > > 
-> > > 
-> > > Dear Rafael Wysocki,
-> > > 
-> > > This regression still exists in 2.6.35.4. (I haven't tested 2.6.36-rcX
-> > > series.) Kosaki Motohiro has kindly helped me with this issue and found
-> > > a fix for the regression. Today I have successfully tested his patch,
-> > > but I don't know whether the patch needs to be further refined and tested.
-> > 
-> > Thanks for the information.  Do you have a pointer to the patch?
+From: Eric Dumazet <eric.dumazet@gmail.com>
+Date: Wed, 01 Sep 2010 12:50:51 +0200
+
+> [PATCH] gro: fix different skb headrooms
 > 
-> http://lkml.org/lkml/2010/8/31/429
+> packets entering GRO might have different headrooms, even for a given
+> flow (because of implementation details in drivers, like copybreak).
+> We cant force drivers to deliver packets with a fixed headroom.
+> 
+> 1) fix skb_segment()
+> 
+> skb_segment() makes the false assumption headrooms of fragments are same
+> than the head. When CHECKSUM_PARTIAL is used, this can give csum_start
+> errors, and crash later in skb_copy_and_csum_dev()
+> 
+> 2) allocate a minimal skb for head of frag_list
+> 
+> skb_gro_receive() uses netdev_alloc_skb(headroom + skb_gro_offset(p)) to
+> allocate a fresh skb. This adds NET_SKB_PAD to a padding already
+> provided by netdevice, depending on various things, like copybreak.
+> 
+> Use alloc_skb() to allocate an exact padding, to reduce cache line
+> needs:
+> NET_SKB_PAD + NET_IP_ALIGN
+> 
+> bugzilla : https://bugzilla.kernel.org/show_bug.cgi?id=16626
+> 
+> Many thanks to Plamen Petrov, testing many debugging patches !
+> With help of Jarek Poplawski.
+> 
+> Reported-by: Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>
+> Signed-off-by: Eric Dumazet <eric.dumazet@gmail.com>
+> CC: Jarek Poplawski <jarkao2@gmail.com>
 
-Thanks, I updated the bug entry with the patch information.
-
-Rafael
+Good spotting, applied, thanks!
