@@ -1,44 +1,120 @@
 From: Jarek Poplawski <jarkao2@gmail.com>
 Subject: Re: [Bug #16626] Machine hangs with EIP at skb_copy_and_csum_dev
-Date: Fri, 3 Sep 2010 09:06:20 +0000
-Message-ID: <20100903090620.GA6645@ff.dom.local>
-References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera> <4AUWBNzTkbD.A.ey.cGueMB@chimera> <courier.4C7C99F2.00001F74@fs.ru.acad.bg> <20100831192659.GA3093@del.dom.local> <1283338251.2556.124.camel@edumazet-laptop> <4C80AB34.20501@fs.uni-ruse.bg>
+Date: Sat, 4 Sep 2010 22:34:29 +0200
+Message-ID: <20100904203429.GA4891@del.dom.local>
+References: <1283338251.2556.124.camel@edumazet-laptop>
 Mime-Version: 1.0
 Return-path: <netdev-owner@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
         h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
+         :message-id:mime-version:content-type:content-disposition
          :in-reply-to:user-agent;
-        bh=r2Xwz2+vuSBWfO/edhwxAzoY13QAIQuuOEb/MklQ+/8=;
-        b=S1Q6KAXyXOO4FI1xc/n6fZIJ+sNy1SKPCDK8yK5ga8EmBoRLELG88CVj+ighOz6G9j
-         Jfp/PQfNlclVZKdg8x8qobIAI3/QQ6sSE6FTmBmmfmelyPhmWkaoJXpJdzkEvGizPauu
-         Wo1eee8z40BFJSY9wJs9er3D0vGAL0julBfmc=
+        bh=IVMnv6yeMHoohTBfhES+X90IXZyAvwKpWdLPeDZlj34=;
+        b=l+RbeQRfdv69xDZ9rrvDtjlDQXLzX5XIdOct5QSAoB2nlzi2eMbOGYUFzuBnTUQAFq
+         ek1YJRtNEcSq/su4pK10UdDXjyav+kZids9S2z0b8qhQ9vdybRTMWGfNSn2Srelyznr6
+         qpOyDnCWT1vak38YEfiwuJyCINKbOXd3he4NA=
 Content-Disposition: inline
-In-Reply-To: <4C80AB34.20501@fs.uni-ruse.bg>
+In-Reply-To: <1283338251.2556.124.camel@edumazet-laptop>
 Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>
-Cc: Eric Dumazet <eric.dumazet@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "David S. Miller" <davem@davemloft.net>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, netdev@vger.kernel.org
+To: Eric Dumazet <eric.dumazet@gmail.com>
+Cc: Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>, Herbert Xu <herbert@gondor.apana.org.au>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "David S. Miller" <davem@davemloft.net>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, netdev@vger.kernel.org
 
-On Fri, Sep 03, 2010 at 11:00:52AM +0300, Plamen Petrov wrote:
-> ???? 01.9.2010 ??. 13:50, Eric Dumazet ????????????:
->
-> I confirm that the above patch applied on top of v2.6.36-rc3 does not
-> show the problems that all the kernels since v2.6.35 (both stable
-> and Linus' tree) had.
->
-> My problematic machine has been running the patched 36-rc3 for 36 hours,  
-> and couning, with "generic receive offload" enabled only my tg3 nic.
->
-> Thank you very much for the wonderful job, Eric!
-> Thanks to you, too, Jarek!
+Eric Dumazet wrote, On 09/01/2010 12:50 PM:
 
-Not at all! I only messed up a bit :-(
+> [PATCH] gro: fix different skb headrooms
+> 
+> packets entering GRO might have different headrooms, even for a given
+> flow (because of implementation details in drivers, like copybreak).
+> We cant force drivers to deliver packets with a fixed headroom.
+> 
+> 1) fix skb_segment()
+> 
+> skb_segment() makes the false assumption headrooms of fragments are same
+> than the head. When CHECKSUM_PARTIAL is used, this can give csum_start
+> errors, and crash later in skb_copy_and_csum_dev()
+> 
+> 2) allocate a minimal skb for head of frag_list
+> 
+> skb_gro_receive() uses netdev_alloc_skb(headroom + skb_gro_offset(p)) to
+> allocate a fresh skb. This adds NET_SKB_PAD to a padding already
+> provided by netdevice, depending on various things, like copybreak.
+> 
+> Use alloc_skb() to allocate an exact padding, to reduce cache line
+> needs:
+> NET_SKB_PAD + NET_IP_ALIGN
+> 
+> bugzilla : https://bugzilla.kernel.org/show_bug.cgi?id=16626
+> 
+> Many thanks to Plamen Petrov, testing many debugging patches !
+> With help of Jarek Poplawski.
+> 
+> Reported-by: Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>
+> Signed-off-by: Eric Dumazet <eric.dumazet@gmail.com>
+> CC: Jarek Poplawski <jarkao2@gmail.com>
+> ---
+> patch against linux-2.6 current tree
+> 
+>  net/core/skbuff.c |    8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+...
+> @@ -2702,8 +2706,8 @@ int skb_gro_receive(struct sk_buff **head, struct sk_buff *skb)
+>  	} else if (skb_gro_len(p) != pinfo->gso_size)
+>  		return -E2BIG;
+>  
+> -	headroom = skb_headroom(p);
+> -	nskb = netdev_alloc_skb(p->dev, headroom + skb_gro_offset(p));
+> +	headroom = NET_SKB_PAD + NET_IP_ALIGN;
+> +	nskb = alloc_skb(headroom + skb_gro_offset(p), GFP_ATOMIC);
+>  	if (unlikely(!nskb))
+>  		return -ENOMEM;
 
-All credits to Eric and Plamen!
+Hi again,
 
-Thanks again,
+Just had a second look, and unless I miss something...
+
+Plamen, could you test this patch, too? (Without removing the previous
+one.)
+
+Thanks,
 Jarek P.
+
+------------------->
+
+[PATCH] gro: Re-fix different skb headrooms
+
+The patch: "gro: fix different skb headrooms" in its part:
+"2) allocate a minimal skb for head of frag_list" is buggy. The copied
+skb has p->data set at the ip header at the moment, and skb_gro_offset
+is the length of ip + tcp headers. So, after the change the length of
+mac header is skipped. Later skb_set_mac_header() sets it into the
+NET_SKB_PAD area (if it's long enough) and ip header is misaligned at
+NET_SKB_PAD + NET_IP_ALIGN offset. There is no reason to assume the
+original skb was wrongly allocated, so let's copy it as it was.
+
+bugzilla : https://bugzilla.kernel.org/show_bug.cgi?id=16626
+fixes commit: 3d3be4333fdf6faa080947b331a6a19bce1a4f57
+
+Reported-by: Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>
+Signed-off-by: Jarek Poplawski <jarkao2@gmail.com>
+CC: Eric Dumazet <eric.dumazet@gmail.com>
+---
+
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index 26396ff..c83b421 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -2706,7 +2706,7 @@ int skb_gro_receive(struct sk_buff **head, struct sk_buff *skb)
+ 	} else if (skb_gro_len(p) != pinfo->gso_size)
+ 		return -E2BIG;
+ 
+-	headroom = NET_SKB_PAD + NET_IP_ALIGN;
++	headroom = skb_headroom(p);
+ 	nskb = alloc_skb(headroom + skb_gro_offset(p), GFP_ATOMIC);
+ 	if (unlikely(!nskb))
+ 		return -ENOMEM;
