@@ -1,86 +1,46 @@
-From: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #16626] Machine hangs with EIP at skb_copy_and_csum_dev
-Date: Sun, 05 Sep 2010 09:49:43 +0200
-Message-ID: <1283672983.3402.38.camel@edumazet-laptop>
-References: <20100904203429.GA4891@del.dom.local>
+From: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Subject: Re: [Bug #17131] WARN with 3c905 boomerang NIC
+Date: Mon, 6 Sep 2010 07:50:07 +0200
+Message-ID: <20100906075007.5797f524@schatten.dmk.lab>
+References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera>
+	<4AUWBNzTkbD.A.V3H.2FueMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:subject:from:to:cc
-         :in-reply-to:references:content-type:date:message-id:mime-version
-         :x-mailer:content-transfer-encoding;
-        bh=KY9xpcn5CDW2znlSSgLKUYchFEnm2oIwTkf3RSe0PbI=;
-        b=eG/7+Mpp7j2/kYJMO+2MeajCOgEE28564dBa+OIlFUt5plCbKGYPT4ykqKy9yMcg+J
-         l7fsLh2Np9uB1cWPwO5fXSc6c8Ftoht06rPLNwP3KDcy6w77kxq0MB3b54n9dhWikWxf
-         ZsMviPaQ2B4D8RpNNEgJdSgz5+f9xiQku920A=
-In-Reply-To: <20100904203429.GA4891-qLhEM4ewh5CNj9Bq2fkWzw@public.gmane.org>
+In-Reply-To: <4AUWBNzTkbD.A.V3H.2FueMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Plamen Petrov <pvp-lsts-s6OjJRe3oxUfI6EYonfoRA@public.gmane.org>, Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Doug Nazar <nazard.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
 
-Le samedi 04 septembre 2010 =C3=A0 22:34 +0200, Jarek Poplawski a =C3=A9=
-crit :
+On Mon, 30 Aug 2010 00:36:36 +0200 (CEST)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
-> Hi again,
->=20
-> Just had a second look, and unless I miss something...
->=20
-> Plamen, could you test this patch, too? (Without removing the previou=
-s
-> one.)
->=20
-> Thanks,
-> Jarek P.
->=20
-> ------------------->
->=20
-> [PATCH] gro: Re-fix different skb headrooms
->=20
-> The patch: "gro: fix different skb headrooms" in its part:
-> "2) allocate a minimal skb for head of frag_list" is buggy. The copie=
-d
-> skb has p->data set at the ip header at the moment, and skb_gro_offse=
-t
-> is the length of ip + tcp headers. So, after the change the length of
-> mac header is skipped. Later skb_set_mac_header() sets it into the
-> NET_SKB_PAD area (if it's long enough) and ip header is misaligned at
-> NET_SKB_PAD + NET_IP_ALIGN offset. There is no reason to assume the
-> original skb was wrongly allocated, so let's copy it as it was.
->=20
-> bugzilla : https://bugzilla.kernel.org/show_bug.cgi?id=3D16626
-> fixes commit: 3d3be4333fdf6faa080947b331a6a19bce1a4f57
->=20
-> Reported-by: Plamen Petrov <pvp-lsts-s6OjJRe3oxUfI6EYonfoRA@public.gmane.org>
-> Signed-off-by: Jarek Poplawski <jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> CC: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
->=20
-> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> index 26396ff..c83b421 100644
-> --- a/net/core/skbuff.c
-> +++ b/net/core/skbuff.c
-> @@ -2706,7 +2706,7 @@ int skb_gro_receive(struct sk_buff **head, stru=
-ct sk_buff *skb)
->  	} else if (skb_gro_len(p) !=3D pinfo->gso_size)
->  		return -E2BIG;
-> =20
-> -	headroom =3D NET_SKB_PAD + NET_IP_ALIGN;
-> +	headroom =3D skb_headroom(p);
->  	nskb =3D alloc_skb(headroom + skb_gro_offset(p), GFP_ATOMIC);
->  	if (unlikely(!nskb))
->  		return -ENOMEM;
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 2.6.35.  Please verify if it still should be listed and let the tracking team
+> know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17131
+> Subject		: WARN with 3c905 boomerang NIC
+> Submitter	: Doug Nazar <nazard.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-08-22 6:35 (8 days old)
+> Message-ID	: <4C70C516.5020404-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=128245894300623&w=2
+> Handled-By	: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+> 
+> 
+Hi Doug!
 
-You are right, thanks for reviewing this patch again :)
+Paul provided a patch at
+https://bugzilla.kernel.org/attachment.cgi?id=28832 .
 
-By the way, NET_IP_ALIGN is now 0 on x86, so technically speaking, your
-patch un-aligns IP header on x86, but thats OK, since other arches migh=
-t
-want it being aligned, while x86 doesnt care.
+Has he pinged you already about it? You are not subscribed to the bug
+and I didn't see anything on the netdev mailinglist or lkml. 
 
-Acked-by: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-
-
+Cheers,
+Flo
