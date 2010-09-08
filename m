@@ -1,106 +1,25 @@
-From: Jarek Poplawski <jarkao2@gmail.com>
+From: David Miller <davem@davemloft.net>
 Subject: Re: [Bug #16626] Machine hangs with EIP at skb_copy_and_csum_dev
-Date: Wed, 8 Sep 2010 06:20:04 +0000
-Message-ID: <20100908062004.GA6280@ff.dom.local>
-References: <20100904203429.GA4891@del.dom.local> <1283672983.3402.38.camel@edumazet-laptop> <4C8717BB.2050504@fs.uni-ruse.bg>
+Date: Wed, 08 Sep 2010 10:32:56 -0700 (PDT)
+Message-ID: <20100908.103256.112592448.davem@davemloft.net>
+References: <1283672983.3402.38.camel@edumazet-laptop>
+	<4C8717BB.2050504@fs.uni-ruse.bg>
+	<20100908062004.GA6280@ff.dom.local>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <netdev-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=vG4bIbkrReW3uRVDC7BJoPbzhS/DH8Vr411CxN3hM6A=;
-        b=HT2+0NaJ1FUjYLT7LbwERhhdV4vHIM5PrpFxD+REKro1WEaEqKNd1+7MhkymokTyCD
-         k4RFbi6AUmG9nSvEiO5FBaAH7SLB7tShRmmMsGLv2vTN8sG7lz6qglLpP7/Qoc6ZOUoA
-         H14WIjBL3EDkYrKGQzwjwKFd5xwAjk4CSOci0=
-Content-Disposition: inline
-In-Reply-To: <4C8717BB.2050504@fs.uni-ruse.bg>
+In-Reply-To: <20100908062004.GA6280@ff.dom.local>
 Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>
-Cc: Eric Dumazet <eric.dumazet@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "David S. Miller" <davem@davemloft.net>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, netdev@vger.kernel.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: jarkao2@gmail.com
+Cc: pvp-lsts@fs.uni-ruse.bg, eric.dumazet@gmail.com, herbert@gondor.apana.org.au, rjw@sisk.pl, kernel-testers@vger.kernel.org, maciej.rutecki@gmail.com, linux-kernel@vger.kernel.org, netdev@vger.kernel.org
 
-On Wed, Sep 08, 2010 at 07:57:31AM +0300, Plamen Petrov wrote:
-> ???? 05.9.2010 ??. 10:49, Eric Dumazet ????????????:
->> Le samedi 04 septembre 2010 ?? 22:34 +0200, Jarek Poplawski a =E9cri=
-t :
->>
->>> Hi again,
->>>
->>> Just had a second look, and unless I miss something...
->>>
->>> Plamen, could you test this patch, too? (Without removing the previ=
-ous
->>> one.)
->>>
->>> Thanks,
->>> Jarek P.
->>>
->>> ------------------->
->>>
->>> [PATCH] gro: Re-fix different skb headrooms
->>>
->>> The patch: "gro: fix different skb headrooms" in its part:
->>> "2) allocate a minimal skb for head of frag_list" is buggy. The cop=
-ied
->>> skb has p->data set at the ip header at the moment, and skb_gro_off=
-set
->>> is the length of ip + tcp headers. So, after the change the length =
-of
->>> mac header is skipped. Later skb_set_mac_header() sets it into the
->>> NET_SKB_PAD area (if it's long enough) and ip header is misaligned =
-at
->>> NET_SKB_PAD + NET_IP_ALIGN offset. There is no reason to assume the
->>> original skb was wrongly allocated, so let's copy it as it was.
->>>
->>> bugzilla : https://bugzilla.kernel.org/show_bug.cgi?id=3D16626
->>> fixes commit: 3d3be4333fdf6faa080947b331a6a19bce1a4f57
->>>
->>> Reported-by: Plamen Petrov<pvp-lsts@fs.uni-ruse.bg>
->>> Signed-off-by: Jarek Poplawski<jarkao2@gmail.com>
->>> CC: Eric Dumazet<eric.dumazet@gmail.com>
->>> ---
->>>
->>> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
->>> index 26396ff..c83b421 100644
->>> --- a/net/core/skbuff.c
->>> +++ b/net/core/skbuff.c
->>> @@ -2706,7 +2706,7 @@ int skb_gro_receive(struct sk_buff **head, st=
-ruct sk_buff *skb)
->>>   	} else if (skb_gro_len(p) !=3D pinfo->gso_size)
->>>   		return -E2BIG;
->>>
->>> -	headroom =3D NET_SKB_PAD + NET_IP_ALIGN;
->>> +	headroom =3D skb_headroom(p);
->>>   	nskb =3D alloc_skb(headroom + skb_gro_offset(p), GFP_ATOMIC);
->>>   	if (unlikely(!nskb))
->>>   		return -ENOMEM;
->>
->> You are right, thanks for reviewing this patch again :)
->>
->> By the way, NET_IP_ALIGN is now 0 on x86, so technically speaking, y=
-our
->> patch un-aligns IP header on x86, but thats OK, since other arches m=
-ight
->> want it being aligned, while x86 doesnt care.
->>
->> Acked-by: Eric Dumazet<eric.dumazet@gmail.com>
->>
->>
->>
->
-> Well, now that I'm back at work, I'm glad to report
-> that I tested both variants of the patch, and as Eric
-> points out - it works both ways.
->
-> So, which ever fits you guys better.
+From: Jarek Poplawski <jarkao2@gmail.com>
+Date: Wed, 8 Sep 2010 06:20:04 +0000
 
-We need both of them. I hope David could add this too:
+> We need both of them. I hope David could add this too:
+> 
+> Tested-by: Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>
 
-Tested-by: Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>
-
-Thanks a lot everybody!
-Jarek P.
+Done, and applied, thanks :-)
