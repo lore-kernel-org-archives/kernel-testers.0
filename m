@@ -1,40 +1,31 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #16626] Machine hangs with EIP at skb_copy_and_csum_dev
-Date: Sun, 12 Sep 2010 19:28:20 +0200
-Message-ID: <201009121928.20238.rjw@sisk.pl>
-References: <1283672983.3402.38.camel@edumazet-laptop> <201009082221.16356.rjw@sisk.pl> <4C8C7957.7080207@fs.uni-ruse.bg>
+Subject: [Bug #16951] hackbench regression with 2.6.36-rc1
+Date: Sun, 12 Sep 2010 20:11:44 +0200 (CEST)
+Message-ID: <0c5PAlgnPrH.A.XUC.jsRjMB@chimera>
+References: <EP3NUDNWMO.A.O0.rrRjMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4C8C7957.7080207-s6OjJRe3oxUfI6EYonfoRA@public.gmane.org>
+In-Reply-To: <EP3NUDNWMO.A.O0.rrRjMB@chimera>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: Plamen Petrov <pvp-lsts-s6OjJRe3oxUfI6EYonfoRA@public.gmane.org>
-Cc: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Zhang, Yanmin" <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
-On Sunday, September 12, 2010, Plamen Petrov wrote:
-> =D0=9D=D0=B0 08.9.2010 =D0=B3. 23:21, Rafael J. Wysocki =D0=BD=D0=B0=D0=
-=BF=D0=B8=D1=81=D0=B0:
-> > On Wednesday, September 08, 2010, David Miller wrote:
-> >> From: Jarek Poplawski<jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> >> Date: Wed, 8 Sep 2010 06:20:04 +0000
-> >>
-> >>> We need both of them. I hope David could add this too:
-> >>>
-> >>> Tested-by: Plamen Petrov<pvp-lsts-s6OjJRe3oxUfI6EYonfoRA@public.gmane.org>
-> >>
-> >> Done, and applied, thanks :-)
-> >
-> > Please kindly let me know when Linus gets them, so that I can close=
- the bug.
-> >
-> > Rafael
->=20
-> Now that both commits that fix my problems are in Linus' tree, the
-> bug can be closed, but these fixes should go in 2.6.35.y, too.
-> So, CCing -stable.
+This message has been generated automatically as a part of a summary report
+of recent regressions.
 
-Thanks, bug closed.
+The following bug entry is on the current list of known regressions
+from 2.6.35.  Please verify if it still should be listed and let the tracking team
+know (either way).
 
-Rafael
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16951
+Subject		: hackbench regression with 2.6.36-rc1
+Submitter	: Zhang, Yanmin <yanmin_zhang-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Date		: 2010-08-18 6:18 (26 days old)
+Message-ID	: <1282112318.21202.8.camel-sz7BYL/Y5Hu/P+R7jlPCFVaTQe2KTcn/@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=128211235904910&w=2
+
