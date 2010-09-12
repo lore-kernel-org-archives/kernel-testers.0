@@ -1,34 +1,48 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16312] WARNING: at fs/fs-writeback.c:1127 __mark_inode_dirty
-Date: Sun, 12 Sep 2010 21:08:40 +0200 (CEST)
-Message-ID: <p44oKaOqEDM.A.QHG.AjSjMB@chimera>
+From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Subject: Re: [Bug #17772] Unable to locate IOAPIC for GSI *
+Date: Sun, 12 Sep 2010 22:29:50 +0200
+Message-ID: <20100912202950.GA16751@elte.hu>
 References: <QnCvudbe2FD.A.XiE.DgSjMB@chimera>
+ <p44oKaOqEDM.A.I2E.VgSjMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <QnCvudbe2FD.A.XiE.DgSjMB@chimera>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+In-Reply-To: <p44oKaOqEDM.A.I2E.VgSjMB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Jan Kara <jack@suse.cz>, Zdenek Kabelac <zdenek.kabelac@gmail.com>
-
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.34 and 2.6.35.
-
-The following bug entry is on the current list of known regressions
-introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-be listed and let the tracking team know (either way).
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Len Brown <lenb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Feng Tang <feng.tang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Yinghai Lu <y>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, zersaa <zersaa-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16312
-Subject		: WARNING: at fs/fs-writeback.c:1127 __mark_inode_dirty
-Submitter	: Zdenek Kabelac <zdenek.kabelac@gmail.com>
-Date		: 2010-06-28 9:40 (77 days old)
-Message-ID	: <AANLkTin24fr5O4_q5Xbo9Y_NKkEmtcp6Hgmr9_4qXaFz@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=127771804806465&w=2
-		  http://lkml.indiana.edu/hypermail/linux/kernel/1007.3/00884.html
-Handled-By	: Jan Kara <jack@suse.cz>
-Patch		: https://bugzilla.kernel.org/attachment.cgi?id=27272
+* Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.34 and 2.6.35.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+> be listed and let the tracking team know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17772
+> Subject		: Unable to locate IOAPIC for GSI *
+> Submitter	: zersaa <zersaa-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-09-04 21:28 (9 days old)
+
+this is an error message introduced via ACPI commit:
+
+| commit 2a4ab640d3c28c2952967e5f63ea495555bf2a5f
+| Author: Feng Tang <feng.tang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+| Date:   Tue Jul 7 23:01:15 2009 -0400
+|
+|     ACPI, x86: expose some IO-APIC routines when CONFIG_ACPI=n
+
+It's not clear from the bugzilla entry whether it's just a new error 
+message, or an actual boot failure. It appears to me it's just a new 
+message - i.e. not a regression.
+
+Thanks,
+
+	Ingo
