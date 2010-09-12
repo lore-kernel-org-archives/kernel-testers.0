@@ -1,32 +1,30 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #17131] WARN with 3c905 boomerang NIC
-Date: Sun, 12 Sep 2010 20:14:27 +0200 (CEST)
-Message-ID: <0c5PAlgnPrH.A.t5B.UsRjMB@chimera>
-References: <EP3NUDNWMO.A.O0.rrRjMB@chimera>
+Subject: [Bug #16184] Container, X86-64, i386, iptables rule
+Date: Sun, 12 Sep 2010 21:07:14 +0200 (CEST)
+Message-ID: <p44oKaOqEDM.A.ymG.bkSjMB@chimera>
+References: <QnCvudbe2FD.A.XiE.DgSjMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <EP3NUDNWMO.A.O0.rrRjMB@chimera>
+In-Reply-To: <QnCvudbe2FD.A.XiE.DgSjMB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Doug Nazar <nazard.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jean-Marc Pigeon <jmp-4qkeo2rQ0gg@public.gmane.org>, Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>
 
-This message has been generated automatically as a part of a summary report
-of recent regressions.
+This message has been generated automatically as a part of a report
+of regressions introduced between 2.6.34 and 2.6.35.
 
 The following bug entry is on the current list of known regressions
-from 2.6.35.  Please verify if it still should be listed and let the tracking team
-know (either way).
+introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17131
-Subject		: WARN with 3c905 boomerang NIC
-Submitter	: Doug Nazar <nazard.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2010-08-22 6:35 (22 days old)
-Message-ID	: <4C70C516.5020404-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=128245894300623&w=2
-Handled-By	: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16184
+Subject		: Container, X86-64, i386, iptables rule
+Submitter	: Jean-Marc Pigeon <jmp-4qkeo2rQ0gg@public.gmane.org>
+Date		: 2010-06-12 04:17 (93 days old)
+Handled-By	: Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>
 
