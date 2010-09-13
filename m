@@ -1,31 +1,45 @@
-From: Plamen Petrov <pvp-lsts-s6OjJRe3oxUfI6EYonfoRA@public.gmane.org>
-Subject: Re: [Bug #16626] Machine hangs with EIP at skb_copy_and_csum_dev
-Date: Mon, 13 Sep 2010 09:49:57 +0300
-Message-ID: <4C8DC995.3060206@fs.uni-ruse.bg>
-References: <20100908.103256.112592448.davem@davemloft.net>	<201009082221.16356.rjw@sisk.pl>	<4C8C7957.7080207@fs.uni-ruse.bg> <20100912.085509.193705327.davem@davemloft.net>
+From: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [Bug #16312] WARNING: at fs/fs-writeback.c:1127
+ __mark_inode_dirty
+Date: Mon, 13 Sep 2010 13:42:29 +0200
+Message-ID: <20100913114229.GA4016@quack.suse.cz>
+References: <QnCvudbe2FD.A.XiE.DgSjMB@chimera>
+ <p44oKaOqEDM.A.QHG.AjSjMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100912.085509.193705327.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <p44oKaOqEDM.A.QHG.AjSjMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Cc: rjw-KKrjLPT3xs0@public.gmane.org, jarkao2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-=D0=9D=D0=B0 12.9.2010 =D0=B3. 18:55, David Miller =D0=BD=D0=B0=D0=BF=D0=
-=B8=D1=81=D0=B0:
-> From: Plamen Petrov<pvp-lsts-s6OjJRe3oxUfI6EYonfoRA@public.gmane.org>
-> Date: Sun, 12 Sep 2010 09:55:19 +0300
->
->> Now that both commits that fix my problems are in Linus' tree, the
->> bug can be closed, but these fixes should go in 2.6.35.y, too.
->> So, CCing -stable.
->
-> You don't need to do this, I will submit whatever is appropriate for
-> networking to -stable as needed.
+  Hi,
 
-Sorry! I didn't know it will be taken care of.
+On Sun 12-09-10 21:08:40, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.34 and 2.6.35.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+> be listed and let the tracking team know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16312
+> Subject		: WARNING: at fs/fs-writeback.c:1127 __mark_inode_dirty
+> Submitter	: Zdenek Kabelac <zdenek.kabelac-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-06-28 9:40 (77 days old)
+> Message-ID	: <AANLkTin24fr5O4_q5Xbo9Y_NKkEmtcp6Hgmr9_4qXaFz-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=127771804806465&w=2
+> 		  http://lkml.indiana.edu/hypermail/linux/kernel/1007.3/00884.html
+> Handled-By	: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+> Patch		: https://bugzilla.kernel.org/attachment.cgi?id=27272
+  Sorry, it isn't fixed yet. Christoph wanted to do the patch a bit
+differently and I was busy with other work...
 
-Thanks!
-Plamen
+									Honza
+-- 
+Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+SUSE Labs, CR
