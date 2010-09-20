@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #18032] No sound on headphone jack
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #17732] [2.6.35.x regression] rcu_preempt_state stall warning and machine slow-downs
 Date: Mon, 20 Sep 2010 21:57:21 +0200 (CEST)
-Message-ID: <aRnAGz9xZ8K.A.UFF.B-7lMB@chimera>
+Message-ID: <aRnAGz9xZ8K.A.GQF.K-7lMB@chimera>
 References: <r2gGqgg1zFC.A.LrE.w97lMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <r2gGqgg1zFC.A.LrE.w97lMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Alexander Hunziker <alex.hunziker@rega-sense.ch>, Takashi Iwai <tiwai@suse.de>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Matthias Dahl <ml_kernel-Rk1lLwyeSiSCvTm3UDtA3g@public.gmane.org>, "Thomas Gleixner"@ogre.sisk.pl
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,8 +22,10 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=18032
-Subject		: No sound on headphone jack
-Submitter	: Alexander Hunziker <alex.hunziker@rega-sense.ch>
-Date		: 2010-09-07 21:45 (14 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17732
+Subject		: [2.6.35.x regression] rcu_preempt_state stall warning and machine slow-downs
+Submitter	: Matthias Dahl <ml_kernel-Rk1lLwyeSiSCvTm3UDtA3g@public.gmane.org>
+Date		: 2010-09-01 6:47 (20 days old)
+Message-ID	: <201009010847.20236.ml_kernel-Rk1lLwyeSiSCvTm3UDtA3g@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=128332418629305&w=2
 
