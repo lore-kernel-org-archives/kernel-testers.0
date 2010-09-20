@@ -1,51 +1,48 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #17752] 2.6.36-rc3: inconsistent lock state (iprune_sem, shrink_icache_memory)
-Date: Mon, 20 Sep 2010 23:03:04 +0200
-Message-ID: <201009202303.04793.rjw@sisk.pl>
-References: <1fwtoy8sG5H.A.veG.9D7lMB@chimera> <Wn2eLj_6KZG.A._MH.jE7lMB@chimera> <4C97C7EC.5070907@s5r6.in-berlin.de>
+From: Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #16462] unable to connect to AP on legal channel 13
+Date: Mon, 20 Sep 2010 22:07:46 +0100
+Message-ID: <AANLkTik5gibBKuayOvCsp0ZGxQWC0saGGbGgnQ=HOCSx@mail.gmail.com>
+References: <r2gGqgg1zFC.A.LrE.w97lMB@chimera>
+	<aRnAGz9xZ8K.A.SAG.e_7lMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4C97C7EC.5070907-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:received:in-reply-to
+         :references:date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=KNwv77QtJglKUJJhLpatqLn/9cNNE489rgZrFVirp7g=;
+        b=ajkZhNcITmKjEcwFRN0MEP53R6RgqnU4ObOCgwSH1ffM+VlhWE2wRZEofx1QT4dLan
+         5NaxWW49P/vAL5EFDtDhnAu4gX6Tzb9N1OFMUyqJOW6UOs35+lJUxpHBPK8MuHAfifpG
+         qNc0qVh4Pg7+d5if/pP/yLW6siI+U4BBnJ6oE=
+In-Reply-To: <aRnAGz9xZ8K.A.SAG.e_7lMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Stefan Richter <stefanr-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-On Monday, September 20, 2010, Stefan Richter wrote:
-> Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.35.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17752
-> > Subject		: 2.6.36-rc3: inconsistent lock state (iprune_sem, shrink_icache_memory)
-> > Submitter	: Stefan Richter <stefanr-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
-> > Date		: 2010-09-01 6:37 (20 days old)
-> > Message-ID	: <tkrat.ed8eda6bc8ffe64e-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
-> > References	: http://marc.info/?l=linux-kernel&m=128332308528119&w=2
-> 
-> I think this should not be marked as a regression.  See the older reports of
-> very similar issues (in my LKML mail from September 3, logged in bugzilla in
-> comment #1)
-> 	http://lkml.org/lkml/2010/1/15/76	(2.6.33-rc, xfs involved)
-> 	http://lkml.org/lkml/2010/1/18/108	(2.6.32.y, ntfs involved)
-> and hch's analysis in the first of these two threads
-> 	http://lkml.org/lkml/2010/1/19/267	(several filesystems and
-> 						 other code paths)
-> So, unless my trace was a code path that only newly acquired that oldproblem
-> of other code paths, this is an older issue.  Alas this is not obvious to me
-> at least from the log that I got.
-> 
-> I did not have lockdep enabled on the machine which delivered the log during
-> the last few months or so; I just remembered to re-enable it at the occasion
-> of switching to 2.6.36-rc.
+Hi Rafael,
 
-Thanks a lot for the info, I've dropped this bug from the list of recent regressions.
+On 20 September 2010 20:57, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.34 and 2.6.35.
+>
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.34 and 2.6.35. =A0Please verify if it still sh=
+ould
+> be listed and let the tracking team know (either way).
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+16462
+> Subject =A0 =A0 =A0 =A0 : unable to connect to AP on legal channel 13
+> Submitter =A0 =A0 =A0 : Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-07-25 17:06 (58 days old)
 
-Rafael
+I have verified this issue still exists in 2.6.36-rc4, alas.
+
+Thanks,
+  Daniel
+--=20
+Daniel J Blueman
