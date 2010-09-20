@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #18402] 2.6.36-rc4 KPs whenever booting on a Pentium 4 HT system
-Date: Mon, 20 Sep 2010 21:08:05 +0200 (CEST)
-Message-ID: <Wn2eLj_6KZG.A.q6G.VE7lMB@chimera>
+Subject: [Bug #17722] 2.6.36-rc3: WARNING: at net/mac80211/scan.c:269 ieee80211_scan_completed
+Date: Mon, 20 Sep 2010 21:08:04 +0200 (CEST)
+Message-ID: <Wn2eLj_6KZG.A.JTH.nE7lMB@chimera>
 References: <1fwtoy8sG5H.A.veG.9D7lMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Michael Marley <michael-5Y08+B5RRAhCl8HX7eA5MgC/G2K4zDHf@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,10 @@ from 2.6.35.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=18402
-Subject		: 2.6.36-rc4 KPs whenever booting on a Pentium 4 HT system
-Submitter	: Michael Marley <michael-5Y08+B5RRAhCl8HX7eA5MgC/G2K4zDHf@public.gmane.org>
-Date		: 2010-09-13 15:07 (8 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17722
+Subject		: 2.6.36-rc3: WARNING: at net/mac80211/scan.c:269 ieee80211_scan_completed
+Submitter	: Thomas Meyer <thomas-VsYtu1Qij5c@public.gmane.org>
+Date		: 2010-08-31 20:14 (21 days old)
+Message-ID	: <201008312214.52473.thomas-VsYtu1Qij5c@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=128328580504227&w=2
 
