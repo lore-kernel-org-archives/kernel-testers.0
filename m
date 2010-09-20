@@ -1,34 +1,51 @@
-From: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
-Subject: Re: [Bug #16228] BUG/boot failure on Dell Precision T3500 (pci/ahci_stop_engine)
-Date: Mon, 20 Sep 2010 14:44:58 -0600
-Message-ID: <201009201445.00677.bjorn.helgaas@hp.com>
-References: <r2gGqgg1zFC.A.LrE.w97lMB@chimera> <aRnAGz9xZ8K.A.B1G.qB8lMB@chimera>
+From: Stefan Richter <stefanr-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
+Subject: Re: [Bug #17752] 2.6.36-rc3: inconsistent lock state (iprune_sem,
+ shrink_icache_memory)
+Date: Mon, 20 Sep 2010 22:45:32 +0200
+Message-ID: <4C97C7EC.5070907@s5r6.in-berlin.de>
+References: <1fwtoy8sG5H.A.veG.9D7lMB@chimera> <Wn2eLj_6KZG.A._MH.jE7lMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <aRnAGz9xZ8K.A.B1G.qB8lMB@chimera>
+In-Reply-To: <Wn2eLj_6KZG.A._MH.jE7lMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Brian Bloniarz <brian.bloniarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, chemobejk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-On Monday, September 20, 2010 01:57:17 pm Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.34 and 2.6.35.
+Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
 > 
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-> be listed and let the tracking team know (either way).
+> from 2.6.35.  Please verify if it still should be listed and let the tracking team
+> know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16228
-> Subject		: BUG/boot failure on Dell Precision T3500 (pci/ahci_stop_engine)
-> Submitter	: Brian Bloniarz <brian.bloniarz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2010-06-16 17:57 (97 days old)
-> Handled-By	: Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17752
+> Subject		: 2.6.36-rc3: inconsistent lock state (iprune_sem, shrink_icache_memory)
+> Submitter	: Stefan Richter <stefanr-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
+> Date		: 2010-09-01 6:37 (20 days old)
+> Message-ID	: <tkrat.ed8eda6bc8ffe64e-MtYdepGKPcBMYopoZt5u/LNAH6kLmebB@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=128332308528119&w=2
 
-The four patches here: https://patchwork.kernel.org/patch/189182/
-should resolve this problem.  They've been tested by Stefan Becker.
+I think this should not be marked as a regression.  See the older reports of
+very similar issues (in my LKML mail from September 3, logged in bugzilla in
+comment #1)
+	http://lkml.org/lkml/2010/1/15/76	(2.6.33-rc, xfs involved)
+	http://lkml.org/lkml/2010/1/18/108	(2.6.32.y, ntfs involved)
+and hch's analysis in the first of these two threads
+	http://lkml.org/lkml/2010/1/19/267	(several filesystems and
+						 other code paths)
+So, unless my trace was a code path that only newly acquired that oldproblem
+of other code paths, this is an older issue.  Alas this is not obvious to me
+at least from the log that I got.
 
-Bjorn
+I did not have lockdep enabled on the machine which delivered the log during
+the last few months or so; I just remembered to re-enable it at the occasion
+of switching to 2.6.36-rc.
+-- 
+Stefan Richter
+-=====-==-=- =--= =-=--
+http://arcgraph.de/sr/
