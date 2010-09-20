@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16488] [i915] Framebuffer ID error after suspend/hibernate leading to X crash
-Date: Mon, 20 Sep 2010 21:57:18 +0200 (CEST)
-Message-ID: <aRnAGz9xZ8K.A.d-F.V_7lMB@chimera>
+Subject: [Bug #16525] unexpected high load since 2.6.35
+Date: Mon, 20 Sep 2010 21:57:19 +0200 (CEST)
+Message-ID: <aRnAGz9xZ8K.A.FxF.9-7lMB@chimera>
 References: <r2gGqgg1zFC.A.LrE.w97lMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Linus Torvalds <torvalds@linux-foundation.org>, Milan Bouchet-Valat <nalimilan@club.fr>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, "MadLoisae@gmx.net" <MadLoisae@gmx.net>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,8 +22,11 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16488
-Subject		: [i915] Framebuffer ID error after suspend/hibernate leading to X crash
-Submitter	: Milan Bouchet-Valat <nalimilan@club.fr>
-Date		: 2010-08-01 08:55 (51 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16525
+Subject		: unexpected high load since 2.6.35
+Submitter	: MadLoisae@gmx.net <MadLoisae@gmx.net>
+Date		: 2010-08-02 20:53 (50 days old)
+Message-ID	: <4C573041.1070103@gmx.net>
+References	: http://marc.info/?l=linux-kernel&m=128078243726655&w=2
+		  http://lkml.org/lkml/2010/9/14/105
 
