@@ -1,38 +1,73 @@
-From: Bjorn Helgaas <bjorn.helgaas@hp.com>
-Subject: Re: Testing request: Gigabyte GA-MA69VM-S2 690V regression
-Date: Mon, 20 Sep 2010 13:39:04 -0600
-Message-ID: <201009201339.05199.bjorn.helgaas@hp.com>
-References: <201009171653.53848.bjorn.helgaas@hp.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: 2.6.36-rc4-git5: Reported regressions from 2.6.35
+Date: Mon, 20 Sep 2010 21:47:39 +0200
+Message-ID: <201009202147.39971.rjw@sisk.pl>
+References: <1fwtoy8sG5H.A.veG.9D7lMB@chimera> <AANLkTinLR0Js0ueVOGEkbs27d4FEH14c=1wuhUqPsiHx@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <201009171653.53848.bjorn.helgaas@hp.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <AANLkTinLR0Js0ueVOGEkbs27d4FEH14c=1wuhUqPsiHx-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org
-Cc: kas@fi.muni.cz, marwooj@wp.pl, Simon Arlott <simon@fire.lp0.eu>, yahoocomar-noreply@yahoo.com.ar, jima@beer.tclug.org, vincent20165@yahoo.com, Marvin <marvin24@gmx.de>, andreas.in.hk@googlemail.com
+To: sedat.dilek-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, harn-solo-Mmb7MZpHnFY@public.gmane.org
 
-[Added kernel-testers and others who have reported problems with this board]
+[Trimming the CC list.]
 
-On Friday, September 17, 2010 04:53:52 pm Bjorn Helgaas wrote:
-> Simon Arlott reported that 2.6.35.4 hangs on his GA-MA69VM-S2 690V:
+On Monday, September 20, 2010, Sedat Dilek wrote:
+> Hi Rafael,
 > 
->    http://lkml.org/lkml/2010/9/9/92
+> can you please add the following, Thanks in advance.
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=18872
+> > Subject         : Radeon KMS r100 and STR problems
+> > Submitter       : Richard Mittendorfer <delist-hi6Y0CQ0nG0@public.gmane.org>
+> > Date            : 2010-09-17 18:26 (4 days old)
+> > Message-ID      : <20100917202647.aa4b6300.delist-hi6Y0CQ0nG0@public.gmane.org>
+> > References      : http://marc.info/?l=linux-kernel&m=128474802809779&w=2
 > 
-> This is a regression, and I'd like to fix it as soon as possible.
+> On Mon, Sep 20, 2010 at 8:47 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > This message contains a list of some regressions from 2.6.35,
+> > for which there are no fixes in the mainline known to the tracking team.
+> > If any of them have been fixed already, please let us know.
+> >
+> > If you know of any other unresolved regressions from 2.6.35, please let us
+> > know either and we'll add them to the list.  Also, please let us know
+> > if any of the entries below are invalid.
+> >
+> > Each entry from the list will be sent additionally in an automatic reply
+> > to this message with CCs to the people involved in reporting and handling
+> > the issue.
+> >
+> >
+> > Listed regressions statistics:
+> >
+> >  Date          Total  Pending  Unresolved
+> >  ----------------------------------------
+> >  2010-09-20       38       15          15
+> >  2010-09-12       28       14          13
+> >  2010-08-30       21       16          15
+> >
+> >
+> > Unresolved regressions
 > 
-> I have a patch to fix this, but haven't been able to find someone
-> who can reproduce the failure and test the patch.
+> Hi Rafael,
 > 
-> If you have this motherboard, please consider testing a current
-> upstream kernel on it.  If it fails, please try the test patch from
+> can you please add the following Bug, Thanks in advance.
 > 
->     https://bugzilla.kernel.org/show_bug.cgi?id=18482
+> Bug-Entry       : https://bugzilla.kernel.org/show_bug.cgi?id=16140
+> Subject         : Suspend To RAM/ Resume broken - Radeon KMS on RV250
+> Submitter       : Michael Long <harn-solo-Mmb7MZpHnFY@public.gmane.org>
+> Date            : 2010-06-06 09:52
+> Message-ID      : ???
+> References      : ???
 > 
-> and report your BIOS version and your results.  If it fails even
-> with the test patch, please boot with "pci=nocrs" and attach the
-> dmesg log to the bugzilla.
-> 
-> Thanks,
->   Bjorn
+> What is with "Regression:	No" in the BR? Change?
+
+Yes, but according to the comments in there, it is a regression from 2.6.33.
+I marked is as such and linked it to the appropriate meta-bug entry, but we're
+not going to list it, because we only list post-2.6.34 (and post-2.6.35)
+regressions in the current cycle.
+
+Thanks,
+Rafael
