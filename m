@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #18272] 2.6.35.*: horrible (exponential? >linear) slowdown to unusability (ACPI idle?)
-Date: Mon, 20 Sep 2010 21:57:22 +0200 (CEST)
-Message-ID: <aRnAGz9xZ8K.A.lAF.897lMB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #16462] unable to connect to AP on legal channel 13
+Date: Mon, 20 Sep 2010 21:57:18 +0200 (CEST)
+Message-ID: <aRnAGz9xZ8K.A.SAG.e_7lMB@chimera>
 References: <r2gGqgg1zFC.A.LrE.w97lMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <r2gGqgg1zFC.A.LrE.w97lMB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Nix <nix-dKoSMcxRz+Te9xe1eoZjHA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Venkatesh Pallipadi <venki-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Daniel J Blueman <daniel.blueman@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,11 +22,8 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=18272
-Subject		: 2.6.35.*: horrible (exponential? >linear) slowdown to unusability (ACPI idle?)
-Submitter	: Nix <nix-dKoSMcxRz+Te9xe1eoZjHA@public.gmane.org>
-Date		: 2010-09-05 0:51 (16 days old)
-First-Bad-Commit: http://git.kernel.org/linus/30a564be9d9554c168a654eddc2165869cc0d7bf
-Message-ID	: <87zkvx2ese.fsf-AdTWujXS48Mg67Zj9sPl2A@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=128364994602942&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16462
+Subject		: unable to connect to AP on legal channel 13
+Submitter	: Daniel J Blueman <daniel.blueman@gmail.com>
+Date		: 2010-07-25 17:06 (58 days old)
 
