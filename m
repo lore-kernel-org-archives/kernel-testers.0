@@ -1,85 +1,66 @@
-From: Sedat Dilek <sedat.dilek@googlemail.com>
-Subject: Re: 2.6.36-rc4-git5: Reported regressions from 2.6.35
-Date: Mon, 20 Sep 2010 21:19:58 +0200
-Message-ID: <AANLkTinLR0Js0ueVOGEkbs27d4FEH14c=1wuhUqPsiHx@mail.gmail.com>
-References: <1fwtoy8sG5H.A.veG.9D7lMB@chimera>
-Reply-To: sedat.dilek@gmail.com
+From: Rolf Eike Beer <eike-kernel-F+mm6HnICJmzQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [Bug #16537] TREE_RCU hangs at boot
+Date: Mon, 20 Sep 2010 21:20:27 +0200
+Message-ID: <201009202120.36708.eike-kernel@sf-tec.de>
+References: <QnCvudbe2FD.A.XiE.DgSjMB@chimera> <p44oKaOqEDM.A.AeF.EhSjMB@chimera> <20100920182626.GE2408@linux.vnet.ibm.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:received:reply-to
-         :in-reply-to:references:date:message-id:subject:from:to:cc
-         :content-type:content-transfer-encoding;
-        bh=/MOzS/AUGUhgmFjLLVnSIaJoDWerIOTp9N5UlF1tbcc=;
-        b=U0JYJnLwtRzPnMRVhfLSYxPFLUBSychMmNBuM0Vy46xy3H/9kWqK3nf1c/6iEIDkss
-         Vote7nnX/2O7/SMns7qc9FJ646oBekHdbrgwqV1syhmgqN2Ncq06ncVdJTPRhtt4cJpj
-         7oo3OdClDQoWpFTpnAByFxCxOoNxs7u5CRgQs=
-In-Reply-To: <1fwtoy8sG5H.A.veG.9D7lMB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Type: multipart/signed;
+  boundary="nextPart1691210.Wf467zbl0W";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20100920182626.GE2408-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, harn-solo@gmx.de
+To: paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Hi Rafael,
+--nextPart1691210.Wf467zbl0W
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-can you please add the following, Thanks in advance.
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D18872
-> Subject         : Radeon KMS r100 and STR problems
-> Submitter       : Richard Mittendorfer <delist@gmx.net>
-> Date            : 2010-09-17 18:26 (4 days old)
-> Message-ID      : <20100917202647.aa4b6300.delist@gmx.net>
-> References      : http://marc.info/?l=3Dlinux-kernel&m=3D128474802809=
-779&w=3D2
+Paul E. McKenney wrote:
+> On Sun, Sep 12, 2010 at 09:08:42PM +0200, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.34 and 2.6.35.
+> >=20
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+> > be listed and let the tracking team know (either way).
+> >=20
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D16537
+> > Subject		: TREE_RCU hangs at boot
+> > Submitter	: Rolf Eike Beer <eike-kernel-F+mm6HnICJmzQB+pC5nmwQ@public.gmane.org>
+> > Date		: 2010-08-07 12:18 (37 days old)
+> > Handled-By	: Paul E. McKenney <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+>=20
+> I cannot reproduce this.  The function that is claimed to hang contains
+> only printk()s.  I have asked the guys who can actually reproduce it
+> to try a later kernel, and will let you know how this goes.
+>=20
+> If you cannot trust printk(), who can you trust?  ;-)
 
-On Mon, Sep 20, 2010 at 8:47 PM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
-> This message contains a list of some regressions from 2.6.35,
-> for which there are no fixes in the mainline known to the tracking te=
-am.
-> If any of them have been fixed already, please let us know.
->
-> If you know of any other unresolved regressions from 2.6.35, please l=
-et us
-> know either and we'll add them to the list. =C2=A0Also, please let us=
- know
-> if any of the entries below are invalid.
->
-> Each entry from the list will be sent additionally in an automatic re=
-ply
-> to this message with CCs to the people involved in reporting and hand=
-ling
-> the issue.
->
->
-> Listed regressions statistics:
->
-> =C2=A0Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Total =C2=A0Pending =C2=A0=
-Unresolved
-> =C2=A0----------------------------------------
-> =C2=A02010-09-20 =C2=A0 =C2=A0 =C2=A0 38 =C2=A0 =C2=A0 =C2=A0 15 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A015
-> =C2=A02010-09-12 =C2=A0 =C2=A0 =C2=A0 28 =C2=A0 =C2=A0 =C2=A0 14 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A013
-> =C2=A02010-08-30 =C2=A0 =C2=A0 =C2=A0 21 =C2=A0 =C2=A0 =C2=A0 16 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A015
->
->
-> Unresolved regressions
+I suspect that it is related to:
 
-Hi Rafael,
+http://git.kernel.org/?p=3Dlinux/kernel/git/stable/linux-2.6.35.y.git;a=3Dc=
+ommit;h=3D5a8477871f0b45664eedfa352c3942093408a169
 
-can you please add the following Bug, Thanks in advance.
+I'll try to test plain 2.6.35 with this patch and see it this works.
 
-Bug-Entry       : https://bugzilla.kernel.org/show_bug.cgi?id=3D16140
-Subject         : Suspend To RAM/ Resume broken - Radeon KMS on RV250
-Submitter       : Michael Long <harn-solo@gmx.de>
-Date            : 2010-06-06 09:52
-Message-ID      : ???
-References      : ???
+Eike
 
-What is with "Regression:	No" in the BR? Change?
+--nextPart1691210.Wf467zbl0W
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
 
-Regards,
-- Sedat -
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.15 (GNU/Linux)
+
+iEYEABECAAYFAkyXtAQACgkQXKSJPmm5/E7zFACePhoz4/p6m9Xt7nJ4jlJ66yin
+JyoAoIC/Bv/kd8xy/t67kwn6qRl8AJL5
+=IMiM
+-----END PGP SIGNATURE-----
+
+--nextPart1691210.Wf467zbl0W--
