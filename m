@@ -1,51 +1,29 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #16537] TREE_RCU hangs at boot
-Date: Tue, 21 Sep 2010 21:07:54 +0200
-Message-ID: <201009212107.54606.rjw@sisk.pl>
-References: <QnCvudbe2FD.A.XiE.DgSjMB@chimera> <20100920182626.GE2408@linux.vnet.ibm.com> <20100921185953.GA7880@linux.vnet.ibm.com>
+From: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+Subject: Re: [Bug #16971] qla4xxx compile failure on 32-bit PowerPC: missing
+ readq and writeq
+Date: Wed, 22 Sep 2010 11:50:03 +0300 (EEST)
+Message-ID: <alpine.SOC.1.00.1009221148550.14750@math.ut.ee>
+References: <1fwtoy8sG5H.A.veG.9D7lMB@chimera> <Wn2eLj_6KZG.A.SpH.KF7lMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100921185953.GA7880-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+In-Reply-To: <Wn2eLj_6KZG.A.SpH.KF7lMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Rolf Eike Beer <eike-kernel-F+mm6HnICJmzQB+pC5nmwQ@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-On Tuesday, September 21, 2010, Paul E. McKenney wrote:
-> On Mon, Sep 20, 2010 at 11:26:27AM -0700, Paul E. McKenney wrote:
-> > On Sun, Sep 12, 2010 at 09:08:42PM +0200, Rafael J. Wysocki wrote:
-> > > This message has been generated automatically as a part of a report
-> > > of regressions introduced between 2.6.34 and 2.6.35.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-> > > be listed and let the tracking team know (either way).
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16537
-> > > Subject		: TREE_RCU hangs at boot
-> > > Submitter	: Rolf Eike Beer <eike-kernel-F+mm6HnICJmzQB+pC5nmwQ@public.gmane.org>
-> > > Date		: 2010-08-07 12:18 (37 days old)
-> > > Handled-By	: Paul E. McKenney <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> > 
-> > I cannot reproduce this.  The function that is claimed to hang contains
-> > only printk()s.  I have asked the guys who can actually reproduce it
-> > to try a later kernel, and will let you know how this goes.
-> > 
-> > If you cannot trust printk(), who can you trust?  ;-)
-> 
-> It turns out that this problem is due to tab processing in the PA-RISC
-> firmware, which certainly explains my inability to reproduce it.  It
-> turns out that it is fixed by:
-> 
-> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h=d9b68e5e88248bb24fd4e455588bea1d56108fd6
-> 
-> So we can close this regression.
-> 
-> Many thanks to Guy Martin <gmsoft-OHzg2hESl54FHpyHPIa6Kw@public.gmane.org> for much help with
-> this!!!
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16971
+> Subject		: qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
+> Submitter	: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+> Date		: 2010-08-19 21:03 (33 days old)
+> Message-ID	: <alpine.SOC.1.00.1008192359310.19654-ptEonEWSGqKptlylMvRsHA@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=128225184900892&w=2
 
-Thanks, closed.
+Still present. The maintainer of the driver has a patch that I have 
+tested, and for quite some time now, but it still does not appear in 
+mainline.
 
-Rafael
+-- 
+Meelis Roos (mroos-Y27EyoLml9s@public.gmane.org)
