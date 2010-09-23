@@ -1,41 +1,39 @@
-From: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
-Subject: Re: [Bug #16971] qla4xxx compile failure on 32-bit PowerPC: missing
- readq and writeq
-Date: Wed, 22 Sep 2010 12:59:28 +0300 (EEST)
-Message-ID: <alpine.SOC.1.00.1009221253450.14750@math.ut.ee>
-References: <1fwtoy8sG5H.A.veG.9D7lMB@chimera> <Wn2eLj_6KZG.A.SpH.KF7lMB@chimera> <alpine.SOC.1.00.1009221148550.14750@math.ut.ee> <20100922114612.6eeae729@schatten.dmk.lab>
+From: Jesse Barnes <jbarnes@virtuousgeek.org>
+Subject: Re: [Bug #18742] PROBLEM: Kernel panic on 2.6.36-rc4 when loading
+ intel_ips on Core i3 laptop
+Date: Thu, 23 Sep 2010 14:51:52 -0700
+Message-ID: <20100923145152.33889673@jbarnes-desktop>
+References: <1fwtoy8sG5H.A.veG.9D7lMB@chimera>
+	<Wn2eLj_6KZG.A.5wG.GE7lMB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100922114612.6eeae729-mGsOIKOveelVRbCss4o9kg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Vikas Chaudhary <vikas.chaudhary-h88ZbnxC6KDQT0dZR+AlfA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <Wn2eLj_6KZG.A.5wG.GE7lMB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, infernix <infernix@infernix.net>
 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16971
-> > > Subject		: qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
-> > > Submitter	: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
-> > > Date		: 2010-08-19 21:03 (33 days old)
-> > > Message-ID	: <alpine.SOC.1.00.1008192359310.19654-ptEonEWSGqKptlylMvRsHA@public.gmane.org>
-> > > References	: http://marc.info/?l=linux-kernel&m=128225184900892&w=2
-> > 
-> > Still present. The maintainer of the driver has a patch that I have 
-> > tested, and for quite some time now, but it still does not appear in 
-> > mainline.
+On Mon, 20 Sep 2010 21:08:06 +0200 (CEST)
+"Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
 > 
-> Do you have a pointer to the maintainer and the patch, so that we can
-> update the bugzilla entry and ping the maintainer? 
+> The following bug entry is on the current list of known regressions
+> from 2.6.35.  Please verify if it still should be listed and let the tracking team
+> know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=18742
+> Subject		: PROBLEM: Kernel panic on 2.6.36-rc4 when loading intel_ips on Core i3 laptop
+> Submitter	: infernix <infernix@infernix.net>
+> Date		: 2010-09-15 14:35 (6 days old)
+> Message-ID	: <4C90D998.6050103@infernix.net>
+> References	: http://marc.info/?l=linux-kernel&m=128456187928496&w=2
 
-The patch was made by Vikas Chaudhary <vikas.chaudhary-h88ZbnxC6KDQT0dZR+AlfA@public.gmane.org> 
-(CC:d) and sent to me by private me-mail. I was first dubious about 
-possible endianness problem with qla4xxx private readq and writeq 
-implementation but he told they forcefully tested it on PPC64 and it 
-worked.
-
-Last I heard from him on September 6th when he wrote he intended to push 
-the patch upstream together with other patches the same week.
+Just sent a patch to Matthew and the x86 driver list for this bug.
 
 -- 
-Meelis Roos (mroos-Y27EyoLml9s@public.gmane.org)
+Jesse Barnes, Intel Open Source Technology Center
