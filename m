@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #16549] 2.6.35: suspicious rcu_dereference_check() usage
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #16562] 2.6.35: cpu_idle bug report / on i7 870 cpu (x86_64)
 Date: Sun, 26 Sep 2010 22:33:13 +0200 (CEST)
-Message-ID: <UfOptYFtL6C.A.3vC.CB7nMB@chimera>
+Message-ID: <UfOptYFtL6C.A.2pC.AB7nMB@chimera>
 References: <onxdOCF6lb.A.vKB.a_6nMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <onxdOCF6lb.A.vKB.a_6nMB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Vladislav Bolkhovitin <vst-d+Crzxg7Rs0@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Justin Piszcz <jpiszcz@lucidpixels.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,10 +22,10 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16549
-Subject		: 2.6.35: suspicious rcu_dereference_check() usage
-Submitter	: Vladislav Bolkhovitin <vst-d+Crzxg7Rs0@public.gmane.org>
-Date		: 2010-08-04 10:56 (54 days old)
-Message-ID	: <4C594740.1090608-d+Crzxg7Rs0@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=128091938215177&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16562
+Subject		: 2.6.35: cpu_idle bug report / on i7 870 cpu (x86_64)
+Submitter	: Justin Piszcz <jpiszcz@lucidpixels.com>
+Date		: 2010-08-06 22:09 (52 days old)
+Message-ID	: <alpine.DEB.2.00.1008061800530.5241@p34.internal.lan>
+References	: http://marc.info/?l=linux-kernel&m=128113260904048&w=2
 
