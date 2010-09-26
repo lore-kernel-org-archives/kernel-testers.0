@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #18732] Radeon HD 4700 needs MSI disabled
-Date: Sun, 26 Sep 2010 22:33:21 +0200 (CEST)
-Message-ID: <UfOptYFtL6C.A.zjB.j_6nMB@chimera>
+Subject: [Bug #18202] Microphone levels too low
+Date: Sun, 26 Sep 2010 22:33:16 +0200 (CEST)
+Message-ID: <UfOptYFtL6C.A.WQC.KA7nMB@chimera>
 References: <onxdOCF6lb.A.vKB.a_6nMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Rafael Gandolfi <kaillasse91-PkbjNfxxIARGWvitb5QawA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Alexander Hunziker <alex.hunziker-Mds7TqofYmjt3F02DXVmkw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,8 +22,8 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=18732
-Subject		: Radeon HD 4700 needs MSI disabled
-Submitter	: Rafael Gandolfi <kaillasse91-PkbjNfxxIARGWvitb5QawA@public.gmane.org>
-Date		: 2010-09-18 12:06 (9 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=18202
+Subject		: Microphone levels too low
+Submitter	: Alexander Hunziker <alex.hunziker-Mds7TqofYmjt3F02DXVmkw@public.gmane.org>
+Date		: 2010-09-09 22:20 (18 days old)
 
