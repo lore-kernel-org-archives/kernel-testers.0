@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #18202] Microphone levels too low
-Date: Sun, 26 Sep 2010 22:33:16 +0200 (CEST)
-Message-ID: <UfOptYFtL6C.A.WQC.KA7nMB@chimera>
+Subject: [Bug #16549] 2.6.35: suspicious rcu_dereference_check() usage
+Date: Sun, 26 Sep 2010 22:33:13 +0200 (CEST)
+Message-ID: <UfOptYFtL6C.A.3vC.CB7nMB@chimera>
 References: <onxdOCF6lb.A.vKB.a_6nMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Alexander Hunziker <alex.hunziker-Mds7TqofYmjt3F02DXVmkw@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Vladislav Bolkhovitin <vst-d+Crzxg7Rs0@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,8 +22,10 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=18202
-Subject		: Microphone levels too low
-Submitter	: Alexander Hunziker <alex.hunziker-Mds7TqofYmjt3F02DXVmkw@public.gmane.org>
-Date		: 2010-09-09 22:20 (18 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16549
+Subject		: 2.6.35: suspicious rcu_dereference_check() usage
+Submitter	: Vladislav Bolkhovitin <vst-d+Crzxg7Rs0@public.gmane.org>
+Date		: 2010-08-04 10:56 (54 days old)
+Message-ID	: <4C594740.1090608-d+Crzxg7Rs0@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=128091938215177&w=2
 
