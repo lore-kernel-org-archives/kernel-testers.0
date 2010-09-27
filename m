@@ -1,30 +1,36 @@
-From: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-Subject: Re: [Bug #19072] [2.6.36-rc regression] occasional complete system hangs on sparc64 SMP
-Date: Mon, 27 Sep 2010 12:28:21 +0200
-Message-ID: <19616.29125.40521.717013@pilspetsen.it.uu.se>
-References: <MEG5YPP-fxC.A.vnD.So6nMB@chimera>
-	<sQALkqF1FWE.A.0zD.Zo6nMB@chimera>
+From: Bjorn Helgaas <bjorn.helgaas@hp.com>
+Subject: Re: [Bug #16228] BUG/boot failure on Dell Precision T3500 (pci/ahci_stop_engine)
+Date: Mon, 27 Sep 2010 09:45:40 -0600
+Message-ID: <201009270945.40627.bjorn.helgaas@hp.com>
+References: <onxdOCF6lb.A.vKB.a_6nMB@chimera> <UfOptYFtL6C.A.fEE.6D7nMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <sQALkqF1FWE.A.0zD.Zo6nMB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <UfOptYFtL6C.A.fEE.6D7nMB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Brian Bloniarz <brian.bloniarz@gmail.com>, Yinghai Lu <yinghai@kernel.org>
 
-Rafael J. Wysocki wrote:
+On Sunday, September 26, 2010 02:33:08 pm Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.34 and 2.6.35.
+> 
 > The following bug entry is on the current list of known regressions
-> from 2.6.35.  Please verify if it still should be listed and let the tracking team
-> know (either way).
+> introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+> be listed and let the tracking team know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D19072
-> Subject	: [2.6.36-rc regression] occasional complete system hangs on sparc64 SMP
-> Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-> Date		: 2010-09-23 17:02 (4 days old)
-> Message-ID	: <19611.34846.813757.309183-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D128526136531048&w=3D2
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16228
+> Subject		: BUG/boot failure on Dell Precision T3500 (pci/ahci_stop_engine)
+> Submitter	: Brian Bloniarz <brian.bloniarz@gmail.com>
+> Date		: 2010-06-16 17:57 (103 days old)
+> Handled-By	: Bjorn Helgaas <bjorn.helgaas@hp.com>
+> Patch		: https://patchwork.kernel.org/patch/189182/
+> 		  https://patchwork.kernel.org/patch/189232/
+> 		  https://patchwork.kernel.org/patch/189242/
+> 		  https://patchwork.kernel.org/patch/189252/
 
-Still present in 2.6.36-rc5.
+We plan to merge this patches soon after the 2.6.36 release, so
+this regression will still exist in 2.6.36.
