@@ -1,32 +1,35 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16525] unexpected high load since 2.6.35
-Date: Sun, 26 Sep 2010 22:33:13 +0200 (CEST)
-Message-ID: <UfOptYFtL6C.A.H5C.OB7nMB@chimera>
-References: <onxdOCF6lb.A.vKB.a_6nMB@chimera>
+From: Eric Valette <eric.valette-GANU6spQydw@public.gmane.org>
+Subject: Re: [Bug #17121] Two blank rectangles more than 10 cm long when booting
+Date: Mon, 27 Sep 2010 08:01:37 +0200
+Message-ID: <4CA03341.3030809@free.fr>
+References: <MEG5YPP-fxC.A.vnD.So6nMB@chimera> <sQALkqF1FWE.A.tkE.kp6nMB@chimera>
+Reply-To: eric.valette-GANU6spQydw@public.gmane.org
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <onxdOCF6lb.A.vKB.a_6nMB@chimera>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <sQALkqF1FWE.A.tkE.kp6nMB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, "MadLoisae@gmx.net" <MadLoisae@gmx.net>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.34 and 2.6.35.
+On 26/09/2010 22:04, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.35.  Please verify if it still should be listed and let the tracking team
+> know (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17121
+> Subject		: Two blank rectangles more than 10 cm long when booting
+> Submitter	: Eric Valette<eric.valette-GANU6spQydw@public.gmane.org>
+> Date		: 2010-08-26 17:24 (32 days old)
+>
+>
 
-The following bug entry is on the current list of known regressions
-introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-be listed and let the tracking team know (either way).
+Still present on 2.6.36-rc5-git7.
 
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16525
-Subject		: unexpected high load since 2.6.35
-Submitter	: MadLoisae@gmx.net <MadLoisae@gmx.net>
-Date		: 2010-08-02 20:53 (56 days old)
-Message-ID	: <4C573041.1070103@gmx.net>
-References	: http://marc.info/?l=linux-kernel&m=128078243726655&w=2
-		  http://lkml.org/lkml/2010/9/14/105
-
+--eric
