@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #17261] Freezes on bootup
-Date: Sun,  3 Oct 2010 23:53:03 +0200 (CEST)
-Message-ID: <N9RAiGGLCfN.A.w4C.UUPqMB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #19302] PROBLEM: kernel crash on USB-modem (Huawei E1750) hangup.
+Date: Sun,  3 Oct 2010 23:53:04 +0200 (CEST)
+Message-ID: <N9RAiGGLCfN.A.KmC.zTPqMB@chimera>
 References: <OjxVjYbf_EJ.A.ReC.pTPqMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <OjxVjYbf_EJ.A.ReC.pTPqMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Dan Dart <dandart@googlemail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, O01eg <O01eg-o+MxOtu4lMCHXe+LvDLADg@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,8 +22,10 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17261
-Subject		: Freezes on bootup
-Submitter	: Dan Dart <dandart@googlemail.com>
-Date		: 2010-08-29 09:00 (36 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19302
+Subject		: PROBLEM: kernel crash on USB-modem (Huawei E1750) hangup.
+Submitter	: O01eg <O01eg-o+MxOtu4lMCHXe+LvDLADg@public.gmane.org>
+Date		: 2010-09-26 19:50 (8 days old)
+Message-ID	: <op.vjnn1up1yohvy1@localhost>
+References	: http://marc.info/?l=linux-kernel&m=128553111709569&w=2
 
