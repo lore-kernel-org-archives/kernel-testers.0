@@ -1,74 +1,74 @@
-From: Ted Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
-Subject: Re: [Bug #19062] Dirtiable inode bdi default != sb bdi btrfs
-Date: Sat, 2 Oct 2010 22:27:07 -0400
-Message-ID: <20101003022707.GN21129@thunk.org>
+From: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #17361] Watchdog detected hard LOCKUP in jbd2_journal_get_write_access
+Date: Sun, 3 Oct 2010 13:21:03 +0200
+Message-ID: <AANLkTimPjz85+N8aiVV3yxz808LMG1-aZKAaO8CwUK=m@mail.gmail.com>
 References: <MEG5YPP-fxC.A.vnD.So6nMB@chimera>
- <sQALkqF1FWE.A.15D.bo6nMB@chimera>
- <20101002165433.GL21129@thunk.org>
- <201010022358.35972.rjw@sisk.pl>
+	<sQALkqF1FWE.A.IiE.Qp6nMB@chimera>
+	<20101002165215.GK21129@thunk.org>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <201010022358.35972.rjw-KKrjLPT3xs0@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:received:in-reply-to
+         :references:date:message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=JenYelabIcQ3pLL+rX/5FxS6Y8tGQLlRAO7R5SZQxEk=;
+        b=g1lM8kCY71lO61Rm919hfCbzw3PDyzs4gSqf5eG+JriHxWvsvQdBW/LJh2VN+d4pxT
+         lRuUukkHgh3aPdIp0pRZlk2f6PLL72u30OZ+h3PtqbM8q3IYvT+23QduwMgbY1amZCpd
+         bI25sK1FIjNThDTva1ihbLWCyW8QCEd5phJUM=
+In-Reply-To: <20101002165215.GK21129-AKGzg7BKzIDYtjvyW6yDsg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Cesar Eduardo Barros <cesarb-PWySMVKUnqmsTnJN9+BGXg@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: Ted Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej
+Cc: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Mathieu Desnoyers <compudj-vdFpqfd5riKZ9vWoFJJngh2eb7JE58TQ@public.gmane.org>
 
-On Sat, Oct 02, 2010 at 11:58:35PM +0200, Rafael J. Wysocki wrote:
-> On Saturday, October 02, 2010, Ted Ts'o wrote:
-> > On Sun, Sep 26, 2010 at 10:04:15PM +0200, Rafael J. Wysocki wrote:
-> > > The following bug entry is on the current list of known regressions
-> > > from 2.6.35.  Please verify if it still should be listed and let the tracking team
-> > > know (either way).
-> > > 
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19062
-> > > Subject		: Dirtiable inode bdi default != sb bdi btrfs
-> > > Submitter	: Cesar Eduardo Barros <cesarb-PWySMVKUnqmsTnJN9+BGXg@public.gmane.org>
-> > > Date		: 2010-09-23 0:54 (4 days old)
-> > > Message-ID	: <4C9AA546.6050201-PWySMVKUnqmsTnJN9+BGXg@public.gmane.org>
-> > > References	: http://marc.info/?l=linux-kernel&m=128520328929595&w=2
-> > 
-> > Note: I'm seeing this warning (Dirtiable inode bdi default != sb bdi)
-> > when I moved from 2.6.36-rc3 to 2.6.36-rc6, using ext4 as a root
-> > partition, and running mke2fs and e2fsck on ext2, ext3, and ext4 file
-> > systems.  So I'm seeing this as a known regression from rc3 to rc6.
-> > Maybe it's different bug with ext4, but in any case, it's highly
-> > annoying.
-> 
-> Thanks for the info.  I wonder who should see this report.
+On 2 October 2010 18:52, Ted Ts'o <tytso-3s7WtUTddSA@public.gmane.org> wrote:
+> On Sun, Sep 26, 2010 at 10:04:13PM +0200, Rafael J. Wysocki wrote:
+>>
+>> Bug-Entry =C2=A0 =C2=A0 : http://bugzilla.kernel.org/show_bug.cgi?id=
+=3D17361
+>> Subject =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : Watchdog =
+detected hard LOCKUP in jbd2_journal_get_write_access
+>> Submitter =C2=A0 =C2=A0 : Christian Casteyde <casteyde.christian@fre=
+e.fr>
+>> Date =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0: 2010-08-29 19:59 (29 days o=
+ld)
+>
+> See my latest comment here:
+>
+> =C2=A0 =C2=A0https://bugzilla.kernel.org/show_bug.cgi?id=3D17361#c14
+>
+> This subject line is highly misleading, since after -rc4, the stack
+> traces are in places all over the kernel, in other places other than
+> ext4/jbd2. =C2=A0So I fear no one is looking at this bug report given=
+ the
+> highly misleading subject line.
+>
+> It looks like you have spinlock debugging, and yet there wan't any
+> spinlocks listed on the initial ext4 might_sleep() warning. =C2=A0So
+> something looks highly confused.
+>
+> The fact that you closed other bugs as duplicates of this one that
+> relate to kmemcheck makes me wonder if this is really a kmemcheck bug=
+=2E
+> (If so, the subject line here is doubly, doubly misleading.)
+>
+> Do you see any symptoms if you turn off kmemcheck? =C2=A0Are you sure=
+ this
+> isn't just only a kmemcheck bug?
 
-Oops, correction, the correct warning that I'm seeing is:
+I just had a quick glance at the report, and here's my gut feeling: I
+see perf symbols in the stack trace. I don't think kmemcheck and perf
+play nicely together (for example if perf uses NMIs to write data to
+its buffers, it could get a page fault inside the NMI handler, which
+is not so nice, I think).
 
-Dirtiable inode bdi block != sb bdi block
-                    ^^^^^           ^^^^^
+Isn't this exactly what Frederic Weisbecker tried to detect and warn
+about in a patch that I saw recently?
 
-------------[ cut here ]------------
-WARNING: at /usr/projects/linux/ext4/fs/fs-writeback.c:87 inode_to_bdi+0x4e/0x5c()
-Hardware name: 
-Dirtiable inode bdi block != sb bdi block
-Modules linked in:
-Pid: 21649, comm: mkfs.ext4 Tainted: G        W   2.6.36-rc6-00016-gcc25699 #735
-Call Trace:
- [<c015a2e2>] warn_slowpath_common+0x6a/0x7f
- [<c020a762>] ? inode_to_bdi+0x4e/0x5c
- [<c015a36a>] warn_slowpath_fmt+0x2b/0x2f
- [<c020a762>] inode_to_bdi+0x4e/0x5c
- [<c020b6c3>] __mark_inode_dirty+0xaf/0x162
- [<c0202305>] file_update_time+0xcc/0xe9
- [<c01c68dd>] __generic_file_aio_write+0x136/0x28f
- [<c02145a4>] blkdev_aio_write+0x33/0x72
- [<c01f20da>] do_sync_write+0x8f/0xca
- [<c0647678>] ? mutex_unlock+0xd/0xf
- [<c030d528>] ? security_file_permission+0x27/0x2b
- [<c01f227c>] ? rw_verify_area+0x9d/0xc0
- [<c01f204b>] ? do_sync_write+0x0/0xca
- [<c01f2629>] vfs_write+0x85/0xe3
- [<c01f2725>] sys_write+0x40/0x62
- [<c064915d>] syscall_call+0x7/0xb
----[ end trace 1f39401760ab3a42 ]---
+Please do as Ted suggested and try to turn kmemcheck off.
 
-					- Ted
+
+Vegard
