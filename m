@@ -1,187 +1,44 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+From: Anisse Astier <anisse-fwwRqrJYcP2HXe+LvDLADg@public.gmane.org>
 Subject: Re: [Bug #16891] Kernel panic while loading intel module during boot
-Date: Mon, 4 Oct 2010 22:40:30 +0200
-Message-ID: <201010042240.31110.rjw@sisk.pl>
-References: <OjxVjYbf_EJ.A.ReC.pTPqMB@chimera> <20101004172509.0aded2ba@destiny.ordissimo> <201010042142.29402.rjw@sisk.pl>
+Date: Mon, 4 Oct 2010 23:08:46 +0200
+Message-ID: <AANLkTinsc=DqQwnR18McRP8fLei=GHWV1yykCcYDUCzv@mail.gmail.com>
+References: <OjxVjYbf_EJ.A.ReC.pTPqMB@chimera> <N9RAiGGLCfN.A.v9C.bUPqMB@chimera>
+ <20101004172509.0aded2ba@destiny.ordissimo> <201010042142.29402.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <201010042142.29402.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Anisse Astier <anisse-fwwRqrJYcP2HXe+LvDLADg@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Tim Gardner <tim.gardner-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, Daniel Vetter <daniel.vetter-/w4YWyX8dFk@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Eric Anholt <eric-WhKQ6XTQaPysTnJN9+BGXg@public.gmane.org>, Tim Gardner <tim.gardner-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, Daniel Vetter <daniel.vetter-/w4YWyX8dFk@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
 
-On Monday, October 04, 2010, Rafael J. Wysocki wrote:
-> On Monday, October 04, 2010, Anisse Astier wrote:
-> > On Sun,  3 Oct 2010 23:53:02 +0200 (CEST), "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote :
-> > 
-> > > This message has been generated automatically as a part of a report
-> > > of regressions introduced between 2.6.34 and 2.6.35.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-> > > be listed and let the tracking team know (either way).
-> > > 
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16891
-> > > Subject		: Kernel panic while loading intel module during boot
-> > > Submitter	: Anisse Astier <anisse-fwwRqrJYcP2HXe+LvDLADg@public.gmane.org>
-> > > Date		: 2010-08-24 13:19 (41 days old)
-> > > 
-> > > 
-> > 
-> > This bug is still valid, and should be listed as a regression.
-> > I tried to upload on bugzilla a patch authored by Daniel Vetter that fixes
-> > the problem, but then bugzilla went into blackhole mode.
-> > 
-> > I'll provide this patch here in the meantime in case anyone is interested.
-> 
+On Mon, Oct 4, 2010 at 9:42 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+>> I'll provide this patch here in the meantime in case anyone is inter=
+ested.
+>
 > Thanks for the update and the patch.
-> 
+>
 > Well, I wonder who's going to merge it?
+>
 
-Chris, can you please have a look?
+I'm not sure is going to be merged because most of this code has been
+re-written and has been sitting in drm-intel-next for a few weeks now.
+This (welcome) rewrite will likely be merged in 2.6.37 (but I=A0can't
+speak for Chris).
 
-Thanks,
-Rafael
+This is a port of this patch:
+http://git.kernel.org/?p=3Dlinux/kernel/git/ickle/drm-intel.git;a=3Dcom=
+mit;h=3De5e408fc94595aab897f613b6f4e2f5b36870a6f
+, but on completely different code.
+
+Also this patch is new and didn't see much testing (I tested on 4
+different Intel GPUs, belonging only to 2 different families); if it's
+not merged for 2.6.36, it won't be for 2.6.37 (the new code will land
+first). If that happens, it might not meet conditions to be accepted
+in -stable (being in linus' tree first).
 
 
-> > ---
-> > From: Daniel Vetter <daniel.vetter-/w4YWyX8dFk@public.gmane.org>
-> > Date: Fri, 1 Oct 2010 19:52:09 +0200
-> > Subject: [PATCH] intel-gtt: fix 2.6.35 regression
-> > 
-> > Port of commit "intel-gtt: fix gtt_total_entries detection" to 2.6.35.
-> > 
-> > Also adds PINEVIEW_IG to IS_G33 detection list
-> > 
-> > Signed-off-by: Anisse Astier <anisse-fwwRqrJYcP2HXe+LvDLADg@public.gmane.org>
-> > ---
-> >  drivers/char/agp/intel-agp.h |    1 +
-> >  drivers/char/agp/intel-gtt.c |   63 ++++++++++++++++++------------------------
-> >  2 files changed, 28 insertions(+), 36 deletions(-)
-> > 
-> > diff --git a/drivers/char/agp/intel-agp.h b/drivers/char/agp/intel-agp.h
-> > index bc9a4ad..2fbbe63 100644
-> > --- a/drivers/char/agp/intel-agp.h
-> > +++ b/drivers/char/agp/intel-agp.h
-> > @@ -226,6 +226,7 @@
-> >  		agp_bridge->dev->device == PCI_DEVICE_ID_INTEL_Q35_HB || \
-> >  		agp_bridge->dev->device == PCI_DEVICE_ID_INTEL_Q33_HB || \
-> >  		agp_bridge->dev->device == PCI_DEVICE_ID_INTEL_PINEVIEW_M_HB || \
-> > +		agp_bridge->dev->device == PCI_DEVICE_ID_INTEL_PINEVIEW_IG || \
-> >  		agp_bridge->dev->device == PCI_DEVICE_ID_INTEL_PINEVIEW_HB)
-> >  
-> >  #define IS_PINEVIEW (agp_bridge->dev->device == PCI_DEVICE_ID_INTEL_PINEVIEW_M_HB || \
-> > diff --git a/drivers/char/agp/intel-gtt.c b/drivers/char/agp/intel-gtt.c
-> > index ed11c77..ea18f64 100644
-> > --- a/drivers/char/agp/intel-gtt.c
-> > +++ b/drivers/char/agp/intel-gtt.c
-> > @@ -501,7 +501,7 @@ static void intel_i830_init_gtt_entries(void)
-> >  
-> >  	pci_read_config_word(agp_bridge->dev, I830_GMCH_CTRL, &gmch_ctrl);
-> >  
-> > -	if (IS_I965) {
-> > +	if (IS_G33 || IS_I965) {
-> >  		u32 pgetbl_ctl;
-> >  		pgetbl_ctl = readl(intel_private.registers+I810_PGETBL_CTL);
-> >  
-> > @@ -534,22 +534,6 @@ static void intel_i830_init_gtt_entries(void)
-> >  			size = 512;
-> >  		}
-> >  		size += 4; /* add in BIOS popup space */
-> > -	} else if (IS_G33 && !IS_PINEVIEW) {
-> > -	/* G33's GTT size defined in gmch_ctrl */
-> > -		switch (gmch_ctrl & G33_PGETBL_SIZE_MASK) {
-> > -		case G33_PGETBL_SIZE_1M:
-> > -			size = 1024;
-> > -			break;
-> > -		case G33_PGETBL_SIZE_2M:
-> > -			size = 2048;
-> > -			break;
-> > -		default:
-> > -			dev_info(&agp_bridge->dev->dev,
-> > -				 "unknown page table size 0x%x, assuming 512KB\n",
-> > -				(gmch_ctrl & G33_PGETBL_SIZE_MASK));
-> > -			size = 512;
-> > -		}
-> > -		size += 4;
-> >  	} else if (IS_G4X || IS_PINEVIEW) {
-> >  		/* On 4 series hardware, GTT stolen is separate from graphics
-> >  		 * stolen, ignore it in stolen gtt entries counting.  However,
-> > @@ -1220,24 +1204,31 @@ static int intel_i915_get_gtt_size(void)
-> >  	int size;
-> >  
-> >  	if (IS_G33) {
-> > -		u16 gmch_ctrl;
-> > +		u32 pgetbl_ctl;
-> > +		pgetbl_ctl = readl(intel_private.registers+I810_PGETBL_CTL);
-> >  
-> > -		/* G33's GTT size defined in gmch_ctrl */
-> > -		pci_read_config_word(agp_bridge->dev, I830_GMCH_CTRL, &gmch_ctrl);
-> > -		switch (gmch_ctrl & I830_GMCH_GMS_MASK) {
-> > -		case I830_GMCH_GMS_STOLEN_512:
-> > +		switch (pgetbl_ctl & I965_PGETBL_SIZE_MASK) {
-> > +		case I965_PGETBL_SIZE_128KB:
-> > +			size = 128;
-> > +			break;
-> > +		case I965_PGETBL_SIZE_256KB:
-> > +			size = 256;
-> > +			break;
-> > +		case I965_PGETBL_SIZE_512KB:
-> >  			size = 512;
-> >  			break;
-> > -		case I830_GMCH_GMS_STOLEN_1024:
-> > +		case I965_PGETBL_SIZE_1MB:
-> >  			size = 1024;
-> >  			break;
-> > -		case I830_GMCH_GMS_STOLEN_8192:
-> > -			size = 8*1024;
-> > +		case I965_PGETBL_SIZE_2MB:
-> > +			size = 2048;
-> > +			break;
-> > +		case I965_PGETBL_SIZE_1_5MB:
-> > +			size = 1024 + 512;
-> >  			break;
-> >  		default:
-> > -			dev_info(&agp_bridge->dev->dev,
-> > -				 "unknown page table size 0x%x, assuming 512KB\n",
-> > -				(gmch_ctrl & I830_GMCH_GMS_MASK));
-> > +			dev_info(&intel_private.pcidev->dev,
-> > +				 "unknown page table size, assuming 512KB\n");
-> >  			size = 512;
-> >  		}
-> >  	} else {
-> > @@ -1269,14 +1260,6 @@ static int intel_i915_create_gatt_table(struct agp_bridge_data *bridge)
-> >  	pci_read_config_dword(intel_private.pcidev, I915_MMADDR, &temp);
-> >  	pci_read_config_dword(intel_private.pcidev, I915_PTEADDR, &temp2);
-> >  
-> > -	gtt_map_size = intel_i915_get_gtt_size();
-> > -
-> > -	intel_private.gtt = ioremap(temp2, gtt_map_size);
-> > -	if (!intel_private.gtt)
-> > -		return -ENOMEM;
-> > -
-> > -	intel_private.gtt_total_size = gtt_map_size / 4;
-> > -
-> >  	temp &= 0xfff80000;
-> >  
-> >  	intel_private.registers = ioremap(temp, 128 * 4096);
-> > @@ -1285,6 +1268,14 @@ static int intel_i915_create_gatt_table(struct agp_bridge_data *bridge)
-> >  		return -ENOMEM;
-> >  	}
-> >  
-> > +	gtt_map_size = intel_i915_get_gtt_size();
-> > +
-> > +	intel_private.gtt = ioremap(temp2, gtt_map_size);
-> > +	if (!intel_private.gtt)
-> > +		return -ENOMEM;
-> > +
-> > +	intel_private.gtt_total_size = gtt_map_size / 4;
-> > +
-> >  	temp = readl(intel_private.registers+I810_PGETBL_CTL) & 0xfffff000;
-> >  	global_cache_flush();	/* FIXME: ? */
-> >  
-> > 
+
+Anisse
