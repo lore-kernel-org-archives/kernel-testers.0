@@ -1,47 +1,42 @@
-From: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Bug #16891] Kernel panic while loading intel module during
- boot
-Date: Tue, 5 Oct 2010 18:08:22 +0200
-Message-ID: <20101005160821.GA3565@viiv.ffwll.ch>
-References: <OjxVjYbf_EJ.A.ReC.pTPqMB@chimera>
- <201010042142.29402.rjw@sisk.pl>
- <AANLkTinsc=DqQwnR18McRP8fLei=GHWV1yykCcYDUCzv@mail.gmail.com>
- <201010050040.59281.rjw@sisk.pl>
- <20101005132829.GE3548@suse.de>
+From: Ted Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+Subject: Re: [Bug #19062] Dirtiable inode bdi default != sb bdi btrfs
+Date: Tue, 5 Oct 2010 11:59:50 -0400
+Message-ID: <20101005155949.GA18454@thunk.org>
+References: <MEG5YPP-fxC.A.vnD.So6nMB@chimera>
+ <sQALkqF1FWE.A.15D.bo6nMB@chimera>
+ <20101002165433.GL21129@thunk.org>
+ <201010022358.35972.rjw@sisk.pl>
+ <20101004130911.1375c6e3.akpm@linux-foundation.org>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20101005132829.GE3548@suse.de>
-Sender: linux-kernel-owner@vger.kernel.org
+In-Reply-To: <20101004130911.1375c6e3.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Greg KH <gregkh@suse.de>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Anisse Astier <anisse@astier.eu>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Eric Anholt <eric@anholt.net>, Tim Gardner <tim.gardner@canonical.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, Andrew Morton <akpm@linux-foundation.org>, Jesse Barnes <jbarnes@virtuousgeek.org>, Chris Wilson <chris@chris-wilson.co.uk>
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Cesar Eduardo Barros <cesarb-PWySMVKUnqmsTnJN9+BGXg@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>, Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
 
-On Tue, Oct 05, 2010 at 06:28:29AM -0700, Greg KH wrote:
-> On Tue, Oct 05, 2010 at 12:40:59AM +0200, Rafael J. Wysocki wrote:
-> > On Monday, October 04, 2010, Anisse Astier wrote:
-> > > Also this patch is new and didn't see much testing (I tested on 4
-> > > different Intel GPUs, belonging only to 2 different families); if it's
-> > > not merged for 2.6.36, it won't be for 2.6.37 (the new code will land
-> > > first). If that happens, it might not meet conditions to be accepted
-> > > in -stable (being in linus' tree first).
-> > 
-> > It's a panic fix, so I think it is -stable material anyway.  Greg?
+On Mon, Oct 04, 2010 at 01:09:11PM -0700, Andrew Morton wrote:
 > 
-> That sounds good, please cc: stable@kernel.org with the proper
-> information for this (git commit id, patch info, etc.)
+> Christoph had a patch, and Jan had another patch.  Maybe
+> 
+> commit 692ebd17c2905313fff3c504c249c6a0faad16ec
+> Author: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+> Date:   Tue Sep 21 11:51:01 2010 +0200
+> 
+>     bdi: Fix warnings in __mark_inode_dirty for /dev/zero and friends
+> 
+> already fixed this?
+> 
 
-I'll do that as soon as drm-intel-next has hit -linus. I've written the
-original fix and marked it cc: stable so it won't get lost. I've been
-rather cautious with pushing this because it's the 3rd trial to fix a bug
-in late .35-rc. The previous fixes already caused regressions in -stable
-and I'd simply like to avoid causing yet another regression over the same
-problem.
+Actually, I do believe that's the _cause_ of what I was seeing.  The
+fix is:
 
-Yours, Daniel
--- 
-Daniel Vetter
-Mail: daniel@ffwll.ch
-Mobile: +41 (0)79 365 57 48
+	  http://lkml.org/lkml/2010/9/29/76
+
+						- Ted
+
+
+				
