@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #19052] 2.6.36-rc5-git1 -- [drm:i915_report_and_clear_eir] *ERROR* EIR stuck: 0x00000010, masking
-Date: Sun, 10 Oct 2010 19:51:49 +0200 (CEST)
-Message-ID: <xpndfyzv9iD.A.cnG.IrfsMB@chimera>
+Subject: [Bug #19862] [REGRESSION] no sound on T60 laptop (HDA Intel)
+Date: Sun, 10 Oct 2010 19:51:51 +0200 (CEST)
+Message-ID: <xpndfyzv9iD.A.I4F.vqfsMB@chimera>
 References: <v0Rsc8XZnFC.A.-xF.oqfsMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Miles Lane <miles.lane@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Miklos Szeredi <miklos@szeredi.hu>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.35.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19052
-Subject		: 2.6.36-rc5-git1 -- [drm:i915_report_and_clear_eir] *ERROR* EIR stuck: 0x00000010, masking
-Submitter	: Miles Lane <miles.lane@gmail.com>
-Date		: 2010-09-22 23:47 (19 days old)
-Message-ID	: <AANLkTikWQjUQjFJU9MO1+XbSLAEE-GARz+S+Dz2Fgu4h@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=128519926626322&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19862
+Subject		: [REGRESSION] no sound on T60 laptop (HDA Intel)
+Submitter	: Miklos Szeredi <miklos@szeredi.hu>
+Date		: 2010-10-05 9:25 (6 days old)
+Message-ID	: <E1P33mT-0003qa-Fv@pomaz-ex.szeredi.hu>
+References	: http://marc.info/?l=linux-kernel&m=128627079921512&w=2
 
