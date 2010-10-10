@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16380] Loop devices act strangely in 2.6.35
-Date: Sun, 10 Oct 2010 21:18:50 +0200 (CEST)
-Message-ID: <yeAD7A8RDxC.A.I0.JygsMB@chimera>
+Subject: [Bug #16488] [i915] Framebuffer ID error after suspend/hibernate leading to X crash
+Date: Sun, 10 Oct 2010 21:18:51 +0200 (CEST)
+Message-ID: <yeAD7A8RDxC.A.iq.RxgsMB@chimera>
 References: <pyPtebg28EI.A.ZPH.NvgsMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, "Artem S. Tashkinov" <t.artem@mailcity.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Linus Torvalds <torvalds@linux-foundation.org>, Milan Bouchet-Valat <nalimilan@club.fr>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,8 +22,8 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16380
-Subject		: Loop devices act strangely in 2.6.35
-Submitter	: Artem S. Tashkinov <t.artem@mailcity.com>
-Date		: 2010-07-13 23:21 (90 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16488
+Subject		: [i915] Framebuffer ID error after suspend/hibernate leading to X crash
+Submitter	: Milan Bouchet-Valat <nalimilan@club.fr>
+Date		: 2010-08-01 08:55 (71 days old)
 
