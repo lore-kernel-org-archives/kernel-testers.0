@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #19002] Radeon rv730 AGP/KMS/DRM kernel lockup
+Subject: [Bug #17121] Two blank rectangles more than 10 cm long when booting
 Date: Sun, 10 Oct 2010 19:51:48 +0200 (CEST)
-Message-ID: <xpndfyzv9iD.A.RpG.KrfsMB@chimera>
+Message-ID: <xpndfyzv9iD.A.m3G.TsfsMB@chimera>
 References: <v0Rsc8XZnFC.A.-xF.oqfsMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Duncan <1i5t5.duncan@cox.net>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Eric Valette <eric.valette@free.fr>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,8 @@ from 2.6.35.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19002
-Subject		: Radeon rv730 AGP/KMS/DRM kernel lockup
-Submitter	: Duncan <1i5t5.duncan@cox.net>
-Date		: 2010-09-23 16:48 (18 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17121
+Subject		: Two blank rectangles more than 10 cm long when booting
+Submitter	: Eric Valette <eric.valette@free.fr>
+Date		: 2010-08-26 17:24 (46 days old)
 
