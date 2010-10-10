@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #19782] 2.6.36-rc6-git2 -- BUG dentry: Poison overwritten (after resume from hibernation)
-Date: Sun, 10 Oct 2010 19:51:50 +0200 (CEST)
-Message-ID: <xpndfyzv9iD.A.KEG.zqfsMB@chimera>
+Subject: [Bug #18742] PROBLEM: Kernel panic on 2.6.36-rc4 when loading intel_ips on Core i3 laptop
+Date: Sun, 10 Oct 2010 19:51:48 +0200 (CEST)
+Message-ID: <xpndfyzv9iD.A.EyG.WrfsMB@chimera>
 References: <v0Rsc8XZnFC.A.-xF.oqfsMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Miles Lane <miles.lane@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, infernix <infernix@infernix.net>, Jesse Barnes <jbarnes@virtuousgeek.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,12 @@ from 2.6.35.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19782
-Subject		: 2.6.36-rc6-git2 -- BUG dentry: Poison overwritten (after resume from hibernation)
-Submitter	: Miles Lane <miles.lane@gmail.com>
-Date		: 2010-10-03 3:54 (8 days old)
-Message-ID	: <AANLkTimrqtzBHAZSuDhEs_3CKA6pCbM35b1BtKH=MvC_@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=128607809314079&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=18742
+Subject		: PROBLEM: Kernel panic on 2.6.36-rc4 when loading intel_ips on Core i3 laptop
+Submitter	: infernix <infernix@infernix.net>
+Date		: 2010-09-15 14:35 (26 days old)
+Message-ID	: <4C90D998.6050103@infernix.net>
+References	: http://marc.info/?l=linux-kernel&m=128456187928496&w=2
+Handled-By	: Jesse Barnes <jbarnes@virtuousgeek.org>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=31112
 
