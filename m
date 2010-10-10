@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #18742] PROBLEM: Kernel panic on 2.6.36-rc4 when loading intel_ips on Core i3 laptop
-Date: Sun, 10 Oct 2010 19:51:48 +0200 (CEST)
-Message-ID: <xpndfyzv9iD.A.EyG.WrfsMB@chimera>
+Subject: [Bug #19072] [2.6.36-rc regression] occasional complete system hangs on sparc64 SMP
+Date: Sun, 10 Oct 2010 19:51:49 +0200 (CEST)
+Message-ID: <xpndfyzv9iD.A.VhG.ErfsMB@chimera>
 References: <v0Rsc8XZnFC.A.-xF.oqfsMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, infernix <infernix@infernix.net>, Jesse Barnes <jbarnes@virtuousgeek.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Mikael Pettersson <mikpe@it.uu.se>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,12 +22,10 @@ from 2.6.35.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=18742
-Subject		: PROBLEM: Kernel panic on 2.6.36-rc4 when loading intel_ips on Core i3 laptop
-Submitter	: infernix <infernix@infernix.net>
-Date		: 2010-09-15 14:35 (26 days old)
-Message-ID	: <4C90D998.6050103@infernix.net>
-References	: http://marc.info/?l=linux-kernel&m=128456187928496&w=2
-Handled-By	: Jesse Barnes <jbarnes@virtuousgeek.org>
-Patch		: https://bugzilla.kernel.org/attachment.cgi?id=31112
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19072
+Subject		: [2.6.36-rc regression] occasional complete system hangs on sparc64 SMP
+Submitter	: Mikael Pettersson <mikpe@it.uu.se>
+Date		: 2010-09-23 17:02 (18 days old)
+Message-ID	: <19611.34846.813757.309183@pilspetsen.it.uu.se>
+References	: http://marc.info/?l=linux-kernel&m=128526136531048&w=2
 
