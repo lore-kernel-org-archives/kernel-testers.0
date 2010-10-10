@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #17261] Freezes on bootup
+Subject: [Bug #16562] 2.6.35: cpu_idle bug report / on i7 870 cpu (x86_64)
 Date: Sun, 10 Oct 2010 21:18:51 +0200 (CEST)
-Message-ID: <yeAD7A8RDxC.A.y1H.CwgsMB@chimera>
+Message-ID: <yeAD7A8RDxC.A.AP.mwgsMB@chimera>
 References: <pyPtebg28EI.A.ZPH.NvgsMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Dan Dart <dandart@googlemail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Justin Piszcz <jpiszcz@lucidpixels.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,8 +22,10 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17261
-Subject		: Freezes on bootup
-Submitter	: Dan Dart <dandart@googlemail.com>
-Date		: 2010-08-29 09:00 (43 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16562
+Subject		: 2.6.35: cpu_idle bug report / on i7 870 cpu (x86_64)
+Submitter	: Justin Piszcz <jpiszcz@lucidpixels.com>
+Date		: 2010-08-06 22:09 (66 days old)
+Message-ID	: <alpine.DEB.2.00.1008061800530.5241@p34.internal.lan>
+References	: http://marc.info/?l=linux-kernel&m=128113260904048&w=2
 
