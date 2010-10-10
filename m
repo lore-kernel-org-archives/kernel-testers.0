@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16265] Why is kslowd accumulating so much CPU time?
+Subject: [Bug #16458] Bluetooth disabled after resume
 Date: Sun, 10 Oct 2010 21:18:50 +0200 (CEST)
-Message-ID: <yeAD7A8RDxC.A.zQB.QzgsMB@chimera>
+Message-ID: <yeAD7A8RDxC.A.mw.gxgsMB@chimera>
 References: <pyPtebg28EI.A.ZPH.NvgsMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Chris Wilson <chris@chris-wilson.co.uk>, Dave Airlie <airlied@redhat.com>, Theodore Ts'o <tytso@mit.edu>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, AttilaN <attila123456@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,13 +22,8 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16265
-Subject		: Why is kslowd accumulating so much CPU time?
-Submitter	: Theodore Ts'o <tytso@mit.edu>
-Date		: 2010-06-09 18:36 (124 days old)
-First-Bad-Commit: http://git.kernel.org/linus/fbf81762e385d3d45acad057b654d56972acf58c
-Message-ID	: <E1OMQ88-0002a1-Gb@closure.thunk.org>
-References	: http://marc.info/?l=linux-kernel&m=127610857819033&w=4
-		  http://bugs.freedesktop.org/show_bug.cgi?id=29536
-Handled-By	: Chris Wilson <chris@chris-wilson.co.uk>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16458
+Subject		: Bluetooth disabled after resume
+Submitter	: AttilaN <attila123456@gmail.com>
+Date		: 2010-07-25 09:33 (78 days old)
 
