@@ -1,41 +1,50 @@
-From: Tim Gardner <tim.gardner@canonical.com>
-Subject: Re: [Bug #16891] Kernel panic while loading intel module during boot
-Date: Mon, 11 Oct 2010 08:18:23 +0100
-Message-ID: <4CB2BA3F.4040208@canonical.com>
-References: <pyPtebg28EI.A.ZPH.NvgsMB@chimera> <yeAD7A8RDxC.A.u6H.KwgsMB@chimera>
-Reply-To: tim.gardner@canonical.com
+From: "Berg, Johannes" <johannes.berg-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: RE: [Bug #16462] unable to connect to hidden SSID AP on legal
+ channel 13
+Date: Mon, 11 Oct 2010 08:32:28 +0100
+Message-ID: <C5C86A19469DAE48AAAD0E5F3716E44501D3D355C4@irsmsx504.ger.corp.intel.com>
+References: <pyPtebg28EI.A.ZPH.NvgsMB@chimera>
+ <yeAD7A8RDxC.A.xu.dxgsMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <yeAD7A8RDxC.A.u6H.KwgsMB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: base64
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <yeAD7A8RDxC.A.xu.dxgsMB@chimera>
+Content-Language: en-US
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Anisse Astier <anisse@astier.eu>, Eric Anholt <eric@anholt.net>, Kees Cook <kees@canonical.com>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Daniel J Blueman <daniel.blueman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On 10/10/2010 08:18 PM, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.34 and 2.6.35.
->
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-> be listed and let the tracking team know (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16891
-> Subject		: Kernel panic while loading intel module during boot
-> Submitter	: Anisse Astier<anisse@astier.eu>
-> Date		: 2010-08-24 13:19 (48 days old)
->
->
-
-The original respondent (Kees Cook) assures me that the patch in 
-https://bugzilla.kernel.org/attachment.cgi?id=32602&action=edit does not 
-regress his platform.
-
-Comment added to the bug report.
-
-rtg
--- 
-Tim Gardner tim.gardner@canonical.com
+UmFmYWVsLA0KDQpJIGJlbGlldmUgdGhhdCB3ZSBoYXZlIGZpeGVkIHRoZSBwYXJ0IG9mIHRoaXMg
+YnVnIHRoYXQgd2FzIGEgcmVncmVzc2lvbiwgbmFtZWx5IGJlaW5nIHVuYWJsZSB0byBjb25uZWN0
+IHRvIGEgbm9uLWhpZGRlbiBTU0lELCBpbiAyLjYuMzUgY29tbWl0IDNlZTM3OGQ3ZTBkZmRiOWJi
+LiBCZWluZyBhYmxlIHRvIGNvbm5lY3QgdG8gYSBoaWRkZW4gU1NJRCBJIGJlbGlldmUgaXNuJ3Qg
+YSByZWdyZXNzaW9uLCBhbmQgYSBwYXRjaCBmb3IgdGhhdCBpcyBvbiBpdHMgd2F5IHVwc3RyZWFt
+IGZvciAyLjYuMzcuIEkgdGhpbmsgeW91IHNob3VsZCBzdG9wIHRyYWNraW5nIHRoaXMgYXMgYSBy
+ZWdyZXNzaW9uLg0KDQpqb2hhbm5lcw0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+
+IEZyb206IFJhZmFlbCBKLiBXeXNvY2tpIFttYWlsdG86cmp3QHNpc2sucGxdDQo+IFNlbnQ6IFN1
+bmRheSwgT2N0b2JlciAxMCwgMjAxMCA5OjE5IFBNDQo+IFRvOiBMaW51eCBLZXJuZWwgTWFpbGlu
+ZyBMaXN0DQo+IENjOiBLZXJuZWwgVGVzdGVycyBMaXN0OyBNYWNpZWogUnV0ZWNraTsgRmxvcmlh
+biBNaWNrbGVyOyBEYW5pZWwgSg0KPiBCbHVlbWFuOyBCZXJnLCBKb2hhbm5lcw0KPiBTdWJqZWN0
+OiBbQnVnICMxNjQ2Ml0gdW5hYmxlIHRvIGNvbm5lY3QgdG8gaGlkZGVuIFNTSUQgQVAgb24gbGVn
+YWwNCj4gY2hhbm5lbCAxMw0KPiANCj4gVGhpcyBtZXNzYWdlIGhhcyBiZWVuIGdlbmVyYXRlZCBh
+dXRvbWF0aWNhbGx5IGFzIGEgcGFydCBvZiBhIHJlcG9ydA0KPiBvZiByZWdyZXNzaW9ucyBpbnRy
+b2R1Y2VkIGJldHdlZW4gMi42LjM0IGFuZCAyLjYuMzUuDQo+IA0KPiBUaGUgZm9sbG93aW5nIGJ1
+ZyBlbnRyeSBpcyBvbiB0aGUgY3VycmVudCBsaXN0IG9mIGtub3duIHJlZ3Jlc3Npb25zDQo+IGlu
+dHJvZHVjZWQgYmV0d2VlbiAyLjYuMzQgYW5kIDIuNi4zNS4gIFBsZWFzZSB2ZXJpZnkgaWYgaXQg
+c3RpbGwgc2hvdWxkDQo+IGJlIGxpc3RlZCBhbmQgbGV0IHRoZSB0cmFja2luZyB0ZWFtIGtub3cg
+KGVpdGhlciB3YXkpLg0KPiANCj4gDQo+IEJ1Zy1FbnRyeQk6IGh0dHA6Ly9idWd6aWxsYS5rZXJu
+ZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0xNjQ2Mg0KPiBTdWJqZWN0CQk6IHVuYWJsZSB0byBjb25u
+ZWN0IHRvIGhpZGRlbiBTU0lEIEFQIG9uIGxlZ2FsDQo+IGNoYW5uZWwgMTMNCj4gU3VibWl0dGVy
+CTogRGFuaWVsIEogQmx1ZW1hbiA8ZGFuaWVsLmJsdWVtYW5AZ21haWwuY29tPg0KPiBEYXRlCQk6
+IDIwMTAtMDctMjUgMTc6MDYgKDc4IGRheXMgb2xkKQ0KPiBIYW5kbGVkLUJ5CTogSm9oYW5uZXMg
+QmVyZyA8am9oYW5uZXMuYmVyZ0BpbnRlbC5jb20+DQo+IFBhdGNoCQk6IGh0dHBzOi8vYnVnemls
+bGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0zMTg2Mg0KPiANCg0KLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0KSW50ZWwgR21iSApEb3JuYWNoZXIgU3RyYXNzZSAxCjg1NjIyIEZl
+bGRraXJjaGVuL011ZW5jaGVuLCBEZXV0c2NobGFuZCAKU2l0eiBkZXIgR2VzZWxsc2NoYWZ0OiBG
+ZWxka2lyY2hlbiBiZWkgTXVlbmNoZW4KR2VzY2hhZWZ0c2Z1ZWhyZXI6IERvdWdsYXMgTHVzaywg
+UGV0ZXIgR2xlaXNzbmVyLCBIYW5uZXMgU2Nod2FkZXJlcgpSZWdpc3RlcmdlcmljaHQ6IE11ZW5j
+aGVuIEhSQiA0NzQ1NiAKVXN0Li1JZE5yLi9WQVQgUmVnaXN0cmF0aW9uIE5vLjogREUxMjkzODU4
+OTUKQ2l0aWJhbmsgRnJhbmtmdXJ0IGEuTS4gKEJMWiA1MDIgMTA5IDAwKSA2MDAxMTkwNTIK
