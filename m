@@ -1,71 +1,38 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #19612] Computer fails to hibernate - problem idling SMP CPU's
-Date: Mon, 11 Oct 2010 22:27:10 +0200
-Message-ID: <201010112227.11100.rjw@sisk.pl>
-References: <pyPtebg28EI.A.ZPH.NvgsMB@chimera> <yeAD7A8RDxC.A.TdH.YvgsMB@chimera> <AANLkTiny4bNOQa3BB+Qxh1cFrH8LhCgY+ECE6dobL-7S@mail.gmail.com>
+Subject: Re: [Bug #20002] x86_64 2.6.35.* kernels and Intel Xeon X5550
+Date: Mon, 11 Oct 2010 22:27:43 +0200
+Message-ID: <201010112227.43782.rjw@sisk.pl>
+References: <pyPtebg28EI.A.ZPH.NvgsMB@chimera> <yeAD7A8RDxC.A.dVH.UvgsMB@chimera> <alpine.WNT.1.10.1010111327090.1620@tsi>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTiny4bNOQa3BB+Qxh1cFrH8LhCgY+ECE6dobL-7S-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <alpine.WNT.1.10.1010111327090.1620@tsi>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: zz zzzzzzzzzzzzz <tempo444z-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Marc Aurele La France <tsi-yfeSBMgouQgsA/PxXw9srA@public.gmane.org>
 Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-On Monday, October 11, 2010, zz zzzzzzzzzzzzz wrote:
-> Test results 9-11 October 2010 file tmp.pm_test.txt
+On Monday, October 11, 2010, Marc Aurele La France wrote:
+> On Sun, 10 Oct 2010, Rafael J. Wysocki wrote:
 > 
-> linux-source-2.6.34_2.6.34-1~experimental.2_all.deb
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.34 and 2.6.35.
 > 
-> Devices = pm_test    fail/pass 0/10
-> Platform = pm_test   fail/pass 0/10
-> Processors = pm_test fail/pass 2*/10 [1][2]
-> Core = pm_test       fail/pass 3/2 [3][4][5]
-> [1] Long delay around 112 sec, system came back apparently fully
-> operational. On next test, instant error message, I *think* related to
-> access to disks, then returned to gnome scr$
-> [2] Long delay around 112 sec, system came back apparently fully
-> operational. Checked and found one mdadm raid5 disc degraded.
-> Rebooted. Told mdadm to add the partition back into $
-> * This may underestime the number of failures. If in doubt about
-> success, I rebooted the system. Even so, sometime in this process one
-> of my mdadm partitions got kicked from its r$
-> [3] Long delay 120 sec, system restored screed, no keyboard or mouse
-> activity, flashing caps lock. reset (reboot)
-> [4] Long delay around 112 sec, system came back apparently fully
-> operational. Checked and found one mdadm raid5 partition degraded.
-> Rebooted. Told mdadm to add the partition back $
-> [5] long delay around 120 sec, black screen, no keyboard, no mouse,
-> reset (reboot). Checked and found two mdadm raid5 partitions degraded.
-> Told mdadm to add the partitions back in$
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+> > be listed and let the tracking team know (either way).
 > 
-> 2.6.34.7
-
-Does it mean the problem also happens for the 2.6.34.y kernels before
-2.6.34.7?
-
-> Processors = pm_test fail/pass 4/10 [1][2][3][4][5]
-> Devices = pm_test    fail/pass 0/10
-> Platform = pm_test   fail/pass 0/10
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20002
+> > Subject	: x86_64 2.6.35.* kernels and Intel Xeon X5550
+> > Submitter	: Marc Aurele La France <tsi-yfeSBMgouQgsA/PxXw9srA@public.gmane.org>
+> > Date		: 2010-10-07 17:17 (4 days old)
+> > Message-ID	: <alpine.WNT.2.00.1010071055420.1672-cSzHzCuodXHqpRUuEh95rXpLNouqQFXg@public.gmane.org>
+> > References	: http://marc.info/?l=linux-kernel&m=128647187628706&w=2
 > 
-> [1] Long delay around 60 sec, partial restore, keyboard active, then
-> system locked up, reset (reboot) needed
-> [2] Long delay around 60 sec , screen restored locked up, reset (reboot) needed
-> [3] instant failure to hibernate, system operational, terminal message
-> "bash: echo: write error: Input/output error"
-> [4] Long delay around 60 sec, black screen locked up, flashing caps
-> lock, reset (reboot) needed
-> [5] 15 sec delay (normal) with message "ata1 SRST failed (errorno=-16)
-> then lockup, reset (reboot) needed.
-> 
-> 2.6.35.1
-> 
-> Processors = pm_test fail/pass 3/0 [1][2][3]
-> platform = pm_test   fail/pass 0/3
-> 
-> [1][2][3] Hard lockup after about 12 secs. Caps lock flashing, black
-> screen, no keyboard response. Reset (reboot)
+> Yes, this is still an issue.  I'm still trying to track it down.  I've 
+> generated a series of 2.6.35-rc[1-6] kernels, which I will try tomorrow 
+> (after today's statuatory holiday).
 
 Thanks for the update.
 
