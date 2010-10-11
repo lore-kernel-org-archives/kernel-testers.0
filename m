@@ -1,66 +1,73 @@
-From: Sander Eikelenboom <linux@eikelenboom.it>
-Subject: Re: [Bug #16614] [2.6.35] usb 2.0 em28xx  kernel panic general protection fault: 0000 [#1] SMP          RIP: 0010:[<ffffffffa004fbc5>]  [<ffffffffa004fbc5>] em28xx_isoc_copy_vbi+0x62e/0x812 [em28xx]
-Date: Mon, 11 Oct 2010 09:58:44 +0200
-Message-ID: <1967177642.20101011095844@eikelenboom.it>
-References: <pyPtebg28EI.A.ZPH.NvgsMB@chimera> <yeAD7A8RDxC.A.zI.fwgsMB@chimera>
+From: zz zzzzzzzzzzzzz <tempo444z-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #19612] Computer fails to hibernate - problem idling SMP CPU's
+Date: Mon, 11 Oct 2010 10:52:30 +0100
+Message-ID: <AANLkTiny4bNOQa3BB+Qxh1cFrH8LhCgY+ECE6dobL-7S@mail.gmail.com>
+References: <pyPtebg28EI.A.ZPH.NvgsMB@chimera>
+	<yeAD7A8RDxC.A.TdH.YvgsMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <yeAD7A8RDxC.A.zI.fwgsMB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:received:in-reply-to
+         :references:date:message-id:subject:from:to:cc:content-type;
+        bh=FK8ad24hIJZTIthDoqvDnidWJX1H/ElJ24cc8drmRPM=;
+        b=vrxFNIU/YPZ13MFxtCl3Zmx1OC8dxg2JcMBrn3Lpm6PmgPao+0b/MnJ0LUC1vw4+9Z
+         ViUSRuOleMJlEKUFt7xoHLBp8MB5qHU7QNp8/fZGf6r8kh3vWBiB4pUxaMM3fVndfAtS
+         l3OHN0STJIXozjpo46t3OIY17miBEKgY5i1HU=
+In-Reply-To: <yeAD7A8RDxC.A.TdH.YvgsMB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-Hello Rafael,
+Test results 9-11 October 2010 file tmp.pm_test.txt
 
-This one seems to be fixed, in the sense that i still get an error, but it doesn't crash the kernel.
-And since it was my mistake to use the deprecated video4linux interface instead of the video4linux2, i think it's fine to consider it fixed.
+linux-source-2.6.34_2.6.34-1~experimental.2_all.deb
 
+Devices = pm_test    fail/pass 0/10
+Platform = pm_test   fail/pass 0/10
+Processors = pm_test fail/pass 2*/10 [1][2]
+Core = pm_test       fail/pass 3/2 [3][4][5]
+[1] Long delay around 112 sec, system came back apparently fully
+operational. On next test, instant error message, I *think* related to
+access to disks, then returned to gnome scr$
+[2] Long delay around 112 sec, system came back apparently fully
+operational. Checked and found one mdadm raid5 disc degraded.
+Rebooted. Told mdadm to add the partition back into $
+* This may underestime the number of failures. If in doubt about
+success, I rebooted the system. Even so, sometime in this process one
+of my mdadm partitions got kicked from its r$
+[3] Long delay 120 sec, system restored screed, no keyboard or mouse
+activity, flashing caps lock. reset (reboot)
+[4] Long delay around 112 sec, system came back apparently fully
+operational. Checked and found one mdadm raid5 partition degraded.
+Rebooted. Told mdadm to add the partition back $
+[5] long delay around 120 sec, black screen, no keyboard, no mouse,
+reset (reboot). Checked and found two mdadm raid5 partitions degraded.
+Told mdadm to add the partitions back in$
 
-security:~# ffmpeg -f video4linux -r 25 -s 720x576 -i /dev/video0 out.flv
-FFmpeg version SVN-r20654, Copyright (c) 2000-2009 Fabrice Bellard, et al.
-  built on Nov 29 2009 08:11:53 with gcc 4.3.4
-  configuration: --prefix=/usr --extra-cflags='-Wall -g ' --cc='ccache cc' --enable-shared --enable-libmp3lame --enable-gpl --enable-libfaad --enable-libvorbis --enable-pthreads --enable-libfaac --enable-libxvid --enable-postproc --enable-x11grab --enable-libgsm --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libx264 --enable-libtheora --enable-libdc1394 --enable-libspeex --enable-nonfree --disable-stripping --enable-avfilter --enable-libdirac --disable-decoder=libdirac --enable-libschroedinger --disable-encoder=libschroedinger --enable-avfilter-lavf --enable-libopenjpeg --enable-version3 --disable-altivec --disable-armv5te --disable-armv6 --disable-vis
-  libavutil     50. 5. 1 / 50. 5. 1
-  libavcodec    52.42. 0 / 52.42. 0
-  libavformat   52.39. 2 / 52.39. 2
-  libavdevice   52. 2. 0 / 52. 2. 0
-  libavfilter    1.11. 0 /  1.11. 0
-  libswscale     0. 7. 2 /  0. 7. 2
-  libpostproc   51. 2. 0 / 51. 2. 0
-[video4linux @ 0xff45e0]VIDIOCMCAPTURE: Cannot allocate memory
-/dev/video0: I/O error occurred
-Usually that means that input file is truncated and/or corrupted.
+2.6.34.7
 
+Processors = pm_test fail/pass 4/10 [1][2][3][4][5]
+Devices = pm_test    fail/pass 0/10
+Platform = pm_test   fail/pass 0/10
 
---
+[1] Long delay around 60 sec, partial restore, keyboard active, then
+system locked up, reset (reboot) needed
+[2] Long delay around 60 sec , screen restored locked up, reset (reboot) needed
+[3] instant failure to hibernate, system operational, terminal message
+"bash: echo: write error: Input/output error"
+[4] Long delay around 60 sec, black screen locked up, flashing caps
+lock, reset (reboot) needed
+[5] 15 sec delay (normal) with message "ata1 SRST failed (errorno=-16)
+then lockup, reset (reboot) needed.
 
-Sander
+2.6.35.1
 
+Processors = pm_test fail/pass 3/0 [1][2][3]
+platform = pm_test   fail/pass 0/3
 
-Sunday, October 10, 2010, 9:18:51 PM, you wrote:
-
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.34 and 2.6.35.
-
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-> be listed and let the tracking team know (either way).
-
-
-> Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=16614
-> Subject         : [2.6.35] usb 2.0 em28xx  kernel panic general protection fault: 0000 [#1] SMP          RIP: 0010:[<ffffffffa004fbc5>]  [<ffffffffa004fbc5>] em28xx_isoc_copy_vbi+0x62e/0x812 [em28xx]
-> Submitter       : Sander Eikelenboom <linux@eikelenboom.it>
-> Date            : 2010-08-10 22:12 (62 days old)
-> Message-ID      : <61936849.20100811001257@eikelenboom.it>
-> References      : http://marc.info/?l=linux-kernel&m=128152075830927&w=2
-
-
-
-
-
--- 
-Best regards,
- Sander                            mailto:linux@eikelenboom.it
+[1][2][3] Hard lockup after about 12 secs. Caps lock flashing, black
+screen, no keyboard response. Reset (reboot)
