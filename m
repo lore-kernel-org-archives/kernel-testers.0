@@ -1,49 +1,41 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #19392] WARNING: at drivers/net/wireless/ath/ath5k/base.c:3475 ath5k_bss_info_changed+0x44/0x168 [ath5k]()
-Date: Mon, 11 Oct 2010 00:36:27 +0200
-Message-ID: <201010110036.27986.rjw@sisk.pl>
-References: <v0Rsc8XZnFC.A.-xF.oqfsMB@chimera> <201010102141.45916.rjw@sisk.pl> <4CB23F1A.9040606@gmail.com>
+From: Tim Gardner <tim.gardner@canonical.com>
+Subject: Re: [Bug #16891] Kernel panic while loading intel module during boot
+Date: Mon, 11 Oct 2010 08:18:23 +0100
+Message-ID: <4CB2BA3F.4040208@canonical.com>
+References: <pyPtebg28EI.A.ZPH.NvgsMB@chimera> <yeAD7A8RDxC.A.u6H.KwgsMB@chimera>
+Reply-To: tim.gardner@canonical.com
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4CB23F1A.9040606-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <yeAD7A8RDxC.A.u6H.KwgsMB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Dominik Brodowski <linux-X3ehHDuj6sIIGcDfoQAp7OTW4wlIGRCZ@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Anisse Astier <anisse@astier.eu>, Eric Anholt <eric@anholt.net>, Kees Cook <kees@canonical.com>
 
-On Monday, October 11, 2010, Justin P. Mattock wrote:
->   On 10/10/2010 12:41 PM, Rafael J. Wysocki wrote:
-> > On Sunday, October 10, 2010, Justin P. Mattock wrote:
-> >>    On 10/10/2010 10:51 AM, Rafael J. Wysocki wrote:
-> >>> This message has been generated automatically as a part of a summary report
-> >>> of recent regressions.
-> >>>
-> >>> The following bug entry is on the current list of known regressions
-> >>> from 2.6.35.  Please verify if it still should be listed and let the tracking team
-> >>> know (either way).
-> >>>
-> >>>
-> >>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19392
-> >>> Subject		: WARNING: at drivers/net/wireless/ath/ath5k/base.c:3475 ath5k_bss_info_changed+0x44/0x168 [ath5k]()
-> >>> Submitter	: Justin Mattock<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> >>> Date		: 2010-09-28 22:30 (13 days old)
-> >>> Message-ID	:<AANLkTim5WCGKPvEkOkO_YnMF9pg8mvLfQoFBNUFpfa_k-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-> >>> References	: http://marc.info/?l=linux-kernel&m=128571307018635&w=2
-> >>>
-> >>>
-> >>>
-> >> as far as I know this is still here.. I can pull the latest to see
-> >> if it's been fixed, as well as the wireless tree to see.
-> > Well, please do.
-> >
-> > Rafael
-> >
-> 
-> o.k. the wireless-testing tree still shows this thing as well.
-> (I'll have to go through the commit that the bisected resulted to see).
+On 10/10/2010 08:18 PM, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.34 and 2.6.35.
+>
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.34 and 2.6.35.  Please verify if it still should
+> be listed and let the tracking team know (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16891
+> Subject		: Kernel panic while loading intel module during boot
+> Submitter	: Anisse Astier<anisse@astier.eu>
+> Date		: 2010-08-24 13:19 (48 days old)
+>
+>
 
-OK, thanks for the update.
+The original respondent (Kees Cook) assures me that the patch in 
+https://bugzilla.kernel.org/attachment.cgi?id=32602&action=edit does not 
+regress his platform.
 
-Rafael
+Comment added to the bug report.
+
+rtg
+-- 
+Tim Gardner tim.gardner@canonical.com
