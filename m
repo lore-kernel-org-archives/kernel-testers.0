@@ -1,36 +1,31 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #20352] Fwd: Re: UML kernel crash of v2.6.36-rcX kernel
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #20462] 2.6.36-rc7-git2 - panic/GPF: e1000e/vlans?
 Date: Sun, 17 Oct 2010 22:21:46 +0200 (CEST)
-Message-ID: <7N-qxsaxKCN.A.KVB.4j1uMB@chimera>
+Message-ID: <7N-qxsaxKCN.A.ZKB.2j1uMB@chimera>
 References: <TP5BfCZNRXD.A._8.uj1uMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <TP5BfCZNRXD.A._8.uj1uMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Al Viro <viro@zeniv.linux.org.uk>, Christoph Hellwig <hch@lst.de>, =?utf-8?q?Toralf=20F=C3=B6rster?= <toralf.foerster@gmx.de>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Nikola Ciprich <extmaillist-Jp3n8lUXroTtwjQa/ONI9g@public.gmane.org>
 
-This message has been generated automatically as a part of a summary re=
-port
+This message has been generated automatically as a part of a summary report
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.35.  Please verify if it still should be listed and let the tr=
-acking team
+from 2.6.35.  Please verify if it still should be listed and let the tracking team
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D20352
-Subject		: Fwd: Re: UML kernel crash of v2.6.36-rcX kernel
-Submitter	: Toralf F=C3=B6rster <toralf.foerster@gmx.de>
-Date		: 2010-10-13 11:28 (5 days old)
-=46irst-Bad-Commit: http://git.kernel.org/linus/365b18189789bfa1acd9939=
-e6312b8a4b4577b28
-Message-ID	: <201010131328.06465.toralf.foerster@gmx.de>
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D128696930132503&w=3D=
-2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20462
+Subject		: 2.6.36-rc7-git2 - panic/GPF: e1000e/vlans?
+Submitter	: Nikola Ciprich <extmaillist-Jp3n8lUXroTtwjQa/ONI9g@public.gmane.org>
+Date		: 2010-10-15 7:10 (3 days old)
+Message-ID	: <20101015071008.GA8714-xTMdSLfc3Wpi51D5yjT6kKVXKuFTiq87@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=128712984831303&w=2
 
