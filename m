@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #16228] BUG/boot failure on Dell Precision T3500 (pci/ahci_stop_engine)
-Date: Sun, 17 Oct 2010 22:55:46 +0200 (CEST)
-Message-ID: <u4vap2zcaSM.A.u0G.k11uMB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #16458] Bluetooth disabled after resume
+Date: Sun, 17 Oct 2010 22:55:47 +0200 (CEST)
+Message-ID: <u4vap2zcaSM.A.lKG.Tz1uMB@chimera>
 References: <1SnkuNVk0vO.A.E9E.Qx1uMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1SnkuNVk0vO.A.E9E.Qx1uMB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Bjorn Helgaas <bjorn.helgaas@hp.com>, Brian Bloniarz <brian.bloniarz@gmail.com>, Yinghai Lu <yinghai@kernel.org>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, AttilaN <attila123456-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.34 and 2.6.35.
@@ -22,13 +22,8 @@ introduced between 2.6.34 and 2.6.35.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16228
-Subject		: BUG/boot failure on Dell Precision T3500 (pci/ahci_stop_engine)
-Submitter	: Brian Bloniarz <brian.bloniarz@gmail.com>
-Date		: 2010-06-16 17:57 (124 days old)
-Handled-By	: Bjorn Helgaas <bjorn.helgaas@hp.com>
-Patch		: https://patchwork.kernel.org/patch/189182/
-		  https://patchwork.kernel.org/patch/189232/
-		  https://patchwork.kernel.org/patch/189242/
-		  https://patchwork.kernel.org/patch/189252/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16458
+Subject		: Bluetooth disabled after resume
+Submitter	: AttilaN <attila123456-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2010-07-25 09:33 (85 days old)
 
