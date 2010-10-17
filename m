@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #16971] qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
-Date: Sun, 17 Oct 2010 22:21:40 +0200 (CEST)
-Message-ID: <7N-qxsaxKCN.A.kUD.Km1uMB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #17361] Random kmemcheck errors and kernel freeze on 2.6.36-rc*
+Date: Sun, 17 Oct 2010 22:21:41 +0200 (CEST)
+Message-ID: <7N-qxsaxKCN.A.mED.rl1uMB@chimera>
 References: <TP5BfCZNRXD.A._8.uj1uMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <TP5BfCZNRXD.A._8.uj1uMB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Christian Casteyde <casteyde.christian@free.fr>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,8 @@ from 2.6.35.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16971
-Subject		: qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
-Submitter	: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
-Date		: 2010-08-19 21:03 (60 days old)
-Message-ID	: <<alpine.SOC.1.00.1008192359310.19654-ptEonEWSGqKptlylMvRsHA@public.gmane.org>>
-References	: http://marc.info/?l=linux-kernel&m=128225184900892&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17361
+Subject		: Random kmemcheck errors and kernel freeze on 2.6.36-rc*
+Submitter	: Christian Casteyde <casteyde.christian@free.fr>
+Date		: 2010-08-29 19:59 (50 days old)
 
