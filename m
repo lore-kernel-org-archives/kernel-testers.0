@@ -1,29 +1,31 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #16380] Loop devices act strangely in 2.6.35
-Date: Sun, 17 Oct 2010 22:55:46 +0200 (CEST)
-Message-ID: <u4vap2zcaSM.A.AOG.8z1uMB@chimera>
-References: <1SnkuNVk0vO.A.E9E.Qx1uMB@chimera>
+From: Stefan Richter <stefanr@s5r6.in-berlin.de>
+Subject: Re: [Bug #20182] 2.6.36-rc7: NULL pointer dereference in ehci_clear_tt_buffer_complete
+Date: Sun, 17 Oct 2010 23:20:04 +0200
+Message-ID: <4CBB6884.7040003@s5r6.in-berlin.de>
+References: <TP5BfCZNRXD.A._8.uj1uMB@chimera> <7N-qxsaxKCN.A.2vB.Nk1uMB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1SnkuNVk0vO.A.E9E.Qx1uMB@chimera>
-Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <7N-qxsaxKCN.A.2vB.Nk1uMB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, "Artem S. Tashkinov" <t.artem-VInPYn6yXxRWk0Htik3J/w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Alan Stern <stern@rowland.harvard.edu>, David Brownell <david-b@pacbell.net>, linux-usb@vger.kernel.org
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.34 and 2.6.35.
+Rafael J. Wysocki wrote:
+> The following bug entry is on the current list of known regressions
+> from 2.6.35.  Please verify if it still should be listed and let the tracking team
+> know (either way).
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20182
+> Subject		: 2.6.36-rc7: NULL pointer dereference in ehci_clear_tt_buffer_complete
 
-The following bug entry is on the current list of known regressions
-introduced between 2.6.34 and 2.6.35.  Please verify if it still should
-be listed and let the tracking team know (either way).
-
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16380
-Subject		: Loop devices act strangely in 2.6.35
-Submitter	: Artem S. Tashkinov <t.artem-VInPYn6yXxRWk0Htik3J/w@public.gmane.org>
-Date		: 2010-07-13 23:21 (97 days old)
-
+The bug could not be reproduced so far but might be real nonetheless.
+Alan Stern proposed a fix patch:
+<Pine.LNX.4.44L0.1010131011160.2311-100000@iolanthe.rowland.org>
+http://lkml.org/lkml/2010/10/13/178
+-- 
+Stefan Richter
+-=====-==-=- =-=- =---=
+http://arcgraph.de/sr/
