@@ -1,32 +1,48 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #20182] 2.6.36-rc7: NULL pointer dereference in ehci_clear_tt_buffer_complete
-Date: Sun, 17 Oct 2010 23:29:02 +0200
-Message-ID: <201010172329.02356.rjw@sisk.pl>
-References: <TP5BfCZNRXD.A._8.uj1uMB@chimera> <7N-qxsaxKCN.A.2vB.Nk1uMB@chimera> <4CBB6884.7040003@s5r6.in-berlin.de>
+From: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #19392] WARNING: at drivers/net/wireless/ath/ath5k/base.c:3475
+ ath5k_bss_info_changed+0x44/0x168 [ath5k]()
+Date: Sun, 17 Oct 2010 14:44:09 -0700
+Message-ID: <4CBB6E29.9090808@gmail.com>
+References: <TP5BfCZNRXD.A._8.uj1uMB@chimera> <7N-qxsaxKCN.A.YpC.ok1uMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <4CBB6884.7040003@s5r6.in-berlin.de>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=6umi2wd69leWz5LHa/MZEqt7qYSZ4ofIRlLppxScUfg=;
+        b=h7KZDvTG5VSxdu/HifTR4GjAgGh1ySwfWDbw/NUGzOJC2H1Vwj/CcHjn/5smAJO//g
+         HsyyZrXvFmLrnrnoul7Q/V4H1MZCynjgPoq03EMklL0ju0Zel+HHU03+C3vgGMdCs+sj
+         NhnrT6eP3jplqCjCvq8dC2ROJR5rxXtxhiXkY=
+In-Reply-To: <7N-qxsaxKCN.A.YpC.ok1uMB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Stefan Richter <stefanr@s5r6.in-berlin.de>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Alan Stern <stern@rowland.harvard.edu>, David Brownell <david-b@pacbell.net>, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Dominik Brodowski <linux-X3ehHDuj6sIIGcDfoQAp7OTW4wlIGRCZ@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 
-On Sunday, October 17, 2010, Stefan Richter wrote:
-> Rafael J. Wysocki wrote:
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.35.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20182
-> > Subject		: 2.6.36-rc7: NULL pointer dereference in ehci_clear_tt_buffer_complete
-> 
-> The bug could not be reproduced so far but might be real nonetheless.
-> Alan Stern proposed a fix patch:
-> <Pine.LNX.4.44L0.1010131011160.2311-100000@iolanthe.rowland.org>
-> http://lkml.org/lkml/2010/10/13/178
+On 10/17/2010 01:21 PM, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.35.  Please verify if it still should be listed and let the tracking team
+> know (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19392
+> Subject		: WARNING: at drivers/net/wireless/ath/ath5k/base.c:3475 ath5k_bss_info_changed+0x44/0x168 [ath5k]()
+> Submitter	: Justin Mattock<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-09-28 22:30 (20 days old)
+> Message-ID	:<AANLkTim5WCGKPvEkOkO_YnMF9pg8mvLfQoFBNUFpfa_k-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=128571307018635&w=2
+>
+>
+>
 
-Thanks, I've updated the bug with the patch information.
 
-Rafael
+yeah it's still here...(I can try and play with this, but who knows..)
+
+Justin P. Mattock
