@@ -1,39 +1,39 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #20472] [2.6.35.5 -> .7] INFO: task rpcbind:14163 blocked for more than 120 seconds.
-Date: Mon, 18 Oct 2010 23:36:51 +0200
-Message-ID: <201010182336.51265.rjw@sisk.pl>
-References: <TP5BfCZNRXD.A._8.uj1uMB@chimera> <7N-qxsaxKCN.A.TEB.0j1uMB@chimera> <201010181951.34620.pluto@agmk.net>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #20172] Lenovo S12 2.6.36-rc7 lockup
+Date: Tue, 19 Oct 2010 00:41:25 +0200
+Message-ID: <201010190041.25215.rjw@sisk.pl>
+References: <TP5BfCZNRXD.A._8.uj1uMB@chimera> <7N-qxsaxKCN.A.31B.Pk1uMB@chimera> <20101018233404.0e9f4ddb@laptop.homenet>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201010181951.34620.pluto-PIIpFW8S9c0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20101018233404.0e9f4ddb@laptop.homenet>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="windows-1252"
-To: =?utf-8?q?Pawe=C5=82_Sikora?= <pluto-PIIpFW8S9c0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Trond Myklebust <trond.myklebust-41N18TsMXrtuMpJDpNschA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Chris Vine <chris@cvine.freeserve.co.uk>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
 
-On Monday, October 18, 2010, Pawe=C5=82 Sikora wrote:
-> On Sunday 17 October 2010 22:21:48 Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a summar=
-y report
-> > of recent regressions.
-> >=20
+On Tuesday, October 19, 2010, Chris Vine wrote:
+> On Sun, 17 Oct 2010 22:21:44 +0200 (CEST)
+> "Rafael J. Wysocki" <rjw@sisk.pl> wrote:
+> > This message has been generated automatically as a part of a summary
+> > report of recent regressions.
+> > 
 > > The following bug entry is on the current list of known regressions
-> > from 2.6.35.  Please verify if it still should be listed and let th=
-e tracking team
-> > know (either way).
->=20
-> hi,
->=20
-> hot news from the front, recent tests on the pld-linux.org vendor ker=
-nel
-> show that the random task blocking in 2.6.35.7 during medium/heavy lo=
-ad (~4..25)
-> is related to the grsecurity patch. we'll forward problem report to t=
-he
-> grsec maintainer asap...
+> > from 2.6.35.  Please verify if it still should be listed and let the
+> > tracking team know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20172
+> > Subject		: Lenovo S12 2.6.36-rc7 lockup
+> > Submitter	: Chris Vine <chris@cvine.freeserve.co.uk>
+> > Date		: 2010-10-10 12:59 (8 days old)
+> > Message-ID	: <20101010135912.76eb61b7@boulder.homenet>
+> > References	:
+> > http://marc.info/?l=linux-kernel&m=128671620721712&w=2
+> 
+> This bug is still present in 2.6.36-rc8.
 
-So, to make things clear, this is not a mainline kernel issue, is it?
+Thanks for the update.
 
 Rafael
