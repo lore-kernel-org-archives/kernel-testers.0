@@ -1,34 +1,29 @@
-From: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-Subject: Re: [Bug #19072] [2.6.36-rc regression] occasional complete system hangs on sparc64 SMP
-Date: Mon, 18 Oct 2010 09:41:37 +0200
-Message-ID: <19643.64049.949858.105680@pilspetsen.it.uu.se>
-References: <TP5BfCZNRXD.A._8.uj1uMB@chimera>
-	<7N-qxsaxKCN.A.i4C.yk1uMB@chimera>
+From: =?utf-8?q?Pawe=C5=82_Sikora?= <pluto@agmk.net>
+Subject: Re: [Bug #20472] [2.6.35.5 -> .7] INFO: task rpcbind:14163 blocked for more than 120 seconds.
+Date: Mon, 18 Oct 2010 19:51:34 +0200
+Message-ID: <201010181951.34620.pluto@agmk.net>
+References: <TP5BfCZNRXD.A._8.uj1uMB@chimera> <7N-qxsaxKCN.A.TEB.0j1uMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <7N-qxsaxKCN.A.i4C.yk1uMB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <7N-qxsaxKCN.A.TEB.0j1uMB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Trond Myklebust <trond.myklebust@fys.uio.no>
 
-On Sun, 17 Oct 2010 22:21:42 +0200 (CEST), Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+On Sunday 17 October 2010 22:21:48 Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
+> 
 > The following bug entry is on the current list of known regressions
 > from 2.6.35.  Please verify if it still should be listed and let the tracking team
 > know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D19072
-> Subject		: [2.6.36-rc regression] occasional complete system hangs on sparc=
-> 64 SMP
-> Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-> Date		: 2010-09-23 17:02 (25 days old)
-> Message-ID	: <<19611.34846.813757.309183-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>>
-> References	: http://marc.info/?l=3Dlinux-kernel&m=3D128526136531048&w=3D2
 
-I've not been able to reproduce it yet with 2.6.36-rc7, but there's
-been no known recent bugfix in this area so whether the bug is fixed
-or not is unknown.  If I've not been able to reproduce it on -rc7 or
--rc8 after next weekend we could close the bug.
+hi,
+
+hot news from the front, recent tests on the pld-linux.org vendor kernel
+show that the random task blocking in 2.6.35.7 during medium/heavy load (~4..25)
+is related to the grsecurity patch. we'll forward problem report to the
+grsec maintainer asap...
