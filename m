@@ -1,41 +1,34 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #19392] WARNING: at drivers/net/wireless/ath/ath5k/base.c:3475 ath5k_bss_info_changed+0x44/0x168 [ath5k]()
-Date: Mon, 18 Oct 2010 00:35:35 +0200
-Message-ID: <201010180035.36080.rjw@sisk.pl>
-References: <TP5BfCZNRXD.A._8.uj1uMB@chimera> <7N-qxsaxKCN.A.YpC.ok1uMB@chimera> <4CBB6E29.9090808@gmail.com>
+From: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+Subject: Re: [Bug #19072] [2.6.36-rc regression] occasional complete system hangs on sparc64 SMP
+Date: Mon, 18 Oct 2010 09:41:37 +0200
+Message-ID: <19643.64049.949858.105680@pilspetsen.it.uu.se>
+References: <TP5BfCZNRXD.A._8.uj1uMB@chimera>
+	<7N-qxsaxKCN.A.i4C.yk1uMB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4CBB6E29.9090808-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <7N-qxsaxKCN.A.i4C.yk1uMB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Dominik Brodowski <linux-X3ehHDuj6sIIGcDfoQAp7OTW4wlIGRCZ@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
 
-On Sunday, October 17, 2010, Justin P. Mattock wrote:
-> On 10/17/2010 01:21 PM, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.35.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19392
-> > Subject		: WARNING: at drivers/net/wireless/ath/ath5k/base.c:3475 ath5k_bss_info_changed+0x44/0x168 [ath5k]()
-> > Submitter	: Justin Mattock<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2010-09-28 22:30 (20 days old)
-> > Message-ID	:<AANLkTim5WCGKPvEkOkO_YnMF9pg8mvLfQoFBNUFpfa_k-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-> > References	: http://marc.info/?l=linux-kernel&m=128571307018635&w=2
-> >
-> >
-> >
+On Sun, 17 Oct 2010 22:21:42 +0200 (CEST), Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> The following bug entry is on the current list of known regressions
+> from 2.6.35.  Please verify if it still should be listed and let the tracking team
+> know (either way).
 > 
 > 
-> yeah it's still here...(I can try and play with this, but who knows..)
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D19072
+> Subject		: [2.6.36-rc regression] occasional complete system hangs on sparc=
+> 64 SMP
+> Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
+> Date		: 2010-09-23 17:02 (25 days old)
+> Message-ID	: <<19611.34846.813757.309183-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>>
+> References	: http://marc.info/?l=3Dlinux-kernel&m=3D128526136531048&w=3D2
 
-Thanks for the update.
-
-Rafael
+I've not been able to reproduce it yet with 2.6.36-rc7, but there's
+been no known recent bugfix in this area so whether the bug is fixed
+or not is unknown.  If I've not been able to reproduce it on -rc7 or
+-rc8 after next weekend we could close the bug.
