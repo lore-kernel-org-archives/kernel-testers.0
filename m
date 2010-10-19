@@ -1,85 +1,33 @@
-From: =?utf-8?q?Pawe=C5=82_Sikora?= <pluto-PIIpFW8S9c0@public.gmane.org>
-Subject: Re: [Bug #20472] [2.6.35.5 -> .7] INFO: task rpcbind:14163 blocked for more than 120 seconds.
-Date: Tue, 19 Oct 2010 18:03:59 +0200
-Message-ID: <201010191804.00147.pluto@agmk.net>
-References: <TP5BfCZNRXD.A._8.uj1uMB@chimera> <201010181951.34620.pluto@agmk.net> <201010182336.51265.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [linux-pm] 2.6.36-rc8-git3: Reported regressions 2.6.34 -> 2.6.35
+Date: Tue, 19 Oct 2010 22:28:11 +0200
+Message-ID: <201010192228.11954.rjw@sisk.pl>
+References: <Pine.LNX.4.44L0.1010191157070.1786-100000@iolanthe.rowland.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201010182336.51265.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <Pine.LNX.4.44L0.1010191157070.1786-100000-IYeN2dnnYyZXsRXLowluHWD2FQJk+8+b@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="windows-1252"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Trond Myklebust <trond.myklebust-41N18TsMXrtuMpJDpNschA@public.gmane.org>, Arkadiusz Miskiewicz <arekm-evZBlRFTdvA@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, O01eg <O01eg-o+MxOtu4lMCHXe+LvDLADg@public.gmane.org>
 
-On Monday 18 October 2010 23:36:51 Rafael J. Wysocki wrote:
-> On Monday, October 18, 2010, Pawe=C5=82 Sikora wrote:
-> > On Sunday 17 October 2010 22:21:48 Rafael J. Wysocki wrote:
-> > > This message has been generated automatically as a part of a summ=
-ary report
-> > > of recent regressions.
-> > >=20
-> > > The following bug entry is on the current list of known regressio=
-ns
-> > > from 2.6.35.  Please verify if it still should be listed and let =
-the tracking team
-> > > know (either way).
-> >=20
-> > hi,
-> >=20
-> > hot news from the front, recent tests on the pld-linux.org vendor k=
-ernel
-> > show that the random task blocking in 2.6.35.7 during medium/heavy =
-load (~4..25)
-> > is related to the grsecurity patch. we'll forward problem report to=
- the
-> > grsec maintainer asap...
->=20
-> So, to make things clear, this is not a mainline kernel issue, is it?
+On Tuesday, October 19, 2010, Alan Stern wrote:
+> On Sun, 17 Oct 2010, Rafael J. Wysocki wrote:
+> 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19302
+> > Subject		: PROBLEM: kernel crash on USB-modem (Huawei E1750) hangup.
+> > Submitter	: O01eg <O01eg-o+MxOtu4lMCHXe+LvDLADg@public.gmane.org>
+> > Date		: 2010-09-26 19:50 (22 days old)
+> > Message-ID	: <op.vjnn1up1yohvy1@localhost>
+> > References	: http://marc.info/?l=linux-kernel&m=128553111709569&w=2
+> 
+> This does not appear to be a regression.  The bug report states that
+> the problem occurs in 2.6.34 and 2.6.36-rc5 and that no other kernels
+> were tested.
 
-i thought that was a grsecurity issue but now i have a testcase that
-casues task blocking on my machine with the vanilla 2.6.35.7 kernel:
+OK, dropped.
 
-steps to repoduce:
-
-on console 1:
-- run 'make -j32' in kernel tree and wait several second for make forks
-  and medium system load (~15).
-
-on console 2:
-- run 'sync' from root account to bump load more.
-
-on console 3:
-- observe 'tail -f /var/log/kernel' for blocking issues.
-
-[  360.517917] INFO: task sync:6712 blocked for more than 120 seconds.
-[  360.517920] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disab=
-les this message.
-[  360.517922] sync          D 00000000ffff4c7c     0  6712   2770 0x00=
-000000
-[  360.517926]  ffff88021ac71d18 0000000000000086 ffff880200000000 0000=
-000000004000
-[  360.517930]  0000000000013700 0000000000013700 ffff88021ac71fd8 ffff=
-88021ac71fd8
-[  360.517933]  ffff880205593020 0000000000013700 ffff88021ac71fd8 0000=
-000000004000
-[  360.517936] Call Trace:
-[  360.517944]  [<ffffffff813b8dbd>] schedule_timeout+0x20d/0x2f0
-[  360.517949]  [<ffffffff8103baba>] ? enqueue_entity+0xea/0x170
-[  360.517951]  [<ffffffff8103bc09>] ? enqueue_task_fair+0x49/0x50
-[  360.517954]  [<ffffffff813b8945>] wait_for_common+0xc5/0x150
-[  360.517957]  [<ffffffff81040430>] ? default_wake_function+0x0/0x10
-[  360.517959]  [<ffffffff813b8a78>] wait_for_completion+0x18/0x20
-[  360.517963]  [<ffffffff8113b343>] sync_inodes_sb+0x83/0x170
-[  360.517967]  [<ffffffff8113f890>] ? sync_one_sb+0x0/0x20
-[  360.517969]  [<ffffffff8113f880>] __sync_filesystem+0x80/0x90
-[  360.517972]  [<ffffffff8113f8ab>] sync_one_sb+0x1b/0x20
-[  360.517975]  [<ffffffff8111d2c7>] iterate_supers+0x77/0xc0
-[  360.517978]  [<ffffffff8113f7bb>] sync_filesystems+0x1b/0x20
-[  360.517980]  [<ffffffff8113f92c>] sys_sync+0x1c/0x40
-[  360.517984]  [<ffffffff81002d6b>] system_call_fastpath+0x16/0x1b
-
-the 'make' is running on ext4 filesystem with underlying mdadm (raid10)
-created from 2 caviar raid edition disks. the cpu is intel quad core
-Q9300 with 8GB of ddr2 ram.
+Thanks,
+Rafael
