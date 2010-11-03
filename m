@@ -1,132 +1,32 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #20472] [2.6.34 -> 2.6.35] INFO: task rpcbind:14163 blocked for more than 120 seconds.
-Date: Wed, 20 Oct 2010 23:35:23 +0200
-Message-ID: <201010202335.24118.rjw@sisk.pl>
-References: <TP5BfCZNRXD.A._8.uj1uMB@chimera> <201010192230.22623.rjw@sisk.pl> <201010200200.45570.pluto@agmk.net>
+From: Dimitris Orfanos <sirtimid-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Try to compile nv_backlight.c gets an compilation error!
+Date: Wed, 3 Nov 2010 12:49:15 +0200
+Message-ID: <201011031249.15609.sirtimid@gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201010200200.45570.pluto-PIIpFW8S9c0@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:from:to:subject:date
+         :user-agent:mime-version:content-type:content-transfer-encoding
+         :message-id;
+        bh=sBnPwsLpSx/UzWO32izEQch9JAy8ZAR1Vy9rpQTfIr0=;
+        b=MrTX5XbgB9xILFMPMvrTplDC0s/XalV9szHGwtcP/lsz7NqQZyk8EmMC+JR9QRW+am
+         QQ9Z6rhfMQMmr3LSd/5XKHINuU6Byq03qL6XzrUSxfgOuREokxMbSZWHQ3blGIU0dLU5
+         dyeUIHQPAJmXi2oqQntwWoStnZR6nggiAdEbM=
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: =?utf-8?q?Pawe=C5=82_Sikora?= <pluto-PIIpFW8S9c0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Trond Myklebust <trond.myklebust-41N18TsMXrtuMpJDpNschA@public.gmane.org>, Arkadiusz Miskiewicz <arekm-evZBlRFTdvA@public.gmane.org>, Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Wednesday, October 20, 2010, Pawe=C5=82 Sikora wrote:
-> On Tuesday 19 October 2010 22:30:22 Rafael J. Wysocki wrote:
-> > On Tuesday, October 19, 2010, Pawe=C5=82 Sikora wrote:
-> > > On Monday 18 October 2010 23:36:51 Rafael J. Wysocki wrote:
-> > > > On Monday, October 18, 2010, Pawe=C5=82 Sikora wrote:
-> > > > > On Sunday 17 October 2010 22:21:48 Rafael J. Wysocki wrote:
-> > > > > > This message has been generated automatically as a part of =
-a summary report
-> > > > > > of recent regressions.
-> > > > > >=20
-> > > > > > The following bug entry is on the current list of known reg=
-ressions
-> > > > > > from 2.6.35.  Please verify if it still should be listed an=
-d let the tracking team
-> > > > > > know (either way).
-> > > > >=20
-> > > > > hi,
-> > > > >=20
-> > > > > hot news from the front, recent tests on the pld-linux.org ve=
-ndor kernel
-> > > > > show that the random task blocking in 2.6.35.7 during medium/=
-heavy load (~4..25)
-> > > > > is related to the grsecurity patch. we'll forward problem rep=
-ort to the
-> > > > > grsec maintainer asap...
-> > > >=20
-> > > > So, to make things clear, this is not a mainline kernel issue, =
-is it?
-> > >=20
-> > > i thought that was a grsecurity issue but now i have a testcase t=
-hat
-> > > casues task blocking on my machine with the vanilla 2.6.35.7 kern=
-el:
-> > >=20
-> > > steps to repoduce:
-> > >=20
-> > > on console 1:
-> > > - run 'make -j32' in kernel tree and wait several second for make=
- forks
-> > >   and medium system load (~15).
-> > >=20
-> > > on console 2:
-> > > - run 'sync' from root account to bump load more.
-> > >=20
-> > > on console 3:
-> > > - observe 'tail -f /var/log/kernel' for blocking issues.
-> > >=20
-> > > [  360.517917] INFO: task sync:6712 blocked for more than 120 sec=
-onds.
-> > > [  360.517920] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"=
- disables this message.
-> > > [  360.517922] sync          D 00000000ffff4c7c     0  6712   277=
-0 0x00000000
-> > > [  360.517926]  ffff88021ac71d18 0000000000000086 ffff88020000000=
-0 0000000000004000
-> > > [  360.517930]  0000000000013700 0000000000013700 ffff88021ac71fd=
-8 ffff88021ac71fd8
-> > > [  360.517933]  ffff880205593020 0000000000013700 ffff88021ac71fd=
-8 0000000000004000
-> > > [  360.517936] Call Trace:
-> > > [  360.517944]  [<ffffffff813b8dbd>] schedule_timeout+0x20d/0x2f0
-> > > [  360.517949]  [<ffffffff8103baba>] ? enqueue_entity+0xea/0x170
-> > > [  360.517951]  [<ffffffff8103bc09>] ? enqueue_task_fair+0x49/0x5=
-0
-> > > [  360.517954]  [<ffffffff813b8945>] wait_for_common+0xc5/0x150
-> > > [  360.517957]  [<ffffffff81040430>] ? default_wake_function+0x0/=
-0x10
-> > > [  360.517959]  [<ffffffff813b8a78>] wait_for_completion+0x18/0x2=
-0
-> > > [  360.517963]  [<ffffffff8113b343>] sync_inodes_sb+0x83/0x170
-> > > [  360.517967]  [<ffffffff8113f890>] ? sync_one_sb+0x0/0x20
-> > > [  360.517969]  [<ffffffff8113f880>] __sync_filesystem+0x80/0x90
-> > > [  360.517972]  [<ffffffff8113f8ab>] sync_one_sb+0x1b/0x20
-> > > [  360.517975]  [<ffffffff8111d2c7>] iterate_supers+0x77/0xc0
-> > > [  360.517978]  [<ffffffff8113f7bb>] sync_filesystems+0x1b/0x20
-> > > [  360.517980]  [<ffffffff8113f92c>] sys_sync+0x1c/0x40
-> > > [  360.517984]  [<ffffffff81002d6b>] system_call_fastpath+0x16/0x=
-1b
-> > >=20
-> > > the 'make' is running on ext4 filesystem with underlying mdadm (r=
-aid10)
-> > > created from 2 caviar raid edition disks. the cpu is intel quad c=
-ore
-> > > Q9300 with 8GB of ddr2 ram.
-> >=20
-> > So, how is this related to the original report?
->=20
-> it's easier to reproduce on single test machine (no need to playing w=
-ith parallel make and nfs).
-> in fact this isn't a 2.6.35.5->.7 regression but 2.6.34->2.6.35. the =
-git-bisect found
-> first commit that introduces the 'sync' task blocking problem here:
->=20
-> commit 7c8a3554c683f512dbcee26faedb42e4c05f12fa
-> Author: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-> Date:   Tue May 18 14:29:29 2010 +0200
->=20
->     writeback: ensure that WB_SYNC_NONE writeback with sb pinned is s=
-ync
->    =20
->     Even if the writeout itself isn't a data integrity operation, we =
-need
->     to ensure that the caller doesn't drop the sb umount sem before w=
-e
->     have actually done the writeback.
->    =20
->     This is a fixup for commit e913fc82.
->    =20
->     Signed-off-by: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
->=20
->=20
-> i'll try to revert this patch from the 2.6.35.7 and test make+nfs in =
-few days...
+Hello,
 
-OK, thanks.  Jens added to the CC list.
+I try to use the checkpatch.pl script on drivers/nvidia/nv_backlight.c but 
+before this I tried to compile the code with make nv_backlight.o I get the 
+following error:
 
-Rafael
+nv_backlight.c:12:29: fatal error: linux/backlight.h: No such file or 
+directory
+compilation terminated.
+
+The backlight.h file does not exist. What to do?
