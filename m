@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #21662] 2.6.35->2.6.36 regression, vanilla kernel panic, ppp or hrtimers crashing
-Date: Fri, 19 Nov 2010 00:53:41 +0100 (CET)
-Message-ID: <t78YtCSuOqN.A.i1F.-3b5MB@chimera>
+Subject: [Bug #22272] High [extra timer interrupt] count in powertop since 2.6.36
+Date: Fri, 19 Nov 2010 00:53:43 +0100 (CET)
+Message-ID: <t78YtCSuOqN.A.qhF.23b5MB@chimera>
 References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Denys Fedoryshchenko <nuclearcat@nuclearcat.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Ian Kumlien <pomac@demius.net>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,10 +22,10 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=21662
-Subject		: 2.6.35->2.6.36 regression, vanilla kernel panic, ppp or hrtimers crashing
-Submitter	: Denys Fedoryshchenko <nuclearcat@nuclearcat.com>
-Date		: 2010-10-25 9:22 (25 days old)
-Message-ID	: <201010251222.37191.nuclearcat@nuclearcat.com>
-References	: http://marc.info/?l=linux-kernel&m=128799855826011&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22272
+Subject		: High [extra timer interrupt] count in powertop since 2.6.36
+Submitter	: Ian Kumlien <pomac@demius.net>
+Date		: 2010-10-30 23:52 (20 days old)
+Message-ID	: <alpine.LNX.2.00.1010310148450.24290@twilight.pomac.com>
+References	: http://marc.info/?l=linux-kernel&m=128848330304431&w=2
 
