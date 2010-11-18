@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #20232] kworker consumes ~100% CPU on HP Elitebook 8540w running 2.6.36_rc6-git4
-Date: Fri, 19 Nov 2010 00:53:36 +0100 (CET)
-Message-ID: <t78YtCSuOqN.A.wuG.k4b5MB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #20162] [LogFS][2.6.36.rc7+] Kernel BUG at readwrite.c:1193
+Date: Fri, 19 Nov 2010 00:53:35 +0100 (CET)
+Message-ID: <t78YtCSuOqN.A.gGH.t4b5MB@chimera>
 References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Ozan Caglayan <ozan@pardus.org.tr>, Peter Zijlstra <a.p.zijlstra@chello.nl>, 2010-04-22@ogre.sisk.pl, "21:50:19"@ogre.sisk.pl
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Prasad Gajanan Joshi <prasadjoshi124-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Prasad Joshi <prasadjoshi124-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,8 +22,12 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20232
-Subject		: kworker consumes ~100% CPU on HP Elitebook 8540w running 2.6.36_rc6-git4
-Submitter	: Ozan Caglayan <ozan@pardus.org.tr>
-Date		: 2010-10-13 06:13 (37 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20162
+Subject		: [LogFS][2.6.36.rc7+] Kernel BUG at readwrite.c:1193
+Submitter	: Prasad Joshi <prasadjoshi124-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2010-10-10 17:44 (40 days old)
+Message-ID	: <AANLkTi=JkcuWBPo+X-i+9o-BJFVqjea1J3e=Mr=HvAWF-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=128673196203340&w=2
+Handled-By	:  Prasad Gajanan Joshi <prasadjoshi124-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Patch		: https://bugzilla.kernel.org/show_bug.cgi?id=20162#c1
 
