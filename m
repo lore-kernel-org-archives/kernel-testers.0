@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #22692] [regression, 2.6.37-rc1] 'ip link tap0 up' stuck in do_exit()
-Date: Fri, 19 Nov 2010 00:42:47 +0100 (CET)
-Message-ID: <ATV3yiK8i4C.A.P0D.9hb5MB@chimera>
+Subject: [Bug #22472] vga_switcheroo fails to switch from intel to ati
+Date: Fri, 19 Nov 2010 00:42:44 +0100 (CET)
+Message-ID: <ATV3yiK8i4C.A.t1E.Zib5MB@chimera>
 References: <sKkKYVppECN.A.KhC.Phb5MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Radu Andries <admiral0-BoOA+NLF7L6xbKUeIHjxjQ@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,8 @@ from 2.6.36.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22692
-Subject		: [regression, 2.6.37-rc1] 'ip link tap0 up' stuck in do_exit()
-Submitter	: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
-Date		: 2010-11-03 6:26 (16 days old)
-Message-ID	: <20101103062609.GB31163@dastard>
-References	: http://marc.info/?l=linux-kernel&m=128876560131870&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22472
+Subject		: vga_switcheroo fails to switch from intel to ati
+Submitter	: Radu Andries <admiral0-BoOA+NLF7L6xbKUeIHjxjQ@public.gmane.org>
+Date		: 2010-11-08 16:46 (11 days old)
 
