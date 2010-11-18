@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #22562] Regression in 2.6.37-rc1 - logs spammed with "unable to enumerate USB port" - bisected to commit 3df7169e
-Date: Fri, 19 Nov 2010 00:42:45 +0100 (CET)
-Message-ID: <ATV3yiK8i4C.A.wXE.Nib5MB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #22942] [2.6.37-rc1, OOM] virtblk: OOM in do_virtblk_request()
+Date: Fri, 19 Nov 2010 00:42:49 +0100 (CET)
+Message-ID: <ATV3yiK8i4C.A.PJD.lhb5MB@chimera>
 References: <sKkKYVppECN.A.KhC.Phb5MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <sKkKYVppECN.A.KhC.Phb5MB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@suse.de>, Larry Finger <Larry.Finger@lwfinger.net>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,11 +22,10 @@ from 2.6.36.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22562
-Subject		: Regression in 2.6.37-rc1 - logs spammed with "unable to enumerate USB port" - bisected to commit 3df7169e
-Submitter	: Larry Finger <Larry.Finger@lwfinger.net>
-Date		: 2010-11-02 22:32 (17 days old)
-First-Bad-Commit: http://git.kernel.org/linus/3df7169e73fc1d71a39cffeacc969f6840cdf52b
-Message-ID	: <4CD09166.4060202@lwfinger.net>
-References	: http://marc.info/?l=linux-kernel&m=128873713207906&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22942
+Subject		: [2.6.37-rc1, OOM] virtblk: OOM in do_virtblk_request()
+Submitter	: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
+Date		: 2010-11-05 1:30 (14 days old)
+Message-ID	: <20101105013003.GE13830@dastard>
+References	: http://marc.info/?l=linux-kernel&m=128892062917641&w=2
 
