@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #17061] 2.6.36-rc1 on zaurus: bluetooth regression
+Subject: [Bug #16971] qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
 Date: Fri, 19 Nov 2010 00:53:33 +0100 (CET)
-Message-ID: <t78YtCSuOqN.A.y8H.j6b5MB@chimera>
+Message-ID: <t78YtCSuOqN.A.AJ.q6b5MB@chimera>
 References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,10 +22,10 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=17061
-Subject		: 2.6.36-rc1 on zaurus: bluetooth regression
-Submitter	: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-Date		: 2010-08-21 15:24 (90 days old)
-Message-ID	: <20100821152445.GA1536-+ZI9xUNit7I@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=128240433828087&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16971
+Subject		: qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
+Submitter	: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+Date		: 2010-08-19 21:03 (92 days old)
+Message-ID	: <<alpine.SOC.1.00.1008192359310.19654-ptEonEWSGqKptlylMvRsHA@public.gmane.org>>
+References	: http://marc.info/?l=linux-kernel&m=128225184900892&w=2
 
