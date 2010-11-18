@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #19782] 2.6.36-rc6-git2 -- BUG dentry: Poison overwritten (after resume from hibernation)
-Date: Fri, 19 Nov 2010 00:53:34 +0100 (CET)
-Message-ID: <t78YtCSuOqN.A.ATH.64b5MB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #20462] 2.6.36-rc7-git2 - panic/GPF: e1000e/vlans?
+Date: Fri, 19 Nov 2010 00:53:38 +0100 (CET)
+Message-ID: <t78YtCSuOqN.A.8OG.T4b5MB@chimera>
 References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Miles Lane <miles.lane@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Nikola Ciprich <extmaillist-Jp3n8lUXroTtwjQa/ONI9g@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,10 +22,10 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19782
-Subject		: 2.6.36-rc6-git2 -- BUG dentry: Poison overwritten (after resume from hibernation)
-Submitter	: Miles Lane <miles.lane@gmail.com>
-Date		: 2010-10-03 3:54 (47 days old)
-Message-ID	: <AANLkTimrqtzBHAZSuDhEs_3CKA6pCbM35b1BtKH=MvC_@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=128607809314079&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20462
+Subject		: 2.6.36-rc7-git2 - panic/GPF: e1000e/vlans?
+Submitter	: Nikola Ciprich <extmaillist-Jp3n8lUXroTtwjQa/ONI9g@public.gmane.org>
+Date		: 2010-10-15 7:10 (35 days old)
+Message-ID	: <20101015071008.GA8714-xTMdSLfc3Wpi51D5yjT6kKVXKuFTiq87@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=128712984831303&w=2
 
