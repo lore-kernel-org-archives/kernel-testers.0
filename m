@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #20322] 2.6.36-rc7: inconsistent lock state: inconsistent {IN-RECLAIM_FS-R} -> {RECLAIM_FS-ON-W} usage.
-Date: Fri, 19 Nov 2010 00:53:36 +0100 (CET)
-Message-ID: <t78YtCSuOqN.A.wrG.c4b5MB@chimera>
+Subject: [Bug #20172] 2.6.36-rc7 boot stalls unless nolapic_timer - Lenovo S12
+Date: Fri, 19 Nov 2010 00:53:35 +0100 (CET)
+Message-ID: <t78YtCSuOqN.A.L-G.r4b5MB@chimera>
 References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Dave Jones <davej@redhat.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Chris Vine <chris@cvine.freeserve.co.uk>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,10 +22,10 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20322
-Subject		: 2.6.36-rc7: inconsistent lock state: inconsistent {IN-RECLAIM_FS-R} -> {RECLAIM_FS-ON-W} usage.
-Submitter	: Dave Jones <davej@redhat.com>
-Date		: 2010-10-11 20:10 (39 days old)
-Message-ID	: <20101011201007.GA29707@redhat.com>
-References	: http://marc.info/?l=linux-kernel&m=128682782828453&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20172
+Subject		: 2.6.36-rc7 boot stalls unless nolapic_timer - Lenovo S12
+Submitter	: Chris Vine <chris@cvine.freeserve.co.uk>
+Date		: 2010-10-10 12:59 (40 days old)
+Message-ID	: <<20101010135912.76eb61b7@boulder.homenet>>
+References	: http://marc.info/?l=linux-kernel&m=128671620721712&w=2
 
