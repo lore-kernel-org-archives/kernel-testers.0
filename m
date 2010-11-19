@@ -1,48 +1,69 @@
-From: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #23092] WARNING in tty_io.c
-Date: Fri, 19 Nov 2010 13:03:49 -0800
-Message-ID: <20101119130349.4430e1d1.randy.dunlap@oracle.com>
-References: <sKkKYVppECN.A.KhC.Phb5MB@chimera>
-	<ATV3yiK8i4C.A.O7C.ehb5MB@chimera>
-	<4CE5E3EE.1080104@cn.fujitsu.com>
-	<201011192135.30477.rjw@sisk.pl>
+From: Mark Lord <kernel-R6A+fiHC8nRWk0Htik3J/w@public.gmane.org>
+Subject: Re: 2.6.37-rc2-git4: Reported regressions 2.6.35 -> 2.6.36
+Date: Fri, 19 Nov 2010 17:55:42 -0500
+Message-ID: <4CE7006E.4040102@teksavvy.com>
+References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>	<4CE5C919.7090504@teksavvy.com> <AANLkTi=8G7pNA7QTxaXDWKrWrCERPfmKU+nLJWCA=JUH@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201011192135.30477.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <AANLkTi=8G7pNA7QTxaXDWKrWrCERPfmKU+nLJWCA=JUH-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Shan Wei <shanwei-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Alex Deucher <alexdeucher-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Fri, 19 Nov 2010 21:35:30 +0100 Rafael J. Wysocki wrote:
+On 10-11-19 11:39 AM, Alex Deucher wrote:
+> On Thu, Nov 18, 2010 at 7:47 PM, Mark Lord<kernel-R6A+fiHC8nRWk0Htik3J/w@public.gmane.org>  wrote:
+>
+>> My non-Intel graphics notebook (has ATI X1400 graphics) also has a resume
+>> regression with 2.6.36.  But it does work fine with 2.6.35 (and earlier,
+>> back many years).  As a result, I'm stuck with 2.6.35 for the time being,
+>> and lack the time for a concerted debug effort on 2.6.36+ right now.
+>>
+>
+> Can you bisect?  Does this patch help?
+>
+> diff --git a/drivers/gpu/drm/radeon/atom.c b/drivers/gpu/drm/radeon/atom.c
+> index 8e421f6..05efb5b 100644
+> --- a/drivers/gpu/drm/radeon/atom.c
+> +++ b/drivers/gpu/drm/radeon/atom.c
+> @@ -112,6 +112,7 @@ static uint32_t atom_iio_execute(struct
+> atom_context *ctx, int base,
+>                          base += 3;
+>                          break;
+>                  case ATOM_IIO_WRITE:
+> +                       (void)ctx->card->ioreg_read(ctx->card, CU16(base + 1));
+>                          ctx->card->ioreg_write(ctx->card, CU16(base + 1), temp);
+>                          base += 3;
+>                          break;
 
-> On Friday, November 19, 2010, Shan Wei wrote:
-> > Rafael J. Wysocki wrote, at 11/19/2010 07:42 AM:
-> > > This message has been generated automatically as a part of a summary report
-> > > of recent regressions.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > from 2.6.36.  Please verify if it still should be listed and let the tracking team
-> > > know (either way).
-> > > 
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23092
-> > > Subject		: WARNING in tty_io.c
-> > > Submitter	: Shan Wei <shanwei-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> > > Date		: 2010-11-10 8:06 (9 days old)
-> > > Message-ID	: <4CDA5291.4010802-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> > > References	: http://marc.info/?l=linux-kernel&m=128937645120159&w=2
-> > 
-> > It's not appreared in 2.6.37-rc2+ with top commit 59365d13.
-> > I don't know which patch/commit fix it.
-> 
-> OK, closed.
+It now comes back at resume time.
 
-I can still reproduce it on 2.6.37-rc2-git4.
-I'll send a separate problem report on it.
+But suffers long delays (also sometimes with 2.6.35) doing this:
 
----
-~Randy
-*** Remember to use Documentation/SubmitChecklist when testing your code ***
+[drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5secs aborting
+[drm:atom_execute_table_locked] *ERROR* atombios stuck executing E576 (len 105, 
+WS 12, PS 8) @ 0xE5C4
+[drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5secs aborting
+[drm:atom_execute_table_locked] *ERROR* atombios stuck executing ECD2 (len 86, 
+WS 4, PS 0) @ 0xED05
+[drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5secs aborting
+[drm:atom_execute_table_locked] *ERROR* atombios stuck executing E576 (len 105, 
+WS 12, PS 8) @ 0xE5C4
+PM: resume of devices complete after 15718.253 msecs
+
+So I did this (local hack only, obviously NOT for mainline) to work around that 
+issue:
+
+--- linux-2.6.36/drivers/gpu/drm/radeon/atom.c  2010-10-20 16:30:22.000000000 -0400
++++ linux/drivers/gpu/drm/radeon/atom.c 2010-11-19 17:14:21.141807003 -0500
+@@ -1150,6 +1151,7 @@
+
+         if (!base)
+                 return -EINVAL;
++       if (base == 0xe576 || base == 0xecd2) return 0;  /* prevent freezes on 
+Dell i9400 w/X1400 */
+
+         len = CU16(base + ATOM_CT_SIZE_PTR);
+         ws = CU8(base + ATOM_CT_WS_PTR);
