@@ -1,38 +1,60 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #23092] WARNING in tty_io.c
-Date: Fri, 19 Nov 2010 21:35:30 +0100
-Message-ID: <201011192135.30477.rjw@sisk.pl>
-References: <sKkKYVppECN.A.KhC.Phb5MB@chimera> <ATV3yiK8i4C.A.O7C.ehb5MB@chimera> <4CE5E3EE.1080104@cn.fujitsu.com>
+Subject: Re: 2.6.37-rc2-git4: Reported regressions from 2.6.36
+Date: Fri, 19 Nov 2010 21:37:02 +0100
+Message-ID: <201011192137.02426.rjw@sisk.pl>
+References: <sKkKYVppECN.A.KhC.Phb5MB@chimera> <AANLkTimBJAKUEe3POB49DFSxqZzQAd03e_3Rn-0mP4wY@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <4CE5E3EE.1080104@cn.fujitsu.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <AANLkTimBJAKUEe3POB49DFSxqZzQAd03e_3Rn-0mP4wY@mail.gmail.com>
+Sender: netdev-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Shan Wei <shanwei@cn.fujitsu.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
+Content-Type: Text/Plain; charset="iso-8859-1"
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-On Friday, November 19, 2010, Shan Wei wrote:
-> Rafael J. Wysocki wrote, at 11/19/2010 07:42 AM:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.36.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23092
-> > Subject		: WARNING in tty_io.c
-> > Submitter	: Shan Wei <shanwei@cn.fujitsu.com>
-> > Date		: 2010-11-10 8:06 (9 days old)
-> > Message-ID	: <4CDA5291.4010802@cn.fujitsu.com>
-> > References	: http://marc.info/?l=linux-kernel&m=128937645120159&w=2
-> 
-> It's not appreared in 2.6.37-rc2+ with top commit 59365d13.
-> I don't know which patch/commit fix it.
+On Friday, November 19, 2010, Alex Deucher wrote:
+> On Thu, Nov 18, 2010 at 6:23 PM, Rafael J. Wysocki <rjw@sisk.pl> wrot=
+e:
+> > This message contains a list of some regressions from 2.6.36,
+> > for which there are no fixes in the mainline known to the tracking =
+team.
+> > If any of them have been fixed already, please let us know.
+> >
+> > If you know of any other unresolved regressions from 2.6.36, please=
+ let us
+> > know either and we'll add them to the list.  Also, please let us kn=
+ow
+> > if any of the entries below are invalid.
+> >
+> > Each entry from the list will be sent additionally in an automatic =
+reply
+> > to this message with CCs to the people involved in reporting and ha=
+ndling
+> > the issue.
+> >
+> >
+> > Listed regressions statistics:
+> >
+> >  Date          Total  Pending  Unresolved
+> >  ----------------------------------------
+> >  2010-11-19       39       29          25
+> >
+> >
+> > Unresolved regressions
+> > ----------------------
+> >
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=3D2322=
+2
+> > Subject         : 2.6.36 radeon KMS: [drm] Cannot find any crtc or =
+sizes
+> > Submitter       : J=E1n Bedn=E1r <jan.bednar@gmail.com>
+> > Date            : 2010-11-18 15:33 (1 days old)
+> >
+>=20
+> I've added a fix to that bug.
 
-OK, closed.
+It doesn't seem to have helped, though.
 
+Thanks,
 Rafael
