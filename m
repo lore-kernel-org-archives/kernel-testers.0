@@ -1,33 +1,38 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #22552] AMD boot freeze bisected to b126b4703afa4010b161784a43650337676dd03b
-Date: Fri, 19 Nov 2010 21:31:33 +0100
-Message-ID: <201011192131.34178.rjw@sisk.pl>
-References: <sKkKYVppECN.A.KhC.Phb5MB@chimera> <ATV3yiK8i4C.A.xhE.Pib5MB@chimera> <20101119044815.GA16472@aftab>
+Subject: Re: [Bug #22562] Regression in 2.6.37-rc1 - logs spammed with "unable to enumerate USB port" - bisected to commit 3df7169e
+Date: Fri, 19 Nov 2010 21:32:27 +0100
+Message-ID: <201011192132.27249.rjw@sisk.pl>
+References: <sKkKYVppECN.A.KhC.Phb5MB@chimera> <ATV3yiK8i4C.A.wXE.Nib5MB@chimera> <4CE5C2B3.2070906@lwfinger.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20101119044815.GA16472@aftab>
+In-Reply-To: <4CE5C2B3.2070906-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Borislav Petkov <bp-HnHVZv34qLXYtjvyW6yDsg@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Bjorn Helgaas <bjorn.helgaas-VXdhtT5mjnY@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>
 
-On Friday, November 19, 2010, Borislav Petkov wrote:
-> On Thu, Nov 18, 2010 at 06:42:45PM -0500, Rafael J. Wysocki wrote:
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22552
-> > Subject		: AMD boot freeze bisected to b126b4703afa4010b161784a43650337676dd03b
-> > Submitter	: Borislav Petkov <bp-HnHVZv34qLXYtjvyW6yDsg@public.gmane.org>
-> > Date		: 2010-11-02 17:03 (17 days old)
-> > First-Bad-Commit: http://git.kernel.org/linus/b126b4703afa4010b161784a43650337676dd03b
-> > Message-ID	: <20101102170335.GC24927@aftab>
-> > References	: http://marc.info/?l=linux-kernel&m=128871752109913&w=2
+On Friday, November 19, 2010, Larry Finger wrote:
+> On 11/18/2010 05:42 PM, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a summary report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.36.  Please verify if it still should be listed and let the tracking team
+> > know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22562
+> > Subject		: Regression in 2.6.37-rc1 - logs spammed with "unable to enumerate USB port" - bisected to commit 3df7169e
+> > Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+> > Date		: 2010-11-02 22:32 (17 days old)
+> > First-Bad-Commit: http://git.kernel.org/linus/3df7169e73fc1d71a39cffeacc969f6840cdf52b
+> > Message-ID	: <4CD09166.4060202-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+> > References	: http://marc.info/?l=linux-kernel&m=128873713207906&w=2
 > 
-> Also-tracked-by	: https://bugzilla.kernel.org/show_bug.cgi?id=22062
-> Fixed-by	: 82e3e767c21fef2b1b38868e20eb4e470a1e38e3
-> 
-> :-)
+> This bug has not yet been fixed.
 
-Thanks, closed.
+Thanks for the update.
 
 Rafael
