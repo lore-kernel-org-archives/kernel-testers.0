@@ -1,104 +1,28 @@
-From: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: 2.6.37-rc2-git4: Reported regressions 2.6.35 -> 2.6.36
-Date: Fri, 19 Nov 2010 11:39:26 -0500
-Message-ID: <AANLkTi=8G7pNA7QTxaXDWKrWrCERPfmKU+nLJWCA=JUH@mail.gmail.com>
-References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
-	<4CE5C919.7090504@teksavvy.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #16971] qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
+Date: Fri, 19 Nov 2010 21:05:42 +0100
+Message-ID: <201011192105.42351.rjw@sisk.pl>
+References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera> <t78YtCSuOqN.A.AJ.q6b5MB@chimera> <alpine.SOC.1.00.1011191106540.26731@math.ut.ee>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:received:in-reply-to
-         :references:date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=YgG3k8d/St5bfoYPHK4Y0ySpAPzpGY4j8fUMT/6Md24=;
-        b=iatTfaNwDci1AmO23hmcdSlEXBMJmzw4gnCR+qYi81Ot3vdL4SbDvHPHq4zScfFHbl
-         N7goBKaGKwy9RHs5pWlriF3O6M9jjxqMO6Ll6GcsLYmdOPQC/CaC1HciJDi1s2oKaAJU
-         7UkGNvYLXTwsqabmy0cNLlwbG9v+aZMJP3yjg=
-In-Reply-To: <4CE5C919.7090504@teksavvy.com>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.SOC.1.00.1011191106540.26731-ptEonEWSGqKptlylMvRsHA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Mark Lord <kernel@teksavvy.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-On Thu, Nov 18, 2010 at 7:47 PM, Mark Lord <kernel@teksavvy.com> wrote:
-> On 10-11-18 06:50 PM, Rafael J. Wysocki wrote:
->>
->> This message contains a list of some post-2.6.35 regressions introdu=
-ced
->> before
->> 2.6.36, for which there are no fixes in the mainline known to the tr=
-acking
->> team.
->> If any of them have been fixed already, please let us know.
->>
->> If you know of any other unresolved post-2.6.35 regressions, please =
-let us
->> know
->> either and we'll add them to the list. =A0Also, please let us know i=
-f any
->> of the entries below are invalid.
->
->> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-21652
->> Subject =A0 =A0 =A0 =A0 : several problems with intel graphics since=
- 2.6.36
->> Submitter =A0 =A0 =A0 : Norbert Preining<preining@logic.at>
->> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-10-27 14:32 (23 days old)
->> Message-ID =A0 =A0 =A0:<20101027143252.GA8676@gamma.logic.tuwien.ac.=
-at>
->> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D12881=
-8998630241&w=3D2
->
-> That one is interesting to me.. I suspect it may be the same cause
-> as for https://bugzilla.kernel.org/show_bug.cgi?id=3D21952
->
-> I have one of those Samsung (N210) Netbooks here: works fine with 2.6=
-=2E34 and
-> earlier,
-> but fails to come out of suspend on 2.6.35/2.6.36 (haven't tried 2.6.=
-37).
->
-> So perhaps add 21952 to the list, or link it to the 21652
-> (kind of amusing how similar the bug numbers are..).
->
->
-> My non-Intel graphics notebook (has ATI X1400 graphics) also has a re=
-sume
-> regression with 2.6.36. =A0But it does work fine with 2.6.35 (and ear=
-lier,
-> back many years). =A0As a result, I'm stuck with 2.6.35 for the time =
-being,
-> and lack the time for a concerted debug effort on 2.6.36+ right now.
->
+On Friday, November 19, 2010, Meelis Roos wrote:
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16971
+> > Subject		: qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
+> > Submitter	: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+> > Date		: 2010-08-19 21:03 (92 days old)
+> > Message-ID	: <<alpine.SOC.1.00.1008192359310.19654-ptEonEWSGqKptlylMvRsHA@public.gmane.org>>
+> > References	: http://marc.info/?l=linux-kernel&m=128225184900892&w=2
+> 
+> Still unfixed in mainline.
 
-Can you bisect?  Does this patch help?
+Thanks for the update.
 
-diff --git a/drivers/gpu/drm/radeon/atom.c b/drivers/gpu/drm/radeon/ato=
-m.c
-index 8e421f6..05efb5b 100644
---- a/drivers/gpu/drm/radeon/atom.c
-+++ b/drivers/gpu/drm/radeon/atom.c
-@@ -112,6 +112,7 @@ static uint32_t atom_iio_execute(struct
-atom_context *ctx, int base,
-                        base +=3D 3;
-                        break;
-                case ATOM_IIO_WRITE:
-+                       (void)ctx->card->ioreg_read(ctx->card, CU16(bas=
-e + 1));
-                        ctx->card->ioreg_write(ctx->card, CU16(base + 1=
-), temp);
-                        base +=3D 3;
-                        break;
-
-
-Alex
-
-> Cheers
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> http://lists.freedesktop.org/mailman/listinfo/dri-devel
->
+Rafael
