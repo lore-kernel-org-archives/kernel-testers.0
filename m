@@ -1,20 +1,20 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #22672] Regression in 2.6.37-rc1 for Intel 945 Graphics Adapter - bisected to commit e9e331a
-Date: Fri, 19 Nov 2010 21:33:21 +0100
-Message-ID: <201011192133.21355.rjw@sisk.pl>
-References: <sKkKYVppECN.A.KhC.Phb5MB@chimera> <ATV3yiK8i4C.A.K9D.Bib5MB@chimera> <4CE5C2F4.7030709@lwfinger.net>
+Subject: Re: [Bug #23092] WARNING in tty_io.c
+Date: Fri, 19 Nov 2010 21:35:30 +0100
+Message-ID: <201011192135.30477.rjw@sisk.pl>
+References: <sKkKYVppECN.A.KhC.Phb5MB@chimera> <ATV3yiK8i4C.A.O7C.ehb5MB@chimera> <4CE5E3EE.1080104@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <4CE5C2F4.7030709@lwfinger.net>
+In-Reply-To: <4CE5E3EE.1080104@cn.fujitsu.com>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Chris Wilson <chris@chris-wilson.co.uk>
+To: Shan Wei <shanwei@cn.fujitsu.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
 
-On Friday, November 19, 2010, Larry Finger wrote:
-> On 11/18/2010 05:42 PM, Rafael J. Wysocki wrote:
+On Friday, November 19, 2010, Shan Wei wrote:
+> Rafael J. Wysocki wrote, at 11/19/2010 07:42 AM:
 > > This message has been generated automatically as a part of a summary report
 > > of recent regressions.
 > > 
@@ -23,13 +23,16 @@ On Friday, November 19, 2010, Larry Finger wrote:
 > > know (either way).
 > > 
 > > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22672
-> > Subject		: Regression in 2.6.37-rc1 for Intel 945 Graphics Adapter - bisected to commit e9e331a
-> > Submitter	: Larry Finger <Larry.Finger@lwfinger.net>
-> > Date		: 2010-11-11 01:56 (8 days old)
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23092
+> > Subject		: WARNING in tty_io.c
+> > Submitter	: Shan Wei <shanwei@cn.fujitsu.com>
+> > Date		: 2010-11-10 8:06 (9 days old)
+> > Message-ID	: <4CDA5291.4010802@cn.fujitsu.com>
+> > References	: http://marc.info/?l=linux-kernel&m=128937645120159&w=2
 > 
-> This bug is not yet fixed.
+> It's not appreared in 2.6.37-rc2+ with top commit 59365d13.
+> I don't know which patch/commit fix it.
 
-Thanks for the update.
+OK, closed.
 
 Rafael
