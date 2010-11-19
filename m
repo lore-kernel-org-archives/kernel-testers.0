@@ -1,42 +1,27 @@
-From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Subject: Re: [Bug #22672] Regression in 2.6.37-rc1 for Intel 945 Graphics
- Adapter - bisected to commit e9e331a
-Date: Thu, 18 Nov 2010 18:21:08 -0600
-Message-ID: <4CE5C2F4.7030709@lwfinger.net>
-References: <sKkKYVppECN.A.KhC.Phb5MB@chimera> <ATV3yiK8i4C.A.K9D.Bib5MB@chimera>
+From: Jesse Gross <jesse@nicira.com>
+Subject: Re: 2.6.37-rc2-git4: Reported regressions 2.6.35 -> 2.6.36
+Date: Thu, 18 Nov 2010 16:36:54 -0800
+Message-ID: <AANLkTinzHyWcfS++R_d+yqR9JQu7W51h0XRr-ikd_6y1@mail.gmail.com>
+References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:sender:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=GapQm1XeBN0ymMEULACNmhiUomgBwzSmLuCsEk7lq7c=;
-        b=kFVZRmtA6iM5VOv3OldGFqacwTYH7ufLIjIy6R2bHE95jxENfheYN/VdgLhj7tbFkG
-         kV02yGrNIc5rHxaug8klg+Ljbe10tmNbJ1xhSM48alhf1rsVo+Kdr5I26zG9rWm7V5Kd
-         0XKlWcUjppeVcxjDWR+agwObzZPFIotzOzlOc=
-In-Reply-To: <ATV3yiK8i4C.A.K9D.Bib5MB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>
 
-On 11/18/2010 05:42 PM, Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a summary report
-> of recent regressions.
-> 
-> The following bug entry is on the current list of known regressions
-> from 2.6.36.  Please verify if it still should be listed and let the tracking team
-> know (either way).
-> 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22672
-> Subject		: Regression in 2.6.37-rc1 for Intel 945 Graphics Adapter - bisected to commit e9e331a
-> Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-> Date		: 2010-11-11 01:56 (8 days old)
+On Thu, Nov 18, 2010 at 3:50 PM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+20462
+> Subject =A0 =A0 =A0 =A0 : 2.6.36-rc7-git2 - panic/GPF: e1000e/vlans?
+> Submitter =A0 =A0 =A0 : Nikola Ciprich <extmaillist@linuxbox.cz>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-10-15 7:10 (35 days old)
+> Message-ID =A0 =A0 =A0: <20101015071008.GA8714@pcnci.linuxbox.cz>
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D128712=
+984831303&w=3D2
 
-This bug is not yet fixed.
-
-Larry
+A fix for this has been sent to -stable:
+http://www.spinics.net/lists/netdev/msg146227.html
