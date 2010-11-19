@@ -1,115 +1,46 @@
-From: Alex Deucher <alexdeucher@gmail.com>
+From: Mark Lord <kernel@teksavvy.com>
 Subject: Re: 2.6.37-rc2-git4: Reported regressions 2.6.35 -> 2.6.36
-Date: Fri, 19 Nov 2010 17:58:59 -0500
-Message-ID: <AANLkTim9aXi1_EJyh2f-+X4HnNWJ3uk2z=P6m1hQso5a@mail.gmail.com>
-References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
-	<4CE5C919.7090504@teksavvy.com>
-	<AANLkTi=8G7pNA7QTxaXDWKrWrCERPfmKU+nLJWCA=JUH@mail.gmail.com>
-	<4CE7006E.4040102@teksavvy.com>
+Date: Fri, 19 Nov 2010 18:16:19 -0500
+Message-ID: <4CE70543.2000206@teksavvy.com>
+References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>	<4CE5C919.7090504@teksavvy.com>	<AANLkTi=8G7pNA7QTxaXDWKrWrCERPfmKU+nLJWCA=JUH@mail.gmail.com>	<4CE7006E.4040102@teksavvy.com> <AANLkTim9aXi1_EJyh2f-+X4HnNWJ3uk2z=P6m1hQso5a@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-acpi-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:received:in-reply-to
-         :references:date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=13L2/i/O1GWMqOEUOU4uuI/FzAbvCzvKOYjeuvHs1Ys=;
-        b=q4ycsFZsoZxT6oH95hRLDH19ymuXpj8n67fPpEcB1NAuaB3UsJIxV7VfOgxTSN9x1y
-         ug3y2PuhbktegKWp02a/7OijZmCb/7AD1LqwkrJQkSXk98ihfj3S7qGze0b7vxAUpfGK
-         I5bqF6A9XNItRkN+PijreG1bzYThHM1TrmXSQ=
-In-Reply-To: <4CE7006E.4040102@teksavvy.com>
-Sender: linux-acpi-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-scsi-owner@vger.kernel.org>
+In-Reply-To: <AANLkTim9aXi1_EJyh2f-+X4HnNWJ3uk2z=P6m1hQso5a@mail.gmail.com>
+Sender: linux-scsi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Mark Lord <kernel@teksavvy.com>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Alex Deucher <alexdeucher@gmail.com>
 Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-On Fri, Nov 19, 2010 at 5:55 PM, Mark Lord <kernel@teksavvy.com> wrote:
-> On 10-11-19 11:39 AM, Alex Deucher wrote:
->>
->> On Thu, Nov 18, 2010 at 7:47 PM, Mark Lord<kernel@teksavvy.com> =A0w=
-rote:
->>
->>> My non-Intel graphics notebook (has ATI X1400 graphics) also has a =
-resume
->>> regression with 2.6.36. =A0But it does work fine with 2.6.35 (and e=
-arlier,
->>> back many years). =A0As a result, I'm stuck with 2.6.35 for the tim=
-e being,
->>> and lack the time for a concerted debug effort on 2.6.36+ right now=
-=2E
->>>
->>
->> Can you bisect? =A0Does this patch help?
->>
->> diff --git a/drivers/gpu/drm/radeon/atom.c b/drivers/gpu/drm/radeon/=
-atom.c
->> index 8e421f6..05efb5b 100644
->> --- a/drivers/gpu/drm/radeon/atom.c
->> +++ b/drivers/gpu/drm/radeon/atom.c
->> @@ -112,6 +112,7 @@ static uint32_t atom_iio_execute(struct
->> atom_context *ctx, int base,
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 base +=3D 3;
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 break;
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 case ATOM_IIO_WRITE:
->> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 (void)ctx->card->ioreg=
-_read(ctx->card, CU16(base +
->> 1));
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ctx->card->ioreg_wri=
-te(ctx->card, CU16(base + 1),
->> temp);
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 base +=3D 3;
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 break;
+On 10-11-19 05:58 PM, Alex Deucher wrote:
+> On Fri, Nov 19, 2010 at 5:55 PM, Mark Lord<kernel@teksavvy.com>  wrote:
 >
-> It now comes back at resume time.
+>> It now comes back at resume time.
+>
+> So that patch helped?
 
-So that patch helped?
+I think so.  It didn't used to resume from suspend with 2.6.36, and now it does.
 
+>> But suffers long delays (also sometimes with 2.6.35) doing this:
+>>
+>> [drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5secs
+>> aborting
+>> [drm:atom_execute_table_locked] *ERROR* atombios stuck executing E576 (len
+>> 105, WS 12, PS 8) @ 0xE5C4
+>> [drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5secs
+>> aborting
+>> [drm:atom_execute_table_locked] *ERROR* atombios stuck executing ECD2 (len
+>> 86, WS 4, PS 0) @ 0xED05
+>> [drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5secs
+>> aborting
+>> [drm:atom_execute_table_locked] *ERROR* atombios stuck executing E576 (len
+>> 105, WS 12, PS 8) @ 0xE5C4
+>> PM: resume of devices complete after 15718.253 msecs
+>>
 >
-> But suffers long delays (also sometimes with 2.6.35) doing this:
->
-> [drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5secs
-> aborting
-> [drm:atom_execute_table_locked] *ERROR* atombios stuck executing E576=
- (len
-> 105, WS 12, PS 8) @ 0xE5C4
-> [drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5secs
-> aborting
-> [drm:atom_execute_table_locked] *ERROR* atombios stuck executing ECD2=
- (len
-> 86, WS 4, PS 0) @ 0xED05
-> [drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5secs
-> aborting
-> [drm:atom_execute_table_locked] *ERROR* atombios stuck executing E576=
- (len
-> 105, WS 12, PS 8) @ 0xE5C4
-> PM: resume of devices complete after 15718.253 msecs
->
+> It's be nice if you could bisect to track down when those started.
 
-It's be nice if you could bisect to track down when those started.
+It'd be even nicer if they hadn't started.  :)
 
-> So I did this (local hack only, obviously NOT for mainline) to work a=
-round
-> that issue:
->
-> --- linux-2.6.36/drivers/gpu/drm/radeon/atom.c =A02010-10-20
-> 16:30:22.000000000 -0400
-> +++ linux/drivers/gpu/drm/radeon/atom.c 2010-11-19 17:14:21.141807003=
- -0500
-> @@ -1150,6 +1151,7 @@
->
-> =A0 =A0 =A0 =A0if (!base)
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0return -EINVAL;
-> + =A0 =A0 =A0 if (base =3D=3D 0xe576 || base =3D=3D 0xecd2) return 0;=
- =A0/* prevent freezes
-> on Dell i9400 w/X1400 */
->
-> =A0 =A0 =A0 =A0len =3D CU16(base + ATOM_CT_SIZE_PTR);
-> =A0 =A0 =A0 =A0ws =3D CU8(base + ATOM_CT_WS_PTR);
->
---
-To unsubscribe from this list: send the line "unsubscribe linux-acpi" i=
-n
-the body of a message to majordomo@vger.kernel.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+What kernel release first had that atom/ops table in it?  I'll try that.
