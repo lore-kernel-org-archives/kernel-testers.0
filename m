@@ -1,85 +1,37 @@
-From: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: 2.6.37-rc2-git4: Reported regressions 2.6.35 -> 2.6.36
-Date: Fri, 19 Nov 2010 18:17:54 -0500
-Message-ID: <AANLkTi==0+pNswCwfgo5v5tKA+Qkq7UfRdH4ftEqx7rf@mail.gmail.com>
-References: <tTUH_XeInOH.A.dMF.c3b5MB@chimera>
-	<4CE5C919.7090504@teksavvy.com>
-	<AANLkTi=8G7pNA7QTxaXDWKrWrCERPfmKU+nLJWCA=JUH@mail.gmail.com>
-	<4CE7006E.4040102@teksavvy.com>
-	<AANLkTim9aXi1_EJyh2f-+X4HnNWJ3uk2z=P6m1hQso5a@mail.gmail.com>
-	<4CE70543.2000206@teksavvy.com>
+From: "Carlos R. Mafra" <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #22102] [2.6.36-09452-g2d10d87] BUG: unable to handle
+ kernel NULL pointer dereference at (null)
+Date: Sun, 21 Nov 2010 21:22:26 +0100
+Message-ID: <20101121202226.GA16656@Pilar.aei.mpg.de>
+References: <sKkKYVppECN.A.KhC.Phb5MB@chimera>
+ <ATV3yiK8i4C.A.HCF.jib5MB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-acpi-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:received:in-reply-to
-         :references:date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=6TUTEMFVgAP3YGbUZbqR2XRk52DBpaHmWG7Yeclcvug=;
-        b=NKjqKQqVYZLzchpxb9PHNc/g7IiIhZqv5449L3N1HESUfKG4ni4HETyX9pmV59Sp9g
-         nV8Bjofsk4DieFZKLPMYo+kWa14z91UnSysDd2g43EqmIBJw7Kj5cdDsXv2Kie4E8/jP
-         QGTcRyDqQzGfwko+8GOZ4aPddqvfuyceQhyhg=
-In-Reply-To: <4CE70543.2000206@teksavvy.com>
-Sender: linux-acpi-owner@vger.kernel.org
+        h=domainkey-signature:received:received:date:from:to:cc:subject
+         :message-id:references:mime-version:content-type:content-disposition
+         :in-reply-to:user-agent;
+        bh=1QWYVrPN6nP+LagosrK/0ouB0RnXvptFLek2df/4A54=;
+        b=L1WX4YEqRkgl+lE2uZe4UKPovg5UT/nJx77mwQEAssshSwviJS88zXAO9xe03Jaoxw
+         KTOO3wAUgHGE3sTMyjhnqeN38HjB+LXSKJq0lmDtEPT3hFVbpGKYmmOubFKFLlWZLnJp
+         76XfXUlGXsUVoDLJjXGbuhK9nJHhHIRqD0554=
+Content-Disposition: inline
+In-Reply-To: <ATV3yiK8i4C.A.HCF.jib5MB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Mark Lord <kernel@teksavvy.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-On Fri, Nov 19, 2010 at 6:16 PM, Mark Lord <kernel@teksavvy.com> wrote:
-> On 10-11-19 05:58 PM, Alex Deucher wrote:
->>
->> On Fri, Nov 19, 2010 at 5:55 PM, Mark Lord<kernel@teksavvy.com> =A0w=
-rote:
->>
->>> It now comes back at resume time.
->>
->> So that patch helped?
->
-> I think so. =A0It didn't used to resume from suspend with 2.6.36, and=
- now it
-> does.
->
->>> But suffers long delays (also sometimes with 2.6.35) doing this:
->>>
->>> [drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5se=
-cs
->>> aborting
->>> [drm:atom_execute_table_locked] *ERROR* atombios stuck executing E5=
-76
->>> (len
->>> 105, WS 12, PS 8) @ 0xE5C4
->>> [drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5se=
-cs
->>> aborting
->>> [drm:atom_execute_table_locked] *ERROR* atombios stuck executing EC=
-D2
->>> (len
->>> 86, WS 4, PS 0) @ 0xED05
->>> [drm:atom_op_jump] *ERROR* atombios stuck in loop for more than 5se=
-cs
->>> aborting
->>> [drm:atom_execute_table_locked] *ERROR* atombios stuck executing E5=
-76
->>> (len
->>> 105, WS 12, PS 8) @ 0xE5C4
->>> PM: resume of devices complete after 15718.253 msecs
->>>
->>
->> It's be nice if you could bisect to track down when those started.
->
-> It'd be even nicer if they hadn't started. =A0:)
->
-> What kernel release first had that atom/ops table in it? =A0I'll try =
-that.
->
+On Fr 19.Nov'10 at  0:42:44 +0100, Rafael J. Wysocki wrote:
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22102
+> Subject		: [2.6.36-09452-g2d10d87] BUG: unable to handle kernel NULL pointer dereference at (null)
+> Submitter	: Carlos R. Mafra <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2010-10-30 20:07 (20 days old)
+> Message-ID	: <20101030200751.GA2866-8NNKxJcwqxqHjx4iBuKRcg@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=128846935825136&w=2
 
-2.6.31 or 32 was when radeon kms got merged IIRC.
-
-Alex
---
-To unsubscribe from this list: send the line "unsubscribe linux-acpi" i=
-n
-the body of a message to majordomo@vger.kernel.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+2.6.37-rc2 does not have the problem, this can be closed.
