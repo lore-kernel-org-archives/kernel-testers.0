@@ -1,37 +1,33 @@
-From: "Carlos R. Mafra" <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #22102] [2.6.36-09452-g2d10d87] BUG: unable to handle
- kernel NULL pointer dereference at (null)
-Date: Sun, 21 Nov 2010 21:22:26 +0100
-Message-ID: <20101121202226.GA16656@Pilar.aei.mpg.de>
+From: Nick Bowler <nbowler@elliptictech.com>
+Subject: Re: 2.6.37-rc2-git4: Reported regressions from 2.6.36
+Date: Mon, 22 Nov 2010 12:24:50 -0500
+Message-ID: <20101122172450.GA3010@elliptictech.com>
 References: <sKkKYVppECN.A.KhC.Phb5MB@chimera>
- <ATV3yiK8i4C.A.HCF.jib5MB@chimera>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:date:from:to:cc:subject
-         :message-id:references:mime-version:content-type:content-disposition
-         :in-reply-to:user-agent;
-        bh=1QWYVrPN6nP+LagosrK/0ouB0RnXvptFLek2df/4A54=;
-        b=L1WX4YEqRkgl+lE2uZe4UKPovg5UT/nJx77mwQEAssshSwviJS88zXAO9xe03Jaoxw
-         KTOO3wAUgHGE3sTMyjhnqeN38HjB+LXSKJq0lmDtEPT3hFVbpGKYmmOubFKFLlWZLnJp
-         76XfXUlGXsUVoDLJjXGbuhK9nJHhHIRqD0554=
+Return-path: <linux-kernel-owner@vger.kernel.org>
 Content-Disposition: inline
-In-Reply-To: <ATV3yiK8i4C.A.HCF.jib5MB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <sKkKYVppECN.A.KhC.Phb5MB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On Fr 19.Nov'10 at  0:42:44 +0100, Rafael J. Wysocki wrote:
+On 2010-11-19 00:23 +0100, Rafael J. Wysocki wrote:
+> This message contains a list of some regressions from 2.6.36,
+> for which there are no fixes in the mainline known to the tracking team.
+> If any of them have been fixed already, please let us know.
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22102
-> Subject		: [2.6.36-09452-g2d10d87] BUG: unable to handle kernel NULL pointer dereference at (null)
-> Submitter	: Carlos R. Mafra <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2010-10-30 20:07 (20 days old)
-> Message-ID	: <20101030200751.GA2866-8NNKxJcwqxqHjx4iBuKRcg@public.gmane.org>
-> References	: http://marc.info/?l=linux-kernel&m=128846935825136&w=2
+> If you know of any other unresolved regressions from 2.6.36, please let us
+> know either and we'll add them to the list.
 
-2.6.37-rc2 does not have the problem, this can be closed.
+The issue described in the following mail is still present in
+2.6.37-rc3:
+
+Re: [regression] NFS readdir change break fully cached nfs root
+
+  http://permalink.gmane.org/gmane.linux.nfs/36540
+
+-- 
+Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
