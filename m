@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #23902] [BUG] 2.6.37-rc3 massive interactivity regression on ARM
-Date: Fri,  3 Dec 2010 00:41:46 +0100 (CET)
-Message-ID: <gUkHV_Vc3aE.A.RjG.9xC-MB@chimera>
+Subject: [Bug #23012] ftdi_sio /dev/ttyUSB error:  "Resource Temporarily Unavailable"
+Date: Fri,  3 Dec 2010 00:41:43 +0100 (CET)
+Message-ID: <gUkHV_Vc3aE.A.lVH.0yC-MB@chimera>
 References: <1OMp3vU_qjP.A.JXG.uxC-MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Mikael Pettersson <mikpe@it.uu.se>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Alan Stern <stern@rowland.harvard.edu>, Kevin Smith <thirdwiggin@gmail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.36.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23902
-Subject		: [BUG] 2.6.37-rc3 massive interactivity regression on ARM
-Submitter	: Mikael Pettersson <mikpe@it.uu.se>
-Date		: 2010-11-27 15:16 (6 days old)
-Message-ID	: <19697.8378.717761.236202@pilspetsen.it.uu.se>
-References	: http://marc.info/?l=linux-kernel&m=129087098911837&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23012
+Subject		: ftdi_sio /dev/ttyUSB error:  "Resource Temporarily Unavailable"
+Submitter	: Kevin Smith <thirdwiggin@gmail.com>
+Date		: 2010-11-16 06:25 (17 days old)
+Handled-By	: Alan Stern <stern@rowland.harvard.edu>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=38372
 
