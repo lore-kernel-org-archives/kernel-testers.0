@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #23762] kernel 2.6.37-rc2 breaks i915 graphics
+Subject: [Bug #23902] [BUG] 2.6.37-rc3 massive interactivity regression on ARM
 Date: Fri,  3 Dec 2010 00:41:46 +0100 (CET)
-Message-ID: <gUkHV_Vc3aE.A.YpG.ByC-MB@chimera>
+Message-ID: <gUkHV_Vc3aE.A.RjG.9xC-MB@chimera>
 References: <1OMp3vU_qjP.A.JXG.uxC-MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Chris Vine <chris@cvine.freeserve.co.uk>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Mikael Pettersson <mikpe@it.uu.se>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.36.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23762
-Subject		: kernel 2.6.37-rc2 breaks i915 graphics
-Submitter	: Chris Vine <chris@cvine.freeserve.co.uk>
-Date		: 2010-11-21 10:23 (12 days old)
-Message-ID	: <20101121102344.7c590b99@laptop.homenet>
-References	: http://marc.info/?l=linux-kernel&m=129033505414671&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23902
+Subject		: [BUG] 2.6.37-rc3 massive interactivity regression on ARM
+Submitter	: Mikael Pettersson <mikpe@it.uu.se>
+Date		: 2010-11-27 15:16 (6 days old)
+Message-ID	: <19697.8378.717761.236202@pilspetsen.it.uu.se>
+References	: http://marc.info/?l=linux-kernel&m=129087098911837&w=2
 
