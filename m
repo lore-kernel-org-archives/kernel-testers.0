@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #23102] [bisected] i915 regression in post 2.6.36 kernels
-Date: Fri,  3 Dec 2010 00:41:44 +0100 (CET)
-Message-ID: <gUkHV_Vc3aE.A.PRH.uyC-MB@chimera>
+Subject: [Bug #24142] No more bt848 driver in 2.6.37-rc*
+Date: Fri,  3 Dec 2010 00:41:47 +0100 (CET)
+Message-ID: <gUkHV_Vc3aE.A.BZG.0xC-MB@chimera>
 References: <1OMp3vU_qjP.A.JXG.uxC-MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Johannes Hirte <johannes.hirte@fem.tu-ilmenau.de>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Christian Casteyde <casteyde.christian@free.fr>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,8 @@ from 2.6.36.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23102
-Subject		: [bisected] i915 regression in post 2.6.36 kernels
-Submitter	: Johannes Hirte <johannes.hirte@fem.tu-ilmenau.de>
-Date		: 2010-11-10 7:02 (23 days old)
-Message-ID	: <201011100802.20332.johannes.hirte@fem.tu-ilmenau.de>
-References	: http://marc.info/?l=linux-kernel&m=128937310017057&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24142
+Subject		: No more bt848 driver in 2.6.37-rc*
+Submitter	: Christian Casteyde <casteyde.christian@free.fr>
+Date		: 2010-11-30 20:50 (3 days old)
 
