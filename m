@@ -1,52 +1,39 @@
-From: Johannes Hirte <johannes.hirte@fem.tu-ilmenau.de>
-Subject: Re: [Bug #23102] [bisected] i915 regression in post 2.6.36 kernels
-Date: Fri, 3 Dec 2010 01:20:05 +0100
-Message-ID: <201012030120.06282.johannes.hirte@fem.tu-ilmenau.de>
-References: <1OMp3vU_qjP.A.JXG.uxC-MB@chimera> <gUkHV_Vc3aE.A.PRH.uyC-MB@chimera>
+From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Subject: Re: [Bug #22672] Regression in 2.6.37-rc1 for Intel 945 Graphics
+ Adapter - bisected to commit e9e331a
+Date: Thu, 02 Dec 2010 19:11:45 -0600
+Message-ID: <4CF843D1.9050306@lwfinger.net>
+References: <1OMp3vU_qjP.A.JXG.uxC-MB@chimera> <gUkHV_Vc3aE.A.NG.RzC-MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <gUkHV_Vc3aE.A.PRH.uyC-MB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:received:received:sender:message-id:date:from
+         :user-agent:mime-version:to:cc:subject:references:in-reply-to
+         :content-type:content-transfer-encoding;
+        bh=vQNbJh0vXyC6AdjryjNgZWMud+jgYwE2zVbZMQhTapA=;
+        b=B29eO0e/tkG1QQOqbA1nzmsRVkDtM6O5POgCo7ARC+flOA9aN9diXamWBMUW7wVNFt
+         mAKHzYW5biWH48hIqBABYOVp0AnUCEzLJkUhkQeSdtbE2SHcaWzJMbAo3cc3plY7nJjn
+         SyRdZgwdMM3gcmRsae/mZnWKkZrFWodQoz5/M=
+In-Reply-To: <gUkHV_Vc3aE.A.NG.RzC-MB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Chris Wilson <chris@chris-wilson.co.uk>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
 
-On Friday 03 December 2010 00:41:44 Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a summary report
-> of recent regressions.
-> 
+On 12/02/2010 05:41 PM, Rafael J. Wysocki wrote:
 > The following bug entry is on the current list of known regressions
 > from 2.6.36.  Please verify if it still should be listed and let the tracking team
 > know (either way).
 > 
 > 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23102
-> Subject		: [bisected] i915 regression in post 2.6.36 kernels
-> Submitter	: Johannes Hirte <johannes.hirte@fem.tu-ilmenau.de>
-> Date		: 2010-11-10 7:02 (23 days old)
-> Message-ID	: <201011100802.20332.johannes.hirte@fem.tu-ilmenau.de>
-> References	: http://marc.info/?l=linux-kernel&m=128937310017057&w=2
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22672
+> Subject		: Regression in 2.6.37-rc1 for Intel 945 Graphics Adapter - bisected to commit e9e331a
+> Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+> Date		: 2010-11-11 01:56 (22 days old)
 
-Still not fixed. As I mentioned, the revert of
-5c12a07e8073295ce8b57a822f811ac34e4f8420 missed some lines. I'm not familiar
-with the hardware or the code, so I'm not sure if this patch is right. At least
-it solves the bug for me. Chris any objection to re-adding it?
+Still present in -rc4.
 
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index ef188e3..bace93c 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -2042,6 +2042,11 @@ i915_gem_flush_ring(struct drm_device *dev,
- {
-        ring->flush(dev, ring, invalidate_domains, flush_domains);
-        i915_gem_process_flushing_list(dev, flush_domains, ring);
-+
-+       if (ring->outstanding_lazy_request) {
-+               (void)i915_add_request(dev, file_priv, NULL, ring);
-+               ring->outstanding_lazy_request = false;
-+       }
- }
- 
- static void
+Larry
