@@ -1,60 +1,38 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #22532] 2.6.37-rc1: BUG: scheduling while atomic (kvm_init)
-Date: Fri, 3 Dec 2010 22:26:49 +0100
-Message-ID: <201012032226.49768.rjw@sisk.pl>
-References: <1OMp3vU_qjP.A.JXG.uxC-MB@chimera> <gUkHV_Vc3aE.A.X0.ozC-MB@chimera> <1291396759.13945.0.camel@localhost.localdomain>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #22562] Regression in 2.6.37-rc1 - logs spammed with "unable to enumerate USB port" - bisected to commit 3df7169e
+Date: Fri, 3 Dec 2010 22:28:17 +0100
+Message-ID: <201012032228.18035.rjw@sisk.pl>
+References: <1OMp3vU_qjP.A.JXG.uxC-MB@chimera> <gUkHV_Vc3aE.A.qi.gzC-MB@chimera> <4CF859AA.8010505@lwfinger.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <1291396759.13945.0.camel@localhost.localdomain>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4CF859AA.8010505-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Thomas Meyer <thomas@m3y3r.de>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
+To: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>, Greg Kroah-Hartman <gregkh-l3A5Bk7waGM@public.gmane.org>
 
-On Friday, December 03, 2010, Thomas Meyer wrote:
-> Am Freitag, den 03.12.2010, 00:41 +0100 schrieb Rafael J. Wysocki:
+On Friday, December 03, 2010, Larry Finger wrote:
+> On 12/02/2010 05:41 PM, Rafael J. Wysocki wrote:
 > > This message has been generated automatically as a part of a summary report
 > > of recent regressions.
 > > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.36.  Please verify if it still should be listed and let the tracking team
+> > know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22562
+> > Subject		: Regression in 2.6.37-rc1 - logs spammed with "unable to enumerate USB port" - bisected to commit 3df7169e
+> > Submitter	: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+> > Date		: 2010-11-02 22:32 (31 days old)
+> > First-Bad-Commit: http://git.kernel.org/linus/3df7169e73fc1d71a39cffeacc969f6840cdf52b
+> > Message-ID	: <4CD09166.4060202-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
+> > References	: http://marc.info/?l=linux-kernel&m=128873713207906&w=2
 > 
-> The BUG still happens:
-> 
-> [    0.502550] BUG: scheduling while atomic: swapper/1/0x00000002
-> [    0.502574] Modules linked in:
-> [    0.502577] Pid: 1, comm: swapper Not tainted 2.6.37-rc4-00153-g59e57c6 #104
-> [    0.502579] Call Trace:
-> [    0.502581]  [<ffffffff81052552>] __schedule_bug+0x5a/0x5e
-> [    0.502585]  [<ffffffff816f0492>] schedule+0xd4/0x592
-> [    0.502588]  [<ffffffff8105010e>] ? resched_task+0x68/0x6d
-> [    0.502591]  [<ffffffff8105009c>] ? test_tsk_need_resched+0x12/0x1c
-> [    0.502595]  [<ffffffff816f0b91>] schedule_timeout+0x31/0xde
-> [    0.502598]  [<ffffffff81057654>] ? wake_up_process+0x10/0x12
-> [    0.502602]  [<ffffffff8106c73c>] ? wake_up_worker+0x1f/0x21
-> [    0.502605]  [<ffffffff8106c795>] ? insert_work+0x57/0x5f
-> [    0.502608]  [<ffffffff816f1e5e>] ? _raw_spin_unlock_irqrestore+0x20/0x2b
-> [    0.502611]  [<ffffffff816f02ac>] wait_for_common+0x98/0x10e
-> [    0.502614]  [<ffffffff81057628>] ? default_wake_function+0x0/0xf
-> [    0.502618]  [<ffffffff816f03bc>] wait_for_completion+0x18/0x1a
-> [    0.502621]  [<ffffffff8106c160>] call_usermodehelper_exec+0x82/0xd1
-> [    0.502624]  [<ffffffff812c7053>] kobject_uevent_env+0x3e6/0x422
-> [    0.502628]  [<ffffffff812c709a>] kobject_uevent+0xb/0xd
-> [    0.502632]  [<ffffffff81390748>] device_add+0x360/0x4f6
-> [    0.502635]  [<ffffffff813908f7>] device_register+0x19/0x1e
-> [    0.502639]  [<ffffffff81390988>] device_create_vargs+0x8c/0xc4
-> [    0.502642]  [<ffffffff813909ec>] device_create+0x2c/0x2e
-> [    0.502646]  [<ffffffff813587df>] misc_register+0xba/0x113
-> [    0.502649]  [<ffffffff81001e83>] kvm_init+0x1d1/0x2dc
-> [    0.502652]  [<ffffffff81d39ab1>] ? pci_iommu_init+0x0/0x41
-> [    0.502655]  [<ffffffff81d37505>] ? svm_init+0x0/0x1e
-> [    0.502657]  [<ffffffff81d37521>] svm_init+0x1c/0x1e
-> [    0.502660]  [<ffffffff810002f8>] do_one_initcall+0x7a/0x12a
-> [    0.502663]  [<ffffffff81d34cfb>] kernel_init+0x133/0x1bd
-> [    0.502667]  [<ffffffff81026794>] kernel_thread_helper+0x4/0x10
-> [    0.502670]  [<ffffffff81d34bc8>] ? kernel_init+0x0/0x1bd
-> [    0.502673]  [<ffffffff81026790>] ? kernel_thread_helper+0x0/0x10
-> [    0.502754] initcall svm_init+0x0/0x1e returned with preemption imbalance 
+> Still present in 2.6.37-rc4. The box with the problem has been repaired and I
+> can now debug the problem again. Any hints would be appreciated.
 
 Thanks for the update.
 
