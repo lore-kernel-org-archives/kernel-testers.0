@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #21652] several problems with intel graphics since 2.6.36
-Date: Sun,  5 Dec 2010 21:34:31 +0100 (CET)
-Message-ID: <z3LGq_ncuOB.A.RYE.dA_-MB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #21092] Kernel 2.6.36 Bug during quotaon on reiserfs
+Date: Sun,  5 Dec 2010 21:34:29 +0100 (CET)
+Message-ID: <z3LGq_ncuOB.A.2gE.oA_-MB@chimera>
 References: <jyQ21do2hOF.A.qwD.m_--MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <jyQ21do2hOF.A.qwD.m_--MB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Jan Kara <jack@suse.cz>, markus.gapp@gmx.net
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,10 +22,10 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=21652
-Subject		: several problems with intel graphics since 2.6.36
-Submitter	: Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
-Date		: 2010-10-27 14:32 (40 days old)
-Message-ID	: <20101027143252.GA8676-DqSSrKF0TaySnEC3TeqHn5dqbFPxfnh/@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=128818998630241&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=21092
+Subject		: Kernel 2.6.36 Bug during quotaon on reiserfs
+Submitter	:  <markus.gapp@gmx.net>
+Date		: 2010-10-24 16:57 (43 days old)
+Handled-By	: Jan Kara <jack@suse.cz>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=35292
 
