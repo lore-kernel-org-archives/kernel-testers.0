@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #20352] Fwd: Re: UML kernel crash of v2.6.36-rcX kernel
-Date: Sun,  5 Dec 2010 21:34:28 +0100 (CET)
-Message-ID: <z3LGq_ncuOB.A.J0E.2A_-MB@chimera>
+Subject: [Bug #20232] kworker consumes ~100% CPU on HP Elitebook 8540w running 2.6.36_rc6-git4
+Date: Sun,  5 Dec 2010 21:34:27 +0100 (CET)
+Message-ID: <z3LGq_ncuOB.A.TJF.FB_-MB@chimera>
 References: <jyQ21do2hOF.A.qwD.m_--MB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <jyQ21do2hOF.A.qwD.m_--MB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Al Viro <viro@zeniv.linux.org.uk>, Christoph Hellwig <hch@lst.de>, =?utf-8?q?Toralf=20F=C3=B6rster?= <toralf.foerster@gmx.de>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Ozan Caglayan <ozan@pardus.org.tr>, Peter Zijlstra <a.p.zijlstra@chello.nl>, 2010-04-22@ogre.sisk.pl, "21:50:19"@ogre.sisk.pl
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,13 +22,8 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D20352
-Subject		: Fwd: Re: UML kernel crash of v2.6.36-rcX kernel
-Submitter	: Toralf F=C3=B6rster <toralf.foerster@gmx.de>
-Date		: 2010-10-13 11:28 (54 days old)
-=46irst-Bad-Commit: http://git.kernel.org/linus/365b18189789bfa1acd9939=
-e6312b8a4b4577b28
-Message-ID	: <201010131328.06465.toralf.foerster@gmx.de>
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D128696930132503&w=3D=
-2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20232
+Subject		: kworker consumes ~100% CPU on HP Elitebook 8540w running 2.6.36_rc6-git4
+Submitter	: Ozan Caglayan <ozan@pardus.org.tr>
+Date		: 2010-10-13 06:13 (54 days old)
 
