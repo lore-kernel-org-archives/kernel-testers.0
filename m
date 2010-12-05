@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #21372] NULL pointer deference at disk_replace_part_tbl+0x32
-Date: Sun,  5 Dec 2010 21:34:30 +0100 (CET)
-Message-ID: <z3LGq_ncuOB.A.hcE.kA_-MB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #19632] 2.6.36-rc6: modprobe Not tainted warning
+Date: Sun,  5 Dec 2010 21:34:26 +0100 (CET)
+Message-ID: <z3LGq_ncuOB.A.akF.fB_-MB@chimera>
 References: <jyQ21do2hOF.A.qwD.m_--MB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <jyQ21do2hOF.A.qwD.m_--MB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, "Luis R. Rodriguez" <mcgrof-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Heinz Diehl <htd@fritha.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,8 +22,10 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=21372
-Subject		: NULL pointer deference at disk_replace_part_tbl+0x32
-Submitter	: Luis R. Rodriguez <mcgrof-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2010-10-28 17:22 (39 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19632
+Subject		: 2.6.36-rc6: modprobe Not tainted warning
+Submitter	: Heinz Diehl <htd@fritha.org>
+Date		: 2010-09-30 18:25 (67 days old)
+Message-ID	: <20100930182516.GA15089@fritha.org>
+References	: http://marc.info/?l=linux-kernel&m=128587114004680&w=2
 
