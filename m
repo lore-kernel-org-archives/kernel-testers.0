@@ -1,52 +1,72 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #23902] [BUG] 2.6.37-rc3 massive interactivity regression on ARM
-Date: Mon, 6 Dec 2010 23:28:59 +0100
-Message-ID: <201012062328.59938.rjw@sisk.pl>
-References: <1OMp3vU_qjP.A.JXG.uxC-MB@chimera> <19706.13300.115878.641839@pilspetsen.it.uu.se> <19706.39875.954626.75344@pilspetsen.it.uu.se>
+From: Nikola Ciprich <nikola.ciprich@linuxbox.cz>
+Subject: Re: [Bug #22782] 2.6.36: general protection fault during lockfs
+	lockspace removal
+Date: Wed, 8 Dec 2010 06:17:42 +0100
+Message-ID: <20101208051742.GA2145@nik-comp.lan>
+References: <jyQ21do2hOF.A.qwD.m_--MB@chimera> <z3LGq_ncuOB.A.J8D.GA_-MB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <19706.39875.954626.75344-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="EVF5PPMfhYS0aIcm"
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <z3LGq_ncuOB.A.J8D.GA_-MB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Venkatesh Pallipadi <venki-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, "nik@linuxbox.cz" <nik@linuxbox.cz>
 
-On Saturday, December 04, 2010, Mikael Pettersson wrote:
-> Mikael Pettersson writes:
->  > Rafael J. Wysocki wrote:
->  > > This message has been generated automatically as a part of a summary report
->  > > of recent regressions.
->  > > 
->  > > The following bug entry is on the current list of known regressions
->  > > from 2.6.36.  Please verify if it still should be listed and let the tracking team
->  > > know (either way).
->  > > 
->  > > 
->  > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23902
->  > > Subject		: [BUG] 2.6.37-rc3 massive interactivity regression on ARM
->  > > Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
->  > > Date		: 2010-11-27 15:16 (6 days old)
->  > > Message-ID	: <19697.8378.717761.236202-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>
->  > > References	: http://marc.info/?l=linux-kernel&m=129087098911837&w=2
->  > 
->  > The bug is still present in 2.6.37-rc4.  I'm currently trying to bisect it.
-> 
-> git bisect identified
-> 
-> [305e6835e05513406fa12820e40e4a8ecb63743c] sched: Do not account irq time to current task
-> 
-> as the cause of this regression.  Reverting it from 2.6.37-rc4 (requires some
-> hackery due to subsequent changes in the same area) restores sane behaviour.
-> 
-> (Author of original patch cc:d.)
-> 
-> The original patch submission talks about irq-heavy scenarios.  My case is the
-> exact opposite: UP, !PREEMPT, NO_HZ, very low irq rate, essentially 100% CPU
-> bound in userspace but expected to schedule quickly when needed (e.g. running
-> top or ps or just hitting CR in one shell while another runs a compile job).
 
-Thanks, added the first bad commit information to the bug entry.
+--EVF5PPMfhYS0aIcm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Rafael
+AFAIK the problem hasn't been fixed yet..
+n.
+
+On Sun, Dec 05, 2010 at 09:34:33PM +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.35 and 2.6.36.
+>=20
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.35 and 2.6.36.  Please verify if it still should
+> be listed and let the tracking team know (either way).
+>=20
+>=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D22782
+> Subject		: 2.6.36: general protection fault during lockfs lockspace remov=
+al
+> Submitter	: nik@linuxbox.cz <nik@linuxbox.cz>
+> Date		: 2010-11-12 12:05 (24 days old)
+>=20
+>=20
+
+--=20
+-------------------------------------
+Ing. Nikola CIPRICH
+LinuxBox.cz, s.r.o.
+28. rijna 168, 709 01 Ostrava
+
+tel.:   +420 596 603 142
+fax:    +420 596 621 273
+mobil:  +420 777 093 799
+
+www.linuxbox.cz
+
+mobil servis: +420 737 238 656
+email servis: servis@linuxbox.cz
+-------------------------------------
+
+--EVF5PPMfhYS0aIcm
+Content-Type: application/pgp-signature
+Content-Disposition: inline
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEARECAAYFAkz/FPYACgkQ3xdJJrLygV5cJwCcCM1fMF+3rp7TVA1VcCyCyg1Q
+qxUAoKG7tIrOpE+41AOCg3WbkQSYBv8O
+=Cw7i
+-----END PGP SIGNATURE-----
+
+--EVF5PPMfhYS0aIcm--
