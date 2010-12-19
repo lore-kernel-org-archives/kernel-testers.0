@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #19372] 2.6.36-rc6: WARNING: at drivers/gpu/drm/radeon/radeon_fence.c:235 radeon_fence_wait+0x35a/0x3c0
-Date: Sun, 19 Dec 2010 13:50:23 +0100 (CET)
-Message-ID: <xqq2Z3iR9HJ.A._rH.s2fDNB@chimera>
+Subject: [Bug #16971] qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
+Date: Sun, 19 Dec 2010 13:50:22 +0100 (CET)
+Message-ID: <xqq2Z3iR9HJ.A.pL.C4fDNB@chimera>
 References: <ZRNlsjykcOD.A.b-F.20fDNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Alexey Dobriyan <adobriyan@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Meelis Roos <mroos@linux.ee>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,10 +22,11 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=19372
-Subject		: 2.6.36-rc6: WARNING: at drivers/gpu/drm/radeon/radeon_fence.c:235 radeon_fence_wait+0x35a/0x3c0
-Submitter	: Alexey Dobriyan <adobriyan@gmail.com>
-Date		: 2010-09-29 21:29 (82 days old)
-Message-ID	: <20100929212923.GA5578@core2.telecom.by>
-References	: http://marc.info/?l=linux-kernel&m=128579579400315&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16971
+Subject		: qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
+Submitter	: Meelis Roos <mroos@linux.ee>
+Date		: 2010-08-19 21:03 (123 days old)
+Message-ID	: <<<alpine.SOC.1.00.1008192359310.19654@math.ut.ee>>>
+References	: http://marc.info/?l=linux-kernel&m=128225184900892&w=2
+Patch		: http://marc.info/?l=linux-scsi&m=128590267608876&w=2
 
