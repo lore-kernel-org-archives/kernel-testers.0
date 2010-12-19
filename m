@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #21402] [KVM] Noacpi Windows guest can not boot up on 32bit KVM host
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #20462] 2.6.36-rc7-git2 - panic/GPF: e1000e/vlans?
 Date: Sun, 19 Dec 2010 13:50:25 +0100 (CET)
-Message-ID: <xqq2Z3iR9HJ.A.UpG.y1fDNB@chimera>
+Message-ID: <xqq2Z3iR9HJ.A.T2G.A2fDNB@chimera>
 References: <ZRNlsjykcOD.A.b-F.20fDNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <ZRNlsjykcOD.A.b-F.20fDNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, xudong <xudong.hao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Jesse Gross <jesse@nicira.com>, Nikola Ciprich <extmaillist@linuxbox.cz>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,8 +22,12 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=21402
-Subject		: [KVM] Noacpi Windows guest can not boot up on 32bit KVM host
-Submitter	: xudong <xudong.hao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Date		: 2010-10-29 03:01 (52 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20462
+Subject		: 2.6.36-rc7-git2 - panic/GPF: e1000e/vlans?
+Submitter	: Nikola Ciprich <extmaillist@linuxbox.cz>
+Date		: 2010-10-15 7:10 (66 days old)
+Message-ID	: <20101015071008.GA8714@pcnci.linuxbox.cz>
+References	: http://marc.info/?l=linux-kernel&m=128712984831303&w=2
+Handled-By	: Jesse Gross <jesse@nicira.com>
+Patch		: http://www.spinics.net/lists/netdev/msg146227.html
 
