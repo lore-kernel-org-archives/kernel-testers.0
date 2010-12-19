@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #22642] 2.6.37-rc1: Disk takes 10 seconds to resume - MacBook2,1
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #22662] divide error in select_task_rq_fair()
 Date: Sun, 19 Dec 2010 13:34:38 +0100 (CET)
-Message-ID: <6Ue85L6pKCJ.A.DeF.yffDNB@chimera>
+Message-ID: <6Ue85L6pKCJ.A.HcF.tffDNB@chimera>
 References: <wNJKqSoEutL.A.lKD.odfDNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <wNJKqSoEutL.A.lKD.odfDNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Tobias <devnull-fBT1nhYaLZ4@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Myron Stowe <myron.stowe@hp.com>, Nikanth Karthikesan <knikanth@suse.de>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,10 @@ from 2.6.36.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22642
-Subject		: 2.6.37-rc1: Disk takes 10 seconds to resume - MacBook2,1
-Submitter	: Tobias <devnull-fBT1nhYaLZ4@public.gmane.org>
-Date		: 2010-11-10 19:33 (40 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22662
+Subject		: divide error in select_task_rq_fair()
+Submitter	: Myron Stowe <myron.stowe@hp.com>
+Date		: 2010-11-10 23:58 (40 days old)
+Patch		: http://lkml.org/lkml/2010/11/13/176
+		  http://lkml.org/lkml/2010/11/13/181
 
