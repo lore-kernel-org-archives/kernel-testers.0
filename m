@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #24602] modprobe bttv crashes system
-Date: Sun, 19 Dec 2010 13:34:43 +0100 (CET)
-Message-ID: <6Ue85L6pKCJ.A.zqD.EefDNB@chimera>
+Subject: [Bug #24272] iotop reports insane per-process disk read/write statistics
+Date: Sun, 19 Dec 2010 13:34:41 +0100 (CET)
+Message-ID: <6Ue85L6pKCJ.A.DUE.YefDNB@chimera>
 References: <wNJKqSoEutL.A.lKD.odfDNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Sergej Pupykin <pupykin.s@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Brian Rogers <brian@xyzw.org>, Jeff Mahoney <jeffm@suse.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,9 @@ from 2.6.36.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24602
-Subject		: modprobe bttv crashes system
-Submitter	: Sergej Pupykin <pupykin.s@gmail.com>
-Date		: 2010-12-09 21:48 (11 days old)
-References	: https://bugzilla.kernel.org/show_bug.cgi?id=24142
-Patch		: https://patchwork.kernel.org/patch/414671/
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24272
+Subject		: iotop reports insane per-process disk read/write statistics
+Submitter	: Brian Rogers <brian@xyzw.org>
+Date		: 2010-12-03 12:00 (17 days old)
+First-Bad-Commit: http://git.kernel.org/linus/85893120699f8bae8caa12a8ee18ab5fceac978e
 
