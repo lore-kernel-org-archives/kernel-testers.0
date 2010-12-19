@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #22092] Kernel v2.6.36 trouble on USB disconnect
-Date: Sun, 19 Dec 2010 13:50:26 +0100 (CET)
-Message-ID: <xqq2Z3iR9HJ.A.ObG.m1fDNB@chimera>
+Subject: [Bug #24022] wireless no longer works after 1st update of 10.10 [rtl819xE:ERR in init_firmware()]
+Date: Sun, 19 Dec 2010 13:50:27 +0100 (CET)
+Message-ID: <xqq2Z3iR9HJ.A.NLG.H1fDNB@chimera>
 References: <ZRNlsjykcOD.A.b-F.20fDNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Ketil Froyn <ketil@froyn.name>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, njin <marconifabio@ubuntu-it.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,10 +22,8 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22092
-Subject		: Kernel v2.6.36 trouble on USB disconnect
-Submitter	: Ketil Froyn <ketil@froyn.name>
-Date		: 2010-10-29 8:05 (52 days old)
-Message-ID	: <AANLkTik5qVxkEGVAA1PSOGk2KTW+ekHpSwttsQEWzWj+@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=128833956503607&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24022
+Subject		: wireless no longer works after 1st update of 10.10 [rtl819xE:ERR in init_firmware()]
+Submitter	: njin <marconifabio@ubuntu-it.org>
+Date		: 2010-11-29 19:49 (21 days old)
 
