@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #23472] 2.6.37-rc2 vs. 2.6.36 laptop backlight changes?
-Date: Sun, 19 Dec 2010 13:34:40 +0100 (CET)
-Message-ID: <6Ue85L6pKCJ.A.4pE.zefDNB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #22562] Regression in 2.6.37-rc1 - logs spammed with "unable to enumerate USB port" - bisected to commit 3df7169e
+Date: Sun, 19 Dec 2010 13:34:38 +0100 (CET)
+Message-ID: <6Ue85L6pKCJ.A.MoF.2ffDNB@chimera>
 References: <wNJKqSoEutL.A.lKD.odfDNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <wNJKqSoEutL.A.lKD.odfDNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>, Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>, Patrick Schaaf <netdev-g5tzxDtodVw@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@suse.de>, Larry Finger <Larry.Finger@lwfinger.net>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,11 @@ from 2.6.36.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23472
-Subject		: 2.6.37-rc2 vs. 2.6.36 laptop backlight changes?
-Submitter	: Patrick Schaaf <netdev-g5tzxDtodVw@public.gmane.org>
-Date		: 2010-11-17 13:41 (33 days old)
-Message-ID	: <1290001262.5727.2.camel@lat1>
-References	: http://marc.info/?l=linux-kernel&m=129000127920912&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22562
+Subject		: Regression in 2.6.37-rc1 - logs spammed with "unable to enumerate USB port" - bisected to commit 3df7169e
+Submitter	: Larry Finger <Larry.Finger@lwfinger.net>
+Date		: 2010-11-02 22:32 (48 days old)
+First-Bad-Commit: http://git.kernel.org/linus/3df7169e73fc1d71a39cffeacc969f6840cdf52b
+Message-ID	: <4CD09166.4060202@lwfinger.net>
+References	: http://marc.info/?l=linux-kernel&m=128873713207906&w=2
 
