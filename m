@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #23102] [bisected] i915 regression in post 2.6.36 kernels
-Date: Sun, 19 Dec 2010 13:34:40 +0100 (CET)
-Message-ID: <6Ue85L6pKCJ.A.yzE.IffDNB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #24372] kdump broken on 2.6.37-rc4
+Date: Sun, 19 Dec 2010 13:34:41 +0100 (CET)
+Message-ID: <6Ue85L6pKCJ.A.BFE.RefDNB@chimera>
 References: <wNJKqSoEutL.A.lKD.odfDNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <wNJKqSoEutL.A.lKD.odfDNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>, Daniel Vetter <daniel.vetter-/w4YWyX8dFk@public.gmane.org>, Johannes Hirte <johannes.hirte-3kN+8DYepx7zMJDuovMtMLNAH6kLmebB@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Stanislaw Gruszka <sgruszka@redhat.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.36.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23102
-Subject		: [bisected] i915 regression in post 2.6.36 kernels
-Submitter	: Johannes Hirte <johannes.hirte-3kN+8DYepx7zMJDuovMtMLNAH6kLmebB@public.gmane.org>
-Date		: 2010-11-10 7:02 (40 days old)
-Message-ID	: <201011100802.20332.johannes.hirte-3kN+8DYepx7zMJDuovMtMLNAH6kLmebB@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=128937310017057&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24372
+Subject		: kdump broken on 2.6.37-rc4
+Submitter	: Stanislaw Gruszka <sgruszka@redhat.com>
+Date		: 2010-12-03 11:16 (17 days old)
+Message-ID	: <20101203111623.GA2741@redhat.com>
+References	: http://marc.info/?l=linux-kernel&m=129137502323003&w=2
 
