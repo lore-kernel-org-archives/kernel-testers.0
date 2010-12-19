@@ -1,36 +1,40 @@
-From: Larry Finger <Larry.Finger-tQ5ms3gMjBLk1uMJSBkQmQ@public.gmane.org>
-Subject: Re: [Bug #22562] Regression in 2.6.37-rc1 - logs spammed with "unable
- to enumerate USB port" - bisected to commit 3df7169e
-Date: Sun, 19 Dec 2010 12:19:42 -0600
-Message-ID: <4D0E4CBE.5060504@lwfinger.net>
-References: <wNJKqSoEutL.A.lKD.odfDNB@chimera> <6Ue85L6pKCJ.A.MoF.2ffDNB@chimera> <4D0E2DD7.4060607@lwfinger.net> <20101219163427.GA22994@suse.de>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: Re: [Bug #22672] Regression in 2.6.37-rc1 for Intel 945 Graphics Adapter - bisected to commit e9e331a
+Date: Sun, 19 Dec 2010 19:54:32 +0100
+Message-ID: <201012191954.32347.rjw@sisk.pl>
+References: <wNJKqSoEutL.A.lKD.odfDNB@chimera> <6Ue85L6pKCJ.A.NVF.qffDNB@chimera> <4D0E31FF.9060104@lwfinger.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:sender:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=I80exIUCiiJtLQLAH72CiRZ3oXUYjSJ1e80VqmU7y88=;
-        b=fuvUujM+kmWCRSOmP4QU8eiCYJgm7iH1gyY+VaJw4pwGFxVGbqwCt4Piy237LKKQLC
-         /HdQuX4sDC5ifb4zJzlqbYY6mVJvaQ9GlsYxG0tdZXrvgAq+/IGPl7885sDOQNWce+SL
-         IRbnRHxoHQowOGwqsRDzmfjScIWBqRtTm4/hU=
-In-Reply-To: <20101219163427.GA22994-l3A5Bk7waGM@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <4D0E31FF.9060104@lwfinger.net>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Greg KH <gregkh-l3A5Bk7waGM@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Chris Wilson <chris@chris-wilson.co.uk>, Keith Packard <keithp@keithp.com>
 
-On 12/19/2010 10:34 AM, Greg KH wrote:
-> On Sun, Dec 19, 2010 at 10:07:51AM -0600, Larry Finger wrote:
->>
->> Yes, this regression is still present in 2.6.37-rc6. I'm trying to debug this
->> with very little success.
+On Sunday, December 19, 2010, Larry Finger wrote:
+> On 12/19/2010 06:34 AM, Rafael J. Wysocki wrote:
+> > This message has been generated automatically as a part of a summary report
+> > of recent regressions.
+> > 
+> > The following bug entry is on the current list of known regressions
+> > from 2.6.36.  Please verify if it still should be listed and let the tracking team
+> > know (either way).
+> > 
+> > 
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22672
+> > Subject		: Regression in 2.6.37-rc1 for Intel 945 Graphics Adapter - bisected to commit e9e331a
+> > Submitter	: Larry Finger <Larry.Finger@lwfinger.net>
+> > Date		: 2010-11-11 01:56 (39 days old)
+> > References	: https://bugs.freedesktop.org/show_bug.cgi?id=31803
+> > 		  http://marc.info/?l=linux-kernel&m=128944001311444&w=2
+> > 		  http://www.mail-archive.com/intel-gfx@lists.freedesktop.org/msg02235.html
+> > Patch		: https://patchwork.kernel.org/patch/359472/
+> > 		  https://patchwork.kernel.org/patch/359502/
 > 
-> To be fair, you seem to have the only machine with this problem :(
+> The problem is still present in 2.6.37-rc6.
 
-I know, which is why I feel that I need to debug it.
+Thanks for the update.
 
-Larry
+Rafael
