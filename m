@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #24272] iotop reports insane per-process disk read/write statistics
-Date: Sun, 19 Dec 2010 13:34:41 +0100 (CET)
-Message-ID: <6Ue85L6pKCJ.A.DUE.YefDNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #23102] [bisected] i915 regression in post 2.6.36 kernels
+Date: Sun, 19 Dec 2010 13:34:40 +0100 (CET)
+Message-ID: <6Ue85L6pKCJ.A.yzE.IffDNB@chimera>
 References: <wNJKqSoEutL.A.lKD.odfDNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <wNJKqSoEutL.A.lKD.odfDNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Brian Rogers <brian@xyzw.org>, Jeff Mahoney <jeffm@suse.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>, Daniel Vetter <daniel.vetter-/w4YWyX8dFk@public.gmane.org>, Johannes Hirte <johannes.hirte-3kN+8DYepx7zMJDuovMtMLNAH6kLmebB@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.36.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24272
-Subject		: iotop reports insane per-process disk read/write statistics
-Submitter	: Brian Rogers <brian@xyzw.org>
-Date		: 2010-12-03 12:00 (17 days old)
-First-Bad-Commit: http://git.kernel.org/linus/85893120699f8bae8caa12a8ee18ab5fceac978e
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23102
+Subject		: [bisected] i915 regression in post 2.6.36 kernels
+Submitter	: Johannes Hirte <johannes.hirte-3kN+8DYepx7zMJDuovMtMLNAH6kLmebB@public.gmane.org>
+Date		: 2010-11-10 7:02 (40 days old)
+Message-ID	: <201011100802.20332.johannes.hirte-3kN+8DYepx7zMJDuovMtMLNAH6kLmebB@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=128937310017057&w=2
 
