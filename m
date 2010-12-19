@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #20232] kworker consumes ~100% CPU on HP Elitebook 8540w running 2.6.36_rc6-git4
-Date: Sun, 19 Dec 2010 13:50:24 +0100 (CET)
-Message-ID: <xqq2Z3iR9HJ.A.lMH.Q2fDNB@chimera>
+Subject: [Bug #21402] [KVM] Noacpi Windows guest can not boot up on 32bit KVM host
+Date: Sun, 19 Dec 2010 13:50:25 +0100 (CET)
+Message-ID: <xqq2Z3iR9HJ.A.UpG.y1fDNB@chimera>
 References: <ZRNlsjykcOD.A.b-F.20fDNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Ozan Caglayan <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, 2010-04-22-4aM62lgALcCSrlBSqq5r4w@public.gmane.org, "21:50:19"@ogre.sisk.pl
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, xudong <xudong.hao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.35 and 2.6.36.
@@ -22,8 +22,8 @@ introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20232
-Subject		: kworker consumes ~100% CPU on HP Elitebook 8540w running 2.6.36_rc6-git4
-Submitter	: Ozan Caglayan <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>
-Date		: 2010-10-13 06:13 (68 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=21402
+Subject		: [KVM] Noacpi Windows guest can not boot up on 32bit KVM host
+Submitter	: xudong <xudong.hao-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2010-10-29 03:01 (52 days old)
 
