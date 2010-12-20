@@ -1,53 +1,69 @@
-From: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: [Bug #20232] kworker consumes ~100% CPU on HP Elitebook 8540w
- running 2.6.36_rc6-git4
-Date: Mon, 20 Dec 2010 17:47:12 +0100
-Message-ID: <4D0F8890.2070307@kernel.org>
-References: <ZRNlsjykcOD.A.b-F.20fDNB@chimera>	 <xqq2Z3iR9HJ.A.lMH.Q2fDNB@chimera> <1292841313.2708.137.camel@laptop>
+From: Bjorn Helgaas <bjorn.helgaas@hp.com>
+Subject: Re: [Bug #24392] AGP aperture disabled, worked in 2.6.35
+Date: Mon, 20 Dec 2010 12:14:56 -0700
+Message-ID: <201012201214.57068.bjorn.helgaas@hp.com>
+References: <ZRNlsjykcOD.A.b-F.20fDNB@chimera> <xqq2Z3iR9HJ.A.cHG.-0fDNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:received:received:sender:message-id:date:from
-         :user-agent:mime-version:to:cc:subject:references:in-reply-to
-         :content-type:content-transfer-encoding;
-        bh=un7hKXz3M1JAITyMI943M9gTVZ8W8VGMYn6lerGBxX0=;
-        b=nAz77fztTfW+MOuqxfT7TdJDwXzUV/j53j1eIPcW0jwulm/8ucoQLH0qB/8Xwt2LHx
-         SkHCFwvEn2XruKECaeoDWJ5KoeFaAmhmVaLus7gU4iOvL9fuvudxqNjUTE6lnSiWtY7F
-         EIP1jqRHAn1hYnE5IMuUk6OdsmOytitlbyaeg=
-In-Reply-To: <1292841313.2708.137.camel@laptop>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <xqq2Z3iR9HJ.A.cHG.-0fDNB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Ozan Caglayan <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>, 2010-04-22-4aM62lgALcCSrlBSqq5r4w@public.gmane.org
+Content-Type: Text/Plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Stephen Kitt <steve@sk2.org>, bugzilla-daemon@bugzilla.kernel.org, Kulikov Vasiliy <segooon@gmail.com>
 
-Hello,
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24392
+> First-Bad-Commit: http://git.kernel.org/linus/96576a9e1a0cdb8a43d3af5846be0948f52b4460
 
-On 12/20/2010 11:35 AM, Peter Zijlstra wrote:
-> On Sun, 2010-12-19 at 13:50 +0100, Rafael J. Wysocki wrote:
->> This message has been generated automatically as a part of a report
->> of regressions introduced between 2.6.35 and 2.6.36.
->>
->> The following bug entry is on the current list of known regressions
->> introduced between 2.6.35 and 2.6.36.  Please verify if it still should
->> be listed and let the tracking team know (either way).
->>
->>
->> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20232
->> Subject		: kworker consumes ~100% CPU on HP Elitebook 8540w running 2.6.36_rc6-git4
->> Submitter	: Ozan Caglayan <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>
->> Date		: 2010-10-13 06:13 (68 days old)
-> 
-> I'd be thinking that kworker going wonky is something for Tejun to have
-> a look at.. Anyway, is it still relevant for current kernels?
+From broken dmesg (https://bugzilla.kernel.org/attachment.cgi?id=39092):
 
-It looks like the work is scheduled in loop, so the kworker acting out
-seems to be the symptom of the problem not the cause.  Looks like
-Rafael already has a proper fix on mind, so...
+  pci 0000:00:00.0: reg 10: [mem 0xf0000000-0xf7ffffff pref]
+  pci 0000:00:1f.1: reg 24: [mem 0x00000000-0x000003ff]
+  pci 0000:00:1e.0: PCI bridge to [bus 02-02] (subtractive decode)
+  pci 0000:00:1e.0:   bridge window [mem 0xef000000-0xfbffffff]
+  pci 0000:00:00.0: address space collision: [mem 0xf0000000-0xf7ffffff pref] conflicts with PCI Bus 0000:02 [mem 0xef000000-0xfbffffff]
+  pci 0000:00:1f.1: BAR 5: assigned [mem 0xc0000000-0xc00003ff]
+  agpgart-intel 0000:00:00.0: device not available (can't reserve [mem 0x00000000-0x07ffffff pref])
 
-Thanks.
+The conflict between the AGP 00:00.0 BAR 0 and the 00:1e.0 bridge window
+looks real, so reassigning the AGP BAR looks like the right thing to do.
+We assign 00:1f.1 BAR 5 in the pcibios_assign_resources() path, and
+I think we would assign the AGP BAR there, too, except that the class
+code of 00:00.0 is probably 0x000600 (PCI_CLASS_BRIDGE_HOST), and we
+explicitly ignore host bridges in __dev_sort_resources(), so it's up
+to the driver to catch this and assign it explicitly before calling
+pci_enable_device().
 
--- 
-tejun
+That's kind of ugly because it's an exception to the normal "call
+pci_enable_device() first" rule, and it leads to bogus "conflicts"
+like this:
+
+  pnp 00:0d: disabling [mem 0x00000000-0x0009ffff] because it overlaps 0000:00:00.0 BAR 0 [mem 0x00000000-0x07ffffff pref]
+
+but I think we're stuck with it for now, and the simplest solution
+is to just revert 96576a9e1a.
+
+Here's the old commit that made us ignore host bridge BARs:
+  http://git.kernel.org/?p=linux/kernel/git/torvalds/old-2.6-bkcvs.git;a=commitdiff;h=1d6f81a248eb2febbe24892fa4d54db382a1286c
+
+  2004/12/17 13:44:31-08:00 macro
+  [PATCH] PCI: Don't touch BARs of host bridges
+
+   BARs of host bridges often have special meaning and AFAIK are best left
+  to be setup by the firmware or system-specific startup code and kept
+  intact by the generic resource handler.  For example a couple of host
+  bridges used for MIPS processors interpret BARs as target-mode decoders
+  for accessing host memory by PCI masters (which is quite reasonable).
+  For them it's desirable to keep their decoded address range overlapping
+  with the host RAM for simplicity if nothing else (I can imagine running
+  out of address space with lots of memory and 32-bit PCI with no DAC
+  support in the participating devices).
+
+   This is already the case with the i386 and ppc platform-specific PCI
+  resource allocators.  Please consider the following change for the generic
+  allocator.  Currently we have a pile of hacks implemented for host bridges
+  to be left untouched and I'd be pleased to remove them.
+
+  From: "Maciej W. Rozycki" <macro@mips.com>
+  Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
