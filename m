@@ -1,69 +1,40 @@
-From: Bjorn Helgaas <bjorn.helgaas@hp.com>
-Subject: Re: [Bug #24392] AGP aperture disabled, worked in 2.6.35
-Date: Mon, 20 Dec 2010 12:14:56 -0700
-Message-ID: <201012201214.57068.bjorn.helgaas@hp.com>
-References: <ZRNlsjykcOD.A.b-F.20fDNB@chimera> <xqq2Z3iR9HJ.A.cHG.-0fDNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #19392] WARNING: at drivers/net/wireless/ath/ath5k/base.c:3475 ath5k_bss_info_changed+0x44/0x168 [ath5k]()
+Date: Mon, 20 Dec 2010 21:44:30 +0100
+Message-ID: <201012202144.30587.rjw@sisk.pl>
+References: <ZRNlsjykcOD.A.b-F.20fDNB@chimera> <xqq2Z3iR9HJ.A.9lH.p2fDNB@chimera> <AANLkTi=ApxE76PPOPjGPQCrO+YCwSQdCtpqAjUzYpiRa@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <xqq2Z3iR9HJ.A.cHG.-0fDNB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <AANLkTi=ApxE76PPOPjGPQCrO+YCwSQdCtpqAjUzYpiRa-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Stephen Kitt <steve@sk2.org>, bugzilla-daemon@bugzilla.kernel.org, Kulikov Vasiliy <segooon@gmail.com>
+To: Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Dominik Brodowski <linux-X3ehHDuj6sIIGcDfoQAp7OTW4wlIGRCZ@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24392
-> First-Bad-Commit: http://git.kernel.org/linus/96576a9e1a0cdb8a43d3af5846be0948f52b4460
+On Monday, December 20, 2010, Justin Mattock wrote:
+> On Sun, Dec 19, 2010 at 4:50 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.35 and 2.6.36.
+> >
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.35 and 2.6.36.  Please verify if it still should
+> > be listed and let the tracking team know (either way).
+> >
+> >
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=19392
+> > Subject         : WARNING: at drivers/net/wireless/ath/ath5k/base.c:3475 ath5k_bss_info_changed+0x44/0x168 [ath5k]()
+> > Submitter       : Justin Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date            : 2010-09-28 22:30 (83 days old)
+> > Message-ID      : <<AANLkTim5WCGKPvEkOkO_YnMF9pg8mvLfQoFBNUFpfa_k-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>>
+> > References      : http://marc.info/?l=linux-kernel&m=128571307018635&w=2
+> >
+> >
+> >
+> 
+> yep.. still here with the latest Mainline
 
-From broken dmesg (https://bugzilla.kernel.org/attachment.cgi?id=39092):
+Thanks for the update.
 
-  pci 0000:00:00.0: reg 10: [mem 0xf0000000-0xf7ffffff pref]
-  pci 0000:00:1f.1: reg 24: [mem 0x00000000-0x000003ff]
-  pci 0000:00:1e.0: PCI bridge to [bus 02-02] (subtractive decode)
-  pci 0000:00:1e.0:   bridge window [mem 0xef000000-0xfbffffff]
-  pci 0000:00:00.0: address space collision: [mem 0xf0000000-0xf7ffffff pref] conflicts with PCI Bus 0000:02 [mem 0xef000000-0xfbffffff]
-  pci 0000:00:1f.1: BAR 5: assigned [mem 0xc0000000-0xc00003ff]
-  agpgart-intel 0000:00:00.0: device not available (can't reserve [mem 0x00000000-0x07ffffff pref])
-
-The conflict between the AGP 00:00.0 BAR 0 and the 00:1e.0 bridge window
-looks real, so reassigning the AGP BAR looks like the right thing to do.
-We assign 00:1f.1 BAR 5 in the pcibios_assign_resources() path, and
-I think we would assign the AGP BAR there, too, except that the class
-code of 00:00.0 is probably 0x000600 (PCI_CLASS_BRIDGE_HOST), and we
-explicitly ignore host bridges in __dev_sort_resources(), so it's up
-to the driver to catch this and assign it explicitly before calling
-pci_enable_device().
-
-That's kind of ugly because it's an exception to the normal "call
-pci_enable_device() first" rule, and it leads to bogus "conflicts"
-like this:
-
-  pnp 00:0d: disabling [mem 0x00000000-0x0009ffff] because it overlaps 0000:00:00.0 BAR 0 [mem 0x00000000-0x07ffffff pref]
-
-but I think we're stuck with it for now, and the simplest solution
-is to just revert 96576a9e1a.
-
-Here's the old commit that made us ignore host bridge BARs:
-  http://git.kernel.org/?p=linux/kernel/git/torvalds/old-2.6-bkcvs.git;a=commitdiff;h=1d6f81a248eb2febbe24892fa4d54db382a1286c
-
-  2004/12/17 13:44:31-08:00 macro
-  [PATCH] PCI: Don't touch BARs of host bridges
-
-   BARs of host bridges often have special meaning and AFAIK are best left
-  to be setup by the firmware or system-specific startup code and kept
-  intact by the generic resource handler.  For example a couple of host
-  bridges used for MIPS processors interpret BARs as target-mode decoders
-  for accessing host memory by PCI masters (which is quite reasonable).
-  For them it's desirable to keep their decoded address range overlapping
-  with the host RAM for simplicity if nothing else (I can imagine running
-  out of address space with lots of memory and 32-bit PCI with no DAC
-  support in the participating devices).
-
-   This is already the case with the i386 and ppc platform-specific PCI
-  resource allocators.  Please consider the following change for the generic
-  allocator.  Currently we have a pile of hacks implemented for host bridges
-  to be left untouched and I'd be pleased to remove them.
-
-  From: "Maciej W. Rozycki" <macro@mips.com>
-  Signed-off-by: Greg Kroah-Hartman <greg@kroah.com>
+Rafael
