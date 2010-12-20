@@ -1,54 +1,33 @@
-From: Justin Mattock <justinmattock@gmail.com>
-Subject: Re: [Bug #19392] WARNING: at drivers/net/wireless/ath/ath5k/base.c:3475
- ath5k_bss_info_changed+0x44/0x168 [ath5k]()
-Date: Sun, 19 Dec 2010 23:25:06 -0800
-Message-ID: <AANLkTi=ApxE76PPOPjGPQCrO+YCwSQdCtpqAjUzYpiRa@mail.gmail.com>
+From: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Subject: Re: [Bug #20232] kworker consumes ~100% CPU on HP Elitebook 8540w
+ running 2.6.36_rc6-git4
+Date: Mon, 20 Dec 2010 11:35:13 +0100
+Message-ID: <1292841313.2708.137.camel@laptop>
 References: <ZRNlsjykcOD.A.b-F.20fDNB@chimera>
-	<xqq2Z3iR9HJ.A.9lH.p2fDNB@chimera>
+	 <xqq2Z3iR9HJ.A.lMH.Q2fDNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:received:in-reply-to
-         :references:date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=0dpSwZk/XMpSJTQYF5gLavRSOjw2k//3atiyYYKzgJ4=;
-        b=c0NDSnADXJpzEIiQLxtv6gjMwzRjNOETmTb7f18eCOynq8Iit1WDQsq+QbFo4Vrtnb
-         8KfXPH4jqv1qbq8cpnruO4tL4tgPRxkGIwF7ndwM+r8HCG8LbEQmIPZXyLfVyLlauEky
-         IHPF59CTsxdjssUU3sypEFf+iQbrdDWfcTtT4=
-In-Reply-To: <xqq2Z3iR9HJ.A.9lH.p2fDNB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 8BIT
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <xqq2Z3iR9HJ.A.lMH.Q2fDNB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Dominik Brodowski <linux@dominikbrodowski.net>, Johannes Berg <johannes@sipsolutions.net>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Ozan Caglayan <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>, 2010-04-22-4aM62lgALcCSrlBSqq5r4w@public.gmane.org, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
-On Sun, Dec 19, 2010 at 4:50 AM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
+On Sun, 2010-12-19 at 13:50 +0100, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a report
 > of regressions introduced between 2.6.35 and 2.6.36.
->
+> 
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.35 and 2.6.36. =A0Please verify if it still sh=
-ould
+> introduced between 2.6.35 and 2.6.36.  Please verify if it still should
 > be listed and let the tracking team know (either way).
->
->
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-19392
-> Subject =A0 =A0 =A0 =A0 : WARNING: at drivers/net/wireless/ath/ath5k/=
-base.c:3475 ath5k_bss_info_changed+0x44/0x168 [ath5k]()
-> Submitter =A0 =A0 =A0 : Justin Mattock <justinmattock@gmail.com>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-09-28 22:30 (83 days old)
-> Message-ID =A0 =A0 =A0: <<AANLkTim5WCGKPvEkOkO_YnMF9pg8mvLfQoFBNUFpfa=
-_k@mail.gmail.com>>
-> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D128571=
-307018635&w=3D2
->
->
->
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=20232
+> Subject		: kworker consumes ~100% CPU on HP Elitebook 8540w running 2.6.36_rc6-git4
+> Submitter	: Ozan Caglayan <ozan-caicS1wCkhO6A22drWdTBw@public.gmane.org>
+> Date		: 2010-10-13 06:13 (68 days old)
 
-yep.. still here with the latest Mainline
-
---=20
-Justin P. Mattock
+I'd be thinking that kworker going wonky is something for Tejun to have
+a look at.. Anyway, is it still relevant for current kernels?
