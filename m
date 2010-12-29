@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #23472] 2.6.37-rc2 vs. 2.6.36 laptop backlight changes?
+Subject: [Bug #22882] (2.6.37-rc1) amd64-agp module crashed on second load
 Date: Thu, 30 Dec 2010 00:06:59 +0100 (CET)
-Message-ID: <sV7shrPOroO.A.kLG.f_7GNB@chimera>
+Message-ID: <sV7shrPOroO.A.JoG.GA8GNB@chimera>
 References: <96DQe4a_2tH.A.4RE.497GNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Chris Wilson <chris@chris-wilson.co.uk>, Keith Packard <keithp@keithp.com>, Patrick Schaaf <netdev@bof.de>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Randy Dunlap <randy.dunlap@oracle.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.36.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=23472
-Subject		: 2.6.37-rc2 vs. 2.6.36 laptop backlight changes?
-Submitter	: Patrick Schaaf <netdev@bof.de>
-Date		: 2010-11-17 13:41 (43 days old)
-Message-ID	: <1290001262.5727.2.camel@lat1>
-References	: http://marc.info/?l=linux-kernel&m=129000127920912&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22882
+Subject		: (2.6.37-rc1) amd64-agp module crashed on second load
+Submitter	: Randy Dunlap <randy.dunlap@oracle.com>
+Date		: 2010-11-05 0:13 (55 days old)
+Message-ID	: <20101104171333.fea1f498.randy.dunlap@oracle.com>
+References	: http://marc.info/?l=linux-kernel&m=128891605213447&w=2
 
