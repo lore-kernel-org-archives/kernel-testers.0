@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
 Subject: Re: [Bug #22672] Regression in 2.6.37-rc1 for Intel 945 Graphics Adapter - bisected to commit e9e331a
-Date: Thu, 30 Dec 2010 11:57:23 +0100
-Message-ID: <201012301157.23780.rjw@sisk.pl>
+Date: Thu, 30 Dec 2010 12:00:07 +0100
+Message-ID: <201012301200.07333.rjw@sisk.pl>
 References: <96DQe4a_2tH.A.4RE.497GNB@chimera> <sV7shrPOroO.A.F4G.VA8GNB@chimera> <4D1BD308.4030103@lwfinger.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -35,6 +35,7 @@ On Thursday, December 30, 2010, Larry Finger wrote:
 > 
 > Neither 2.6.37-rc8 nor the patches listed above fix my system.
 
-Thanks for the update.
+Does reverting commit 448f53a "drm/i915/bios: Reverse order of 100/120 Mhz SSC
+clocks" help?
 
 Rafael
