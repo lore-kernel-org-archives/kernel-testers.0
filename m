@@ -1,56 +1,29 @@
-From: Prasad Joshi <prasadjoshi124-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #20332] [LogFS] [2.6.36-rc7] Kernel BUG at lib/btree.c:465!
-Date: Sun, 2 Jan 2011 21:18:55 +0000
-Message-ID: <AANLkTi=2PZ81T4_vV4RiXgxZB3PHzpEfEisEN-cO1jjg@mail.gmail.com>
-References: <odW4v9b6arG.A.2bH.uE8GNB@chimera>
-	<LbeBv-BNQpL.A.KT.IG8GNB@chimera>
+From: "R. J. Wysocki" <Rafal.Wysocki@fuw.edu.pl>
+Subject: Re: [Bug #16971] qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
+Date: Sun, 2 Jan 2011 22:20:43 +0100
+Message-ID: <201101022220.43565.rwys@fuw.edu.pl>
+References: <odW4v9b6arG.A.2bH.uE8GNB@chimera> <LbeBv-BNQpL.A.QKB.MI8GNB@chimera> <alpine.SOC.1.00.1101022215110.21244@math.ut.ee>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:received:received:in-reply-to
-         :references:date:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=UhxKPsiYPtJD/y+S84QvQolcXfcElyMRk4WqfXn+7v4=;
-        b=Z0BSpHqEOJzp9BvSE67nfSJpoGQGuKD233aGAmCmXpD3ZK5qEXVzkeKYzs0Y7tKaVR
-         Lb1DBYu1woJZp5xwTQkfk7MIyX5sCoFSFjST17lgT2tpqtJvxd8wJ1VklWM2eHQpHHs/
-         bhxx+eWjC/BjTZys68RPZ/HjVHZA21NdkZVNc=
-In-Reply-To: <LbeBv-BNQpL.A.KT.IG8GNB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <alpine.SOC.1.00.1101022215110.21244@math.ut.ee>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Meelis Roos <mroos@linux.ee>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
 
-Hello,
+On Sunday, January 02, 2011, Meelis Roos wrote:
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16971
+> > Subject		: qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
+> > Submitter	: Meelis Roos <mroos@linux.ee>
+> > Date		: 2010-08-19 21:03 (133 days old)
+> > Message-ID	: <<<alpine.SOC.1.00.1008192359310.19654@math.ut.ee>>>
+> > References	: http://marc.info/?l=linux-kernel&m=128225184900892&w=2
+> > Patch		: http://marc.info/?l=linux-scsi&m=128590267608876&w=2
+> 
+> Still unpatched in mainline.
 
-I did not observe this bug with the latest kernel (2.6.37-rc8+).
+Thanks for the update.
 
-Thanks and Regards,
-Prasad
-
-On Wed, Dec 29, 2010 at 11:21 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote=
-:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.35 and 2.6.36.
->
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.35 and 2.6.36. =A0Please verify if it still sh=
-ould
-> be listed and let the tracking team know (either way).
->
->
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-20332
-> Subject =A0 =A0 =A0 =A0 : [LogFS] [2.6.36-rc7] Kernel BUG at lib/btre=
-e.c:465!
-> Submitter =A0 =A0 =A0 : Prasad Joshi <prasadjoshi124-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2010-10-12 18:56 (79 days old)
-> Message-ID =A0 =A0 =A0: <AANLkTimAbCZNhLQ5nADUiAC+7JpAeJBEmjFwdxyZ-Fx=
-O@mail.gmail.com>
-> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D128690=
-910501830&w=3D2
->
->
->
+Rafael
