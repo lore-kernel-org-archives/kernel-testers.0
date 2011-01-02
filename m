@@ -1,27 +1,28 @@
-From: Krzysztof Halasa <khc-9GfyWEdoJtJmR6Xm/wNWPw@public.gmane.org>
-Subject: Re: [Bug #25442] ixp4xx defines FREQ macro; conflicts with gspca/ov519 driver
-Date: Sun, 02 Jan 2011 20:19:55 +0100
-Message-ID: <m3d3ofun8k.fsf@intrepid.localdomain>
-References: <96DQe4a_2tH.A.4RE.497GNB@chimera>
-	<sV7shrPOroO.A.CqE.K-7GNB@chimera>
-	<m3zkrnv1x9.fsf@intrepid.localdomain> <201012301545.15667.rjw@sisk.pl>
-	<m339pe6nmp.fsf@intrepid.localdomain>
-	<1293806447.2870.36.camel@localhost>
+From: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+Subject: Re: [Bug #16971] qla4xxx compile failure on 32-bit PowerPC: missing
+ readq and writeq
+Date: Sun, 2 Jan 2011 22:15:24 +0200 (EET)
+Message-ID: <alpine.SOC.1.00.1101022215110.21244@math.ut.ee>
+References: <odW4v9b6arG.A.2bH.uE8GNB@chimera> <LbeBv-BNQpL.A.QKB.MI8GNB@chimera>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1293806447.2870.36.camel@localhost> (Ben Hutchings's message of
-	"Fri, 31 Dec 2010 14:40:47 +0000")
+In-Reply-To: <LbeBv-BNQpL.A.QKB.MI8GNB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: TEXT/PLAIN; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Ben Hutchings <ben-/+tVBieCtBitmTQ+vhA3Yw@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-Ben Hutchings <ben-/+tVBieCtBitmTQ+vhA3Yw@public.gmane.org> writes:
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=16971
+> Subject		: qla4xxx compile failure on 32-bit PowerPC: missing readq and writeq
+> Submitter	: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+> Date		: 2010-08-19 21:03 (133 days old)
+> Message-ID	: <<<alpine.SOC.1.00.1008192359310.19654-ptEonEWSGqKptlylMvRsHA@public.gmane.org>>>
+> References	: http://marc.info/?l=linux-kernel&m=128225184900892&w=2
+> Patch		: http://marc.info/?l=linux-scsi&m=128590267608876&w=2
 
-> There is a regression for the ov519 driver on ixp4xx.
+Still unpatched in mainline.
 
-Right. It seems I was reading what wasn't written.
 -- 
-Krzysztof Halasa
+Meelis Roos (mroos-HgUWewaQDNA@public.gmane.org)      http://www.cs.ut.ee/~mroos/
