@@ -1,52 +1,162 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: 2.6.37-rc8: Reported regressions from 2.6.36
-Date: Mon, 10 Jan 2011 21:11:06 +0100
-Message-ID: <201101102111.07266.rjw@sisk.pl>
-References: <96DQe4a_2tH.A.cFB.l27GNB@chimera> <20110110.000813.173856001.davem@davemloft.net>
+Subject: 2.6.38-rc3-git1: Reported regressions from 2.6.37
+Date: Thu,  3 Feb 2011 00:02:08 +0100 (CET)
+Message-ID: <QUnbpYCwS-F.A.vaC.VHeSNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-scsi-owner@vger.kernel.org>
-In-Reply-To: <20110110.000813.173856001.davem@davemloft.net>
-Sender: linux-scsi-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-acpi-owner@vger.kernel.org>
+Content-Disposition: inline
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: David Miller <davem@davemloft.net>
-Cc: linux-kernel@vger.kernel.org, maciej.rutecki@gmail.com, florian@mickler.org, akpm@linux-foundation.org, torvalds@linux-foundation.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org, linux-acpi@vger.kernel.org, linux-pm@lists.linux-foundation.org, linux-scsi@vger.kernel.org, linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>
 
-On Monday, January 10, 2011, David Miller wrote:
-> From: "Rafael J. Wysocki" <rjw@sisk.pl>
-> Date: Wed, 29 Dec 2010 23:59:38 +0100 (CET)
-> 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24592
-> > Subject		: 2.6.37-rc5: NULL pointer oops in selinux_socket_unix_stream_connect
-> > Submitter	: Jeremy Fitzhardinge <jeremy@goop.org>
-> > Date		: 2010-12-08 21:09 (22 days old)
-> > Message-ID	: <4CFFF3F3.90100@goop.org>
-> > References	: http://marc.info/?l=linux-kernel&m=129184256629712&w=2
-> 
-> This bug is intended to be fixed by:
-> 
-> commit 3610cda53f247e176bcbb7a7cca64bc53b12acdb
-> Author: David S. Miller <davem@davemloft.net>
-> Date:   Wed Jan 5 15:38:53 2011 -0800
-> 
->     af_unix: Avoid socket->sk NULL OOPS in stream connect security hooks.
->     
->     unix_release() can asynchornously set socket->sk to NULL, and
->     it does so without holding the unix_state_lock() on "other"
->     during stream connects.
->     
->     However, the reverse mapping, sk->sk_socket, is only transitioned
->     to NULL under the unix_state_lock().
->     
->     Therefore make the security hooks follow the reverse mapping instead
->     of the forward mapping.
->     
->     Reported-by: Jeremy Fitzhardinge <jeremy@goop.org>
->     Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
->     Signed-off-by: David S. Miller <davem@davemloft.net>
-> 
+This message contains a list of some regressions from 2.6.37,
+for which there are no fixes in the mainline known to the tracking team=
+=2E
+If any of them have been fixed already, please let us know.
 
-OK, thanks for the info, closing.
+If you know of any other unresolved regressions from 2.6.37, please let=
+ us
+know either and we'll add them to the list.  Also, please let us know
+if any of the entries below are invalid.
 
-Rafael
+Each entry from the list will be sent additionally in an automatic repl=
+y
+to this message with CCs to the people involved in reporting and handli=
+ng
+the issue.
+
+
+Listed regressions statistics:
+
+  Date          Total  Pending  Unresolved
+  ----------------------------------------
+  2011-02-03       19       11           7
+
+
+Unresolved regressions
+----------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D28102
+Subject		: New display errors in 2.6.38-rc2-00175-g6fb1b30
+Submitter	: Nico Schottelius <nico-kernel-20110117@schottelius.org>
+Date		: 2011-01-28 20:29 (6 days old)
+Message-ID	: <20110128202905.GB3395@schottelius.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D129624657425949&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D28052
+Subject		: [BUG] 2.6.38-rc2: Circular Locking Dependency
+Submitter	: Knut Petersen <Knut_Petersen@t-online.de>
+Date		: 2011-01-24 9:25 (10 days old)
+Message-ID	: <4D3D45A3.7040809@t-online.de>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D129586118515443&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D27812
+Subject		: 2.6.38-rc2: acpi backlight control missing
+Submitter	: Thomas Meyer <thomas@m3y3r.de>
+Date		: 2011-01-22 10:49 (12 days old)
+=46irst-Bad-Commit: http://git.kernel.org/linus/677bd810eedce61edf15452=
+491781ff046b92edc
+Message-ID	: <1295693349.2120.3.camel@localhost.localdomain>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D129569353414755&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D27652
+Subject		: 38-rc1: umount+rmmod cause ext4 error.
+Submitter	: Tao Ma <tm@tao.ma>
+Date		: 2011-01-19 6:53 (15 days old)
+Message-ID	: <4D368A70.5030103@tao.ma>
+References	: http://marc.info/?l=3Dlinux-ext4&m=3D129542001031750&w=3D2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D27382
+Subject		: ath5k phy0: gain calibration timeout
+Submitter	: Nicolas Stransky <Nico@stransky.cx>
+Date		: 2011-01-23 00:18 (11 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D27282
+Subject		: Regression: 2.6.38 vs. Powertop 2
+Submitter	: Dennis Jansen <dennis.jansen@web.de>
+Date		: 2011-01-21 14:34 (13 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D27022
+Subject		: [REPORT] BUG: spinlock recursion on CPU#0, init/1
+Submitter	: Santosh Shilimkar <santosh.shilimkar@ti.com>
+Date		: 2011-01-10 15:33 (24 days old)
+Message-ID	: <a7a9bdaa5936630925fb7ffd1a1795b1@mail.gmail.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D129467294808655&w=3D=
+2
+
+
+Regressions with patches
+------------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D28012
+Subject		: [drm:i915_driver_load] *ERROR* failed to init modeset, EINVA=
+L
+Submitter	: Ferenc W=C3=A1gner <wferi@niif.hu>
+Date		: 2011-02-01 15:18 (2 days old)
+Handled-By	: Chris Wilson <chris@chris-wilson.co.uk>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=3D45892
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D27862
+Subject		: Cannot launch X.org server on Core I5 with 2.6.38-rc2-git7
+Submitter	: Darisuz Luksza <dariusz.luksza@gmail.com>
+Date		: 2011-01-30 12:13 (4 days old)
+Handled-By	: Chris Wilson <chris@chris-wilson.co.uk>
+Patch		: https://bugs.freedesktop.org/attachment.cgi?id=3D42634
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D27702
+Subject		: regression 2.6.37 -> 2.6.38-rc1: after suspend backlight can=
+not be adjusted
+Submitter	: Norbert Preining <preining@logic.at>
+Date		: 2011-01-21 1:55 (13 days old)
+Message-ID	: <20110121015529.GD9796@gamma.logic.tuwien.ac.at>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D129557717826819&w=3D=
+2
+Handled-By	: Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>
+Patch		: https://patchwork.kernel.org/patch/499221/
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D27472
+Subject		: 5bd5a45 breaks resume from suspend on Thinkpad X201
+Submitter	: Bj=C3=B6rn Schlie=C3=9Fmann <chronoss@gmx.de>
+Date		: 2011-01-23 23:24 (11 days old)
+Handled-By	: CASTET Matthieu <castet.matthieu@free.fr>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=3D45192
+
+
+=46or details, please visit the bug entries and follow the links given =
+in
+references.
+
+As you can see, there is a Bugzilla entry for each of the listed regres=
+sions.
+There also is a Bugzilla entry used for tracking the regressions from 2=
+=2E6.37,
+unresolved as well as resolved, at:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=3D27352
+
+Please let the tracking team know if there are any Bugzilla entries tha=
+t
+should be added to the list in there.
+
+Thanks!
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-acpi" i=
+n
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
