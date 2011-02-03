@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #27532] ath9k prevents CPU from entering lower C-states
-Date: Thu,  3 Feb 2011 01:05:30 +0100 (CET)
-Message-ID: <-tcJxClTQPH.A.bCE.26eSNB@chimera>
+Subject: [Bug #27152] VGA output broken at cold boot
+Date: Thu,  3 Feb 2011 01:05:29 +0100 (CET)
+Message-ID: <-tcJxClTQPH.A.RPE.C7eSNB@chimera>
 References: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, =?utf-8?q?Thomas=20B=C3=A4chler?= <thomas@archlinux.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Chris Wilson <chris@chris-wilson.co.uk>, Takashi Iwai <tiwai@suse.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,8 +22,8 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D27532
-Subject		: ath9k prevents CPU from entering lower C-states
-Submitter	: Thomas B=C3=A4chler <thomas@archlinux.org>
-Date		: 2011-01-24 22:43 (10 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=27152
+Subject		: VGA output broken at cold boot
+Submitter	: Takashi Iwai <tiwai@suse.de>
+Date		: 2011-01-20 13:26 (14 days old)
 
