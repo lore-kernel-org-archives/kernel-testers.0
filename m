@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #26842] [2.6.37 regression] threads with CPU affinity cannot be killed
-Date: Thu,  3 Feb 2011 01:05:28 +0100 (CET)
-Message-ID: <-tcJxClTQPH.A.1XE.S7eSNB@chimera>
+Subject: [Bug #25922] IdeaPad Y530 brightness keys not functioning
+Date: Thu,  3 Feb 2011 01:05:26 +0100 (CET)
+Message-ID: <-tcJxClTQPH.A.60E.B8eSNB@chimera>
 References: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, tim blechmann <tim@klingt.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Tomasz <tm.temp@gmx.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,8 +22,8 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=26842
-Subject		: [2.6.37 regression] threads with CPU affinity cannot be killed
-Submitter	: tim blechmann <tim@klingt.org>
-Date		: 2011-01-16 13:39 (18 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=25922
+Subject		: IdeaPad Y530 brightness keys not functioning
+Submitter	: Tomasz <tm.temp@gmx.com>
+Date		: 2010-12-30 12:48 (35 days old)
 
