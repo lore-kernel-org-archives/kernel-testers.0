@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #26212] kernel NULL pointer dereference in pxa3xx_nand_probe
-Date: Thu,  3 Feb 2011 01:05:27 +0100 (CET)
-Message-ID: <-tcJxClTQPH.A.umE.y7eSNB@chimera>
+Subject: [Bug #25832] kernel crashes upon resume if usb devices are removed when suspended
+Date: Thu,  3 Feb 2011 01:05:25 +0100 (CET)
+Message-ID: <-tcJxClTQPH.A.22E.H8eSNB@chimera>
 References: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Sven Neumann <s.neumann@raumfeld.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, rocko <rockorequin@hotmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,10 +22,8 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=26212
-Subject		: kernel NULL pointer dereference in pxa3xx_nand_probe
-Submitter	: Sven Neumann <s.neumann@raumfeld.com>
-Date		: 2011-01-05 11:43 (29 days old)
-Message-ID	: <1294227801.3996.62.camel@sven>
-References	: http://marc.info/?l=linux-kernel&m=129422903703756&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=25832
+Subject		: kernel crashes upon resume if usb devices are removed when suspended
+Submitter	: rocko <rockorequin@hotmail.com>
+Date		: 2010-12-29 11:47 (36 days old)
 
