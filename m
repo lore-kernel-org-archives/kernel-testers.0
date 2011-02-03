@@ -1,33 +1,42 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #26932] [SNB mobile] Oops in DRM intel driver, esp. during S3/S4 stress test
-Date: Thu, 3 Feb 2011 20:03:29 +0100
-Message-ID: <201102032003.29812.rjw@sisk.pl>
-References: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera> <-tcJxClTQPH.A.AWE.Q7eSNB@chimera> <20110203133524.GB5123@suse.de>
+From: Nico Schottelius <nico-kernel-20110117-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Subject: Re: [Bug #28102] New display errors in 2.6.38-rc2-00175-g6fb1b30
+Date: Thu, 3 Feb 2011 19:55:16 +0100
+Message-ID: <20110203185516.GA2560@schottelius.org>
+References: <QUnbpYCwS-F.A.vaC.VHeSNB@chimera>
+ <ibChAs1xEQI.A.0gC.aHeSNB@chimera>
+ <20110203101111.35d71bf0@jbarnes-desktop>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20110203133524.GB5123@suse.de>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20110203101111.35d71bf0@jbarnes-desktop>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Matthias Hopf <mat@mshopf.de>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Jesse Barnes <jbarnes@virtuousgeek.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Nico Schottelius <nico-kernel-20110117-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
 
-On Thursday, February 03, 2011, Matthias Hopf wrote:
-> On Feb 03, 11 01:05:28 +0100, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.36 and 2.6.37.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.36 and 2.6.37.  Please verify if it still should
-> > be listed and let the tracking team know (either way).
-> 
-> The original issue of this bug is not a regression. Though during trying
-> to reproduce with the latest kernel I stumbled over two regressions (one
-> regarding frame buffer compression, already fixed in intel-drm-fixes,
-> one regarding S3 trampoline code and NX, fix available, bug 27472).
+Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>:
 
-I'm going to drop this bug from the list of recent regressions, then.
+> This should hopefully find the culprit:
+> $ git bisect start drivers/gpu/drm/i915/intel_display.c
+> $ git bisect good v2.6.37
+> $ git bisect bad
+ 
+Just went that path, compiled 2.6.37-rc4-00292-g3c8cdf9
+and suspended which resulted in a completly dead device
+(no ping, no ctrlaltdel possible), i.e. different fatal situation.
 
-Thanks,
-Rafael
+I'm a bit confused, not sure whether this is related to
+the broken display issue or not.
+
+As the tests always cost a quite lengthy fsck run, I'd
+love to go a different way from 2.6.37, if anybody has
+a better hint.
+
+Cheers,
+
+Nico
+
+-- 
+PGP key: 7ED9 F7D3 6B10 81D7 0EC5  5C09 D7DC C8E4 3187 7DF0
