@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #26802] b43: Suspend failed
-Date: Thu,  3 Feb 2011 01:05:28 +0100 (CET)
-Message-ID: <-tcJxClTQPH.A.uZE.V7eSNB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #26242] BUG: unable to handle kernel NULL pointer dereference at   (null)
+Date: Thu,  3 Feb 2011 01:05:27 +0100 (CET)
+Message-ID: <-tcJxClTQPH.A.sgE.v7eSNB@chimera>
 References: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="macroman"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, =?utf-8?q?Patrick=20Matth=C3=A4i?= <patrick-T2eDObkLWuVEHWO/j4caUg@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Steffen Michalke <StMichalke@web.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,8 +22,9 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D26802
-Subject		: b43: Suspend failed
-Submitter	: Patrick Matth=C3=A4i <patrick-T2eDObkLWuVEHWO/j4caUg@public.gmane.org>
-Date		: 2011-01-15 18:56 (19 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=26242
+Subject		: BUG: unable to handle kernel NULL pointer dereference at   (null)
+Submitter	: Steffen Michalke <StMichalke@web.de>
+Date		: 2011-01-06 20:59 (28 days old)
+Patch		: http://www.spinics.net/lists/linux-btrfs/msg08051.html
 
