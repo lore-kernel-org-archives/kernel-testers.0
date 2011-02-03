@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #22542] [2.6.37-rc1] drm:i195 errors
-Date: Thu,  3 Feb 2011 01:03:49 +0100 (CET)
-Message-ID: <-tcJxClTQPH.A.QUG.J_eSNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #22882] (2.6.37-rc1) amd64-agp module crashed on second load
+Date: Thu,  3 Feb 2011 01:05:22 +0100 (CET)
+Message-ID: <-tcJxClTQPH.A.jFG.l-eSNB@chimera>
 References: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Dave Airlie <airlied@redhat.com>, Keith Packard <keithp@keithp.com>, Paul Rolland <rol@witbe.net>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,10 +22,10 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22542
-Subject		: [2.6.37-rc1] drm:i195 errors
-Submitter	: Paul Rolland <rol@witbe.net>
-Date		: 2010-11-02 14:58 (93 days old)
-Message-ID	: <20101102155813.09cb2c6e@tux.DEF.witbe.net>
-References	: http://marc.info/?l=linux-kernel&m=128870991628970&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22882
+Subject		: (2.6.37-rc1) amd64-agp module crashed on second load
+Submitter	: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Date		: 2010-11-05 0:13 (90 days old)
+Message-ID	: <20101104171333.fea1f498.randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=128891605213447&w=2
 
