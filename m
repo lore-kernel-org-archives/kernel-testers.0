@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #25832] kernel crashes upon resume if usb devices are removed when suspended
-Date: Thu,  3 Feb 2011 01:05:25 +0100 (CET)
-Message-ID: <-tcJxClTQPH.A.22E.H8eSNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #26102] [2.6.37-rc8] BUG kmalloc-256: Poison overwritten.
+Date: Thu,  3 Feb 2011 01:05:26 +0100 (CET)
+Message-ID: <-tcJxClTQPH.A.EzE.-7eSNB@chimera>
 References: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, rocko <rockorequin@hotmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Pawel Sikora <pluto-PIIpFW8S9c0@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,8 +22,10 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=25832
-Subject		: kernel crashes upon resume if usb devices are removed when suspended
-Submitter	: rocko <rockorequin@hotmail.com>
-Date		: 2010-12-29 11:47 (36 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=26102
+Subject		: [2.6.37-rc8] BUG kmalloc-256: Poison overwritten.
+Submitter	: Pawel Sikora <pluto-PIIpFW8S9c0@public.gmane.org>
+Date		: 2010-12-30 15:08 (35 days old)
+Message-ID	: <201012301608.40859.pluto-PIIpFW8S9c0@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=129372388925679&w=2
 
