@@ -1,38 +1,88 @@
-From: Linus Torvalds <torvalds@linux-foundation.org>
+From: Dave Airlie <airlied@gmail.com>
 Subject: Re: 2.6.38-rc3-git1: Reported regressions 2.6.36 -> 2.6.37
-Date: Thu, 3 Feb 2011 14:19:31 -0800
-Message-ID: <AANLkTin=YcecPX1AOpihPVJO3UOfrcjf0MFTu55dpEUy@mail.gmail.com>
-References: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera> <AANLkTikELiGS+fM5WguZS=Fo-sSXmej1UnKWqCFmnE0k@mail.gmail.com>
- <s5haaid3xos.wl%tiwai@suse.de> <201102032009.17100.rjw@sisk.pl>
- <AANLkTi=suS1VDL=6EtT0D2=0c1DWwxdwZBBv=-BySNX-@mail.gmail.com> <AANLkTi=7EOih=fY5FCvhQbewSc=3a49cYVaKJRWM+-3d@mail.gmail.com>
+Date: Fri, 4 Feb 2011 10:06:19 +1000
+Message-ID: <AANLkTin7kBur95H=UBcYEcjYsUkrdG8znX-7PFZ4rrHf@mail.gmail.com>
+References: <e9vOd5LzdBK.A.dyD.h6eSNB@chimera>
+	<AANLkTikELiGS+fM5WguZS=Fo-sSXmej1UnKWqCFmnE0k@mail.gmail.com>
+	<s5haaid3xos.wl%tiwai@suse.de>
+	<201102032009.17100.rjw@sisk.pl>
+	<AANLkTi=suS1VDL=6EtT0D2=0c1DWwxdwZBBv=-BySNX-@mail.gmail.com>
+	<AANLkTi=7EOih=fY5FCvhQbewSc=3a49cYVaKJRWM+-3d@mail.gmail.com>
 Mime-Version: 1.0
-Return-path: <netdev-owner@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-acpi-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:in-reply-to:references:date
+         :message-id:subject:from:to:cc:content-type
+         :content-transfer-encoding;
+        bh=IEIXHXohLzMgdT6uvd+olYyizWHK1pyHaqAsK4p46D8=;
+        b=pAcgcPSaUHFEnXg6IRgsqcanCIw4fiREvUp7PjsjEoW0rXZa0Irwqf8bvvqDmn0Ebp
+         I5o5l9egzwolN5U7YglCsB/DsBI/Py9EKFPbqu3DDuIEsW5+OJ9lc4YvHNH+6+ZD1cqh
+         7eGG8PvSD3tQzDCjKCj7j5fDTQq0dv1HQjXHk=
 In-Reply-To: <AANLkTi=7EOih=fY5FCvhQbewSc=3a49cYVaKJRWM+-3d@mail.gmail.com>
-Sender: netdev-owner@vger.kernel.org
+Sender: linux-acpi-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Carlos Mafra <crmafra2@gmail.com>, Keith Packard <keithp@keithp.com>, Dave Airlie <airlied@redhat.com>
-Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Takashi Iwai <tiwai@suse.de>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Carlos Mafra <crmafra2@gmail.com>, Keith Packard <keithp@keithp.com>, Dave Airlie <airlied@redhat.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Takashi Iwai <tiwai@suse.de>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Linux SCSI List <linux-scsi@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>
 
-On Thu, Feb 3, 2011 at 2:10 PM, Linus Torvalds
+On Fri, Feb 4, 2011 at 8:10 AM, Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
+> On Thu, Feb 3, 2011 at 1:56 PM, Carlos Mafra <crmafra2@gmail.com> wro=
+te:
+>>>
+>>> I added https://bugzilla.kernel.org/show_bug.cgi?id=3D24982 to the =
+list of
+>>> post-2.6.36 regressions for further tracking.
+>>
+>> I also tested on 2.6.38-rc3+ now and the issue is not solved,
+>> just like Takashi expected.
 >
-> Maybe the right thing to do is to set it to 'unknown', something like this.
+> Hmm. That commit (bf9dc102e284) still reverts cleanly.
 >
-> TOTALLY UNTESTED!
+> Keith, Dave, should we just revert it? It's definitely a regression,
+> and we do _not_ allow "fixes" to one thing that just causes a
+> regression to another.
+>
+> Quite frankly, I think it's totally wrong to just blindly set DPMS
+> status to ON like that. It's as wrong as it was to leave it off, and
+> the regressions reported are basically mirror images of the exact sam=
+e
+> bug that that commit tried to fix.
+>
+> IOW, the commit message says:
+>
+> =A0 =A0When setting a new crtc configuration, force the DPMS state of=
+ all
+> =A0 =A0connectors to ON. Otherwise, they'll be left at OFF and a futu=
+re mode set
+> =A0 =A0that disables the specified connector will not turn the connec=
+tor off.
+>
+> but setting it to ON doesn't actually _fix_ anything, because you jus=
+t
+> get the exact same issue in reverse, ie you just get
+>
+> =A0 .. and a future mode set =A0that ENables the specified connector =
+will
+> =A0 =A0not turn the connector ON.
 
-Doing some grepping and "git blame", I found this: commit 032d2a0d068
-("drm/i915: Prevent double dpms on") which took a very similar
-approach, except it just uses "-1" directly instead of introducing
-that DRM_MODE_DPMS_UNKNOWN concept.
+If we are setting a mode on a connector it automatically will end up
+in a DPMS on state,
+so this seemed correct from what I can see.
 
-So I suspect that my patch is going in the right direction, and
-judging by the comments in that commit, we probably should do this
-correctly at the dri level rather than have drivers see those stupid
-"let's set dpms to the state that it was already in". But that very
-much does require that kind of "UNKNOWN" state option.
+A future mode set shouldn't ever not turn the connector on, since
+modesetting is an implicit
+DPMS,
 
-So maybe we can get that patch tested (and acked if it works)? Carlos, Takashi?
+It sounds like something more subtle than that, though I'm happy to
+revert this for now, and let Keith
+think about it a bit more.
 
-                         Linus
+Dave.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-acpi" i=
+n
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
