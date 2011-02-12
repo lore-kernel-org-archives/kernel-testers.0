@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #26112] [LogFS] [2.6.37-rc8+] Kernel BUG at logfs/readwrite.c:297!
-Date: Sun, 13 Feb 2011 00:38:26 +0100 (CET)
-Message-ID: <1z1FRILH7uF.A.WgB._gxVNB@chimera>
+Subject: [Bug #27202] Remote control of saa7134-based tv card "ASUSTeK P7131 Hybrid" stopped working in 2.6.37
+Date: Sun, 13 Feb 2011 00:38:28 +0100 (CET)
+Message-ID: <1z1FRILH7uF.A.cGB.QgxVNB@chimera>
 References: <9Pzlq5PlEtH.A.DU.efxVNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Prasad Joshi <prasadjoshi124@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, acaizzo@gmail.com, Maxim Levitsky <maximlevitsky@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,10 +22,10 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=26112
-Subject		: [LogFS] [2.6.37-rc8+] Kernel BUG at logfs/readwrite.c:297!
-Submitter	: Prasad Joshi <prasadjoshi124@gmail.com>
-Date		: 2011-01-02 21:22 (42 days old)
-Message-ID	: <AANLkTinpoM8FuG8UkF88xs_V37dz_wgE8t-s0JPzaS-w@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=129400335910652&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=27202
+Subject		: Remote control of saa7134-based tv card "ASUSTeK P7131 Hybrid" stopped working in 2.6.37
+Submitter	:  <acaizzo@gmail.com>
+Date		: 2011-01-20 17:23 (24 days old)
+First-Bad-Commit: http://git.kernel.org/linus/4651918a4afdd49bdea21d2f919b189ef17a6399
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=44532
 
