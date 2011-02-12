@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #28812] DVI attached monitor is turned off while booting linux 2.6.37 and higher
-Date: Sun, 13 Feb 2011 00:38:32 +0100 (CET)
-Message-ID: <1z1FRILH7uF.A.BW.kfxVNB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #26112] [LogFS] [2.6.37-rc8+] Kernel BUG at logfs/readwrite.c:297!
+Date: Sun, 13 Feb 2011 00:38:26 +0100 (CET)
+Message-ID: <1z1FRILH7uF.A.WgB._gxVNB@chimera>
 References: <9Pzlq5PlEtH.A.DU.efxVNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <9Pzlq5PlEtH.A.DU.efxVNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Markus Heinz <markus.heinz-ka8IRLAdjMFlCbFer0i7Sg@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Prasad Joshi <prasadjoshi124@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,8 +22,10 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28812
-Subject		: DVI attached monitor is turned off while booting linux 2.6.37 and higher
-Submitter	: Markus Heinz <markus.heinz-ka8IRLAdjMFlCbFer0i7Sg@public.gmane.org>
-Date		: 2011-02-10 19:33 (3 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=26112
+Subject		: [LogFS] [2.6.37-rc8+] Kernel BUG at logfs/readwrite.c:297!
+Submitter	: Prasad Joshi <prasadjoshi124@gmail.com>
+Date		: 2011-01-02 21:22 (42 days old)
+Message-ID	: <AANLkTinpoM8FuG8UkF88xs_V37dz_wgE8t-s0JPzaS-w@mail.gmail.com>
+References	: http://marc.info/?l=linux-kernel&m=129400335910652&w=2
 
