@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #24582] Kernel Oops at tty_buffer_request_room when using pppd program (2.6.37-rc4)
-Date: Sun, 13 Feb 2011 00:38:22 +0100 (CET)
-Message-ID: <1z1FRILH7uF.A.OSC.EixVNB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #25732] i915 turns picture green when display switched off-on
+Date: Sun, 13 Feb 2011 00:38:24 +0100 (CET)
+Message-ID: <1z1FRILH7uF.A.Z6B.RhxVNB@chimera>
 References: <9Pzlq5PlEtH.A.DU.efxVNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <9Pzlq5PlEtH.A.DU.efxVNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, baoyb <baoyb-pUFDVul4/eDM1kAEIRd3EQ@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Chris Wilson <chris@chris-wilson.co.uk>, =?utf-8?q?David=20H=C3=A4rdeman?= <david@hardeman.nu>, =?utf-8?q?T=C3=B5nu=20Raitviir?= <jussuf@linux.ee>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,10 +22,11 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24582
-Subject		: Kernel Oops at tty_buffer_request_room when using pppd program (2.6.37-rc4)
-Submitter	: baoyb <baoyb-pUFDVul4/eDM1kAEIRd3EQ@public.gmane.org>
-Date		: 2010-12-08 13:55 (67 days old)
-Message-ID	: <EF6DDE218DB34702B1FA84D6CD7EA771@baoyb>
-References	: http://marc.info/?l=linux-kernel&m=129181763525738&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D25732
+Subject		: i915 turns picture green when display switched off-on
+Submitter	: T=C3=B5nu Raitviir <jussuf@linux.ee>
+Date		: 2010-12-27 22:14 (48 days old)
+=46irst-Bad-Commit: http://git.kernel.org/linus/3c17fe4b8f40a112a85758a=
+9ab2aebf772bdd647
+Handled-By	: Chris Wilson <chris@chris-wilson.co.uk>
 
