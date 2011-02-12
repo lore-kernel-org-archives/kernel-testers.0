@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #27132] flush-btrfs gets into an infinite loop
-Date: Sun, 13 Feb 2011 00:38:27 +0100 (CET)
-Message-ID: <1z1FRILH7uF.A.GNB.WgxVNB@chimera>
+Subject: [Bug #27842] [regression?] hang with 2.6.37 on a BTRFS test machine
+Date: Sun, 13 Feb 2011 00:38:30 +0100 (CET)
+Message-ID: <1z1FRILH7uF.A.N2.-fxVNB@chimera>
 References: <9Pzlq5PlEtH.A.DU.efxVNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Artem Anisimov <aanisimov@inbox.ru>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Martin Steigerwald <Martin@lichtvoll.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,8 +22,10 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=27132
-Subject		: flush-btrfs gets into an infinite loop
-Submitter	: Artem Anisimov <aanisimov@inbox.ru>
-Date		: 2011-01-20 11:51 (24 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=27842
+Subject		: [regression?] hang with 2.6.37 on a BTRFS test machine
+Submitter	: Martin Steigerwald <Martin@lichtvoll.de>
+Date		: 2011-01-23 12:06 (21 days old)
+Message-ID	: <<201101231306.23069.Martin@lichtvoll.de>>
+References	: http://marc.info/?l=linux-kernel&m=129578445613283&w=2
 
