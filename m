@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #28232] Kernel panics with 2.6.38 (rc1, rc2, rc3, rc4) and the lzo compression of btrfs
-Date: Sun, 13 Feb 2011 00:05:19 +0100 (CET)
-Message-ID: <8H3lez1sawF.A.7dH.tAxVNB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #28642] ACPI broken on DELL Latitude E6410 in 2.6.38-rc3
+Date: Sun, 13 Feb 2011 00:05:21 +0100 (CET)
+Message-ID: <8H3lez1sawF.A.F2G.TAxVNB@chimera>
 References: <NMZS1i37KEE.A.1eG.6_wVNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <NMZS1i37KEE.A.1eG.6_wVNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Juan Francisco Cantero Hurtado <iam-KGDpyYoRUt6ZuzBka8ofvg@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Adam Kovari <kovariadam@gmail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,8 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28232
-Subject		: Kernel panics with 2.6.38 (rc1, rc2, rc3, rc4) and the lzo compression of btrfs
-Submitter	: Juan Francisco Cantero Hurtado <iam-KGDpyYoRUt6ZuzBka8ofvg@public.gmane.org>
-Date		: 2011-02-05 04:44 (8 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28642
+Subject		: ACPI broken on DELL Latitude E6410 in 2.6.38-rc3
+Submitter	: Adam Kovari <kovariadam@gmail.com>
+Date		: 2011-02-08 22:22 (5 days old)
 
