@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #24762] BUG at perf_ctx_adjust_freq (kernel/perf_event.c:1582)
+Subject: [Bug #25072] backlight level is not maintened during LID close/open
 Date: Sun, 13 Feb 2011 00:38:23 +0100 (CET)
-Message-ID: <1z1FRILH7uF.A.4LC.9hxVNB@chimera>
+Message-ID: <1z1FRILH7uF.A.KAC.ohxVNB@chimera>
 References: <9Pzlq5PlEtH.A.DU.efxVNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Lukas Hejtmanek <xhejtman-0hYGf3jDe+XrBKCeMvbIDA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,10 +22,8 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24762
-Subject		: BUG at perf_ctx_adjust_freq (kernel/perf_event.c:1582)
-Submitter	: Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
-Date		: 2010-12-10 12:00 (65 days old)
-Message-ID	: <c6d829$pqibha-vB7d4uKqMBxScZeZrdtW41DQ4js95KgL@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=129198247531612&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=25072
+Subject		: backlight level is not maintened during LID close/open
+Submitter	: Lukas Hejtmanek <xhejtman-0hYGf3jDe+XrBKCeMvbIDA@public.gmane.org>
+Date		: 2010-12-17 11:56 (58 days old)
 
