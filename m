@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #27842] [regression?] hang with 2.6.37 on a BTRFS test machine
-Date: Sun, 13 Feb 2011 00:38:30 +0100 (CET)
-Message-ID: <1z1FRILH7uF.A.N2.-fxVNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #28772] oops in nfs_revalidate_mapping
+Date: Sun, 13 Feb 2011 00:38:32 +0100 (CET)
+Message-ID: <1z1FRILH7uF.A.3X.mfxVNB@chimera>
 References: <9Pzlq5PlEtH.A.DU.efxVNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <9Pzlq5PlEtH.A.DU.efxVNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Martin Steigerwald <Martin@lichtvoll.de>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Daniel Poelzleithner <bugzilla.kernel.org-j3Gp85GwYS0dnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,10 +22,8 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=27842
-Subject		: [regression?] hang with 2.6.37 on a BTRFS test machine
-Submitter	: Martin Steigerwald <Martin@lichtvoll.de>
-Date		: 2011-01-23 12:06 (21 days old)
-Message-ID	: <<201101231306.23069.Martin@lichtvoll.de>>
-References	: http://marc.info/?l=linux-kernel&m=129578445613283&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28772
+Subject		: oops in nfs_revalidate_mapping
+Submitter	: Daniel Poelzleithner <bugzilla.kernel.org-j3Gp85GwYS0dnm+yROfE0A@public.gmane.org>
+Date		: 2011-02-10 13:59 (3 days old)
 
