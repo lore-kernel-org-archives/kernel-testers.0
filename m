@@ -1,52 +1,45 @@
-From: david@lang.hm
-Subject: Re: [Bug #28622] radeon video lockup
-Date: Sat, 12 Feb 2011 16:16:40 -0800 (PST)
-Message-ID: <alpine.DEB.2.00.1102121610460.4146@asgard.lang.hm>
-References: <9Pzlq5PlEtH.A.DU.efxVNB@chimera> <1z1FRILH7uF.A.ib.rfxVNB@chimera>
+From: =?utf-8?q?Old=C5=99ich_Jedli=C4=8Dka?= <oldium.pro-9Vj9tDbzfuSlVyrhU4qvOw@public.gmane.org>
+Subject: Re: [Bug #28852] [KMS] radeon artifacts when switched to graphics during boot
+Date: Sun, 13 Feb 2011 09:58:22 +0100
+Message-ID: <201102130958.22668.oldium.pro@seznam.cz>
+References: <NMZS1i37KEE.A.1eG.6_wVNB@chimera> <8H3lez1sawF.A.4jG.FAxVNB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <1z1FRILH7uF.A.ib.rfxVNB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=gamma;
+        h=domainkey-signature:sender:from:to:subject:date:user-agent:cc
+         :references:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:message-id;
+        bh=L/VEWkdP6hKRkLn9mCvtoBnihNzObJeSp6Lk1s7k60A=;
+        b=qDPVthq0d5AU5MzsXJ17yjdo33McgMnp+EL7LgpmE6xVCxbVs+ttz2muhG/QlUah0l
+         XCvRViLsMM93ldGCQW9+Jo2tyX2vt1WwCW1nUwfGN4dc8s+l7TqcScDi5mXVh5VO07OO
+         fPstd94fbqrFH8HxdqfhhyCF39kJHyQsYSMxo=
+In-Reply-To: <8H3lez1sawF.A.4jG.FAxVNB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"; format="flowed"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Daniel Poelzleithner <bugzilla.kernel.org@poelzi.org>
+Content-Type: Text/Plain; charset="utf-8"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Alex Deucher <alexdeucher-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Sun, 13 Feb 2011, Rafael J. Wysocki wrote:
-
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.36 and 2.6.37.
->
+On Sunday 13 February 2011 00:05:22 Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary =
+report
+> of recent regressions.
+>=20
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.36 and 2.6.37.  Please verify if it still should
-> be listed and let the tracking team know (either way).
->
->
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28622
-> Subject		: radeon video lockup
-> Submitter	: Daniel Poelzleithner <bugzilla.kernel.org@poelzi.org>
-> Date		: 2011-02-08 17:48 (5 days old)
+> from 2.6.37.  Please verify if it still should be listed and let the
+> tracking team know (either way).
+>=20
+>=20
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D28852
+> Subject		: [KMS] radeon artifacts when switched to graphics during bo=
+ot
+> Submitter	: Old=C5=99ich Jedli=C4=8Dka <oldium.pro-9Vj9tDbzfuSlVyrhU4qvOw@public.gmane.org>
+> Date		: 2011-02-10 21:11 (3 days old)
+> Handled-By	: Alex Deucher <alexdeucher-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-hmm, I've occasionally been expericancing what sounds like a similar 
-issue.
+Status update - some patches that fix the issue exist already, Alex is=20
+investigating the best fix.
 
-the screen locks, it doesn't respond to the keyboard (but caps lock still 
-works), frequently the mouse pointer still moves, but you can't click on 
-anything.
-
-it ususally happens to me a few min after starting firefox (with 10-15 
-windows holding a couple hundred tabs), so it could also be a firefox bug 
-if it can capture the input and not release it.
-
-I've experianced this on my T61 laptop, and my work machine (Radeon X1300 
-series)
-
-I'm currently running ubuntu 10.10 which is 2.6.35-25, so if it is the 
-same problem, it wasn't introduced between 2.6.36 and 2.6.37.
-
-like the OP of the bug report, this is not something that happens 
-frequently, but I don't do much that stresses the video, so starting all 
-these tabs is about as hard as I drive it.
-
-David Lang
+Oldrich.
