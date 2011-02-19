@@ -1,45 +1,38 @@
-From: Norbert Preining <preining@logic.at>
-Subject: Re: [Bug #27702] regression 2.6.37 -> 2.6.38-rc1: after suspend
-	backlight cannot be adjusted
-Date: Tue, 15 Feb 2011 22:32:35 +0900
-Message-ID: <20110215133235.GM19325@gamma.logic.tuwien.ac.at>
-References: <NMZS1i37KEE.A.1eG.6_wVNB@chimera> <8H3lez1sawF.A.G2H.LBxVNB@chimera>
+From: Shawn Starr <shawn.starr@rogers.com>
+Subject: Re: [Bug #28832] [regression][2.6.38-rcX][net][iwlagn] WiFi signal after period of time tanks causing contant drops
+Date: Sat, 19 Feb 2011 00:52:13 -0500
+Message-ID: <556947.8414.qm@smtp103.rog.mail.re2.yahoo.com>
+References: <NMZS1i37KEE.A.1eG.6_wVNB@chimera> <8H3lez1sawF.A.7vG.KAxVNB@chimera>
 Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7Bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <8H3lez1sawF.A.G2H.LBxVNB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rogers.com; s=s1024; t=1298094738; bh=Oj48GhxylAu2hQ19lNAHud80xOe3JUhUVwacZj1/LdY=; h=Message-ID:Received:X-Yahoo-SMTP:X-YMail-OSG:X-Yahoo-Newman-Property:From:To:Cc:Subject:Date:Organization:User-Agent:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type; b=OtZVgl3ta9nNJPFe/hqHqxFANbxzY4+ocuXqiGr2DXje1IBTT9NFw8zF2cwiROc9J3YX25jBSOozOWR1EAaipXJOGnoL+v7Ncgyuzy8VUONOdrnnMlDsYe5k11v5dNsffhnH5cFlUYswEapaodXhZCbdPp+VMJXa2dRD8Vbxrak=
+In-Reply-To: <8H3lez1sawF.A.7vG.KAxVNB@chimera>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>
+To: linux-kernel@vger.kernel.org
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
 
-On So, 13 Feb 2011, Rafael J. Wysocki wrote:
+On Sunday, February 13, 2011 12:05:21 AM Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
+> 
 > The following bug entry is on the current list of known regressions
-> from 2.6.37.  Please verify if it still should be listed and let the tracking team
-> know (either way).
+> from 2.6.37.  Please verify if it still should be listed and let the
+> tracking team know (either way).
+> 
+> 
 
-It is, added an entry to the bug report. Still not fixed in mainstream.
+I've left laptop on for a day, not seeing this anymore. Please close bug 
+ticket (but I have another regression coming up in another thread for 
+something else :/)
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=27702
-> Subject		: regression 2.6.37 -> 2.6.38-rc1: after suspend backlight cannot be adjusted
-> Submitter	: Norbert Preining <preining@logic.at>
-> Date		: 2011-01-21 1:55 (23 days old)
-> Message-ID	: <20110121015529.GD9796@gamma.logic.tuwien.ac.at>
-> References	: http://marc.info/?l=linux-kernel&m=129557717826819&w=2
-> Handled-By	: Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>
-> Patch		: https://patchwork.kernel.org/patch/499221/
-
-Best wishes
-
-Norbert
-------------------------------------------------------------------------
-Norbert Preining            preining@{jaist.ac.jp, logic.at, debian.org}
-JAIST, Japan                                 TeX Live & Debian Developer
-DSA: 0x09C5B094   fp: 14DF 2E6C 0307 BE6D AD76  A9C0 D2BF 4AA3 09C5 B094
-------------------------------------------------------------------------
-POLPERRO (n.)
-A polperro is the ball, or muff, of soggy hair found clinging to bath
-overflow-holes.
-			--- Douglas Adams, The Meaning of Liff
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28832
+> Subject		: [regression][2.6.38-rcX][net][iwlagn] WiFi signal after period 
+of
+> time tanks causing contant drops Submitter	: Shawn Starr
+> <shawn doot starr@XXXXX>
+> Date		: 2011-02-07 3:54 (6 days old)
+> Message-ID	: <613373.34172.qm@smtp106.rog.mail.re2.yahoo.com>
+> References	: http://marc.info/?l=linux-kernel&m=129705125832718&w=2
