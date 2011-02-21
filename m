@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #29252] IPv6 doesn't work in a kvm guest.
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #29402] kernel panics while running ffsb scalability workloads on 2.6.38-rc1 through -rc5
 Date: Mon, 21 Feb 2011 23:03:03 +0100 (CET)
-Message-ID: <5HY1m9_-mkI.A.HbH.WWtYNB@chimera>
+Message-ID: <5HY1m9_-mkI.A.XNH.MWtYNB@chimera>
 References: <xmAo3o4v0VF.A.eLH.HWtYNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <xmAo3o4v0VF.A.eLH.HWtYNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, "David S. Miller" <davem@davemloft.net>, Kusanagi Kouichi <slash@ac.auone-net.jp>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Eric Whitney <eric.whitney-VXdhtT5mjnY@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,8 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29252
-Subject		: IPv6 doesn't work in a kvm guest.
-Submitter	: Kusanagi Kouichi <slash@ac.auone-net.jp>
-Date		: 2011-02-16 13:03 (6 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29402
+Subject		: kernel panics while running ffsb scalability workloads on 2.6.38-rc1 through -rc5
+Submitter	: Eric Whitney <eric.whitney-VXdhtT5mjnY@public.gmane.org>
+Date		: 2011-02-18 21:47 (4 days old)
 
