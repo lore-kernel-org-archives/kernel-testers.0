@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #24882] PM/Hibernate: Memory corruption patch introduces regression (2.6.36.2)
-Date: Mon, 21 Feb 2011 23:37:06 +0100 (CET)
-Message-ID: <f14qsMvj2tF.A.YTE.BeuYNB@chimera>
+Subject: [Bug #26112] [LogFS] [2.6.37-rc8+] Kernel BUG at logfs/readwrite.c:297!
+Date: Mon, 21 Feb 2011 23:37:08 +0100 (CET)
+Message-ID: <f14qsMvj2tF.A.hlD.FduYNB@chimera>
 References: <JwKd6rET8XO.A._ZC.gbuYNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, akwatts@ymail.com
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Prasad Joshi <prasadjoshi124@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,8 +22,10 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24882
-Subject		: PM/Hibernate: Memory corruption patch introduces regression (2.6.36.2)
-Submitter	:  <akwatts@ymail.com>
-Date		: 2010-12-14 04:00 (70 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=26112
+Subject		: [LogFS] [2.6.37-rc8+] Kernel BUG at logfs/readwrite.c:297!
+Submitter	: Prasad Joshi <prasadjoshi124@gmail.com>
+Date		: 2011-01-02 21:22 (51 days old)
+Message-ID	: <AANLkTinpoM8FuG8UkF88xs_V37dz_wgE8t-s0JPzaS-w@mail.gmail.com>
+References	: http://marc.info/?l=linux-kernel&m=129400335910652&w=2
 
