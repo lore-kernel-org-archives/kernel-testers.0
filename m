@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #22542] [2.6.37-rc1] drm:i195 errors
-Date: Mon, 21 Feb 2011 23:29:34 +0100 (CET)
-Message-ID: <f14qsMvj2tF.A.rQF._fuYNB@chimera>
+Subject: [Bug #24822] Embedded DisplayPort is detected wrongly on HP ProBook 5320m
+Date: Mon, 21 Feb 2011 23:37:05 +0100 (CET)
+Message-ID: <f14qsMvj2tF.A.eWE.EeuYNB@chimera>
 References: <JwKd6rET8XO.A._ZC.gbuYNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Dave Airlie <airlied@redhat.com>, Keith Packard <keithp@keithp.com>, Paul Rolland <rol@witbe.net>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Chris Wilson <chris@chris-wilson.co.uk>, Takashi Iwai <tiwai@suse.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,10 +22,9 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22542
-Subject		: [2.6.37-rc1] drm:i195 errors
-Submitter	: Paul Rolland <rol@witbe.net>
-Date		: 2010-11-02 14:58 (112 days old)
-Message-ID	: <20101102155813.09cb2c6e@tux.DEF.witbe.net>
-References	: http://marc.info/?l=linux-kernel&m=128870991628970&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24822
+Subject		: Embedded DisplayPort is detected wrongly on HP ProBook 5320m
+Submitter	: Takashi Iwai <tiwai@suse.de>
+Date		: 2010-12-13 11:09 (71 days old)
+Handled-By	: Chris Wilson <chris@chris-wilson.co.uk>
 
