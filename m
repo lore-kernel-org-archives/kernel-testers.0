@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #27642] 2.6.37 says WARNING: at arch/x86/kernel/apic/apic.c:1287 setup_local_APIC+0x18f/0x263()
-Date: Mon, 21 Feb 2011 23:37:11 +0100 (CET)
-Message-ID: <f14qsMvj2tF.A.cAD.JcuYNB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #27202] Remote control of saa7134-based tv card "ASUSTeK P7131 Hybrid" stopped working in 2.6.37
+Date: Mon, 21 Feb 2011 23:37:09 +0100 (CET)
+Message-ID: <f14qsMvj2tF.A.9ND.VcuYNB@chimera>
 References: <JwKd6rET8XO.A._ZC.gbuYNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <JwKd6rET8XO.A._ZC.gbuYNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Rob Landley <rlandley-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, acaizzo@gmail.com, Mauro Carvalho Chehab <mchehab@redhat.com>, Maxim Levitsky <maximlevitsky@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,10 +22,11 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=27642
-Subject		: 2.6.37 says WARNING: at arch/x86/kernel/apic/apic.c:1287 setup_local_APIC+0x18f/0x263()
-Submitter	: Rob Landley <rlandley-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
-Date		: 2011-01-18 13:11 (35 days old)
-Message-ID	: <4D359188.3040408-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=129535632319892&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=27202
+Subject		: Remote control of saa7134-based tv card "ASUSTeK P7131 Hybrid" stopped working in 2.6.37
+Submitter	:  <acaizzo@gmail.com>
+Date		: 2011-01-20 17:23 (33 days old)
+First-Bad-Commit: http://git.kernel.org/linus/4651918a4afdd49bdea21d2f919b189ef17a6399
+Handled-By	: Mauro Carvalho Chehab <mchehab@redhat.com>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=44532
 
