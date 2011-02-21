@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #28842] 2.6.38-rc3 regression ipv6 TFTP download with curl failing in getpeername?
-Date: Mon, 21 Feb 2011 23:03:01 +0100 (CET)
-Message-ID: <5HY1m9_-mkI.A.KpH.vWtYNB@chimera>
+Subject: [Bug #29202] 2.6.38-rc: fuse BUG, maybe related to detaching external usb drive without umounting
+Date: Mon, 21 Feb 2011 23:03:02 +0100 (CET)
+Message-ID: <5HY1m9_-mkI.A.6eH.cWtYNB@chimera>
 References: <xmAo3o4v0VF.A.eLH.HWtYNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Florian Mickler <florian@mickler.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,8 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28842
-Subject		: 2.6.38-rc3 regression ipv6 TFTP download with curl failing in getpeername?
-Submitter	: Eric W. Biederman <ebiederm@xmission.com>
-Date		: 2011-02-08 9:41 (14 days old)
-Message-ID	: <m1ei7iamnn.fsf@fess.ebiederm.org>
-References	: http://marc.info/?l=linux-kernel&m=129715811421534&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29202
+Subject		: 2.6.38-rc: fuse BUG, maybe related to detaching external usb drive without umounting
+Submitter	: Florian Mickler <florian@mickler.org>
+Date		: 2011-02-15 22:05 (7 days old)
 
