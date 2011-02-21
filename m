@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #25732] i915 turns picture green when display switched off-on
-Date: Mon, 21 Feb 2011 23:37:06 +0100 (CET)
-Message-ID: <f14qsMvj2tF.A.7AE.YduYNB@chimera>
+Subject: [Bug #25922] IdeaPad Y530 brightness keys not functioning
+Date: Mon, 21 Feb 2011 23:37:07 +0100 (CET)
+Message-ID: <f14qsMvj2tF.A.duD.LduYNB@chimera>
 References: <JwKd6rET8XO.A._ZC.gbuYNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <JwKd6rET8XO.A._ZC.gbuYNB@chimera>
 Content-Disposition: inline
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Chris Wilson <chris@chris-wilson.co.uk>, =?utf-8?q?David=20H=C3=A4rdeman?= <david@hardeman.nu>, =?utf-8?q?T=C3=B5nu=20Raitviir?= <jussuf@linux.ee>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Tomasz <tm.temp@gmx.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,11 +22,9 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D25732
-Subject		: i915 turns picture green when display switched off-on
-Submitter	: T=C3=B5nu Raitviir <jussuf@linux.ee>
-Date		: 2010-12-27 22:14 (57 days old)
-=46irst-Bad-Commit: http://git.kernel.org/linus/3c17fe4b8f40a112a85758a=
-9ab2aebf772bdd647
-Handled-By	: Chris Wilson <chris@chris-wilson.co.uk>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=25922
+Subject		: IdeaPad Y530 brightness keys not functioning
+Submitter	: Tomasz <tm.temp@gmx.com>
+Date		: 2010-12-30 12:48 (54 days old)
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=48542
 
