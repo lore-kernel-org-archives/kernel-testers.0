@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #27202] Remote control of saa7134-based tv card "ASUSTeK P7131 Hybrid" stopped working in 2.6.37
-Date: Mon, 21 Feb 2011 23:37:09 +0100 (CET)
-Message-ID: <f14qsMvj2tF.A.9ND.VcuYNB@chimera>
+Subject: [Bug #27842] [regression?] hang with 2.6.37 on a BTRFS test machine
+Date: Mon, 21 Feb 2011 23:37:11 +0100 (CET)
+Message-ID: <f14qsMvj2tF.A.T6C.DcuYNB@chimera>
 References: <JwKd6rET8XO.A._ZC.gbuYNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, acaizzo@gmail.com, Mauro Carvalho Chehab <mchehab@redhat.com>, Maxim Levitsky <maximlevitsky@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Martin Steigerwald <Martin@lichtvoll.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,11 +22,10 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=27202
-Subject		: Remote control of saa7134-based tv card "ASUSTeK P7131 Hybrid" stopped working in 2.6.37
-Submitter	:  <acaizzo@gmail.com>
-Date		: 2011-01-20 17:23 (33 days old)
-First-Bad-Commit: http://git.kernel.org/linus/4651918a4afdd49bdea21d2f919b189ef17a6399
-Handled-By	: Mauro Carvalho Chehab <mchehab@redhat.com>
-Patch		: https://bugzilla.kernel.org/attachment.cgi?id=44532
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=27842
+Subject		: [regression?] hang with 2.6.37 on a BTRFS test machine
+Submitter	: Martin Steigerwald <Martin@lichtvoll.de>
+Date		: 2011-01-23 12:06 (30 days old)
+Message-ID	: <<201101231306.23069.Martin@lichtvoll.de>>
+References	: http://marc.info/?l=linux-kernel&m=129578445613283&w=2
 
