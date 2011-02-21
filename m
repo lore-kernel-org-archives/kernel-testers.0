@@ -1,18 +1,18 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #27532] ath9k prevents CPU from entering lower C-states
-Date: Mon, 21 Feb 2011 23:37:10 +0100 (CET)
-Message-ID: <f14qsMvj2tF.A.oED.NcuYNB@chimera>
+Subject: [Bug #28622] radeon video lockup
+Date: Mon, 21 Feb 2011 23:37:14 +0100 (CET)
+Message-ID: <f14qsMvj2tF.A.PjC.vbuYNB@chimera>
 References: <JwKd6rET8XO.A._ZC.gbuYNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <JwKd6rET8XO.A._ZC.gbuYNB@chimera>
 Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Mohammed Shafi Shajakhan <mshajakhan-DlyHzToyqoxBDgjK7y7TUQ@public.gmane.org>, =?utf-8?q?Thomas=20B=C3=A4chler?= <thomas-fd97jBR+K/6hPH1hqNUYSQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Daniel Poelzleithner <bugzilla.kernel.org-j3Gp85GwYS0dnm+yROfE0A@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,10 +22,8 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D27532
-Subject		: ath9k prevents CPU from entering lower C-states
-Submitter	: Thomas B=C3=A4chler <thomas-fd97jBR+K/6hPH1hqNUYSQ@public.gmane.org>
-Date		: 2011-01-24 22:43 (29 days old)
-Handled-By	: Mohammed Shafi Shajakhan <mshajakhan-DlyHzToyqoxBDgjK7y7TUQ@public.gmane.org>
-Patch		: https://bugzilla.kernel.org/attachment.cgi?id=3D47952
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28622
+Subject		: radeon video lockup
+Submitter	: Daniel Poelzleithner <bugzilla.kernel.org-j3Gp85GwYS0dnm+yROfE0A@public.gmane.org>
+Date		: 2011-02-08 17:48 (14 days old)
 
