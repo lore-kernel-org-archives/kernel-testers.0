@@ -1,31 +1,35 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #28422] kref and apparmor panic in 2.6.38-rc2.
-Date: Mon, 21 Feb 2011 23:02:59 +0100 (CET)
-Message-ID: <5HY1m9_-mkI.A.TK.IXtYNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #28432] khugepaged: gets stuck when writing to USB flash, 2.6.38-rc2
+Date: Mon, 21 Feb 2011 23:03:00 +0100 (CET)
+Message-ID: <5HY1m9_-mkI.A.c_H.GXtYNB@chimera>
 References: <xmAo3o4v0VF.A.eLH.HWtYNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <xmAo3o4v0VF.A.eLH.HWtYNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Tao Ma <tm@tao.ma>
+Content-Type: text/plain; charset="utf-8"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, =?utf-8?q?Jind=C5=99ich=20Makovi=C4=8Dka?= <makovick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-This message has been generated automatically as a part of a summary report
+This message has been generated automatically as a part of a summary re=
+port
 of recent regressions.
 
 The following bug entry is on the current list of known regressions
-from 2.6.37.  Please verify if it still should be listed and let the tracking team
+from 2.6.37.  Please verify if it still should be listed and let the tr=
+acking team
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28422
-Subject		: kref and apparmor panic in 2.6.38-rc2.
-Submitter	: Tao Ma <tm@tao.ma>
-Date		: 2011-01-31 10:06 (22 days old)
-Message-ID	: <4D46899B.80302@tao.ma>
-References	: http://marc.info/?l=linux-kernel&m=129646840303149&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D28432
+Subject		: khugepaged: gets stuck when writing to USB flash, 2.6.38-rc2
+Submitter	: Jind=C5=99ich Makovi=C4=8Dka <makovick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-01-31 19:28 (22 days old)
+Message-ID	: <AANLkTi=3DuOpN0PwWdGh6iri-vJwuMS+WMPxmaZjv0-TrV-JsoAwUIsXov1KXRcyAk9cg@public.gmane.org=
+l.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D129650210516627&w=3D=
+2
 
