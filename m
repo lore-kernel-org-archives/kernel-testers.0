@@ -1,39 +1,40 @@
-From: Greg KH <greg@kroah.com>
-Subject: Re: [stable] 2.6.38-rc5-git6: Reported regressions 2.6.36 -> 2.6.37
-Date: Tue, 22 Feb 2011 12:07:24 -0800
-Message-ID: <20110222200724.GB11679@kroah.com>
-References: <JwKd6rET8XO.A._ZC.gbuYNB@chimera>
+From: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #22882] (2.6.37-rc1) amd64-agp module crashed on second
+ load
+Date: Tue, 22 Feb 2011 13:04:52 -0800
+Message-ID: <4D6424F4.4050208@oracle.com>
+References: <JwKd6rET8XO.A._ZC.gbuYNB@chimera> <f14qsMvj2tF.A.8BF.ffuYNB@chimera>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org>
-Content-Disposition: inline
-In-Reply-To: <JwKd6rET8XO.A._ZC.gbuYNB@chimera>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <http://lists.freedesktop.org/mailman/options/dri-devel>,
-	<mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
-List-Archive: <http://lists.freedesktop.org/archives/dri-devel>
-List-Post: <mailto:dri-devel@lists.freedesktop.org>
-List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
-List-Subscribe: <http://lists.freedesktop.org/mailman/listinfo/dri-devel>,
-	<mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Sender: dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org
-Errors-To: dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux SCSI List <linux-scsi@vger.kernel.org>, Florian Mickler <florian@mickler.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <f14qsMvj2tF.A.8BF.ffuYNB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-On Mon, Feb 21, 2011 at 11:29:26PM +0100, Rafael J. Wysocki wrote:
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24582
-> Subject		: Kernel Oops at tty_buffer_request_room when using pppd program (2.6.37-rc4)
-> Submitter	: baoyb <baoyb@avit.org.cn>
-> Date		: 2010-12-08 13:55 (76 days old)
-> Message-ID	: <EF6DDE218DB34702B1FA84D6CD7EA771@baoyb>
-> References	: http://marc.info/?l=linux-kernel&m=129181763525738&w=2
-> Handled-By	: Jiri Slaby <jslaby@suse.cz>
-> Patch		: https://bugzilla.kernel.org/attachment.cgi?id=47872
+On 02/21/11 14:37, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.36 and 2.6.37.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.36 and 2.6.37.  Please verify if it still should
+> be listed and let the tracking team know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22882
+> Subject		: (2.6.37-rc1) amd64-agp module crashed on second load
+> Submitter	: Randy Dunlap <randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+> Date		: 2010-11-05 0:13 (109 days old)
+> Message-ID	: <20101104171333.fea1f498.randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=128891605213447&w=2
+> Handled-By	: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+> Patch		: https://bugzilla.kernel.org/attachment.cgi?id=46682
 
-This is queued up already for sending to Linus soon.
+  ^^^^^ this patch just needs to be merged into mainline.
 
-thanks,
-
-greg k-h
+thanks.  [resend due to multiple email failures (last attempt)]
+-- 
+~Randy
+*** Remember to use Documentation/SubmitChecklist when testing your code ***
