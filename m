@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #29992] boot hang 2.6.37.1 regression w/ intel_idle and CONFIG_NO_HZ=n - asus p7p55d le
-Date: Sun,  6 Mar 2011 13:10:22 +0100 (CET)
-Message-ID: <GTlFTeOGjrB.A.PGE.tp3cNB@chimera>
+Subject: [Bug #29902] System suspend failed after 1-2 successful resumes
+Date: Sun,  6 Mar 2011 13:10:21 +0100 (CET)
+Message-ID: <GTlFTeOGjrB.A.-NE.1p3cNB@chimera>
 References: <t0W8Ea1iKeB.A.6xD.Lp3cNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, De Ganseman Amaury <amaury.deganseman@gmail.com>, Shaohua Li <shaohua.li@intel.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Alex Terekhov <a.terekhov@gmail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,8 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29992
-Subject		: boot hang 2.6.37.1 regression w/ intel_idle and CONFIG_NO_HZ=n - asus p7p55d le
-Submitter	: De Ganseman Amaury <amaury.deganseman@gmail.com>
-Date		: 2011-02-27 10:38 (8 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29902
+Subject		: System suspend failed after 1-2 successful resumes
+Submitter	: Alex Terekhov <a.terekhov@gmail.com>
+Date		: 2011-02-25 22:24 (10 days old)
 
