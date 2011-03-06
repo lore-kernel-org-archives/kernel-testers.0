@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #28422] kref and apparmor panic in 2.6.38-rc2.
-Date: Sun,  6 Mar 2011 13:10:17 +0100 (CET)
-Message-ID: <GTlFTeOGjrB.A.vWF.Yr3cNB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #28102] New display errors in 2.6.38-rc2-00175-g6fb1b30
+Date: Sun,  6 Mar 2011 13:10:16 +0100 (CET)
+Message-ID: <GTlFTeOGjrB.A.0eF.ir3cNB@chimera>
 References: <t0W8Ea1iKeB.A.6xD.Lp3cNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <t0W8Ea1iKeB.A.6xD.Lp3cNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Tao Ma <tm-d1IQDZat3X0@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Nico Schottelius <nico-kernel-20110117@schottelius.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28422
-Subject		: kref and apparmor panic in 2.6.38-rc2.
-Submitter	: Tao Ma <tm-d1IQDZat3X0@public.gmane.org>
-Date		: 2011-01-31 10:06 (35 days old)
-Message-ID	: <4D46899B.80302-d1IQDZat3X0@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=129646840303149&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28102
+Subject		: New display errors in 2.6.38-rc2-00175-g6fb1b30
+Submitter	: Nico Schottelius <nico-kernel-20110117@schottelius.org>
+Date		: 2011-01-28 20:29 (38 days old)
+Message-ID	: <20110128202905.GB3395@schottelius.org>
+References	: http://marc.info/?l=linux-kernel&m=129624657425949&w=2
 
