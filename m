@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #24822] Embedded DisplayPort is detected wrongly on HP ProBook 5320m
-Date: Sun,  6 Mar 2011 13:40:36 +0100 (CET)
-Message-ID: <sUKqYsqyJ4N.A.kkH.wB4cNB@chimera>
+Subject: [Bug #25832] kernel crashes upon resume if usb devices are removed when suspended
+Date: Sun,  6 Mar 2011 13:40:37 +0100 (CET)
+Message-ID: <sUKqYsqyJ4N.A.GSH.4A4cNB@chimera>
 References: <dtUMITvTCCN.A.uuF.y-3cNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, rocko <rockorequin-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,9 +22,8 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24822
-Subject		: Embedded DisplayPort is detected wrongly on HP ProBook 5320m
-Submitter	: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
-Date		: 2010-12-13 11:09 (84 days old)
-Handled-By	: Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=25832
+Subject		: kernel crashes upon resume if usb devices are removed when suspended
+Submitter	: rocko <rockorequin-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
+Date		: 2010-12-29 11:47 (68 days old)
 
