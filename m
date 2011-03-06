@@ -1,29 +1,30 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #26582] NULL pointer dereference on pipe creation
-Date: Sun,  6 Mar 2011 13:40:38 +0100 (CET)
-Message-ID: <sUKqYsqyJ4N.A.54G.UA4cNB@chimera>
-References: <dtUMITvTCCN.A.uuF.y-3cNB@chimera>
+From: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
+Subject: Re: [linux-pm] 2.6.38-rc7-git4: Reported regressions from 2.6.37
+Date: Sun, 6 Mar 2011 10:47:05 -0500 (EST)
+Message-ID: <Pine.LNX.4.44L0.1103061041440.13175-100000@netrider.rowland.org>
+References: <t0W8Ea1iKeB.A.6xD.Lp3cNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <dtUMITvTCCN.A.uuF.y-3cNB@chimera>
-Content-Disposition: inline
+In-Reply-To: <t0W8Ea1iKeB.A.6xD.Lp3cNB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, =?utf-8?q?Ferenc=20W=C3=A1gner?= <wferi-eEbw3PyuezQ@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-This message has been generated automatically as a part of a report
-of regressions introduced between 2.6.36 and 2.6.37.
+On Sun, 6 Mar 2011, Rafael J. Wysocki wrote:
 
-The following bug entry is on the current list of known regressions
-introduced between 2.6.36 and 2.6.37.  Please verify if it still should
-be listed and let the tracking team know (either way).
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29902
+> Subject		: System suspend failed after 1-2 successful resumes
+> Submitter	: Alex Terekhov <a.terekhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2011-02-25 22:24 (10 days old)
 
+As far as I know, this isn't a regression.  Most likely it is present 
+in earlier kernels too, but the OP hasn't tried any.
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D26582
-Subject		: NULL pointer dereference on pipe creation
-Submitter	: Ferenc W=C3=A1gner <wferi-eEbw3PyuezQ@public.gmane.org>
-Date		: 2011-01-12 13:30 (54 days old)
+Anyway, it appears to be a combination of problems.  One is a bug, for 
+which a patch has been written and will be submitted soon.  The other 
+is unclear, it is probably a hardware issue.
 
+Alan Stern
