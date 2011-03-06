@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #28562] [BUG] usb problems in .38-rc3+
-Date: Sun,  6 Mar 2011 13:10:17 +0100 (CET)
-Message-ID: <GTlFTeOGjrB.A.qCF.Kr3cNB@chimera>
+Subject: [Bug #29312] Unmounting fails even after the underlying device is long gone
+Date: Sun,  6 Mar 2011 13:10:19 +0100 (CET)
+Message-ID: <GTlFTeOGjrB.A.DoE.Sq3cNB@chimera>
 References: <t0W8Ea1iKeB.A.6xD.Lp3cNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Ed Tomlinson <edt@aei.ca>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Bart Van Assche <bart.vanassche@gmail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,8 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28562
-Subject		: [BUG] usb problems in .38-rc3+
-Submitter	: Ed Tomlinson <edt@aei.ca>
-Date		: 2011-02-05 19:17 (30 days old)
-Message-ID	: <201102051417.58953.edt@aei.ca>
-References	: http://marc.info/?l=linux-kernel&m=129693391417607&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29312
+Subject		: Unmounting fails even after the underlying device is long gone
+Submitter	: Bart Van Assche <bart.vanassche@gmail.com>
+Date		: 2011-02-17 19:20 (18 days old)
 
