@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #28772] oops in nfs_revalidate_mapping
+Subject: [Bug #28622] radeon video lockup
 Date: Sun,  6 Mar 2011 13:40:42 +0100 (CET)
-Message-ID: <sUKqYsqyJ4N.A.m8F.E_3cNB@chimera>
+Message-ID: <sUKqYsqyJ4N.A.SAG.J_3cNB@chimera>
 References: <dtUMITvTCCN.A.uuF.y-3cNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -22,8 +22,8 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28772
-Subject		: oops in nfs_revalidate_mapping
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28622
+Subject		: radeon video lockup
 Submitter	: Daniel Poelzleithner <bugzilla.kernel.org-j3Gp85GwYS0dnm+yROfE0A@public.gmane.org>
-Date		: 2011-02-10 13:59 (25 days old)
+Date		: 2011-02-08 17:48 (27 days old)
 
