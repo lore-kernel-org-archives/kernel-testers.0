@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #30032] r8169: 60 seconds delay when resuming from suspend
+Subject: [Bug #30072] USB-to-serial problems in 2.6.37.1+ (pl2303)
 Date: Sun,  6 Mar 2011 13:10:22 +0100 (CET)
-Message-ID: <GTlFTeOGjrB.A.ZCE.pp3cNB@chimera>
+Message-ID: <GTlFTeOGjrB.A.t-D.ip3cNB@chimera>
 References: <t0W8Ea1iKeB.A.6xD.Lp3cNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Guillaume Ayoub <xovni@wanadoo.fr>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, akwatts@ymail.com, Libor Pechacek <lpechacek@suse.cz>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,8 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30032
-Subject		: r8169: 60 seconds delay when resuming from suspend
-Submitter	: Guillaume Ayoub <xovni@wanadoo.fr>
-Date		: 2011-02-27 16:52 (8 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30072
+Subject		: USB-to-serial problems in 2.6.37.1+ (pl2303)
+Submitter	:  <akwatts@ymail.com>
+Date		: 2011-02-28 12:39 (7 days old)
 
