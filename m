@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #28522] Unable to mount FAT-formatted floppy on /dev/fd0, plus WARN_ON when using /dev/fd0u1440
-Date: Sun,  6 Mar 2011 13:10:17 +0100 (CET)
-Message-ID: <GTlFTeOGjrB.A.hEF.Or3cNB@chimera>
+Subject: [Bug #29252] IPv6 doesn't work in a kvm guest.
+Date: Sun,  6 Mar 2011 13:10:19 +0100 (CET)
+Message-ID: <GTlFTeOGjrB.A.dvE.Yq3cNB@chimera>
 References: <t0W8Ea1iKeB.A.6xD.Lp3cNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Alex Villacis Lasso <avillaci@ceibo.fiec.espol.edu.ec>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, "David S. Miller" <davem@davemloft.net>, Kusanagi Kouichi <slash@ac.auone-net.jp>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,8 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28522
-Subject		: Unable to mount FAT-formatted floppy on /dev/fd0, plus WARN_ON when using /dev/fd0u1440
-Submitter	: Alex Villacis Lasso <avillaci@ceibo.fiec.espol.edu.ec>
-Date		: 2011-02-07 17:21 (28 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29252
+Subject		: IPv6 doesn't work in a kvm guest.
+Submitter	: Kusanagi Kouichi <slash@ac.auone-net.jp>
+Date		: 2011-02-16 13:03 (19 days old)
 
