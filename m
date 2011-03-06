@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #22642] 2.6.37-rc1: Disk takes 10 seconds to resume - MacBook2,1
-Date: Sun,  6 Mar 2011 13:34:18 +0100 (CET)
-Message-ID: <sUKqYsqyJ4N.A.bxH.oD4cNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #24822] Embedded DisplayPort is detected wrongly on HP ProBook 5320m
+Date: Sun,  6 Mar 2011 13:40:36 +0100 (CET)
+Message-ID: <sUKqYsqyJ4N.A.kkH.wB4cNB@chimera>
 References: <dtUMITvTCCN.A.uuF.y-3cNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <dtUMITvTCCN.A.uuF.y-3cNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Tobias <devnull@plzk.org>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.36 and 2.6.37.
@@ -22,8 +22,9 @@ introduced between 2.6.36 and 2.6.37.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=22642
-Subject		: 2.6.37-rc1: Disk takes 10 seconds to resume - MacBook2,1
-Submitter	: Tobias <devnull@plzk.org>
-Date		: 2010-11-10 19:33 (117 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=24822
+Subject		: Embedded DisplayPort is detected wrongly on HP ProBook 5320m
+Submitter	: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+Date		: 2010-12-13 11:09 (84 days old)
+Handled-By	: Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
 
