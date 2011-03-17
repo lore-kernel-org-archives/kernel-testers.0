@@ -1,26 +1,37 @@
-From: Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
-Subject: Re: [Bug #28452] 2.6.38-rc3 regression on parisc: segfaults
-Date: Sun, 13 Mar 2011 00:11:49 +0200 (EET)
-Message-ID: <alpine.SOC.1.00.1103130009230.6027@math.ut.ee>
-References: <NMZS1i37KEE.A.1eG.6_wVNB@chimera> <8H3lez1sawF.A.-DH.cAxVNB@chimera>
+From: =?UTF-8?B?QWxleCBWaWxsYWPDrcKtcyBMYXNzbw==?= 
+	<avillaci-l+hy18hT7aZ9y05WjuJFKsXXUOn6P5/W@public.gmane.org>
+Subject: Re: [Bug #28522] Unable to mount FAT-formatted floppy on /dev/fd0,
+ plus WARN_ON when using /dev/fd0u1440
+Date: Thu, 17 Mar 2011 09:56:41 -0500
+Message-ID: <4D822129.1030000@fiec.espol.edu.ec>
+References: <t0W8Ea1iKeB.A.6xD.Lp3cNB@chimera> <GTlFTeOGjrB.A.hEF.Or3cNB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <8H3lez1sawF.A.-DH.cAxVNB@chimera>
+In-Reply-To: <GTlFTeOGjrB.A.hEF.Or3cNB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"; format="flowed"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>
 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28452
-> Subject		: 2.6.38-rc3 regression on parisc: segfaults
-
-Can not currently test. I regained access to that remote machine but 
-trying to upgrade to latest tools + source has broken several other 
-things for me (udev worked around manually and binutils refusing to 
-assemble pacache.S). Will try the lastest 2.6.38-rc8+git ASAP when I get 
-it to work otherwise.
-
--- 
-Meelis Roos (mroos-HgUWewaQDNA@public.gmane.org)      http://www.cs.ut.ee/~mroos/
+El 06/03/11 07:10, Rafael J. Wysocki escribi=C3=B3:
+> This message has been generated automatically as a part of a summary =
+report
+> of recent regressions.
+>
+> The following bug entry is on the current list of known regressions
+> from 2.6.37.  Please verify if it still should be listed and let the =
+tracking team
+> know (either way).
+>
+>
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D28522
+> Subject		: Unable to mount FAT-formatted floppy on /dev/fd0, plus WAR=
+N_ON when using /dev/fd0u1440
+> Submitter	: Alex Villacis Lasso<avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>
+> Date		: 2011-02-07 17:21 (28 days old)
+>
+>
+>
+Still present in 2.6.38 .
