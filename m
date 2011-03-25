@@ -1,34 +1,50 @@
-From: "Yu, Fenghua" <fenghua.yu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+From: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
 Subject: RE: [regression] x86-64, mem: Convert memmove() to assembly file
  and fix return value bug
-Date: Fri, 25 Mar 2011 01:29:30 -0700
-Message-ID: <493994B35A117E4F832F97C4719C4C04EC4068A8@orsmsx505.amr.corp.intel.com>
+Date: Fri, 25 Mar 2011 09:43:20 +0100
+Message-ID: <1301042600.5608.1.camel@zwerg>
 References: <1301041142.18891.3.camel@zwerg>
+	 <493994B35A117E4F832F97C4719C4C04EC4068A8@orsmsx505.amr.corp.intel.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1301041142.18891.3.camel@zwerg>
-Content-Language: en-US
+In-Reply-To: <493994B35A117E4F832F97C4719C4C04EC4068A8-osO9UTpF0URqS6EAlXoojrfspsVTdybXVpNB7YpNyf8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>, "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: "H. Peter Anvin" <hpa-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+To: "Yu, Fenghua" <fenghua.yu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "H. Peter Anvin" <hpa-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4ZXkgRmlzaGVyIFttYWls
-dG86YnVnLXRyYWNrQGZpc2hlci1wcml2YXQubmV0XQ0KPiBTZW50OiBGcmlkYXksIE1hcmNoIDI1
-LCAyMDExIDE6MTkgQU0NCj4gVG86IGtlcm5lbC10ZXN0ZXJzQHZnZXIua2VybmVsLm9yZw0KPiBD
-YzogWXUsIEZlbmdodWE7IEguIFBldGVyIEFudmluDQo+IFN1YmplY3Q6IFtyZWdyZXNzaW9uXSB4
-ODYtNjQsIG1lbTogQ29udmVydCBtZW1tb3ZlKCkgdG8gYXNzZW1ibHkgZmlsZQ0KPiBhbmQgZml4
-IHJldHVybiB2YWx1ZSBidWcNCj4gDQo+IEhhbGxvLA0KPiANCj4ga2VybmVsIGZhaWxzIHRvIGNv
-bXBpbGUgd2l0aCB0aGlzIG1lc3NhZ2U6DQo+IGxpbnV4LTIuNi9hcmNoL3g4Ni9saWIvbWVtbW92
-ZV82NC5jOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5DQo+IA0KPiByZWdyZXNzaW9uIGludHJv
-ZHVjZWQgYnkgcGF0Y2g6DQo+IGNvbW1pdCA5NTk5ZWMwNDcxZGVhZTI0MDQ0MjQxZTIxNzMwOTBk
-MmNiYzBlODk5DQo+IEF1dGhvcjogRmVuZ2h1YSBZdSA8ZmVuZ2h1YS55dUBpbnRlbC5jb20+DQo+
-IERhdGU6ICAgTW9uIEphbiAxNyAxNzozOToxNSAyMDExIC0wODAwDQo+IHg4Ni02NCwgbWVtOiBD
-b252ZXJ0IG1lbW1vdmUoKSB0byBhc3NlbWJseSBmaWxlIGFuZCBmaXggcmV0dXJuIHZhbHVlDQo+
-IGJ1Zw0KDQpZb3UgbmVlZCAibWFrZSBtcnByb3BlciIgdG8gY2xlYW4gdXAgZGVwZW5kZW5jeSBi
-ZWZvcmUgeW91IGJ1aWxkIGEgbmV3IGtlcm5lbC4gTWFrZSBpcyBjb25mdXNlZCBieSBwcmV2aW91
-cyBtZW1tb3ZlXzY0LlMgZmlsZS4NCg0KVGhlcmUgaXMgYSB0aXAgcGF0Y2ggaW4gZml4ZGVwLmMg
-dG8gcmVtb3ZlIHRoaXMga2luZCBvZiBkZXBlbmRlbmN5LiBTZWVtcyB0aGF0IHBhdGNoIGlzIG5v
-dCBpbiB1cHN0cmVhbSB5ZXQuDQoNClRoYW5rcy4NCg0KLUZlbmdodWENCg0K
+Am Freitag, den 25.03.2011, 01:29 -0700 schrieb Yu, Fenghua:
+> > -----Original Message-----
+> > From: Alexey Fisher [mailto:bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org]
+> > Sent: Friday, March 25, 2011 1:19 AM
+> > To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> > Cc: Yu, Fenghua; H. Peter Anvin
+> > Subject: [regression] x86-64, mem: Convert memmove() to assembly file
+> > and fix return value bug
+> > 
+> > Hallo,
+> > 
+> > kernel fails to compile with this message:
+> > linux-2.6/arch/x86/lib/memmove_64.c: No such file or directory
+> > 
+> > regression introduced by patch:
+> > commit 9599ec0471deae24044241e2173090d2cbc0e899
+> > Author: Fenghua Yu <fenghua.yu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+> > Date:   Mon Jan 17 17:39:15 2011 -0800
+> > x86-64, mem: Convert memmove() to assembly file and fix return value
+> > bug
+> 
+> You need "make mrproper" to clean up dependency before you build a new kernel. Make is confused by previous memmove_64.S file.
+> 
+> There is a tip patch in fixdep.c to remove this kind of dependency. Seems that patch is not in upstream yet.
+> 
+> Thanks.
+
+Thank you,
+make mrproper, fixed it.
+
+-- 
+Regards,
+        Alexey
