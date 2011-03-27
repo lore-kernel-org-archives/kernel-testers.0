@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #29992] boot hang 2.6.37.1 regression w/ intel_idle and CONFIG_NO_HZ=n - asus p7p55d le
-Date: Sun, 27 Mar 2011 22:27:37 +0200 (CEST)
-Message-ID: <40UNry85rJN.A.orE.Do5jNB@chimera>
+Subject: [Bug #30582] WARNING: at drivers/net/wireless/ath/ath9k/recv.c:536 ath_stoprecv+0xc8/0xda [ath9k]()
+Date: Sun, 27 Mar 2011 22:27:38 +0200 (CEST)
+Message-ID: <40UNry85rJN.A.YfE.yn5jNB@chimera>
 References: <lDYNS4ATQ-N.A._aD.9m5jNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, De Ganseman Amaury <amaury.deganseman@gmail.com>, Shaohua Li <shaohua.li@intel.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Justin Mattock <justinmattock@gmail.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,10 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29992
-Subject		: boot hang 2.6.37.1 regression w/ intel_idle and CONFIG_NO_HZ=n - asus p7p55d le
-Submitter	: De Ganseman Amaury <amaury.deganseman@gmail.com>
-Date		: 2011-02-27 10:38 (29 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30582
+Subject		: WARNING: at drivers/net/wireless/ath/ath9k/recv.c:536 ath_stoprecv+0xc8/0xda [ath9k]()
+Submitter	: Justin Mattock <justinmattock@gmail.com>
+Date		: 2011-03-03 5:47 (25 days old)
+Message-ID	: <AANLkTik9To0Rkq2FRqQFB2wNu0kyJ7CzyBek2jBp36Cb@mail.gmail.com>
+References	: http://marc.info/?l=linux-kernel&m=129913127722786&w=2
 
