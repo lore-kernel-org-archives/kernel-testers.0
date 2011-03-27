@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #28642] ACPI broken on DELL Latitude E6410 in 2.6.38-rc3
-Date: Sun, 27 Mar 2011 22:27:35 +0200 (CEST)
-Message-ID: <40UNry85rJN.A.KCF.Ep5jNB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #28452] 2.6.38-rc3 regression on parisc: segfaults
+Date: Sun, 27 Mar 2011 22:27:33 +0200 (CEST)
+Message-ID: <40UNry85rJN.A.EQF.Np5jNB@chimera>
 References: <lDYNS4ATQ-N.A._aD.9m5jNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <lDYNS4ATQ-N.A._aD.9m5jNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Adam Kovari <kovariadam-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Meelis Roos <mroos@linux.ee>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,10 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28642
-Subject		: ACPI broken on DELL Latitude E6410 in 2.6.38-rc3
-Submitter	: Adam Kovari <kovariadam-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2011-02-08 22:22 (48 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28452
+Subject		: 2.6.38-rc3 regression on parisc: segfaults
+Submitter	: Meelis Roos <mroos@linux.ee>
+Date		: 2011-02-01 22:00 (55 days old)
+Message-ID	: <alpine.SOC.1.00.1102012342200.25944@math.ut.ee>
+References	: http://marc.info/?l=linux-kernel&m=129659763426600&w=2
 
