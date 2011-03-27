@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #30142] Kernel Oops after hibernation - lenovo t500
-Date: Sun, 27 Mar 2011 22:27:37 +0200 (CEST)
-Message-ID: <40UNry85rJN.A.fnE.7n5jNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #31402] Diminished brightness at startup
+Date: Sun, 27 Mar 2011 22:27:41 +0200 (CEST)
+Message-ID: <40UNry85rJN.A.ryD.Sn5jNB@chimera>
 References: <lDYNS4ATQ-N.A._aD.9m5jNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <lDYNS4ATQ-N.A._aD.9m5jNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Willi Mann <foss-ml@wm1.at>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Guilherme Salazar <guilhermesalazar-DaQTI0RpDDMAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,8 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30142
-Subject		: Kernel Oops after hibernation - lenovo t500
-Submitter	: Willi Mann <foss-ml@wm1.at>
-Date		: 2011-03-01 08:12 (27 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=31402
+Subject		: Diminished brightness at startup
+Submitter	: Guilherme Salazar <guilhermesalazar-DaQTI0RpDDMAvxtiuMwx3w@public.gmane.org>
+Date		: 2011-03-18 16:29 (10 days old)
 
