@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #30582] WARNING: at drivers/net/wireless/ath/ath9k/recv.c:536 ath_stoprecv+0xc8/0xda [ath9k]()
-Date: Sun, 27 Mar 2011 22:27:38 +0200 (CEST)
-Message-ID: <40UNry85rJN.A.YfE.yn5jNB@chimera>
+Subject: [Bug #30142] Kernel Oops after hibernation - lenovo t500
+Date: Sun, 27 Mar 2011 22:27:37 +0200 (CEST)
+Message-ID: <40UNry85rJN.A.fnE.7n5jNB@chimera>
 References: <lDYNS4ATQ-N.A._aD.9m5jNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Justin Mattock <justinmattock@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Willi Mann <foss-ml@wm1.at>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,8 @@ from 2.6.37.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30582
-Subject		: WARNING: at drivers/net/wireless/ath/ath9k/recv.c:536 ath_stoprecv+0xc8/0xda [ath9k]()
-Submitter	: Justin Mattock <justinmattock@gmail.com>
-Date		: 2011-03-03 5:47 (25 days old)
-Message-ID	: <AANLkTik9To0Rkq2FRqQFB2wNu0kyJ7CzyBek2jBp36Cb@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=129913127722786&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30142
+Subject		: Kernel Oops after hibernation - lenovo t500
+Submitter	: Willi Mann <foss-ml@wm1.at>
+Date		: 2011-03-01 08:12 (27 days old)
 
