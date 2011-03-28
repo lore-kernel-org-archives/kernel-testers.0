@@ -1,48 +1,31 @@
-From: =?utf-8?q?Old=C5=99ich_Jedli=C4=8Dka?= <oldium.pro@seznam.cz>
-Subject: Re: [Bug #31002] acer-wmi: rfkill and bluetooth enabling doesn't work as in 2.6.37
-Date: Mon, 28 Mar 2011 07:18:30 +0200
-Message-ID: <201103280718.30633.oldium.pro@seznam.cz>
-References: <lDYNS4ATQ-N.A._aD.9m5jNB@chimera> <40UNry85rJN.A.7KE.fn5jNB@chimera>
+From: Oliver Neukum <oneukum-l3A5Bk7waGM@public.gmane.org>
+Subject: Re: [Bug #28562] [BUG] usb problems in .38-rc3+
+Date: Mon, 28 Mar 2011 09:55:48 +0200
+Message-ID: <201103280955.48254.oneukum@suse.de>
+References: <lDYNS4ATQ-N.A._aD.9m5jNB@chimera> <40UNry85rJN.A.NIF.Hp5jNB@chimera> <20110327205727.3abd06b5@katamari>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=gamma;
-        h=domainkey-signature:sender:from:to:subject:date:user-agent:cc
-         :references:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:message-id;
-        bh=o6j7yMFQTWs/LpFTaDTo/d4oR28scYFKcC9q015iyjA=;
-        b=uRLrNLy2cdaSxIzEz8SJahHGtaC8dXcc7cTMkrbxbS4nAVaDi1UXDJL396Uw2jQLj2
-         NHg9mVPUlW+xkfXbOFeykXhvptncNNI9IaDStqBb7j0CyIgMcimlQ0BXVh0msShDtw70
-         e290t0MUoMk2WixLNLTU5OamJmM9TcypVTdCo=
-In-Reply-To: <40UNry85rJN.A.7KE.fn5jNB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20110327205727.3abd06b5@katamari>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Alan Jenkins <alan-jenkins@tuffmail.co.uk>, Henrique de Moraes Holschuh <hmh@hmh.eng.br>, "John W. Linville" <linville@tuxdriver.com>
+Content-Type: Text/Plain; charset="iso-8859-1"
+To: Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Hi,
-
-On Sunday 27 March 2011 22:27:40 Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a summary =
-report
-> of recent regressions.
+Am Montag, 28. M=E4rz 2011, 02:57:27 schrieb Chuck Ebbert:
+> On Sun, 27 Mar 2011 22:27:34 +0200 (CEST)
+> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
 >=20
-> The following bug entry is on the current list of known regressions
-> from 2.6.37.  Please verify if it still should be listed and let the
-> tracking team know (either way).
->=20
->=20
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D31002
-> Subject		: acer-wmi: rfkill and bluetooth enabling doesn't work as in
-> 2.6.37 Submitter	: Old=C5=99ich Jedli=C4=8Dka <oldium.pro@seznam.cz>
-> Date		: 2011-03-10 18:37 (18 days old)
-> Message-ID	: <201103101937.01864.oldium.pro@seznam.cz>
-> References	: http://marc.info/?l=3Dlinux-acpi&m=3D129978235612140&w=3D=
-2
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D28562
+> > Subject		: [BUG] usb problems in .38-rc3+
+> > Submitter	: Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>
+> > Date		: 2011-02-05 19:17 (51 days old)
+> > Message-ID	: <201102051417.58953.edt-Yad3+ZauZac@public.gmane.org>
+> > References	: http://marc.info/?l=3Dlinux-kernel&m=3D129693391417607=
+&w=3D2
 
-The bug is still being actively investigated.
+Have you tested with USB autosuspend disabled?
 
-Regards,
-Old=C5=99ich.
+	Regards
+		Oliver
