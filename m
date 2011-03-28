@@ -1,42 +1,43 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #30582] WARNING: at drivers/net/wireless/ath/ath9k/recv.c:536 ath_stoprecv+0xc8/0xda [ath9k]()
-Date: Mon, 28 Mar 2011 01:04:06 +0200
-Message-ID: <201103280104.06343.rjw@sisk.pl>
-References: <lDYNS4ATQ-N.A._aD.9m5jNB@chimera> <40UNry85rJN.A.YfE.yn5jNB@chimera> <4D8FA346.7000703@gmail.com>
+From: Chuck Ebbert <cebbert-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #28562] [BUG] usb problems in .38-rc3+
+Date: Sun, 27 Mar 2011 20:57:27 -0400
+Message-ID: <20110327205727.3abd06b5@katamari>
+References: <lDYNS4ATQ-N.A._aD.9m5jNB@chimera>
+	<40UNry85rJN.A.NIF.Hp5jNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4D8FA346.7000703-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <40UNry85rJN.A.NIF.Hp5jNB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: "Justin P. Mattock" <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Sunday, March 27, 2011, Justin P. Mattock wrote:
-> On 03/27/2011 01:27 PM, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.37.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30582
-> > Subject		: WARNING: at drivers/net/wireless/ath/ath9k/recv.c:536 ath_stoprecv+0xc8/0xda [ath9k]()
-> > Submitter	: Justin Mattock<justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date		: 2011-03-03 5:47 (25 days old)
-> > Message-ID	:<AANLkTik9To0Rkq2FRqQFB2wNu0kyJ7CzyBek2jBp36Cb-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-> > References	: http://marc.info/?l=linux-kernel&m=129913127722786&w=2
-> >
-> >
-> >
+On Sun, 27 Mar 2011 22:27:34 +0200 (CEST)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=28562
+> Subject		: [BUG] usb problems in .38-rc3+
+> Submitter	: Ed Tomlinson <edt-Yad3+ZauZac@public.gmane.org>
+> Date		: 2011-02-05 19:17 (51 days old)
+> Message-ID	: <201102051417.58953.edt-Yad3+ZauZac@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=129693391417607&w=2
 > 
-> think this one os closed now.. but a new one has been opened:
-> 
-> https://bugzilla.kernel.org/show_bug.cgi?id=31702
 
-Added, thanks!
+From the original report:
 
-Rafael
+[108495.369056] usb 5-1: new full speed USB device using ohci_hcd and address 3
+[108495.573077] usb 5-1: New USB device found, idVendor=0a12, idProduct=0001
+[108495.580099] usb 5-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[108652.971977] usb 5-1: USB disconnect, address 3
+[108652.972718] btusb_bulk_complete: hci0 urb ffff8800684e99c0 failed to resubmit (19)
+[108652.973725] btusb_bulk_complete: hci0 urb ffff8800684e9c00 failed to resubmit (19)
+[108652.974707] btusb_intr_complete: hci0 urb ffff8800684e9840 failed to resubmit (19)
+[108653.001690] btusb_send_frame: hci0 urb ffff8800bb42a240 submission failed
+[108657.007541] usb 2-4.7: new full speed USB device using ehci_hcd and address 8
+[108657.147736] usb 2-4.7: New USB device found, idVendor=0a12, idProduct=0001
+[108657.154954] usb 2-4.7: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+
+I just noticed this: the device is claimed by OHCI, then ~150 seconds later(!)
+it disconnects and then gets claimed by EHCI, presumably while it's in use.
