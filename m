@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #29852] 2.6.38-rc5: nfsd: page allocation failure. spinlock trylock failure on UP
-Date: Sun, 17 Apr 2011 15:52:09 +0200 (CEST)
-Message-ID: <IqJL5EkbqD.A.lyF.a5uqNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #32202] 2.6.38 hangs on boot until key is pressed
+Date: Sun, 17 Apr 2011 15:52:14 +0200 (CEST)
+Message-ID: <IqJL5EkbqD.A.LpE.E4uqNB@chimera>
 References: <sam8u5dLkaB.A.afE.53uqNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <sam8u5dLkaB.A.afE.53uqNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Alexander Beregalov <a.beregalov@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Tvrtko Ursulin <tvrtko-9sj9WOxYP5jR7s880joybQ@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,10 +22,10 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29852
-Subject		: 2.6.38-rc5: nfsd: page allocation failure. spinlock trylock failure on UP
-Submitter	: Alexander Beregalov <a.beregalov@gmail.com>
-Date		: 2011-02-21 20:33 (56 days old)
-Message-ID	: <AANLkTi=14N_c_B7mLY0H8Dt8pte6C0mjFnVuC37e44Hs@mail.gmail.com>
-References	: http://marc.info/?l=linux-netdev&m=129832042402668&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=32202
+Subject		: 2.6.38 hangs on boot until key is pressed
+Submitter	: Tvrtko Ursulin <tvrtko-9sj9WOxYP5jR7s880joybQ@public.gmane.org>
+Date		: 2011-03-27 19:18 (22 days old)
+Message-ID	: <1301253485.2500.2.camel@deuteros>
+References	: http://marc.info/?l=linux-kernel&m=130125411116558&w=2
 
