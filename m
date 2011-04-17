@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #30852] Seldom errors after suspend/resume causing problems
-Date: Sun, 17 Apr 2011 15:52:10 +0200 (CEST)
-Message-ID: <IqJL5EkbqD.A.YhF.54uqNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #31452] ath9k: throughput issue in 802.11n and also IBSS mode
+Date: Sun, 17 Apr 2011 15:52:11 +0200 (CEST)
+Message-ID: <IqJL5EkbqD.A.ULF.m4uqNB@chimera>
 References: <sam8u5dLkaB.A.afE.53uqNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <sam8u5dLkaB.A.afE.53uqNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Mehmet Giritli <mehmet@giritli.eu>
+Content-Type: text/plain; charset="macroman"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, =?utf-8?q?Richard=20Sch=C3=BCtz?= <r.schtz-zqRNUXuvxA0b1SvskN2V4Q@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,8 +22,8 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30852
-Subject		: Seldom errors after suspend/resume causing problems
-Submitter	: Mehmet Giritli <mehmet@giritli.eu>
-Date		: 2011-03-10 10:53 (39 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D31452
+Subject		: ath9k: throughput issue in 802.11n and also IBSS mode
+Submitter	: Richard Sch=C3=BCtz <r.schtz-zqRNUXuvxA0b1SvskN2V4Q@public.gmane.org>
+Date		: 2011-03-19 19:06 (30 days old)
 
