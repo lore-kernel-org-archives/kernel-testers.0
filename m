@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #32112] Writes to USB flash drives are extremely slow in 2.6.38
-Date: Sun, 17 Apr 2011 15:52:14 +0200 (CEST)
-Message-ID: <IqJL5EkbqD.A.BrE.G4uqNB@chimera>
+Subject: [Bug #32862] acer_wmi partially crashes ACPI/EC (Aspire 8930G)
+Date: Sun, 17 Apr 2011 15:52:15 +0200 (CEST)
+Message-ID: <IqJL5EkbqD.A.ThE._3uqNB@chimera>
 References: <sam8u5dLkaB.A.afE.53uqNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Delan Azabani <delan@azabani.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Hector Martin <hector@marcansoft.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,8 +22,8 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=32112
-Subject		: Writes to USB flash drives are extremely slow in 2.6.38
-Submitter	: Delan Azabani <delan@azabani.com>
-Date		: 2011-03-29 08:10 (20 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=32862
+Subject		: acer_wmi partially crashes ACPI/EC (Aspire 8930G)
+Submitter	: Hector Martin <hector@marcansoft.com>
+Date		: 2011-04-07 17:44 (11 days old)
 
