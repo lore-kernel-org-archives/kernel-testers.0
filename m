@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #31782] nouveau: lockdep spew
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #31532] 2.6.38: Quota over NFS4
 Date: Sun, 17 Apr 2011 15:52:12 +0200 (CEST)
-Message-ID: <IqJL5EkbqD.A.o_E.Y4uqNB@chimera>
+Message-ID: <IqJL5EkbqD.A.VJF.h4uqNB@chimera>
 References: <sam8u5dLkaB.A.afE.53uqNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <sam8u5dLkaB.A.afE.53uqNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Adam Lackorzynski <adam@os.inf.tu-dresden.de>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,8 +22,10 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=31782
-Subject		: nouveau: lockdep spew
-Submitter	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-Date		: 2011-03-24 09:51 (25 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=31532
+Subject		: 2.6.38: Quota over NFS4
+Submitter	: Adam Lackorzynski <adam@os.inf.tu-dresden.de>
+Date		: 2011-03-17 13:32 (32 days old)
+Message-ID	: <20110317133247.GB6424@os.inf.tu-dresden.de>
+References	: http://marc.info/?l=linux-kernel&m=130036878203485&w=2
 
