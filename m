@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #29672] [regression][ALSA][hda-conexant][2.6.38-rcX] external microphone sound too quiet
-Date: Sun, 17 Apr 2011 15:52:09 +0200 (CEST)
-Message-ID: <IqJL5EkbqD.A.A5F.k5uqNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #30992] 2.6.38-rc7: Some strange soft-lockup
+Date: Sun, 17 Apr 2011 15:52:10 +0200 (CEST)
+Message-ID: <IqJL5EkbqD.A.ifF.24uqNB@chimera>
 References: <sam8u5dLkaB.A.afE.53uqNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <sam8u5dLkaB.A.afE.53uqNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Shawn Starr <shawn.starr@rogers.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Dmitry Nezhevenko <dion-Riw6fTKU00peoWH0uzbU5w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,10 +22,10 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29672
-Subject		: [regression][ALSA][hda-conexant][2.6.38-rcX] external microphone sound too quiet
-Submitter	: Shawn Starr <shawn.starr@rogers.com>
-Date		: 2011-02-19 6:02 (58 days old)
-Message-ID	: <474630.25335.qm@smtp105.rog.mail.re2.yahoo.com>
-References	: http://marc.info/?l=linux-kernel&m=129809536502092&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30992
+Subject		: 2.6.38-rc7: Some strange soft-lockup
+Submitter	: Dmitry Nezhevenko <dion-Riw6fTKU00peoWH0uzbU5w@public.gmane.org>
+Date		: 2011-03-06 14:01 (43 days old)
+Message-ID	: <20110306140104.GA7700-Kfeq/R7O60eE+EvaaNYduQ@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=129942161205739&w=2
 
