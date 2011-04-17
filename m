@@ -1,39 +1,49 @@
-From: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Bug #29672] [regression][ALSA][hda-conexant][2.6.38-rcX] external microphone sound too quiet
-Date: Sun, 17 Apr 2011 10:07:06 -0400
-Message-ID: <3577387.Ms3I5Hp20k@segfault.sh0n.net>
-References: <sam8u5dLkaB.A.afE.53uqNB@chimera> <IqJL5EkbqD.A.A5F.k5uqNB@chimera>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [Bug #32982] Kernel locks up a few minutes after boot
+Date: Sun, 17 Apr 2011 10:03:27 -0700
+Message-ID: <BANLkTimeaHwBiZoz=isCM=qtBxoxaBqDUw@mail.gmail.com>
+References: <OlQwC5HnRsN.A.ULB.OGuqNB@chimera> <_H4l51C1wXN.A.yDC.yGuqNB@chimera>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7Bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rogers.com; s=s1024; t=1303049229; bh=K6lAOJnWHU17AaevFCHrdL2pP8r86200YFBKB+H7Noc=; h=Received:X-Yahoo-SMTP:X-YMail-OSG:X-Yahoo-Newman-Property:From:To:Cc:Subject:Date:Message-Id:Organization:User-Agent:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type; b=1JA6TfDZEmiATGXYiM/b/k4Wgt9ebae7qsgkwttkM9DWqXPWFS3Ff4jKg4g4uOAWmnRuCOFbUh7zhiUgXPhtt5M3j4xhtWNjUACbpMZ+0iYb7Woy+Oz+WNGm2/pf42mgGkn9mulD/cY/eVDOjKr4kaZZW2CL723CqSUWPcNx8Ls=
-In-Reply-To: <IqJL5EkbqD.A.A5F.k5uqNB@chimera>
+In-Reply-To: <_H4l51C1wXN.A.yDC.yGuqNB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Bart Van Assche <bart.vanassche-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Neil Brown <neilb-l3A5Bk7waGM@public.gmane.org>, Jens Axboe <jaxboe-5c4llco8/ftWk0Htik3J/w@public.gmane.org>
 
-On Sunday, April 17, 2011 03:52:09 PM Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.37 and 2.6.38.
-> 
+Is this machine running a RAID5 setup or something like that?
+
+There is a known interaction with the new block layer plugging code
+and MD. The "hung task" report in that bugzilla looks very much like
+that issue. And you do have "root=3D/dev/md0", so clearly there's some
+md thing going on.
+
+And bisecting might not work all that well for it, because I suspect
+it ends up being very much a matter of IO patterns how it triggers.
+
+Neil supposedly has a patch for it, but I haven't seen it yet. Neil, Je=
+ns?
+
+                                   Linus
+
+On Sun, Apr 17, 2011 at 5:57 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> This message has been generated automatically as a part of a summary =
+report
+> of recent regressions.
+>
 > The following bug entry is on the current list of known regressions
-> introduced between 2.6.37 and 2.6.38.  Please verify if it still should
-> be listed and let the tracking team know (either way).
-> 
-> 
-It is continuing, using the external microphone the audio is too quiet no 
-matter how loud I set it with PulseAudio.
-
-The audio onboard Lenovo W500 laptop is: Conexant CX20561 (Hermosa)  
-
-I have not had time to do any investigations to look at the git changes made.
-
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29672
-> Subject		: [regression][ALSA][hda-conexant][2.6.38-rcX] external 
-microphone
-> sound too quiet Submitter	: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
-> Date		: 2011-02-19 6:02 (58 days old)
-> Message-ID	: <474630.25335.qm-LGyaPT5kzbjzJNTqFNLFoaJ1FwRQo79cG6kzb5Gsg2M@public.gmane.org>
-> References	: http://marc.info/?l=linux-kernel&m=129809536502092&w=2
+> from 2.6.38. =A0Please verify if it still should be listed and let th=
+e tracking team
+> know (either way).
+>
+>
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+32982
+> Subject =A0 =A0 =A0 =A0 : Kernel locks up a few minutes after boot
+> Submitter =A0 =A0 =A0 : Bart Van Assche <bart.vanassche-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2011-04-10 19:55 (8 days old)
+>
+>
+>
