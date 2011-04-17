@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #32072] 2.6.38 Regression: Nvidia GeForce8400 + i915 = Crash on Boot
-Date: Sun, 17 Apr 2011 15:52:14 +0200 (CEST)
-Message-ID: <IqJL5EkbqD.A.CxE.J4uqNB@chimera>
+Subject: [Bug #31982] XFS memory allocation deadlock in 2.6.38
+Date: Sun, 17 Apr 2011 15:52:13 +0200 (CEST)
+Message-ID: <IqJL5EkbqD.A.G3E.M4uqNB@chimera>
 References: <sam8u5dLkaB.A.afE.53uqNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, "simon-wM4F9T/ekXmXDw4h08c5KA@public.gmane.org"@ogre.sisk.pl
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Sean Noonan <Sean.Noonan-dxgubf92oBlWk0Htik3J/w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,10 +22,10 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=32072
-Subject		: 2.6.38 Regression: Nvidia GeForce8400 + i915 = Crash on Boot
-Submitter	: simon-wM4F9T/ekXmXDw4h08c5KA@public.gmane.org
-Date		: 2011-03-24 15:20 (25 days old)
-Message-ID	: <fe471c05897776b7c26b9fd2603e3b76.squirrel-N82HvsEaY4mscnXkh+DeetBPR1lH4CV8@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=130100955926434&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=31982
+Subject		: XFS memory allocation deadlock in 2.6.38
+Submitter	: Sean Noonan <Sean.Noonan-dxgubf92oBlWk0Htik3J/w@public.gmane.org>
+Date		: 2011-03-21 16:19 (28 days old)
+Message-ID	: <081DDE43F61F3D43929A181B477DCA95639B52FD-W84Bic8V7yZ3GC5t/3agGVaTQe2KTcn/@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=130072585111310&w=2
 
