@@ -1,43 +1,42 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #32902] 2.6.39-rc1 doesn't boot on thinkpad t61p x86_64
-Date: Mon, 18 Apr 2011 23:22:56 +0200
-Message-ID: <201104182322.56995.rjw@sisk.pl>
-References: <OlQwC5HnRsN.A.ULB.OGuqNB@chimera> <_H4l51C1wXN.A.-JC.2GuqNB@chimera> <87ipub7evl.fsf@sycorax.lbl.gov>
+From: David Dillow <dave-i1Mk8JYDVaaSihdK6806/g@public.gmane.org>
+Subject: Re: [Bug #32982] Kernel locks up a few minutes after boot
+Date: Mon, 18 Apr 2011 23:32:14 -0400
+Message-ID: <1303183934.2585.12.camel@obelisk.thedillows.org>
+References: <OlQwC5HnRsN.A.ULB.OGuqNB@chimera>
+	 <_H4l51C1wXN.A.yDC.yGuqNB@chimera>
+	 <BANLkTimeaHwBiZoz=isCM=qtBxoxaBqDUw@mail.gmail.com>
+	 <BANLkTi=1jO73DXDTD50bVpU82qphVKmRCw@mail.gmail.com>
+	 <4DAC2429.5000105@fusionio.com>
+	 <BANLkTinCWWYqnksxevho9TN3u6ZC_Rjzwg@mail.gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87ipub7evl.fsf-z2gvhuI27Wv/eO6KEJJvLQ@public.gmane.org>
+In-Reply-To: <BANLkTinCWWYqnksxevho9TN3u6ZC_Rjzwg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Alex Romosan <romosan-z2gvhuI27Wv/eO6KEJJvLQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Bart Van Assche <bvanassche-HInyCGIudOg@public.gmane.org>
+Cc: Jens Axboe <jaxboe-5c4llco8/ftWk0Htik3J/w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Neil Brown <neilb-l3A5Bk7waGM@public.gmane.org>
 
-On Monday, April 18, 2011, Alex Romosan wrote:
-> "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> writes:
+On Mon, 2011-04-18 at 20:21 +0200, Bart Van Assche wrote:
+> On Mon, Apr 18, 2011 at 1:44 PM, Jens Axboe <jaxboe-5c4llco8/ftWk0Htik3J/w@public.gmane.org> wrote:
+> > Bart, can you try and pull:
+> >
+> > git://git.kernel.dk/linux-2.6-block.git for-linus
+> >
+> > into Linus' tree and see if that works? This has, among other things,
+> > Neils fixes for MD.
 > 
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.38. Please verify if it still should be listed and let the
-> > tracking team
-> > know (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=32902
-> > Subject		: 2.6.39-rc1 doesn't boot on thinkpad t61p x86_64
-> > Submitter	: Alex Romosan <romosan-z2gvhuI27Wv/eO6KEJJvLQ@public.gmane.org>
-> > Date		: 2011-04-03 19:41 (15 days old)
-> > Message-ID	: <87k4fbnmw8.fsf-z2gvhuI27Wv/eO6KEJJvLQ@public.gmane.org>
-> > References	: http://marc.info/?l=linux-kernel&m=130186054431678&w=2
-> >
-> 
-> my laptop works again with 2.6.39-rc3 (except the boot process hangs at
-> waiting for /dev to be populated.... if i hit Ctrl-C then the booting
-> proceeds normally. this doesn't happen with 2.6.38) so probably this bug
-> can be closed.
+> md seems to work stable with the resulting tree, but it looks there is
+> a performance regression in the block layer not related to the md
+> issue. If I run a small block IOPS test on a block device created by
+> ib_srp (NOOP scheduler) I see about 11% less IOPS than with 2.6.38.3
+> (155.000 IOPS with 2.6.38.3 and 140.000 IOPS with 2.6.39-rc3+).
 
-Thanks, closing.
+The mapping code for ib_srp changed in 2.6.39-rc1, but it showed
+improved IOPS for a similar setup in my testing so I'd be surprised if
+it is the culprit. Still, it wouldn't hurt to check. Do you have time to
+try the new ib_srp code with 2.6.38.3 to eliminate it from the equation?
 
-Rafael
+Thanks,
+Dave
