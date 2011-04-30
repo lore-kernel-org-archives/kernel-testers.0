@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #29672] [regression][ALSA][hda-conexant][2.6.38-rcX] external microphone sound too quiet
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #30582] WARNING: at drivers/net/wireless/ath/ath9k/recv.c:536 ath_stoprecv+0xc8/0xda [ath9k]()
 Date: Sat, 30 Apr 2011 22:17:15 +0200 (CEST)
-Message-ID: <9nxEC7x0HFO.A.ABH.VzGvNB@chimera>
+Message-ID: <9nxEC7x0HFO.A.z1G.0yGvNB@chimera>
 References: <QbBtx5c9v1J.A.JaF.PxGvNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <QbBtx5c9v1J.A.JaF.PxGvNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Justin Mattock <justinmattock@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,10 +22,10 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29672
-Subject		: [regression][ALSA][hda-conexant][2.6.38-rcX] external microphone sound too quiet
-Submitter	: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
-Date		: 2011-02-19 6:02 (71 days old)
-Message-ID	: <474630.25335.qm-LGyaPT5kzbjzJNTqFNLFoaJ1FwRQo79cG6kzb5Gsg2M@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=129809536502092&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30582
+Subject		: WARNING: at drivers/net/wireless/ath/ath9k/recv.c:536 ath_stoprecv+0xc8/0xda [ath9k]()
+Submitter	: Justin Mattock <justinmattock@gmail.com>
+Date		: 2011-03-03 5:47 (59 days old)
+Message-ID	: <AANLkTik9To0Rkq2FRqQFB2wNu0kyJ7CzyBek2jBp36Cb@mail.gmail.com>
+References	: http://marc.info/?l=linux-kernel&m=129913127722786&w=2
 
