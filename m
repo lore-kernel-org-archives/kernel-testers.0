@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #32202] 2.6.38 hangs on boot until key is pressed
-Date: Sat, 30 Apr 2011 22:17:21 +0200 (CEST)
-Message-ID: <9nxEC7x0HFO.A.Q0F.txGvNB@chimera>
+Subject: [Bug #32762] Booting with external monitor attached results in red flickering screen on the external monitor
+Date: Sat, 30 Apr 2011 22:17:22 +0200 (CEST)
+Message-ID: <9nxEC7x0HFO.A.ZsF.nxGvNB@chimera>
 References: <QbBtx5c9v1J.A.JaF.PxGvNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Tvrtko Ursulin <tvrtko@ursulin.net>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Anton <anton.bugs@gmail.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,10 +22,8 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=32202
-Subject		: 2.6.38 hangs on boot until key is pressed
-Submitter	: Tvrtko Ursulin <tvrtko@ursulin.net>
-Date		: 2011-03-27 19:18 (35 days old)
-Message-ID	: <1301253485.2500.2.camel@deuteros>
-References	: http://marc.info/?l=linux-kernel&m=130125411116558&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=32762
+Subject		: Booting with external monitor attached results in red flickering screen on the external monitor
+Submitter	: Anton <anton.bugs@gmail.com>
+Date		: 2011-04-06 04:50 (25 days old)
 
