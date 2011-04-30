@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #30582] WARNING: at drivers/net/wireless/ath/ath9k/recv.c:536 ath_stoprecv+0xc8/0xda [ath9k]()
-Date: Sat, 30 Apr 2011 22:17:15 +0200 (CEST)
-Message-ID: <9nxEC7x0HFO.A.z1G.0yGvNB@chimera>
+Subject: [Bug #30992] 2.6.38-rc7: Some strange soft-lockup
+Date: Sat, 30 Apr 2011 22:17:16 +0200 (CEST)
+Message-ID: <9nxEC7x0HFO.A.guG.kyGvNB@chimera>
 References: <QbBtx5c9v1J.A.JaF.PxGvNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Justin Mattock <justinmattock@gmail.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Dmitry Nezhevenko <dion@inhex.net>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,10 +22,10 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30582
-Subject		: WARNING: at drivers/net/wireless/ath/ath9k/recv.c:536 ath_stoprecv+0xc8/0xda [ath9k]()
-Submitter	: Justin Mattock <justinmattock@gmail.com>
-Date		: 2011-03-03 5:47 (59 days old)
-Message-ID	: <AANLkTik9To0Rkq2FRqQFB2wNu0kyJ7CzyBek2jBp36Cb@mail.gmail.com>
-References	: http://marc.info/?l=linux-kernel&m=129913127722786&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=30992
+Subject		: 2.6.38-rc7: Some strange soft-lockup
+Submitter	: Dmitry Nezhevenko <dion@inhex.net>
+Date		: 2011-03-06 14:01 (56 days old)
+Message-ID	: <20110306140104.GA7700@laptop.local>
+References	: http://marc.info/?l=linux-kernel&m=129942161205739&w=2
 
