@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #31402] Diminished brightness at startup
-Date: Sat, 30 Apr 2011 22:17:16 +0200 (CEST)
-Message-ID: <9nxEC7x0HFO.A.IcG.VyGvNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #29992] boot hang 2.6.37.1 regression w/ intel_idle and CONFIG_NO_HZ=n - asus p7p55d le
+Date: Sat, 30 Apr 2011 22:17:15 +0200 (CEST)
+Message-ID: <9nxEC7x0HFO.A.Y6G.FzGvNB@chimera>
 References: <QbBtx5c9v1J.A.JaF.PxGvNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <QbBtx5c9v1J.A.JaF.PxGvNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Guilherme Salazar <guilhermesalazar@ymail.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, De Ganseman Amaury <amaury.deganseman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,8 +22,8 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=31402
-Subject		: Diminished brightness at startup
-Submitter	: Guilherme Salazar <guilhermesalazar@ymail.com>
-Date		: 2011-03-18 16:29 (44 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29992
+Subject		: boot hang 2.6.37.1 regression w/ intel_idle and CONFIG_NO_HZ=n - asus p7p55d le
+Submitter	: De Ganseman Amaury <amaury.deganseman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-02-27 10:38 (63 days old)
 
