@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #33492] [bug] 2.6.39-rc3 fails to boot on Alpha
-Date: Sat, 30 Apr 2011 21:46:56 +0200 (CEST)
-Message-ID: <G9uL1cldhmL.A.aUE.kVGvNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #33272] drm related hard-hang
+Date: Sat, 30 Apr 2011 21:46:54 +0200 (CEST)
+Message-ID: <G9uL1cldhmL.A.O0E.HWGvNB@chimera>
 References: <Xp4OiTz83N.A.O0D.JVGvNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <Xp4OiTz83N.A.O0D.JVGvNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Mikael Pettersson <mikpe@it.uu.se>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Peter Teoh <htmldeveloper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,8 @@ from 2.6.38.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=33492
-Subject		: [bug] 2.6.39-rc3 fails to boot on Alpha
-Submitter	: Mikael Pettersson <mikpe@it.uu.se>
-Date		: 2011-04-17 15:13 (14 days old)
-Message-ID	: <19883.912.266127.538215@pilspetsen.it.uu.se>
-References	: http://marc.info/?l=linux-kernel&m=130305321212360&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=33272
+Subject		: drm related hard-hang
+Submitter	: Peter Teoh <htmldeveloper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-04-14 01:29 (17 days old)
 
