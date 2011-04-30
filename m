@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #33302] ACPI reboot broken on HP Compaq nx7300.
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #33142] 2.6.39-rc2 regression: X201s fails to resume b77dcf8460ae57d4eb9fd3633eb4f97b8fb20716
 Date: Sat, 30 Apr 2011 21:46:54 +0200 (CEST)
-Message-ID: <G9uL1cldhmL.A.YyE.EWGvNB@chimera>
+Message-ID: <G9uL1cldhmL.A.XAF.PWGvNB@chimera>
 References: <Xp4OiTz83N.A.O0D.JVGvNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <Xp4OiTz83N.A.O0D.JVGvNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Alexey Zaytsev <alexey.zaytsev-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Matthew Garrett <mjg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Keith Packard <keithp@keithp.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,9 +22,10 @@ from 2.6.38.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=33302
-Subject		: ACPI reboot broken on HP Compaq nx7300.
-Submitter	: Alexey Zaytsev <alexey.zaytsev-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2011-04-15 14:44 (16 days old)
-First-Bad-Commit: http://git.kernel.org/linus/3d35ac346e981162eeba391e496faceed4753e7b
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=33142
+Subject		: 2.6.39-rc2 regression: X201s fails to resume b77dcf8460ae57d4eb9fd3633eb4f97b8fb20716
+Submitter	: Keith Packard <keithp@keithp.com>
+Date		: 2011-04-06 7:44 (25 days old)
+Message-ID	: <yun1v1fj024.fsf@aiko.keithp.com>
+References	: http://marc.info/?l=linux-kernel&m=130207593728273&w=2
 
