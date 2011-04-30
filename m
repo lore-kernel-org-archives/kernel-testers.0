@@ -1,43 +1,31 @@
-From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Subject: Re: [Bug #32982] Kernel locks up a few minutes after boot
-Date: Sat, 30 Apr 2011 12:51:43 -0700
-Message-ID: <BANLkTinZRdGROHZqjLFtr=buEUNwyYhVpQ@mail.gmail.com>
-References: <Xp4OiTz83N.A.O0D.JVGvNB@chimera> <G9uL1cldhmL.A.sNF.dWGvNB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #29672] [regression][ALSA][hda-conexant][2.6.38-rcX] external microphone sound too quiet
+Date: Sat, 30 Apr 2011 22:17:15 +0200 (CEST)
+Message-ID: <9nxEC7x0HFO.A.ABH.VzGvNB@chimera>
+References: <QbBtx5c9v1J.A.JaF.PxGvNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <G9uL1cldhmL.A.sNF.dWGvNB@chimera>
+In-Reply-To: <QbBtx5c9v1J.A.JaF.PxGvNB@chimera>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Bart Van Assche <bart.vanassche-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
 
-I think we had all assumed that this was the MD problem that should
-have been fixed in rc4 (the symptoms matched), but I don't think we
-got any confirmation from Bart on that.
+This message has been generated automatically as a part of a report
+of regressions introduced between 2.6.37 and 2.6.38.
 
-Bart? Does the problem still persist in current -git?
+The following bug entry is on the current list of known regressions
+introduced between 2.6.37 and 2.6.38.  Please verify if it still should
+be listed and let the tracking team know (either way).
 
-                 Linus
 
-On Sat, Apr 30, 2011 at 12:42 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote=
-:
-> This message has been generated automatically as a part of a summary =
-report
-> of recent regressions.
->
-> The following bug entry is on the current list of known regressions
-> from 2.6.38. =A0Please verify if it still should be listed and let th=
-e tracking team
-> know (either way).
->
->
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-32982
-> Subject =A0 =A0 =A0 =A0 : Kernel locks up a few minutes after boot
-> Submitter =A0 =A0 =A0 : Bart Van Assche <bart.vanassche-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2011-04-10 19:55 (21 days old)
->
->
->
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29672
+Subject		: [regression][ALSA][hda-conexant][2.6.38-rcX] external microphone sound too quiet
+Submitter	: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
+Date		: 2011-02-19 6:02 (71 days old)
+Message-ID	: <474630.25335.qm-LGyaPT5kzbjzJNTqFNLFoaJ1FwRQo79cG6kzb5Gsg2M@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=129809536502092&w=2
+
