@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #32982] Kernel locks up a few minutes after boot
-Date: Sat, 30 Apr 2011 21:42:21 +0200 (CEST)
-Message-ID: <G9uL1cldhmL.A.sNF.dWGvNB@chimera>
+Subject: [Bug #33092] [regression] 2.6.39-rc1 - Beagleboard usbnet broken
+Date: Sat, 30 Apr 2011 21:46:54 +0200 (CEST)
+Message-ID: <G9uL1cldhmL.A.rKF.XWGvNB@chimera>
 References: <Xp4OiTz83N.A.O0D.JVGvNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Bart Van Assche <bart.vanassche-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Dan Williams <dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jamie Iles <jamie.iles-QECmZ7LgVXZWk0Htik3J/w@public.gmane.org>, Jamie Iles <jamie-wmLquQDDieKakBO8gow8eQ@public.gmane.org>, Mark Jackson <mpfj-list-kZtEnBLzDKq1Qrn1Bg8BZw@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,11 @@ from 2.6.38.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=32982
-Subject		: Kernel locks up a few minutes after boot
-Submitter	: Bart Van Assche <bart.vanassche-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2011-04-10 19:55 (21 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=33092
+Subject		: [regression] 2.6.39-rc1 - Beagleboard usbnet broken
+Submitter	: Mark Jackson <mpfj-list-kZtEnBLzDKq1Qrn1Bg8BZw@public.gmane.org>
+Date		: 2011-04-04 9:22 (27 days old)
+First-Bad-Commit: http://git.kernel.org/linus/087809fce28f50098d9c3ef1a6865c722f23afd2
+Message-ID	: <4D998DC9.3040109-kZtEnBLzDKq1Qrn1Bg8BZw@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=130191386508831&w=2
 
