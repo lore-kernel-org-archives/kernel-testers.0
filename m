@@ -1,34 +1,46 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #33402] [regression] 2.6.39-rc[1-3] fail to boot on G5 PowerMac
-Date: Mon, 2 May 2011 20:43:14 +0200
-Message-ID: <201105022043.15062.rjw@sisk.pl>
-References: <Xp4OiTz83N.A.O0D.JVGvNB@chimera> <G9uL1cldhmL.A.KtE.6VGvNB@chimera> <19902.63759.655826.771299@pilspetsen.it.uu.se>
+From: Gottfried Haider <gottfried.haider@gmail.com>
+Subject: Re: [Bug #33482] [Regression] Bluetooth pairing does not work anymore
+ in 2.6.39-rc3 (works in 2.6.38.3)
+Date: Mon, 2 May 2011 23:04:21 +0200
+Message-ID: <BANLkTimiSXHSxsjPH03Yey555U+F4m1uOA@mail.gmail.com>
+References: <Xp4OiTz83N.A.O0D.JVGvNB@chimera> <G9uL1cldhmL.A.caE.nVGvNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <19902.63759.655826.771299-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:in-reply-to:references:from:date
+         :message-id:subject:to:cc:content-type:content-transfer-encoding;
+        bh=BQLaWdXboLCSpsuZ2g71Lft9RYj0nzOCosiEwl+wwVE=;
+        b=svo//9218MalBsDe8D8wuLrNJwj0Xxc0NxdPw3j8EZgV+EgFz/vOUMl4USlIdZzdhZ
+         MCqblWhApOmf17JRNShBbm2qN71qXA5SMGIuY+vbODgvLV8TLCRKt65Tgod23b0oxpI3
+         JRhaAZyj5eUjbzUTQHMJLdMjXc7ovTCSZHx7E=
+In-Reply-To: <G9uL1cldhmL.A.caE.nVGvNB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
 
-On Monday, May 02, 2011, Mikael Pettersson wrote:
-> On Sat, 30 Apr 2011 21:46:55 +0200 (CEST), "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.38.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=33402
-> > Subject		: [regression] 2.6.39-rc[1-3] fail to boot on G5 PowerMac
-> > Submitter	: Mikael Pettersson <mikpe-1zs4UD6AkMk@public.gmane.org>
-> > Date		: 2011-04-12 17:30 (19 days old)
-> > Message-ID	: <19876.35918.322649.256455-tgku4HJDRZih8lFjZTKsyTAV6s6igYVG@public.gmane.org>
-> > References	: http://marc.info/?l=linuxppc-embedded&m=130263128523237&w=2
-> 
-> Fixed in 2.6.39-rc5.
+Hello Rafael,
 
-Thanks, closing.
 
-Rafael
+> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
+33482
+> Subject =A0 =A0 =A0 =A0 : [Regression] Bluetooth pairing does not wor=
+k anymore in 2.6.39-rc3 (works in 2.6.38.3)
+> Submitter =A0 =A0 =A0 : Gottfried Haider <gottfried.haider@gmail.com>
+> Date =A0 =A0 =A0 =A0 =A0 =A0: 2011-04-16 16:38 (15 days old)
+> Message-ID =A0 =A0 =A0: <BANLkTi=3DLvyZ+7BHfVL849pztfvsYaVM4SQ@mail.g=
+mail.com>
+> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D130297=
+197128328&w=3D2
+
+This can be removed from the regression list as it turned out to be
+only a mis-config-uration (oldconfig listed BT_L2CAP as a new config
+option, defaulting to false, when it had been build as a module
+before).
+
+regards,
+
+Gottfried
