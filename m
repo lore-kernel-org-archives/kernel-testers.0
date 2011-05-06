@@ -1,33 +1,35 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #32202] 2.6.38 hangs on boot until key is pressed
-Date: Tue, 3 May 2011 23:56:48 +0200
-Message-ID: <201105032356.48748.rjw@sisk.pl>
-References: <QbBtx5c9v1J.A.JaF.PxGvNB@chimera> <9nxEC7x0HFO.A.Q0F.txGvNB@chimera> <1304457036.17303.4.camel@deuteros>
+From: Mark Jackson <mpfj-list@mimc.co.uk>
+Subject: Re: [Bug #33092] [regression] 2.6.39-rc1 - Beagleboard usbnet broken
+Date: Fri, 06 May 2011 13:41:47 +0100
+Message-ID: <4DC3EC8B.6060109@mimc.co.uk>
+References: <Xp4OiTz83N.A.O0D.JVGvNB@chimera> <G9uL1cldhmL.A.rKF.XWGvNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1304457036.17303.4.camel@deuteros>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <G9uL1cldhmL.A.rKF.XWGvNB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Tvrtko Ursulin <tvrtko-9sj9WOxYP5jR7s880joybQ@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Dan Williams <dan.j.williams@intel.com>, Jamie Iles <jamie.iles@picochip.com>, Jamie Iles <jamie@jamieiles.com>
 
-On Tuesday, May 03, 2011, Tvrtko Ursulin wrote:
-> On Sat, 2011-04-30 at 22:17 +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.37 and 2.6.38.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.37 and 2.6.38.  Please verify if it still should
-> > be listed and let the tracking team know (either way).
+On 30/04/11 20:46, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
 > 
-> Hopefully reply to all count as letting you know "either way"?
+> The following bug entry is on the current list of known regressions
+> from 2.6.38.  Please verify if it still should be listed and let the tracking team
+> know (either way).
 
-It does, thanks for the update.
+I have just tried the latest linus git and it is still broken.
 
-> Problem is still present in 2.6.38.5.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=33092
+> Subject		: [regression] 2.6.39-rc1 - Beagleboard usbnet broken
+> Submitter	: Mark Jackson <mpfj-list@mimc.co.uk>
+> Date		: 2011-04-04 9:22 (27 days old)
+> First-Bad-Commit: http://git.kernel.org/linus/087809fce28f50098d9c3ef1a6865c722f23afd2
+> Message-ID	: <4D998DC9.3040109@mimc.co.uk>
+> References	: http://marc.info/?l=linux-kernel&m=130191386508831&w=2
 
-What about the mainline?
-
-Rafael
+Regards
+Mark
