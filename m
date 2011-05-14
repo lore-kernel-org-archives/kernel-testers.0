@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #34252] Unexpected behaviour when switching video cards with vga_switcheroo
-Date: Sun, 15 May 2011 00:40:42 +0200 (CEST)
-Message-ID: <SFkDk2sBn_E.A.NBD.kQwzNB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #33882] rt2800pci bad performance in 2.6.38
+Date: Sun, 15 May 2011 00:40:41 +0200 (CEST)
+Message-ID: <SFkDk2sBn_E.A.RGD.sQwzNB@chimera>
 References: <Zsp7lN2vZ2O.A.J7C.bQwzNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <Zsp7lN2vZ2O.A.J7C.bQwzNB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Igor Murzov <e-mail-YtcMAkmAr8g@public.gmane.org>
+Content-Type: text/plain; charset="macroman"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, =?utf-8?q?Ricardo=20Gra=C3=A7a?= <r.jpg@iol.pt>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,10 +22,8 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=34252
-Subject		: Unexpected behaviour when switching video cards with vga_switcheroo
-Submitter	: Igor Murzov <e-mail-YtcMAkmAr8g@public.gmane.org>
-Date		: 2011-05-02 22:39 (13 days old)
-Handled-By	: Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
-Patch		: https://bugzilla.kernel.org/attachment.cgi?id=57582
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D33882
+Subject		: rt2800pci bad performance in 2.6.38
+Submitter	: Ricardo Gra=C3=A7a <r.jpg@iol.pt>
+Date		: 2011-04-23 14:35 (22 days old)
 
