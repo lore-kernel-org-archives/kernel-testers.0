@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #34952] 2.6.39-rc6: SATA hangs for a few seconds during boot
-Date: Sun, 15 May 2011 00:30:08 +0200 (CEST)
-Message-ID: <HA8urZ3ZRcP.A.H-B.A5vzNB@chimera>
+Subject: [Bug #34492] [2.6.39-rc4, x86_32] Stall at default_idle()
+Date: Sun, 15 May 2011 00:30:07 +0200 (CEST)
+Message-ID: <HA8urZ3ZRcP.A.6QC.Q5vzNB@chimera>
 References: <So1vU2GC7XM.A.5wB.44vzNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Tino Keitel <tino.keitel@tikei.de>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 2.6.38.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=34952
-Subject		: 2.6.39-rc6: SATA hangs for a few seconds during boot
-Submitter	: Tino Keitel <tino.keitel@tikei.de>
-Date		: 2011-05-09 20:48 (6 days old)
-Message-ID	: <20110509204801.GA2258@x61.home>
-References	: http://marc.info/?l=linux-kernel&m=130497409509438&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=34492
+Subject		: [2.6.39-rc4, x86_32] Stall at default_idle()
+Submitter	: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Date		: 2011-04-27 4:49 (18 days old)
+Message-ID	: <201104270449.p3R4n54n023453@www262.sakura.ne.jp>
+References	: http://marc.info/?l=linux-kernel&m=130387977425687&w=2
 
