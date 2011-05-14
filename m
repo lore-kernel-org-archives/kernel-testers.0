@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #31572] BUG in vb_alloc() - firewire crash at boot
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #31782] nouveau: lockdep spew
 Date: Sun, 15 May 2011 00:40:38 +0200 (CEST)
-Message-ID: <SFkDk2sBn_E.A.ksD.YRwzNB@chimera>
+Message-ID: <SFkDk2sBn_E.A.nqD.RRwzNB@chimera>
 References: <Zsp7lN2vZ2O.A.J7C.bQwzNB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <Zsp7lN2vZ2O.A.J7C.bQwzNB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Pavel Kysilka <goldenfish@linuxsoft.cz>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.37 and 2.6.38.
@@ -22,8 +22,8 @@ introduced between 2.6.37 and 2.6.38.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=31572
-Subject		: BUG in vb_alloc() - firewire crash at boot
-Submitter	: Pavel Kysilka <goldenfish@linuxsoft.cz>
-Date		: 2011-03-21 12:40 (55 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=31782
+Subject		: nouveau: lockdep spew
+Submitter	: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
+Date		: 2011-03-24 09:51 (52 days old)
 
