@@ -1,49 +1,38 @@
-From: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #34002] [REGRESSION] [2.6.39-rc3] Wrong resolution in framebuffer and X Window
-Date: Sun, 15 May 2011 21:12:44 +0200
-Message-ID: <201105152112.45069.maciej.rutecki@gmail.com>
-References: <So1vU2GC7XM.A.5wB.44vzNB@chimera> <HA8urZ3ZRcP.A.cZC.h5vzNB@chimera>
-Reply-To: maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Nick Bowler <nbowler-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
+Subject: Re: [Bug #33242] Lockdep splat in autofs with 2.6.39-rc2
+Date: Sun, 15 May 2011 19:25:10 -0400
+Message-ID: <20110515232509.GA11642@elliptictech.com>
+References: <So1vU2GC7XM.A.5wB.44vzNB@chimera>
+ <HA8urZ3ZRcP.A.TvC.O6vzNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:from:reply-to:to:subject:date:user-agent:cc
-         :references:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:message-id;
-        bh=HS0/tyF6D/4uwTuhv2lAOL733Z150B3SPT+MOrIb1lA=;
-        b=r+LGTX4ZUBhFjAaIIwYI5Wgx0f4lum38XnzGNL42yo71A97I80jy1hIKIWo9/71Otk
-         o0so7hJjm7iY76mLOlw+bx6esTDNO2WJyeBdjKpLD1MvDH641T+DgqaDKFqlLjrNbUes
-         XloXUoWV9311R0g9j5fYXqiasj5JaP1Du5p1o=
-In-Reply-To: <HA8urZ3ZRcP.A.cZC.h5vzNB@chimera>
+Content-Disposition: inline
+In-Reply-To: <HA8urZ3ZRcP.A.TvC.O6vzNB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-On niedziela, 15 maja 2011 o 00:30:07 Rafael J. Wysocki wrote:
-> This message has been generated automatically as a part of a summary report
-> of recent regressions.
-> 
+On 2011-05-15 00:18 +0200, Rafael J. Wysocki wrote:
 > The following bug entry is on the current list of known regressions
-> from 2.6.38.  Please verify if it still should be listed and let the
-> tracking team know (either way).
+> from 2.6.38.  Please verify if it still should be listed and let the tracking team
+> know (either way).
 > 
-> 
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=34002
-> Subject		: [REGRESSION] [2.6.39-rc3] Wrong resolution in framebuffer 
-and X
-> Window Submitter	: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2011-04-17 16:04 (28 days old)
-> Message-ID	: <201104171804.04664.maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> References	: http://marc.info/?l=linux-fbdev&m=130305625114863&w=2
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=33242
+> Subject		: Lockdep splat in autofs with 2.6.39-rc2
+> Submitter	: Nick Bowler <nbowler-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
+> Date		: 2011-04-07 19:44 (38 days old)
+> Message-ID	: <20110407194403.GA29404-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=130220545614682&w=2
 
+This one is tough to reproduce, but I imagine that it's still present in
+mainline because I haven't heard anything about it since I was asked to
+test the patch here:
 
-Still present in -rc7
+  http://permalink.gmane.org/gmane.linux.kernel/1129741
 
-Regards
+Cheers,
 -- 
-Maciej Rutecki
-http://www.maciek.unixy.pl
+Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
