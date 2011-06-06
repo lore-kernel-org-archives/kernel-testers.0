@@ -1,40 +1,34 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #28522] Unable to mount FAT-formatted floppy on /dev/fd0, plus WARN_ON when using /dev/fd0u1440
-Date: Wed, 25 May 2011 23:13:15 +0200
-Message-ID: <201105252313.15643.rjw@sisk.pl>
-References: <Zsp7lN2vZ2O.A.J7C.bQwzNB@chimera> <SFkDk2sBn_E.A.ScE.STwzNB@chimera> <4DDD20C3.4080603@fiec.espol.edu.ec>
+From: Shawn Starr <shawn.starr@rogers.com>
+Subject: Re: [Bug #29672] [regression][ALSA][hda-conexant][2.6.38-rcX] external microphone sound too quiet
+Date: Sun, 05 Jun 2011 23:09:31 -0400
+Message-ID: <2796152.kfvgntDoi7@segfault.sh0n.net>
+References: <Zsp7lN2vZ2O.A.J7C.bQwzNB@chimera> <SFkDk2sBn_E.A.BYE.dSwzNB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4DDD20C3.4080603-l+hy18hT7aZ9y05WjuJFKsXXUOn6P5/W@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7Bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rogers.com; s=s1024; t=1307329783; bh=tY4Wrp0VLdzodWScf0qkvtpJMP5zvM9sPCJt6cSb6cA=; h=Received:X-Yahoo-SMTP:X-YMail-OSG:X-Yahoo-Newman-Property:From:To:Cc:Subject:Date:Message-ID:Organization:User-Agent:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type; b=QT43ywh6/0tw6x4MckM4hPSqEacnshDhCaZuur3RwdVIF9HHthwp0+2Jbsv+LG+udZUP8Mzy6X52A/Zsg/F2PFO5OB2J1/pI3cuHNRdFzpAFrA91qG8523/lyWP6WXk/STHAp7rju0fbeap9Rgo5oA5oHyZiaLwPmh42EOo2W8U=
+In-Reply-To: <SFkDk2sBn_E.A.BYE.dSwzNB@chimera>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="utf-8"
-To: Alex =?utf-8?q?Villac=C3=AD=C2=ADs_Lasso?= <avillaci-l+hy18hT7aZ9y05WjuJFKsXXUOn6P5/W@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Alex Villacis Lasso <avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
 
-On Wednesday, May 25, 2011, Alex Villac=C3=AD=C2=ADs Lasso wrote:
-> El 14/05/11 17:40, Rafael J. Wysocki escribi=C3=B3:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.37 and 2.6.38.
-> >
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.37 and 2.6.38.  Please verify if it still sh=
-ould
-> > be listed and let the tracking team know (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D28522
-> > Subject		: Unable to mount FAT-formatted floppy on /dev/fd0, plus W=
-ARN_ON when using /dev/fd0u1440
-> > Submitter	: Alex Villacis Lasso<avillaci-x0m+Mc+nT7uljOmnV8AmnkElSqmLX1BE@public.gmane.org>
-> > Date		: 2011-02-07 17:21 (97 days old)
-> >
-> >
-> >
-> Still present in 2.6.39. Additionally there is a new regression in bu=
-g #35832.
+On Sunday, May 15, 2011 12:40:37 AM Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a report
+> of regressions introduced between 2.6.37 and 2.6.38.
+> 
+> The following bug entry is on the current list of known regressions
+> introduced between 2.6.37 and 2.6.38.  Please verify if it still should
+> be listed and let the tracking team know (either way).
+> 
+This continues in 3.0-rc1, model=hp didn't fix it
 
-Thanks for the update.
-
-Rafael
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=29672
+> Subject		: [regression][ALSA][hda-conexant][2.6.38-rcX] external 
+microphone
+> sound too quiet Submitter	: Shawn Starr <shawn.starr@rogers.com>
+> Date		: 2011-02-19 6:02 (85 days old)
+> Message-ID	: <474630.25335.qm@smtp105.rog.mail.re2.yahoo.com>
+> References	: http://marc.info/?l=linux-kernel&m=129809536502092&w=2
