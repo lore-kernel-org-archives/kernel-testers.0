@@ -1,78 +1,105 @@
-From: =?UTF-8?Q?Am=C3=A9rico_Wang?= <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [regression] net: call dev_alloc_name from register_netdevice
-Date: Wed, 8 Jun 2011 15:46:26 +0800
-Message-ID: <BANLkTinxqgvqMDuWxv8iMTL6M=aXA+Jrzw@mail.gmail.com>
-References: <1307518918.26284.2.camel@zwerg>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: 3.0-rc2: Reported regressions from 2.6.39
+Date: Sun, 12 Jun 2011 22:23:10 +0200 (CEST)
+Message-ID: <vv0uv79EvLN.A.jiC.pNS9NB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:mime-version:in-reply-to:references:date
-         :message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=nOcaB6E82r7/YXJtC8Rz80zTyDf2rAWrnYAMwBdJAUM=;
-        b=kk+WpGAd/Qxtl1G6cGfYhV3ApktJ/VfZ/yqkhK1K+UQuj7lnEAQMzDG+43MFaJkM+a
-         eZCiHic+NR8oimHX3Av6jC22di0Wk7kaiP/ePvfzPVTyqW/XuZhDjKfZvaliDeJimEpA
-         U583299QnQuW8mNHTrWir5gaaVsq7YmaJ4YX8=
-In-Reply-To: <1307518918.26284.2.camel@zwerg>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Alexey Fisher <bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org>
-Cc: "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jiri Pirko <jpirko-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org>
 
-On Wed, Jun 8, 2011 at 3:41 PM, Alexey Fisher
-<bug-track-M18mAb7Tlt0yCq4wW13eYl6hYfS7NtTn@public.gmane.org> wrote:
-> Hallo,
->
-> i have small regression after patch:
-> commit 1c5cae815d19ffe02bdfda1260949ef2b1806171
-> Author: Jiri Pirko <jpirko-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> Date: =C2=A0 Sat Apr 30 01:21:32 2011 +0000
->
-> =C2=A0 =C2=A0net: call dev_alloc_name from register_netdevice
-> ....
->
-> device names are broken.
-> Here is dmesg before patch:
-> [ 59.181464] wlan0: authenticate with 00:1c:10:xx:xx:xx (try 1)
-> [ 59.185954] wlan0: authenticated
-> [ 59.186027] wlan0: associate with 00:1c:10:xx:xx:xx (try 1)
-> [ 59.188679] wlan0: RX AssocResp from 00:1c:10:xx:xx:xx (capab=3D0x11
-> status=3D0 aid=3D2)
->
-> And dmesg after patch:
-> [ 76.046587] wlan%d: authenticate with 00:1c:10:xx:xx:xx (try 1)
-> [ 76.048600] wlan%d: authenticated
-> [ 76.048647] wlan%d: associate with 00:1c:10:xx:xx:xx (try 1)
-> [ 76.051281] wlan%d: RX AssocResp from 00:1c:10:xx:xx:xx (capab=3D0x1=
-1
-> status=3D0 aid=3D2)
-> [ 76.051288] wlan%d: associated
+This message contains a list of some regressions from 2.6.39,
+for which there are no fixes in the mainline known to the tracking team.
+If any of them have been fixed already, please let us know.
 
-It is already fixed in wireless-testing
+If you know of any other unresolved regressions from 2.6.39, please let us
+know either and we'll add them to the list.  Also, please let us know
+if any of the entries below are invalid.
 
-commit 59e7e7078d6c2c6294caf454c6e3695f9d3e46a2
-Author: Thadeu Lima de Souza Cascardo <cascardo-DmMZpsCg3uxeGPcbtGPokg@public.gmane.org>
-Date:   Thu Jun 2 17:28:37 2011 -0300
+Each entry from the list will be sent additionally in an automatic reply
+to this message with CCs to the people involved in reporting and handling
+the issue.
 
-    mac80211: call dev_alloc_name before copying name to sdata
 
-    This partially reverts 1c5cae815d19ffe02bdfda1260949ef2b1806171, be=
-cause
-    the netdev name is copied into sdata->name, which is used for debug=
-ging
-    messages, for example. Otherwise, we get messages like this:
+Listed regressions statistics:
 
-    wlan%d: authenticated
+  Date          Total  Pending  Unresolved
+  ----------------------------------------
+  2011-06-12        8        7           7
 
-    Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@holoscopio.c=
-om>
-    Cc: Jiri Pirko <jpirko-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-    Cc: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-    Cc: Johannes Berg <johannes-cdvu00un1VgdHxzADdlk8Q@public.gmane.org>
-    Cc: "John W. Linville" <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-    Signed-off-by: John W. Linville <linville-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
-Thanks for reporting it!
+Unresolved regressions
+----------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37242
+Subject		: lockdep deadlock warning in shutdown
+Submitter	: Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2011-06-03 3:24 (10 days old)
+Message-ID	: <1307071472.15392.60.camel@sli10-conroe>
+References	: http://marc.info/?l=linux-acpi&m=130707148811930&w=2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37232
+Subject		: [3.0-rc1][NMI/DMAR][iwlagn] errors - PCI system error (SERR) for reason a1 on CPU 0
+Submitter	: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
+Date		: 2011-06-03 4:56 (10 days old)
+Message-ID	: <4478124.OuFNgaPiHS-RRHT56Q3PSMGBMjmSbuoWl6hYfS7NtTn@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=130707737616116&w=2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37222
+Subject		: 3.0.0-rc1-git3 -- kernel/sched.c:619 invoked rcu_dereference_check() without protection!
+Submitter	: Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-06-04 3:22 (9 days old)
+Message-ID	: <BANLkTikHS7TuFhm3cfJ+Y=erWDaAwuE_TA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=130715775803343&w=2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36982
+Subject		: 3.0-rc1 problem with usb, cdrom
+Submitter	: werner <w.landgraf-ow1r9FSYgO0@public.gmane.org>
+Date		: 2011-06-01 16:43 (12 days old)
+Message-ID	: <web-538043386-zcyLqNHFQq3Ee+7He9zlJw@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=130694663410114&w=2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36972
+Subject		: 3.0-rc1: DMAR errors from iwlagn
+Submitter	: Jeremy Fitzhardinge <jeremy-TSDbQ3PG+2Y@public.gmane.org>
+Date		: 2011-05-31 21:14 (13 days old)
+Message-ID	: <4DE55A26.6040702-TSDbQ3PG+2Y@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=130687723213857&w=2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36452
+Subject		: Artifacts with 3.0-rc1 on SandyBridge
+Submitter	: Alex Zhavnerchik <alex.vizor-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-06-01 13:55 (12 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36302
+Subject		: SandyBridge can't do s2disk with linux 3.0-rc1
+Submitter	: Alex Zhavnerchik <alex.vizor-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-05-30 23:10 (14 days old)
+
+
+Regressions with patches
+------------------------
+
+For details, please visit the bug entries and follow the links given in
+references.
+
+As you can see, there is a Bugzilla entry for each of the listed regressions.
+There also is a Bugzilla entry used for tracking the regressions from 2.6.39,
+unresolved as well as resolved, at:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=36912
+
+Please let the tracking team know if there are any Bugzilla entries that
+should be added to the list in there.
+
+Thanks!
