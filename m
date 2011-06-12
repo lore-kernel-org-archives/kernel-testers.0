@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #36012] Kernel oops in __pskb_pull_tail
-Date: Sun, 12 Jun 2011 23:12:10 +0200 (CEST)
-Message-ID: <kTLfM29CaqB.A.TNF.E0S9NB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #35642] On resume, I sometimes get a kernel oops with led_trigger_unregister_simple
+Date: Sun, 12 Jun 2011 23:12:09 +0200 (CEST)
+Message-ID: <kTLfM29CaqB.A.iTF.a0S9NB@chimera>
 References: <9NVbY1BZ_5D.A.2lE.jzS9NB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <9NVbY1BZ_5D.A.2lE.jzS9NB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, "Steinar H. Gunderson" <sgunderson-jG/AHqQBv7lBDgjK7y7TUQ@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Sven-Hendrik Haase <sh@lutzhaase.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.38 and 2.6.39.
@@ -22,8 +22,8 @@ introduced between 2.6.38 and 2.6.39.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36012
-Subject		: Kernel oops in __pskb_pull_tail
-Submitter	: Steinar H. Gunderson <sgunderson-jG/AHqQBv7lBDgjK7y7TUQ@public.gmane.org>
-Date		: 2011-05-27 18:21 (17 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=35642
+Subject		: On resume, I sometimes get a kernel oops with led_trigger_unregister_simple
+Submitter	: Sven-Hendrik Haase <sh@lutzhaase.com>
+Date		: 2011-05-23 00:15 (21 days old)
 
