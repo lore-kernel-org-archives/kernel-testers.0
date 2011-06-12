@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #37132] Random crashes on resume from hibernate on ASUS F6A
-Date: Sun, 12 Jun 2011 23:12:12 +0200 (CEST)
-Message-ID: <kTLfM29CaqB.A.vnE.pzS9NB@chimera>
+Subject: [Bug #36952] [2.6.39] CIFS write failures where 2.6.38 works
+Date: Sun, 12 Jun 2011 23:12:11 +0200 (CEST)
+Message-ID: <kTLfM29CaqB.A.0zE.vzS9NB@chimera>
 References: <9NVbY1BZ_5D.A.2lE.jzS9NB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Dmitry Nezhevenko <dion@inhex.net>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Helge Hafting <helge.hafting@hist.no>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.38 and 2.6.39.
@@ -22,8 +22,10 @@ introduced between 2.6.38 and 2.6.39.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37132
-Subject		: Random crashes on resume from hibernate on ASUS F6A
-Submitter	: Dmitry Nezhevenko <dion@inhex.net>
-Date		: 2011-06-10 11:00 (3 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36952
+Subject		: [2.6.39] CIFS write failures where 2.6.38 works
+Submitter	: Helge Hafting <helge.hafting@hist.no>
+Date		: 2011-06-01 10:11 (12 days old)
+Message-ID	: <4DE6103E.6010100@hist.no>
+References	: http://marc.info/?l=linux-kernel&m=130692387613423&w=2
 
