@@ -1,38 +1,58 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #37232] [3.0-rc1][NMI/DMAR][iwlagn] errors - PCI system error (SERR) for reason a1 on CPU 0
-Date: Sun, 19 Jun 2011 15:46:02 +0200
-Message-ID: <201106191546.02503.rjw@sisk.pl>
-References: <vv0uv79EvLN.A.jiC.pNS9NB@chimera> <JL7O0m0yLjL.A.suC.xNS9NB@chimera> <9766569.DLsi33Yrbe@segfault.sh0n.net>
+From: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Bug #34002] [REGRESSION] [2.6.39-rc3] Wrong resolution in framebuffer and X Window
+Date: Mon, 20 Jun 2011 17:37:42 +0200
+Message-ID: <201106201737.42559.maciej.rutecki@gmail.com>
+References: <9NVbY1BZ_5D.A.2lE.jzS9NB@chimera> <kTLfM29CaqB.A.P3F.a1S9NB@chimera> <20110615114614.054df25f@jbarnes-desktop>
+Reply-To: maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <9766569.DLsi33Yrbe-RRHT56Q3PSMGBMjmSbuoWl6hYfS7NtTn@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:from:reply-to:to:subject:date:user-agent:cc
+         :references:in-reply-to:mime-version:content-type
+         :content-transfer-encoding:message-id;
+        bh=x6jnBtmwNI7WNwvFXmcch/IrAfBILIFaH0gyyPJNAyU=;
+        b=cb3xmbrsGgsU55YP1Ik1R0dZtQ9IgZgcD73qYJGsXz959ZN158fbS8wfV5h9AYmIy+
+         3H2Mc4VW0uA3zvklloIrHIMFQVHRr44ECgCaCuFpQoa4eL85y9HQPUQ5zZ5AgIt/gda5
+         NQDQNRAZ32xMy3J8EUmAR/EfzGCX8kFgcUJMM=
+In-Reply-To: <20110615114614.054df25f@jbarnes-desktop>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Shawn Starr <shawn.starr-bJEeYj9oJeDQT0dZR+AlfA@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Content-Type: Text/Plain; charset="windows-1252"
+To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-On Sunday, June 19, 2011, Shawn Starr wrote:
-> On Sunday, June 12, 2011 10:30:54 PM Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.39.  Please verify if it still should be listed and let the
-> > tracking team know (either way).
-> > 
-> This continues in -rc3 (3.0-0.rc3.git5.1.fc16.x86_64)
-> 
-> [   22.675931] NMI: PCI system error (SERR) for reason a1 on CPU 0.
-> [  163.002909] DMAR:[DMA Write] Request device [03:00.0] fault addr ffe48000 
-> [  163.002911] DMAR:[fault reason 05] PTE Write access is not set
-> 
-> 03:00.0 Network controller: Intel Corporation PRO/Wireless 5100 AGN [Shiloh] 
-> Network Connection
-> 
-> I assume both of those are separate issues, but they continue in any case.
+On =C5=9Broda, 15 czerwca 2011 o 20:46:14 Jesse Barnes wrote:
 
-Thanks for the update.
+>=20
+> Did you ever bisect this issue? As Chris says it sounds like an EDID
+> problem; we detect the outputs and attach some modes, but they sound
+> like the wrong ones for your config.  Maybe we broke EDID fetching fo=
+r
+> your config?
 
-Rafael
+
+Result of bisection:
+8f9a3f9b63b8cd3f03be9dc53533f90bd4120e5f is the first bad commit
+commit 8f9a3f9b63b8cd3f03be9dc53533f90bd4120e5f
+Author: Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
+Date:   Tue Feb 1 09:01:13 2011 +0000
+
+    drm/i915: Enable GMBUS for post-gen2 chipsets
+
+    With the recent SDVO fix, this is working on all the machines I hav=
+e to
+    hand - except for an 845G.
+
+    Signed-off-by: Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
+
+:040000 040000 eb835ca9bf353d1d548b69d415801720a577184a
+3e0a9430c43030735dfe2f694a1ad694cc01d483 M      drivers
+
+Revert this commit from 3.0-rc1 solves problem.
+
+Regards
+--=20
+Maciej Rutecki
+http://www.maciek.unixy.pl
