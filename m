@@ -1,58 +1,80 @@
-From: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #34002] [REGRESSION] [2.6.39-rc3] Wrong resolution in framebuffer and X Window
-Date: Mon, 20 Jun 2011 17:37:42 +0200
-Message-ID: <201106201737.42559.maciej.rutecki@gmail.com>
-References: <9NVbY1BZ_5D.A.2lE.jzS9NB@chimera> <kTLfM29CaqB.A.P3F.a1S9NB@chimera> <20110615114614.054df25f@jbarnes-desktop>
-Reply-To: maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: CaT <cat@zip.com.au>
+Subject: boot/kernel init duration regression in 2.6.39 (was: Re: [Bug
+ #12909] boot/kernel init duration regression from 2.6.28)
+Date: Sun, 26 Jun 2011 09:59:39 +1000
+Message-ID: <20110625235939.GA17970@zip.com.au>
+References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
+ <AsKNxFx2juN.A.z3H.SGn2JB@chimera>
+ <20090406224749.GC19377@zip.com.au>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=domainkey-signature:from:reply-to:to:subject:date:user-agent:cc
-         :references:in-reply-to:mime-version:content-type
-         :content-transfer-encoding:message-id;
-        bh=x6jnBtmwNI7WNwvFXmcch/IrAfBILIFaH0gyyPJNAyU=;
-        b=cb3xmbrsGgsU55YP1Ik1R0dZtQ9IgZgcD73qYJGsXz959ZN158fbS8wfV5h9AYmIy+
-         3H2Mc4VW0uA3zvklloIrHIMFQVHRr44ECgCaCuFpQoa4eL85y9HQPUQ5zZ5AgIt/gda5
-         NQDQNRAZ32xMy3J8EUmAR/EfzGCX8kFgcUJMM=
-In-Reply-To: <20110615114614.054df25f@jbarnes-desktop>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20090406224749.GC19377@zip.com.au>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="windows-1252"
-To: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
 
-On =C5=9Broda, 15 czerwca 2011 o 20:46:14 Jesse Barnes wrote:
+On Tue, Apr 07, 2009 at 08:47:49AM +1000, CaT wrote:
+> On Mon, Apr 06, 2009 at 09:05:41PM +0200, Rafael J. Wysocki wrote:
+> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12909
+> > Subject		: boot/kernel init duration regression from 2.6.28
+> > Submitter	: CaT <cat@zip.com.au>
+> > Date		: 2009-03-16 10:25 (22 days old)
+> > References	: http://marc.info/?l=linux-kernel&m=123720083515950&w=4
+> 
+> I got it tracked down to .29-rc1. I guess I'll need to learn to use git
+> now (and user the desktop - compiling on the EEE takes /ages/). Also have
+> .29.1 ready to test when I get home tonight.
 
->=20
-> Did you ever bisect this issue? As Chris says it sounds like an EDID
-> problem; we detect the outputs and attach some modes, but they sound
-> like the wrong ones for your config.  Maybe we broke EDID fetching fo=
-r
-> your config?
+This bug appears to be back in .39 and .39.2. Same pause in the same section.
 
+eeepc 901 is involved.
 
-Result of bisection:
-8f9a3f9b63b8cd3f03be9dc53533f90bd4120e5f is the first bad commit
-commit 8f9a3f9b63b8cd3f03be9dc53533f90bd4120e5f
-Author: Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
-Date:   Tue Feb 1 09:01:13 2011 +0000
+[    2.536287] eeepc_laptop: Eee PC Hotkey Driver
+[    2.538806] eeepc_laptop: Hotkey init flags 0x41
+[    3.353526] hub 2-0:1.0: hub_suspend
+[    3.353557] usb usb2: bus auto-suspend
+[    3.353569] usb usb2: suspend_rh
+[    3.596813] usb usb5: suspend_rh (auto-stop)
+[    4.020640] input: ImPS/2 Logitech Wheel Mouse as /devices/platform/i8042/serio1/input/input7
+[    4.353541] hub 3-0:1.0: hub_suspend
+[    4.353581] usb usb3: bus auto-suspend
+[    4.353597] usb usb3: suspend_rh
+[    4.353638] hub 4-0:1.0: hub_suspend
+[    4.353655] usb usb4: bus auto-suspend
+[    4.353665] usb usb4: suspend_rh
+[    4.353720] usb 1-8: usb auto-suspend
+[    4.506857] hub 5-0:1.0: hub_suspend
+[    4.506894] usb usb5: bus auto-suspend
+[    4.506911] usb usb5: suspend_rh
+[    4.506957] hub 6-0:1.0: hub_suspend
+[    4.506977] usb usb6: bus auto-suspend
+[    6.170185] ata2: link is slow to respond, please be patient (ready=0)
+[    6.366858] hub 1-0:1.0: hub_suspend
+[    6.366895] usb usb1: bus auto-suspend
+[    6.366911] ehci_hcd 0000:00:1d.7: suspend root hub
+[    7.670579] ata2.00: CFA: ASUS-PHISON SSD, TST2.04U, max UDMA/66
+[    7.673098] ata2.00: 7880544 sectors, multi 0: LBA 
+[    7.680458] ata2.00: configured for UDMA/66
+[    7.683267] scsi 1:0:0:0: Direct-Access     ATA      ASUS-PHISON SSD  TST2 PQ: 0 ANSI: 5
+[    7.686546] sd 1:0:0:0: [sdb] 7880544 512-byte logical blocks: (4.03 GB/3.75 GiB)
+[    7.686909] sd 1:0:0:0: Attached scsi generic sg1 type 0
+[    7.692132] sd 1:0:0:0: [sdb] Write Protect is off
+[    7.694745] sd 1:0:0:0: [sdb] Mode Sense: 00 3a 00 00
+[    7.694812] sd 1:0:0:0: [sdb] Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
+[    7.700201]  sdb: sdb1 sdb2 < sdb5 > sdb3 sdb4
+[    7.704471] sd 1:0:0:0: [sdb] Attached SCSI disk
+[   27.999338] eeepc_laptop: TYPE (2000000) not reported by BIOS, enabling anyway
+[   28.006959] eeepc_laptop: PANELPOWER (4000000) not reported by BIOS, enabling anyway
+[   28.009855] eeepc_laptop: Get control methods supported: 0x6101713
+[   28.015878] input: Asus EeePC extra buttons as /devices/platform/eeepc/input/input8
+[   29.421681] eeepc_laptop: BIOS says wireless lan is unblocked, but the pci device is absent
+[   29.424576] eeepc_laptop: skipped wireless hotplug as probably inappropriate for this model
 
-    drm/i915: Enable GMBUS for post-gen2 chipsets
-
-    With the recent SDVO fix, this is working on all the machines I hav=
-e to
-    hand - except for an 845G.
-
-    Signed-off-by: Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
-
-:040000 040000 eb835ca9bf353d1d548b69d415801720a577184a
-3e0a9430c43030735dfe2f694a1ad694cc01d483 M      drivers
-
-Revert this commit from 3.0-rc1 solves problem.
-
-Regards
---=20
-Maciej Rutecki
-http://www.maciek.unixy.pl
+-- 
+  "A search of his car uncovered pornography, a homemade sex aid, women's 
+  stockings and a Jack Russell terrier."
+    - http://www.dailytelegraph.com.au/news/wacky/indeed/story-e6frev20-1111118083480
