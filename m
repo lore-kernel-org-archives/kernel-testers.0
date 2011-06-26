@@ -1,80 +1,169 @@
-From: CaT <cat@zip.com.au>
-Subject: boot/kernel init duration regression in 2.6.39 (was: Re: [Bug
- #12909] boot/kernel init duration regression from 2.6.28)
-Date: Sun, 26 Jun 2011 09:59:39 +1000
-Message-ID: <20110625235939.GA17970@zip.com.au>
-References: <n4io5wq70ZO.A.gzG.rFn2JB@chimera>
- <AsKNxFx2juN.A.z3H.SGn2JB@chimera>
- <20090406224749.GC19377@zip.com.au>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: 3.0-rc4: Reported regressions from 2.6.39
+Date: Sun, 26 Jun 2011 23:18:39 +0200 (CEST)
+Message-ID: <VDRaLpg_NZ.A.tnC.JZ6BOB@chimera>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <20090406224749.GC19377@zip.com.au>
-Sender: linux-kernel-owner@vger.kernel.org
-List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>
+Return-path: <dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org>
+Content-Disposition: inline
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <http://lists.freedesktop.org/mailman/options/dri-devel>,
+	<mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <http://lists.freedesktop.org/archives/dri-devel>
+List-Post: <mailto:dri-devel@lists.freedesktop.org>
+List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <http://lists.freedesktop.org/mailman/listinfo/dri-devel>,
+	<mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Sender: dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org
+Errors-To: dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Linux SCSI List <linux-scsi@vger.kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, Florian Mickler <florian@mickler.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-On Tue, Apr 07, 2009 at 08:47:49AM +1000, CaT wrote:
-> On Mon, Apr 06, 2009 at 09:05:41PM +0200, Rafael J. Wysocki wrote:
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=12909
-> > Subject		: boot/kernel init duration regression from 2.6.28
-> > Submitter	: CaT <cat@zip.com.au>
-> > Date		: 2009-03-16 10:25 (22 days old)
-> > References	: http://marc.info/?l=linux-kernel&m=123720083515950&w=4
-> 
-> I got it tracked down to .29-rc1. I guess I'll need to learn to use git
-> now (and user the desktop - compiling on the EEE takes /ages/). Also have
-> .29.1 ready to test when I get home tonight.
+This message contains a list of some regressions from 2.6.39,
+for which there are no fixes in the mainline known to the tracking team.
+If any of them have been fixed already, please let us know.
 
-This bug appears to be back in .39 and .39.2. Same pause in the same section.
+If you know of any other unresolved regressions from 2.6.39, please let us
+know either and we'll add them to the list.  Also, please let us know
+if any of the entries below are invalid.
 
-eeepc 901 is involved.
+Each entry from the list will be sent additionally in an automatic reply
+to this message with CCs to the people involved in reporting and handling
+the issue.
 
-[    2.536287] eeepc_laptop: Eee PC Hotkey Driver
-[    2.538806] eeepc_laptop: Hotkey init flags 0x41
-[    3.353526] hub 2-0:1.0: hub_suspend
-[    3.353557] usb usb2: bus auto-suspend
-[    3.353569] usb usb2: suspend_rh
-[    3.596813] usb usb5: suspend_rh (auto-stop)
-[    4.020640] input: ImPS/2 Logitech Wheel Mouse as /devices/platform/i8042/serio1/input/input7
-[    4.353541] hub 3-0:1.0: hub_suspend
-[    4.353581] usb usb3: bus auto-suspend
-[    4.353597] usb usb3: suspend_rh
-[    4.353638] hub 4-0:1.0: hub_suspend
-[    4.353655] usb usb4: bus auto-suspend
-[    4.353665] usb usb4: suspend_rh
-[    4.353720] usb 1-8: usb auto-suspend
-[    4.506857] hub 5-0:1.0: hub_suspend
-[    4.506894] usb usb5: bus auto-suspend
-[    4.506911] usb usb5: suspend_rh
-[    4.506957] hub 6-0:1.0: hub_suspend
-[    4.506977] usb usb6: bus auto-suspend
-[    6.170185] ata2: link is slow to respond, please be patient (ready=0)
-[    6.366858] hub 1-0:1.0: hub_suspend
-[    6.366895] usb usb1: bus auto-suspend
-[    6.366911] ehci_hcd 0000:00:1d.7: suspend root hub
-[    7.670579] ata2.00: CFA: ASUS-PHISON SSD, TST2.04U, max UDMA/66
-[    7.673098] ata2.00: 7880544 sectors, multi 0: LBA 
-[    7.680458] ata2.00: configured for UDMA/66
-[    7.683267] scsi 1:0:0:0: Direct-Access     ATA      ASUS-PHISON SSD  TST2 PQ: 0 ANSI: 5
-[    7.686546] sd 1:0:0:0: [sdb] 7880544 512-byte logical blocks: (4.03 GB/3.75 GiB)
-[    7.686909] sd 1:0:0:0: Attached scsi generic sg1 type 0
-[    7.692132] sd 1:0:0:0: [sdb] Write Protect is off
-[    7.694745] sd 1:0:0:0: [sdb] Mode Sense: 00 3a 00 00
-[    7.694812] sd 1:0:0:0: [sdb] Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
-[    7.700201]  sdb: sdb1 sdb2 < sdb5 > sdb3 sdb4
-[    7.704471] sd 1:0:0:0: [sdb] Attached SCSI disk
-[   27.999338] eeepc_laptop: TYPE (2000000) not reported by BIOS, enabling anyway
-[   28.006959] eeepc_laptop: PANELPOWER (4000000) not reported by BIOS, enabling anyway
-[   28.009855] eeepc_laptop: Get control methods supported: 0x6101713
-[   28.015878] input: Asus EeePC extra buttons as /devices/platform/eeepc/input/input8
-[   29.421681] eeepc_laptop: BIOS says wireless lan is unblocked, but the pci device is absent
-[   29.424576] eeepc_laptop: skipped wireless hotplug as probably inappropriate for this model
 
--- 
-  "A search of his car uncovered pornography, a homemade sex aid, women's 
-  stockings and a Jack Russell terrier."
-    - http://www.dailytelegraph.com.au/news/wacky/indeed/story-e6frev20-1111118083480
+Listed regressions statistics:
+
+  Date          Total  Pending  Unresolved
+  ----------------------------------------
+  2011-06-26       22       14          12
+  2011-06-12        8        7           7
+
+
+Unresolved regressions
+----------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38302
+Subject		: NFS crash in un-modified 3.0.0-rc3+, list corruption.
+Submitter	: Ben Greear <greearb@candelatech.com>
+Date		: 2011-06-20 22:42 (7 days old)
+Message-ID	: <4DFFCCDC.2070106@candelatech.com>
+References	: http://marc.info/?l=linux-kernel&m=130860979610651&w=2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38292
+Subject		: slab vs lockdep vs debugobjects
+Submitter	: Peter Zijlstra <peterz@infradead.org>
+Date		: 2011-06-20 17:48 (7 days old)
+Message-ID	: <1308592080.26237.114.camel@twins>
+References	: http://marc.info/?l=linux-kernel&m=130859214215636&w=2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38152
+Subject		: acpi_power_off lockdep splat
+Submitter	: Borislav Petkov <bp@alien8.de>
+Date		: 2011-06-19 13:30 (8 days old)
+Message-ID	: <20110619133049.GA18168@liondog.tnic>
+References	: http://marc.info/?l=linux-kernel&m=130849028317365&w=2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38142
+Subject		: i915, framebuffer: wrong xoffset?
+Submitter	: Lucas De Marchi <lucas.de.marchi@gmail.com>
+Date		: 2011-06-18 16:29 (9 days old)
+Message-ID	: <BANLkTikAJEma_NNi0NYnjBEB6RkFJK3Dpg@mail.gmail.com>
+References	: http://marc.info/?l=linux-kernel&m=130841462202826&w=2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38122
+Subject		: 3.0-rc3 WARNING: at drivers/gpu/drm/i915/i915_drv.c:340 gen6_gt_force_wake_put+0x29/0x52 [i915]()
+Submitter	: Jens Axboe <jaxboe@fusionio.com>
+Date		: 2011-06-14 12:12 (13 days old)
+Message-ID	: <<4DE3E2C9.6060207@fusionio.com>>
+References	: http://marc.info/?l=linux-kernel&m=130805412314680&w=2
+		  https://lkml.org/lkml/2011/5/30/261
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37562
+Subject		: /scripts/depmod.sh ends up -rw-r--r-- 1 depmod.sh
+Submitter	: Andrew <atswartz@gmail.com>
+Date		: 2011-06-15 23:49 (12 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37482
+Subject		: Driver: i915 - Starting with kernel 3.0.0-rc3, dual monitor freezes a Dell Latitude E6410 when a second monitor is connected at boot time
+Submitter	: David Hill <hilld@binarystorm.net>
+Date		: 2011-06-14 18:42 (13 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37432
+Subject		: sdhci-pci fails on 3.0.0-rc1 on Dell E6510
+Submitter	: Oliver Hartkopp <socketcan@hartkopp.net>
+Date		: 2011-06-07 20:06 (20 days old)
+First-Bad-Commit: http://git.kernel.org/linus/da7822e5ad71ec9b745b412639f1e5e0ba795a20
+References	: http://article.gmane.org/gmane.linux.kernel.mmc/8442
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37232
+Subject		: [3.0-rc1][NMI/DMAR][iwlagn] errors - PCI system error (SERR) for reason a1 on CPU 0
+Submitter	: Shawn Starr <shawn.starr@rogers.com>
+Date		: 2011-06-03 4:56 (24 days old)
+Message-ID	: <4478124.OuFNgaPiHS@segfault.sh0n.net>
+References	: http://marc.info/?l=linux-kernel&m=130707737616116&w=2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36972
+Subject		: 3.0-rc1: DMAR errors from iwlagn
+Submitter	: Jeremy Fitzhardinge <jeremy@goop.org>
+Date		: 2011-05-31 21:14 (27 days old)
+Message-ID	: <4DE55A26.6040702@goop.org>
+References	: http://marc.info/?l=linux-kernel&m=130687723213857&w=2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36452
+Subject		: Artifacts with 3.0-rc1 on SandyBridge
+Submitter	: Alex Zhavnerchik <alex.vizor@gmail.com>
+Date		: 2011-06-01 13:55 (26 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36302
+Subject		: SandyBridge can't do s2disk with linux 3.0-rc1
+Submitter	: Alex Zhavnerchik <alex.vizor@gmail.com>
+Date		: 2011-05-30 23:10 (28 days old)
+
+
+Regressions with patches
+------------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38012
+Subject		: Missing code to load firmware
+Submitter	: Larry Finger <Larry.Finger@lwfinger.net>
+Date		: 2011-06-20 21:44 (7 days old)
+Handled-By	: Larry Finger <Larry.Finger@lwfinger.net>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=63002
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37542
+Subject		: [OOPS] 3.0-rc1 cifs
+Submitter	: Martijn Uffing <mp3project@sarijopen.student.utwente.nl>
+Date		: 2011-06-09 20:15 (18 days old)
+Message-ID	: <Pine.LNX.4.64.1106092211500.19687@sarijopen.student.utwente.nl>
+References	: http://marc.info/?l=linux-kernel&m=130765235926144&w=2
+Handled-By	: Jeff Layton <jlayton@redhat.com>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=63202
+
+
+For details, please visit the bug entries and follow the links given in
+references.
+
+As you can see, there is a Bugzilla entry for each of the listed regressions.
+There also is a Bugzilla entry used for tracking the regressions from 2.6.39,
+unresolved as well as resolved, at:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=36912
+
+Please let the tracking team know if there are any Bugzilla entries that
+should be added to the list in there.
+
+Thanks!
