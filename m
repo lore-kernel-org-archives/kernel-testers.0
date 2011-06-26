@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #38122] 3.0-rc3 WARNING: at drivers/gpu/drm/i915/i915_drv.c:340 gen6_gt_force_wake_put+0x29/0x52 [i915]()
-Date: Sun, 26 Jun 2011 23:23:46 +0200 (CEST)
-Message-ID: <XWjMN7gBoXK.A.ULD.cZ6BOB@chimera>
+Subject: [Bug #38012] Missing code to load firmware
+Date: Sun, 26 Jun 2011 23:23:45 +0200 (CEST)
+Message-ID: <XWjMN7gBoXK.A.UPD.fZ6BOB@chimera>
 References: <VDRaLpg_NZ.A.tnC.JZ6BOB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Jens Axboe <jaxboe@fusionio.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Larry Finger <Larry.Finger@lwfinger.net>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,11 +22,10 @@ from 2.6.39.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38122
-Subject		: 3.0-rc3 WARNING: at drivers/gpu/drm/i915/i915_drv.c:340 gen6_gt_force_wake_put+0x29/0x52 [i915]()
-Submitter	: Jens Axboe <jaxboe@fusionio.com>
-Date		: 2011-06-14 12:12 (13 days old)
-Message-ID	: <<4DE3E2C9.6060207@fusionio.com>>
-References	: http://marc.info/?l=linux-kernel&m=130805412314680&w=2
-		  https://lkml.org/lkml/2011/5/30/261
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38012
+Subject		: Missing code to load firmware
+Submitter	: Larry Finger <Larry.Finger@lwfinger.net>
+Date		: 2011-06-20 21:44 (7 days old)
+Handled-By	: Larry Finger <Larry.Finger@lwfinger.net>
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=63002
 
