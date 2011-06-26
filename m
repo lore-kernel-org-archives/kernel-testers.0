@@ -1,43 +1,28 @@
-From: Martijn Uffing <mp3project@sarijopen.student.utwente.nl>
-Subject: Re: [Bug #37542] [OOPS] 3.0-rc1 cifs
-Date: Mon, 27 Jun 2011 00:05:44 +0200 (CEST)
-Message-ID: <Pine.LNX.4.64.1106262355030.6287@sarijopen.student.utwente.nl>
-References: <VDRaLpg_NZ.A.tnC.JZ6BOB@chimera> <XWjMN7gBoXK.A.hZD.lZ6BOB@chimera>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Subject: Re: [Bug #38012] Missing code to load firmware
+Date: Sun, 26 Jun 2011 17:10:44 -0500
+Message-ID: <4E07AE64.1040707@lwfinger.net>
+References: <VDRaLpg_NZ.A.tnC.JZ6BOB@chimera> <XWjMN7gBoXK.A.UPD.fZ6BOB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <XWjMN7gBoXK.A.hZD.lZ6BOB@chimera>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:sender:message-id:date:from:user-agent
+         :mime-version:to:cc:subject:references:in-reply-to:content-type
+         :content-transfer-encoding;
+        bh=MawrpYiLokz6KVNuKqkDgtMNlkHZVXNlXGt/7NVnFE8=;
+        b=EjhdNSNE6U3Cc5lY/whsNe15mmR14SltLRf0TDgWCcPHHzVidEaowQNi99jgLPJC1p
+         hml8t4Hq5VKpeEBTQtOG2mYqdHHU651Nq2ShDYnxeMiJPOBsGcBvpnaW6VQ9pnvq116e
+         FNK9dFRM0t7orECL8Lvuu8psqURKJtiexpyi8=
+In-Reply-To: <XWjMN7gBoXK.A.UPD.fZ6BOB@chimera>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"; format="flowed"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
 To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Jeff Layton <jlayton@redhat.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
 
-Ave
-
-The OOPS/BUG is fixed by 2 patches. Both patches are already included in 
-the linus git tree.
-
-A patch for the separate issue to demote the superfluous kernel messages 
-from error to debug level is available, but not yet included in linus git.
-I will track this patch and ping the author if it isn't included in one of 
-the final rc's.
-
-As far as I am concerned, this bug can be removed from the regression 
-list.
-
-Martijn
-
------------------------------------------
-Ceterum censeo Carthaginem esse delendam
-
-When it comes to procrastination, casting the first stone is definitely on
-my TO DO list.
-
-
-
-On Sun, 26 Jun 2011, Rafael J. Wysocki wrote:
-
+On 06/26/2011 04:23 PM, Rafael J. Wysocki wrote:
 > This message has been generated automatically as a part of a summary report
 > of recent regressions.
 >
@@ -46,14 +31,14 @@ On Sun, 26 Jun 2011, Rafael J. Wysocki wrote:
 > know (either way).
 >
 >
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37542
-> Subject		: [OOPS] 3.0-rc1 cifs
-> Submitter	: Martijn Uffing <mp3project@sarijopen.student.utwente.nl>
-> Date		: 2011-06-09 20:15 (18 days old)
-> Message-ID	: <Pine.LNX.4.64.1106092211500.19687@sarijopen.student.utwente.nl>
-> References	: http://marc.info/?l=linux-kernel&m=130765235926144&w=2
-> Handled-By	: Jeff Layton <jlayton@redhat.com>
-> Patch		: https://bugzilla.kernel.org/attachment.cgi?id=63202
->
->
->
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38012
+> Subject		: Missing code to load firmware
+> Submitter	: Larry Finger<Larry.Finger@lwfinger.net>
+> Date		: 2011-06-20 21:44 (7 days old)
+> Handled-By	: Larry Finger<Larry.Finger@lwfinger.net>
+> Patch		: https://bugzilla.kernel.org/attachment.cgi?id=63002
+
+The patch has been incorporated into Linville's wireless-testing tree and has 
+been pushed upstream. It should be in mainline soon.
+
+Larry
