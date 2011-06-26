@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #36662] Intel GM45: Low resolution on external screen.
-Date: Mon, 27 Jun 2011 00:35:12 +0200 (CEST)
-Message-ID: <Rm1pgFxEGUF.A.BtE.9M7BOB@chimera>
+Subject: [Bug #35922] SND_USB_AUDIO recording device not initializing correctly
+Date: Mon, 27 Jun 2011 00:35:11 +0200 (CEST)
+Message-ID: <Rm1pgFxEGUF.A.06E.aN7BOB@chimera>
 References: <fvHbBUhG0PD.A.IGE.HM7BOB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Alex Ferrando <alferpal-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, bjoern.online-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.38 and 2.6.39.
@@ -22,8 +22,8 @@ introduced between 2.6.38 and 2.6.39.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36662
-Subject		: Intel GM45: Low resolution on external screen.
-Submitter	: Alex Ferrando <alferpal-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2011-06-04 17:37 (23 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=35922
+Subject		: SND_USB_AUDIO recording device not initializing correctly
+Submitter	:  <bjoern.online-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-05-26 10:30 (32 days old)
 
