@@ -1,39 +1,32 @@
-From: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
-Subject: Re: [Bug #38292] slab vs lockdep vs debugobjects
-Date: Mon, 27 Jun 2011 00:31:34 +0200
-Message-ID: <20110626223134.GA24843@elte.hu>
-References: <VDRaLpg_NZ.A.tnC.JZ6BOB@chimera>
- <XWjMN7gBoXK.A.1zC.RZ6BOB@chimera>
- <1309125708.4756.1.camel@twins>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #37542] [OOPS] 3.0-rc1 cifs
+Date: Mon, 27 Jun 2011 00:37:47 +0200
+Message-ID: <201106270037.47322.rjw@sisk.pl>
+References: <VDRaLpg_NZ.A.tnC.JZ6BOB@chimera> <XWjMN7gBoXK.A.hZD.lZ6BOB@chimera> <Pine.LNX.4.64.1106262355030.6287@sarijopen.student.utwente.nl>
 Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1309125708.4756.1.camel@twins>
+In-Reply-To: <Pine.LNX.4.64.1106262355030.6287-dT/mdtNybfnOcQoxchNua+fsyHJTGBv43KldkOmuLK4@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Martijn Uffing <mp3project-dT/mdtNybfnOcQoxchNua+fsyHJTGBv43KldkOmuLK4@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-
-* Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
-
-> On Sun, 2011-06-26 at 23:23 +0200, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.39.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
+On Monday, June 27, 2011, Martijn Uffing wrote:
+> Ave
 > 
-> who said its a regression?
+> The OOPS/BUG is fixed by 2 patches. Both patches are already included in 
+> the linus git tree.
+> 
+> A patch for the separate issue to demote the superfluous kernel messages 
+> from error to debug level is available, but not yet included in linus git.
+> I will track this patch and ping the author if it isn't included in one of 
+> the final rc's.
+> 
+> As far as I am concerned, this bug can be removed from the regression 
+> list.
 
-I suspect Rafael saw your mail to lkml with a nasty looking lockdep 
-message in it and assumed it was a new one?
+Cool, thanks, closing.
 
-Instead it's one that always had the chance to trigger?
-
-Thanks,
-
-	Ingo
+Rafael
