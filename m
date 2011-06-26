@@ -1,39 +1,37 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: [Bug #38012] Missing code to load firmware
-Date: Mon, 27 Jun 2011 00:38:47 +0200
-Message-ID: <201106270038.47291.rjw@sisk.pl>
-References: <VDRaLpg_NZ.A.tnC.JZ6BOB@chimera> <XWjMN7gBoXK.A.UPD.fZ6BOB@chimera> <4E07AE64.1040707@lwfinger.net>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #38292] slab vs lockdep vs debugobjects
+Date: Mon, 27 Jun 2011 00:40:29 +0200
+Message-ID: <201106270040.29210.rjw@sisk.pl>
+References: <VDRaLpg_NZ.A.tnC.JZ6BOB@chimera> <1309125708.4756.1.camel@twins> <20110626223134.GA24843@elte.hu>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <4E07AE64.1040707@lwfinger.net>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20110626223134.GA24843-X9Un+BFzKDI@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: Text/Plain; charset="us-ascii"
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
+To: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-On Monday, June 27, 2011, Larry Finger wrote:
-> On 06/26/2011 04:23 PM, Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.39.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> >
-> >
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38012
-> > Subject		: Missing code to load firmware
-> > Submitter	: Larry Finger<Larry.Finger@lwfinger.net>
-> > Date		: 2011-06-20 21:44 (7 days old)
-> > Handled-By	: Larry Finger<Larry.Finger@lwfinger.net>
-> > Patch		: https://bugzilla.kernel.org/attachment.cgi?id=63002
+On Monday, June 27, 2011, Ingo Molnar wrote:
 > 
-> The patch has been incorporated into Linville's wireless-testing tree and has 
-> been pushed upstream. It should be in mainline soon.
+> * Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
+> 
+> > On Sun, 2011-06-26 at 23:23 +0200, Rafael J. Wysocki wrote:
+> > > This message has been generated automatically as a part of a summary report
+> > > of recent regressions.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > from 2.6.39.  Please verify if it still should be listed and let the tracking team
+> > > know (either way).
+> > 
+> > who said its a regression?
+> 
+> I suspect Rafael saw your mail to lkml with a nasty looking lockdep 
+> message in it and assumed it was a new one?
 
-Great, please close the bug when it hits mainline.
+Actually, Maciej did. :-)
 
-Thanks,
+I'll drop it from the regression list.
+
 Rafael
