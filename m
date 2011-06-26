@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #35642] On resume, I sometimes get a kernel oops with led_trigger_unregister_simple
-Date: Mon, 27 Jun 2011 00:35:10 +0200 (CEST)
-Message-ID: <Rm1pgFxEGUF.A.4_E.nN7BOB@chimera>
+Subject: [Bug #36952] [2.6.39] CIFS write failures where 2.6.38 works
+Date: Mon, 27 Jun 2011 00:35:13 +0200 (CEST)
+Message-ID: <Rm1pgFxEGUF.A.DlE.2M7BOB@chimera>
 References: <fvHbBUhG0PD.A.IGE.HM7BOB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Sven-Hendrik Haase <sh@lutzhaase.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Helge Hafting <helge.hafting@hist.no>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.38 and 2.6.39.
@@ -22,9 +22,10 @@ introduced between 2.6.38 and 2.6.39.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=35642
-Subject		: On resume, I sometimes get a kernel oops with led_trigger_unregister_simple
-Submitter	: Sven-Hendrik Haase <sh@lutzhaase.com>
-Date		: 2011-05-23 00:15 (35 days old)
-Patch		: https://bugzilla.kernel.org/attachment.cgi?id=63022
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36952
+Subject		: [2.6.39] CIFS write failures where 2.6.38 works
+Submitter	: Helge Hafting <helge.hafting@hist.no>
+Date		: 2011-06-01 10:11 (26 days old)
+Message-ID	: <4DE6103E.6010100@hist.no>
+References	: http://marc.info/?l=linux-kernel&m=130692387613423&w=2
 
