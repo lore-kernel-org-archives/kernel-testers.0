@@ -1,50 +1,37 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #37752] Kernel Panic in drm_vblank_put+0x13/0x50 on P4 HT machine with 82915G/GV/910GL Integrated Graphics Controller
-Date: Tue, 28 Jun 2011 23:46:16 +0200
-Message-ID: <201106282346.17074.rjw@sisk.pl>
-References: <fvHbBUhG0PD.A.IGE.HM7BOB@chimera> <Rm1pgFxEGUF.A._PE.UM7BOB@chimera> <201106282223.40536.marogge@onlinehome.de>
+From: Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>
+Subject: Re: [Bug #36452] Artifacts with 3.0-rc1 on SandyBridge
+Date: Wed, 29 Jun 2011 09:47:17 -0700
+Message-ID: <20110629094717.10df4637@jbarnes-desktop>
+References: <VDRaLpg_NZ.A.tnC.JZ6BOB@chimera>
+	<XWjMN7gBoXK.A.bzD.Ia6BOB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201106282223.40536.marogge-53koH/AXb86i2/dY4+mD5w@public.gmane.org>
+In-Reply-To: <XWjMN7gBoXK.A.bzD.Ia6BOB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Martin <marogge-53koH/AXb86i2/dY4+mD5w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Alex Zhavnerchik <alex.vizor-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Tuesday, June 28, 2011, Martin wrote:
-> On Monday 27 June 2011 00:35:16 Rafael J. Wysocki wrote:
-> > This message has been generated automatically as a part of a report
-> > of regressions introduced between 2.6.38 and 2.6.39.
-> > 
-> > The following bug entry is on the current list of known regressions
-> > introduced between 2.6.38 and 2.6.39.  Please verify if it still should
-> > be listed and let the tracking team know (either way).
-> > 
-> > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37752
-> > Subject		: Kernel Panic in drm_vblank_put+0x13/0x50 on P4 HT machine 
-> with
-> > 82915G/GV/910GL Integrated Graphics Controller Submitter	: Martin Rogge
-> > <marogge-53koH/AXb86i2/dY4+mD5w@public.gmane.org>
-> > Date		: 2011-06-17 13:02 (10 days old)
+On Sun, 26 Jun 2011 23:23:44 +0200 (CEST)
+"Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
 > 
-> As far as I can see the bug is still present in the 2.6.39 line. However. I 
-> have good news. Out of a whim I've been trying 3.0-rc4 and the panic has not 
-> occurred in a few days.
+> The following bug entry is on the current list of known regressions
+> from 2.6.39.  Please verify if it still should be listed and let the tracking team
+> know (either way).
 > 
-> I can try and bisect which commit fixed the issue. I guess I have to reverse 
-> the semantics of good and bad for this one. Don't tell the clergy.
 > 
-> Anyway, since it takes a while to establish the absence of a panic, don't 
-> expect any results soon.
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=36452
+> Subject		: Artifacts with 3.0-rc1 on SandyBridge
+> Submitter	: Alex Zhavnerchik <alex.vizor-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date		: 2011-06-01 13:55 (26 days old)
 
-Well, we have a policy to close regression bugs that have been fixed in the
-Linus' tree or don't appear in there at all, so I'll close this one too.
+Is this with integrated or discrete graphics?  Have you tried to bisect
+yet?
 
-I you're able to identify the fix, please let the -stable maintainers know
-about it.
-
-Thanks,
-Rafael
+-- 
+Jesse Barnes, Intel Open Source Technology Center
