@@ -1,47 +1,56 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #36952] [2.6.39] CIFS write failures where 2.6.38 works
-Date: Sun, 10 Jul 2011 22:23:56 +0200
-Message-ID: <201107102223.56834.rjw@sisk.pl>
-References: <AtAvQwe5sAK.A.loH.OlYGOB@chimera> <CAOJsxLHNKTh_ATo4_mQfjUfqtddheE-+bF14SPCNYBu+fjW9Tw@mail.gmail.com> <20110710143458.531f226d@tlielax.poochiereds.net>
+From: Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #37472] Lenovo U160 (i915 black screen)
+Date: Sun, 10 Jul 2011 13:46:40 -0700
+Message-ID: <yun7h7pg8y7.fsf@aiko.keithp.com>
+References: <AtAvQwe5sAK.A.loH.OlYGOB@chimera> <gK_efVqs2fP.A.NJ.7lYGOB@chimera> <CAOJsxLGkWX61TLqwgL19tN5ZQuB2cUibPsNSvCB+Ydihtus__w@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha1; protocol="application/pgp-signature"
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20110710143458.531f226d-9yPaYZwiELC+kQycOl6kW4xkIHaj4LzF@public.gmane.org>
+In-Reply-To: <CAOJsxLGkWX61TLqwgL19tN5ZQuB2cUibPsNSvCB+Ydihtus__w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Helge Hafting <helge.hafting-CND4fxrytsY@public.gmane.org>
+To: Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Robse <rob-se-Dz115AEZgoU@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
 
-On Sunday, July 10, 2011, Jeff Layton wrote:
-> On Sun, 10 Jul 2011 14:58:54 +0300
-> Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
-> 
-> > On Sun, Jul 10, 2011 at 1:58 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > > This message has been generated automatically as a part of a report
-> > > of regressions introduced between 2.6.38 and 2.6.39.
-> > >
-> > > The following bug entry is on the current list of known regressions
-> > > introduced between 2.6.38 and 2.6.39.  Please verify if it still should
-> > > be listed and let the tracking team know (either way).
-> > >
-> > > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=36952
-> > > Subject         : [2.6.39] CIFS write failures where 2.6.38 works
-> > > Submitter       : Helge Hafting <helge.hafting-CND4fxrytsY@public.gmane.org>
-> > > Date            : 2011-06-01 10:11 (40 days old)
-> > > Message-ID      : <4DE6103E.6010100-CND4fxrytsY@public.gmane.org>
-> > > References      : http://marc.info/?l=linux-kernel&m=130692387613423&w=2
-> > 
-> > The last comment in Bugzilla states that Jeff was working on a patch.
-> > Was it ever submitted to mainline and stable?
-> > 
-> >                                 Pekka
-> 
-> Yes, see commit 1190f6a067b in mainline. I also backported it for
-> 2.6.39-stable and sent it to stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, but I haven't heard
-> anything back on it yet (I'll resend if I don't hear anything in the
-> next day or two).
+--=-=-=
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, I've closed the bug.
+On Sun, 10 Jul 2011 14:56:19 +0300, Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
 
-Rafael
+> There's no mention that the i915 developers know about this problem so
+> I'm CC'ing Keith and Chris.
+
+Thanks. I've added a comment to the bug:
+
+First off, of course you are encouraged to re-test with 3.0-rc6 just to
+make sure it hasn't changed in some way. I don't think anything has
+changed enough to affect this, but it's always good to be sure.
+
+I note a long sequence of patches that are supposed to help with the
+U160:
+
+448f53a1ede54eb854d036abf54573281412d650 drm/i915/bios: Reverse order of 10=
+0/120 Mhz SSC clocks
+bcfbbce822d219eb587acaba8a6e062bbeae4761 Revert "drm/i915/bios: Reverse ord=
+er of 100/120 Mhz SSC clocks"
+a76150302d6e7ebc43e1a1ddaee7fd51db8da3b3 drm/i915: Add a module option to o=
+verride the use of SSC
+
+I'm not sure why a quirk wasn't added for this hardware; it's clearly
+'non-standard' in some mystic way.
+
+=2D-=20
+keith.packard-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+
+--=-=-=
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iD8DBQFOGg+wQp8BWwlsTdMRAlJ9AJ0aysob1rpLhcgLgHLmaSPOpKbTPQCdE9sg
+wS4P4BsoGtzL9Vj1SuYP2lA=
+=UXgp
+-----END PGP SIGNATURE-----
+--=-=-=--
