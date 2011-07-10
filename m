@@ -1,50 +1,41 @@
-From: Pekka Enberg <penberg@kernel.org>
-Subject: Re: [Bug #34942] [Bug] Kdump does not work when panic triggered due
- to MCE
-Date: Sun, 10 Jul 2011 15:06:57 +0300
-Message-ID: <CAOJsxLE9UBoMocTaWAt7DSoFFwGP5oD901XyeK6jGHEzUuSjDg@mail.gmail.com>
-References: <AtAvQwe5sAK.A.loH.OlYGOB@chimera>
-	<gK_efVqs2fP.A.k7.hnYGOB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #34942] [Bug] Kdump does not work when panic triggered due to MCE
+Date: Sun, 10 Jul 2011 14:25:38 +0200
+Message-ID: <201107101425.39218.rjw@sisk.pl>
+References: <AtAvQwe5sAK.A.loH.OlYGOB@chimera> <gK_efVqs2fP.A.k7.hnYGOB@chimera> <CAOJsxLE9UBoMocTaWAt7DSoFFwGP5oD901XyeK6jGHEzUuSjDg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=mime-version:sender:in-reply-to:references:date
-         :x-google-sender-auth:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=1fFrvzYsq0N9KJcASNPvo1+48gorSdZp3AsNDxY66tc=;
-        b=x/OMXqUaetDBVIE/tu8cE+JEepY07Hq0Jc8BC9fSYwRoCb7KUpxzx1NzHN3EMYmTYM
-         VqdeBJbpQn7GnT+R4Y7P69hyHpoZKtAjn0rC5ZDjz7wQU9LoDAWl3HKwTKCxhHgYrcbD
-         gvqd9pskC1PLICLU0VgqhbM/z/IqYTkeik3N8=
-In-Reply-To: <gK_efVqs2fP.A.k7.hnYGOB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAOJsxLE9UBoMocTaWAt7DSoFFwGP5oD901XyeK6jGHEzUuSjDg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, "K.Prasad" <prasad@linux.vnet.ibm.com>, borislav.petkov@amd.com, Ingo Molnar <mingo@elte.hu>
+Content-Type: Text/Plain; charset="us-ascii"
+To: Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, "K.Prasad" <prasad-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, borislav.petkov-5C7GfCeVMHo@public.gmane.org, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-On Sun, Jul 10, 2011 at 1:58 PM, Rafael J. Wysocki <rjw@sisk.pl> wrote:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.38 and 2.6.39.
->
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.38 and 2.6.39. =A0Please verify if it still sh=
-ould
-> be listed and let the tracking team know (either way).
->
->
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-34942
-> Subject =A0 =A0 =A0 =A0 : [Bug] Kdump does not work when panic trigge=
-red due to MCE
-> Submitter =A0 =A0 =A0 : K.Prasad <prasad@linux.vnet.ibm.com>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2011-05-06 16:54 (66 days old)
-> Message-ID =A0 =A0 =A0: <20110506165412.GB2719@in.ibm.com>
-> References =A0 =A0 =A0: http://marc.info/?l=3Dlinux-kernel&m=3D130470=
-087226270&w=3D2
+On Sunday, July 10, 2011, Pekka Enberg wrote:
+> On Sun, Jul 10, 2011 at 1:58 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
+> > This message has been generated automatically as a part of a report
+> > of regressions introduced between 2.6.38 and 2.6.39.
+> >
+> > The following bug entry is on the current list of known regressions
+> > introduced between 2.6.38 and 2.6.39.  Please verify if it still should
+> > be listed and let the tracking team know (either way).
+> >
+> >
+> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=34942
+> > Subject         : [Bug] Kdump does not work when panic triggered due to MCE
+> > Submitter       : K.Prasad <prasad-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+> > Date            : 2011-05-06 16:54 (66 days old)
+> > Message-ID      : <20110506165412.GB2719-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org>
+> > References      : http://marc.info/?l=linux-kernel&m=130470087226270&w=2
+> 
+> There's actually no mention that kdump worked with MCE in 2.6.38
+> either. So is this really a regression?
 
-There's actually no mention that kdump worked with MCE in 2.6.38
-either. So is this really a regression?
+Well, for us it's easier to assume a regression and drop it from the list
+when it turns out not to be one.  I guess that's happend this time, so
+the submitter is kindly asked to speak. :-)
 
-                        Pekka
+Thanks,
+Rafael
