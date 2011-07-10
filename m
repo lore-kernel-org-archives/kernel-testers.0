@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #37872] CPU lockup during boot
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #38302] NFS crash in un-modified 3.0.0-rc3+, list corruption.
 Date: Sun, 10 Jul 2011 12:38:22 +0200 (CEST)
-Message-ID: <XNkIyhV6dgF.A.xNH.tCYGOB@chimera>
+Message-ID: <XNkIyhV6dgF.A.HBH.fCYGOB@chimera>
 References: <Y7LyOsOBwFM.A.kJG.kBYGOB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <Y7LyOsOBwFM.A.kJG.kBYGOB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Bruno Wolff III <bruno-bdMChIhFSYk@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Ben Greear <greearb@candelatech.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,11 @@ from 2.6.39.  Please verify if it still should be listed and let the tracking te
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37872
-Subject		: CPU lockup during boot
-Submitter	: Bruno Wolff III <bruno-bdMChIhFSYk@public.gmane.org>
-Date		: 2011-06-19 15:00 (22 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38302
+Subject		: NFS crash in un-modified 3.0.0-rc3+, list corruption.
+Submitter	: Ben Greear <greearb@candelatech.com>
+Date		: 2011-06-20 22:42 (21 days old)
+Message-ID	: <4DFFCCDC.2070106@candelatech.com>
+References	: http://marc.info/?l=linux-kernel&m=130860979610651&w=2
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=63902
 
