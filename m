@@ -1,50 +1,59 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: Re: [Bug #38522] address space collision error message on boot
-Date: Tue, 12 Jul 2011 00:38:18 +0200
-Message-ID: <201107120038.18847.rjw@sisk.pl>
-References: <Y7LyOsOBwFM.A.kJG.kBYGOB@chimera> <XNkIyhV6dgF.A.D4G.TCYGOB@chimera> <CAA9_cmeY1Q-L_iMQfsf-KWufZzpkMSWzQ42ep=bQP9XZwyV-Lw@mail.gmail.com>
+From: Dirk Gouders <gouders-UkMx63StcVObyvKg4uJg4nF3/sHOsa9/WV23jfQ1LcY@public.gmane.org>
+Subject: Re: [Bug #37472] Lenovo U160 (i915 black screen)
+Date: Tue, 12 Jul 2011 10:27:01 +0200
+Message-ID: <gisjqb6h0q.fsf@karga.hank.lab>
+References: <AtAvQwe5sAK.A.loH.OlYGOB@chimera>
+	<gK_efVqs2fP.A.NJ.7lYGOB@chimera>
+	<CAOJsxLGkWX61TLqwgL19tN5ZQuB2cUibPsNSvCB+Ydihtus__w@mail.gmail.com>
+	<yun7h7pg8y7.fsf@aiko.keithp.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAA9_cmeY1Q-L_iMQfsf-KWufZzpkMSWzQ42ep=bQP9XZwyV-Lw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=et.bocholt.fh-gelsenkirchen.de; s=et; t=1310459223;
+	bh=vTTDB+hik9+u5SqeuEBpGG/rPsr2QDi7V1qj6LBhYNE=;
+	h=From:Subject:In-Reply-To:References:Date:Message-ID:MIME-Version:
+	 Content-Type;
+	b=n4Xd7CDKBKRaNuiC+PiLehrLpguCvWkoKtfJT/Fcel9oJCUGqMu5RXoFkE+xqq88F
+	 WpDYRX5Hl/uE+eDv4lPmOBY+4en5OmFkGrs5UmZVWIjhjP0ipj04vtkZYxHIfpPxb1
+	 4Qy/Ygw0z447QSqmgM+C5Z/LRVzCgONHIQNJnvVk=
+In-Reply-To: <yun7h7pg8y7.fsf-XEHByDMaNQOz9DMzp4kqnw@public.gmane.org> (Keith Packard's message of
+	"Sun, 10 Jul 2011 13:46:40 -0700")
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: Dan Williams <dan.j.williams-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Dave Jiang <dave.jiang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, "H. Peter Anvin" <hpa-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Jools Wills <jools-ApNQbik20ZdhgJEaYHuxyvXRex20P6io@public.gmane.org>, bhelgaas-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
+Cc: Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Robse <rob-se-Dz115AEZgoU@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
 
-On Monday, July 11, 2011, Dan Williams wrote:
-> [ adding Bjorn ]
-> 
-> On Sun, Jul 10, 2011 at 3:38 AM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote:
-> > This message has been generated automatically as a part of a summary report
-> > of recent regressions.
-> >
-> > The following bug entry is on the current list of known regressions
-> > from 2.6.39.  Please verify if it still should be listed and let the tracking team
-> > know (either way).
-> 
-> The patch from the bugzilla entry is not yet upstream.
-> 
-> >
-> > Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=38522
-> > Subject         : address space collision error message on boot
-> > Submitter       : Jools Wills <jools-ApNQbik20ZdhgJEaYHuxyvXRex20P6io@public.gmane.org>
-> > Date            : 2011-06-29 02:28 (12 days old)
-> > First-Bad-Commit: http://git.kernel.org/linus/5d94e81f69d4b1d1102d3ab557ce0a817c11fbbb
-> 
-> Per the commentary in the bugzilla this commit makes the warning
-> message appear on 64-bit builds, but 32-bit has the same problem on
-> affected platforms (without the commit).
-> 
-> Bjorn has a proposed patch [1] that just downgrades the warning since
-> system operation does not appear to be affected.
-> 
-> --
-> Dan
-> 
-> [1]: https://bugzilla.kernel.org/attachment.cgi?id=64102
+Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org> writes:
 
-Thanks for the update.
+> On Sun, 10 Jul 2011 14:56:19 +0300, Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
+>
+>> There's no mention that the i915 developers know about this problem so
+>> I'm CC'ing Keith and Chris.
+>
+> Thanks. I've added a comment to the bug:
+>
+> First off, of course you are encouraged to re-test with 3.0-rc6 just to
+> make sure it hasn't changed in some way. I don't think anything has
+> changed enough to affect this, but it's always good to be sure.
+>
+> I note a long sequence of patches that are supposed to help with the
+> U160:
+>
+> 448f53a1ede54eb854d036abf54573281412d650 drm/i915/bios: Reverse order of 100/120 Mhz SSC clocks
+> bcfbbce822d219eb587acaba8a6e062bbeae4761 Revert "drm/i915/bios: Reverse order of 100/120 Mhz SSC clocks"
+> a76150302d6e7ebc43e1a1ddaee7fd51db8da3b3 drm/i915: Add a module option to override the use of SSC
+>
+> I'm not sure why a quirk wasn't added for this hardware; it's clearly
+> 'non-standard' in some mystic way.
 
-Rafael
+On June 27th, I proposed that Robse perhaps could try the workaround
+that was introduced with the latter commit: i915.lvds_use_ssc=0.
+
+It works well on my hardware and probably solves his problem as well,
+but he did not respond...
+
+Dirk
+
+[1] https://lkml.org/lkml/2011/6/27/45
