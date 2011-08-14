@@ -1,220 +1,245 @@
-From: Dirk Gouders <gouders-UkMx63StcVObyvKg4uJg4nF3/sHOsa9/WV23jfQ1LcY@public.gmane.org>
-Subject: Re: [Bug #37472] Lenovo U160 (i915 black screen)
-Date: Tue, 12 Jul 2011 18:12:18 +0200
-Message-ID: <gi8vs3o4v1.fsf@mx10.gouders.net>
-References: <AtAvQwe5sAK.A.loH.OlYGOB@chimera>
-	<gK_efVqs2fP.A.NJ.7lYGOB@chimera>
-	<CAOJsxLGkWX61TLqwgL19tN5ZQuB2cUibPsNSvCB+Ydihtus__w@mail.gmail.com>
-	<yun7h7pg8y7.fsf@aiko.keithp.com> <gisjqb6h0q.fsf@karga.hank.lab>
-	<gioc0z6gn2.fsf@karga.hank.lab> <yunei1vec1k.fsf@aiko.keithp.com>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: 3.1-rc1-git9: Reported regressions 2.6.39 -> 3.0
+Date: Sun, 14 Aug 2011 21:02:27 +0200 (CEST)
+Message-ID: <xuTC4jRtHbB.A.l4H.gMCSOB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=et.bocholt.fh-gelsenkirchen.de; s=et; t=1310487141;
-	bh=uMCQsrnygi5oRkDjQhOd/zI4CuyugswNyWBo2krKml4=;
-	h=From:Subject:In-Reply-To:References:Date:Message-ID:MIME-Version:
-	 Content-Type;
-	b=g7ihc/yvKx5PnOXbdTto2citx5iXW0G6anf3yFFJTZAgb6wMiTMhR9697hBPBbWft
-	 vWsQjAslrPjkmq15JOFxtlJoWQYhAYt9nRiRR7zbNCmyowVUyKK+F4P+Lzlova4/Ta
-	 Kt9qFbF86pUFp6pD+VOXEriiNsTt7mwpmYFwsSJ4=
-In-Reply-To: <yunei1vec1k.fsf-XEHByDMaNQOz9DMzp4kqnw@public.gmane.org> (Keith Packard's message of
-	"Tue, 12 Jul 2011 08:47:19 -0700")
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
-Cc: Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Robse <rob-se-Dz115AEZgoU@public.gmane.org>, Chris Wilson <chris-Y6uKTt2uX1cEflXRtASbqLVCufUGDwFn@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org>
 
-Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org> writes:
+[NOTE:
+ We already have a bug entry for tracking regressions from 3.0:
 
-> On Tue, 12 Jul 2011 10:35:13 +0200, Dirk Gouders <gouders-UkMx63StcVObyvKg4uJg4nF3/sHOsa9/WV23jfQ1LcY@public.gmane.org> wrote:
->
->> I'm sorry for the noise, I did not check new comments in the bug report
->> where Robse noted that the workaround works for him.  I'm not sure if
->> that means the bug can be closed.
->
-> A kernel commandline workaround isn't ideal; we should at least provide
-> a quirk that does this automatically for this hardware. Can we get the
-> PCI information for the graphics device on this hardware (lspci -v -n)?
+ http://bugzilla.kernel.org/show_bug.cgi?id=3D40982
 
-Of course.  Probably, some of the information in the bug report at
-freedesktop.org[1] is also useful.
+ but there are no reports linked to it, mostly because Maciej is on vac=
+ation,
+ but also because the frequency of reporting regressions has been low
+ recently.  So, if you're seeing a regression from 3.0, please let us k=
+now.]
 
-Dirk
+This message contains a list of some post-2.6.39 regressions introduced=
+ before
+3.0, for which there are no fixes in the mainline known to the tracking=
+ team.
+If any of them have been fixed already, please let us know.
 
-[1] https://bugs.freedesktop.org/show_bug.cgi?id=31596
+If you know of any other unresolved post-2.6.39 regressions, please let=
+ us know
+either and we'll add them to the list.  Also, please let us know if any
+of the entries below are invalid.
 
-------------------------------------------------------------------------
-00:00.0 0600: 8086:0044 (rev 02)
-	Subsystem: 17aa:391e
-	Flags: bus master, fast devsel, latency 0
-	Capabilities: [e0] Vendor Specific Information: Len=0c <?>
-	Kernel driver in use: agpgart-intel
+Each entry from the list will be sent additionally in an automatic repl=
+y to
+this message with CCs to the people involved in reporting and handling =
+the
+issue.
 
-00:02.0 0300: 8086:0046 (rev 02) (prog-if 00 [VGA controller])
-	Subsystem: 17aa:3920
-	Flags: bus master, fast devsel, latency 0, IRQ 41
-	Memory at f0000000 (64-bit, non-prefetchable) [size=4M]
-	Memory at d0000000 (64-bit, prefetchable) [size=256M]
-	I/O ports at 1800 [size=8]
-	Expansion ROM at <unassigned> [disabled]
-	Capabilities: [90] MSI: Enable+ Count=1/1 Maskable- 64bit-
-	Capabilities: [d0] Power Management version 2
-	Capabilities: [a4] PCI Advanced Features
-	Kernel driver in use: i915
-	Kernel modules: i915
 
-00:16.0 0780: 8086:3b64 (rev 06)
-	Subsystem: 17aa:38a5
-	Flags: bus master, fast devsel, latency 0, IRQ 11
-	Memory at f0804000 (64-bit, non-prefetchable) [size=16]
-	Capabilities: [50] Power Management version 3
-	Capabilities: [8c] MSI: Enable- Count=1/1 Maskable- 64bit+
+Listed regressions statistics:
 
-00:1a.0 0c03: 8086:3b3c (rev 05) (prog-if 20 [EHCI])
-	Subsystem: 17aa:38aa
-	Flags: bus master, medium devsel, latency 0, IRQ 16
-	Memory at f0806000 (32-bit, non-prefetchable) [size=1K]
-	Capabilities: [50] Power Management version 2
-	Capabilities: [58] Debug port: BAR=1 offset=00a0
-	Capabilities: [98] PCI Advanced Features
-	Kernel driver in use: ehci_hcd
+  Date          Total  Pending  Unresolved
+  ----------------------------------------
+  2011-08-14       63       22          19
 
-00:1b.0 0403: 8086:3b56 (rev 05)
-	Subsystem: 17aa:38af
-	Flags: bus master, fast devsel, latency 0, IRQ 42
-	Memory at f0800000 (64-bit, non-prefetchable) [size=16K]
-	Capabilities: [50] Power Management version 2
-	Capabilities: [60] MSI: Enable+ Count=1/1 Maskable- 64bit+
-	Capabilities: [70] Express Root Complex Integrated Endpoint, MSI 00
-	Capabilities: [100] Virtual Channel
-	Capabilities: [130] Root Complex Link
-	Kernel driver in use: HDA Intel
-	Kernel modules: snd-hda-intel
 
-00:1c.0 0604: 8086:3b42 (rev 05) (prog-if 00 [Normal decode])
-	Flags: bus master, fast devsel, latency 0
-	Bus: primary=00, secondary=03, subordinate=03, sec-latency=0
-	I/O behind bridge: 00002000-00002fff
-	Memory behind bridge: f0400000-f04fffff
-	Prefetchable memory behind bridge: 000000007c200000-000000007c3fffff
-	Capabilities: [40] Express Root Port (Slot+), MSI 00
-	Capabilities: [80] MSI: Enable- Count=1/1 Maskable- 64bit-
-	Capabilities: [90] Subsystem: 17aa:38b0
-	Capabilities: [a0] Power Management version 2
-	Kernel driver in use: pcieport
+Unresolved regressions
+----------------------
 
-00:1c.1 0604: 8086:3b44 (rev 05) (prog-if 00 [Normal decode])
-	Flags: bus master, fast devsel, latency 0
-	Bus: primary=00, secondary=04, subordinate=04, sec-latency=0
-	I/O behind bridge: 00003000-00003fff
-	Memory behind bridge: f0500000-f05fffff
-	Prefetchable memory behind bridge: 000000007c000000-000000007c1fffff
-	Capabilities: [40] Express Root Port (Slot+), MSI 00
-	Capabilities: [80] MSI: Enable- Count=1/1 Maskable- 64bit-
-	Capabilities: [90] Subsystem: 17aa:38b1
-	Capabilities: [a0] Power Management version 2
-	Kernel driver in use: pcieport
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D40282
+Subject		: IP forwarding regression since 3.0-rc6
+Submitter	: Stephan Seitz <stse+lkml-S0d6l+6kcjrOGKtSYHEJQ9HuzzzSOjJt@public.gmane.org>
+Date		: 2011-07-25 12:51 (21 days old)
+Message-ID	: <20110725T141145.GA.2ae38.stse-S0d6l+6kcjrOGKtSYHEJQ9HuzzzSOjJt@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D131159880004908&w=3D=
+2
 
-00:1d.0 0c03: 8086:3b34 (rev 05) (prog-if 20 [EHCI])
-	Subsystem: 17aa:38b8
-	Flags: bus master, medium devsel, latency 0, IRQ 23
-	Memory at f0807000 (32-bit, non-prefetchable) [size=1K]
-	Capabilities: [50] Power Management version 2
-	Capabilities: [58] Debug port: BAR=1 offset=00a0
-	Capabilities: [98] PCI Advanced Features
-	Kernel driver in use: ehci_hcd
 
-00:1e.0 0604: 8086:2448 (rev a5) (prog-if 01 [Subtractive decode])
-	Flags: bus master, fast devsel, latency 0
-	Bus: primary=00, secondary=0f, subordinate=0f, sec-latency=0
-	Capabilities: [50] Subsystem: 17aa:383f
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D40172
+Subject		: lockdep trace from post 3.0.
+Submitter	: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date		: 2011-07-24 1:32 (22 days old)
+Message-ID	: <20110724013257.GA6777-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D131147120206819&w=3D=
+2
 
-00:1f.0 0601: 8086:3b09 (rev 05)
-	Subsystem: 17aa:38be
-	Flags: bus master, medium devsel, latency 0
-	Capabilities: [e0] Vendor Specific Information: Len=10 <?>
 
-00:1f.2 0106: 8086:3b29 (rev 05) (prog-if 01 [AHCI 1.0])
-	Subsystem: 17aa:38c1
-	Flags: bus master, 66MHz, medium devsel, latency 0, IRQ 40
-	I/O ports at 1818 [size=8]
-	I/O ports at 180c [size=4]
-	I/O ports at 1810 [size=8]
-	I/O ports at 1808 [size=4]
-	I/O ports at 1820 [size=32]
-	Memory at f0808000 (32-bit, non-prefetchable) [size=2K]
-	Capabilities: [80] MSI: Enable+ Count=1/1 Maskable- 64bit-
-	Capabilities: [70] Power Management version 3
-	Capabilities: [a8] SATA HBA v1.0
-	Capabilities: [b0] PCI Advanced Features
-	Kernel driver in use: ahci
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D40092
+Subject		: RCU stall in linux-3.0.0
+Submitter	: Philip Armstrong <phil-awZZuG094qgqdlJmJB21zg@public.gmane.org>
+Date		: 2011-07-25 21:44 (21 days old)
 
-00:1f.3 0c05: 8086:3b30 (rev 05)
-	Subsystem: 17aa:38bf
-	Flags: medium devsel, IRQ 18
-	Memory at f0809000 (64-bit, non-prefetchable) [size=256]
-	I/O ports at 1840 [size=32]
-	Kernel driver in use: i801_smbus
-	Kernel modules: i2c-i801
 
-00:1f.6 1180: 8086:3b32 (rev 05)
-	Subsystem: 17aa:38c0
-	Flags: fast devsel, IRQ 10
-	Memory at f080a000 (64-bit, non-prefetchable) [size=4K]
-	Capabilities: [50] Power Management version 3
-	Capabilities: [80] MSI: Enable- Count=1/1 Maskable- 64bit-
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D40072
+Subject		: suspend/resume problems w/ kernel 3.0 and a *docked* ThinkPa=
+d T400, unless iwlagn unloaded
+Submitter	: Toralf F=C3=B6rster <toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
+Date		: 2011-07-23 19:27 (23 days old)
+Message-ID	: <201107232127.34255.toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D131144928023465&w=3D=
+2
 
-03:00.0 0200: 1969:1063 (rev c0)
-	Subsystem: 17aa:38a3
-	Flags: bus master, fast devsel, latency 0, IRQ 16
-	Memory at f0400000 (64-bit, non-prefetchable) [size=256K]
-	I/O ports at 2000 [size=128]
-	Capabilities: [40] Power Management version 3
-	Capabilities: [48] MSI: Enable- Count=1/1 Maskable- 64bit+
-	Capabilities: [58] Express Endpoint, MSI 00
-	Capabilities: [6c] Vital Product Data
-	Capabilities: [100] Advanced Error Reporting
-	Capabilities: [180] Device Serial Number ff-0a-37-ef-5c-ff-35-ff
-	Kernel driver in use: atl1c
-	Kernel modules: atl1c
 
-04:00.0 0280: 14e4:4727 (rev 01)
-	Subsystem: 14e4:0510
-	Flags: bus master, fast devsel, latency 0, IRQ 17
-	Memory at f0500000 (64-bit, non-prefetchable) [size=16K]
-	Capabilities: [40] Power Management version 3
-	Capabilities: [58] Vendor Specific Information: Len=78 <?>
-	Capabilities: [48] MSI: Enable- Count=1/1 Maskable- 64bit+
-	Capabilities: [d0] Express Endpoint, MSI 00
-	Capabilities: [100] Advanced Error Reporting
-	Capabilities: [13c] Virtual Channel
-	Capabilities: [160] Device Serial Number 00-00-82-ff-ff-6e-00-26
-	Capabilities: [16c] Power Budgeting <?>
-	Kernel driver in use: wl
-	Kernel modules: wl
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D39972
+Subject		: [regression] Radeon multi-screen
+Submitter	: Robert Piasek <dagger-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Date		: 2011-07-25 14:04 (21 days old)
 
-ff:00.0 0600: 8086:2c62 (rev 02)
-	Subsystem: 17aa:392b
-	Flags: bus master, fast devsel, latency 0
 
-ff:00.1 0600: 8086:2d01 (rev 02)
-	Subsystem: 17aa:392b
-	Flags: bus master, fast devsel, latency 0
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D39922
+Subject		: WIFI becomes EXTREMELY slow ( ath9k ) making the connection =
+unusable
+Submitter	: Lukasz Olszewski <lcpak-tIkWECEXGi3VItvQsEIGlw@public.gmane.org>
+Date		: 2011-07-24 09:20 (22 days old)
 
-ff:02.0 0600: 8086:2d10 (rev 02)
-	Subsystem: 17aa:392b
-	Flags: bus master, fast devsel, latency 0
 
-ff:02.1 0600: 8086:2d11 (rev 02)
-	Subsystem: 17aa:392b
-	Flags: bus master, fast devsel, latency 0
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D39912
+Subject		: WARNING: at drivers/tty/tty_ldisc.c:766 tty_ldisc_reinit+0x7=
+d/0x90()
+Submitter	: Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-07-19 11:33 (27 days old)
+Message-ID	: <CAOMGZ=3DHS2EPkYD=3D5HfkSPpwPqHB5V3q0vaFmoZ8Hh+pMM9phrQ@m=
+ail.gmail.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D131107522914558&w=3D=
+2
 
-ff:02.2 0600: 8086:2d12 (rev 02)
-	Subsystem: 17aa:392b
-	Flags: bus master, fast devsel, latency 0
 
-ff:02.3 0600: 8086:2d13 (rev 02)
-	Subsystem: 17aa:392b
-	Flags: bus master, fast devsel, latency 0
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D39902
+Subject		: ath: Unable to reset channel (2412 MHz), reset status -5
+Submitter	: Justin P. Mattock <justinmattock-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-07-19 6:13 (27 days old)
+Message-ID	: <4E252076.1050309-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D131105603428323&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D39832
+Subject		: HDA ATI HDMI: no sound with 3.0 - 2.6.39.3 works
+Submitter	: Andreas Steinmetz <ast-sy9/ueDX/ME@public.gmane.org>
+Date		: 2011-07-23 01:36 (23 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D39732
+Subject		: JBD: Spotted dirty metadata buffer (dev =3D dm-2, blocknr =3D=
+ 2512725). There's a risk of filesystem corruption in case of system cr=
+ash.
+Submitter	: Witold Baryluk <baryluk-W6Hso+/wx31C2Nf1M/Lcnw@public.gmane.org>
+Date		: 2011-07-22 04:22 (24 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D39412
+Subject		: Win Vista and Win2K8 guests' network breaks down
+Submitter	: Jay Ren <yongjie.ren-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Date		: 2011-07-15 15:31 (31 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D39342
+Subject		: [3.0.0-rc6-git7] possible recursive locking at cache_alloc_r=
+efill
+Submitter	: Tetsuo Handa <penguin-kernel-1yMVhJb1mP/7nzcFbJAaVXf5DAMn2ifp@public.gmane.org>
+Date		: 2011-07-11 12:37 (35 days old)
+Message-ID	: <201107112137.FAD00545.SHtLOFOJOMFQFV-JPay3/Yim36HaxMnTkn67Xf5DAMn2ifp@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D131038788902151&w=3D=
+2
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D39192
+Subject		: firmware_install fails with parallel make
+Submitter	: Ambroz Bizjak <ambrop7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-07-12 09:35 (34 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D39132
+Subject		: Starting with 3.0.0-rc6, masquerading seems to be broken.
+Submitter	: David Hill <hilld-HTiBYHdybX7UkGsOFmftXw@public.gmane.org>
+Date		: 2011-07-10 19:45 (36 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D38922
+Subject		: Lenovo T420 (Sandy Bridge) Crashes on SD Card gpt partition =
+writing and io errors on insert
+Submitter	: Peter Vollmer <vollmerpeter-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Date		: 2011-07-07 17:33 (39 days old)
+=46irst-Bad-Commit: http://git.kernel.org/linus/a3c7778f8153b9e4eceea67=
+38973280b9e63c618
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D38622
+Subject		: [radeon cayman regresion] artefacts on screen
+Submitter	: Marek Hobler, &apos;neutrinus&apos; <kernellist@neutrinus.c=
+om>
+Date		: 2011-07-01 09:35 (45 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D38612
+Subject		: Boot time warnings in APIC
+Submitter	: Bill Huey <bill.huey-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-07-01 06:44 (45 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D38582
+Subject		: T510 43495KG won't resume with 32bit installation
+Submitter	: Marc Koschewski <marc-e1Wt+8K1Ta8ZEwqihLH0+Q@public.gmane.org>
+Date		: 2011-06-30 22:39 (46 days old)
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D37432
+Subject		: sdhci-pci fails on 3.0.0-rc1 on Dell E6510
+Submitter	: Oliver Hartkopp <socketcan-fJ+pQTUTwRTk1uMJSBkQmQ@public.gmane.org>
+Date		: 2011-06-07 20:06 (69 days old)
+=46irst-Bad-Commit: http://git.kernel.org/linus/da7822e5ad71ec9b745b412=
+639f1e5e0ba795a20
+References	: http://article.gmane.org/gmane.linux.kernel.mmc/8442
+		  https://lkml.org/lkml/2011/6/23/660
+
+
+Regressions with patches
+------------------------
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D40062
+Subject		: USB related "unable to handle kernel paging request" in 3.0.=
+0-rc7
+Submitter	: Tino Keitel <tino.keitel-rAwCM5oiXHA@public.gmane.org>
+Date		: 2011-07-22 19:27 (24 days old)
+Message-ID	: <20110722192722.GA9369-dW8JlKMZij8@public.gmane.org>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D131136334621623&w=3D=
+2
+Patch		: https://lkml.org/lkml/2011/8/2/174
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D39882
+Subject		: Kernel oops when turning bluetooth mouse on
+Submitter	: Lamarque V. Souza <lamarque-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date		: 2011-07-24 02:09 (22 days old)
+Patch		: https://bugzilla.kernel.org/attachment.cgi?id=3D66632
+
+
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D37872
+Subject		: CPU lockup during boot
+Submitter	: Bruno Wolff III <bruno-bdMChIhFSYk@public.gmane.org>
+Date		: 2011-06-19 15:00 (57 days old)
+Patch		: https://bugzilla.kernel.org/show_bug.cgi?id=3D37872#c16
+
+
+=46or details, please visit the bug entries and follow the links given =
+in
+references.
+
+As you can see, there is a Bugzilla entry for each of the listed regres=
+sions.
+There also is a Bugzilla entry used for tracking the regressions introd=
+uced
+between 2.6.39 and 3.0, unresolved as well as resolved, at:
+
+http://bugzilla.kernel.org/show_bug.cgi?id=3D36912
+
+Please let the tracking team know if there are any Bugzilla entries tha=
+t
+should be added to the list in there.
+
+Thanks!
