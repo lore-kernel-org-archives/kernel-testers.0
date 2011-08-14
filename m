@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #40172] lockdep trace from post 3.0.
-Date: Sun, 14 Aug 2011 21:07:36 +0200 (CEST)
-Message-ID: <bkwpSnItbJM.A.oJ.rMCSOB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #40062] USB related "unable to handle kernel paging request" in 3.0.0-rc7
+Date: Sun, 14 Aug 2011 21:07:35 +0200 (CEST)
+Message-ID: <bkwpSnItbJM.A.6Y.1MCSOB@chimera>
 References: <xuTC4jRtHbB.A.l4H.gMCSOB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <xuTC4jRtHbB.A.l4H.gMCSOB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Dave Jones <davej@redhat.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Tino Keitel <tino.keitel-rAwCM5oiXHA@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.39 and 3.0.
@@ -22,10 +22,11 @@ introduced between 2.6.39 and 3.0.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=40172
-Subject		: lockdep trace from post 3.0.
-Submitter	: Dave Jones <davej@redhat.com>
-Date		: 2011-07-24 1:32 (22 days old)
-Message-ID	: <20110724013257.GA6777@redhat.com>
-References	: http://marc.info/?l=linux-kernel&m=131147120206819&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=40062
+Subject		: USB related "unable to handle kernel paging request" in 3.0.0-rc7
+Submitter	: Tino Keitel <tino.keitel-rAwCM5oiXHA@public.gmane.org>
+Date		: 2011-07-22 19:27 (24 days old)
+Message-ID	: <20110722192722.GA9369-dW8JlKMZij8@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=131136334621623&w=2
+Patch		: https://lkml.org/lkml/2011/8/2/174
 
