@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #40282] IP forwarding regression since 3.0-rc6
-Date: Sun, 14 Aug 2011 21:07:36 +0200 (CEST)
-Message-ID: <bkwpSnItbJM.A.r-H.mMCSOB@chimera>
+Subject: [Bug #39922] WIFI becomes EXTREMELY slow ( ath9k ) making the connection unusable
+Date: Sun, 14 Aug 2011 21:07:34 +0200 (CEST)
+Message-ID: <bkwpSnItbJM.A.tc.-MCSOB@chimera>
 References: <xuTC4jRtHbB.A.l4H.gMCSOB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Stephan Seitz <stse+lkml@fsing.rootsland.net>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Lukasz Olszewski <lcpak@epoczta.pl>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.39 and 3.0.
@@ -22,10 +22,8 @@ introduced between 2.6.39 and 3.0.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=40282
-Subject		: IP forwarding regression since 3.0-rc6
-Submitter	: Stephan Seitz <stse+lkml@fsing.rootsland.net>
-Date		: 2011-07-25 12:51 (21 days old)
-Message-ID	: <20110725T141145.GA.2ae38.stse@fsing.rootsland.net>
-References	: http://marc.info/?l=linux-kernel&m=131159880004908&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=39922
+Subject		: WIFI becomes EXTREMELY slow ( ath9k ) making the connection unusable
+Submitter	: Lukasz Olszewski <lcpak@epoczta.pl>
+Date		: 2011-07-24 09:20 (22 days old)
 
