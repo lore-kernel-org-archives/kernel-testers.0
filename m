@@ -1,30 +1,25 @@
-From: "Bill Huey (hui)" <bill.huey@gmail.com>
-Subject: Re: [Bug #38612] Boot time warnings in APIC
-Date: Sun, 14 Aug 2011 14:57:56 -0700
-Message-ID: <CAAmnkzk=8NZRpFHUR47R179H-PUTu8BYhOr3Kn8b-Z4nvv9cHw@mail.gmail.com>
+From: Tetsuo Handa <penguin-kernel-JPay3/Yim36HaxMnTkn67Xf5DAMn2ifp@public.gmane.org>
+Subject: Re: [Bug #39342] [3.0.0-rc6-git7] possible recursive locking atcache_alloc_refill
+Date: Mon, 15 Aug 2011 07:36:29 +0900
+Message-ID: <201108150736.FFC69227.MQSJVFHFFOOOtL@I-love.SAKURA.ne.jp>
 References: <xuTC4jRtHbB.A.l4H.gMCSOB@chimera>
-	<bkwpSnItbJM.A.iJB.HOCSOB@chimera>
+	<bkwpSnItbJM.A.o3.YNCSOB@chimera>
+	<alpine.DEB.2.00.1108142259120.4228@tiger>
 Mime-Version: 1.0
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-         :cc:content-type;
-        bh=BfledTZMUfgTMB3veDZCtwPllXVfCaA7ndp/bywoj9o=;
-        b=n6MV7F0W8pneLGUD0GEEvXhYJGpZfZvaGOKS1S0RApmvTLfIZrcxfrKbD5cQVFhQMC
-         WmTYkIhGSnkp5XN4q1SEM5mnyU0avMMbepsZgnix1htpe4i3MTw6TgjUFy1d0OPHXd7R
-         yCvbbaQ/DOuCLVUlKO9pC7+mXUOrNrzTEfOtA=
-In-Reply-To: <bkwpSnItbJM.A.iJB.HOCSOB@chimera>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.00.1108142259120.4228@tiger>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw@sisk.pl>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>
+To: penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, rjw-KKrjLPT3xs0@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org, peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org
 
-It seemed like a hardware problem so change the state of the bug. I'll
-keep you folks update if I see it again.
+Pekka Enberg wrote:
+> Tetsuio, did Peter's commit 30765b9 ("slab, lockdep: Annotate the locks 
+> before using them") and commit 83835b3 ("slab, lockdep: Annotate slab -> 
+> rcu -> debug_object -> slab") in Linus' git fix this for you?
 
-Thanks
+Yes. Applying these two commits fixes this problem.
 
-bill
+Thank you.
