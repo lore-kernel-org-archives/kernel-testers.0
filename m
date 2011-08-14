@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #37432] sdhci-pci fails on 3.0.0-rc1 on Dell E6510
-Date: Sun, 14 Aug 2011 21:02:35 +0200 (CEST)
-Message-ID: <bkwpSnItbJM.A.FcB.0OCSOB@chimera>
+Subject: [Bug #37872] CPU lockup during boot
+Date: Sun, 14 Aug 2011 21:07:31 +0200 (CEST)
+Message-ID: <bkwpSnItbJM.A.TRB.lOCSOB@chimera>
 References: <xuTC4jRtHbB.A.l4H.gMCSOB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Jesse Barnes <jbarnes-Y1mF5jBUw70BENJcbMCuUQ@public.gmane.org>, Oliver Hartkopp <socketcan-fJ+pQTUTwRTk1uMJSBkQmQ@public.gmane.org>, Yinghai Lu <yinghai-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Bruno Wolff III <bruno-bdMChIhFSYk@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.39 and 3.0.
@@ -22,11 +22,9 @@ introduced between 2.6.39 and 3.0.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37432
-Subject		: sdhci-pci fails on 3.0.0-rc1 on Dell E6510
-Submitter	: Oliver Hartkopp <socketcan-fJ+pQTUTwRTk1uMJSBkQmQ@public.gmane.org>
-Date		: 2011-06-07 20:06 (69 days old)
-First-Bad-Commit: http://git.kernel.org/linus/da7822e5ad71ec9b745b412639f1e5e0ba795a20
-References	: http://article.gmane.org/gmane.linux.kernel.mmc/8442
-		  https://lkml.org/lkml/2011/6/23/660
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=37872
+Subject		: CPU lockup during boot
+Submitter	: Bruno Wolff III <bruno-bdMChIhFSYk@public.gmane.org>
+Date		: 2011-06-19 15:00 (57 days old)
+Patch		: https://bugzilla.kernel.org/show_bug.cgi?id=37872#c16
 
