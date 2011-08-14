@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #38622] [radeon cayman regresion] artefacts on screen
+Subject: [Bug #38922] Lenovo T420 (Sandy Bridge) Crashes on SD Card gpt partition writing and io errors on insert
 Date: Sun, 14 Aug 2011 21:07:31 +0200 (CEST)
-Message-ID: <bkwpSnItbJM.A.pHB.EOCSOB@chimera>
+Message-ID: <bkwpSnItbJM.A.yEB.zNCSOB@chimera>
 References: <xuTC4jRtHbB.A.l4H.gMCSOB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, "Marek Hobler, &apos;neutrinus&apos;" <kernellist-X/h6sc6Dz0uakBO8gow8eQ@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Andrei Warkentin <andreiw-3WKxDLwmzFNWk0Htik3J/w@public.gmane.org>, Chris Ball <cjb-2X9k7bc8m7Mdnm+yROfE0A@public.gmane.org>, Peter Vollmer <vollmerpeter-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.39 and 3.0.
@@ -22,8 +22,9 @@ introduced between 2.6.39 and 3.0.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38622
-Subject		: [radeon cayman regresion] artefacts on screen
-Submitter	: Marek Hobler, &apos;neutrinus&apos; <kernellist-X/h6sc6Dz0uakBO8gow8eQ@public.gmane.org>
-Date		: 2011-07-01 09:35 (45 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=38922
+Subject		: Lenovo T420 (Sandy Bridge) Crashes on SD Card gpt partition writing and io errors on insert
+Submitter	: Peter Vollmer <vollmerpeter-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Date		: 2011-07-07 17:33 (39 days old)
+First-Bad-Commit: http://git.kernel.org/linus/a3c7778f8153b9e4eceea6738973280b9e63c618
 
