@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #40072] suspend/resume problems w/ kernel 3.0 and a *docked* ThinkPad T400, unless iwlagn unloaded
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #40092] RCU stall in linux-3.0.0
 Date: Sun, 14 Aug 2011 21:07:35 +0200 (CEST)
-Message-ID: <bkwpSnItbJM.A.pR.yMCSOB@chimera>
+Message-ID: <bkwpSnItbJM.A.fL.vMCSOB@chimera>
 References: <xuTC4jRtHbB.A.l4H.gMCSOB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <xuTC4jRtHbB.A.l4H.gMCSOB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, =?utf-8?q?Toralf=20F=C3=B6rster?= <toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Philip Armstrong <phil@kantaka.co.uk>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.39 and 3.0.
@@ -22,12 +22,8 @@ introduced between 2.6.39 and 3.0.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D40072
-Subject		: suspend/resume problems w/ kernel 3.0 and a *docked* ThinkPa=
-d T400, unless iwlagn unloaded
-Submitter	: Toralf F=C3=B6rster <toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
-Date		: 2011-07-23 19:27 (23 days old)
-Message-ID	: <201107232127.34255.toralf.foerster-Mmb7MZpHnFY@public.gmane.org>
-References	: http://marc.info/?l=3Dlinux-kernel&m=3D131144928023465&w=3D=
-2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=40092
+Subject		: RCU stall in linux-3.0.0
+Submitter	: Philip Armstrong <phil@kantaka.co.uk>
+Date		: 2011-07-25 21:44 (21 days old)
 
