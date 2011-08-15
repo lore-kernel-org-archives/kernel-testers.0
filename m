@@ -1,46 +1,43 @@
-From: Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: [Bug #39922] WIFI becomes EXTREMELY slow ( ath9k ) making the
- connection unusable
-Date: Mon, 15 Aug 2011 13:35:39 +0300
-Message-ID: <CAOJsxLH3McBv+83rbd9aCfu_OULx=68KWfKwEGoNL5ygK2iM8Q@mail.gmail.com>
-References: <xuTC4jRtHbB.A.l4H.gMCSOB@chimera>
-	<bkwpSnItbJM.A.tc.-MCSOB@chimera>
+From: Avi Kivity <avi@redhat.com>
+Subject: Re: [Bug #39412] Win Vista and Win2K8 guests' network breaks down
+Date: Mon, 15 Aug 2011 06:38:34 -0700
+Message-ID: <4E49215A.5080103@redhat.com>
+References: <xuTC4jRtHbB.A.l4H.gMCSOB@chimera> <bkwpSnItbJM.A.nx.VNCSOB@chimera> <CAOJsxLEToaQe3DrhUQx5FizMnzATxwG8XGCPwZpRFpuBQpq1ug@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=mime-version:sender:in-reply-to:references:date
-         :x-google-sender-auth:message-id:subject:from:to:cc:content-type
-         :content-transfer-encoding;
-        bh=tW6Ix64re29NYjM31ti6IP9fTWpeJ5knywRWgLqIi0o=;
-        b=EOVmFTOtqVmBubuAoCtecUsv4vPZi/HxmqMpNS/42O6xJwVQXgIsveXDPWRlyeuOWB
-         xJEu+o86NAX4w98HfoYYd/Pkdof8QcvWpqzUq8/NzCXhAAOdNnJSBnlSAhnZL85kf44r
-         C+qmkyy/8rW//AcwuCaCrhWaa4kBS61qWhWo4=
-In-Reply-To: <bkwpSnItbJM.A.tc.-MCSOB@chimera>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <kvm-owner@vger.kernel.org>
+In-Reply-To: <CAOJsxLEToaQe3DrhUQx5FizMnzATxwG8XGCPwZpRFpuBQpq1ug@mail.gmail.com>
+Sender: kvm-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="iso-8859-1"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Lukasz Olszewski <lcpak-tIkWECEXGi3VItvQsEIGlw@public.gmane.org>, lrodriguez-DlyHzToyqoxBDgjK7y7TUQ@public.gmane.org, jmalinen-DlyHzToyqoxBDgjK7y7TUQ@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Pekka Enberg <penberg@kernel.org>
+Cc: "Rafael J. Wysocki" <rjw@sisk.pl>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Jay Ren <yongjie.ren@intel.com>, stefanha@linux.vnet.ibm.com, KVM General <kvm@vger.kernel.org>
 
-On Sun, Aug 14, 2011 at 10:07 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrote=
-:
-> This message has been generated automatically as a part of a report
-> of regressions introduced between 2.6.39 and 3.0.
+On 08/15/2011 03:33 AM, Pekka Enberg wrote:
+> On Sun, Aug 14, 2011 at 10:07 PM, Rafael J. Wysocki<rjw@sisk.pl>  wrote:
+> >  This message has been generated automatically as a part of a report
+> >  of regressions introduced between 2.6.39 and 3.0.
+> >
+> >  The following bug entry is on the current list of known regressions
+> >  introduced between 2.6.39 and 3.0.  Please verify if it still should
+> >  be listed and let the tracking team know (either way).
+> >
+> >
+> >  Bug-Entry       : http://bugzilla.kernel.org/show_bug.cgi?id=39412
+> >  Subject         : Win Vista and Win2K8 guests' network breaks down
+> >  Submitter       : Jay Ren<yongjie.ren@intel.com>
+> >  Date            : 2011-07-15 15:31 (31 days old)
 >
-> The following bug entry is on the current list of known regressions
-> introduced between 2.6.39 and 3.0. =A0Please verify if it still shoul=
-d
-> be listed and let the tracking team know (either way).
+> The bugzilla report claims that this commit fixes the regression:
 >
+> http://git.kernel.org/?p=virt/kvm/kvm.git;a=commitdiff;h=e72ef590a3ef3047f6ed5bcb8808a9734f6c4b32
 >
-> Bug-Entry =A0 =A0 =A0 : http://bugzilla.kernel.org/show_bug.cgi?id=3D=
-39922
-> Subject =A0 =A0 =A0 =A0 : WIFI becomes EXTREMELY slow ( ath9k ) makin=
-g the connection unusable
-> Submitter =A0 =A0 =A0 : Lukasz Olszewski <lcpak-tIkWECEXGi3VItvQsEIGlw@public.gmane.org>
-> Date =A0 =A0 =A0 =A0 =A0 =A0: 2011-07-24 09:20 (22 days old)
+> The commit, however, is not in mainline nor does it seem to be tagged
+> for -stable.
 
-There's no evidence in the bug report that the ath9k maintainers know
-about this. I'm CC'ing Luis and Jouni.
+That commit is completely unrelated.
+
+-- 
+I have a truly marvellous patch that fixes the bug which this
+signature is too narrow to contain.
+
