@@ -1,31 +1,29 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #41502] cfq-iosched: a regression
-Date: Sun, 28 Aug 2011 20:30:51 +0200 (CEST)
-Message-ID: <sfuyzWlorBN.A.RxF.fBpWOB@chimera>
+From: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: 3.1-rc3-git6: Reported regressions from 3.0
+Date: Sun, 28 Aug 2011 15:35:20 -0400
+Message-ID: <20110828193519.GA14132@redhat.com>
 References: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
 Content-Disposition: inline
+In-Reply-To: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="iso-8859-1"
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org>
 
-This message has been generated automatically as a part of a summary report
-of recent regressions.
-
-The following bug entry is on the current list of known regressions
-from 3.0.  Please verify if it still should be listed and let the tracking team
-know (either way).
-
-
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=41502
-Subject		: cfq-iosched: a regression
-Submitter	: Shaohua Li <shaohua.li-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Date		: 2011-08-16 2:47 (13 days old)
-Message-ID	: <1313462826.27321.22.camel@sli10-conroe>
-References	: http://marc.info/?l=linux-kernel&m=131346279329911&w=2
-
+On Sun, Aug 28, 2011 at 08:22:05PM +0200, Rafael J. Wysocki wrote:
+=20
+ > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D41742
+ > Subject		: duplicate filename  for intel_backlight with the i915 dri=
+ver
+ > Submitter	: Fran=E7ois Valenduc <francois.valenduc-bmtTS95sd5BUM80lpFwj4w@public.gmane.org>
+ > Date		: 2011-08-25 18:51 (4 days old)
+ > First-Bad-Commit: http://git.kernel.org/linus/aaa6fd2a004147bf32fce0=
+5720938236de3361d9
+=20
+this should be fixed by b727d20269e8ef1de002bfea8099f5e9db9e9f23
+=20
+	Dave
