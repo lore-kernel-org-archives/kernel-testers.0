@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #41562] acer-wmi: acer aspire 721 bluetooth control doesn't work with kernel 3.0.0
-Date: Sun, 28 Aug 2011 21:01:17 +0200 (CEST)
-Message-ID: <gUVi6eNP8RE.A.tCG.TepWOB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #41102] BUG dentry: Poison overwritten / BUG buffer_head: Poison overwritten
+Date: Sun, 28 Aug 2011 21:01:15 +0200 (CEST)
+Message-ID: <gUVi6eNP8RE.A.yOG.depWOB@chimera>
 References: <Sm7qbRR0zn.A.yAG.LepWOB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <Sm7qbRR0zn.A.yAG.LepWOB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, sbraz <hi.sbraz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Paul Bolle <pebolle@tiscali.nl>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 2.6.39 and 3.0.
@@ -22,8 +22,8 @@ introduced between 2.6.39 and 3.0.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=41562
-Subject		: acer-wmi: acer aspire 721 bluetooth control doesn't work with kernel 3.0.0
-Submitter	: sbraz <hi.sbraz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date		: 2011-08-22 18:32 (7 days old)
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=41102
+Subject		: BUG dentry: Poison overwritten / BUG buffer_head: Poison overwritten
+Submitter	: Paul Bolle <pebolle@tiscali.nl>
+Date		: 2011-08-13 22:29 (16 days old)
 
