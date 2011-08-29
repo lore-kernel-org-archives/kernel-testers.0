@@ -1,39 +1,25 @@
-From: "Ren, Yongjie" <yongjie.ren-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: RE: [Bug #39412] Win Vista and Win2K8 guests' network breaks down
-Date: Mon, 29 Aug 2011 17:03:16 +0800
-Message-ID: <CE59C043D0EC3349B2BF41C0EC72229B12D24D15E8@shsmsx501.ccr.corp.intel.com>
-References: <Sm7qbRR0zn.A.yAG.LepWOB@chimera>
- <gUVi6eNP8RE.A.IBH.TfpWOB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: Re: [Bug #39412] Win Vista and Win2K8 guests' network breaks down
+Date: Mon, 29 Aug 2011 18:26:10 +0200
+Message-ID: <201108291826.10441.rjw@sisk.pl>
+References: <Sm7qbRR0zn.A.yAG.LepWOB@chimera> <gUVi6eNP8RE.A.IBH.TfpWOB@chimera> <CE59C043D0EC3349B2BF41C0EC72229B12D24D15E8@shsmsx501.ccr.corp.intel.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <gUVi6eNP8RE.A.IBH.TfpWOB@chimera>
-Content-Language: en-US
+In-Reply-To: <CE59C043D0EC3349B2BF41C0EC72229B12D24D15E8-QQHDSDV1ERZpB2pF5aRoyrfspsVTdybXVpNB7YpNyf8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Marcelo Tosatti <mtosatti-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Stefan Hajnoczi <stefanha-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: "Ren, Yongjie" <yongjie.ren-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Marcelo Tosatti <mtosatti-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Stefan Hajnoczi <stefanha-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 
-SSd2ZSB2ZXJpZmllZCB0aGlzIGJ1ZyBpbiBMaW51cycgdHJlZSAzLjEuMC1yYzQuIEl0IGdvdCBm
-aXhlZCwgc28gSSBjbG9zZWQgdGhlIGJ1Zy4NClRoZSBjb21taXQgSSB0cmllZCBpcyBiZWxvdy4N
-CmNvbW1pdCBjNmEzODlmMTIzYjlmNjhkNjA1YmI3ZTBmOWIzMmVjMWUzZTE0MTMyDQpBdXRob3I6
-IExpbnVzIFRvcnZhbGRzIDx0b3J2YWxkc0BsaW51eC1mb3VuZGF0aW9uLm9yZz4NCkRhdGU6ICAg
-U3VuIEF1ZyAyOCAyMToxNjowMSAyMDExIC0wNzAwDQoNCkJlc3QgUmVnYXJkcywNCiAgICAgWW9u
-Z2ppZSBSZW4gIChKYXkpDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTog
-UmFmYWVsIEouIFd5c29ja2kgW21haWx0bzpyandAc2lzay5wbF0NCj4gU2VudDogTW9uZGF5LCBB
-dWd1c3QgMjksIDIwMTEgMzowMSBBTQ0KPiBUbzogTGludXggS2VybmVsIE1haWxpbmcgTGlzdA0K
-PiBDYzogS2VybmVsIFRlc3RlcnMgTGlzdDsgTWFjaWVqIFJ1dGVja2k7IEZsb3JpYW4gTWlja2xl
-cjsgQXZpIEtpdml0eTsgUmVuLCBZb25namllOw0KPiBNYXJjZWxvIFRvc2F0dGk7IFN0ZWZhbiBI
-YWpub2N6aQ0KPiBTdWJqZWN0OiBbQnVnICMzOTQxMl0gV2luIFZpc3RhIGFuZCBXaW4ySzggZ3Vl
-c3RzJyBuZXR3b3JrIGJyZWFrcyBkb3duDQo+IA0KPiBUaGlzIG1lc3NhZ2UgaGFzIGJlZW4gZ2Vu
-ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYXMgYSBwYXJ0IG9mIGEgcmVwb3J0DQo+IG9mIHJlZ3Jlc3Np
-b25zIGludHJvZHVjZWQgYmV0d2VlbiAyLjYuMzkgYW5kIDMuMC4NCj4gDQo+IFRoZSBmb2xsb3dp
-bmcgYnVnIGVudHJ5IGlzIG9uIHRoZSBjdXJyZW50IGxpc3Qgb2Yga25vd24gcmVncmVzc2lvbnMN
-Cj4gaW50cm9kdWNlZCBiZXR3ZWVuIDIuNi4zOSBhbmQgMy4wLiAgUGxlYXNlIHZlcmlmeSBpZiBp
-dCBzdGlsbCBzaG91bGQNCj4gYmUgbGlzdGVkIGFuZCBsZXQgdGhlIHRyYWNraW5nIHRlYW0ga25v
-dyAoZWl0aGVyIHdheSkuDQo+IA0KPiANCj4gQnVnLUVudHJ5CTogaHR0cDovL2J1Z3ppbGxhLmtl
-cm5lbC5vcmcvc2hvd19idWcuY2dpP2lkPTM5NDEyDQo+IFN1YmplY3QJCTogV2luIFZpc3RhIGFu
-ZCBXaW4ySzggZ3Vlc3RzJyBuZXR3b3JrIGJyZWFrcyBkb3duDQo+IFN1Ym1pdHRlcgk6IEpheSBS
-ZW4gPHlvbmdqaWUucmVuQGludGVsLmNvbT4NCj4gRGF0ZQkJOiAyMDExLTA3LTE1IDE1OjMxICg0
-NSBkYXlzIG9sZCkNCj4gDQoNCg==
+On Monday, August 29, 2011, Ren, Yongjie wrote:
+> I've verified this bug in Linus' tree 3.1.0-rc4. It got fixed, so I closed the bug.
+> The commit I tried is below.
+> commit c6a389f123b9f68d605bb7e0f9b32ec1e3e14132
+> Author: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+> Date:   Sun Aug 28 21:16:01 2011 -0700
+
+Thanks, closing.
+
+Rafael
