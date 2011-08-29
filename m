@@ -1,42 +1,39 @@
-From: "Carlos R. Mafra" <crmafra-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #41512] 3.1-rc2 failed s2ram: Freezing of tasks failed
- after 20.00 seconds
-Date: Mon, 29 Aug 2011 08:30:50 +0200
-Message-ID: <20110829063050.GA15560@Pilar.site>
-References: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
- <sfuyzWlorBN.A.PrF.cBpWOB@chimera>
+From: "Ren, Yongjie" <yongjie.ren-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Subject: RE: [Bug #39412] Win Vista and Win2K8 guests' network breaks down
+Date: Mon, 29 Aug 2011 17:03:16 +0800
+Message-ID: <CE59C043D0EC3349B2BF41C0EC72229B12D24D15E8@shsmsx501.ccr.corp.intel.com>
+References: <Sm7qbRR0zn.A.yAG.LepWOB@chimera>
+ <gUVi6eNP8RE.A.IBH.TfpWOB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: base64
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-type:content-disposition:in-reply-to:user-agent;
-        bh=J4Ez4WEpddcqCI5e2yzK1dHGsRdmTqR5LClb8emmVtM=;
-        b=tpgWndp6o4cKR9ymlAnHmXQO+UM1m6MJ8D5CrcYhUihGhfdSlyFVWGBdhxDi0uqvst
-         HZ9UpMF133zqOoAGvHC+a4iHK4Dfbdqfj7JO2zE4grNt992F/HQIzs58Fcsvz9SyTNt+
-         5uwOIUvBC4Pd51oveLcQk+KoXWJmWOv4PlKlc=
-Content-Disposition: inline
-In-Reply-To: <sfuyzWlorBN.A.PrF.cBpWOB@chimera>
+In-Reply-To: <gUVi6eNP8RE.A.IBH.TfpWOB@chimera>
+Content-Language: en-US
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Avi Kivity <avi-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Marcelo Tosatti <mtosatti-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Stefan Hajnoczi <stefanha-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 
-On Sun, 28 Aug 2011 at 20:30:51 +0200, Rafael J. Wysocki wrote:
-> 
-> The following bug entry is on the current list of known regressions
-> from 3.0.  Please verify if it still should be listed and let the tracking team
-> know (either way).
-
-It didn't happen again since then (with post -rc2 kernels).
-
-
-> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=41512
-> Subject		: 3.1-rc2 failed s2ram: Freezing of tasks failed after 20.00 seconds
-> Submitter	: Carlos R. Mafra <crmafra2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date		: 2011-08-16 9:42 (13 days old)
-> Message-ID	: <20110816094245.GA2042-VVqtEBlnRoHN0uC3ymp8PA@public.gmane.org>
-> References	: http://marc.info/?l=linux-kernel&m=131348782017435&w=2
-> 
+SSd2ZSB2ZXJpZmllZCB0aGlzIGJ1ZyBpbiBMaW51cycgdHJlZSAzLjEuMC1yYzQuIEl0IGdvdCBm
+aXhlZCwgc28gSSBjbG9zZWQgdGhlIGJ1Zy4NClRoZSBjb21taXQgSSB0cmllZCBpcyBiZWxvdy4N
+CmNvbW1pdCBjNmEzODlmMTIzYjlmNjhkNjA1YmI3ZTBmOWIzMmVjMWUzZTE0MTMyDQpBdXRob3I6
+IExpbnVzIFRvcnZhbGRzIDx0b3J2YWxkc0BsaW51eC1mb3VuZGF0aW9uLm9yZz4NCkRhdGU6ICAg
+U3VuIEF1ZyAyOCAyMToxNjowMSAyMDExIC0wNzAwDQoNCkJlc3QgUmVnYXJkcywNCiAgICAgWW9u
+Z2ppZSBSZW4gIChKYXkpDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTog
+UmFmYWVsIEouIFd5c29ja2kgW21haWx0bzpyandAc2lzay5wbF0NCj4gU2VudDogTW9uZGF5LCBB
+dWd1c3QgMjksIDIwMTEgMzowMSBBTQ0KPiBUbzogTGludXggS2VybmVsIE1haWxpbmcgTGlzdA0K
+PiBDYzogS2VybmVsIFRlc3RlcnMgTGlzdDsgTWFjaWVqIFJ1dGVja2k7IEZsb3JpYW4gTWlja2xl
+cjsgQXZpIEtpdml0eTsgUmVuLCBZb25namllOw0KPiBNYXJjZWxvIFRvc2F0dGk7IFN0ZWZhbiBI
+YWpub2N6aQ0KPiBTdWJqZWN0OiBbQnVnICMzOTQxMl0gV2luIFZpc3RhIGFuZCBXaW4ySzggZ3Vl
+c3RzJyBuZXR3b3JrIGJyZWFrcyBkb3duDQo+IA0KPiBUaGlzIG1lc3NhZ2UgaGFzIGJlZW4gZ2Vu
+ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYXMgYSBwYXJ0IG9mIGEgcmVwb3J0DQo+IG9mIHJlZ3Jlc3Np
+b25zIGludHJvZHVjZWQgYmV0d2VlbiAyLjYuMzkgYW5kIDMuMC4NCj4gDQo+IFRoZSBmb2xsb3dp
+bmcgYnVnIGVudHJ5IGlzIG9uIHRoZSBjdXJyZW50IGxpc3Qgb2Yga25vd24gcmVncmVzc2lvbnMN
+Cj4gaW50cm9kdWNlZCBiZXR3ZWVuIDIuNi4zOSBhbmQgMy4wLiAgUGxlYXNlIHZlcmlmeSBpZiBp
+dCBzdGlsbCBzaG91bGQNCj4gYmUgbGlzdGVkIGFuZCBsZXQgdGhlIHRyYWNraW5nIHRlYW0ga25v
+dyAoZWl0aGVyIHdheSkuDQo+IA0KPiANCj4gQnVnLUVudHJ5CTogaHR0cDovL2J1Z3ppbGxhLmtl
+cm5lbC5vcmcvc2hvd19idWcuY2dpP2lkPTM5NDEyDQo+IFN1YmplY3QJCTogV2luIFZpc3RhIGFu
+ZCBXaW4ySzggZ3Vlc3RzJyBuZXR3b3JrIGJyZWFrcyBkb3duDQo+IFN1Ym1pdHRlcgk6IEpheSBS
+ZW4gPHlvbmdqaWUucmVuQGludGVsLmNvbT4NCj4gRGF0ZQkJOiAyMDExLTA3LTE1IDE1OjMxICg0
+NSBkYXlzIG9sZCkNCj4gDQoNCg==
