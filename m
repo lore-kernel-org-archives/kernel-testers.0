@@ -1,108 +1,201 @@
-From: "Carlos R. Mafra" <crmafra-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug #41512] 3.1-rc2 failed s2ram: Freezing of tasks failed
- after 20.00 seconds
-Date: Fri, 2 Sep 2011 13:23:24 +0200
-Message-ID: <20110902112324.GA6576@Pilar.site>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: 3.2-rc2+: Reported regressions from 3.0 and 3.1
+Date: Mon, 21 Nov 2011 22:49:30 +0100
+Message-ID: <201111212249.31196.rjw@sisk.pl>
 References: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
- <sfuyzWlorBN.A.PrF.cBpWOB@chimera>
- <20110829063050.GA15560@Pilar.site>
- <201108292238.01713.rjw@sisk.pl>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=gamma;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-type:content-disposition:in-reply-to:user-agent;
-        bh=faVFEdmACnha1sjTbTKFZ+0U7NQsWhmyXlFn54C0sh8=;
-        b=jzyjSfeKON2YK5v/a2i+uXcY0yWmv3b+aNP11sVYTyH9fqymxHwdFycD7742/nKRIQ
-         uJ+cEspTQwJbXniNxGZwIn4aYJVvu8YUUh2+3U2pwgn9kQBfi6DjgwurUMXfw7x6S7Ct
-         wXZZj5TYP3B1s/I/wgu8xDpJm3nsFjlMtnH+Q=
-Content-Disposition: inline
-In-Reply-To: <201108292238.01713.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
+Sender: linux-wireless-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
+Content-Type: Text/Plain; charset="utf-8"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM List <linux-pm-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org>
 
-On Mon, 29 Aug 2011 at 22:38:01 +0200, Rafael J. Wysocki wrote:
-> On Monday, August 29, 2011, Carlos R. Mafra wrote:
-> > On Sun, 28 Aug 2011 at 20:30:51 +0200, Rafael J. Wysocki wrote:
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > from 3.0.  Please verify if it still should be listed and let the tracking team
-> > > know (either way).
-> > 
-> > It didn't happen again since then (with post -rc2 kernels).
-> 
-> Thanks, closing.
+This message contains a list of some regressions from 3.0 and 3.1
+for which there are no fixes in the mainline known to the tracking team=
+=2E
+If any of them have been fixed already, please let us know.
 
-Unfortunately it happened again with the kernel 3.1-rc4, after an uptime
-of 3 days and 15 hours with ~10 suspend to RAM in between (so I can't bisect).
+If you know of any other unresolved regressions from 3.0 and 3.1, pleas=
+e let us
+know either and we'll add them to the list.  Also, please let us know i=
+f any of
+the entries below are invalid.
 
-The symptom is that when I close the lid to suspend, I notice that the power
-led indicator does not switch from green to 'blinking red', and stays green all
-the time. The fan seems to be on.
+The entries below are simplified and the statistics are not present due=
+ to the
+continuing Bugzilla outage.
 
-In fact, the first time I reported this issue I hadn't noticed that the suspend
-failed and put the laptop inside my backpack and went to work. When I arrived 
-the laptop was almost frying and it had been turned off automatically somehow.
+Subject    : iwlagn is getting very shaky
+Submitter  : Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
+Date       : 2011-10-19 6:01
+Message-ID : 20111019060108.GA11588-DqSSrKF0TaySnEC3TeqHn5dqbFPxfnh/@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D131914553920614&w=3D=
+2
 
-From 'dmesg' I see some messages from the USB surfstick ~120 secs before the
-traces. I did not disconnect from the surfstick internet before closing the lid
-as I usually do (will check later if that's a way to reproduce).
+Subject    : Regression: "irqpoll" hasn't been working for me since Mar=
+ch 16 IRQ
+Submitter  : Edward Donovan <edward.donovan-mb/Bq7DTvoSsTnJN9+BGXg@public.gmane.org>
+Date       : 2011-10-19 22:09
+Message-ID : CADdbW+HXdCPfJu2RTF6zz+ujCmiu_dmZwL2iScuF53p=3DAaZ1Uw@mail=
+=2Egmail.com
+References : http://marc.info/?l=3Dlinux-kernel&m=3D131914554220679&w=3D=
+2
 
-[69489.551533] PM: resume of devices complete after 1365.354 msecs
-[69489.551625] PM: Finishing wakeup.
-[69489.551626] Restarting tasks ... done.
-[69489.554183] video LNXVIDEO:01: Restoring backlight state
-[69489.555548] usb 2-1.6: USB disconnect, device number 34
-[69489.556046] option1 ttyUSB0: GSM modem (1-port) converter now disconnected from ttyUSB0
-[69489.556055] option 2-1.6:1.0: device disconnected
-[69489.556183] option1 ttyUSB1: GSM modem (1-port) converter now disconnected from ttyUSB1
-[69489.556191] option 2-1.6:1.1: device disconnected
-[69614.122681] INFO: task udisks-daemon:2945 blocked for more than 120 seconds.
-[69614.122686] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-[69614.122691] udisks-daemon   D ffff8800d908e510     0  2945   2944 0x00000000
-[69614.122699]  ffff8800a9d27928 0000000000000082 ffff8800a9d27928 00000000000105c0
-[69614.122705]  ffff8800d908e140 00000000000105c0 ffff8800a9d27fd8 00000000000105c0
-[69614.122711]  00000000000105c0 ffff8800a9d26000 ffff8800a9d27fd8 00000000000105c0
-[69614.122717] Call Trace:
-[69614.122731]  [<ffffffff814ca825>] schedule_timeout+0x1c5/0x230
-[69614.122739]  [<ffffffff81030364>] ? check_preempt_curr+0x84/0xa0
-[69614.122744]  [<ffffffff81030392>] ? ttwu_do_wakeup+0x12/0x90
-[69614.122750]  [<ffffffff814c98b0>] wait_for_common+0xc0/0x160
-[69614.122757]  [<ffffffff8103ec60>] ? try_to_wake_up+0x290/0x290
-[69614.122762]  [<ffffffff81059a5d>] ? insert_work+0x6d/0x80
-[69614.122768]  [<ffffffff814c99f8>] wait_for_completion+0x18/0x20
-[69614.122772]  [<ffffffff81059c0b>] flush_work+0x2b/0x40
-[69614.122779]  [<ffffffff810590e0>] ? do_work_for_cpu+0x30/0x30
-[69614.122784]  [<ffffffff8105a186>] flush_delayed_work+0x46/0x50
-[69614.122792]  [<ffffffff812190d6>] disk_clear_events+0x76/0x110
-[69614.122798]  [<ffffffff811061c2>] check_disk_change+0x32/0x80
-[69614.122804]  [<ffffffff812e9919>] sd_open+0xb9/0x190
-[69614.122809]  [<ffffffff811070f1>] __blkdev_get+0x91/0x3d0
-[69614.122814]  [<ffffffff81107770>] ? blkdev_get+0x340/0x340
-[69614.122818]  [<ffffffff8110747e>] blkdev_get+0x4e/0x340
-[69614.122825]  [<ffffffff810e1c87>] ? do_lookup+0xb7/0x380
-[69614.122829]  [<ffffffff81107770>] ? blkdev_get+0x340/0x340
-[69614.122834]  [<ffffffff811077cd>] blkdev_open+0x5d/0x80
-[69614.122839]  [<ffffffff810d3ef0>] __dentry_open+0x130/0x320
-[69614.122844]  [<ffffffff810d5191>] nameidata_to_filp+0x71/0x80
-[69614.122849]  [<ffffffff810e2c21>] do_last+0xb1/0x800
-[69614.122854]  [<ffffffff810e4773>] path_openat+0xd3/0x3f0
-[69614.122860]  [<ffffffff81223b27>] ? kobject_put+0x27/0x60
-[69614.122868]  [<ffffffff812ca032>] ? put_device+0x12/0x20
-[69614.122873]  [<ffffffff810e4af4>] do_filp_open+0x44/0xa0
-[69614.122880]  [<ffffffff810f0bb4>] ? alloc_fd+0xf4/0x150
-[69614.122884]  [<ffffffff810d529c>] do_sys_open+0xfc/0x1e0
-[69614.122889]  [<ffffffff810d3bf6>] ? filp_close+0x56/0x80
-[69614.122893]  [<ffffffff810d539b>] sys_open+0x1b/0x20
-[69614.122899]  [<ffffffff814cd0fb>] system_call_fastpath+0x16/0x1b
-[69734.141207] INFO: task udisks-daemon:2945 blocked for more than 120 seconds.
+Subject    : Regression in 3.1 causes Xen to use wrong idle routine
+Submitter  : Stefan Bader <stefan.bader-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
+Date       : 2011-10-26 10:24
+Message-ID : 4EA7DFD1.9060608-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org
+References : http://marc.info/?l=3Dlinux-acpi&m=3D131962467924564&w=3D2
 
+Subject    : 3.1+ iwlwifi lockup
+Submitter  : Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date       : 2011-10-31 14:34
+Message-ID : 20111031143408.GA17152-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132007169420160&w=3D=
+2
 
-Is there something else I could do to help finding out what's going on?
-I will stop using the surfstick next month, so after that I won't be able
-to check if it happens again.
+Subject    : hugetlb oops on 3.1.0-rc8-devel
+Submitter  : Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+Date       : 2011-11-01 22:20
+Message-ID : CALCETrW1mpVCz2tO5roaz1r6vnno+srHR-dHA6_pkRi2qiCfdw@mail.g=
+mail.com
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132018604426692&w=3D=
+2
+
+Subject    : Simultaneous cat and external keyboard input causing kerne=
+l panic
+Submitter  : Timo Jyrinki <timo.jyrinki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-11-03 12:14
+Message-ID : CAJtFfxmovJHspHHKbvBVc4pw+u5mjGmUejCXEzdV+GqE=3DjVSOQ@mail=
+=2Egmail.com
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132032253903074&w=3D=
+2
+
+Subject    : Linus GIT - INFO: possible circular locking dependency det=
+ected
+Submitter  : Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-11-03 15:57
+Message-ID : CAHFgRy8S0xLfhZxTUOEH5A0PL_Fb79-0-gmbQ=3D9h2D-xMqt1hA@mail=
+=2Egmail.com
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132033587908426&w=3D=
+2
+
+Subject    : lockdep warning after aa6afca5bcab: "proc: fix races again=
+st execve() of /proc/PID/fd**"
+Submitter  : Ari Savolainen <ari.m.savolainen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-11-08 3:47
+Message-ID : CAEbykaXYZEFhTgWMm2AfaWQ2SaXYuO_ypTnw+6AVWScOYSCuuw@mail.g=
+mail.com
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132072413125099&w=3D=
+2
+
+Subject    : DMA-API check_sync errors with 3.2
+Submitter  : Josh Boyer <jwboyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date       : 2011-11-08 17:31
+Message-ID : 20111108173153.GE14216-8k7Gwy46GHkf7BdofF/totBPR1lH4CV8@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132077357608797&w=3D=
+2
+
+Subject    : [3.1-rc8 REGRESSION] sky2 hangs machine on turning off or =
+suspending
+Submitter  : Rafa=C5=82 Mi=C5=82ecki <zajec5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-11-09 11:46
+Message-ID : CACna6ryTdLcWVYgHu=3D_mRFga1sFivpE_DyZOY-HMmKggkWAJAw@mail=
+=2Egmail.com
+References : http://marc.info/?l=3Dlinux-netdev&m=3D132083922228088&w=3D=
+4
+
+Subject    : 3.2-rc1 doesn't boot on dual socket opteron without swap
+Submitter  : Niklas Schnelle <niklas-74wnUeZ+fLazQB+pC5nmwQ@public.gmane.org>
+Date       : 2011-11-10 20:09
+Message-ID : 1320955769.1718.8.camel@jupiter
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132095583501767&w=3D=
+2
+
+Subject    : Sparc-32 doesn't work in 3.1.
+Submitter  : Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
+Date       : 2011-11-12 11:22
+Message-ID : 4EBEAB5A.5020809-VoJi6FS/r0vR7s880joybQ@public.gmane.org
+References : http://www.spinics.net/lists/kernel/msg1260383.html
+
+Subject    : khugepaged blocks suspend2ram (3.2.0-rc1-00252-g8f042aa)
+Submitter  : Sergei Trofimovich <slyich-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-11-12 10:48
+Message-ID : 20111112104859.7744b282-rUBWEpAk+NE@public.gmane.org
+References : https://lkml.org/lkml/2011/11/12/11
+
+Subject    : WARNING: at fs/sysfs/sysfs.h:195 (during boot)
+Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA@public.gmane.org>
+Date       : 2011-11-13 19:24
+Message-ID : 20111113192417.GA1659-tLCgZGx+iJ+kxVt8IV0GqQ@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132121231921932&w=3D=
+2
+
+Subject    : PROBLEM: Radeon display connector : No monitor connected o=
+r invalid EDID
+Submitter  : Treeve Jelbert <treeve-rJAIWvhRp0CZIoH1IeqzKA@public.gmane.org>
+Date       : 2011-11-13 17:27
+Message-ID : 2407026.akcTO2Ggic@gemini-64
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132120530920139&w=3D=
+2
+
+Subject    : [3.1 REGRESSION] Commit 5cec93c216db77c45f7ce970d46283bcb1=
+933884 breaks the Chromium seccomp sandbox
+Submitter  : Nix <nix-dKoSMcxRz+Te9xe1eoZjHA@public.gmane.org>
+Date       : 2011-11-14 0:40
+Message-ID : 8762inleno.fsf-AdTWujXS48Mg67Zj9sPl2A@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132123396226377&w=3D=
+2
+
+Subject    : max PWM is zero
+Submitter  : Marcos Paulo de Souza <marcos.mage-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-11-15 15:14
+Message-ID : alpine.LNX.2.00.1111151301410.2693-4/PLUo9XfK9uYUHNOcvv8+TW4wlIGRCZ@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132137019330548&w=3D=
+2
+
+Subject    : Oops on suspend with libertas SDIO (Linux 3.2-rc2)
+Submitter  : Sven Neumann <s.neumann-5g8ninUHluJWk0Htik3J/w@public.gmane.org>
+Date       : 2011-11-17 15:36
+Message-ID : 1321544210.31090.6.camel@sven
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132154527715807&w=3D=
+2
+
+Subject    : Impossible high cpu-time values for migration threads
+Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA@public.gmane.org>
+Date       : 2011-11-17 22:17
+Message-ID : 20111117221731.GA9229-tLCgZGx+iJ+kxVt8IV0GqQ@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132156832124314&w=3D=
+2
+
+Subject    : WARNING: at mm/slub.c:3357, kernel BUG at mm/slub.c:3413
+Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA@public.gmane.org>
+Date       : 2011-11-18 7:25
+Message-ID : 20111118072519.GA1615-tLCgZGx+iJ+kxVt8IV0GqQ@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132160119031794&w=3D=
+2
+
+Subject    : [REGRESSION] resume takes 10s longer due to e1b6eb3 (Bluet=
+ooth: Increase HCI reset timeout ...)
+Submitter  : Tom=C3=A1=C5=A1 Janou=C5=A1ek <tomi-YoqI/XImC7s@public.gmane.org>
+Date       : 2011-11-18 18:40
+Message-ID : 20111118184017.GA5052-YoqI/XImC7s@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132164169511416&w=3D=
+2
+
+Subject    : [REGRESSION] sudden cpu hogging in kernel 3.2 rc-series
+Submitter  : "Nicolas Kalkhof" <nkalkhof-S0/GAf8tV78@public.gmane.org>
+Date       : 2011-11-18 20:33
+Message-ID : 506786689.810044.1321648395265.JavaMail.fmail@mwmweb010
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132164909313594&w=3D=
+2
+
+Thanks!
+--
+To unsubscribe from this list: send the line "unsubscribe linux-wireles=
+s" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
