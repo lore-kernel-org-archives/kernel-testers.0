@@ -1,193 +1,286 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: 3.2-rc6+: Reported regressions from 3.0 and 3.1
-Date: Wed, 21 Dec 2011 00:11:55 +0100
-Message-ID: <201112210011.55865.linux-pm-bounces@lists.linux-foundation.org>
-References: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Resend] 3.2-rc6+: Reported regressions from 3.0 and 3.1
+Date: Wed, 21 Dec 2011 00:54:46 +0100
+Message-ID: <201112210054.46995.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Return-path: <dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org>
-In-Reply-To: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
-List-Id: <kernel-testers.vger.kernel.org>
-List-Unsubscribe: <http://lists.freedesktop.org/mailman/options/dri-devel>,
-	<mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
-List-Archive: <http://lists.freedesktop.org/archives/dri-devel>
-List-Post: <mailto:dri-devel@lists.freedesktop.org>
-List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
-List-Subscribe: <http://lists.freedesktop.org/mailman/listinfo/dri-devel>,
-	<mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Sender: dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org
-Errors-To: dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Linux SCSI List <linux-scsi@vger.kernel.org>, Florian Mickler <florian@mickler.org>, Network Development <netdev@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, Linux PM List <linux-pm@lists.linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+List-ID: <kernel-testers.vger.kernel.org>
+Content-Type: Text/Plain; charset="utf-8"
+To: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org
 
-VGhpcyBtZXNzYWdlIGNvbnRhaW5zIGEgbGlzdCBvZiBzb21lIHJlZ3Jlc3Npb25zIGZyb20gMy4w
-IGFuZCAzLjEKZm9yIHdoaWNoIHRoZXJlIGFyZSBubyBmaXhlcyBpbiB0aGUgbWFpbmxpbmUga25v
-d24gdG8gdGhlIHRyYWNraW5nIHRlYW0uCklmIGFueSBvZiB0aGVtIGhhdmUgYmVlbiBmaXhlZCBh
-bHJlYWR5LCBwbGVhc2UgbGV0IHVzIGtub3cuCgpJZiB5b3Uga25vdyBvZiBhbnkgb3RoZXIgdW5y
-ZXNvbHZlZCByZWdyZXNzaW9ucyBmcm9tIDMuMCBhbmQgMy4xLCBwbGVhc2UgbGV0IHVzCmtub3cg
-ZWl0aGVyIGFuZCB3ZSdsbCBhZGQgdGhlbSB0byB0aGUgbGlzdC4gIEFsc28sIHBsZWFzZSBsZXQg
-dXMga25vdyBpZiBhbnkgb2YKdGhlIGVudHJpZXMgYmVsb3cgYXJlIGludmFsaWQuCgpUaGUgZW50
-cmllcyBiZWxvdyBhcmUgc2ltcGxpZmllZCBhbmQgdGhlIHN0YXRpc3RpY3MgYXJlIG5vdCBwcmVz
-ZW50IGR1ZSB0byB0aGUKY29udGludWluZyBCdWd6aWxsYSBvdXRhZ2UuCgoKU3ViamVjdCAgICA6
-IGl3bGFnbiBpcyBnZXR0aW5nIHZlcnkgc2hha3kKU3VibWl0dGVyICA6IE5vcmJlcnQgUHJlaW5p
-bmcgPHByZWluaW5nQGxvZ2ljLmF0PgpEYXRlICAgICAgIDogMjAxMS0xMC0xOSA2OjAxCk1lc3Nh
-Z2UtSUQgOiAyMDExMTAxOTA2MDEwOC5HQTExNTg4QGdhbW1hLmxvZ2ljLnR1d2llbi5hYy5hdApS
-ZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzE5MTQ1NTM5
-MjA2MTQmdz0yCgpTdWJqZWN0ICAgIDogUmVncmVzc2lvbjogImlycXBvbGwiIGhhc24ndCBiZWVu
-IHdvcmtpbmcgZm9yIG1lIHNpbmNlIE1hcmNoIDE2IElSUQpTdWJtaXR0ZXIgIDogRWR3YXJkIERv
-bm92YW4gPGVkd2FyZC5kb25vdmFuQG51bWJsZS5uZXQ+CkRhdGUgICAgICAgOiAyMDExLTEwLTE5
-IDIyOjA5Ck1lc3NhZ2UtSUQgOiBDQURkYlcrSFhkQ1BmSnUyUlRGNnp6K3VqQ21pdV9kbVp3TDJp
-U2N1RjUzcD1BYVoxVXdAbWFpbC5nbWFpbC5jb20KUmVmZXJlbmNlcyA6IGh0dHA6Ly9tYXJjLmlu
-Zm8vP2w9bGludXgta2VybmVsJm09MTMxOTE0NTU0MjIwNjc5Jnc9MgoKU3ViamVjdCAgICA6IDMu
-MSsgaXdsd2lmaSBsb2NrdXAKU3VibWl0dGVyICA6IERhdmUgSm9uZXMgPGRhdmVqQHJlZGhhdC5j
-b20+CkRhdGUgICAgICAgOiAyMDExLTEwLTMxIDE0OjM0Ck1lc3NhZ2UtSUQgOiAyMDExMTAzMTE0
-MzQwOC5HQTE3MTUyQHJlZGhhdC5jb20KUmVmZXJlbmNlcyA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9
-bGludXgta2VybmVsJm09MTMyMDA3MTY5NDIwMTYwJnc9MgoKU3ViamVjdCAgICA6IExpbnVzIEdJ
-VCAtIElORk86IHBvc3NpYmxlIGNpcmN1bGFyIGxvY2tpbmcgZGVwZW5kZW5jeSBkZXRlY3RlZApT
-dWJtaXR0ZXIgIDogTWlsZXMgTGFuZSA8bWlsZXMubGFuZUBnbWFpbC5jb20+CkRhdGUgICAgICAg
-OiAyMDExLTExLTAzIDE1OjU3Ck1lc3NhZ2UtSUQgOiBDQUhGZ1J5OFMweExmaFp4VFVPRUg1QTBQ
-TF9GYjc5LTAtZ21iUT05aDJELXhNcXQxaEFAbWFpbC5nbWFpbC5jb20KUmVmZXJlbmNlcyA6IGh0
-dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTMyMDMzNTg3OTA4NDI2Jnc9MgoKU3Vi
-amVjdCAgICA6IERNQS1BUEkgY2hlY2tfc3luYyBlcnJvcnMgd2l0aCAzLjIKU3VibWl0dGVyICA6
-IEpvc2ggQm95ZXIgPGp3Ym95ZXJAcmVkaGF0LmNvbT4KRGF0ZSAgICAgICA6IDIwMTEtMTEtMDgg
-MTc6MzEKTWVzc2FnZS1JRCA6IDIwMTExMTA4MTczMTUzLkdFMTQyMTZAem9kLmJvcy5yZWRoYXQu
-Y29tClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEzMjA3
-NzM1NzYwODc5NyZ3PTIKClN1YmplY3QgICAgOiAzLjItcmMxIGRvZXNuJ3QgYm9vdCBvbiBkdWFs
-IHNvY2tldCBvcHRlcm9uIHdpdGhvdXQgc3dhcApTdWJtaXR0ZXIgIDogTmlrbGFzIFNjaG5lbGxl
-IDxuaWtsYXNAa29tYW5pLmRlPgpEYXRlICAgICAgIDogMjAxMS0xMS0xMCAyMDowOQpNZXNzYWdl
-LUlEIDogMTMyMDk1NTc2OS4xNzE4LjguY2FtZWxAanVwaXRlcgpSZWZlcmVuY2VzIDogaHR0cDov
-L21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIwOTU1ODM1MDE3Njcmdz0yCgpTdWJqZWN0
-ICAgIDogU3BhcmMtMzIgZG9lc24ndCB3b3JrIGluIDMuMS4KU3VibWl0dGVyICA6IFJvYiBMYW5k
-bGV5IDxyb2JAbGFuZGxleS5uZXQ+CkRhdGUgICAgICAgOiAyMDExLTExLTEyIDExOjIyCk1lc3Nh
-Z2UtSUQgOiA0RUJFQUI1QS41MDIwODA5QGxhbmRsZXkubmV0ClJlZmVyZW5jZXMgOiBodHRwOi8v
-d3d3LnNwaW5pY3MubmV0L2xpc3RzL2tlcm5lbC9tc2cxMjYwMzgzLmh0bWwKClN1YmplY3QgICAg
-OiBXQVJOSU5HOiBhdCBmcy9zeXNmcy9zeXNmcy5oOjE5NSAoZHVyaW5nIGJvb3QpClN1Ym1pdHRl
-ciAgOiBNYXJrdXMgVHJpcHBlbHNkb3JmIDxtYXJrdXNAdHJpcHBlbHNkb3JmLmRlPgpEYXRlICAg
-ICAgIDogMjAxMS0xMS0xMyAxOToyNApNZXNzYWdlLUlEIDogMjAxMTExMTMxOTI0MTcuR0ExNjU5
-QHg0LnRyaXBwZWxzLmRlClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtl
-cm5lbCZtPTEzMjEyMTIzMTkyMTkzMiZ3PTIKClN1YmplY3QgICAgOiBtYXggUFdNIGlzIHplcm8K
-U3VibWl0dGVyICA6IE1hcmNvcyBQYXVsbyBkZSBTb3V6YSA8bWFyY29zLm1hZ2VAZ21haWwuY29t
-PgpEYXRlICAgICAgIDogMjAxMS0xMS0xNSAxNToxNApNZXNzYWdlLUlEIDogYWxwaW5lLkxOWC4y
-LjAwLjExMTExNTEzMDE0MTAuMjY5M0BkYXJrc3Rhci5leGFtcGxlLm5ldApSZWZlcmVuY2VzIDog
-aHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIxMzcwMTkzMzA1NDgmdz0yCgpT
-dWJqZWN0ICAgIDogT29wcyBvbiBzdXNwZW5kIHdpdGggbGliZXJ0YXMgU0RJTyAoTGludXggMy4y
-LXJjMikKU3VibWl0dGVyICA6IFN2ZW4gTmV1bWFubiA8cy5uZXVtYW5uQHJhdW1mZWxkLmNvbT4K
-RGF0ZSAgICAgICA6IDIwMTEtMTEtMTcgMTU6MzYKTWVzc2FnZS1JRCA6IDEzMjE1NDQyMTAuMzEw
-OTAuNi5jYW1lbEBzdmVuClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtl
-cm5lbCZtPTEzMjE1NDUyNzcxNTgwNyZ3PTIKClN1YmplY3QgICAgOiBJbXBvc3NpYmxlIGhpZ2gg
-Y3B1LXRpbWUgdmFsdWVzIGZvciBtaWdyYXRpb24gdGhyZWFkcwpTdWJtaXR0ZXIgIDogTWFya3Vz
-IFRyaXBwZWxzZG9yZiA8bWFya3VzQHRyaXBwZWxzZG9yZi5kZT4KRGF0ZSAgICAgICA6IDIwMTEt
-MTEtMTcgMjI6MTcKTWVzc2FnZS1JRCA6IDIwMTExMTE3MjIxNzMxLkdBOTIyOUB4NC50cmlwcGVs
-cy5kZQpSZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIx
-NTY4MzIxMjQzMTQmdz0yCgpTdWJqZWN0ICAgIDogV0FSTklORzogYXQgbW0vc2x1Yi5jOjMzNTcs
-IGtlcm5lbCBCVUcgYXQgbW0vc2x1Yi5jOjM0MTMKU3VibWl0dGVyICA6IE1hcmt1cyBUcmlwcGVs
-c2RvcmYgPG1hcmt1c0B0cmlwcGVsc2RvcmYuZGU+CkRhdGUgICAgICAgOiAyMDExLTExLTE4IDc6
-MjUKTWVzc2FnZS1JRCA6IDIwMTExMTE4MDcyNTE5LkdBMTYxNUB4NC50cmlwcGVscy5kZQpSZWZl
-cmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIxNjAxMTkwMzE3
-OTQmdz0yCgpTdWJqZWN0ICAgIDogW1JFR1JFU1NJT05dIHJlc3VtZSB0YWtlcyAxMHMgbG9uZ2Vy
-IGR1ZSB0byBlMWI2ZWIzIChCbHVldG9vdGg6IEluY3JlYXNlIEhDSSByZXNldCB0aW1lb3V0IC4u
-LikKU3VibWl0dGVyICA6IFRvbcOhxaEgSmFub3XFoWVrIDx0b21pQG5vbWkuY3o+CkRhdGUgICAg
-ICAgOiAyMDExLTExLTE4IDE4OjQwCk1lc3NhZ2UtSUQgOiAyMDExMTExODE4NDAxNy5HQTUwNTJA
-bm9taS5jegpSZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0x
-MzIxNjQxNjk1MTE0MTYmdz0yCgpTdWJqZWN0ICAgIDogW1JFR1JFU1NJT05dIHN1ZGRlbiBjcHUg
-aG9nZ2luZyBpbiBrZXJuZWwgMy4yIHJjLXNlcmllcwpTdWJtaXR0ZXIgIDogIk5pY29sYXMgS2Fs
-a2hvZiIgPG5rYWxraG9mQHdlYi5kZT4KRGF0ZSAgICAgICA6IDIwMTEtMTEtMTggMjA6MzMKTWVz
-c2FnZS1JRCA6IDUwNjc4NjY4OS44MTAwNDQuMTMyMTY0ODM5NTI2NS5KYXZhTWFpbC5mbWFpbEBt
-d213ZWIwMTAKUmVmZXJlbmNlcyA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09
-MTMyMTY0OTA5MzEzNTk0Jnc9MgoKU3ViamVjdCAgICA6IEJpc2VjdGVkIHJlZ3Jlc3Npb246IGhh
-bmcgb24gaTkxNSBiZXR3ZWVuIDMuMS4wLXJjOSBhbmQgMy4xLjAKU3VibWl0dGVyICA6IE1lZWxp
-cyBSb29zIDxtcm9vc0BsaW51eC5lZT4KRGF0ZSAgICAgICA6IDIwMTEtMTEtMjIgMTA6MTUKTWVz
-c2FnZS1JRCA6IGFscGluZS5TT0MuMS4wMC4xMTExMjIxMjA3MDkwLjY0OTBAbWF0aC51dC5lZQpS
-ZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIxOTU3MDAw
-MjM3MDkmdz0yCgpTdWJqZWN0ICAgIDogMy4yLXJjMiByZWdyZXNzaW9uOiBmbG9wcHkgZHJpdmVy
-IGJyZWFrcyBib290ClN1Ym1pdHRlciAgOiBQYXZlbCBNYWNoZWsgPHBhdmVsQHVjdy5jej4KRGF0
-ZSAgICAgICA6IDIwMTEtMTEtMjIgMTE6MTQKTWVzc2FnZS1JRCA6IDIwMTExMTIyMTExNDA1LkdB
-MjgyMTVAZWxmLnVjdy5jegpSZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1r
-ZXJuZWwmbT0xMzIxOTYwNTIxMjQ4MDEmdz0yCgpTdWJqZWN0ICAgIDogW3JlZ3Jlc3Npb24gMy4x
-LjAgLT4gMy4yMHJjXSBVU0IgT29wcwpTdWJtaXR0ZXIgIDogTm9yYmVydCBQcmVpbmluZyA8cHJl
-aW5pbmdAbG9naWMuYXQ+CkRhdGUgICAgICAgOiAyMDExLTExLTIyIDEyOjUyCk1lc3NhZ2UtSUQg
-OiAyMDExMTEyMjEyNTI1Ni5HQjMyNDQwQGdhbW1hLmxvZ2ljLnR1d2llbi5hYy5hdApSZWZlcmVu
-Y2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIxOTY2NDQ3MjY5MDAm
-dz0yCgpTdWJqZWN0ICAgIDogRnJlZXppbmcgb2YgdGFza3MgZmFpbGVkIGFmdGVyIDIwLjAxIHNl
-Y29uZHMgaW4ga2VybmVsIDMuMi4wLXJjMgpTdWJtaXR0ZXIgIDogQmVsaXNrbyBNYXJlayA8bWFy
-ZWsuYmVsaXNrb0BnbWFpbC5jb20+CkRhdGUgICAgICAgOiAyMDExLTExLTIyIDIxOjIwCk1lc3Nh
-Z2UtSUQgOiAKQ0FBZnl2MzZueFlxMUVBMnBjSGk1V1IxQmRXWUhwMnNRVFkxbU1BNFEzSmpjT0c1
-UkR3QG1haWwuZ21haWwuY29tClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4
-LWtlcm5lbCZtPTEzMjE5OTY5MTcwNjEwMCZ3PTIKClN1YmplY3QgICAgOiAzLjIuMC1yYzIrZ2l0
-OiBwb3NzaWJsZSByZWN1cnNpdmUgbG9ja2luZyBkZXRlY3RlZCBpbiBwcm9jZXNzIAptZW1vcnkg
-ZnJlZWluZwpTdWJtaXR0ZXIgIDogTWVlbGlzIFJvb3MgPG1yb29zQGxpbnV4LmVlPgpEYXRlICAg
-ICAgIDogMjAxMS0xMS0yMyAxMzoxMgpNZXNzYWdlLUlEIDogYWxwaW5lLlNPQy4xLjAwLjExMTEy
-MzEzMTE0OTAuMTU5MzlAbWF0aC51dC5lZQpSZWZlcmVuY2VzIDogaHR0cDovL2xrbWwub3JnL2xr
-bWwvMjAxMS8xMS8yMy8xNTkKClN1YmplY3QgICAgOiBpOTE1OiAzLjIgcmMxLzIgS01TIHJlZ3Jl
-c3Npb24KU3VibWl0dGVyICA6IFBhdHJpayBLdWxsbWFuIDxwYXRyaWsua3VsbG1hbkBnbWFpbC5j
-b20+CkRhdGUgICAgICAgOiAyMDExLTExLTIzIDIzOjQzCk1lc3NhZ2UtSUQgOiBDQUdQTj05VEhP
-di0KTTRUZDRoYUU5NHVEY3NBalczZUdNRzdpb0xldStwOHhVT0JQZDd3QG1haWwuZ21haWwuY29t
-ClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEzMjIwOTE4
-NjQwMzI4OCZ3PTIKClN1YmplY3QgICAgOiAzLjItcmMyOiByZWdyZXNzaW9uIGFmdGVyIGhpYmVy
-bmF0ZTogbG90cyBvZiB3YXJuaW5ncywgYnJva2VuIApzeXN0ZW0KU3VibWl0dGVyICA6IFBhdmVs
-IE1hY2hlayA8cGF2ZWxAdWN3LmN6PgpEYXRlICAgICAgIDogMjAxMS0xMS0yNCAxNTo0MApNZXNz
-YWdlLUlEIDogMjAxMTExMjQxNTQwMTQuR0EyMTUzQGVsZi51Y3cuY3oKUmVmZXJlbmNlcyA6IGh0
-dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTMyMjE0OTI5ODE4MDE1Jnc9MgoKU3Vi
-amVjdCAgICA6IFtyZWdyZXNzaW9uXSBXQVJOSU5HOiBhdCBkcml2ZXJzL2Jsb2NrL2Zsb3BweS5j
-OjI5MjkgCmRvX2ZkX3JlcXVlc3QrMHhiNy8weGI5KCkgaW4gMy4yLjAtcmMyIGFuZCAzClN1Ym1p
-dHRlciAgOiBSYWxmIEhpbGRlYnJhbmR0IDxSYWxmLkhpbGRlYnJhbmR0QGNoYXJpdGUuZGU+CkRh
-dGUgICAgICAgOiAyMDExLTExLTI1IDEwOjM0Ck1lc3NhZ2UtSUQgOiAyMDExMTEyNTEwMzQyMC5H
-TzQ1ODFAY2hhcml0ZS5kZQpSZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1r
-ZXJuZWwmbT0xMzIyMjE3OTk1MDE2ODUmdz0yCgpTdWJqZWN0ICAgIDogW0JVR10gMy4yLXJjWCBy
-YWRlb24gS01TIHN5c3RlbSBmcmVlemUKU3VibWl0dGVyICA6IEJvYiBUcmFjeSA8cmN0QGdoZXJr
-aW4uZnJ1cy5jb20+CkRhdGUgICAgICAgOiAyMDExLTExLTI1IDIwOjMzCk1lc3NhZ2UtSUQgOiAy
-MDExMTEyNTIwMzM1MS5HQTM2NTFAZ2hlcmtpbi5mcnVzLmNvbQpSZWZlcmVuY2VzIDogaHR0cDov
-L21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIyMjUzMzEzMTIwMTkmdz0yCgpTdWJqZWN0
-ICAgIDogMy4yLXJjMiByZWdyZXNzaW9uIGR1ZSB0byBjb21taXQgIlVTQjogRUhDSTogZml4IEhV
-QiBUVCBzY2hlZHVsaW5nIAppc3N1ZSB3aXRoIGlzbyB0cmFuc2ZlciIgODExYzkyNmM1MzhmN2U4
-ZDNjMDhiNjMwZGQ1ODQ0ZWZkN2UwMDBmNgpTdWJtaXR0ZXIgIDogU2FuZGVyIEVpa2VsZW5ib29t
-IDxsaW51eEBlaWtlbGVuYm9vbS5pdD4KRGF0ZSAgICAgICA6IDIwMTEtMTEtMjYgMTU6NDcKTWVz
-c2FnZS1JRCA6IDEwMDEyMDkwMTguMjAxMTExMjYxNjQ3MTJAZWlrZWxlbmJvb20uaXQKUmVmZXJl
-bmNlcyA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTMyMjMyMjk1NDI1Mzkz
-Jnc9MgoKU3ViamVjdCAgICA6IDMuMi1yYzMrOiBbZHJtOmk5MTVfaGFuZ2NoZWNrX2VsYXBzZWRd
-IEVSUk9SIEhhbmdjaGVjayB0aW1lciAKZWxhcHNlZC4uLiBHUFUgaHVuZwpTdWJtaXR0ZXIgIDog
-U2VyZ2VpIFRyb2ZpbW92aWNoIDxzbHlpY2hAZ21haWwuY29tPgpEYXRlICAgICAgIDogMjAxMS0x
-Mi0wMiAxNzo1NgpNZXNzYWdlLUlEIDogMjAxMTEyMDIyMDU2MDEuMTE1NTIyYjFAc2YuaG9tZQpS
-ZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIyODQ4NDU3
-MDUxNTYmdz0yCgpTdWJqZWN0ICAgIDogW0JVR10gZGVhZGxvY2s6IGpmcyAoMy4yLjAtcmM0LTAw
-MTU0LWc4ZThkYTAyKQpTdWJtaXR0ZXIgIDogTmljbyBTY2hvdHRlbGl1cyA8bmljby1saW51eC0y
-MDExMTIwMUBzY2hvdHRlbGl1cy5vcmc+CkRhdGUgICAgICAgOiAyMDExLTEyLTA2IDEwOjA1Ck1l
-c3NhZ2UtSUQgOiAyMDExMTIwNjEwMDUzMy5HQjYxNjFAc2Nob3R0ZWxpdXMub3JnClJlZmVyZW5j
-ZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEzMjMxNzkxNzgyNzgyNSZ3
-PTIKClN1YmplY3QgICAgOiBbMy4yLXJjNF0gcGNuZXQzMjogRE1BLUFQSTogZGV2aWNlIGRyaXZl
-ciB0cmllcyB0byBzeW5jIERNQSAKbWVtb3J5IGl0IGhhcyBub3QgYWxsb2NhdGVkClN1Ym1pdHRl
-ciAgOiBUZXRzdW8gSGFuZGEgPHBlbmd1aW4ta2VybmVsQGktbG92ZS5zYWt1cmEubmUuanA+CkRh
-dGUgICAgICAgOiAyMDExLTEyLTA5IDM6NDAKTWVzc2FnZS1JRCA6IDIwMTExMjA5MDM0MC5wQjkz
-ZWs5aTA4Njg1NUB3d3cyNjIuc2FrdXJhLm5lLmpwClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5p
-bmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEzMjM0MDIxNTcwNjIxOSZ3PTIKClN1YmplY3QgICAgOiBF
-bmFibGluZyBGQ29FIHBvaW50LXRvLXBvaW50IG1vZGUgdHJpZ2dlcnMgYSBkZWFkbG9jawpTdWJt
-aXR0ZXIgIDogQmFydCBWYW4gQXNzY2hlIDxidmFuYXNzY2hlQGFjbS5vcmc+CkRhdGUgICAgICAg
-OiAyMDExLTEyLTA5IDE0OjMzClJlZmVyZW5jZXMgOiBodHRwOi8vcGVybWFsaW5rLmdtYW5lLm9y
-Zy9nbWFuZS5saW51eC5zY3NpLm9wZW4tZmNvZS5kZXZlbC8xMTQ1MQoKU3ViamVjdCAgICA6IGl3
-bGFnbiB1bnVzYWJsZSBpbiAzLjIuMHJjNApTdWJtaXR0ZXIgIDogRGF2ZSBKb25lcyA8ZGF2ZWpA
-cmVkaGF0LmNvbT4KRGF0ZSAgICAgICA6IDIwMTEtMTItMDkgMTk6NDIKTWVzc2FnZS1JRCA6IDIw
-MTExMjA5MTk0MjA4LkdBMTUyMzZAcmVkaGF0LmNvbQpSZWZlcmVuY2VzIDogaHR0cDovL21hcmMu
-aW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIzNDU5ODQ3MjQ0MzMmdz0yCgpTdWJqZWN0ICAgIDog
-RFJNIG5vdXZlYXUgY3Jhc2ggd2l0aCAzLjIuMC1yYzUKU3VibWl0dGVyICA6ICJCZXJjayBFLiBO
-YXNoIiA8Zmx5Ym95QGdtYWlsLmNvbT4KRGF0ZSAgICAgICA6IDIwMTEtMTItMTAgNToxMApNZXNz
-YWdlLUlEIDogNEVFMkU5QkIuODA2MDgwMUBnbWFpbC5jb20KUmVmZXJlbmNlcyA6IGh0dHA6Ly9t
-YXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTMyMzQ5MzkzNzAwNDE5Jnc9MgoKU3ViamVjdCAg
-ICA6IFJlaXNlcmZzLmMgYnVnIGluIDMuMi1yYzUKU3VibWl0dGVyICA6ICJKb3JnZSBCYXN0b3Mi
-IDxteXNxbC5qb3JnZUBkZWNpbWFsLnB0PgpEYXRlICAgICAgIDogMjAxMS0xMi0xMCAyMzo0OApN
-ZXNzYWdlLUlEIDogNDM1NTYuMjEzLjIyOC4xNDAuMTUwLjEzMjM1NjA5MjAuc3F1aXJyZWxAd2Vi
-bWFpbC5kZWNpbWFsLnB0ClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtl
-cm5lbCZtPTEzMjM1NjE1NjkxNDI5NiZ3PTIKClN1YmplY3QgICAgOiBbUkVHUkVTU0lPTl0gMy4y
-LjAtcmMzIEJsdWV0b290aCBMMkNBUCBMaW51eCB0byBMaW51eCByZmNvbW0gCmZhaWxzClN1Ym1p
-dHRlciAgOiBEYXZpZCBGcmllcyA8ZGF2aWRAZnJpZXMubmV0PgpEYXRlICAgICAgIDogMjAxMS0x
-Mi0xMSA1OjE2Ck1lc3NhZ2UtSUQgOiAyMDExMTIxMTA1MTYyNC5HQTEyMDUwQHNwYWNlZG91dC5m
-cmllcy5uZXQKUmVmZXJlbmNlcyA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09
-MTMyMzU4MDcxNDE3MTk4Jnc9MgoKU3ViamVjdCAgICA6IHJlY2VudCByZWdyZXNzaW9uOiBhZnRl
-ciByZXN1bWUgdGhlIG1vdXNlIGFuZCBYIGlzIGV4dHJlbWVseSBzbG93ClN1Ym1pdHRlciAgOiBO
-b3JiZXJ0IFByZWluaW5nIDxwcmVpbmluZ0Bsb2dpYy5hdD4KRGF0ZSAgICAgICA6IDIwMTEtMTIt
-MTEgMjI6MTMKTWVzc2FnZS1JRCA6IDIwMTExMjExMjIxMzAzLkdBODcxMEBnYW1tYS5sb2dpYy50
-dXdpZW4uYWMuYXQKUmVmZXJlbmNlcyA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVs
-Jm09MTMyMzY0MTY5OTI5NzQwJnc9MgoKClRoYW5rcyEKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHA6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+[Evidently, vger has blocked the previous attempts to post this message
+for some reason.  I wonder why?]
+
+This message contains a list of some regressions from 3.0 and 3.1
+for which there are no fixes in the mainline known to the tracking team=
+=2E
+If any of them have been fixed already, please let us know.
+
+If you know of any other unresolved regressions from 3.0 and 3.1, pleas=
+e let us
+know either and we'll add them to the list.  Also, please let us know i=
+f any of
+the entries below are invalid.
+
+The entries below are simplified and the statistics are not present due=
+ to the
+continuing Bugzilla outage.
+
+
+Subject    : iwlagn is getting very shaky
+Submitter  : Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
+Date       : 2011-10-19 6:01
+Message-ID : 20111019060108.GA11588-DqSSrKF0TaySnEC3TeqHn5dqbFPxfnh/@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D131914553920614&w=3D=
+2
+
+Subject    : Regression: "irqpoll" hasn't been working for me since Mar=
+ch 16 IRQ
+Submitter  : Edward Donovan <edward.donovan-mb/Bq7DTvoSsTnJN9+BGXg@public.gmane.org>
+Date       : 2011-10-19 22:09
+Message-ID : CADdbW+HXdCPfJu2RTF6zz+ujCmiu_dmZwL2iScuF53p=3DAaZ1Uw@mail=
+=2Egmail.com
+References : http://marc.info/?l=3Dlinux-kernel&m=3D131914554220679&w=3D=
+2
+
+Subject    : 3.1+ iwlwifi lockup
+Submitter  : Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date       : 2011-10-31 14:34
+Message-ID : 20111031143408.GA17152-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132007169420160&w=3D=
+2
+
+Subject    : Linus GIT - INFO: possible circular locking dependency det=
+ected
+Submitter  : Miles Lane <miles.lane-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-11-03 15:57
+Message-ID : CAHFgRy8S0xLfhZxTUOEH5A0PL_Fb79-0-gmbQ=3D9h2D-xMqt1hA@mail=
+=2Egmail.com
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132033587908426&w=3D=
+2
+
+Subject    : DMA-API check_sync errors with 3.2
+Submitter  : Josh Boyer <jwboyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date       : 2011-11-08 17:31
+Message-ID : 20111108173153.GE14216-8k7Gwy46GHkf7BdofF/totBPR1lH4CV8@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132077357608797&w=3D=
+2
+
+Subject    : 3.2-rc1 doesn't boot on dual socket opteron without swap
+Submitter  : Niklas Schnelle <niklas-74wnUeZ+fLazQB+pC5nmwQ@public.gmane.org>
+Date       : 2011-11-10 20:09
+Message-ID : 1320955769.1718.8.camel@jupiter
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132095583501767&w=3D=
+2
+
+Subject    : Sparc-32 doesn't work in 3.1.
+Submitter  : Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
+Date       : 2011-11-12 11:22
+Message-ID : 4EBEAB5A.5020809-VoJi6FS/r0vR7s880joybQ@public.gmane.org
+References : http://www.spinics.net/lists/kernel/msg1260383.html
+
+Subject    : WARNING: at fs/sysfs/sysfs.h:195 (during boot)
+Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA@public.gmane.org>
+Date       : 2011-11-13 19:24
+Message-ID : 20111113192417.GA1659-tLCgZGx+iJ+kxVt8IV0GqQ@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132121231921932&w=3D=
+2
+
+Subject    : max PWM is zero
+Submitter  : Marcos Paulo de Souza <marcos.mage-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-11-15 15:14
+Message-ID : alpine.LNX.2.00.1111151301410.2693-4/PLUo9XfK9uYUHNOcvv8+TW4wlIGRCZ@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132137019330548&w=3D=
+2
+
+Subject    : Oops on suspend with libertas SDIO (Linux 3.2-rc2)
+Submitter  : Sven Neumann <s.neumann-5g8ninUHluJWk0Htik3J/w@public.gmane.org>
+Date       : 2011-11-17 15:36
+Message-ID : 1321544210.31090.6.camel@sven
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132154527715807&w=3D=
+2
+
+Subject    : Impossible high cpu-time values for migration threads
+Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA@public.gmane.org>
+Date       : 2011-11-17 22:17
+Message-ID : 20111117221731.GA9229-tLCgZGx+iJ+kxVt8IV0GqQ@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132156832124314&w=3D=
+2
+
+Subject    : WARNING: at mm/slub.c:3357, kernel BUG at mm/slub.c:3413
+Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA@public.gmane.org>
+Date       : 2011-11-18 7:25
+Message-ID : 20111118072519.GA1615-tLCgZGx+iJ+kxVt8IV0GqQ@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132160119031794&w=3D=
+2
+
+Subject    : [REGRESSION] resume takes 10s longer due to e1b6eb3 (Bluet=
+ooth: Increase HCI reset timeout ...)
+Submitter  : Tom=C3=A1=C5=A1 Janou=C5=A1ek <tomi-YoqI/XImC7s@public.gmane.org>
+Date       : 2011-11-18 18:40
+Message-ID : 20111118184017.GA5052-YoqI/XImC7s@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132164169511416&w=3D=
+2
+
+Subject    : [REGRESSION] sudden cpu hogging in kernel 3.2 rc-series
+Submitter  : "Nicolas Kalkhof" <nkalkhof-S0/GAf8tV78@public.gmane.org>
+Date       : 2011-11-18 20:33
+Message-ID : 506786689.810044.1321648395265.JavaMail.fmail@mwmweb010
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132164909313594&w=3D=
+2
+
+Subject    : Bisected regression: hang on i915 between 3.1.0-rc9 and 3.=
+1.0
+Submitter  : Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+Date       : 2011-11-22 10:15
+Message-ID : alpine.SOC.1.00.1111221207090.6490-ptEonEWSGqKptlylMvRsHA@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132195700023709&w=3D=
+2
+
+Subject    : 3.2-rc2 regression: floppy driver breaks boot
+Submitter  : Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Date       : 2011-11-22 11:14
+Message-ID : 20111122111405.GA28215-I/5MKhXcvmPrBKCeMvbIDA@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132196052124801&w=3D=
+2
+
+Subject    : [regression 3.1.0 -> 3.20rc] USB Oops
+Submitter  : Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
+Date       : 2011-11-22 12:52
+Message-ID : 20111122125256.GB32440-DqSSrKF0TaySnEC3TeqHn5dqbFPxfnh/@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132196644726900&w=3D=
+2
+
+Subject    : Freezing of tasks failed after 20.01 seconds in kernel 3.2=
+=2E0-rc2
+Submitter  : Belisko Marek <marek.belisko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-11-22 21:20
+Message-ID :=20
+CAAfyv36nxYq1EA2pcHi5WR1BdWYHp2sQTY1mMA4Q3JjcOG5RDw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132199691706100&w=3D=
+2
+
+Subject    : 3.2.0-rc2+git: possible recursive locking detected in proc=
+ess=20
+memory freeing
+Submitter  : Meelis Roos <mroos-Y27EyoLml9s@public.gmane.org>
+Date       : 2011-11-23 13:12
+Message-ID : alpine.SOC.1.00.1111231311490.15939-ptEonEWSGqKptlylMvRsHA@public.gmane.org
+References : http://lkml.org/lkml/2011/11/23/159
+
+Subject    : i915: 3.2 rc1/2 KMS regression
+Submitter  : Patrik Kullman <patrik.kullman-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-11-23 23:43
+Message-ID : CAGPN=3D9THOv-
+M4Td4haE94uDcsAjW3eGMG7ioLeu+p8xUOBPd7w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132209186403288&w=3D=
+2
+
+Subject    : 3.2-rc2: regression after hibernate: lots of warnings, bro=
+ken=20
+system
+Submitter  : Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+Date       : 2011-11-24 15:40
+Message-ID : 20111124154014.GA2153-I/5MKhXcvmPrBKCeMvbIDA@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132214929818015&w=3D=
+2
+
+Subject    : [regression] WARNING: at drivers/block/floppy.c:2929=20
+do_fd_request+0xb7/0xb9() in 3.2.0-rc2 and 3
+Submitter  : Ralf Hildebrandt <Ralf.Hildebrandt-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org>
+Date       : 2011-11-25 10:34
+Message-ID : 20111125103420.GO4581-jq1tPX9l7E6ELgA04lAiVw@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132221799501685&w=3D=
+2
+
+Subject    : [BUG] 3.2-rcX radeon KMS system freeze
+Submitter  : Bob Tracy <rct-GsGdjl1a1FBK+8ot1e1MDQ@public.gmane.org>
+Date       : 2011-11-25 20:33
+Message-ID : 20111125203351.GA3651-GsGdjl1a1FBK+8ot1e1MDQ@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132225331312019&w=3D=
+2
+
+Subject    : 3.2-rc2 regression due to commit "USB: EHCI: fix HUB TT sc=
+heduling=20
+issue with iso transfer" 811c926c538f7e8d3c08b630dd5844efd7e000f6
+Submitter  : Sander Eikelenboom <linux-6SM94LqRVpn6gRhOQ7JHfg@public.gmane.org>
+Date       : 2011-11-26 15:47
+Message-ID : 1001209018.20111126164712-6SM94LqRVpn6gRhOQ7JHfg@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132232295425393&w=3D=
+2
+
+Subject    : 3.2-rc3+: [drm:i915_hangcheck_elapsed] ERROR Hangcheck tim=
+er=20
+elapsed... GPU hung
+Submitter  : Sergei Trofimovich <slyich-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-12-02 17:56
+Message-ID : 20111202205601.115522b1-rUBWEpAk+NE@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132284845705156&w=3D=
+2
+
+Subject    : [BUG] deadlock: jfs (3.2.0-rc4-00154-g8e8da02)
+Submitter  : Nico Schottelius <nico-linux-20111201-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org>
+Date       : 2011-12-06 10:05
+Message-ID : 20111206100533.GB6161-xuaVFQXs+5hIG4jRRZ66WA@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132317917827825&w=3D=
+2
+
+Subject    : [3.2-rc4] pcnet32: DMA-API: device driver tries to sync DM=
+A=20
+memory it has not allocated
+Submitter  : Tetsuo Handa <penguin-kernel-1yMVhJb1mP/7nzcFbJAaVXf5DAMn2ifp@public.gmane.org>
+Date       : 2011-12-09 3:40
+Message-ID : 201112090340.pB93ek9i086855-etx+eQDEXHD7nzcFbJAaVXf5DAMn2ifp@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132340215706219&w=3D=
+2
+
+Subject    : Enabling FCoE point-to-point mode triggers a deadlock
+Submitter  : Bart Van Assche <bvanassche-HInyCGIudOg@public.gmane.org>
+Date       : 2011-12-09 14:33
+References : http://permalink.gmane.org/gmane.linux.scsi.open-fcoe.deve=
+l/11451
+
+Subject    : iwlagn unusable in 3.2.0rc4
+Submitter  : Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date       : 2011-12-09 19:42
+Message-ID : 20111209194208.GA15236-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132345984724433&w=3D=
+2
+
+Subject    : DRM nouveau crash with 3.2.0-rc5
+Submitter  : "Berck E. Nash" <flyboy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date       : 2011-12-10 5:10
+Message-ID : 4EE2E9BB.8060801-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132349393700419&w=3D=
+2
+
+Subject    : Reiserfs.c bug in 3.2-rc5
+Submitter  : "Jorge Bastos" <mysql.jorge-lcG7AWEBJY0VhHzd4jOs4w@public.gmane.org>
+Date       : 2011-12-10 23:48
+Message-ID : 43556.213.228.140.150.1323560920.squirrel-2RFepEojUI2VwbsBYQEljQ@public.gmane.org=
+pt
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132356156914296&w=3D=
+2
+
+Subject    : [REGRESSION] 3.2.0-rc3 Bluetooth L2CAP Linux to Linux rfco=
+mm=20
+fails
+Submitter  : David Fries <david-CAZ2Ig26prheoWH0uzbU5w@public.gmane.org>
+Date       : 2011-12-11 5:16
+Message-ID : 20111211051624.GA12050-6Mk49KDF3Zwuqz//ww0BS9HuzzzSOjJt@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132358071417198&w=3D=
+2
+
+Subject    : recent regression: after resume the mouse and X is extreme=
+ly slow
+Submitter  : Norbert Preining <preining-DX+603jRYB8@public.gmane.org>
+Date       : 2011-12-11 22:13
+Message-ID : 20111211221303.GA8710-DqSSrKF0TaySnEC3TeqHn5dqbFPxfnh/@public.gmane.org
+References : http://marc.info/?l=3Dlinux-kernel&m=3D132364169929740&w=3D=
+2
+
+
+Thanks!
