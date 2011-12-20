@@ -1,119 +1,194 @@
-From: Witold Baryluk <baryluk-W6Hso+/wx31C2Nf1M/Lcnw@public.gmane.org>
-Subject: Re: [Bug #39732] JBD: Spotted dirty metadata buffer (dev = dm-2,
- blocknr = 2512725). There's a risk of filesystem corruption in case of
- system crash.
-Date: Wed, 14 Dec 2011 00:43:16 +0100
-Message-ID: <20111213234316.GG28734@smp.if.uj.edu.pl>
-References: <Sm7qbRR0zn.A.yAG.LepWOB@chimera>
- <gUVi6eNP8RE.A.z7G.OfpWOB@chimera>
- <20111213041144.GF28734@smp.if.uj.edu.pl>
- <20111213173542.GH11747@quack.suse.cz>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: 3.2-rc6+: Reported regressions from 3.0 and 3.1
+Date: Wed, 21 Dec 2011 00:39:13 +0100
+Message-ID: <201112210039.14100.linux-pm-bounces@lists.linux-foundation.org>
+References: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20111213173542.GH11747-+0h/O2h83AeN3ZZ/Hiejyg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Dilger <adilger.kernel-m1MBpc4rdrD3fQ9qLvQP4Q@public.gmane.org>, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Return-path: <dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org>
+In-Reply-To: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
+List-Id: <kernel-testers.vger.kernel.org>
+List-Unsubscribe: <http://lists.freedesktop.org/mailman/options/dri-devel>,
+	<mailto:dri-devel-request@lists.freedesktop.org?subject=unsubscribe>
+List-Archive: <http://lists.freedesktop.org/archives/dri-devel>
+List-Post: <mailto:dri-devel@lists.freedesktop.org>
+List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
+List-Subscribe: <http://lists.freedesktop.org/mailman/listinfo/dri-devel>,
+	<mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Sender: dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org
+Errors-To: dri-devel-bounces+sf-dri-devel=m.gmane.org@lists.freedesktop.org
+To: Kernel Testers List <kernel-testers@vger.kernel.org>
+Cc: Linux SCSI List <linux-scsi@vger.kernel.org>, Florian Mickler <florian@mickler.org>, Network Development <netdev@vger.kernel.org>, Linux PM list <linux-pm@vger.kernel.org>, Linux Wireless List <linux-wireless@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, Linux ACPI <linux-acpi@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Linus Torvalds <torvalds@linux-foundation.org>, Maciej Rutecki <maciej.rutecki@gmail.com>
 
-On 12-13 18:35, Jan Kara wrote:
->   Hi,
-> 
-> On Tue 13-12-11 05:11:44, Witold Baryluk wrote:
-> > On 08-28 21:01, Rafael J. Wysocki wrote:
-> > > This message has been generated automatically as a part of a report
-> > > of regressions introduced between 2.6.39 and 3.0.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > introduced between 2.6.39 and 3.0.  Please verify if it still should
-> > > be listed and let the tracking team know (either way).
-> > > 
-> > > 
-> > > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=39732
-> > > Subject		: JBD: Spotted dirty metadata buffer (dev = dm-2, blocknr = 2512725). There's a risk of filesystem corruption in case of system crash.
-> > > Submitter	: Witold Baryluk <baryluk-W6Hso+/wx31C2Nf1M/Lcnw@public.gmane.org>
-> > > Date		: 2011-07-22 04:22 (38 days old)
-> > 
-> > This bug still exists in 3.1.0 and 3.2.0-rc5
-> > 
-> > I spoted it again few days ago, because I moved from me laptop with 2GB
-> > to temporary desktop with 256MB of RAM, and not it
-> > triggers like a mad.
-> > 
-> > So my initial suspicious that it only shows up on big memory
-> > presure was correct.
-> > 
-> > 
-> > It is just like this 
-> > # dmesg | grep dirty
-> > [122647.953872] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 1019852). There's a risk of filesystem corruption in case of system crash.
-> > [122647.954598] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 1043195). There's a risk of filesystem corruption in case of system crash.
-> > [122647.955213] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 1043197). There's a risk of filesystem corruption in case of system crash.
-> > [122689.978864] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 498559). There's a risk of filesystem corruption in case of system crash.
-> > [122705.485461] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 68282). There's a risk of filesystem corruption in case of system crash.
-> > [122705.486046] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 68284). There's a risk of filesystem corruption in case of system crash.
-> > [122705.496916] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 68365). There's a risk of filesystem corruption in case of system crash.
-> > [122705.612423] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 69218). There's a risk of filesystem corruption in case of system crash.
-> > [122706.531297] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 833896). There's a risk of filesystem corruption in case of system crash.
-> > [122720.863807] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 914979). There's a risk of filesystem corruption in case of system crash.
-> > [122721.046789] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 890090). There's a risk of filesystem corruption in case of system crash.
-> > [122721.088280] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 916474). There's a risk of filesystem corruption in case of system crash.
-> > [122721.176979] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 928182). There's a risk of filesystem corruption in case of system crash.
-> > [122721.177593] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 927783). There's a risk of filesystem corruption in case of system crash.
-> > [122721.371654] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 920655). There's a risk of filesystem corruption in case of system crash.
-> > [122721.543676] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 967035). There's a risk of filesystem corruption in case of system crash.
-> > [122728.396687] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 1043474). There's a risk of filesystem corruption in case of system crash.
-> > [122736.283876] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 713478). There's a risk of filesystem corruption in case of system crash.
-> > [122743.576350] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 745551). There's a risk of filesystem corruption in case of system crash.
-> > [122743.889259] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 828117). There's a risk of filesystem corruption in case of system crash.
-> > [122752.077022] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 905082). There's a risk of filesystem corruption in case of system crash.
-> > [122752.125005] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 905294). There's a risk of filesystem corruption in case of system crash.
-> > [122752.784390] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 1030306). There's a risk of filesystem corruption in case of system crash.
-> > [122752.785053] JBD: Spotted dirty metadata buffer (dev = dm-3, blocknr = 1031593). There's a risk of filesystem corruption in case of system crash.
-> > #
-> > 
-> > dm-4 is ext4 partition mounted at /var
-> > dm-4 is on LVM on luksCrypt on ATA drive.
-> > 
-> > I'm using currently stock Debian testing kernel:
-> > $ uname -a
-> > Linux sredniczarny 3.1.0-1-686-pae #1 SMP Tue Nov 29 19:01:56 UTC 2011 i686 GNU/Linux
-> > $ cat /proc/version
-> > Linux version 3.1.0-1-686-pae (Debian 3.1.4-1) (waldi-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org) (gcc version 4.6.2 (Debian 4.6.2-4) ) #1 SMP Tue Nov 29 19:01:56 UTC 2011
-> > $
-> > 
-> > 32-bit intel compatible cpu
->   Thanks for report. Actually I was able to reproduce these messages with
-> data=journal mode as well when running bash_shared_mapping test. The
-> culprit of the problem is that block_mkwrite() as used in
-> ext4_page_mkwrite() marks buffers dirty and JBD2 notices this before
-> we clear dirty bits later in ext4_page_mkwrite() (since JBD2 doesn't use
-> page lock for protection when inspecting buffers). So for data=journal mode
-> we'll probably have to reimplement what block_page_mkwrite() does in a
-> slightly different manner tweaked for the needs of data=journal mode.
-> 
-
-Yes, I run data=journal, I am sorry I not mentioned it first!
-(I think I did this in initial bug report, but to this day
-bugzilla is not working :/ )
-
-# grep /var /proc/mounts
-/dev/mapper/sredniczarny-var /var ext4 rw,relatime,user_xattr,acl,commit=120,barrier=1,nodelalloc,data=journal 0 0
-#
-
-It is somehow important I think, for two reasons
-1) I run on laptop, so risk of power loss is high
-2) I use data=journal for having higher data integrity / reliability,
-   and having it opossing effect (by not only not possibly providing
-   this reliability, but also compromising metadata and filesystem structure
-   integrity) is somehow not anyone would want (especially when using data=journal).
-
-Regards,
-Witek
-
-
--- 
-Witold Baryluk
+W0knbSBzb3JyeSBpZiB5b3UgcmVjZWl2ZSB0aGlzIG1lc3NhZ2UgdHdpY2UsIEkgc2VlbSB0byBo
+YXZlIHByb2JsZW1zIHdpdGgKc2VuZGluZyBpdC5dCgpUaGlzIG1lc3NhZ2UgY29udGFpbnMgYSBs
+aXN0IG9mIHNvbWUgcmVncmVzc2lvbnMgZnJvbSAzLjAgYW5kIDMuMQpmb3Igd2hpY2ggdGhlcmUg
+YXJlIG5vIGZpeGVzIGluIHRoZSBtYWlubGluZSBrbm93biB0byB0aGUgdHJhY2tpbmcgdGVhbS4K
+SWYgYW55IG9mIHRoZW0gaGF2ZSBiZWVuIGZpeGVkIGFscmVhZHksIHBsZWFzZSBsZXQgdXMga25v
+dy4KCklmIHlvdSBrbm93IG9mIGFueSBvdGhlciB1bnJlc29sdmVkIHJlZ3Jlc3Npb25zIGZyb20g
+My4wIGFuZCAzLjEsIHBsZWFzZSBsZXQgdXMKa25vdyBlaXRoZXIgYW5kIHdlJ2xsIGFkZCB0aGVt
+IHRvIHRoZSBsaXN0LiAgQWxzbywgcGxlYXNlIGxldCB1cyBrbm93IGlmIGFueSBvZgp0aGUgZW50
+cmllcyBiZWxvdyBhcmUgaW52YWxpZC4KClRoZSBlbnRyaWVzIGJlbG93IGFyZSBzaW1wbGlmaWVk
+IGFuZCB0aGUgc3RhdGlzdGljcyBhcmUgbm90IHByZXNlbnQgZHVlIHRvIHRoZQpjb250aW51aW5n
+IEJ1Z3ppbGxhIG91dGFnZS4KCgpTdWJqZWN0ICAgIDogaXdsYWduIGlzIGdldHRpbmcgdmVyeSBz
+aGFreQpTdWJtaXR0ZXIgIDogTm9yYmVydCBQcmVpbmluZyA8cHJlaW5pbmdAbG9naWMuYXQ+CkRh
+dGUgICAgICAgOiAyMDExLTEwLTE5IDY6MDEKTWVzc2FnZS1JRCA6IDIwMTExMDE5MDYwMTA4LkdB
+MTE1ODhAZ2FtbWEubG9naWMudHV3aWVuLmFjLmF0ClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5p
+bmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEzMTkxNDU1MzkyMDYxNCZ3PTIKClN1YmplY3QgICAgOiBS
+ZWdyZXNzaW9uOiAiaXJxcG9sbCIgaGFzbid0IGJlZW4gd29ya2luZyBmb3IgbWUgc2luY2UgTWFy
+Y2ggMTYgSVJRClN1Ym1pdHRlciAgOiBFZHdhcmQgRG9ub3ZhbiA8ZWR3YXJkLmRvbm92YW5AbnVt
+YmxlLm5ldD4KRGF0ZSAgICAgICA6IDIwMTEtMTAtMTkgMjI6MDkKTWVzc2FnZS1JRCA6IENBRGRi
+VytIWGRDUGZKdTJSVEY2enordWpDbWl1X2RtWndMMmlTY3VGNTNwPUFhWjFVd0BtYWlsLmdtYWls
+LmNvbQpSZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzE5
+MTQ1NTQyMjA2Nzkmdz0yCgpTdWJqZWN0ICAgIDogMy4xKyBpd2x3aWZpIGxvY2t1cApTdWJtaXR0
+ZXIgIDogRGF2ZSBKb25lcyA8ZGF2ZWpAcmVkaGF0LmNvbT4KRGF0ZSAgICAgICA6IDIwMTEtMTAt
+MzEgMTQ6MzQKTWVzc2FnZS1JRCA6IDIwMTExMDMxMTQzNDA4LkdBMTcxNTJAcmVkaGF0LmNvbQpS
+ZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIwMDcxNjk0
+MjAxNjAmdz0yCgpTdWJqZWN0ICAgIDogTGludXMgR0lUIC0gSU5GTzogcG9zc2libGUgY2lyY3Vs
+YXIgbG9ja2luZyBkZXBlbmRlbmN5IGRldGVjdGVkClN1Ym1pdHRlciAgOiBNaWxlcyBMYW5lIDxt
+aWxlcy5sYW5lQGdtYWlsLmNvbT4KRGF0ZSAgICAgICA6IDIwMTEtMTEtMDMgMTU6NTcKTWVzc2Fn
+ZS1JRCA6IENBSEZnUnk4UzB4TGZoWnhUVU9FSDVBMFBMX0ZiNzktMC1nbWJRPTloMkQteE1xdDFo
+QUBtYWlsLmdtYWlsLmNvbQpSZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1r
+ZXJuZWwmbT0xMzIwMzM1ODc5MDg0MjYmdz0yCgpTdWJqZWN0ICAgIDogRE1BLUFQSSBjaGVja19z
+eW5jIGVycm9ycyB3aXRoIDMuMgpTdWJtaXR0ZXIgIDogSm9zaCBCb3llciA8andib3llckByZWRo
+YXQuY29tPgpEYXRlICAgICAgIDogMjAxMS0xMS0wOCAxNzozMQpNZXNzYWdlLUlEIDogMjAxMTEx
+MDgxNzMxNTMuR0UxNDIxNkB6b2QuYm9zLnJlZGhhdC5jb20KUmVmZXJlbmNlcyA6IGh0dHA6Ly9t
+YXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTMyMDc3MzU3NjA4Nzk3Jnc9MgoKU3ViamVjdCAg
+ICA6IDMuMi1yYzEgZG9lc24ndCBib290IG9uIGR1YWwgc29ja2V0IG9wdGVyb24gd2l0aG91dCBz
+d2FwClN1Ym1pdHRlciAgOiBOaWtsYXMgU2NobmVsbGUgPG5pa2xhc0Brb21hbmkuZGU+CkRhdGUg
+ICAgICAgOiAyMDExLTExLTEwIDIwOjA5Ck1lc3NhZ2UtSUQgOiAxMzIwOTU1NzY5LjE3MTguOC5j
+YW1lbEBqdXBpdGVyClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5l
+bCZtPTEzMjA5NTU4MzUwMTc2NyZ3PTIKClN1YmplY3QgICAgOiBTcGFyYy0zMiBkb2Vzbid0IHdv
+cmsgaW4gMy4xLgpTdWJtaXR0ZXIgIDogUm9iIExhbmRsZXkgPHJvYkBsYW5kbGV5Lm5ldD4KRGF0
+ZSAgICAgICA6IDIwMTEtMTEtMTIgMTE6MjIKTWVzc2FnZS1JRCA6IDRFQkVBQjVBLjUwMjA4MDlA
+bGFuZGxleS5uZXQKUmVmZXJlbmNlcyA6IGh0dHA6Ly93d3cuc3Bpbmljcy5uZXQvbGlzdHMva2Vy
+bmVsL21zZzEyNjAzODMuaHRtbAoKU3ViamVjdCAgICA6IFdBUk5JTkc6IGF0IGZzL3N5c2ZzL3N5
+c2ZzLmg6MTk1IChkdXJpbmcgYm9vdCkKU3VibWl0dGVyICA6IE1hcmt1cyBUcmlwcGVsc2RvcmYg
+PG1hcmt1c0B0cmlwcGVsc2RvcmYuZGU+CkRhdGUgICAgICAgOiAyMDExLTExLTEzIDE5OjI0Ck1l
+c3NhZ2UtSUQgOiAyMDExMTExMzE5MjQxNy5HQTE2NTlAeDQudHJpcHBlbHMuZGUKUmVmZXJlbmNl
+cyA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTMyMTIxMjMxOTIxOTMyJnc9
+MgoKU3ViamVjdCAgICA6IG1heCBQV00gaXMgemVybwpTdWJtaXR0ZXIgIDogTWFyY29zIFBhdWxv
+IGRlIFNvdXphIDxtYXJjb3MubWFnZUBnbWFpbC5jb20+CkRhdGUgICAgICAgOiAyMDExLTExLTE1
+IDE1OjE0Ck1lc3NhZ2UtSUQgOiBhbHBpbmUuTE5YLjIuMDAuMTExMTE1MTMwMTQxMC4yNjkzQGRh
+cmtzdGFyLmV4YW1wbGUubmV0ClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4
+LWtlcm5lbCZtPTEzMjEzNzAxOTMzMDU0OCZ3PTIKClN1YmplY3QgICAgOiBPb3BzIG9uIHN1c3Bl
+bmQgd2l0aCBsaWJlcnRhcyBTRElPIChMaW51eCAzLjItcmMyKQpTdWJtaXR0ZXIgIDogU3ZlbiBO
+ZXVtYW5uIDxzLm5ldW1hbm5AcmF1bWZlbGQuY29tPgpEYXRlICAgICAgIDogMjAxMS0xMS0xNyAx
+NTozNgpNZXNzYWdlLUlEIDogMTMyMTU0NDIxMC4zMTA5MC42LmNhbWVsQHN2ZW4KUmVmZXJlbmNl
+cyA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTMyMTU0NTI3NzE1ODA3Jnc9
+MgoKU3ViamVjdCAgICA6IEltcG9zc2libGUgaGlnaCBjcHUtdGltZSB2YWx1ZXMgZm9yIG1pZ3Jh
+dGlvbiB0aHJlYWRzClN1Ym1pdHRlciAgOiBNYXJrdXMgVHJpcHBlbHNkb3JmIDxtYXJrdXNAdHJp
+cHBlbHNkb3JmLmRlPgpEYXRlICAgICAgIDogMjAxMS0xMS0xNyAyMjoxNwpNZXNzYWdlLUlEIDog
+MjAxMTExMTcyMjE3MzEuR0E5MjI5QHg0LnRyaXBwZWxzLmRlClJlZmVyZW5jZXMgOiBodHRwOi8v
+bWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEzMjE1NjgzMjEyNDMxNCZ3PTIKClN1YmplY3Qg
+ICAgOiBXQVJOSU5HOiBhdCBtbS9zbHViLmM6MzM1Nywga2VybmVsIEJVRyBhdCBtbS9zbHViLmM6
+MzQxMwpTdWJtaXR0ZXIgIDogTWFya3VzIFRyaXBwZWxzZG9yZiA8bWFya3VzQHRyaXBwZWxzZG9y
+Zi5kZT4KRGF0ZSAgICAgICA6IDIwMTEtMTEtMTggNzoyNQpNZXNzYWdlLUlEIDogMjAxMTExMTgw
+NzI1MTkuR0ExNjE1QHg0LnRyaXBwZWxzLmRlClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZv
+Lz9sPWxpbnV4LWtlcm5lbCZtPTEzMjE2MDExOTAzMTc5NCZ3PTIKClN1YmplY3QgICAgOiBbUkVH
+UkVTU0lPTl0gcmVzdW1lIHRha2VzIDEwcyBsb25nZXIgZHVlIHRvIGUxYjZlYjMgKEJsdWV0b290
+aDogSW5jcmVhc2UgSENJIHJlc2V0IHRpbWVvdXQgLi4uKQpTdWJtaXR0ZXIgIDogVG9tw6HFoSBK
+YW5vdcWhZWsgPHRvbWlAbm9taS5jej4KRGF0ZSAgICAgICA6IDIwMTEtMTEtMTggMTg6NDAKTWVz
+c2FnZS1JRCA6IDIwMTExMTE4MTg0MDE3LkdBNTA1MkBub21pLmN6ClJlZmVyZW5jZXMgOiBodHRw
+Oi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEzMjE2NDE2OTUxMTQxNiZ3PTIKClN1Ympl
+Y3QgICAgOiBbUkVHUkVTU0lPTl0gc3VkZGVuIGNwdSBob2dnaW5nIGluIGtlcm5lbCAzLjIgcmMt
+c2VyaWVzClN1Ym1pdHRlciAgOiAiTmljb2xhcyBLYWxraG9mIiA8bmthbGtob2ZAd2ViLmRlPgpE
+YXRlICAgICAgIDogMjAxMS0xMS0xOCAyMDozMwpNZXNzYWdlLUlEIDogNTA2Nzg2Njg5LjgxMDA0
+NC4xMzIxNjQ4Mzk1MjY1LkphdmFNYWlsLmZtYWlsQG13bXdlYjAxMApSZWZlcmVuY2VzIDogaHR0
+cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIxNjQ5MDkzMTM1OTQmdz0yCgpTdWJq
+ZWN0ICAgIDogQmlzZWN0ZWQgcmVncmVzc2lvbjogaGFuZyBvbiBpOTE1IGJldHdlZW4gMy4xLjAt
+cmM5IGFuZCAzLjEuMApTdWJtaXR0ZXIgIDogTWVlbGlzIFJvb3MgPG1yb29zQGxpbnV4LmVlPgpE
+YXRlICAgICAgIDogMjAxMS0xMS0yMiAxMDoxNQpNZXNzYWdlLUlEIDogYWxwaW5lLlNPQy4xLjAw
+LjExMTEyMjEyMDcwOTAuNjQ5MEBtYXRoLnV0LmVlClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5p
+bmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEzMjE5NTcwMDAyMzcwOSZ3PTIKClN1YmplY3QgICAgOiAz
+LjItcmMyIHJlZ3Jlc3Npb246IGZsb3BweSBkcml2ZXIgYnJlYWtzIGJvb3QKU3VibWl0dGVyICA6
+IFBhdmVsIE1hY2hlayA8cGF2ZWxAdWN3LmN6PgpEYXRlICAgICAgIDogMjAxMS0xMS0yMiAxMTox
+NApNZXNzYWdlLUlEIDogMjAxMTExMjIxMTE0MDUuR0EyODIxNUBlbGYudWN3LmN6ClJlZmVyZW5j
+ZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEzMjE5NjA1MjEyNDgwMSZ3
+PTIKClN1YmplY3QgICAgOiBbcmVncmVzc2lvbiAzLjEuMCAtPiAzLjIwcmNdIFVTQiBPb3BzClN1
+Ym1pdHRlciAgOiBOb3JiZXJ0IFByZWluaW5nIDxwcmVpbmluZ0Bsb2dpYy5hdD4KRGF0ZSAgICAg
+ICA6IDIwMTEtMTEtMjIgMTI6NTIKTWVzc2FnZS1JRCA6IDIwMTExMTIyMTI1MjU2LkdCMzI0NDBA
+Z2FtbWEubG9naWMudHV3aWVuLmFjLmF0ClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9s
+PWxpbnV4LWtlcm5lbCZtPTEzMjE5NjY0NDcyNjkwMCZ3PTIKClN1YmplY3QgICAgOiBGcmVlemlu
+ZyBvZiB0YXNrcyBmYWlsZWQgYWZ0ZXIgMjAuMDEgc2Vjb25kcyBpbiBrZXJuZWwgMy4yLjAtcmMy
+ClN1Ym1pdHRlciAgOiBCZWxpc2tvIE1hcmVrIDxtYXJlay5iZWxpc2tvQGdtYWlsLmNvbT4KRGF0
+ZSAgICAgICA6IDIwMTEtMTEtMjIgMjE6MjAKTWVzc2FnZS1JRCA6IApDQUFmeXYzNm54WXExRUEy
+cGNIaTVXUjFCZFdZSHAyc1FUWTFtTUE0UTNKamNPRzVSRHdAbWFpbC5nbWFpbC5jb20KUmVmZXJl
+bmNlcyA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTMyMTk5NjkxNzA2MTAw
+Jnc9MgoKU3ViamVjdCAgICA6IDMuMi4wLXJjMitnaXQ6IHBvc3NpYmxlIHJlY3Vyc2l2ZSBsb2Nr
+aW5nIGRldGVjdGVkIGluIHByb2Nlc3MgCm1lbW9yeSBmcmVlaW5nClN1Ym1pdHRlciAgOiBNZWVs
+aXMgUm9vcyA8bXJvb3NAbGludXguZWU+CkRhdGUgICAgICAgOiAyMDExLTExLTIzIDEzOjEyCk1l
+c3NhZ2UtSUQgOiBhbHBpbmUuU09DLjEuMDAuMTExMTIzMTMxMTQ5MC4xNTkzOUBtYXRoLnV0LmVl
+ClJlZmVyZW5jZXMgOiBodHRwOi8vbGttbC5vcmcvbGttbC8yMDExLzExLzIzLzE1OQoKU3ViamVj
+dCAgICA6IGk5MTU6IDMuMiByYzEvMiBLTVMgcmVncmVzc2lvbgpTdWJtaXR0ZXIgIDogUGF0cmlr
+IEt1bGxtYW4gPHBhdHJpay5rdWxsbWFuQGdtYWlsLmNvbT4KRGF0ZSAgICAgICA6IDIwMTEtMTEt
+MjMgMjM6NDMKTWVzc2FnZS1JRCA6IENBR1BOPTlUSE92LQpNNFRkNGhhRTk0dURjc0FqVzNlR01H
+N2lvTGV1K3A4eFVPQlBkN3dAbWFpbC5nbWFpbC5jb20KUmVmZXJlbmNlcyA6IGh0dHA6Ly9tYXJj
+LmluZm8vP2w9bGludXgta2VybmVsJm09MTMyMjA5MTg2NDAzMjg4Jnc9MgoKU3ViamVjdCAgICA6
+IDMuMi1yYzI6IHJlZ3Jlc3Npb24gYWZ0ZXIgaGliZXJuYXRlOiBsb3RzIG9mIHdhcm5pbmdzLCBi
+cm9rZW4gCnN5c3RlbQpTdWJtaXR0ZXIgIDogUGF2ZWwgTWFjaGVrIDxwYXZlbEB1Y3cuY3o+CkRh
+dGUgICAgICAgOiAyMDExLTExLTI0IDE1OjQwCk1lc3NhZ2UtSUQgOiAyMDExMTEyNDE1NDAxNC5H
+QTIxNTNAZWxmLnVjdy5jegpSZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1r
+ZXJuZWwmbT0xMzIyMTQ5Mjk4MTgwMTUmdz0yCgpTdWJqZWN0ICAgIDogW3JlZ3Jlc3Npb25dIFdB
+Uk5JTkc6IGF0IGRyaXZlcnMvYmxvY2svZmxvcHB5LmM6MjkyOSAKZG9fZmRfcmVxdWVzdCsweGI3
+LzB4YjkoKSBpbiAzLjIuMC1yYzIgYW5kIDMKU3VibWl0dGVyICA6IFJhbGYgSGlsZGVicmFuZHQg
+PFJhbGYuSGlsZGVicmFuZHRAY2hhcml0ZS5kZT4KRGF0ZSAgICAgICA6IDIwMTEtMTEtMjUgMTA6
+MzQKTWVzc2FnZS1JRCA6IDIwMTExMTI1MTAzNDIwLkdPNDU4MUBjaGFyaXRlLmRlClJlZmVyZW5j
+ZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEzMjIyMTc5OTUwMTY4NSZ3
+PTIKClN1YmplY3QgICAgOiBbQlVHXSAzLjItcmNYIHJhZGVvbiBLTVMgc3lzdGVtIGZyZWV6ZQpT
+dWJtaXR0ZXIgIDogQm9iIFRyYWN5IDxyY3RAZ2hlcmtpbi5mcnVzLmNvbT4KRGF0ZSAgICAgICA6
+IDIwMTEtMTEtMjUgMjA6MzMKTWVzc2FnZS1JRCA6IDIwMTExMTI1MjAzMzUxLkdBMzY1MUBnaGVy
+a2luLmZydXMuY29tClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5l
+bCZtPTEzMjIyNTMzMTMxMjAxOSZ3PTIKClN1YmplY3QgICAgOiAzLjItcmMyIHJlZ3Jlc3Npb24g
+ZHVlIHRvIGNvbW1pdCAiVVNCOiBFSENJOiBmaXggSFVCIFRUIHNjaGVkdWxpbmcgCmlzc3VlIHdp
+dGggaXNvIHRyYW5zZmVyIiA4MTFjOTI2YzUzOGY3ZThkM2MwOGI2MzBkZDU4NDRlZmQ3ZTAwMGY2
+ClN1Ym1pdHRlciAgOiBTYW5kZXIgRWlrZWxlbmJvb20gPGxpbnV4QGVpa2VsZW5ib29tLml0PgpE
+YXRlICAgICAgIDogMjAxMS0xMS0yNiAxNTo0NwpNZXNzYWdlLUlEIDogMTAwMTIwOTAxOC4yMDEx
+MTEyNjE2NDcxMkBlaWtlbGVuYm9vbS5pdApSZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/
+bD1saW51eC1rZXJuZWwmbT0xMzIyMzIyOTU0MjUzOTMmdz0yCgpTdWJqZWN0ICAgIDogMy4yLXJj
+Mys6IFtkcm06aTkxNV9oYW5nY2hlY2tfZWxhcHNlZF0gRVJST1IgSGFuZ2NoZWNrIHRpbWVyIApl
+bGFwc2VkLi4uIEdQVSBodW5nClN1Ym1pdHRlciAgOiBTZXJnZWkgVHJvZmltb3ZpY2ggPHNseWlj
+aEBnbWFpbC5jb20+CkRhdGUgICAgICAgOiAyMDExLTEyLTAyIDE3OjU2Ck1lc3NhZ2UtSUQgOiAy
+MDExMTIwMjIwNTYwMS4xMTU1MjJiMUBzZi5ob21lClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5p
+bmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEzMjI4NDg0NTcwNTE1NiZ3PTIKClN1YmplY3QgICAgOiBb
+QlVHXSBkZWFkbG9jazogamZzICgzLjIuMC1yYzQtMDAxNTQtZzhlOGRhMDIpClN1Ym1pdHRlciAg
+OiBOaWNvIFNjaG90dGVsaXVzIDxuaWNvLWxpbnV4LTIwMTExMjAxQHNjaG90dGVsaXVzLm9yZz4K
+RGF0ZSAgICAgICA6IDIwMTEtMTItMDYgMTA6MDUKTWVzc2FnZS1JRCA6IDIwMTExMjA2MTAwNTMz
+LkdCNjE2MUBzY2hvdHRlbGl1cy5vcmcKUmVmZXJlbmNlcyA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9
+bGludXgta2VybmVsJm09MTMyMzE3OTE3ODI3ODI1Jnc9MgoKU3ViamVjdCAgICA6IFszLjItcmM0
+XSBwY25ldDMyOiBETUEtQVBJOiBkZXZpY2UgZHJpdmVyIHRyaWVzIHRvIHN5bmMgRE1BIAptZW1v
+cnkgaXQgaGFzIG5vdCBhbGxvY2F0ZWQKU3VibWl0dGVyICA6IFRldHN1byBIYW5kYSA8cGVuZ3Vp
+bi1rZXJuZWxAaS1sb3ZlLnNha3VyYS5uZS5qcD4KRGF0ZSAgICAgICA6IDIwMTEtMTItMDkgMzo0
+MApNZXNzYWdlLUlEIDogMjAxMTEyMDkwMzQwLnBCOTNlazlpMDg2ODU1QHd3dzI2Mi5zYWt1cmEu
+bmUuanAKUmVmZXJlbmNlcyA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTMy
+MzQwMjE1NzA2MjE5Jnc9MgoKU3ViamVjdCAgICA6IEVuYWJsaW5nIEZDb0UgcG9pbnQtdG8tcG9p
+bnQgbW9kZSB0cmlnZ2VycyBhIGRlYWRsb2NrClN1Ym1pdHRlciAgOiBCYXJ0IFZhbiBBc3NjaGUg
+PGJ2YW5hc3NjaGVAYWNtLm9yZz4KRGF0ZSAgICAgICA6IDIwMTEtMTItMDkgMTQ6MzMKUmVmZXJl
+bmNlcyA6IGh0dHA6Ly9wZXJtYWxpbmsuZ21hbmUub3JnL2dtYW5lLmxpbnV4LnNjc2kub3Blbi1m
+Y29lLmRldmVsLzExNDUxCgpTdWJqZWN0ICAgIDogaXdsYWduIHVudXNhYmxlIGluIDMuMi4wcmM0
+ClN1Ym1pdHRlciAgOiBEYXZlIEpvbmVzIDxkYXZlakByZWRoYXQuY29tPgpEYXRlICAgICAgIDog
+MjAxMS0xMi0wOSAxOTo0MgpNZXNzYWdlLUlEIDogMjAxMTEyMDkxOTQyMDguR0ExNTIzNkByZWRo
+YXQuY29tClJlZmVyZW5jZXMgOiBodHRwOi8vbWFyYy5pbmZvLz9sPWxpbnV4LWtlcm5lbCZtPTEz
+MjM0NTk4NDcyNDQzMyZ3PTIKClN1YmplY3QgICAgOiBEUk0gbm91dmVhdSBjcmFzaCB3aXRoIDMu
+Mi4wLXJjNQpTdWJtaXR0ZXIgIDogIkJlcmNrIEUuIE5hc2giIDxmbHlib3lAZ21haWwuY29tPgpE
+YXRlICAgICAgIDogMjAxMS0xMi0xMCA1OjEwCk1lc3NhZ2UtSUQgOiA0RUUyRTlCQi44MDYwODAx
+QGdtYWlsLmNvbQpSZWZlcmVuY2VzIDogaHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwm
+bT0xMzIzNDkzOTM3MDA0MTkmdz0yCgpTdWJqZWN0ICAgIDogUmVpc2VyZnMuYyBidWcgaW4gMy4y
+LXJjNQpTdWJtaXR0ZXIgIDogIkpvcmdlIEJhc3RvcyIgPG15c3FsLmpvcmdlQGRlY2ltYWwucHQ+
+CkRhdGUgICAgICAgOiAyMDExLTEyLTEwIDIzOjQ4Ck1lc3NhZ2UtSUQgOiA0MzU1Ni4yMTMuMjI4
+LjE0MC4xNTAuMTMyMzU2MDkyMC5zcXVpcnJlbEB3ZWJtYWlsLmRlY2ltYWwucHQKUmVmZXJlbmNl
+cyA6IGh0dHA6Ly9tYXJjLmluZm8vP2w9bGludXgta2VybmVsJm09MTMyMzU2MTU2OTE0Mjk2Jnc9
+MgoKU3ViamVjdCAgICA6IFtSRUdSRVNTSU9OXSAzLjIuMC1yYzMgQmx1ZXRvb3RoIEwyQ0FQIExp
+bnV4IHRvIExpbnV4IHJmY29tbSAKZmFpbHMKU3VibWl0dGVyICA6IERhdmlkIEZyaWVzIDxkYXZp
+ZEBmcmllcy5uZXQ+CkRhdGUgICAgICAgOiAyMDExLTEyLTExIDU6MTYKTWVzc2FnZS1JRCA6IDIw
+MTExMjExMDUxNjI0LkdBMTIwNTBAc3BhY2Vkb3V0LmZyaWVzLm5ldApSZWZlcmVuY2VzIDogaHR0
+cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIzNTgwNzE0MTcxOTgmdz0yCgpTdWJq
+ZWN0ICAgIDogcmVjZW50IHJlZ3Jlc3Npb246IGFmdGVyIHJlc3VtZSB0aGUgbW91c2UgYW5kIFgg
+aXMgZXh0cmVtZWx5IHNsb3cKU3VibWl0dGVyICA6IE5vcmJlcnQgUHJlaW5pbmcgPHByZWluaW5n
+QGxvZ2ljLmF0PgpEYXRlICAgICAgIDogMjAxMS0xMi0xMSAyMjoxMwpNZXNzYWdlLUlEIDogMjAx
+MTEyMTEyMjEzMDMuR0E4NzEwQGdhbW1hLmxvZ2ljLnR1d2llbi5hYy5hdApSZWZlcmVuY2VzIDog
+aHR0cDovL21hcmMuaW5mby8/bD1saW51eC1rZXJuZWwmbT0xMzIzNjQxNjk5Mjk3NDAmdz0yCgoK
+VGhhbmtzIQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cDovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
