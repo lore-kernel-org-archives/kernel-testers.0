@@ -1,115 +1,66 @@
-From: Hugh Dickins <hughd@google.com>
-Subject: Re: [Resend] 3.2-rc6+: Reported regressions from 3.0 and 3.1
-Date: Tue, 20 Dec 2011 22:15:00 -0800 (PST)
-Message-ID: <alpine.LSU.2.00.1112202213310.3987@eggly.anvils>
-References: <201112210054.46995.rjw@sisk.pl> <CA+55aFzee7ORKzjZ-_PrVy796k2ASyTe_Odz=ji7f1VzToOkKw@mail.gmail.com> <4EF15F42.4070104@oracle.com> <CA+55aFx=B9adsTR=-uYpmfJnQgdGN+1aL0KUabH5bSY6YcwO7Q@mail.gmail.com>
+From: Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA@public.gmane.org>
+Subject: Re: 3.2-rc6+: Reported regressions from 3.0 and 3.1
+Date: Wed, 21 Dec 2011 07:45:37 +0100
+Message-ID: <20111221064537.GD1629@x4>
+References: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
+ <201112210039.14100.linux-pm-bounces@lists.linux-foundation.org>
 Mime-Version: 1.0
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323584-688804515-1324448109=:3987"
-Return-path: <owner-linux-mm@kvack.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=beta;
-        h=date:from:x-x-sender:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version:content-type;
-        bh=b8/KdbnUkUEfABPQ41kAELcryTk+UPjgp8dSrm+AW1U=;
-        b=fSyCzXLlFT0i4rsFdcicFAmRH4W8pOLDTtbbJ6opDOSAJXHJlRUmBd73ApEnMo9mwK
-         h2jDXukkkYTsKuxWVp9A==
-In-Reply-To: <CA+55aFx=B9adsTR=-uYpmfJnQgdGN+1aL0KUabH5bSY6YcwO7Q@mail.gmail.com>
-Sender: owner-linux-mm@kvack.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=mail.ud10.udmedia.de; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=beta; bh=n5MK94sP85WIuim6DPCMVcYe39
+	o0r2q9hKzYKlGdnfY=; b=X4QrOPK+yZhsaVVoumZBV33NyLx6srYimL+zqLhJpr
+	EF7MRSss+3g5kirrFAH9xUJ92QXtabaqItxnReDGo90BAk0kj1xaUokRNPg6LG0d
+	NO/nhQjj/Ai74hv/tmuKU2/0mGhsc6pCsvkgKiZl77WciRUlIPovR0tZhkSBuZmU
+	Y=
+Content-Disposition: inline
+In-Reply-To: <201112210039.14100.linux-pm-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Dave Kleikamp <dave.kleikamp@oracle.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net, Kernel Testers List <kernel-testers@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Florian Mickler <florian@mickler.org>, davem@davemloft.net, Al Viro <viro@zeniv.linux.org.uk>, linux-mm@kvack.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM list <linux-pm-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 2011.12.21 at 00:54 +0100, Rafael J. Wysocki wrote:
+> Subject    : WARNING: at fs/sysfs/sysfs.h:195 (during boot)
+> Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+> Date       : 2011-11-13 19:24
+> Message-ID : 20111113192417.GA1659-tLCgZGx+iJ+kxVt8IV0GqQ-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org
+> References : http://marc.info/?l=linux-kernel&m=132121231921932&w=2
+> 
+> Subject    : WARNING: at mm/slub.c:3357, kernel BUG at mm/slub.c:3413
+> Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+> Date       : 2011-11-18 7:25
+> Message-ID : 20111118072519.GA1615-tLCgZGx+iJ+kxVt8IV0GqQ-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org
+> References : http://marc.info/?l=linux-kernel&m=132160119031794&w=2
 
---8323584-688804515-1324448109=:3987
-Content-Type: TEXT/PLAIN; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Both entries were caused by the same Radeon kexec writeback bug. This issue
+will hopefully be fixed in the next release.
 
-On Tue, 20 Dec 2011, Linus Torvalds wrote:
-> On Tue, Dec 20, 2011 at 8:23 PM, Dave Kleikamp <dave.kleikamp@oracle.com>=
- wrote:
-> >
-> > I don't think this is a regression. =A0It's been seen before, but the
-> > patch never got submitted, or was lost somewhere. I believe this
-> > will fix it.
->=20
-> Hmm. This patch looks obviously correct. But it looks *so* obviously
-> correct that it just makes me suspicious - this is not new or seldom
-> used code, it's been this way for ages and used all the time. That
-> line literally goes back to 2007, commit eb2be189317d0. And it looks
-> like even before that we had a GFP_KERNEL for the add_to_page_cache()
-> case and that goes back to before the git history. So this is
-> *ancient*.
->=20
-> Maybe almost nobody uses __read_cache_page() with a non-GFP_KERNEL gfp
-> and as a result we've not noticed.
->=20
-> Or maybe there is some crazy reason why it calls "add_to_page_cache()"
-> with GFP_KERNEL.
->=20
-> Adding the usual suspects for mm/filemap.c to the cc line (Andrew is
-> already cc'd, but Al and Hugh should comment).
->=20
-> Ack's, people? Is it really as obvious as it looks, and we've just had
-> this bug forever?
+> Subject    : Impossible high cpu-time values for migration threads
+> Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
+> Date       : 2011-11-17 22:17
+> Message-ID : 20111117221731.GA9229-tLCgZGx+iJ+kxVt8IV0GqQ-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org
+> References : http://marc.info/?l=linux-kernel&m=132156832124314&w=2
 
-Certainly
+This is a cosmetic issue, but I'm still seeing this after bursts of high
+CPU usage:
 
-Acked-by: Hugh Dickins <hughd@google.com>
+ % ps afx -F
+UID        PID  PPID  C    SZ   RSS PSR STIME TTY      STAT   TIME CMD
+root         2     0  0     0     0   1 Dec20 ?        S      0:00 [kthreadd]
+root         3     2  0     0     0   0 Dec20 ?        S      0:01  \_ [ksoftirqd/0]
+root         6     2  0     0     0   0 Dec20 ?        S      0:00  \_ [migration/0]
+root         7     2  0     0     0   1 Dec20 ?        S      0:00  \_ [migration/1]
+root         8     2  0     0     0   1 Dec20 ?        S      0:05  \_ [kworker/1:0]
+root         9     2  0     0     0   1 Dec20 ?        S      0:01  \_ [ksoftirqd/1]
+root        11     2  0     0     0   2 Dec20 ?        S      0:00  \_ [migration/2]
+root        13     2  0     0     0   2 Dec20 ?        S      0:01  \_ [ksoftirqd/2]
+root        14     2 22     0     0   3 Dec20 ?        S    192:21  \_ [migration/3]
+root        16     2  0     0     0   3 Dec20 ?        S      0:01  \_ [ksoftirqd/3]
+root        17     2  0     0     0   2 Dec20 ?        S<     0:00  \_ [khelper]
+...
 
-from me (and add_to_page_cache_locked does the masking of inappropriate
-bits when passing on down, so no need to worry about that aspect).
-
-I agree that it's odd that we've never noticed it before, but I don't
-think the GFP_KERNEL there has any more significance than oversight.
-Nick cleaned up some similar instances in filemap.c a few years back,
-I guess ones he hit in testing, but this just got left over.
-
-page_cache_read()'s GFP_KERNEL looks similarly worrying, but as it's
-only called by filemap_fault(), I suppose it's actually okay.
-
-Ooh, maybe you should also update that comment on GFP_KERNEL above
-read_cache_page_gfp()...
-
-Hugh
-
->=20
->             Linus
->=20
-> --- snip snip ---
-> > vfs: __read_cache_page should use gfp argument rather than GFP_KERNEL
-> >
-> > lockdep reports a deadlock in jfs because a special inode's rw semaphor=
-e
-> > is taken recursively. The mapping's gfp mask is GFP_NOFS, but is not us=
-ed
-> > when __read_cache_page() calls add_to_page_cache_lru().
-> >
-> > Signed-off-by: Dave Kleikamp <dave.kleikamp@oracle.com>
-> >
-> > diff --git a/mm/filemap.c b/mm/filemap.c
-> > index c106d3b..c9ea3df 100644
-> > --- a/mm/filemap.c
-> > +++ b/mm/filemap.c
-> > @@ -1828,7 +1828,7 @@ repeat:
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0page =3D __page_cache_alloc(gfp | __GFP_=
-COLD);
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (!page)
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0return ERR_PTR(-ENOMEM);
-> > - =A0 =A0 =A0 =A0 =A0 =A0 =A0 err =3D add_to_page_cache_lru(page, mappi=
-ng, index, GFP_KERNEL);
-> > + =A0 =A0 =A0 =A0 =A0 =A0 =A0 err =3D add_to_page_cache_lru(page, mappi=
-ng, index, gfp);
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (unlikely(err)) {
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0page_cache_release(page)=
-;
-> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (err =3D=3D -EEXIST)
---8323584-688804515-1324448109=:3987--
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+-- 
+Markus
