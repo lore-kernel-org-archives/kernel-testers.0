@@ -1,31 +1,115 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+From: Hugh Dickins <hughd@google.com>
 Subject: Re: [Resend] 3.2-rc6+: Reported regressions from 3.0 and 3.1
-Date: Tue, 20 Dec 2011 23:50:51 -0500 (EST)
-Message-ID: <20111220.235051.89878848481025900.davem@davemloft.net>
-References: <201112210054.46995.rjw@sisk.pl>
-	<CA+55aFzee7ORKzjZ-_PrVy796k2ASyTe_Odz=ji7f1VzToOkKw@mail.gmail.com>
+Date: Tue, 20 Dec 2011 22:15:00 -0800 (PST)
+Message-ID: <alpine.LSU.2.00.1112202213310.3987@eggly.anvils>
+References: <201112210054.46995.rjw@sisk.pl> <CA+55aFzee7ORKzjZ-_PrVy796k2ASyTe_Odz=ji7f1VzToOkKw@mail.gmail.com> <4EF15F42.4070104@oracle.com> <CA+55aFx=B9adsTR=-uYpmfJnQgdGN+1aL0KUabH5bSY6YcwO7Q@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CA+55aFzee7ORKzjZ-_PrVy796k2ASyTe_Odz=ji7f1VzToOkKw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323584-688804515-1324448109=:3987"
+Return-path: <owner-linux-mm@kvack.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=beta;
+        h=date:from:x-x-sender:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version:content-type;
+        bh=b8/KdbnUkUEfABPQ41kAELcryTk+UPjgp8dSrm+AW1U=;
+        b=fSyCzXLlFT0i4rsFdcicFAmRH4W8pOLDTtbbJ6opDOSAJXHJlRUmBd73ApEnMo9mwK
+         h2jDXukkkYTsKuxWVp9A==
+In-Reply-To: <CA+55aFx=B9adsTR=-uYpmfJnQgdGN+1aL0KUabH5bSY6YcwO7Q@mail.gmail.com>
+Sender: owner-linux-mm@kvack.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="iso-8859-1"
-To: torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
-Cc: rjw-KKrjLPT3xs0@public.gmane.org, shaggy-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, jfs-discussion-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Dave Kleikamp <dave.kleikamp@oracle.com>, "Rafael J. Wysocki" <rjw@sisk.pl>, Dave Kleikamp <shaggy@kernel.org>, jfs-discussion@lists.sourceforge.net, Kernel Testers List <kernel-testers@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Florian Mickler <florian@mickler.org>, davem@davemloft.net, Al Viro <viro@zeniv.linux.org.uk>, linux-mm@kvack.org
 
-=46rom: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Date: Tue, 20 Dec 2011 18:31:15 -0800
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> On Tue, Dec 20, 2011 at 3:54 PM, Rafael J. Wysocki <rjw-KKrjLPT3xs0@public.gmane.org> wrot=
-e:
->>
->> Subject =A0 =A0: Sparc-32 doesn't work in 3.1.
->> Submitter =A0: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
->> Date =A0 =A0 =A0 : 2011-11-12 11:22
->> Message-ID : 4EBEAB5A.5020809-VoJi6FS/r0vR7s880joybQ@public.gmane.org
->> References : http://www.spinics.net/lists/kernel/msg1260383.html
+--8323584-688804515-1324448109=:3987
+Content-Type: TEXT/PLAIN; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+On Tue, 20 Dec 2011, Linus Torvalds wrote:
+> On Tue, Dec 20, 2011 at 8:23 PM, Dave Kleikamp <dave.kleikamp@oracle.com>=
+ wrote:
+> >
+> > I don't think this is a regression. =A0It's been seen before, but the
+> > patch never got submitted, or was lost somewhere. I believe this
+> > will fix it.
 >=20
-> I'm pretty sure this is fixed by commit b1f44e13a525.
+> Hmm. This patch looks obviously correct. But it looks *so* obviously
+> correct that it just makes me suspicious - this is not new or seldom
+> used code, it's been this way for ages and used all the time. That
+> line literally goes back to 2007, commit eb2be189317d0. And it looks
+> like even before that we had a GFP_KERNEL for the add_to_page_cache()
+> case and that goes back to before the git history. So this is
+> *ancient*.
+>=20
+> Maybe almost nobody uses __read_cache_page() with a non-GFP_KERNEL gfp
+> and as a result we've not noticed.
+>=20
+> Or maybe there is some crazy reason why it calls "add_to_page_cache()"
+> with GFP_KERNEL.
+>=20
+> Adding the usual suspects for mm/filemap.c to the cc line (Andrew is
+> already cc'd, but Al and Hugh should comment).
+>=20
+> Ack's, people? Is it really as obvious as it looks, and we've just had
+> this bug forever?
 
-It is.
+Certainly
+
+Acked-by: Hugh Dickins <hughd@google.com>
+
+from me (and add_to_page_cache_locked does the masking of inappropriate
+bits when passing on down, so no need to worry about that aspect).
+
+I agree that it's odd that we've never noticed it before, but I don't
+think the GFP_KERNEL there has any more significance than oversight.
+Nick cleaned up some similar instances in filemap.c a few years back,
+I guess ones he hit in testing, but this just got left over.
+
+page_cache_read()'s GFP_KERNEL looks similarly worrying, but as it's
+only called by filemap_fault(), I suppose it's actually okay.
+
+Ooh, maybe you should also update that comment on GFP_KERNEL above
+read_cache_page_gfp()...
+
+Hugh
+
+>=20
+>             Linus
+>=20
+> --- snip snip ---
+> > vfs: __read_cache_page should use gfp argument rather than GFP_KERNEL
+> >
+> > lockdep reports a deadlock in jfs because a special inode's rw semaphor=
+e
+> > is taken recursively. The mapping's gfp mask is GFP_NOFS, but is not us=
+ed
+> > when __read_cache_page() calls add_to_page_cache_lru().
+> >
+> > Signed-off-by: Dave Kleikamp <dave.kleikamp@oracle.com>
+> >
+> > diff --git a/mm/filemap.c b/mm/filemap.c
+> > index c106d3b..c9ea3df 100644
+> > --- a/mm/filemap.c
+> > +++ b/mm/filemap.c
+> > @@ -1828,7 +1828,7 @@ repeat:
+> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0page =3D __page_cache_alloc(gfp | __GFP_=
+COLD);
+> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (!page)
+> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0return ERR_PTR(-ENOMEM);
+> > - =A0 =A0 =A0 =A0 =A0 =A0 =A0 err =3D add_to_page_cache_lru(page, mappi=
+ng, index, GFP_KERNEL);
+> > + =A0 =A0 =A0 =A0 =A0 =A0 =A0 err =3D add_to_page_cache_lru(page, mappi=
+ng, index, gfp);
+> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (unlikely(err)) {
+> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0page_cache_release(page)=
+;
+> > =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (err =3D=3D -EEXIST)
+--8323584-688804515-1324448109=:3987--
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
