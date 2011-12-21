@@ -1,66 +1,31 @@
-From: Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA@public.gmane.org>
-Subject: Re: 3.2-rc6+: Reported regressions from 3.0 and 3.1
-Date: Wed, 21 Dec 2011 07:45:37 +0100
-Message-ID: <20111221064537.GD1629@x4>
-References: <lx6sezwGldO.A.IhF.UBpWOB@chimera>
- <201112210039.14100.linux-pm-bounces@lists.linux-foundation.org>
+From: Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Subject: Re: [Resend] 3.2-rc6+: Reported regressions from 3.0 and 3.1
+Date: Wed, 21 Dec 2011 07:10:39 +0000
+Message-ID: <20111221071039.GH23916@ZenIV.linux.org.uk>
+References: <201112210054.46995.rjw@sisk.pl>
+ <CA+55aFzee7ORKzjZ-_PrVy796k2ASyTe_Odz=ji7f1VzToOkKw@mail.gmail.com>
+ <4EF15F42.4070104@oracle.com>
+ <CA+55aFx=B9adsTR=-uYpmfJnQgdGN+1aL0KUabH5bSY6YcwO7Q@mail.gmail.com>
+ <alpine.LSU.2.00.1112202213310.3987@eggly.anvils>
 Mime-Version: 1.0
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=mail.ud10.udmedia.de; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=beta; bh=n5MK94sP85WIuim6DPCMVcYe39
-	o0r2q9hKzYKlGdnfY=; b=X4QrOPK+yZhsaVVoumZBV33NyLx6srYimL+zqLhJpr
-	EF7MRSss+3g5kirrFAH9xUJ92QXtabaqItxnReDGo90BAk0kj1xaUokRNPg6LG0d
-	NO/nhQjj/Ai74hv/tmuKU2/0mGhsc6pCsvkgKiZl77WciRUlIPovR0tZhkSBuZmU
-	Y=
 Content-Disposition: inline
-In-Reply-To: <201112210039.14100.linux-pm-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <alpine.LSU.2.00.1112202213310.3987-fupSdm12i1nKWymIFiNcPA@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux SCSI List <linux-scsi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Network Development <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux PM list <linux-pm-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Wireless List <linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, DRI <dri-devel-PD4FTy7X32lNgt0PjOBp9y5qC8QIuHrW@public.gmane.org>, Linux ACPI <linux-acpi-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Dave Kleikamp <dave.kleikamp-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Dave Kleikamp <shaggy-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, jfs-discussion-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
 
-On 2011.12.21 at 00:54 +0100, Rafael J. Wysocki wrote:
-> Subject    : WARNING: at fs/sysfs/sysfs.h:195 (during boot)
-> Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
-> Date       : 2011-11-13 19:24
-> Message-ID : 20111113192417.GA1659-tLCgZGx+iJ+kxVt8IV0GqQ-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org
-> References : http://marc.info/?l=linux-kernel&m=132121231921932&w=2
+On Tue, Dec 20, 2011 at 10:15:00PM -0800, Hugh Dickins wrote:
+
+> Acked-by: Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 > 
-> Subject    : WARNING: at mm/slub.c:3357, kernel BUG at mm/slub.c:3413
-> Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
-> Date       : 2011-11-18 7:25
-> Message-ID : 20111118072519.GA1615-tLCgZGx+iJ+kxVt8IV0GqQ-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org
-> References : http://marc.info/?l=linux-kernel&m=132160119031794&w=2
+> from me (and add_to_page_cache_locked does the masking of inappropriate
+> bits when passing on down, so no need to worry about that aspect).
 
-Both entries were caused by the same Radeon kexec writeback bug. This issue
-will hopefully be fixed in the next release.
+I was grepping for possibilities of that hitting us right now...  OK,
+rigth you are.
 
-> Subject    : Impossible high cpu-time values for migration threads
-> Submitter  : Markus Trippelsdorf <markus-xp2qqqlHh3xzoYq+O6RWwA-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
-> Date       : 2011-11-17 22:17
-> Message-ID : 20111117221731.GA9229-tLCgZGx+iJ+kxVt8IV0GqQ-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org
-> References : http://marc.info/?l=linux-kernel&m=132156832124314&w=2
-
-This is a cosmetic issue, but I'm still seeing this after bursts of high
-CPU usage:
-
- % ps afx -F
-UID        PID  PPID  C    SZ   RSS PSR STIME TTY      STAT   TIME CMD
-root         2     0  0     0     0   1 Dec20 ?        S      0:00 [kthreadd]
-root         3     2  0     0     0   0 Dec20 ?        S      0:01  \_ [ksoftirqd/0]
-root         6     2  0     0     0   0 Dec20 ?        S      0:00  \_ [migration/0]
-root         7     2  0     0     0   1 Dec20 ?        S      0:00  \_ [migration/1]
-root         8     2  0     0     0   1 Dec20 ?        S      0:05  \_ [kworker/1:0]
-root         9     2  0     0     0   1 Dec20 ?        S      0:01  \_ [ksoftirqd/1]
-root        11     2  0     0     0   2 Dec20 ?        S      0:00  \_ [migration/2]
-root        13     2  0     0     0   2 Dec20 ?        S      0:01  \_ [ksoftirqd/2]
-root        14     2 22     0     0   3 Dec20 ?        S    192:21  \_ [migration/3]
-root        16     2  0     0     0   3 Dec20 ?        S      0:01  \_ [ksoftirqd/3]
-root        17     2  0     0     0   2 Dec20 ?        S<     0:00  \_ [khelper]
-...
-
--- 
-Markus
+Acked-by: Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
