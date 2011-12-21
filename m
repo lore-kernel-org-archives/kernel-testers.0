@@ -1,58 +1,51 @@
-From: Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: [PATCH v2] vfs: __read_cache_page should use gfp argument rather
- than GFP_KERNEL
-Date: Wed, 21 Dec 2011 11:05:48 -0600
-Message-ID: <4EF211EC.7090002@oracle.com>
-References: <201112210054.46995.rjw@sisk.pl> <CA+55aFzee7ORKzjZ-_PrVy796k2ASyTe_Odz=ji7f1VzToOkKw@mail.gmail.com> <4EF15F42.4070104@oracle.com> <CA+55aFx=B9adsTR=-uYpmfJnQgdGN+1aL0KUabH5bSY6YcwO7Q@mail.gmail.com> <alpine.LSU.2.00.1112202213310.3987@eggly.anvils>
+From: Keith Packard <keithp-aN4HjG94KOLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Resend] 3.2-rc6+: Reported regressions from 3.0 and 3.1
+Date: Wed, 21 Dec 2011 09:51:31 -0800
+Message-ID: <86aa6lyfrw.fsf@sumi.keithp.com>
+References: <201112210054.46995.rjw@sisk.pl> <20111221163213.GA17116@elliptictech.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <alpine.LSU.2.00.1112202213310.3987@eggly.anvils>
-Sender: owner-linux-mm@kvack.org
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha256; protocol="application/pgp-signature"
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20111221163213.GA17116-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Hugh Dickins <hughd@google.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, jfs-discussion@lists.sourceforge.net, Kernel Testers List <kernel-testers@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Florian Mickler <florian@mickler.org>, davem@davemloft.net, Al Viro <viro@zeniv.linux.org.uk>, linux-mm@kvack.org
+To: Nick Bowler <nbowler-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>, "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org
 
-[ updated to remove now-obsolete comment in read_cache_page_gfp()]
+--=-=-=
+Content-Transfer-Encoding: quoted-printable
 
-lockdep reports a deadlock in jfs because a special inode's rw semaphore
-is taken recursively. The mapping's gfp mask is GFP_NOFS, but is not used
-when __read_cache_page() calls add_to_page_cache_lru().
+On Wed, 21 Dec 2011 11:32:13 -0500, Nick Bowler <nbowler-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org> =
+wrote:
 
-Signed-off-by: Dave Kleikamp <dave.kleikamp@oracle.com>
-Acked-by: Hugh Dickins <hughd@google.com>
-Acked-by: Al Viro <viro@zeniv.linux.org.uk>
+>   Subject: Intel HDMI ELD fixes v2
+>   http://permalink.gmane.org/gmane.linux.kernel/1226920
 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index c106d3b..5f0a3c9 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1828,7 +1828,7 @@ repeat:
- 		page = __page_cache_alloc(gfp | __GFP_COLD);
- 		if (!page)
- 			return ERR_PTR(-ENOMEM);
--		err = add_to_page_cache_lru(page, mapping, index, GFP_KERNEL);
-+		err = add_to_page_cache_lru(page, mapping, index, gfp);
- 		if (unlikely(err)) {
- 			page_cache_release(page);
- 			if (err == -EEXIST)
-@@ -1925,10 +1925,7 @@ static struct page *wait_on_page_read(struct page *page)
-  * @gfp:	the page allocator flags to use if allocating
-  *
-  * This is the same as "read_mapping_page(mapping, index, NULL)", but with
-- * any new page allocations done using the specified allocation flags. Note
-- * that the Radix tree operations will still use GFP_KERNEL, so you can't
-- * expect to do this atomically or anything like that - but you can pass in
-- * other page requirements.
-+ * any new page allocations done using the specified allocation flags.
-  *
-  * If the page does not get brought uptodate, return -EIO.
-  */
+Dave and I didn't think the log spam warranted pulling these patches in
+past the merge window. They're pending 3.3 at this point.
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+=2D-=20
+keith.packard-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+
+--=-=-=
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iQIVAwUBTvIcozYtFsjWk68qAQj32xAAxw3fjffmbh9BoI496VB+J9zqzCKt4vQL
+SsEnqFpOzbwf6GgUykrqlmiC09e3pKb9seHm5BKqyd3p8YM6N7AaE0quGAr1Qp2W
+4Exa6hnRS1BPfvzA6WDPFGXwK7Q+Viy6ZIDZ8f3LR8DIqCrdELwct6R9wGFyY9lF
+T5edrSZMGmMrcg2P3T8OTGTjeQhDkeCcxlDzsHvBx6Kpo1JgsZiV2eq++PtTXC9c
+D16P6gRd7DefYpIV4vmEvvbu4novBnyhOb7vHn0pPX9LLeLkVcUQZrR/tQuelOZo
+lPX8vj4tXixwzMKx+xG4H2CK4ULsUZETWlTq0dY5j9gLWgmhB9eVVq2G453vknMZ
+hVRfjVyt1PFSXhVDeRI871edZfjwS6Qd3/nQluVQYkxUyOB9WwXFS8FPSfy/sZOs
+yIvodiar7e2aPf1wnf7zg23voND/B1K7cw/RD4fGUDxEN3uXvdHzAUEyXcBDiouv
+YvItNsWIYAVH3+1B7s06HKkB6z5r5JFUVzRRDARHQSsD2vL+CEgh/CjLkkT/v5so
+CzEgKht6pgxjEh+5c3w6uqHNOCTmMWWTlFjdf57cfuDPbhCB52CNPYKlYZnUkMqS
+9X/uSR577Q0kYpbEPMCKDBVJxajdio+zykoxlCUQn0LJhsPtG29qW/Hx3wqZ/RY/
+qZ06jHs+NIo=
+=Rjb1
+-----END PGP SIGNATURE-----
+--=-=-=--
