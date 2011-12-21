@@ -1,38 +1,58 @@
-From: Nick Bowler <nbowler-7BP4RkwGw0uXmMXjJBpWqg@public.gmane.org>
-Subject: Re: [Resend] 3.2-rc6+: Reported regressions from 3.0 and 3.1
-Date: Wed, 21 Dec 2011 11:32:13 -0500
-Message-ID: <20111221163213.GA17116@elliptictech.com>
-References: <201112210054.46995.rjw@sisk.pl>
+From: Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: [PATCH v2] vfs: __read_cache_page should use gfp argument rather
+ than GFP_KERNEL
+Date: Wed, 21 Dec 2011 11:05:48 -0600
+Message-ID: <4EF211EC.7090002@oracle.com>
+References: <201112210054.46995.rjw@sisk.pl> <CA+55aFzee7ORKzjZ-_PrVy796k2ASyTe_Odz=ji7f1VzToOkKw@mail.gmail.com> <4EF15F42.4070104@oracle.com> <CA+55aFx=B9adsTR=-uYpmfJnQgdGN+1aL0KUabH5bSY6YcwO7Q@mail.gmail.com> <alpine.LSU.2.00.1112202213310.3987@eggly.anvils>
 Mime-Version: 1.0
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <201112210054.46995.rjw-KKrjLPT3xs0@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Transfer-Encoding: 7bit
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <alpine.LSU.2.00.1112202213310.3987@eggly.anvils>
+Sender: owner-linux-mm@kvack.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org
+To: Hugh Dickins <hughd@google.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, jfs-discussion@lists.sourceforge.net, Kernel Testers List <kernel-testers@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Florian Mickler <florian@mickler.org>, davem@davemloft.net, Al Viro <viro@zeniv.linux.org.uk>, linux-mm@kvack.org
 
-On 2011-12-21 00:54 +0100, Rafael J. Wysocki wrote:
-> This message contains a list of some regressions from 3.0 and 3.1 for
-> which there are no fixes in the mainline known to the tracking team.
-> If any of them have been fixed already, please let us know.
-> 
-> If you know of any other unresolved regressions from 3.0 and 3.1,
-> please let us know either and we'll add them to the list.  Also,
-> please let us know if any of the entries below are invalid.
+[ updated to remove now-obsolete comment in read_cache_page_gfp()]
 
-i915 HDMI log spam, reported against -rc1:
+lockdep reports a deadlock in jfs because a special inode's rw semaphore
+is taken recursively. The mapping's gfp mask is GFP_NOFS, but is not used
+when __read_cache_page() calls add_to_page_cache_lru().
 
-  http://permalink.gmane.org/gmane.linux.kernel/1212638
+Signed-off-by: Dave Kleikamp <dave.kleikamp@oracle.com>
+Acked-by: Hugh Dickins <hughd@google.com>
+Acked-by: Al Viro <viro@zeniv.linux.org.uk>
 
-remains present in mainline.  The latest patches (afaik) were posted
-earlier this month:
+diff --git a/mm/filemap.c b/mm/filemap.c
+index c106d3b..5f0a3c9 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -1828,7 +1828,7 @@ repeat:
+ 		page = __page_cache_alloc(gfp | __GFP_COLD);
+ 		if (!page)
+ 			return ERR_PTR(-ENOMEM);
+-		err = add_to_page_cache_lru(page, mapping, index, GFP_KERNEL);
++		err = add_to_page_cache_lru(page, mapping, index, gfp);
+ 		if (unlikely(err)) {
+ 			page_cache_release(page);
+ 			if (err == -EEXIST)
+@@ -1925,10 +1925,7 @@ static struct page *wait_on_page_read(struct page *page)
+  * @gfp:	the page allocator flags to use if allocating
+  *
+  * This is the same as "read_mapping_page(mapping, index, NULL)", but with
+- * any new page allocations done using the specified allocation flags. Note
+- * that the Radix tree operations will still use GFP_KERNEL, so you can't
+- * expect to do this atomically or anything like that - but you can pass in
+- * other page requirements.
++ * any new page allocations done using the specified allocation flags.
+  *
+  * If the page does not get brought uptodate, return -EIO.
+  */
 
-  Subject: Intel HDMI ELD fixes v2
-  http://permalink.gmane.org/gmane.linux.kernel/1226920
-
-Cheers,
--- 
-Nick Bowler, Elliptic Technologies (http://www.elliptictech.com/)
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
