@@ -1,44 +1,29 @@
-From: Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v2] vfs: __read_cache_page should use gfp argument rather
- than GFP_KERNEL
-Date: Wed, 21 Dec 2011 14:53:44 -0600
-Message-ID: <4EF24758.5030704@oracle.com>
-References: <201112210054.46995.rjw@sisk.pl> <CA+55aFzee7ORKzjZ-_PrVy796k2ASyTe_Odz=ji7f1VzToOkKw@mail.gmail.com> <4EF15F42.4070104@oracle.com> <CA+55aFx=B9adsTR=-uYpmfJnQgdGN+1aL0KUabH5bSY6YcwO7Q@mail.gmail.com> <alpine.LSU.2.00.1112202213310.3987@eggly.anvils> <4EF211EC.7090002@oracle.com> <20111221122843.18f673c7.akpm@linux-foundation.org>
+From: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [Resend] 3.2-rc6+: Reported regressions from 3.0 and 3.1
+Date: Wed, 21 Dec 2011 22:01:19 +0100
+Message-ID: <20111221210119.GA29800@quack.suse.cz>
+References: <201112210054.46995.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20111221122843.18f673c7.akpm@linux-foundation.org>
-Sender: owner-linux-mm@kvack.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <201112210054.46995.rjw-KKrjLPT3xs0@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Hugh Dickins <hughd@google.com>, Linus Torvalds <torvalds@linux-foundation.org>, "Rafael J. Wysocki" <rjw@sisk.pl>, jfs-discussion@lists.sourceforge.net, Kernel Testers List <kernel-testers@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, davem@davemloft.net, Al Viro <viro@zeniv.linux.org.uk>, linux-mm@kvack.org
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org
 
-On 12/21/2011 02:28 PM, Andrew Morton wrote:
-> On Wed, 21 Dec 2011 11:05:48 -0600
-> Dave Kleikamp <dave.kleikamp@oracle.com> wrote:
-> 
->> [ updated to remove now-obsolete comment in read_cache_page_gfp()]
->>
->> lockdep reports a deadlock in jfs because a special inode's rw semaphore
->> is taken recursively. The mapping's gfp mask is GFP_NOFS, but is not used
->> when __read_cache_page() calls add_to_page_cache_lru().
-> 
-> Well hang on, it's not just a lockdep splat.  The kernel actually will
-> deadlock if we reenter JFS via this GFP_KERNEL allocation attempt, yes?
+On Wed 21-12-11 00:54:46, Rafael J. Wysocki wrote:
+> Subject    : Reiserfs.c bug in 3.2-rc5
+> Submitter  : "Jorge Bastos" <mysql.jorge-lcG7AWEBJY0VhHzd4jOs4w@public.gmane.org>
+> Date       : 2011-12-10 23:48
+> Message-ID : 43556.213.228.140.150.1323560920.squirrel-2RFepEojUI2VwbsBYQEljRWEfN3iM6zj@public.gmane.org
+> References : http://marc.info/?l=linux-kernel&m=132356156914296&w=2
+  Well, it's not clear this is a regression. Also I didn't get any reply
+from the reporter for a week so I'm inclined to declare it ENORESPONSE...
 
-Yes, it could result in a real deadlock.
-
-> Was that GFP_NOFS allocation recently added to JFS?  If not then we
-> should backport this deadlock fix into -stable, no?
-
-Yes, that would make sense.
-
-Shaggy
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+									Honza
+-- 
+Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+SUSE Labs, CR
