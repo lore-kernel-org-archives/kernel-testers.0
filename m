@@ -1,49 +1,66 @@
-From: "Srivatsa S. Bhat" <srivatsa.bhat-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+From: Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: [Resend] 3.2-rc6+: Reported regressions from 3.0 and 3.1
-Date: Thu, 22 Dec 2011 16:45:24 +0530
-Message-ID: <4EF3114C.6020406@linux.vnet.ibm.com>
+Date: Thu, 22 Dec 2011 06:27:21 -0500
+Message-ID: <20111222062721.4f4290ab@tlielax.poochiereds.net>
 References: <201112210054.46995.rjw@sisk.pl>
+	<4EF30D4B.9060906@linux.vnet.ibm.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201112210054.46995.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <4EF30D4B.9060906-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, "pavel-+ZI9xUNit7I@public.gmane.org" <pavel-+ZI9xUNit7I@public.gmane.org>, Chris Ball <cjb-2X9k7bc8m7Mdnm+yROfE0A@public.gmane.org>, manuel.lauss-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org, Udo Steinberg <udo-VarzJz7m+TuRpAAqCnN02g@public.gmane.org>
+To: "Srivatsa S. Bhat" <srivatsa.bhat-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, Belisko Marek <marek.belisko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, awilliam-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
-On 12/21/2011 05:24 AM, Rafael J. Wysocki wrote:
+On Thu, 22 Dec 2011 16:28:19 +0530
+"Srivatsa S. Bhat" <srivatsa.bhat-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
 
-> [Evidently, vger has blocked the previous attempts to post this message
-> for some reason.  I wonder why?]
+> On 12/21/2011 05:24 AM, Rafael J. Wysocki wrote:
 > 
-> This message contains a list of some regressions from 3.0 and 3.1
-> for which there are no fixes in the mainline known to the tracking team.
-> If any of them have been fixed already, please let us know.
+> > [Evidently, vger has blocked the previous attempts to post this message
+> > for some reason.  I wonder why?]
+> > 
+> > This message contains a list of some regressions from 3.0 and 3.1
+> > for which there are no fixes in the mainline known to the tracking team.
+> > If any of them have been fixed already, please let us know.
+> > 
+> > If you know of any other unresolved regressions from 3.0 and 3.1, please let us
+> > know either and we'll add them to the list.  Also, please let us know if any of
+> > the entries below are invalid.
+> > 
+> > The entries below are simplified and the statistics are not present due to the
+> > continuing Bugzilla outage.
+> > 
 > 
-> If you know of any other unresolved regressions from 3.0 and 3.1, please let us
-> know either and we'll add them to the list.  Also, please let us know if any of
-> the entries below are invalid.
+> [...]
 > 
-> The entries below are simplified and the statistics are not present due to the
-> continuing Bugzilla outage.
+> > 
+> > Subject    : Freezing of tasks failed after 20.01 seconds in kernel 3.2.0-rc2
+> > Submitter  : Belisko Marek <marek.belisko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> > Date       : 2011-11-22 21:20
+> > Message-ID : 
+> > CAAfyv36nxYq1EA2pcHi5WR1BdWYHp2sQTY1mMA4Q3JjcOG5RDw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org
+> > References : http://marc.info/?l=linux-kernel&m=132199691706100&w=2
+> > 
+> >
 > 
 > 
-> Subject    : 3.2-rc2: regression after hibernate: lots of warnings, broken 
-> system
-> Submitter  : Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
-> Date       : 2011-11-24 15:40
-> Message-ID : 20111124154014.GA2153-I/5MKhXcvmPrBKCeMvbIDA@public.gmane.org
-> References : http://marc.info/?l=linux-kernel&m=132214929818015&w=2
+> I believe we already have a fix for this, but not yet in mainline:
+> http://thread.gmane.org/gmane.linux.nfs/45336
 > 
 
+I don't believe this is a regression at all. As far as I know, It's
+always been the case that these sleeps weren't freezable. I even have
+a similar bug open for RHEL6 which has a 2.6.32-based kernel...
 
-This one looks a bit similar to the one reported at
-http://thread.gmane.org/gmane.linux.kernel/1230509/ which is fixed by
-commit 29495aa04a30c21565243c5b9c028510446d242c.
+If people are seeing this more now, then it might be some subtle
+difference in timing or differences in what userspace is doing at the
+time the freezer runs.
 
- 
+In any case, the final fix didn't make 3.2, but should go in early for
+3.3.
 
-Regards,
-Srivatsa S. Bhat
+-- 
+Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
