@@ -1,66 +1,46 @@
-From: Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [Resend] 3.2-rc6+: Reported regressions from 3.0 and 3.1
-Date: Thu, 22 Dec 2011 06:27:21 -0500
-Message-ID: <20111222062721.4f4290ab@tlielax.poochiereds.net>
-References: <201112210054.46995.rjw@sisk.pl>
-	<4EF30D4B.9060906@linux.vnet.ibm.com>
+From: Carl-Valentin Schmitt <cv.debian-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: kernel 3.2.2 and Debian Squeeze 6.0.4 with installed nvidia-drivers
+Date: Tue, 31 Jan 2012 22:56:26 +0100
+Message-ID: <CALO-Nbpz7fn76-yZudVG58-4K+c2BqQ0Fdv5SirZawO9Mm7ujQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4EF30D4B.9060906-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=gamma;
+        h=mime-version:date:message-id:subject:from:to:content-type;
+        bh=Xq95QqF6VAYl4+QusBqZoxUxapIpGJmeDeQ6L+l2Zyg=;
+        b=WM3UC0b99PvNm6tQTNv4FXXUq/eoNautXeMNxGZxQDi1Cd4YUir9heDugou38JU/hH
+         lzZdnRBYnO3C0wu1yMPYFd7fX0UGUAvEk7pR/qHdRwK4Eg0J1Qt7PR/fIhTo0AaO1hTh
+         F83S8XSFZjU6LsQFmWOKLTWo/Cu1ZnrhFjaoU=
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: "Srivatsa S. Bhat" <srivatsa.bhat-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, Belisko Marek <marek.belisko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, awilliam-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Content-Transfer-Encoding: 7bit
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On Thu, 22 Dec 2011 16:28:19 +0530
-"Srivatsa S. Bhat" <srivatsa.bhat-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
+Hello dear testers,
 
-> On 12/21/2011 05:24 AM, Rafael J. Wysocki wrote:
-> 
-> > [Evidently, vger has blocked the previous attempts to post this message
-> > for some reason.  I wonder why?]
-> > 
-> > This message contains a list of some regressions from 3.0 and 3.1
-> > for which there are no fixes in the mainline known to the tracking team.
-> > If any of them have been fixed already, please let us know.
-> > 
-> > If you know of any other unresolved regressions from 3.0 and 3.1, please let us
-> > know either and we'll add them to the list.  Also, please let us know if any of
-> > the entries below are invalid.
-> > 
-> > The entries below are simplified and the statistics are not present due to the
-> > continuing Bugzilla outage.
-> > 
-> 
-> [...]
-> 
-> > 
-> > Subject    : Freezing of tasks failed after 20.01 seconds in kernel 3.2.0-rc2
-> > Submitter  : Belisko Marek <marek.belisko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> > Date       : 2011-11-22 21:20
-> > Message-ID : 
-> > CAAfyv36nxYq1EA2pcHi5WR1BdWYHp2sQTY1mMA4Q3JjcOG5RDw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org
-> > References : http://marc.info/?l=linux-kernel&m=132199691706100&w=2
-> > 
-> >
-> 
-> 
-> I believe we already have a fix for this, but not yet in mainline:
-> http://thread.gmane.org/gmane.linux.nfs/45336
-> 
+I don't know, if this problem is kernel-specific or Debian-specific or
+nvidia-specific :
 
-I don't believe this is a regression at all. As far as I know, It's
-always been the case that these sleeps weren't freezable. I even have
-a similar bug open for RHEL6 which has a 2.6.32-based kernel...
+When I want to compile 3.2.2 with:
 
-If people are seeing this more now, then it might be some subtle
-difference in timing or differences in what userspace is doing at the
-time the freezer runs.
+make all
 
-In any case, the final fix didn't make 3.2, but should go in early for
-3.3.
+after a while it breaks off with:
 
--- 
-Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+  LD      drivers/gpu/vga/built-in.o
+  LD      drivers/gpu/built-in.o
+ld: error: drivers/gpu/vga/built-in.o: incompatible target
+make[2]: *** [drivers/gpu/built-in.o] error 1
+make[1]: *** [drivers/gpu] error 2
+make: *** [drivers] error 2
+
+The Debian-own nvidia-drivers-package is installed and is working fine so far.
+
+How can I avoid this error above ?
+It should work ... with kernel 3.2.2
+
+For feedback tuvm.
+Regards.
+Val.
+cv.schmitt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
