@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #42746] 3.3-rc2 snd_pcm lockdep backtrace
+Subject: [Bug #42735] kobject (ffff88003ffbb4b8): tried to init an initialized object, something is seriously wrong.
 Date: Thu, 23 Feb 2012 23:55:58 +0100 (CET)
-Message-ID: <qCQH7HfZS8E.A.PVF.u8rRPB@chimera>
+Message-ID: <qCQH7HfZS8E.A.QbF.x8rRPB@chimera>
 References: <y44pDJ8xoDC.A.08E.h8rRPB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Josh Boyer <jwboyer@redhat.com>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 3.2.  Please verify if it still should be listed and let the tracking team
 know (either way).
 
 
-Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=42746
-Subject		: 3.3-rc2 snd_pcm lockdep backtrace
-Submitter	: Josh Boyer <jwboyer@redhat.com>
-Date		: 2012-02-06 14:56 (18 days old)
-Message-ID	: <20120206145621.GA4771@zod.bos.redhat.com>
-References	: http://marc.info/?l=linux-kernel&m=132854040916172&w=2
+Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=42735
+Subject		: kobject (ffff88003ffbb4b8): tried to init an initialized object, something is seriously wrong.
+Submitter	: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Date		: 2012-02-03 20:59 (21 days old)
+Message-ID	: <20120203205953.GA2897@phenom.dumpdata.com>
+References	: http://marc.info/?l=linux-kernel&m=132830315526901&w=2
 
