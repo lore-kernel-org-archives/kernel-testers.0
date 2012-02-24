@@ -1,33 +1,36 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: Re: 3.3-rc4+: Reported regressions from 3.2
-Date: Fri, 24 Feb 2012 01:13:13 +0100
-Message-ID: <201202240113.13575.rjw@sisk.pl>
-References: <y44pDJ8xoDC.A.08E.h8rRPB@chimera> <20120223.182825.1031311733171854243.davem@davemloft.net>
+From: Konrad Rzeszutek Wilk <konrad.wilk-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [Bug #42683] WARN... Device 'cpu1' does not have a release()
+ function, it is broken and must be fixed. when doing 'xl vcpu-set <guest_id>
+ 1'
+Date: Thu, 23 Feb 2012 23:33:00 -0500
+Message-ID: <20120224043300.GB23568@phenom.dumpdata.com>
+References: <y44pDJ8xoDC.A.08E.h8rRPB@chimera>
+ <qCQH7HfZS8E.A.AHG.E9rRPB@chimera>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-acpi-owner@vger.kernel.org>
-In-Reply-To: <20120223.182825.1031311733171854243.davem@davemloft.net>
-Sender: linux-acpi-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <qCQH7HfZS8E.A.AHG.E9rRPB@chimera>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: David Miller <davem@davemloft.net>
-Cc: linux-kernel@vger.kernel.org, maciej.rutecki@gmail.com, florian@mickler.org, akpm@linux-foundation.org, torvalds@linux-foundation.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org, linux-acpi@vger.kernel.org, linux-pm@lists.linux-foundation.org, linux-scsi@vger.kernel.org, linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>
 
-On Friday, February 24, 2012, David Miller wrote:
-> From: "Rafael J. Wysocki" <rjw@sisk.pl>
-> Date: Thu, 23 Feb 2012 23:51:20 +0100 (CET)
+On Thu, Feb 23, 2012 at 11:55:57PM +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
 > 
-> > Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=42776
-> > Subject		: OF-related boot crash in 3.3.0-rc3-00188-g3ec1e88
-> > Submitter	: Meelis Roos <mroos@linux.ee>
-> > Date		: 2012-02-13 7:45 (11 days old)
-> > Message-ID	: <alpine.SOC.1.00.1202130942030.1488@math.ut.ee>
-> > References	: http://marc.info/?l=linux-kernel&m=132911916331615&w=2
+> The following bug entry is on the current list of known regressions
+> from 3.2.  Please verify if it still should be listed and let the tracking team
+> know (either way).
 > 
-> Potential workaround/fix at:
 > 
-> http://marc.info/?l=linux-kernel&m=132993294018762&w=2
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=42683
+> Subject		: WARN... Device 'cpu1' does not have a release() function, it is broken and must be fixed. when doing 'xl vcpu-set <guest_id> 1'
+> Submitter	: Konrad Rzeszutek Wilk <konrad.wilk-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+> Date		: 2012-01-23 18:06 (32 days old)
+> Message-ID	: <20120123180601.GA24553-6K5HmflnPlqSPmnEAIUT9EEOCMrvLtNR@public.gmane.org>
+> References	: http://marc.info/?l=linux-kernel&m=132734233916154&w=2
 
-Thanks, updated.
-
-Rafael
+Fixed.
