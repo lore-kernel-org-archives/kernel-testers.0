@@ -1,49 +1,46 @@
-From: Florian Mickler <florian@mickler.org>
-Subject: Re: [Bug #42669] 3.3-rc1: compiling problems nvme , l2cap_sock ,
- mc13892-regulator , and snd-pcsp don't work
-Date: Sat, 25 Feb 2012 23:48:04 +0100
-Message-ID: <20120225234804.5461de60@schatten.dmk.lab>
-References: <qCQH7HfZS8E.A.FVG.M9rRPB@chimera>
-	<20120223.181904.501214130038312055.davem@davemloft.net>
-	<web-701709481@zbackend1.aha.ru>
-	<20120224.145737.662334352795127267.davem@davemloft.net>
-	<web-701939672@zbackend1.aha.ru>
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+Subject: Re: [Bug #42707] Hang deconfiguring network interface (in shutdown)
+ on 3.3-rc1
+Date: Mon, 27 Feb 2012 17:44:34 -0600
+Message-ID: <1330386274.2822.105.camel@dabdike.int.hansenpartnership.com>
+References: <y44pDJ8xoDC.A.08E.h8rRPB@chimera>
+	 <qCQH7HfZS8E.A.x6F.98rRPB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <web-701939672@zbackend1.aha.ru>
+In-Reply-To: <qCQH7HfZS8E.A.x6F.98rRPB@chimera>
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: werner <w.landgraf@ru.ru>
-Cc: David Miller <davem@davemloft.net>, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, maciej.rutecki@gmail.com
+To: "Rafael J. Wysocki" <rjw@sisk.pl>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Matt Carlson <mcarlson@broadcom.com>, Michael Chan <mchan@broadcom.com>, Ben Hutchings <bhutchings@solarflare.com>, "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org
 
-On Fri, 24 Feb 2012 17:55:07 -0400
-"werner" <w.landgraf@ru.ru> wrote:
+On Thu, 2012-02-23 at 23:55 +0100, Rafael J. Wysocki wrote:
+> This message has been generated automatically as a part of a summary report
+> of recent regressions.
+> 
+> The following bug entry is on the current list of known regressions
+> from 3.2.  Please verify if it still should be listed and let the tracking team
+> know (either way).
+> 
+> 
+> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=42707
+> Subject		: Hang deconfiguring network interface (in shutdown) on 3.3-rc1
+> Submitter	: James Bottomley <James.Bottomley@hansenpartnership.com>
+> Date		: 2012-01-28 19:56 (27 days old)
+> Message-ID	: <1327780565.2924.24.camel@dabdike.int.hansenpartnership.com>
+> References	: http://marc.info/?l=linux-kernel&m=132778076214873&w=2
 
-> 
-> > 
-> >> This things happens, because people, after changes, nor 
-> >>compile them
-> >> subroutines ...  :( Much less, test them ...
-> > 
-> 
-> 
-> In -rc1 were compilation errors in several subroutines, 
-> and almost none of them was fixed until -rc4 .
-> 
-> And:  that's a steady problem (although I bacame tired ond 
-> report only exceptionally about this).
-> 
-> Generally, people, after patching something, at least 
-> should try to compile the subroutine !!!!!!!!!!!!!!
+Still present in 3.3-rc4; I've bisected it back to this commit:
 
-And as David just told you, it compiles fine for him without the fix.
+commit 92feeabf3f673767c6ee4cfc7fc224098446c1c1
+Author: Matt Carlson <mcarlson@broadcom.com>
+Date:   Thu Dec 8 14:40:14 2011 +0000
 
-Should every developer test every available toolchain combination?
+    tg3: Save stats across chip resets
 
-> 
-> 
-> W.Landgraf
-> ---
-> Professional hosting for everyone - http://www.host.ru
+and sure enough, just reverting this single commit on 3.3-rc4 fixes the
+problem.
+
+James
+
