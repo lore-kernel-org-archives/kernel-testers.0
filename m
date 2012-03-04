@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #42746] 3.3-rc2 snd_pcm lockdep backtrace
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #42761] Possible circular locking dependency (3.3-rc2)
 Date: Sun,  4 Mar 2012 21:31:32 +0100 (CET)
-Message-ID: <hq7dqombK_C.A.QAF.PG9UPB@chimera>
+Message-ID: <hq7dqombK_C.A.P6E.MG9UPB@chimera>
 References: <FNlNbnGKWLP.A.dME.3F9UPB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <FNlNbnGKWLP.A.dME.3F9UPB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Josh Boyer <jwboyer@redhat.com>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Felipe Balbi <balbi-l0cyMroinI0@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 3.2.  Please verify if it still should be listed and let the tracking team
 know (either way).
 
 
-Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42746
-Subject		: 3.3-rc2 snd_pcm lockdep backtrace
-Submitter	: Josh Boyer <jwboyer@redhat.com>
-Date		: 2012-02-06 14:56 (28 days old)
-Message-ID	: <20120206145621.GA4771@zod.bos.redhat.com>
-References	: http://marc.info/?l=linux-kernel&m=132854040916172&w=2
+Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42761
+Subject		: Possible circular locking dependency (3.3-rc2)
+Submitter	: Felipe Balbi <balbi-l0cyMroinI0@public.gmane.org>
+Date		: 2012-02-08 12:41 (26 days old)
+Message-ID	: <20120208124147.GF16334-UiBtZHVXSwEVvW8u9ZQWYwjfymiNCTlR@public.gmane.org>
+References	: http://marc.info/?l=linux-kernel&m=132870492311858&w=2
 
