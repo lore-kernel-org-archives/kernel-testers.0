@@ -1,7 +1,7 @@
 From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #42860] 3.3.0-rc5: OOps in dql_completed (Broadcom tg3 driver)
-Date: Sun,  4 Mar 2012 21:31:34 +0100 (CET)
-Message-ID: <hq7dqombK_C.A.iSE.6F9UPB@chimera>
+Subject: [Bug #42822] [3.3.0-rc3][uvcvideo][regression] oops - uvc_video_clock_update
+Date: Sun,  4 Mar 2012 21:31:33 +0100 (CET)
+Message-ID: <hq7dqombK_C.A.ukE.CG9UPB@chimera>
 References: <FNlNbnGKWLP.A.dME.3F9UPB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -12,7 +12,7 @@ Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Christoph Lameter <cl@gentwo.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Shawn Starr <shawn.starr@rogers.com>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,10 @@ from 3.2.  Please verify if it still should be listed and let the tracking team
 know (either way).
 
 
-Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42860
-Subject		: 3.3.0-rc5: OOps in dql_completed (Broadcom tg3 driver)
-Submitter	: Christoph Lameter <cl@gentwo.org>
-Date		: 2012-03-01 21:13 (4 days old)
-Message-ID	: <alpine.DEB.2.00.1203011505510.6685@router.home>
-References	: http://marc.info/?l=linux-kernel&m=133063645224373&w=2
+Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42822
+Subject		: [3.3.0-rc3][uvcvideo][regression] oops - uvc_video_clock_update
+Submitter	: Shawn Starr <shawn.starr@rogers.com>
+Date		: 2012-02-20 1:08 (14 days old)
+Message-ID	: <5887142.ZMTDAjc4qf@segfault.sh0n.net>
+References	: http://marc.info/?l=linux-kernel&m=132970057611642&w=2
 
