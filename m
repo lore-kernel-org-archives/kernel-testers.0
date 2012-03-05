@@ -1,39 +1,44 @@
-From: Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [linux-pm] 3.3-rc6: Reported regressions from 3.2
-Date: Mon, 5 Mar 2012 20:01:08 +0100
-Message-ID: <201203052001.08408.maciej.rutecki@gmail.com>
-References: <Pine.LNX.4.44L0.1203051056560.1847-100000@iolanthe.rowland.org>
-Reply-To: maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [Bug #42649] Regression 3.2 -> 3.3-rc1 commit b4b583d4 inet/media
+ keyboard: stuck "extra" keys
+Date: Mon, 5 Mar 2012 20:43:18 +0100 (CET)
+Message-ID: <alpine.LNX.2.00.1203052043040.23367@pobox.suse.cz>
+References: <FNlNbnGKWLP.A.dME.3F9UPB@chimera> <hq7dqombK_C.A.UsF.mG9UPB@chimera> <alpine.LNX.2.00.1203042201220.23367@pobox.suse.cz> <201203042243.43003.rjw@sisk.pl>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20120113;
-        h=from:reply-to:to:subject:date:user-agent:cc:references:in-reply-to
-         :mime-version:content-type:content-transfer-encoding:message-id;
-        bh=fUe6J9RsBtmIzOxZ8L0zwojM+ZTL7WgAupV4AtrxPIQ=;
-        b=QzpT9uXMBrMXlJLIj2B4h2xN4719+pcqJhw1/ZyI4EoL/LIdFdRFhKXL8Meb4cxdeF
-         FhJYm2Bq6m1wRXd7ZHZhVRhAoLObJNoz3sq0rLx8tDNFkojWG2VIcclx6NK8rReWIMWe
-         ERIcMdzJPd4qRyp4RO+AZbnLFigwJIRrwn9buDtNFRyuOO7Snql7vboi7vchJubFeJGA
-         Q2VqK72DXkbPjPD2sOPmzvwfjORn+Lup59OHCtdx3JWl813YEKaRUc+SrEFKZZBN//rO
-         VclgO8Cs/ZEsWQBolEoRWHS/+cypkSCRlaKMv6na7b3rmrVeRL4jbulTlFo0dDnU9RY6
-         Hr9g==
-In-Reply-To: <Pine.LNX.4.44L0.1203051056560.1847-100000-IYeN2dnnYyZXsRXLowluHWD2FQJk+8+b@public.gmane.org>
+In-Reply-To: <201203042243.43003.rjw-KKrjLPT3xs0@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="windows-1252"
-To: Alan Stern <stern-nwvwT67g6+6dFdvTe/nMLpVzexx5G7lz@public.gmane.org>
-Cc: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
+Content-Type: TEXT/PLAIN; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>, Nikolai Kondrashov <spbnick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On poniedzia=C5=82ek, 5 marca 2012 o 17:04:38 Alan Stern wrote:
-> This has been fixed by commits 2885e25c422fb68208f677f944a45fce8eda2a=
-3c
-> and 29bb5d4fd3140a7d5d02d858118c74a45f15c296
+On Sun, 4 Mar 2012, Rafael J. Wysocki wrote:
 
+> > > This message has been generated automatically as a part of a summary report
+> > > of recent regressions.
+> > > 
+> > > The following bug entry is on the current list of known regressions
+> > > from 3.2.  Please verify if it still should be listed and let the tracking team
+> > > know (either way).
+> > > 
+> > > 
+> > > Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42649
+> > > Subject		: Regression 3.2 -> 3.3-rc1 commit b4b583d4 inet/media keyboard: stuck "extra" keys
+> > > Submitter	: Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>
+> > > Date		: 2012-01-24 18:18 (41 days old)
+> > > First-Bad-Commit: http://git.kernel.org/linus/b4b583d4e9a5ff28c4a150bb25a4fff5cd4dfbbd
+> > 
+> > [ adding Nikolai to CC ]
+> > 
+> > Nikolai already submitted a fix for b4b583d4e here: 
+> > http://www.spinics.net/lists/linux-input/msg19542.html
+> 
+> Thanks, added to the bug entry.
 
-Thanks. Closing bug.
+Fix now in Linus' tree, commit 883e0e3662.
 
-Regards
---=20
-Maciej Rutecki
-http://www.mrutecki.pl
+-- 
+Jiri Kosina
+SUSE Labs
