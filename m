@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw@sisk.pl>
-Subject: [Bug #42860] 3.3.0-rc5: OOps in dql_completed (Broadcom tg3 driver)
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #42869] [3.3-rc1 regression] [nouveau] Spurious TV-out detected
 Date: Sun, 11 Mar 2012 22:31:17 +0100 (CET)
-Message-ID: <C6gS2DkSgiG.A.iUB.vtRXPB@chimera>
+Message-ID: <C6gS2DkSgiG.A.WOB.ttRXPB@chimera>
 References: <WuYv90FoNpB.A.O8.ktRXPB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <WuYv90FoNpB.A.O8.ktRXPB@chimera>
 Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Christoph Lameter <cl@gentwo.org>
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,10 +22,8 @@ from 3.2.  Please verify if it still should be listed and let the tracking team
 know (either way).
 
 
-Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42860
-Subject		: 3.3.0-rc5: OOps in dql_completed (Broadcom tg3 driver)
-Submitter	: Christoph Lameter <cl@gentwo.org>
-Date		: 2012-03-01 21:13 (11 days old)
-Message-ID	: <alpine.DEB.2.00.1203011505510.6685@router.home>
-References	: http://marc.info/?l=linux-kernel&m=133063645224373&w=2
+Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42869
+Subject		: [3.3-rc1 regression] [nouveau] Spurious TV-out detected
+Submitter	: Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>
+Date		: 2012-03-05 14:21 (7 days old)
 
