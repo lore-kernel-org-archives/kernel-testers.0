@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #42869] [3.3-rc1 regression] [nouveau] Spurious TV-out detected
-Date: Sun, 11 Mar 2012 22:31:17 +0100 (CET)
-Message-ID: <C6gS2DkSgiG.A.WOB.ttRXPB@chimera>
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #42776] OF-related boot crash in 3.3.0-rc3-00188-g3ec1e88
+Date: Sun, 11 Mar 2012 22:31:16 +0100 (CET)
+Message-ID: <C6gS2DkSgiG.A.T5B._tRXPB@chimera>
 References: <WuYv90FoNpB.A.O8.ktRXPB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <WuYv90FoNpB.A.O8.ktRXPB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Meelis Roos <mroos@linux.ee>
 
 This message has been generated automatically as a part of a summary report
 of recent regressions.
@@ -22,8 +22,11 @@ from 3.2.  Please verify if it still should be listed and let the tracking team
 know (either way).
 
 
-Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42869
-Subject		: [3.3-rc1 regression] [nouveau] Spurious TV-out detected
-Submitter	: Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>
-Date		: 2012-03-05 14:21 (7 days old)
+Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42776
+Subject		: OF-related boot crash in 3.3.0-rc3-00188-g3ec1e88
+Submitter	: Meelis Roos <mroos@linux.ee>
+Date		: 2012-02-13 7:45 (28 days old)
+Message-ID	: <alpine.SOC.1.00.1202130942030.1488@math.ut.ee>
+References	: http://marc.info/?l=linux-kernel&m=132911916331615&w=2
+		  http://marc.info/?l=linux-kernel&m=132993294018762&w=2
 
