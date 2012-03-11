@@ -1,18 +1,18 @@
-From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Subject: [Bug #42629] recvmsg sleeping from invalid context
+From: "Rafael J. Wysocki" <rjw@sisk.pl>
+Subject: [Bug #42610] 3.2.0 reboot powers off machine
 Date: Sun, 11 Mar 2012 22:49:32 +0100 (CET)
-Message-ID: <ZeTzqwlO46F.A.n5C.DASXPB@chimera>
+Message-ID: <ZeTzqwlO46F.A.qFD.IASXPB@chimera>
 References: <5lvJI01hLEP.A.LnC.3_RXPB@chimera>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8BIT
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <5lvJI01hLEP.A.LnC.3_RXPB@chimera>
 Content-Disposition: inline
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
-To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, Florian Mickler <florian@mickler.org>, Tom Weber <l_linux-kernel@mail2news.4t2.com>
 
 This message has been generated automatically as a part of a report
 of regressions introduced between 3.1 and 3.2.
@@ -22,10 +22,10 @@ introduced between 3.1 and 3.2.  Please verify if it still should
 be listed and let the tracking team know (either way).
 
 
-Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42629
-Subject		: recvmsg sleeping from invalid context
-Submitter	: Dave Jones <davej-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Date		: 2012-01-13 18:24 (59 days old)
-Message-ID	: <20120113182401.GA25885-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-References	: http://marc.info/?l=linux-kernel&m=132647921304184&w=2
+Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42610
+Subject		: 3.2.0 reboot powers off machine
+Submitter	: Tom Weber <l_linux-kernel@mail2news.4t2.com>
+Date		: 2012-01-11 11:03 (61 days old)
+Message-ID	: <1326279818.24835.12.camel@utumno>
+References	: http://marc.info/?l=linux-kernel&m=132628059308023&w=2
 
