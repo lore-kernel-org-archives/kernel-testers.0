@@ -1,44 +1,36 @@
-From: Jiri Kosina <jkosina-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [Bug #42649] Regression 3.2 -> 3.3-rc1 commit b4b583d4 inet/media
- keyboard: stuck "extra" keys
-Date: Mon, 5 Mar 2012 20:43:18 +0100 (CET)
-Message-ID: <alpine.LNX.2.00.1203052043040.23367@pobox.suse.cz>
-References: <FNlNbnGKWLP.A.dME.3F9UPB@chimera> <hq7dqombK_C.A.UsF.mG9UPB@chimera> <alpine.LNX.2.00.1203042201220.23367@pobox.suse.cz> <201203042243.43003.rjw@sisk.pl>
+From: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
+Subject: [Bug #42678] [3.3-rc1] radeon stuck in kernel after lockup
+Date: Sun, 11 Mar 2012 22:23:32 +0100 (CET)
+Message-ID: <C6gS2DkSgiG.A.UgC.VuRXPB@chimera>
+References: <WuYv90FoNpB.A.O8.ktRXPB@chimera>
 Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201203042243.43003.rjw-KKrjLPT3xs0@public.gmane.org>
+In-Reply-To: <WuYv90FoNpB.A.O8.ktRXPB@chimera>
+Content-Disposition: inline
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: TEXT/PLAIN; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: "Rafael J. Wysocki" <rjw-KKrjLPT3xs0@public.gmane.org>
-Cc: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>, Nikolai Kondrashov <spbnick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Kernel Testers List <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Maciej Rutecki <maciej.rutecki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Florian Mickler <florian-sVu6HhrpSfRAfugRpC6u6w@public.gmane.org>, =?utf-8?q?J=C3=A9r=C3=B4me=20Glisse?= <glisse-CC+yJ3UmIYqDUpFQwHEjaQ@public.gmane.org>, Torsten Kaiser <just.for.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 
-On Sun, 4 Mar 2012, Rafael J. Wysocki wrote:
+This message has been generated automatically as a part of a summary re=
+port
+of recent regressions.
 
-> > > This message has been generated automatically as a part of a summary report
-> > > of recent regressions.
-> > > 
-> > > The following bug entry is on the current list of known regressions
-> > > from 3.2.  Please verify if it still should be listed and let the tracking team
-> > > know (either way).
-> > > 
-> > > 
-> > > Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=42649
-> > > Subject		: Regression 3.2 -> 3.3-rc1 commit b4b583d4 inet/media keyboard: stuck "extra" keys
-> > > Submitter	: Duncan <1i5t5.duncan-j9pdmedNgrk@public.gmane.org>
-> > > Date		: 2012-01-24 18:18 (41 days old)
-> > > First-Bad-Commit: http://git.kernel.org/linus/b4b583d4e9a5ff28c4a150bb25a4fff5cd4dfbbd
-> > 
-> > [ adding Nikolai to CC ]
-> > 
-> > Nikolai already submitted a fix for b4b583d4e here: 
-> > http://www.spinics.net/lists/linux-input/msg19542.html
-> 
-> Thanks, added to the bug entry.
+The following bug entry is on the current list of known regressions
+from 3.2.  Please verify if it still should be listed and let the track=
+ing team
+know (either way).
 
-Fix now in Linus' tree, commit 883e0e3662.
 
--- 
-Jiri Kosina
-SUSE Labs
+Bug-Entry	: https://bugzilla.kernel.org/show_bug.cgi?id=3D42678
+Subject		: [3.3-rc1] radeon stuck in kernel after lockup
+Submitter	: Torsten Kaiser <just.for.lkml-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Date		: 2012-01-21 19:03 (51 days old)
+Message-ID	: <CAPVoSvSXMvRb=3D1itu9DjF+s=3D6zfAChvUxS-x=3Db8EV9kOZinNpA=
+@mail.gmail.com>
+References	: http://marc.info/?l=3Dlinux-kernel&m=3D132717279606670&w=3D=
+2
+Handled-By	: J=C3=A9r=C3=B4me Glisse <glisse-CC+yJ3UmIYqDUpFQwHEjaQ@public.gmane.org>
+
