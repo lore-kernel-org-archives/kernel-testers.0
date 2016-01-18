@@ -1,39 +1,31 @@
-From: Martin Steigerwald <martin-3kZCPVa5dk2azgQtNeiOUg@public.gmane.org>
-Subject: Re: Help recommend kernel test tools
-Date: Thu, 05 Mar 2015 11:28:06 +0100
-Message-ID: <16973723.8nkPPN8C9I@merkaba>
-References: <000101d056f6$8e495ae0$aadc10a0$@sina.com>
+From: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+Subject: Using the kernel-testers mailing list for patches to fix kernel build
+ failures
+Date: Mon, 18 Jan 2016 09:18:26 -0800
+Message-ID: <569D1E62.7010400@roeck-us.net>
 Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <000101d056f6$8e495ae0$aadc10a0$@sina.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Date:Message-ID:Subject:From:Cc:To;
+	bh=cnBhGpyWIVyRlLuI+52lvTMBfky7RmwW88dmjC0vU60=; b=eMDoByDnTeS9wGbNjQElW2H4yY
+	EWT/j17Nx5NS+ddlAAnz0RmPeNZOfJ40/nDrUaYkx3YnpZe/s63hym2MUZlwEcj+AYBiX7nct2+ZQ
+	kPg84al4M8+Gutjc9iE7lxMhweUhGAKiyWNdKsV7vzwtblOLLjyev9VAr7aMDpU48k7LD8KrBoLmi
+	S5Hi75GV4A8snGYnCeDB6mMXHpAg8Aql8k5pPredXEbSWcCutgDzoOzpls7UeCNLks87e+022sYqq
+	GwmzB3OGV2JWBBOLi2bAdR6ws/1Y79VbJSo1suSQqX5mDJuLsxlE1pIsDxnIvJVPJsBJ4rBVLuGFe
+	Apr7klDA==;
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: helu <xcf733520-k+cT0dCbe1g@public.gmane.org>
-Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Am Donnerstag, 5. M=C3=A4rz 2015, 11:43:32 schrieb helu:
-> Hi All,
->=20
->        I am a kernel-tester newbie.
->        I  will test a file system and memory, include performance and
-> stress.   please help me recommend some test tools.
->        Thank you very much!
+Hi,
 
-=46or filesystems and block devices I recommend looking into fio =E2=80=
-=93 flexible I/O=20
-tester.
+the kernel-testers mailing list appears to have been abandoned.
 
-But aside from that I am not sure whether this mailing list is used and=
-=20
-active anymore.
+Are there any objections against using it for patches intended to fix kernel build failures ?
 
-I am no kernel dev myself, but contribute with bug reports from time to=
-=20
-time.
-
-Ciao,
---=20
-Martin 'Helios' Steigerwald - http://www.Lichtvoll.de
-GPG: 03B0 0D6C 0040 0710 4AFA  B82F 991B EAAC A599 84C7
+Thanks,
+Guenter
