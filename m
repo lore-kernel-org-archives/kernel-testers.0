@@ -1,46 +1,56 @@
-From: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
-Subject: Re: Using the kernel-testers mailing list for patches to fix kernel
- build failures
-Date: Wed, 20 Jan 2016 21:01:05 -0800
-Message-ID: <56A06611.1000305@roeck-us.net>
-References: <569D23E7.6080005@roeck-us.net> <569D255D.1070608@roeck-us.net>
- <569F98BE.7000502@roeck-us.net>
- <20160120.155350.2067188907650753528.davem@davemloft.net>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] net/irda: bfin_sir: remove duplicate defines
+Date: Thu, 21 Jan 2016 10:42:31 +0530
+Message-ID: <1453353151-4622-1-git-send-email-sudipm.mukherjee@gmail.com>
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:Cc:References:To:Subject;
-	bh=KwDxEPdhEy58tQF6SyArceJyKPApAPCtdp1iK0oVqDY=; b=eVC3EEpFklEnWE71GVsp1B0hns
-	C/ToBQpC69QRvrcpjDpKitDQymCfBtPEVeaPrnGbIXvtYPTwakAoWWs7HF/OxApJl+cYjZbUJjPVe
-	sXIGfeSb7WNF8TviW58O7i2u0Nmd6iyMJm3AI4A1VpSdD+vhW4gnsTbAj4zMBPqUVFjbGwM61kfbw
-	mfFfdx1LYKezf8wmuBGNEafrlWD4cFS9v+/PoACFi/DwmyWkzsvAzbGnzvNPVYjLgmpsaXCyh/WUD
-	Bvo8VrXNkCeAfms1nIJb/R05vWFJNtPp6S51kZkMsWj2IKOGd6HlYgL+Sjypv1M3wVBj0oRpJsDYG
-	z2zmJFlw==;
-In-Reply-To: <20160120.155350.2067188907650753528.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20120113;
+        h=from:to:cc:subject:date:message-id;
+        bh=ZocTnlHeL+SiQkz4lx7lUz9zRbFPtzUUDgcXVrrSVW8=;
+        b=Yc3Uh6FBtcATv72D4UNQD3kn1JXBpJmbueAKG+LectuT9ygJVp/dnfUWRnVf9pcM1s
+         IIOLsJXd9/6q8ltcNsSBMMKEhAZfgLHkosrWaABdxZlPV/zl5OYWEIflAvjke/hunqxG
+         I5YtU3pGkmrxBGRNgnX+Uq9Amc35S9RRpcm0jApPOn3KEaMemK4rveOOYGgfw4MvhPJx
+         xuOIfPsSrq7Fo6h+G57w5L8zg8NGaztdNsOux2vjELDLeBYbcr9/QQBQdTSzFdHMOQTn
+         BvEJhzFIK3sJbzIv+TOJl5ZAM3kFBKQK+JMTKPNTU9GaNOy3hFHj2C5DKvQKQswTv5VZ
+         wiGg==
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Cc: kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, kernel-testers-approval-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Majordomo-Owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Samuel Ortiz <samuel-jcdQHdrhKHMdnm+yROfE0A@public.gmane.org>, Steven Miao <realmz6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, adi-buildroot-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On 01/20/2016 03:53 PM, David Miller wrote:
-> From: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
-> Date: Wed, 20 Jan 2016 06:25:02 -0800
->
->> If so, and if you are ok with the change suggested below, can you
->> let me know who the owner of the kernel-testers mailing list is ?
->> If that person is no longer active, can you set me as the owner ?
->
-> I'm the owner of every single mailing list at vger.kernel.org,
-> and there is never any reason to change this.
->
-Good to know.
+The defconfig build of blackfin is failing with the error:
 
-> Just use the list as you wish.
->
+arch/blackfin/include/asm/bfin_serial.h:269:0: warning: "port_membase" redefined
+drivers/net/irda/bfin_sir.h:85:0: note: this is the location of the previous definition
+arch/blackfin/include/asm/bfin_serial.h:382:0: warning: "get_lsr_cache" redefined
+drivers/net/irda/bfin_sir.h:86:0: note: this is the location of the previous definition
+arch/blackfin/include/asm/bfin_serial.h:383:0: warning: "put_lsr_cache" redefined
+drivers/net/irda/bfin_sir.h:87:0: note: this is the location of the previous definition
 
-Great, thanks!
+port_membase, get_lsr_cache, put_lsr_cache are already defined in the
+architecture files, no need to define them again in the driver.
 
-Guenter
+Signed-off-by: Sudip Mukherjee <sudip-ofJRbWXBVFamYgehrs7/Lw@public.gmane.org>
+---
+ drivers/net/irda/bfin_sir.h | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/net/irda/bfin_sir.h b/drivers/net/irda/bfin_sir.h
+index 29cbde8..d47cf14 100644
+--- a/drivers/net/irda/bfin_sir.h
++++ b/drivers/net/irda/bfin_sir.h
+@@ -82,9 +82,6 @@ struct bfin_sir_self {
+ 
+ #define DRIVER_NAME "bfin_sir"
+ 
+-#define port_membase(port)     (((struct bfin_sir_port *)(port))->membase)
+-#define get_lsr_cache(port)    (((struct bfin_sir_port *)(port))->lsr)
+-#define put_lsr_cache(port, v) (((struct bfin_sir_port *)(port))->lsr = (v))
+ #include <asm/bfin_serial.h>
+ 
+ static const unsigned short per[][4] = {
+-- 
+1.9.1
