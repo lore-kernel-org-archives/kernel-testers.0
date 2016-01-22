@@ -1,33 +1,54 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Subject: Re: [PATCH] net/irda: bfin_sir: remove duplicate defines
-Date: Thu, 21 Jan 2016 10:45:55 -0800 (PST)
-Message-ID: <20160121.104555.194909626689511824.davem@davemloft.net>
-References: <1453353151-4622-1-git-send-email-sudipm.mukherjee@gmail.com>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+From: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+Subject: [PATCH -next] aio: Fix compile error due to unexpected use of cmpxchg()
+Date: Fri, 22 Jan 2016 10:14:39 -0800
+Message-ID: <1453486479-19347-1-git-send-email-linux@roeck-us.net>
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1453353151-4622-1-git-send-email-sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Message-Id:Date:Subject:Cc:To:From;
+	bh=R8skEedfV0iOhbNVisvrHQ8hkqw0by1DNtXyAg/nibo=; b=Lp5guLbBYYPWoo3YAlK4JccAP+
+	abYo78+okQ+/hz0iIY0WGghyR3oGsrsIGm+vVKe48H/fBSKTX90fw7z5wnqkhYu4MsPhlpV9hSKrH
+	XuSunW43mzzgKro6svDeOsLANK7cUtG9cvair2UycSlMWsnBjP4y8Wmz8XU1pG7iyC0sf/uHn8+3C
+	dW/6wrIoboJEtjnOSS3Mmc2HQjByKZLekjMIKfDEtXVpglTK0Vk/kMcm8nvvpCXGmOhS7IHF2aXBW
+	0Xix1oM9pZV1jsXa/HAf1lhy1hcY7pVKBKcwcaZLPqyVilJrpv7I9y4u8XuK6wpZ/F+0aHkgPN9Py
+	4Kkoc2pQ==;
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: Text/Plain; charset="us-ascii"
-To: sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: samuel-jcdQHdrhKHMdnm+yROfE0A@public.gmane.org, realmz6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, adi-buildroot-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Cc: linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-aio-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>, Benjamin LaHaise <bcrl-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
 
-From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date: Thu, 21 Jan 2016 10:42:31 +0530
+cmpxchg() on some architectures (ia64) doesn't like functions as parameters.
+This results in the following compile error on the affected architectures.
 
-> The defconfig build of blackfin is failing with the error:
-> 
-> arch/blackfin/include/asm/bfin_serial.h:269:0: warning: "port_membase" redefined
-> drivers/net/irda/bfin_sir.h:85:0: note: this is the location of the previous definition
-> arch/blackfin/include/asm/bfin_serial.h:382:0: warning: "get_lsr_cache" redefined
-> drivers/net/irda/bfin_sir.h:86:0: note: this is the location of the previous definition
-> arch/blackfin/include/asm/bfin_serial.h:383:0: warning: "put_lsr_cache" redefined
-> drivers/net/irda/bfin_sir.h:87:0: note: this is the location of the previous definition
-> 
-> port_membase, get_lsr_cache, put_lsr_cache are already defined in the
-> architecture files, no need to define them again in the driver.
-> 
-> Signed-off-by: Sudip Mukherjee <sudip-ofJRbWXBVFamYgehrs7/Lw@public.gmane.org>
+fs/aio.c: In function 'aio_thread_fn':
+fs/aio.c:1499:1: error: cast specifies function type
 
-Applied, thank you.
+Fixes: 6a81013efc40 ("aio: add support for IOCB_CMD_POLL via aio thread helper")
+Cc: Benjamin LaHaise <bcrl-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>
+Signed-off-by: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+---
+No idea if this is the correct or an acceptable fix.
+If not, please consider this to be a bug report.
+
+ fs/aio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/aio.c b/fs/aio.c
+index 56bcdf4105f4..229a91e391df 100644
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -1495,8 +1495,8 @@ static void aio_thread_fn(struct work_struct *work)
+ 	 * cancellation if it has not already occurred.
+ 	 */
+ 	old_cancel = cmpxchg(&iocb->ki_cancel,
+-			     aio_thread_queue_iocb_cancel_early,
+-			     aio_thread_queue_iocb_cancel);
++			     (kiocb_cancel_fn *)aio_thread_queue_iocb_cancel_early,
++			     (kiocb_cancel_fn *)aio_thread_queue_iocb_cancel);
+ 	if (old_cancel != KIOCB_CANCELLED)
+ 		ret = iocb->ki_work_fn(iocb);
+ 	else
+-- 
+2.1.4
