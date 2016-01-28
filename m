@@ -1,62 +1,61 @@
-From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] m32r: fix build failure due to SMP and MMU
-Date: Thu, 28 Jan 2016 14:18:23 +0530
-Message-ID: <1453970903-9502-1-git-send-email-sudipm.mukherjee@gmail.com>
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Subject: [PATCH] mm: provide reference to READ_IMPLIES_EXEC
+Date: Thu, 28 Jan 2016 14:41:03 +0530
+Message-ID: <1453972263-25907-1-git-send-email-sudipm.mukherjee@gmail.com>
+Return-path: <owner-linux-mm@kvack.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20120113;
         h=from:to:cc:subject:date:message-id;
-        bh=N39Nt0a++V0vTYe+alq+F9HJeUMBHikz3YHm658TxCI=;
-        b=GcFgU4dsbzkA8yVJiDZg1MTldANX9xvEyenz2L3tV9aWN5z6lF46rHwBuss7blQi30
-         WVIgfJoFT3BFLBo7LYm/aMyolqoP5QJRH/u0bs7sbCkito7odLr7XF1qWYq5FoPF0r7a
-         jowjxtgvtFYEg2ST5jRzw046n4xm4yeYPHUKtYUokG9vNMHRKbkB5u7BkrmT4A0dR5BK
-         5O7vWrG3D6/cJECT/wxJM9sZ0wWqiFkcwBIfkkeQuQgf30Uvsx0NeJOY88L0jwESkUzS
-         qQWs7MFGbauhtkOPacMzYmCfG8Zy7XCEeFAcX4KI8C7+/pjfy8jcBTe0TbgmQckigMf/
-         Yeug==
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+        bh=mCs51QigWWCsKnWW+JXajUALbusNZzTD+BY0iIIto8Y=;
+        b=frG51TVSpOVsGrTDI6T9PAzDX+rjRSncZ1U01GLcP/d/glziwh8tA0MZp7Qf5hbmOR
+         m8bvGOH8FI6fmSljMoSd/u/sOtSApFQ6ei2L2lW9p0nRf1LejYKBH/r/CYgWMc44hK9A
+         Fe+UrL2pVA/ECgLKQYjmf8uWDtTso2tFIGF3sxLBscwqCttjoqCFuz+BiDwH9smfDNPJ
+         TFeBUtw6RQDlHa7I15UTlFyaNm25zZfAmoj76QzNF9y5bTJ+HAtADnSmtQFKpEMjOfua
+         brQxdwOQ0yRbeEy3w+NvPIHa5OiIZcwLIpJCfgKxBysme2Bg5SyOo82B98qbO+yghjRh
+         tEjg==
+Sender: owner-linux-mm@kvack.org
 List-ID: <kernel-testers.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, linux-mm@kvack.org, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Konstantin Khlebnikov <koct9i@gmail.com>
 
-One of the randconfig build failed with the error:
+blackfin defconfig fails with the error:
+mm/internal.h: In function 'is_stack_mapping':
+arch/blackfin/include/asm/page.h:15:27: error: 'READ_IMPLIES_EXEC' undeclared
 
-arch/m32r/kernel/smp.c: In function 'smp_flush_tlb_mm':
-arch/m32r/kernel/smp.c:283:20: error: subscripted value is neither array nor pointer nor vector
-  mmc = &mm->context[cpu_id];
-                    ^
-arch/m32r/kernel/smp.c: In function 'smp_flush_tlb_page':
-arch/m32r/kernel/smp.c:353:20: error: subscripted value is neither array nor pointer nor vector
-  mmc = &mm->context[cpu_id];
-                    ^
-arch/m32r/kernel/smp.c: In function 'smp_invalidate_interrupt':
-arch/m32r/kernel/smp.c:479:41: error: subscripted value is neither array nor pointer nor vector
-  unsigned long *mmc = &flush_mm->context[cpu_id];
+Commit 07dff8ae2bc5 has added is_stack_mapping in mm/internal.h but it
+also needs personality.h.
 
-It turned out that CONFIG_SMP was defined but CONFIG_MMU was not
-defined. But arch/m32r/include/asm/mmu.h only defines mm_context_t as an
-array when both CONFIG_SMP and CONFIG_MMU are defined. And
-arch/m32r/kernel/smp.c is always using context as an array. So without
-MMU SMP can not work.
-
-Signed-off-by: Sudip Mukherjee <sudip-ofJRbWXBVFamYgehrs7/Lw@public.gmane.org>
+Fixes: 07dff8ae2bc5 ("mm: warn about VmData over RLIMIT_DATA")
+Cc: Konstantin Khlebnikov <koct9i@gmail.com>
+Signed-off-by: Sudip Mukherjee <sudip@vectorindia.org>
 ---
- arch/m32r/Kconfig | 1 +
+
+build log at:
+https://travis-ci.org/sudipm-mukherjee/parport/jobs/105335848
+
+ mm/internal.h | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/arch/m32r/Kconfig b/arch/m32r/Kconfig
-index 836ac5a..2841c0a 100644
---- a/arch/m32r/Kconfig
-+++ b/arch/m32r/Kconfig
-@@ -276,6 +276,7 @@ source "kernel/Kconfig.preempt"
+diff --git a/mm/internal.h b/mm/internal.h
+index cac6eb4..59c496f 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -14,6 +14,7 @@
+ #include <linux/fs.h>
+ #include <linux/mm.h>
+ #include <linux/pagemap.h>
++#include <linux/personality.h>
+ #include <linux/tracepoint-defs.h>
  
- config SMP
- 	bool "Symmetric multi-processing support"
-+	depends on MMU
- 	---help---
- 	  This enables support for systems with more than one CPU. If you have
- 	  a system with only one CPU, say N. If you have a system with more
+ /*
 -- 
 1.9.1
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
