@@ -1,101 +1,61 @@
-From: Konstantin Khlebnikov <koct9i@gmail.com>
-Subject: Re: mm: provide reference to READ_IMPLIES_EXEC
-Date: Thu, 28 Jan 2016 18:29:03 +0300
-Message-ID: <CALYGNiPcDsxnA7svAaDZErAP8CgJCFaD32wj=v8n4j0z32Uuww@mail.gmail.com>
-References: <1453972263-25907-1-git-send-email-sudipm.mukherjee@gmail.com>
-	<20160128143852.GA22099@roeck-us.net>
-Mime-Version: 1.0
-Return-path: <owner-linux-mm@kvack.org>
+From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] staging: wilc1000: fix build failure
+Date: Fri,  5 Feb 2016 15:26:54 +0530
+Message-ID: <1454666214-7825-1-git-send-email-sudipm.mukherjee@gmail.com>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20120113;
-        h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-         :cc:content-type;
-        bh=W0xbclZNZ2PmFLJ4rsoCdUhGtMgkhtqvelY2+a02qVg=;
-        b=eI5qfzzksvKORnzPAURc2gAPSx1tklf4ufFDzw4liAa7XdT0zKdf15Jx3pppSsgUwP
-         xS2E1hVEBCygZklWK4yd/Bh74tfIQ6zJ4lhU632coMvYC6basyJ7YwCaWtoBOk08CCfV
-         v+E1Za4+2LwpuhpXBu0nTAJQ2JvJgHH/YAVJMFvfhrLRx3zpD5lwmGdF3wbt1m5nJ/w9
-         CX+BMIn/BRZicIPK7xZysSkdowpHkDeM0w3vRsu8wO33WiHoXEGKf3P9dUKHUPPjLn50
-         tcN4Kp9Znph6Al23ko8z2Tax+hGuWDxb4ur+Gl1ciPocqqvrapVCspnmfV4BDmqOwvKw
-         u9qg==
-In-Reply-To: <20160128143852.GA22099@roeck-us.net>
-Sender: owner-linux-mm@kvack.org
+        h=from:to:cc:subject:date:message-id;
+        bh=dsKckfqGUpDcrP5rhEzLWhGOEvwmQ5E4utpUNPoVAHk=;
+        b=kF+zqlKxYxsKIeFvsCDgGPrevQyIbCblqKi9NuPZAjw9osA3KFs8ZBS8Aj8CYo8WIR
+         I/zMVX5CIkn7PRYWodPSVtuw8Q5jFApPSxXhS7BKfPBMohUVW6qSulqI3O77YsGxC2ZB
+         TyY8HFQuYEHfSa3GP3JcM+YibredD3dRvNQet9jaU2y4alHkDMbAa2O0Ep5tvttkeH33
+         BSr1br1LJ4NYfS4GUpW9XxLingjQYjWNrVaUuBKc+8bFr1QHlQw0UVv77ZNlN6FJ6Gw3
+         4fj84MhSjzlH7c4c9hz37H9fqxJX3yCEfJFJj3Bs80CgvhHkCzLlvo4dIwBe61Rp/rdk
+         PVXw==
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, kernel-testers@vger.kernel.org, "linux-mm@kvack.org" <linux-mm@kvack.org>
+To: Johnny Kim <johnny.kim-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Austin Shin <austin.shin-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Chris Park <chris.park-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Tony Cho <tony.cho-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Glen Lee <glen.lee-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Leo Kim <leo.kim-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, devel-gWbeCf7V1WCQmaza687I9mD2FQJk+8+b@public.gmane.org, Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Thu, Jan 28, 2016 at 5:38 PM, Guenter Roeck <linux@roeck-us.net> wrote:
-> On Thu, Jan 28, 2016 at 02:41:03PM +0530, Sudip Mukherjee wrote:
->> blackfin defconfig fails with the error:
->> mm/internal.h: In function 'is_stack_mapping':
->> arch/blackfin/include/asm/page.h:15:27: error: 'READ_IMPLIES_EXEC' undeclared
->>
->> Commit 07dff8ae2bc5 has added is_stack_mapping in mm/internal.h but it
->> also needs personality.h.
->>
->> Fixes: 07dff8ae2bc5 ("mm: warn about VmData over RLIMIT_DATA")
->
-> FWIW, this is just one of many build failures due to this patch.
-> Pretty much all non-MMU builds fail, plus several MMU builds.
-> I had prepared a patch for mn10300, but gave up after I noticed
-> all the other failures.
+allmodconfig build of alpha, m68k, m32r, tilepro has failed with the
+error:
+drivers/staging/wilc1000/wilc_wfi_cfgoperations.c: In function 'wilc_create_wiphy':
+drivers/staging/wilc1000/wilc_wfi_cfgoperations.c:2632:13:
+	error: 'struct wiphy' has no member named 'wowlan'
 
-Please try mine "[PATCH] mm: polish virtual memory accounting"
-instead of that. It should fix some (or all) fails from 07dff8ae2bc5.
+Looking at other drivers wowlan can be only used when CONFIG_PM is
+defined.
 
->
-> Build results in next-20160128:
->         total: 146 pass: 121 fail: 25
-> Failed builds:
->         alpha:allmodconfig
->         arm64:allnoconfig
->         arm64:allmodconfig
->         avr32:defconfig
->         avr32:merisc_defconfig
->         avr32:atngw100mkii_evklcd101_defconfig
->         blackfin:defconfig
->         blackfin:BF561-EZKIT-SMP_defconfig
->         c6x:dsk6455_defconfig
->         c6x:evmc6457_defconfig
->         c6x:evmc6678_defconfig
->         frv:defconfig
->         ia64:defconfig
->         ia64:allnoconfig
->         m68k:allmodconfig
->         microblaze:nommu_defconfig
->         microblaze:allnoconfig
->         mn10300:asb2303_defconfig
->         mn10300:asb2364_defconfig
->         parisc:allmodconfig
->         powerpc:ppc6xx_defconfig
->         s390:defconfig
->         s390:allmodconfig
->         s390:allnoconfig
->         xtensa:allmodconfig
-> Qemu test results:
->         total: 96 pass: 83 fail: 13
-> Failed tests:
->         arm:kzm:imx_v6_v7_defconfig
->         arm64:smp:defconfig
->         arm64:nosmp:defconfig
->         microblaze:microblaze_defconfig
->         microblaze:microblazeel_defconfig
->         powerpc:mac99:ppc_book3s_defconfig
->         powerpc:mpc8544ds:mpc85xx_smp_defconfig
->         powerpc:smp4:ppc64_book3s_defconfig
->         powerpc:nosmp:ppc64_e5500_defconfig
->         powerpc:smp:ppc64_e5500_defconfig
->         s390:defconfig
->         sparc64:sun4u:nosmp:sparc64_defconfig
->         sparc64:sun4v:nosmp:sparc64_defconfig
->
-> Not all, but most of the failures are due to 07dff8ae2bc5.
->
-> Guenter
+Fixes: 73584a40d748 ("staging: wilc1000: add ops resuem/suspend/wakeup in cfg80211")
+Cc: Glen Lee <glen.lee-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>
+Signed-off-by: Sudip Mukherjee <sudip-ofJRbWXBVFamYgehrs7/Lw@public.gmane.org>
+---
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+builds of next-20160205.
+
+I think I have seen the same report from 0day also when this commit was
+in staging-testing.
+
+ drivers/staging/wilc1000/wilc_wfi_cfgoperations.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/staging/wilc1000/wilc_wfi_cfgoperations.c b/drivers/staging/wilc1000/wilc_wfi_cfgoperations.c
+index 4eede2b..08c28b7 100644
+--- a/drivers/staging/wilc1000/wilc_wfi_cfgoperations.c
++++ b/drivers/staging/wilc1000/wilc_wfi_cfgoperations.c
+@@ -2629,7 +2629,9 @@ struct wireless_dev *wilc_create_wiphy(struct net_device *net, struct device *de
+ 	sema_init(&(priv->SemHandleUpdateStats), 1);
+ 	priv->wdev = wdev;
+ 	wdev->wiphy->max_scan_ssids = MAX_NUM_PROBED_SSID;
++#ifdef CONFIG_PM
+ 	wdev->wiphy->wowlan = &wowlan_support;
++#endif
+ 	wdev->wiphy->max_num_pmkids = WILC_MAX_NUM_PMKIDS;
+ 	PRINT_INFO(CFG80211_DBG, "Max number of PMKIDs = %d\n", wdev->wiphy->max_num_pmkids);
+ 
+-- 
+1.9.1
