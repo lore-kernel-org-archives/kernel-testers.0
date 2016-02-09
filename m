@@ -1,61 +1,69 @@
-From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] staging: wilc1000: fix build failure
-Date: Fri,  5 Feb 2016 15:26:54 +0530
-Message-ID: <1454666214-7825-1-git-send-email-sudipm.mukherjee@gmail.com>
+From: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+Subject: [PATCH] [media] atmel-isi: Fix bad usage of IS_ERR_VALUE
+Date: Tue,  9 Feb 2016 06:43:42 -0800
+Message-ID: <1455029022-8234-1-git-send-email-linux@roeck-us.net>
+Mime-Version: 1.0
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20120113;
-        h=from:to:cc:subject:date:message-id;
-        bh=dsKckfqGUpDcrP5rhEzLWhGOEvwmQ5E4utpUNPoVAHk=;
-        b=kF+zqlKxYxsKIeFvsCDgGPrevQyIbCblqKi9NuPZAjw9osA3KFs8ZBS8Aj8CYo8WIR
-         I/zMVX5CIkn7PRYWodPSVtuw8Q5jFApPSxXhS7BKfPBMohUVW6qSulqI3O77YsGxC2ZB
-         TyY8HFQuYEHfSa3GP3JcM+YibredD3dRvNQet9jaU2y4alHkDMbAa2O0Ep5tvttkeH33
-         BSr1br1LJ4NYfS4GUpW9XxLingjQYjWNrVaUuBKc+8bFr1QHlQw0UVv77ZNlN6FJ6Gw3
-         4fj84MhSjzlH7c4c9hz37H9fqxJX3yCEfJFJj3Bs80CgvhHkCzLlvo4dIwBe61Rp/rdk
-         PVXw==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+	bh=RATTOuCW8jFSfrVwN5+pBMJrgr9KAnE3SKaLnYtXP5o=; b=WpOEGF5Di9uvBN4d6tr0XXk6A8
+	XgMbKE67iNPBSyJa//a1PRoO06/P/Qy6lF2gUNNuvPQbnh/m/pCV0PVxBZx+aHJyOmWYzUs9WoWp3
+	CTPjAPDXpTAUxw6cYHKMyODF8j1jbXm0WVtRdWV3M1qNl4zA9P+Qc7PtbX6TcrOfvLS4wzvy+DwIn
+	P0l6cOeDM9P/wI2JIT9Q75fQZ18ngPCdLaeFBWrQc65xeIuLkkWUrLQ23X3iRz33BDKxinc4Gl4y3
+	fYKSQwl/B2+TR+vMwaUEQ5gtnVkvX1bLgqmFDPA2XXxODWnqFD8lXKi5tWoB6gx2a0Ynhlhmyow+a
+	bBMG5BLw==;
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Johnny Kim <johnny.kim-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Austin Shin <austin.shin-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Chris Park <chris.park-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Tony Cho <tony.cho-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Glen Lee <glen.lee-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Leo Kim <leo.kim-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-wireless-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, devel-gWbeCf7V1WCQmaza687I9mD2FQJk+8+b@public.gmane.org, Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+To: Ludovic Desroches <ludovic.desroches-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>
+Cc: Guennadi Liakhovetski <g.liakhovetski-Mmb7MZpHnFY@public.gmane.org>, Mauro Carvalho Chehab <mchehab-JPH+aEBZ4P+UEJcrhfAQsw@public.gmane.org>, linux-media-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
 
-allmodconfig build of alpha, m68k, m32r, tilepro has failed with the
-error:
-drivers/staging/wilc1000/wilc_wfi_cfgoperations.c: In function 'wilc_create_wiphy':
-drivers/staging/wilc1000/wilc_wfi_cfgoperations.c:2632:13:
-	error: 'struct wiphy' has no member named 'wowlan'
+IS_ERR_VALUE() assumes that its parameter is an unsigned long.
+It can not be used to check if an unsigned int reflects an error.
+Doing so can result in the following build warning.
 
-Looking at other drivers wowlan can be only used when CONFIG_PM is
-defined.
+drivers/media/platform/soc_camera/atmel-isi.c:
+	In function =E2=80=98atmel_isi_probe=E2=80=99:
+	include/linux/err.h:21:38: warning:
+		comparison is always false due to limited range of data type
+drivers/media/platform/soc_camera/atmel-isi.c:1089:6: note:
+	in expansion of macro =E2=80=98IS_ERR_VALUE=E2=80=99
 
-Fixes: 73584a40d748 ("staging: wilc1000: add ops resuem/suspend/wakeup in cfg80211")
-Cc: Glen Lee <glen.lee-AIFe0yeh4nAAvxtiuMwx3w@public.gmane.org>
-Signed-off-by: Sudip Mukherjee <sudip-ofJRbWXBVFamYgehrs7/Lw@public.gmane.org>
+If that warning is seen, the return value from platform_get_irq() is no=
+t
+checked for errors.
+
+Signed-off-by: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
 ---
+ drivers/media/platform/soc_camera/atmel-isi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-builds of next-20160205.
-
-I think I have seen the same report from 0day also when this commit was
-in staging-testing.
-
- drivers/staging/wilc1000/wilc_wfi_cfgoperations.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/staging/wilc1000/wilc_wfi_cfgoperations.c b/drivers/staging/wilc1000/wilc_wfi_cfgoperations.c
-index 4eede2b..08c28b7 100644
---- a/drivers/staging/wilc1000/wilc_wfi_cfgoperations.c
-+++ b/drivers/staging/wilc1000/wilc_wfi_cfgoperations.c
-@@ -2629,7 +2629,9 @@ struct wireless_dev *wilc_create_wiphy(struct net_device *net, struct device *de
- 	sema_init(&(priv->SemHandleUpdateStats), 1);
- 	priv->wdev = wdev;
- 	wdev->wiphy->max_scan_ssids = MAX_NUM_PROBED_SSID;
-+#ifdef CONFIG_PM
- 	wdev->wiphy->wowlan = &wowlan_support;
-+#endif
- 	wdev->wiphy->max_num_pmkids = WILC_MAX_NUM_PMKIDS;
- 	PRINT_INFO(CFG80211_DBG, "Max number of PMKIDs = %d\n", wdev->wiphy->max_num_pmkids);
- 
--- 
-1.9.1
+diff --git a/drivers/media/platform/soc_camera/atmel-isi.c b/drivers/me=
+dia/platform/soc_camera/atmel-isi.c
+index 1af779ee3c74..ab2d9b9b1f5d 100644
+--- a/drivers/media/platform/soc_camera/atmel-isi.c
++++ b/drivers/media/platform/soc_camera/atmel-isi.c
+@@ -1026,7 +1026,7 @@ static int atmel_isi_parse_dt(struct atmel_isi *i=
+si,
+=20
+ static int atmel_isi_probe(struct platform_device *pdev)
+ {
+-	unsigned int irq;
++	int irq;
+ 	struct atmel_isi *isi;
+ 	struct resource *regs;
+ 	int ret, i;
+@@ -1086,7 +1086,7 @@ static int atmel_isi_probe(struct platform_device=
+ *pdev)
+ 		isi->width_flags |=3D 1 << 9;
+=20
+ 	irq =3D platform_get_irq(pdev, 0);
+-	if (IS_ERR_VALUE(irq)) {
++	if (irq < 0) {
+ 		ret =3D irq;
+ 		goto err_req_irq;
+ 	}
+--=20
+2.5.0
