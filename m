@@ -1,80 +1,73 @@
-From: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
-Subject: [PATCH] serial: clps711x: Fix bad usage of IS_ERR_VALUE
-Date: Tue,  9 Feb 2016 07:06:47 -0800
-Message-ID: <1455030407-9075-1-git-send-email-linux@roeck-us.net>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH] tty/serial: digicolor: Fix bad usage of IS_ERR_VALUE
+Date: Tue,  9 Feb 2016 07:08:59 -0800
+Message-ID: <1455030539-10798-1-git-send-email-linux@roeck-us.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
 	MIME-Version:Message-Id:Date:Subject:Cc:To:From;
-	bh=6GZV4tRWJVyJCJKfiRBRia66S81Uh37Rz5OyPAx9RUQ=; b=nTzjQ7beKmrXir1iguX2lNE3QI
-	jeB8Uh9TyPwPb5Q98GIbOizmg2IEdgKO2EhAdJ1gCPXO90riarYHFEksbAk2H3SAHu9+TEVkXluAp
-	5NzhnbUsupajhpqvlp7Q4YpXJiatYIFG9w72fKTSfCaz18UZRsplyC5ZLykMeNUXcoFc2H5vjqQ5X
-	OhzL+o1C5Bh2tKxVo6tcDrFgLhpI3RXW8A8/rK6nWi2JnmHrdhlLdCk3ajTghkk6Gw0EAec37G0mS
-	MvBITxVJWwze5lxDXV9jqTmbfNS60ewhKkg8rxyKdSVH9zMc4cL4MvMDYKhWLrDtn6gTCeL+w9N7P
-	Y8ajQg/Q==;
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+	bh=O4paPa/lLZLIWyG33HCQzStcrMb54uwxqqJLHfw5Rxs=; b=FwmhPnu9k9i5GwEocMUVVhYmjt
+	8UwfcKjluB5PO0L9JfvB212ICCV8luzblZG1ANZoqlAwnS7Yq8zIPAyJaBPz6/HBN6qFdDIXEZzR2
+	nxc8avucPhKKfiIxBj4L8c7BZbjOvaI/iyzJcg3WZpePhJNbTS8RT3Ghugt+vs+r7wi1jVK2RoNZ8
+	Anqjz4zpq7PRHXkQBc+DTTEEX+WiXTI+CI6+vX4pp58lksiwgDfOfaYTS91zMrp+89IsgWnoUj6xI
+	6eq4VIQ5XYaafPAEXYaKvAexfwoiyp2ZIq6boywLusOOBBJHuNb6zlqBzSEgqNlHBcSUcSmNZ8FFv
+	44jnc9vQ==;
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
-To: Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-Cc: Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, linux-serial-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-arm-kernel-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jiri Slaby <jslaby@suse.com>, Baruch Siach <baruch@tkos.co.il>, linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
 
 IS_ERR_VALUE() assumes that its parameter is an unsigned long.
 It can not be used to check if an unsigned int reflects an error.
 Doing so can result in the following build warning.
 
-drivers/tty/serial/clps711x.c: In function =E2=80=98uart_clps711x_probe=
-=E2=80=99:
+drivers/tty/serial/digicolor-usart.c: In function =E2=80=98digicolor_ua=
+rt_probe=E2=80=99:
 include/linux/err.h:21:38: warning:
 	comparison is always false due to limited range of data type
-drivers/tty/serial/clps711x.c:471:6: note: in expansion of macro =E2=80=
-=98IS_ERR_VALUE=E2=80=99
+drivers/tty/serial/digicolor-usart.c:485:6: note:
+	in expansion of macro =E2=80=98IS_ERR_VALUE=E2=80=99
 
 If that warning is seen, an error return from platform_get_irq() is mis=
 sed.
 
-Use a temporary variable to check for errors from platform_get_irq().
-Also don't use IS_ERR_VALUE() to check if an integer variable is < 0.
-The variable can be checked directly in that case.
-
-Signed-off-by: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
- drivers/tty/serial/clps711x.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/tty/serial/digicolor-usart.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/tty/serial/clps711x.c b/drivers/tty/serial/clps711=
-x.c
-index b3a4e0cdddaa..5beafd2d2218 100644
---- a/drivers/tty/serial/clps711x.c
-+++ b/drivers/tty/serial/clps711x.c
-@@ -450,6 +450,7 @@ static int uart_clps711x_probe(struct platform_devi=
-ce *pdev)
- 	struct clps711x_port *s;
+diff --git a/drivers/tty/serial/digicolor-usart.c b/drivers/tty/serial/=
+digicolor-usart.c
+index a80cdad114f3..02ad6953b167 100644
+--- a/drivers/tty/serial/digicolor-usart.c
++++ b/drivers/tty/serial/digicolor-usart.c
+@@ -453,7 +453,7 @@ static struct uart_driver digicolor_uart =3D {
+ static int digicolor_uart_probe(struct platform_device *pdev)
+ {
+ 	struct device_node *np =3D pdev->dev.of_node;
+-	int ret, index;
++	int irq, ret, index;
+ 	struct digicolor_port *dp;
  	struct resource *res;
  	struct clk *uart_clk;
-+	int irq;
-=20
- 	if (index < 0 || index >=3D UART_CLPS711X_NR)
- 		return -EINVAL;
-@@ -467,12 +468,13 @@ static int uart_clps711x_probe(struct platform_de=
+@@ -481,9 +481,10 @@ static int digicolor_uart_probe(struct platform_de=
 vice *pdev)
- 	if (IS_ERR(s->port.membase))
- 		return PTR_ERR(s->port.membase);
+ 	if (IS_ERR(dp->port.membase))
+ 		return PTR_ERR(dp->port.membase);
 =20
--	s->port.irq =3D platform_get_irq(pdev, 0);
--	if (IS_ERR_VALUE(s->port.irq))
--		return s->port.irq;
+-	dp->port.irq =3D platform_get_irq(pdev, 0);
+-	if (IS_ERR_VALUE(dp->port.irq))
+-		return dp->port.irq;
 +	irq =3D platform_get_irq(pdev, 0);
 +	if (irq < 0)
 +		return irq;
-+	s->port.irq =3D irq;
++	dp->port.irq =3D irq;
 =20
- 	s->rx_irq =3D platform_get_irq(pdev, 1);
--	if (IS_ERR_VALUE(s->rx_irq))
-+	if (s->rx_irq < 0)
- 		return s->rx_irq;
-=20
- 	if (!np) {
+ 	dp->port.iotype =3D UPIO_MEM;
+ 	dp->port.uartclk =3D clk_get_rate(uart_clk);
 --=20
 2.5.0
+
