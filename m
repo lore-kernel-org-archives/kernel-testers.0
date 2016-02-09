@@ -1,73 +1,41 @@
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH] tty/serial: digicolor: Fix bad usage of IS_ERR_VALUE
-Date: Tue,  9 Feb 2016 07:08:59 -0800
-Message-ID: <1455030539-10798-1-git-send-email-linux@roeck-us.net>
+From: Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>
+Subject: Re: [PATCH] tty/serial: digicolor: Fix bad usage of IS_ERR_VALUE
+Date: Tue, 09 Feb 2016 16:26:38 +0100
+Message-ID: <4571887.rTPndCnv20@wuerfel>
+References: <1455030539-10798-1-git-send-email-linux@roeck-us.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From;
-	bh=O4paPa/lLZLIWyG33HCQzStcrMb54uwxqqJLHfw5Rxs=; b=FwmhPnu9k9i5GwEocMUVVhYmjt
-	8UwfcKjluB5PO0L9JfvB212ICCV8luzblZG1ANZoqlAwnS7Yq8zIPAyJaBPz6/HBN6qFdDIXEZzR2
-	nxc8avucPhKKfiIxBj4L8c7BZbjOvaI/iyzJcg3WZpePhJNbTS8RT3Ghugt+vs+r7wi1jVK2RoNZ8
-	Anqjz4zpq7PRHXkQBc+DTTEEX+WiXTI+CI6+vX4pp58lksiwgDfOfaYTS91zMrp+89IsgWnoUj6xI
-	6eq4VIQ5XYaafPAEXYaKvAexfwoiyp2ZIq6boywLusOOBBJHuNb6zlqBzSEgqNlHBcSUcSmNZ8FFv
-	44jnc9vQ==;
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1455030539-10798-1-git-send-email-linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jiri Slaby <jslaby@suse.com>, Baruch Siach <baruch@tkos.co.il>, linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
+To: linux-arm-kernel-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org
+Cc: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, Baruch Siach <baruch-NswTu9S1W3P6gbPvEgmw2w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-serial-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrzej Hajda <a.hajda-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
 
-IS_ERR_VALUE() assumes that its parameter is an unsigned long.
-It can not be used to check if an unsigned int reflects an error.
-Doing so can result in the following build warning.
+On Tuesday 09 February 2016 07:08:59 Guenter Roeck wrote:
+> IS_ERR_VALUE() assumes that its parameter is an unsigned long.
+> It can not be used to check if an unsigned int reflects an error.
+> Doing so can result in the following build warning.
+>=20
+> drivers/tty/serial/digicolor-usart.c: In function =E2=80=98digicolor_=
+uart_probe=E2=80=99:
+> include/linux/err.h:21:38: warning:
+>         comparison is always false due to limited range of data type
+> drivers/tty/serial/digicolor-usart.c:485:6: note:
+>         in expansion of macro =E2=80=98IS_ERR_VALUE=E2=80=99
+>=20
+> If that warning is seen, an error return from platform_get_irq() is m=
+issed.
+>=20
+>=20
 
-drivers/tty/serial/digicolor-usart.c: In function =E2=80=98digicolor_ua=
-rt_probe=E2=80=99:
-include/linux/err.h:21:38: warning:
-	comparison is always false due to limited range of data type
-drivers/tty/serial/digicolor-usart.c:485:6: note:
-	in expansion of macro =E2=80=98IS_ERR_VALUE=E2=80=99
+The patch looks correct to me, but what compiler version and which kern=
+el
+tree is it that triggered the warning?
 
-If that warning is seen, an error return from platform_get_irq() is mis=
-sed.
+Andrzej Hajda just modified the definition of IS_ERR_VALUE(), and the
+changes are still under discussion, but I don't see that warning with
+any of the versions.
 
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
- drivers/tty/serial/digicolor-usart.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/tty/serial/digicolor-usart.c b/drivers/tty/serial/=
-digicolor-usart.c
-index a80cdad114f3..02ad6953b167 100644
---- a/drivers/tty/serial/digicolor-usart.c
-+++ b/drivers/tty/serial/digicolor-usart.c
-@@ -453,7 +453,7 @@ static struct uart_driver digicolor_uart =3D {
- static int digicolor_uart_probe(struct platform_device *pdev)
- {
- 	struct device_node *np =3D pdev->dev.of_node;
--	int ret, index;
-+	int irq, ret, index;
- 	struct digicolor_port *dp;
- 	struct resource *res;
- 	struct clk *uart_clk;
-@@ -481,9 +481,10 @@ static int digicolor_uart_probe(struct platform_de=
-vice *pdev)
- 	if (IS_ERR(dp->port.membase))
- 		return PTR_ERR(dp->port.membase);
-=20
--	dp->port.irq =3D platform_get_irq(pdev, 0);
--	if (IS_ERR_VALUE(dp->port.irq))
--		return dp->port.irq;
-+	irq =3D platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return irq;
-+	dp->port.irq =3D irq;
-=20
- 	dp->port.iotype =3D UPIO_MEM;
- 	dp->port.uartclk =3D clk_get_rate(uart_clk);
---=20
-2.5.0
-
+	Arnd
