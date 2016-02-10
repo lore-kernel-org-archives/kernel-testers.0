@@ -1,50 +1,63 @@
 From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Input: colibri-vf50-ts: fix implicit declaration
-Date: Wed, 10 Feb 2016 15:34:16 +0530
-Message-ID: <20160210100416.GA8872@sudip-pc>
-References: <1455097547-31053-1-git-send-email-sudipm.mukherjee@gmail.com>
- <CAMuHMdVViFX+0Wi_LBFsjFStEZnX1XNG-n8tj6qug3mSioySag@mail.gmail.com>
-Mime-Version: 1.0
+Subject: [PATCH] blackfin: define dummy pgprot_writecombine for !MMU
+Date: Wed, 10 Feb 2016 16:20:54 +0530
+Message-ID: <1455101454-25441-1-git-send-email-sudipm.mukherjee@gmail.com>
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20120113;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-type:content-disposition:in-reply-to:user-agent;
-        bh=xUrnfbXSI68QZbK2rhlCcKfPqfMMQvrkGTjHetN+ZQc=;
-        b=AlFx6K0epdC3vPaBi696zBn4ykGJ/g5OiwYU3V2RuJa32gcf7fAP1MY1xrNs5k5fMe
-         NfkH8incfPYcd2ArXDWAN5t960QGIFcWHOvSxnkSrhTAB2pdSryzu3ovhSxDBe9a3s3+
-         dVpOU5R7RUkLoYbAVEDzZn7y6tZ++l1BJsljm17RfyiVYLQ2xgeyRJ+whT9e/PBrLX2D
-         G8ke8R0VS7pWpRUCYAiU6G3YcUmxr4tEGUdgc6UnNFJZ3WA53V4ITdLVJBfrOHmZ3ai5
-         qYCVchMyHOmb4GusmfZm1J/8nNp/lVrixWqSrukwPdU/3OqiHIvS7tsSYj7sv1FDGidp
-         IA7A==
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVViFX+0Wi_LBFsjFStEZnX1XNG-n8tj6qug3mSioySag-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+        h=from:to:cc:subject:date:message-id;
+        bh=uDODFQ9PiIV22454dICSXysCaStytZ5KKmxX94I7GGg=;
+        b=k+xkGgBMXI7GfEJiEW6QSzXeoy2/JuxrHeqKLTvGDfYqXIk9l6pOOfdG8+JRfh876o
+         eZnGo3wxS7ru+7HNh08ZKCeQK6K6akTPmXiYPmt5xR0OWiChq4fFswnWhjOoHGNB7jGw
+         5RXQS+z7vShDFMkD0qh1yktyxw3QqZwSb5sUgFlZd6Gv/6W4J5nzfVr5HFe/ixxrKr+Y
+         q4zMFgi5fxsAtxOkNUYWus9C2v4AdnDeClCn/j+xx0YPJAJmGmRP1ebN2cCjtJlI270X
+         JgPuar3yzHKurNN5v1eyWGyBFPHoZJWHtafZPI0e+iklYn+QmOG8k/wjQInBDqrBIBT4
+         8Dpw==
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Geert Uytterhoeven <geert-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>
-Cc: Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Sanchayan Maity <maitysanchayan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Steven Miao <realmz6-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, adi-buildroot-devel-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Wed, Feb 10, 2016 at 10:54:45AM +0100, Geert Uytterhoeven wrote:
-> On Wed, Feb 10, 2016 at 10:45 AM, Sudip Mukherjee
-> <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> > The build of m32r allmodconfig fails with the error:
-> > drivers/input/touchscreen/colibri-vf50-ts.c:302:10: error: implicit
-> >         declaration of function 'of_property_read_u32'
-> >
-> > of_property_read_u32() is defined in linux/of.h which was not included.
-> >
-> > Fixes: 1261d013daea ("Input: Allow compile test of Goodix and Colibri VF50 if !GPIOLIB")
-> 
-> Actually I had sent the exact same patch to add this missing include,
-> to apply before 1261d013daea, but it seems Dmitry only applied the
-> second one.
-> 
-> http://permalink.gmane.org/gmane.linux.kernel.gpio/14086
+blackfin allmodconfig build fails with the error:
 
-apart from m32r it also affects tilegx, s390, m68k allmodconfig.
-I hope Dmitry applies any one from your or mine patch today.
+../sound/core/pcm_native.c: In function 'snd_pcm_lib_default_mmap':
+../sound/core/pcm_native.c:3386:24: error: implicit declaration of function 'pgprot_writecombine' [-Werror=implicit-function-declaration]
+   area->vm_page_prot = pgprot_writecombine(area->vm_page_prot);
+                        ^
+../sound/core/pcm_native.c:3386:22: error: incompatible types when assigning to type 'pgprot_t {aka struct <anonymous>}' from type 'int'
+   area->vm_page_prot = pgprot_writecombine(area->vm_page_prot);
+                      ^
 
-regards
-sudip
+When !MMU, asm-generic will not define default pgprot_writecombine, so
+blackfin needs to define it by itself.
+
+Signed-off-by: Sudip Mukherjee <sudip-ofJRbWXBVFamYgehrs7/Lw@public.gmane.org>
+---
+
+Build log is at
+https://travis-ci.org/sudipm-mukherjee/parport/jobs/108209182
+
+The patch idea is from:
+65b9ab888cd7 ("arch/c6x/include/asm/pgtable.h: define dummy pgprot_writecombine for !MMU")
+
+ arch/blackfin/include/asm/pgtable.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/blackfin/include/asm/pgtable.h b/arch/blackfin/include/asm/pgtable.h
+index b88a155..c1ee3d6 100644
+--- a/arch/blackfin/include/asm/pgtable.h
++++ b/arch/blackfin/include/asm/pgtable.h
+@@ -97,6 +97,8 @@ extern unsigned long get_fb_unmapped_area(struct file *filp, unsigned long,
+ 					  unsigned long);
+ #define HAVE_ARCH_FB_UNMAPPED_AREA
+ 
++#define pgprot_writecombine pgprot_noncached
++
+ #include <asm-generic/pgtable.h>
+ 
+ #endif				/* _BLACKFIN_PGTABLE_H */
+-- 
+1.9.1
