@@ -1,41 +1,58 @@
-From: Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>
+From: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
 Subject: Re: [PATCH] tty/serial: digicolor: Fix bad usage of IS_ERR_VALUE
-Date: Tue, 09 Feb 2016 16:26:38 +0100
-Message-ID: <4571887.rTPndCnv20@wuerfel>
+Date: Tue, 9 Feb 2016 18:37:46 -0800
+Message-ID: <56BAA27A.9050605@roeck-us.net>
 References: <1455030539-10798-1-git-send-email-linux@roeck-us.net>
+ <4571887.rTPndCnv20@wuerfel>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1455030539-10798-1-git-send-email-linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:MIME-Version:Date:Message-ID:From:Cc:References:To:Subject;
+	bh=iRW2EibwBdsxr/ih0A7Fqx45NEauK4ISQBXMBucqaP8=; b=l0IOQ6qf0TfWdVAeXAnSstGq10
+	UQ5Fz/gfnBXGCJwaHZXr+SciGMvZR/o9smXP/zL33FNC/t7Dh4QO/g5A+fMkqs69XC8e4vwNMThyw
+	jYVLtlEXyYu2nSnOjCMI7W78RsaYIy5R35Kq5JEu2RbUZMguvqQhS2Rm8/5bJ+KNN+PRmrOWOiIDb
+	XM+jJSIggHcLUSg52UfT4AUymmBZZXx0B5SUNwjQDexdAuY5cxOLTvlpUAvEOW2Y3ZyonfjDLN+KC
+	w6Po429llL/aiwzR4JvpHzpuc6gbCahoSpPCNKTgKyKZt7NnNai0sswIlmtjFDBA8bnL6wU7kmd5h
+	m3NKgaQg==;
+In-Reply-To: <4571887.rTPndCnv20@wuerfel>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: linux-arm-kernel-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org
-Cc: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, Baruch Siach <baruch-NswTu9S1W3P6gbPvEgmw2w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-serial-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrzej Hajda <a.hajda-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+To: Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, linux-arm-kernel-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org
+Cc: Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, Baruch Siach <baruch-NswTu9S1W3P6gbPvEgmw2w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-serial-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrzej Hajda <a.hajda-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
 
-On Tuesday 09 February 2016 07:08:59 Guenter Roeck wrote:
-> IS_ERR_VALUE() assumes that its parameter is an unsigned long.
-> It can not be used to check if an unsigned int reflects an error.
-> Doing so can result in the following build warning.
->=20
-> drivers/tty/serial/digicolor-usart.c: In function =E2=80=98digicolor_=
-uart_probe=E2=80=99:
-> include/linux/err.h:21:38: warning:
->         comparison is always false due to limited range of data type
-> drivers/tty/serial/digicolor-usart.c:485:6: note:
->         in expansion of macro =E2=80=98IS_ERR_VALUE=E2=80=99
->=20
-> If that warning is seen, an error return from platform_get_irq() is m=
-issed.
->=20
->=20
+On 02/09/2016 07:26 AM, Arnd Bergmann wrote:
+> On Tuesday 09 February 2016 07:08:59 Guenter Roeck wrote:
+>> IS_ERR_VALUE() assumes that its parameter is an unsigned long.
+>> It can not be used to check if an unsigned int reflects an error.
+>> Doing so can result in the following build warning.
+>>
+>> drivers/tty/serial/digicolor-usart.c: In function =E2=80=98digicolor=
+_uart_probe=E2=80=99:
+>> include/linux/err.h:21:38: warning:
+>>          comparison is always false due to limited range of data typ=
+e
+>> drivers/tty/serial/digicolor-usart.c:485:6: note:
+>>          in expansion of macro =E2=80=98IS_ERR_VALUE=E2=80=99
+>>
+>> If that warning is seen, an error return from platform_get_irq() is =
+missed.
+>>
+>>
+>
+> The patch looks correct to me, but what compiler version and which ke=
+rnel
+> tree is it that triggered the warning?
+>
+> Andrzej Hajda just modified the definition of IS_ERR_VALUE(), and the
+> changes are still under discussion, but I don't see that warning with
+> any of the versions.
+>
+I see it with gcc 5.1 and 5.2 (and W=3D1). I did not see / notice Andrz=
+ej's patch.
 
-The patch looks correct to me, but what compiler version and which kern=
-el
-tree is it that triggered the warning?
+I agree that fixing the problem in IS_ERR_VALUE() is preferrable.
 
-Andrzej Hajda just modified the definition of IS_ERR_VALUE(), and the
-changes are still under discussion, but I don't see that warning with
-any of the versions.
-
-	Arnd
+Guenter
