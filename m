@@ -1,80 +1,83 @@
-From: Baruch Siach <baruch@tkos.co.il>
+From: Russell King - ARM Linux <linux-lFZ/pmaqli7XmaaqVzeoHQ@public.gmane.org>
 Subject: Re: [PATCH] tty/serial: digicolor: Fix bad usage of IS_ERR_VALUE
-Date: Thu, 11 Feb 2016 08:50:57 +0200
-Message-ID: <20160211065057.GA17047@tarshish>
+Date: Thu, 11 Feb 2016 10:46:50 +0000
+Message-ID: <20160211104650.GU10826@n2100.arm.linux.org.uk>
 References: <1455030539-10798-1-git-send-email-linux@roeck-us.net>
+ <4571887.rTPndCnv20@wuerfel>
+ <56BAA27A.9050605@roeck-us.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=arm.linux.org.uk; s=pandora-2014;
+	h=Sender:In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date; bh=mqUXNq/b3zBYEf+8BZHckKmYwbSfQwZ1BCAHytrz+HI=;
+	b=jU8/ieOOV96uksNHckUguk+UVJWI/qsz8BERxeBLqDYcNvjcPHq7xT/ifA8VCR7vleruJZMw8ohEoYz1MItBT+vUwG4K89TxRE/HI84romvChw7mc2U05A+MGUa3yJEavwIfh4yb2VUkVqv/oftJdbUQZ0xB9HyXROitwrrDbfA=;
 Content-Disposition: inline
-In-Reply-To: <1455030539-10798-1-git-send-email-linux@roeck-us.net>
-Sender: linux-kernel-owner@vger.kernel.org
+In-Reply-To: <56BAA27A.9050605-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="utf-8"
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jslaby@suse.com>, linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org
+To: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+Cc: Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, linux-arm-kernel-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org, Baruch Siach <baruch-NswTu9S1W3P6gbPvEgmw2w@public.gmane.org>, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrzej Hajda <a.hajda-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, linux-serial-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Slaby <jslaby-IBi9RG/b67k@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-Hi Guenter,
-
-On Tue, Feb 09, 2016 at 07:08:59AM -0800, Guenter Roeck wrote:
-> IS_ERR_VALUE() assumes that its parameter is an unsigned long.
-> It can not be used to check if an unsigned int reflects an error.
-> Doing so can result in the following build warning.
+On Tue, Feb 09, 2016 at 06:37:46PM -0800, Guenter Roeck wrote:
+> On 02/09/2016 07:26 AM, Arnd Bergmann wrote:
+> >On Tuesday 09 February 2016 07:08:59 Guenter Roeck wrote:
+> >>IS_ERR_VALUE() assumes that its parameter is an unsigned long.
+> >>It can not be used to check if an unsigned int reflects an error.
+> >>Doing so can result in the following build warning.
+> >>
+> >>drivers/tty/serial/digicolor-usart.c: In function =E2=80=98digicolo=
+r_uart_probe=E2=80=99:
+> >>include/linux/err.h:21:38: warning:
+> >>         comparison is always false due to limited range of data ty=
+pe
+> >>drivers/tty/serial/digicolor-usart.c:485:6: note:
+> >>         in expansion of macro =E2=80=98IS_ERR_VALUE=E2=80=99
+> >>
+> >>If that warning is seen, an error return from platform_get_irq() is=
+ missed.
+> >>
+> >>
+> >
+> >The patch looks correct to me, but what compiler version and which k=
+ernel
+> >tree is it that triggered the warning?
+> >
+> >Andrzej Hajda just modified the definition of IS_ERR_VALUE(), and th=
+e
+> >changes are still under discussion, but I don't see that warning wit=
+h
+> >any of the versions.
+> >
+> I see it with gcc 5.1 and 5.2 (and W=3D1). I did not see / notice And=
+rzej's patch.
 >=20
-> drivers/tty/serial/digicolor-usart.c: In function =E2=80=98digicolor_=
-uart_probe=E2=80=99:
-> include/linux/err.h:21:38: warning:
-> 	comparison is always false due to limited range of data type
-> drivers/tty/serial/digicolor-usart.c:485:6: note:
-> 	in expansion of macro =E2=80=98IS_ERR_VALUE=E2=80=99
->=20
-> If that warning is seen, an error return from platform_get_irq() is m=
-issed.
->=20
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> I agree that fixing the problem in IS_ERR_VALUE() is preferrable.
 
-Acked-by: Baruch Siach <baruch@tkos.co.il>
+I disagree.  What happens if (eg) you decide to do this:
 
-Thanks,
-baruch
+	u8 irq;
 
-> ---
->  drivers/tty/serial/digicolor-usart.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/tty/serial/digicolor-usart.c b/drivers/tty/seria=
-l/digicolor-usart.c
-> index a80cdad114f3..02ad6953b167 100644
-> --- a/drivers/tty/serial/digicolor-usart.c
-> +++ b/drivers/tty/serial/digicolor-usart.c
-> @@ -453,7 +453,7 @@ static struct uart_driver digicolor_uart =3D {
->  static int digicolor_uart_probe(struct platform_device *pdev)
->  {
->  	struct device_node *np =3D pdev->dev.of_node;
-> -	int ret, index;
-> +	int irq, ret, index;
->  	struct digicolor_port *dp;
->  	struct resource *res;
->  	struct clk *uart_clk;
-> @@ -481,9 +481,10 @@ static int digicolor_uart_probe(struct platform_=
-device *pdev)
->  	if (IS_ERR(dp->port.membase))
->  		return PTR_ERR(dp->port.membase);
-> =20
-> -	dp->port.irq =3D platform_get_irq(pdev, 0);
-> -	if (IS_ERR_VALUE(dp->port.irq))
-> -		return dp->port.irq;
-> +	irq =3D platform_get_irq(pdev, 0);
-> +	if (irq < 0)
-> +		return irq;
-> +	dp->port.irq =3D irq;
-> =20
->  	dp->port.iotype =3D UPIO_MEM;
->  	dp->port.uartclk =3D clk_get_rate(uart_clk);
+	irq =3D platform_get_irq(...);
+	if (IS_ERR_VALUE(irq))
+		...
+
+is that the fault of IS_ERR_VALUE() that it will never be true?  No, it=
+'s
+a programming error in the caller, because the caller is using the wron=
+g
+type here - in fact, you can't do anything in IS_ERR_VALUE() to correct
+that.
+
+The same is true if you assign an error value to an unsigned int: the
+problem is in the caller, not in IS_ERR_VALUE().
+
+What would be preferable is if there was some way IS_ERR_VALUE() could
+detect if it's used on something that isn't at least a short, and is
+signed, but I suspect coccinelle can do that much better than trying to
+work out some way to get the C compiler to check that.
 
 --=20
-     http://baruch.siach.name/blog/                  ~. .~   Tk Open Sy=
-stems
-=3D}------------------------------------------------ooO--U--Ooo--------=
-----{=3D
-   - baruch@tkos.co.il - tel: +972.2.679.5364, http://www.tkos.co.il -
+RMK's Patch system: http://www.arm.linux.org.uk/developer/patches/
+=46TTC broadband for 0.8mile line: currently at 9.6Mbps down 400kbps up
+according to speedtest.net.
