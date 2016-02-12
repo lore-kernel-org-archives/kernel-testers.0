@@ -1,51 +1,58 @@
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Subject: [PATCH] net: phy: spi_ks8995: add dependency on GPIO
-Date: Fri, 12 Feb 2016 15:48:26 +0530
-Message-ID: <1455272306-30251-1-git-send-email-sudipm.mukherjee@gmail.com>
-Return-path: <linux-kernel-owner@vger.kernel.org>
+From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] [media] media: ti-vpe: add dependency of HAS_DMA
+Date: Fri, 12 Feb 2016 16:23:28 +0530
+Message-ID: <1455274408-23978-1-git-send-email-sudipm.mukherjee@gmail.com>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20120113;
         h=from:to:cc:subject:date:message-id;
-        bh=LMkBgzLnrrq/5+UZNRNdiqKtA9txY26r6t3yrwIpy1w=;
-        b=b5FmrLWE8bdar8YDKAGurOm7x1GFhvP3QVCFn9u5mBjmEre0NlSlrvnRYo2gMWASKy
-         PU2awEpTRL7wwrgulCQ7S4v5OGmTpB2jfJnAocIWDKz2ceLwTKZyKcQ7zUywe67VktZX
-         hp0y1KsjC+dcPO+IeNanSmBo8Xkjs8Ha6zoxKe8ZnSLwIwYpcfTcRW8rd2FwFnpRu4X2
-         tGnH7hM5tBxnxdeKmXtMWH0cBrWpBy9vrGx4AEHgdqyXFaGAkI6Kg6ToOmw2SJohFnpG
-         Lg7/3D5tIWBr2NxTq5yAy7BBGT7AOVEZrp3Q+PjP1SYqX15g2W5Azw99IYPwai9tqpXP
-         xhuQ==
-Sender: linux-kernel-owner@vger.kernel.org
+        bh=Ll/O2yfoG1bcgA8U7sjpclOdC22D72voouLx6vYX7cg=;
+        b=YyDX0suW0E0y3sXgcbId2CVOqLQI6uftKG1rYyf9BWf4yV/hSqlaBORxZUoGXcGc9S
+         k2ZD/GufE7W08RX3V703it6j1YlNqEyDbBKplF8QTvqUV3uqKCAz0b+I7dE5ZNeyLxBC
+         wjSaKOWLa7ZAmeCxU8ezTZSxTyY6tQXz+8gSBpnEi+SyvUicqlvUoH3LVVdyuheL7vwP
+         DyYkPFMQc+wiQxRZEReQJAgRZfW+816+/wpYLa+I2e0E7FBoIAOYAnOl82y2IK/u+Pnv
+         TQ5IXECspgfrKmpKINBMhVW9bN/OtXFc5V+jeEypYq/bK4uLUSdOqJFMbuMAbap4tI6B
+         7P/w==
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Florian Fainelli <f.fainelli@gmail.com>
-Cc: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Helmut Buchsbaum <helmut.buchsbaum@gmail.com>
+To: Mauro Carvalho Chehab <mchehab-JPH+aEBZ4P+UEJcrhfAQsw@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-media-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Benoit Parrot <bparrot-l0cyMroinI0@public.gmane.org>, Hans Verkuil <hans.verkuil-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
 
-The builds of allmodconfig of s390, m68k, tilegx, tilepro is failing
-with the error:
- drivers/net/phy/spi_ks8995.c:477:3: error: implicit declaration of function 'gpiod_set_value'
- drivers/net/phy/spi_ks8995.c:477:19: error: implicit declaration of function 'gpio_to_desc'
+The build of m32r allmodconfig fails with the error:
+ drivers/media/v4l2-core/videobuf2-dma-contig.c:492:28: error: implicit
+	declaration of function 'dma_get_cache_alignment'
 
-GPIO is now used to reset the switch so we should have a dependency on
-GPIOLIB. 
+The build of videobuf2-dma-contig.c depends on HAS_DMA and it is
+correctly mentioned in the Kconfig but the symbol VIDEO_TI_CAL also
+selects VIDEOBUF2_DMA_CONTIG, so it is trying to compile
+videobuf2-dma-contig.c even though HAS_DMA is not defined.
 
-Fixes: cd6f288cbaab ("net: phy: spi_ks8995: add support for resetting switch using GPIO")
-Cc: Helmut Buchsbaum <helmut.buchsbaum@gmail.com>
-Signed-off-by: Sudip Mukherjee <sudip@vectorindia.org>
+Fixes: 343e89a792a5 ("[media] media: ti-vpe: Add CAL v4l2 camera capture driver")
+Cc: Benoit Parrot <bparrot-l0cyMroinI0@public.gmane.org>
+Cc: Hans Verkuil <hans.verkuil-FYB4Gu1CFyUAvxtiuMwx3w@public.gmane.org>
+Signed-off-by: Sudip Mukherjee <sudip-ofJRbWXBVFamYgehrs7/Lw@public.gmane.org>
 ---
- drivers/net/phy/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
-index f0a7702..c6a4fe1 100644
---- a/drivers/net/phy/Kconfig
-+++ b/drivers/net/phy/Kconfig
-@@ -261,4 +261,4 @@ endif # PHYLIB
- 
- config MICREL_KS8995MA
- 	tristate "Micrel KS8995MA 5-ports 10/100 managed Ethernet switch"
--	depends on SPI
-+	depends on SPI && GPIOLIB
+build log of next-20160212 is at:
+https://travis-ci.org/sudipm-mukherjee/parport/jobs/108716158
+
+ drivers/media/platform/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index fd4fcd5..16dbe3d 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -124,6 +124,7 @@ config VIDEO_TI_CAL
+ 	tristate "TI CAL (Camera Adaptation Layer) driver"
+ 	depends on VIDEO_DEV && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
+ 	depends on SOC_DRA7XX || COMPILE_TEST
++	depends on HAS_DMA
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	default n
+ 	---help---
 -- 
 1.9.1
-
