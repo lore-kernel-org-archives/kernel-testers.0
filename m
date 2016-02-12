@@ -1,125 +1,51 @@
-From: Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [PATCH] tty/serial: digicolor: Fix bad usage of IS_ERR_VALUE
-Date: Fri, 12 Feb 2016 07:38:51 +0100
-Message-ID: <56BD7DFB.10608@samsung.com>
-References: <1455030539-10798-1-git-send-email-linux@roeck-us.net>
- <4571887.rTPndCnv20@wuerfel> <56BAA27A.9050605@roeck-us.net>
- <2606061.l722KO95iI@wuerfel> <56BC022B.7030004@roeck-us.net>
- <56BC2DF7.20803@samsung.com> <20160211153243.GA3076@roeck-us.net>
-Mime-Version: 1.0
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Subject: [PATCH] net: phy: spi_ks8995: add dependency on GPIO
+Date: Fri, 12 Feb 2016 15:48:26 +0530
+Message-ID: <1455272306-30251-1-git-send-email-sudipm.mukherjee@gmail.com>
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-reply-to: <20160211153243.GA3076@roeck-us.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20120113;
+        h=from:to:cc:subject:date:message-id;
+        bh=LMkBgzLnrrq/5+UZNRNdiqKtA9txY26r6t3yrwIpy1w=;
+        b=b5FmrLWE8bdar8YDKAGurOm7x1GFhvP3QVCFn9u5mBjmEre0NlSlrvnRYo2gMWASKy
+         PU2awEpTRL7wwrgulCQ7S4v5OGmTpB2jfJnAocIWDKz2ceLwTKZyKcQ7zUywe67VktZX
+         hp0y1KsjC+dcPO+IeNanSmBo8Xkjs8Ha6zoxKe8ZnSLwIwYpcfTcRW8rd2FwFnpRu4X2
+         tGnH7hM5tBxnxdeKmXtMWH0cBrWpBy9vrGx4AEHgdqyXFaGAkI6Kg6ToOmw2SJohFnpG
+         Lg7/3D5tIWBr2NxTq5yAy7BBGT7AOVEZrp3Q+PjP1SYqX15g2W5Azw99IYPwai9tqpXP
+         xhuQ==
 Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-arm-kernel@lists.infradead.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Baruch Siach <baruch@tkos.co.il>, linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, Jiri Slaby <jslaby@suse.com>, kernel-testers@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Florian Fainelli <f.fainelli@gmail.com>
+Cc: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Helmut Buchsbaum <helmut.buchsbaum@gmail.com>
 
-On 02/11/2016 04:32 PM, Guenter Roeck wrote:
-> On Thu, Feb 11, 2016 at 07:45:11AM +0100, Andrzej Hajda wrote:
->> On 02/11/2016 04:38 AM, Guenter Roeck wrote:
->>> On 02/10/2016 07:21 AM, Arnd Bergmann wrote:
->>>> On Tuesday 09 February 2016 18:37:46 Guenter Roeck wrote:
->>>>> On 02/09/2016 07:26 AM, Arnd Bergmann wrote:
->>>>>> On Tuesday 09 February 2016 07:08:59 Guenter Roeck wrote:
->>>>>>> IS_ERR_VALUE() assumes that its parameter is an unsigned long.
->>>>>>> It can not be used to check if an unsigned int reflects an erro=
-r.
->>>>>>> Doing so can result in the following build warning.
->>>>>>>
->>>>>>> drivers/tty/serial/digicolor-usart.c: In function =E2=80=98digi=
-color_uart_probe=E2=80=99:
->>>>>>> include/linux/err.h:21:38: warning:
->>>>>>>           comparison is always false due to limited range of da=
-ta type
->>>>>>> drivers/tty/serial/digicolor-usart.c:485:6: note:
->>>>>>>           in expansion of macro =E2=80=98IS_ERR_VALUE=E2=80=99
->>>>>>>
->>>>>>> If that warning is seen, an error return from platform_get_irq(=
-) is missed.
->>>>>>>
->>>>>>>
->>>>>> The patch looks correct to me, but what compiler version and whi=
-ch kernel
->>>>>> tree is it that triggered the warning?
->>>>>>
->>>>>> Andrzej Hajda just modified the definition of IS_ERR_VALUE(), an=
-d the
->>>>>> changes are still under discussion, but I don't see that warning=
- with
->>>>>> any of the versions.
->>>>>>
->>>>> I see it with gcc 5.1 and 5.2 (and W=3D1). I did not see / notice=
- Andrzej's patch.
->>>>>
->>>>> I agree that fixing the problem in IS_ERR_VALUE() is preferrable.
->>>>>
->>>>>
->>>> Ah, W=3D1 explains it. We are still debating about the proper solu=
-tion. Al Viro
->>>> pointed out that most users of IS_ERR_VALUE() shouldn't be using i=
-t at all,
->>>> so your patch is probably best here after all.
->>>>
->>> Yes, after looking into it some more I agree. Coccinelle should be =
-able to handle
->>> most of the conversions automatically. I actually tried to write a =
-script, just
->>> for the fun of it, but it misses some of the problem cases in patch=
- mode.
->>> Maybe I get it working tonight.
->>>
->>> Guenter
->>>
->> Maybe it can be helpful. The script which classifies all IS_ERR_VALU=
-E
->> usages as
->> correct, signed, incorrect and unknown (cocci was not able to detect=
- type).
->> Adding patch mode should be quite simple.
->>
->> // Options: --all-includes --include
->> include/uapi/linux/netfilter_ipv6/ip6_tables.h --include
->> include/uapi/linux/netfilter_ipv4/ip_tables.h --include
->> include/uapi/linux/netfilter_arp/arp_tables.h --include
->> include/uapi/linux/netfilter/x_tables.h --include include/linux/mm_t=
-ypes.h
->>
->> virtual context
->> virtual report
->>
->> @r@
->> typedef bool, u8, u16, u32, u64, s8, s16, s32, s64, __u64, dma_addr_=
-t,
->> Elf32_Addr, Elf64_Addr;
->> {unsigned long, size_t} ev;
->> {short, int, long, s16, s32, ssize_t} ew;
->> {char, unsigned char, unsigned short, unsigned int, long long, unsig=
-ned
->> long long, bool, u8, u16, u32, u64, s64, __u64, dma_addr_t, Elf32_Ad=
-dr,
->> Elf64_Addr} ei;
->> expression eu;
->> position p;
->> @@
->>
->> IS_ERR_VALUE(\(ev \| ew \| ei \| eu \))@p
->>
->> @script:python depends on report@
->> p << r.p =3D [];
->> ev << r.ev =3D "";
->> ew << r.ew =3D "";
->> ei << r.ei =3D "";
->> eu << r.eu =3D "";
-> This doesn't work for me; it bails out at the assignments. If I remov=
-e
-> the assignments, it does not report anything.
->
-> Any idea what might be wrong ?
+The builds of allmodconfig of s390, m68k, tilegx, tilepro is failing
+with the error:
+ drivers/net/phy/spi_ks8995.c:477:3: error: implicit declaration of function 'gpiod_set_value'
+ drivers/net/phy/spi_ks8995.c:477:19: error: implicit declaration of function 'gpio_to_desc'
 
-Old version of spatch. Default values are supported since 1.0.3.
+GPIO is now used to reset the switch so we should have a dependency on
+GPIOLIB. 
 
-Regards
-Andrzej
+Fixes: cd6f288cbaab ("net: phy: spi_ks8995: add support for resetting switch using GPIO")
+Cc: Helmut Buchsbaum <helmut.buchsbaum@gmail.com>
+Signed-off-by: Sudip Mukherjee <sudip@vectorindia.org>
+---
+ drivers/net/phy/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
+index f0a7702..c6a4fe1 100644
+--- a/drivers/net/phy/Kconfig
++++ b/drivers/net/phy/Kconfig
+@@ -261,4 +261,4 @@ endif # PHYLIB
+ 
+ config MICREL_KS8995MA
+ 	tristate "Micrel KS8995MA 5-ports 10/100 managed Ethernet switch"
+-	depends on SPI
++	depends on SPI && GPIOLIB
+-- 
+1.9.1
 
