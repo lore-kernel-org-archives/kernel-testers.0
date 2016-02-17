@@ -1,70 +1,38 @@
-From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] net: phy: spi_ks8995: add dependency on GPIO
-Date: Sat, 13 Feb 2016 19:35:40 +0530
-Message-ID: <56BF3834.2090708@gmail.com>
-References: <1455272306-30251-1-git-send-email-sudipm.mukherjee@gmail.com> <CAMuHMdXRD-XJODqd1M+MWkseyJgU52GRniP_Ld_EOMSyWg+MVg@mail.gmail.com>
+From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Subject: Re: [PATCH v2] net: phy: spi_ks8995: add dependency on GPIO
+Date: Tue, 16 Feb 2016 20:36:06 -0500 (EST)
+Message-ID: <20160216.203606.1431228679408727525.davem@davemloft.net>
+References: <1455372195-10825-1-git-send-email-sudipm.mukherjee@gmail.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20120113;
-        h=message-id:date:from:user-agent:mime-version:to:cc:subject
-         :references:in-reply-to:content-type:content-transfer-encoding;
-        bh=ueJEsgstCXyewvfXfY6FBIFKRvsUWxWKmiZynHBJfI8=;
-        b=LxHf8/muKd6qgRITJc7SybeFnvbKF+1bsTTPyFQ1dw71VOTS2ztZrxBb0Xuro4kMG2
-         UURNQt68zliXSECpxtWC5fwv1QRTeRTKfqxa+Lui/k2Qa9ETgQODh14Mp27xBMyJf2uM
-         N0IwNMpJK3/SQXrqckWne+0tXybK6MpO6JjAgZ3/U690TmGT0MZRsGHucV6u1S4uw+Rp
-         oLY2Z07vHI5z65os7RUCppLAHDn2jashwJ0Ex/e76JrY8l4GFfDwkQl+HNhUm+qTZDt/
-         9B+v4RT+cnysZeUb3/BL38QZ2rSRL5VWs6uL9VF5B+e5o8pBoyR0YeISlHZhuoLq+6NB
-         6/+A==
-In-Reply-To: <CAMuHMdXRD-XJODqd1M+MWkseyJgU52GRniP_Ld_EOMSyWg+MVg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1455372195-10825-1-git-send-email-sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Geert Uytterhoeven <geert-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>
-Cc: Florian Fainelli <f.fainelli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Helmut Buchsbaum <helmut.buchsbaum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: Text/Plain; charset="us-ascii"
+To: sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: f.fainelli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, geert-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org, helmut.buchsbaum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-On Saturday 13 February 2016 03:42 PM, Geert Uytterhoeven wrote:
-> On Fri, Feb 12, 2016 at 11:18 AM, Sudip Mukherjee
-> <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> The builds of allmodconfig of s390, m68k, tilegx, tilepro is failing
->> with the error:
->>   drivers/net/phy/spi_ks8995.c:477:3: error: implicit declaration of function 'gpiod_set_value'
->>   drivers/net/phy/spi_ks8995.c:477:19: error: implicit declaration of function 'gpio_to_desc'
->
-> Does that file include include/linux/gpio/consumer.h?
-> The GPIO subsystem provides dummies of these functions when CONFIG_GPIOLIB=n.
->
->> GPIO is now used to reset the switch so we should have a dependency on
->> GPIOLIB.
->>
->> Fixes: cd6f288cbaab ("net: phy: spi_ks8995: add support for resetting switch using GPIO")
->> Cc: Helmut Buchsbaum <helmut.buchsbaum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> Signed-off-by: Sudip Mukherjee <sudip-ofJRbWXBVFamYgehrs7/Lw@public.gmane.org>
->> ---
->>   drivers/net/phy/Kconfig | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/net/phy/Kconfig b/drivers/net/phy/Kconfig
->> index f0a7702..c6a4fe1 100644
->> --- a/drivers/net/phy/Kconfig
->> +++ b/drivers/net/phy/Kconfig
->> @@ -261,4 +261,4 @@ endif # PHYLIB
->>
->>   config MICREL_KS8995MA
->>          tristate "Micrel KS8995MA 5-ports 10/100 managed Ethernet switch"
->> -       depends on SPI
->> +       depends on SPI && GPIOLIB
->
-> I think that can become
->
->      depends on SPI
->      depends on GPIOLIB || COMPILE_TEST
->
-> after you've added the missing include.
+From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date: Sat, 13 Feb 2016 19:33:15 +0530
 
-yes, ofcourse. Better change that what I have done. Just sent v2 after 
-compile testing this change.
+> The builds of allmodconfig of s390, m68k, tilegx, tilepro is failing
+> with the error:
+>  drivers/net/phy/spi_ks8995.c:477:3: error: implicit declaration of function 'gpiod_set_value'
+>  drivers/net/phy/spi_ks8995.c:477:19: error: implicit declaration of function 'gpio_to_desc'
+> 
+> GPIO is now used to reset the switch so we should have a dependency on
+> GPIOLIB. While adding the dependency also add COMPILE_TEST so that we
+> can build test it.
+> 
+> Fixes: cd6f288cbaab ("net: phy: spi_ks8995: add support for resetting switch using GPIO")
+> Cc: Helmut Buchsbaum <helmut.buchsbaum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Signed-off-by: Sudip Mukherjee <sudip-ofJRbWXBVFamYgehrs7/Lw@public.gmane.org>
+> ---
+> 
+> v2: added COMPILE_TEST and gpio/consumer.h
 
-regards
-sudip
+I'm going to apply Arnd's patch because it properly removes the
+unnecessary linux/gpio.h include.
+
+Thanks.
