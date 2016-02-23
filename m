@@ -1,51 +1,58 @@
 From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Subject: Re: [PATCH v2] net: phy: spi_ks8995: add dependency on GPIO
-Date: Fri, 19 Feb 2016 22:05:20 +0530
-Message-ID: <56C74448.8080404@gmail.com>
-References: <1455372195-10825-1-git-send-email-sudipm.mukherjee@gmail.com>	<20160216.203606.1431228679408727525.davem@davemloft.net>	<20160219082909.GA6312@sudip-pc> <20160219.111323.1588037348332012027.davem@davemloft.net>
+Subject: Re: linux-next: Tree for Feb 17
+Date: Tue, 23 Feb 2016 18:21:38 +0530
+Message-ID: <56CC55DA.1010308@gmail.com>
+References: <20160217163921.42aeff6a@canb.auug.org.au> <20160217115248.GA4294@sudip-pc> <56C4AFE8.6020101@caviumnetworks.com>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
+Return-path: <linux-next-owner@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20120113;
         h=message-id:date:from:user-agent:mime-version:to:cc:subject
          :references:in-reply-to:content-type:content-transfer-encoding;
-        bh=Ihm8zaQS1k9VvFUP5oCd02ftV4LV+QcC9mO2nB9xPWw=;
-        b=lSwMHIamBBkAOWsVYanPrKDkjZeVVegQSyBqHpd6gDf5201X+OJzwJBBFj/qetQqhm
-         v4WOfpwIaDy1GGxVsVtFmav9jVg5w6+nDIiUPAXmWy3bFr8/n2epBOWBxHqj5ltat12U
-         v+KFDqGPaKyKl6G19C9bc8XvckvwGKjcRKt6rOPEOiDY3G33I5pzrrgBgIwzt1QrTlZ0
-         NgIMM2yRCz4NgA8cVDPRZ3JI2rSjPvg8ItZSt0YbJ9YXIvxNneTKfDU4Pl94EoNBQsJa
-         FIKmsRVuoJLmrhaErb4n6jLv9iaRVI2uytrO7xvhQ5tIh6PBZxeCNiySoZCXh2h7HyEb
-         2Nqg==
-In-Reply-To: <20160219.111323.1588037348332012027.davem@davemloft.net>
-Sender: linux-kernel-owner@vger.kernel.org
+        bh=T9tkTMg5x1rIXG7tPKdgERgx1F/TbDESi6ZokzNO1jU=;
+        b=fXhxpklBlYFpRsSVU1uprS6isHc/hDnflZM0vhuEGDovwnx1NjBcOrrWwIflKVKTC4
+         dfVDCWCFMZ8oqqWXXYameB/Q5Y67nvT9saHx2+de/SV4EC6cGZEAHp6V+EmcO7awcmDw
+         DZOnkFsNs2TGShGQfyizxuugs6C+YTcaj7M5xp8HSy5d2AQr0mqEsRSmR4z2HQrEESFN
+         dlAmoVw24uD8jofHdkf3/UoHj5qQx6ZLdCnYotJlc+0XpGjbERIXn5exRrKx1Ku84uE9
+         dOwm9RL6ToIMef8xtKQ7tlfT5fzKCJ72WtL0eq7ZlFk/xMj6NT8e4StXgI+SApSfxOfD
+         IBZA==
+In-Reply-To: <56C4AFE8.6020101@caviumnetworks.com>
+Sender: linux-next-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: David Miller <davem@davemloft.net>
-Cc: f.fainelli@gmail.com, linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, netdev@vger.kernel.org, geert@linux-m68k.org, helmut.buchsbaum@gmail.com
+To: Ralf Baechle <ralf@linux-mips.org>
+Cc: David Daney <ddaney@caviumnetworks.com>, David Daney <david.daney@cavium.com>, linux-next@vger.kernel.org, linux-kernel@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>, kernel-testers@vger.kernel.org
 
-On Friday 19 February 2016 09:43 PM, David Miller wrote:
-> From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-> Date: Fri, 19 Feb 2016 13:59:09 +0530
->
->> On Tue, Feb 16, 2016 at 08:36:06PM -0500, David Miller wrote:
->>> From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
->>> Date: Sat, 13 Feb 2016 19:33:15 +0530
+On Wednesday 17 February 2016 11:07 PM, David Daney wrote:
+> On 02/17/2016 03:52 AM, Sudip Mukherjee wrote:
+>> On Wed, Feb 17, 2016 at 04:39:21PM +1100, Stephen Rothwell wrote:
+>>> Hi all,
 >>>
->>>> The builds of allmodconfig of s390, m68k, tilegx, tilepro is failing
->>>> with the error:
->>>>   drivers/net/phy/spi_ks8995.c:477:3: error: implicit declaration of function 'gpiod_set_value'
->>>>   drivers/net/phy/spi_ks8995.c:477:19: error: implicit declaration of function 'gpio_to_desc'
->   ...
->> I think Arnd's patch is still not applied as we are still having build
->> failures for the implicit declarations. Or you want me to send v3 after
->> removing unnecessary linux/gpio.h include?
+>>> Changes since 20160216:
+>>
+>> since last few days build of mips cavium_octeon_defconfig is failing
+>> with the error:
+>> arch/mips/include/asm/octeon/cvmx.h:60:39: fatal error:
+>>     asm/octeon/cvmx-ciu3-defs.h: No such file or directory
+>>
 >
-> It's definitely there in net-next, commit 27090cbdc345cd5fd6f6e57a8986c504c27e4d23
+> When Ralf applied the patches, he missed this one:
 >
+> https://www.linux-mips.org/cgi-bin/mesg.cgi?a=linux-mips&i=1455044413-9823-4-git-send-email-ddaney.cavm%40gmail.com
+>
+>
+> This is PATCH 3/8 and if applied in  the proper order, it should fix
+> this problem.
+>
+> Ralf: It looks like you should consider re-spinning  mips-for-linux-next
+> to include this patch.
 
-Ohhh.. ok.. linux-next is still using net-next from next-20160217, I 
-hope Monday it will be fine.
+Hi Ralf,
+
+We still have the build failure. Do you want me to send that missing 3/8 
+rebased on top of mips-for-linux-next so that it will be easy for you to 
+apply.
 
 regards
 sudip
