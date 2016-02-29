@@ -1,58 +1,65 @@
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Subject: Re: linux-next: Tree for Feb 17
-Date: Tue, 23 Feb 2016 18:21:38 +0530
-Message-ID: <56CC55DA.1010308@gmail.com>
-References: <20160217163921.42aeff6a@canb.auug.org.au> <20160217115248.GA4294@sudip-pc> <56C4AFE8.6020101@caviumnetworks.com>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-next-owner@vger.kernel.org>
+From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] ASoC: qcom: add dependency on HAS_DMA
+Date: Mon, 29 Feb 2016 19:55:39 +0530
+Message-ID: <1456755939-7848-1-git-send-email-sudipm.mukherjee@gmail.com>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20120113;
-        h=message-id:date:from:user-agent:mime-version:to:cc:subject
-         :references:in-reply-to:content-type:content-transfer-encoding;
-        bh=T9tkTMg5x1rIXG7tPKdgERgx1F/TbDESi6ZokzNO1jU=;
-        b=fXhxpklBlYFpRsSVU1uprS6isHc/hDnflZM0vhuEGDovwnx1NjBcOrrWwIflKVKTC4
-         dfVDCWCFMZ8oqqWXXYameB/Q5Y67nvT9saHx2+de/SV4EC6cGZEAHp6V+EmcO7awcmDw
-         DZOnkFsNs2TGShGQfyizxuugs6C+YTcaj7M5xp8HSy5d2AQr0mqEsRSmR4z2HQrEESFN
-         dlAmoVw24uD8jofHdkf3/UoHj5qQx6ZLdCnYotJlc+0XpGjbERIXn5exRrKx1Ku84uE9
-         dOwm9RL6ToIMef8xtKQ7tlfT5fzKCJ72WtL0eq7ZlFk/xMj6NT8e4StXgI+SApSfxOfD
-         IBZA==
-In-Reply-To: <56C4AFE8.6020101@caviumnetworks.com>
-Sender: linux-next-owner@vger.kernel.org
+        h=from:to:cc:subject:date:message-id;
+        bh=ChOTTAvfikS8v1qB8PKdmDUUrKWFKNHKWzj6ap9yqHM=;
+        b=KL0dnNZTP4fN21HQfJ2PqZoZUC7+H41rF3LqyEQj8u2/f3T/gAR1ORJmWTKBKnmxhT
+         M+vYMyp5dmDDBjjRFWDcWphZbOA36VDe5S2t5mn9/TtdqnJ23sq0azGsYbqoc5UaiP+M
+         13ZRBcyM8CIescg2XUqv82DSKA6XGMsuTm3jUnHOInSQ68aWzDmKtgUfa12o1sOtIO32
+         tbH7Hi7qGnDW8z/5pKrZAKWGKORyflxhMiXFM18QOZDMcUxIBkARnM5ZDjwr4VhlVAw3
+         Wg8bLXd5srKoS6gbj6Xtpz3LotbmEtlmh3pBf8gn8i8NiQVLTH8aLQtV61JX2uwTU2QF
+         iEyQ==
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Ralf Baechle <ralf@linux-mips.org>
-Cc: David Daney <ddaney@caviumnetworks.com>, David Daney <david.daney@cavium.com>, linux-next@vger.kernel.org, linux-kernel@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>, kernel-testers@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+To: Patrick Lai <plai-sgV2jX0FEOL9JmXXK+q4OQ@public.gmane.org>, Banajit Goswami <bgoswami-sgV2jX0FEOL9JmXXK+q4OQ@public.gmane.org>, Liam Girdwood <lgirdwood-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mark Brown <broonie-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Jaroslav Kysela <perex-/Fr2/VpizcU@public.gmane.org>, Takashi Iwai <tiwai-IBi9RG/b67k@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-On Wednesday 17 February 2016 11:07 PM, David Daney wrote:
-> On 02/17/2016 03:52 AM, Sudip Mukherjee wrote:
->> On Wed, Feb 17, 2016 at 04:39:21PM +1100, Stephen Rothwell wrote:
->>> Hi all,
->>>
->>> Changes since 20160216:
->>
->> since last few days build of mips cavium_octeon_defconfig is failing
->> with the error:
->> arch/mips/include/asm/octeon/cvmx.h:60:39: fatal error:
->>     asm/octeon/cvmx-ciu3-defs.h: No such file or directory
->>
->
-> When Ralf applied the patches, he missed this one:
->
-> https://www.linux-mips.org/cgi-bin/mesg.cgi?a=linux-mips&i=1455044413-9823-4-git-send-email-ddaney.cavm%40gmail.com
->
->
-> This is PATCH 3/8 and if applied in  the proper order, it should fix
-> this problem.
->
-> Ralf: It looks like you should consider re-spinning  mips-for-linux-next
-> to include this patch.
+m32r allmodconfig build is failing with the error:
+ERROR: "bad_dma_ops" [sound/soc/qcom/snd-soc-lpass-platform.ko] undefined!
+ERROR: "dma_common_mmap" [sound/soc/qcom/snd-soc-lpass-platform.ko] undefined!
 
-Hi Ralf,
+lpass-platform uses DMA so add HAS_DMA in the Kconfig. Also add the same
+for SND_SOC_LPASS_IPQ806X and SND_SOC_LPASS_APQ8016 as they will also
+select SND_SOC_LPASS_PLATFORM.
 
-We still have the build failure. Do you want me to send that missing 3/8 
-rebased on top of mips-for-linux-next so that it will be easy for you to 
-apply.
+Signed-off-by: Sudip Mukherjee <sudip.mukherjee-4yDnlxn2s6sWdaTGBSpHTA@public.gmane.org>
+---
 
-regards
-sudip
+m32r allmodconfig build for next-20160229 is at:
+https://travis-ci.org/sudipm-mukherjee/parport/jobs/112534168
+
+ sound/soc/qcom/Kconfig | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
+index 3cc252e..1e7a783 100644
+--- a/sound/soc/qcom/Kconfig
++++ b/sound/soc/qcom/Kconfig
+@@ -11,15 +11,18 @@ config SND_SOC_LPASS_CPU
+ 
+ config SND_SOC_LPASS_PLATFORM
+ 	tristate
++	depends on HAS_DMA
+ 	select REGMAP_MMIO
+ 
+ config SND_SOC_LPASS_IPQ806X
+ 	tristate
++	depends on HAS_DMA
+ 	select SND_SOC_LPASS_CPU
+ 	select SND_SOC_LPASS_PLATFORM
+ 
+ config SND_SOC_LPASS_APQ8016
+ 	tristate
++	depends on HAS_DMA
+ 	select SND_SOC_LPASS_CPU
+ 	select SND_SOC_LPASS_PLATFORM
+ 
+-- 
+1.9.1
