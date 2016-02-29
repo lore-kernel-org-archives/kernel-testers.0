@@ -1,65 +1,46 @@
-From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] ASoC: qcom: add dependency on HAS_DMA
-Date: Mon, 29 Feb 2016 19:55:39 +0530
-Message-ID: <1456755939-7848-1-git-send-email-sudipm.mukherjee@gmail.com>
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Subject: Re: [PATCH] ASoC: qcom: add dependency on HAS_DMA
+Date: Mon, 29 Feb 2016 22:01:25 +0530
+Message-ID: <56D4725D.1030001@gmail.com>
+References: <1456755939-7848-1-git-send-email-sudipm.mukherjee@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20120113;
-        h=from:to:cc:subject:date:message-id;
-        bh=ChOTTAvfikS8v1qB8PKdmDUUrKWFKNHKWzj6ap9yqHM=;
-        b=KL0dnNZTP4fN21HQfJ2PqZoZUC7+H41rF3LqyEQj8u2/f3T/gAR1ORJmWTKBKnmxhT
-         M+vYMyp5dmDDBjjRFWDcWphZbOA36VDe5S2t5mn9/TtdqnJ23sq0azGsYbqoc5UaiP+M
-         13ZRBcyM8CIescg2XUqv82DSKA6XGMsuTm3jUnHOInSQ68aWzDmKtgUfa12o1sOtIO32
-         tbH7Hi7qGnDW8z/5pKrZAKWGKORyflxhMiXFM18QOZDMcUxIBkARnM5ZDjwr4VhlVAw3
-         Wg8bLXd5srKoS6gbj6Xtpz3LotbmEtlmh3pBf8gn8i8NiQVLTH8aLQtV61JX2uwTU2QF
-         iEyQ==
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+        h=message-id:date:from:user-agent:mime-version:to:cc:subject
+         :references:in-reply-to:content-transfer-encoding;
+        bh=0lPHgkwaTyMACa4puH6kt1+SK/BEA2FZVKgzxhFAOA4=;
+        b=pDm8oGPEb5HYB1aUW776fvdqZghQjwfmWFBD0fJND+jK7JtqcsJTeLqGwrcoJYf90u
+         XcgEHNbPA/MKFlRYx9UfVG6pVNcXzu6RF/QROdzV2PSxEjxSoxczSnHAhqCfzYXYa+kh
+         4HxuEX4DuWsf4l7DxWK2baDXjFZqXihFUQ0bifm6pJsAKiofT0icbExFf66kG6JCaPmX
+         28GAFR9h1rC5DpzTdPWRp87X21ubxl5XF06ru4o3SF5p6lortghGyPdZskbzUOLEHrmv
+         qzvQBxGUB8fIxrlmE9yGo8rg4gJLHym4K+O1P9g4uDWl1iC2NGqKPPGHUHngFZAj2wHr
+         uzZg==
+In-Reply-To: <1456755939-7848-1-git-send-email-sudipm.mukherjee@gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-To: Patrick Lai <plai-sgV2jX0FEOL9JmXXK+q4OQ@public.gmane.org>, Banajit Goswami <bgoswami-sgV2jX0FEOL9JmXXK+q4OQ@public.gmane.org>, Liam Girdwood <lgirdwood-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mark Brown <broonie-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Jaroslav Kysela <perex-/Fr2/VpizcU@public.gmane.org>, Takashi Iwai <tiwai-IBi9RG/b67k@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, alsa-devel-K7yf7f+aM1XWsZ/bQMPhNw@public.gmane.org, Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"; format="flowed"
+To: Patrick Lai <plai@codeaurora.org>, Banajit Goswami <bgoswami@codeaurora.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-kernel@vger.kernel.org, kernel-testers@vger.kernel.org, alsa-devel@alsa-project.org
 
-m32r allmodconfig build is failing with the error:
-ERROR: "bad_dma_ops" [sound/soc/qcom/snd-soc-lpass-platform.ko] undefined!
-ERROR: "dma_common_mmap" [sound/soc/qcom/snd-soc-lpass-platform.ko] undefined!
+On Monday 29 February 2016 07:55 PM, Sudip Mukherjee wrote:
+> m32r allmodconfig build is failing with the error:
+> ERROR: "bad_dma_ops" [sound/soc/qcom/snd-soc-lpass-platform.ko] undefined!
+> ERROR: "dma_common_mmap" [sound/soc/qcom/snd-soc-lpass-platform.ko] undefined!
+>
+> lpass-platform uses DMA so add HAS_DMA in the Kconfig. Also add the same
+> for SND_SOC_LPASS_IPQ806X and SND_SOC_LPASS_APQ8016 as they will also
+> select SND_SOC_LPASS_PLATFORM.
+>
+> Signed-off-by: Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>
+> ---
+>
+> m32r allmodconfig build for next-20160229 is at:
+> https://travis-ci.org/sudipm-mukherjee/parport/jobs/112534168
 
-lpass-platform uses DMA so add HAS_DMA in the Kconfig. Also add the same
-for SND_SOC_LPASS_IPQ806X and SND_SOC_LPASS_APQ8016 as they will also
-select SND_SOC_LPASS_PLATFORM.
+Please discard this. It introduces new errors.
+I will send v2 after more checking.
 
-Signed-off-by: Sudip Mukherjee <sudip.mukherjee-4yDnlxn2s6sWdaTGBSpHTA@public.gmane.org>
----
-
-m32r allmodconfig build for next-20160229 is at:
-https://travis-ci.org/sudipm-mukherjee/parport/jobs/112534168
-
- sound/soc/qcom/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
-index 3cc252e..1e7a783 100644
---- a/sound/soc/qcom/Kconfig
-+++ b/sound/soc/qcom/Kconfig
-@@ -11,15 +11,18 @@ config SND_SOC_LPASS_CPU
- 
- config SND_SOC_LPASS_PLATFORM
- 	tristate
-+	depends on HAS_DMA
- 	select REGMAP_MMIO
- 
- config SND_SOC_LPASS_IPQ806X
- 	tristate
-+	depends on HAS_DMA
- 	select SND_SOC_LPASS_CPU
- 	select SND_SOC_LPASS_PLATFORM
- 
- config SND_SOC_LPASS_APQ8016
- 	tristate
-+	depends on HAS_DMA
- 	select SND_SOC_LPASS_CPU
- 	select SND_SOC_LPASS_PLATFORM
- 
--- 
-1.9.1
+regards
+sudip
