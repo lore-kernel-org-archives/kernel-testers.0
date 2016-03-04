@@ -1,69 +1,63 @@
 From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] iio: adc: imx25-gcq: fix do_div
-Date: Thu,  3 Mar 2016 18:21:53 +0530
-Message-ID: <1457009513-7069-1-git-send-email-sudipm.mukherjee@gmail.com>
+Subject: [PATCH] v4l2-mc.h: fix build failure
+Date: Fri,  4 Mar 2016 21:24:13 +0530
+Message-ID: <1457106853-10969-1-git-send-email-sudipm.mukherjee@gmail.com>
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20120113;
         h=from:to:cc:subject:date:message-id;
-        bh=VIyeWOLkvgOEJ4etQTth+ppEWpWeOcMQU6gpkAtNQH8=;
-        b=elTeC4OqydeR7k296XxsxThaBwxXoflCuuywx1bo/HCtnlT3eCl532nR8ahzkfdVuJ
-         j9J+mN275wyTuCx16ynt2kaJ2UDoB4Zy7Q5IhHYtI5VZon1Dt0s3X73LWlClDPM6m2P/
-         bR4BmOW4l1RxAmlA+0K+ZmuPAZNNNKPEJrk5rmthm/fSFhSy2oVutYZUTMwk1iXnlTu4
-         0+LDbG6MQCvUzBdPA21E3ATTX3BnCHKaaIRMwTtLpepWDrqE4iRFvas3+GW62At28CZh
-         wxBML95Uhz+cn/ykjV3eu5dAHIC9T0LwilrvjDb0an+7Qu7mpbkgfx3fgPMR98Ja0BrI
-         fZiw==
+        bh=964nh4CgbX+vLty2o0JYtD7whPu1znHT4ad10GtM/7I=;
+        b=y5IzJqfn5YuxzalTWcwJ+qgVpnQUv2tuhNxuf2z1IkNEZAU/xeTDXiO7bhG0FiyoNw
+         T2QD9ktn/c1YLhJNdywhdiqc6GM+BazxFk1RMMPBbfZbQ4XzrYzO/oPF51RCdE4VH4EU
+         yzB/cvbbeQLygsaXxX2p4lhFMZKob8x8BvKP64UIJUW8zsdcE6Iwl6Uu8erstzdFTBiH
+         C/sR4mEASRmUt8tZbPXHcTteqzoKg9xyqSnky+1moBiCyVMheDa772s9rpZbiyZKr40D
+         L1IwV0s4jqp1HE4ZwN4Jc20olKtK8c4Mhg28EHKbpsbTsLXiHk9KPKqGTD7x6HvTN+Q6
+         wGaw==
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: Jonathan Cameron <jic23-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Hartmut Knaack <knaack.h-Mmb7MZpHnFY@public.gmane.org>, Lars-Peter Clausen <lars-Qo5EllUWu/uELgA04lAiVw@public.gmane.org>, Peter Meerwald <pmeerw-jW+XmwGofnusTnJN9+BGXg@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-iio-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Mauro Carvalho Chehab <mchehab-JPH+aEBZ4P+UEJcrhfAQsw@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-media-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-We are getting build failure with tilepro allmodconfig with the error:
+We are getting build failure with arm for configurations like
+exynos_defconfig, at91_dt_defconfig where MEDIA_CONTROLLER is not
+defined.
+While adding stubs static inline was missed and an extra ';' was added.
 
-drivers/iio/adc/fsl-imx25-gcq.c:236:4: note: in expansion of macro 'do_div'
-do_div(priv->channel_vref_mv[reg], 1000);
-    ^
-
-include/asm-generic/div64.h:198:17: note: expected 'uint64_t *
-	{aka long long unsigned int *}' but argument is of type 'u32 *
-	{aka unsigned int *}'
-
-Create a temporary variable of type u64 and use that in do_div.
-
+Fixes: a77bf7048add ("v4l2-mc.h: Add stubs for the V4L2 PM/pipeline routines")
 Signed-off-by: Sudip Mukherjee <sudip.mukherjee-4yDnlxn2s6sWdaTGBSpHTA@public.gmane.org>
 ---
 
-tilepro allmodconfig build log is at:
-https://travis-ci.org/sudipm-mukherjee/parport/jobs/113325889
+build logs at:
+https://travis-ci.org/sudipm-mukherjee/parport/jobs/113601228
+and
+https://travis-ci.org/sudipm-mukherjee/parport/jobs/113601203
 
- drivers/iio/adc/fsl-imx25-gcq.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ include/media/v4l2-mc.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/iio/adc/fsl-imx25-gcq.c b/drivers/iio/adc/fsl-imx25-gcq.c
-index 2fd1927..e0636d4 100644
---- a/drivers/iio/adc/fsl-imx25-gcq.c
-+++ b/drivers/iio/adc/fsl-imx25-gcq.c
-@@ -174,6 +174,7 @@ static int mx25_gcq_setup_cfgs(struct platform_device *pdev,
- 	struct device *dev = &pdev->dev;
- 	unsigned int refp_used[4] = {};
- 	int ret, i;
-+	u64 temp;
+diff --git a/include/media/v4l2-mc.h b/include/media/v4l2-mc.h
+index 96cfca9..6096e63 100644
+--- a/include/media/v4l2-mc.h
++++ b/include/media/v4l2-mc.h
+@@ -229,13 +229,13 @@ static inline int v4l_vb2q_enable_media_source(struct vb2_queue *q)
+ 	return 0;
+ }
  
- 	/*
- 	 * Setup all configurations registers with a default conversion
-@@ -233,7 +234,9 @@ static int mx25_gcq_setup_cfgs(struct platform_device *pdev,
- 			priv->channel_vref_mv[reg] =
- 				regulator_get_voltage(priv->vref[refp]);
- 			/* Conversion from uV to mV */
--			do_div(priv->channel_vref_mv[reg], 1000);
-+			temp = priv->channel_vref_mv[reg];
-+			do_div(temp, 1000);
-+			priv->channel_vref_mv[reg] = temp;
- 			break;
- 		case MX25_ADC_REFP_INT:
- 			priv->channel_vref_mv[reg] = 2500;
+-int v4l2_pipeline_pm_use(struct media_entity *entity, int use);
++static inline int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
+ {
+ 	return 0;
+ }
+ 
+-int v4l2_pipeline_link_notify(struct media_link *link, u32 flags,
+-			      unsigned int notification);
++static inline int v4l2_pipeline_link_notify(struct media_link *link, u32 flags,
++			      unsigned int notification)
+ {
+ 	return 0;
+ }
 -- 
 1.9.1
