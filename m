@@ -1,58 +1,43 @@
-From: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
+From: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] watchdog: dw_wdt: dont build for avr32
-Date: Tue, 12 Apr 2016 06:07:03 -0700
-Message-ID: <570CF2F7.50206@roeck-us.net>
-References: <1460440303-20640-1-git-send-email-sudipm.mukherjee@gmail.com>
+Date: Tue, 12 Apr 2016 19:09:28 +0530
+Message-ID: <570CFA90.4060100@gmail.com>
+References: <1460440303-20640-1-git-send-email-sudipm.mukherjee@gmail.com> <570CF2CB.2050200@roeck-us.net>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:Cc:References:To:Subject;
-	bh=JWXFBg9LLe9D8cg6kRAGKV2F/29hVQrZrnADH5lGSbY=; b=kO4xHxcLbTUAk/PflJ/ODGCsvK
-	BQHm2mRaF19SSnuUjVksbn0o6bRAW5YDdOOvKGi5WbOhbQpGv1A4hwX7p1G7HmYUd8rgXrv6frHXP
-	OLVIVkZXaDBVs358FIFc0sMdMUffkrR8c4hnJP6ke/Y39CGCP8uz6z2YyZVKMYgnboEh9mmrQQ3l5
-	m2T40rLtFLTYYENO4H8PUyfN+IBJVcbF2P8R2gQtfRb394K6+6tGYhM9LJBMbJUT+4lCCg5boSGIT
-	+KBL9dV3R4wHFQ6GpEAO1e7VQwGd+DpvPiOqVICSOTIJMuVhc9uAV9ia+qUvmAPoPY70KvRAx1W2M
-	Ol2JdbvQ==;
-In-Reply-To: <1460440303-20640-1-git-send-email-sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20120113;
+        h=message-id:date:from:user-agent:mime-version:to:cc:subject
+         :references:in-reply-to:content-transfer-encoding;
+        bh=N8jiIY34jacXdvwWEfdPeoF5tEfPsuxIlAq1c264f70=;
+        b=STnO7HyDlSWeRtY77de8G1vJi3mcLWqGiZMQiTq9bRRuLyRTXdLk0RrtkFSYIAWFdh
+         RZzWvrkiNvTaTMAaNabD9Ih1xZoj3uQtK8ZYl0XDtdtq9V7ElothXOZUGpg4y5yUsO66
+         9UkwzlqCedDPvRVZbN51R2PRHzqDT9MzNMMLXe8TFLlisljIVcQb81R1q/LLc58NJ0DP
+         UzBXObZe9focMQltZYysxoPMMDoWQb5JRg+laTiHHl8REilKY0ecTIhRzwP+Z/EjEgze
+         6N+4dQc48MW8DPVn2pfAz0HqdWYE/IxPIw8rlvGCThiHHuOAaqB65wPRfqFYaycFTcGx
+         tETg==
+In-Reply-To: <570CF2CB.2050200-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"; format="flowed"
-To: Sudip Mukherjee <sudipm.mukherjee-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>, Haavard Skinnemoen <hskinnemoen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Hans-Christian Egtvedt <egtvedt-BrfabpQBY5qlHtIdYg32fQ@public.gmane.org>
+To: Guenter Roeck <linux-0h96xk9xTtrk1uMJSBkQmQ@public.gmane.org>, Wim Van Sebroeck <wim-IQzOog9fTRqzQB+pC5nmwQ@public.gmane.org>, Haavard Skinnemoen <hskinnemoen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Hans-Christian Egtvedt <egtvedt-BrfabpQBY5qlHtIdYg32fQ@public.gmane.org>
 Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-watchdog-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-On 04/11/2016 10:51 PM, Sudip Mukherjee wrote:
-> The build of avr32 allmodconfig fails with the error:
-> ERROR: "__avr32_udiv64" [drivers/watchdog/kempld_wdt.ko] undefined!
->
-> Exclude this driver from the build of avr32.
+On Tuesday 12 April 2016 06:36 PM, Guenter Roeck wrote:
+> On 04/11/2016 10:51 PM, Sudip Mukherjee wrote:
+>> The build of avr32 allmodconfig fails with the error:
+>> ERROR: "__avr32_udiv64" [drivers/watchdog/kempld_wdt.ko] undefined!
+>>
+> This means there is a direct 64 bit divide operation in the driver,
+> which we should identify and fix.
 
-Also, the subject line is wrong.
+yes, there is.
 
-Guenter
+in function: kempld_wdt_set_stage_timeout()
+remainder = do_div(stage_timeout64, prescaler);
 
->
-> Signed-off-by: Sudip Mukherjee <sudip.mukherjee-4yDnlxn2s6sWdaTGBSpHTA@public.gmane.org>
-> ---
->
-> avr32 build log is at:
-> https://travis-ci.org/sudipm-mukherjee/parport/jobs/122158665
->
->   drivers/watchdog/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-> index fb94765..61041ba 100644
-> --- a/drivers/watchdog/Kconfig
-> +++ b/drivers/watchdog/Kconfig
-> @@ -981,7 +981,7 @@ config HP_WATCHDOG
->
->   config KEMPLD_WDT
->   	tristate "Kontron COM Watchdog Timer"
-> -	depends on MFD_KEMPLD
-> +	depends on MFD_KEMPLD && !AVR32
->   	select WATCHDOG_CORE
->   	help
->   	  Support for the PLD watchdog on some Kontron ETX and COMexpress
->
+Any idea how to fix it?
+
+regards
+sudip
