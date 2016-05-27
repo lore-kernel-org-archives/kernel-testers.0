@@ -1,15 +1,17 @@
-From: Martin Kepplinger <martink-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>
+From: Martin Kepplinger <martink@posteo.de>
 Subject: [PATCH v5] input: tablet: add Pegasus Notetaker tablet driver
-Date: Fri, 27 May 2016 11:46:21 +0200
-Message-ID: <1464342381-2939-1-git-send-email-martink@posteo.de>
-Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Date: Fri, 27 May 2016 20:34:57 +0200
+Message-ID: <1464374097-6594-1-git-send-email-martink@posteo.de>
+References: <1464342381-2939-1-git-send-email-martink@posteo.de>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <1464342381-2939-1-git-send-email-martink@posteo.de>
+Sender: linux-kernel-owner@vger.kernel.org
 List-ID: <kernel-testers.vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-To: dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Martin Kepplinger <martink-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>
+To: dmitry.torokhov@gmail.com
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org, kernel-testers@vger.kernel.org, linux-usb@vger.kernel.org, Martin Kepplinger <martink@posteo.de>
 
 This adds a driver for the Pegasus Notetaker Pen. When connected,
 this uses the Pen as an input tablet.
@@ -22,9 +24,9 @@ This device was sold in various different brandings, for example
 	"NEWLink Digital Note Taker".
 
 Here's an example, so that you know what we are talking about:
-http://www.staedtler.com/en/products/ink-writing-instruments/ballpoint-pens/digital-pen-990-01-digital-ballpoint-pen
+http://www.genie-online.de/genie-e-note-2/
 
-http://pegatech.blogspot.com/ seems to be a remaining official resource.
+https://pegatech.blogspot.com/ seems to be a remaining official resource.
 
 This device can also transfer saved (offline recorded handwritten) data and
 there are userspace programs that do this, see https://launchpad.net/m210
@@ -37,12 +39,14 @@ There's no way to disable the device. When the pen is out of range, we just
 don't get any URBs and don't do anything.
 Like all other mouses or input tablets, we don't use runtime PM.
 
-Signed-off-by: Martin Kepplinger <martink-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>
+Signed-off-by: Martin Kepplinger <martink@posteo.de>
 ---
 
-Thanks for reviewing! Dmitry's and Oliver's changes to v4 made it even
-smaller now. All is tested again and should apply to any recent tree.
-If not, please just complain.
+This is *exactly* v5 again, only with updated commit message third-party
+links that broke in the meantime.
+
+Again, all is tested and should apply to any recent tree. If not, please
+just complain.
 
 revision history
 ================
@@ -104,7 +108,7 @@ index 0000000..e211601
 +/*
 + * Pegasus Mobile Notetaker Pen input tablet driver
 + *
-+ * Copyright (c) 2016 Martin Kepplinger <martink-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>
++ * Copyright (c) 2016 Martin Kepplinger <martink@posteo.de>
 + */
 +
 +/*
@@ -459,8 +463,9 @@ index 0000000..e211601
 +
 +module_usb_driver(pegasus_driver);
 +
-+MODULE_AUTHOR("Martin Kepplinger <martink-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>");
++MODULE_AUTHOR("Martin Kepplinger <martink@posteo.de>");
 +MODULE_DESCRIPTION("Pegasus Mobile Notetaker Pen tablet driver");
 +MODULE_LICENSE("GPL");
 -- 
 2.1.4
+
