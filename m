@@ -1,33 +1,72 @@
-From: Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH v7] input: tablet: add Pegasus Notetaker tablet driver
-Date: Fri, 10 Jun 2016 17:59:54 +0200
-Message-ID: <1465574394.3339.0.camel@suse.com>
-References: <1464785703-5555-1-git-send-email-martink@posteo.de>
-	 <1465484429.17248.13.camel@suse.com> <575AC03C.2010306@posteo.de>
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-input-owner@vger.kernel.org>
-In-Reply-To: <575AC03C.2010306@posteo.de>
-Sender: linux-input-owner@vger.kernel.org
+From: Martin Kepplinger <martink-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>
+Subject: [PATCH] input: tablet: pegasus_notetaker: USB PM fixes
+Date: Mon, 13 Jun 2016 15:31:53 +0200
+Message-ID: <1465824713-3156-1-git-send-email-martink@posteo.de>
+Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
-To: Martin Kepplinger <martink@posteo.de>
-Cc: dmitry.torokhov@gmail.com, kernel-testers@vger.kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+To: dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Martin Kepplinger <martink-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>
 
-On Fri, 2016-06-10 at 15:27 +0200, Martin Kepplinger wrote:
-> >> +    input_set_abs_params(input_dev, ABS_X, -1500, 1500, 8, 0);
-> >> +    input_set_abs_params(input_dev, ABS_Y, 1600, 3000, 8, 0);
-> >> +
-> >> +    pegasus_set_mode(pegasus, PEN_MODE_XY, NOTETAKER_LED_MOUSE);
-> > 
-> > If you need to do this here. It is also needed in reset_resume()
-> > 
-> 
-> This is done in open() now.
+In close() we only need usb_autopm_put_interface(), in reset_resume()
+we need to set the device mode, and in suspend(), we must cancel
+the workqueue's work.
 
-You must do it conditionally in reset_resume() then.
+Signed-off-by: Martin Kepplinger <martink-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>
+---
+Thanks Oliver for these changes. For me, everything works as before.
 
-	Regards
-		Oliver
+Dmitry, do you want a new version of the whole thing instead of this
+fix?
 
+thanks
+                          martin
 
+ drivers/input/tablet/pegasus_notetaker.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/input/tablet/pegasus_notetaker.c b/drivers/input/tablet/pegasus_notetaker.c
+index 83aa583..0c339e7 100644
+--- a/drivers/input/tablet/pegasus_notetaker.c
++++ b/drivers/input/tablet/pegasus_notetaker.c
+@@ -211,14 +211,11 @@ static int pegasus_open(struct input_dev *dev)
+ static void pegasus_close(struct input_dev *dev)
+ {
+ 	struct pegasus *pegasus = input_get_drvdata(dev);
+-	int autopm_error;
+ 
+-	autopm_error = usb_autopm_get_interface(pegasus->intf);
+ 	usb_kill_urb(pegasus->irq);
+ 	cancel_work_sync(&pegasus->init);
+ 
+-	if (!autopm_error)
+-		usb_autopm_put_interface(pegasus->intf);
++	usb_autopm_put_interface(pegasus->intf);
+ }
+ 
+ static int pegasus_probe(struct usb_interface *intf,
+@@ -364,6 +361,7 @@ static int pegasus_suspend(struct usb_interface *intf, pm_message_t message)
+ 
+ 	mutex_lock(&pegasus->dev->mutex);
+ 	usb_kill_urb(pegasus->irq);
++	cancel_work_sync(&pegasus->init);
+ 	mutex_unlock(&pegasus->dev->mutex);
+ 
+ 	return 0;
+@@ -384,6 +382,11 @@ static int pegasus_resume(struct usb_interface *intf)
+ 
+ static int pegasus_reset_resume(struct usb_interface *intf)
+ {
++	struct pegasus *pegasus = usb_get_intfdata(intf);
++
++	if (pegasus->dev->users)
++		pegasus_set_mode(pegasus, PEN_MODE_XY, NOTETAKER_LED_MOUSE);
++
+ 	return pegasus_resume(intf);
+ }
+ 
+-- 
+2.1.4
