@@ -1,51 +1,50 @@
-From: Martin Kepplinger <martink-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>
-Subject: Re: [PATCH v2] input: tablet: pegasus_notetaker: USB PM fixes
-Date: Sat, 9 Jul 2016 14:07:41 +0200
-Message-ID: <6828d5b3-519c-27df-0153-2f8d8b6d526a@posteo.de>
-References: <1465903215-2351-1-git-send-email-martink@posteo.de>
- <20160623171835.GE32561@dtor-ws>
- <246597fa-6a85-1128-853d-3ebdf6f41032@posteo.de>
- <20160708210824.GE28589@dtor-ws>
+From: "Vellemans, Noel" <Noel.Vellemans-jVIO7HaJqZIeKeHsXy56Pg@public.gmane.org>
+Subject: SYNC - takes VERY  long complete  ( system freezes) !
+Date: Tue, 18 Apr 2017 08:43:58 +0000
+Message-ID: <D24E577EA1E37B4788A3BFBC418F14A70750D5DD@wetsrvex01.loepfe.com>
 Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 Return-path: <kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20160708210824.GE28589@dtor-ws>
+Content-Language: en-US
 Sender: kernel-testers-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-To: Dmitry Torokhov <dmitry.torokhov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-input-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-usb-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <kernel-testers-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
-Am 2016-07-08 um 23:08 schrieb Dmitry Torokhov:
-> On Tue, Jun 28, 2016 at 06:17:13PM +0200, Martin Kepplinger wrote:
->> Am 2016-06-23 um 19:18 schrieb Dmitry Torokhov:
->>> Hi Martin,
->>>
->>> On Tue, Jun 14, 2016 at 01:20:15PM +0200, Martin Kepplinger wrote:
->>>>  static int pegasus_reset_resume(struct usb_interface *intf)
->>>>  {
->>>> +	struct pegasus *pegasus = usb_get_intfdata(intf);
->>>> +
->>>> +	if (pegasus->dev->users)
->>>> +		pegasus_set_mode(pegasus, PEN_MODE_XY, NOTETAKER_LED_MOUSE);
->>>> +
->>>>  	return pegasus_resume(intf);
->>>
->>> Hmm, we need to take input mutex when using pegasus->dev->users, how
->>> about the version below instead?
->>>
->>> Thanks.
->>>
->>
->> Sorry for the delay, give me a few more days to test and confirm this or
->> come up with a final patch.
-> 
-> Martin, did you have time to try out this version of the patch?
-> 
-> Thanks!
-> 
+Hi all,
 
-This patch doesn't seem to work as is. Holidays get in the way, but you
-can expect a working patch(set) next week.
+I've been upgrading to a recent kernel ( for one of our boards).  { Running on a 1- Ghz ARM single core CPU} 
+And I'm having an issue that keeps me busy for some days.
+"sync" seems to take VERY long to complete. ( the whole system seems to freeze, so that finally the WATDOG triggers a reset) 
 
-                   martin
+There is no disk activity ( logs are stored on tmpfs ) ... .!
+ 
+On a recent 4.4.61  kernel  the time measured for the "sync"  seems often to be more than 5 seconds ( up to 30 seconds). 
+# /usr/bin/time  sync;
+
+real    0m 8.01s
+user    0m 0.00s
+sys     0m 0.01s
+
+{ fyi: system load with 'TOP' is less than 2%,   I've been trying 4.4.43 and 4.4.61 .. both have the same 'behavoir'}
+
+
+On an older 2.6.35.x kernel ( the kernel has been rebuild)  I have this behavior.
+# /usr/bin/time  sync;
+
+real    0m 0.01s
+user    0m 0.00s
+sys     0m 0.01s
+
+
+I'm using  same root-filesystem, for both builds (the only change is  another (upgraded) kernel version) -> must be kernel related.
+I'm using the same file systems , I've been trying ext2,ubifs, even FAT .  
+
+Old-2.6.35.x-Kernel : sync - time very good ( acceptable)
+NEW-4.4.x-Kernel   : sync  - time .. BAD .. takes way to long.  !!! 
+
+Any clue what could be the cause , or any hints that could explain ( and solve ?) this ..
+
+
+Best Regards
+Noel
