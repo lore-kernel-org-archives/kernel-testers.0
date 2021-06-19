@@ -1,96 +1,111 @@
-From: Mitchell Erblich <erblichs@earthlink.net>
-Subject: Re: [Bug #16626] Machine hangs with EIP at skb_copy_and_csum_dev
-Date: Wed, 29 Aug 2018 14:39:02 -0700
-Message-ID: <10B93621-9D01-4A72-A483-FAC185ACB66A@earthlink.net>
-References: <4LwrqITm-eJ.A.r8G.eFueMB@chimera> <4AUWBNzTkbD.A.ey.cGueMB@chimera> <courier.4C7C99F2.00001F74@fs.ru.acad.bg> <20100831192659.GA3093@del.dom.local>
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: Anatoly Pugachev <matorola@gmail.com>
+Subject: [sparc64] kernel panic from running a program in userspace
+Date: Sat, 19 Jun 2021 11:24:20 +0300
+Message-ID: <CADxRZqwzbHvMwEB=y_xi2GYK55wtnzycWcUoK_t4q_ccisp+Sg@mail.gmail.com>
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Return-path: <linux-kernel-owner@vger.kernel.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=earthlink.net;
-        s=dk12062016; t=1535604320; bh=74YuXKyGuIPm6TN2ftzViNxJLd8H0MT9vUcB
-        JdX7oYU=; h=Received:Content-Type:Mime-Version:Subject:From:
-         In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:
-         References:To:X-Mailer:X-ELNK-Trace:X-Originating-IP; b=EEwEFurrMz
-        UWACT/pD3S7UkGfOM09akG6+0W2/uHhZaOwZ6Oq6HknnptGrTRrjCkWvmoLD2kEEkU7
-        yWIQ/gc1NDa5lE+sOGXgHXGUQLHrecZ65e+79igW2lJxl9sKV8bmrZHLjVi+qMllOO0
-        VQheicBFkny3ib/GJgS4gTMg3tBtDELlnX/yvbRxr1S/awRp5IHhNkw/e/S3wWsczUK
-        JpwPbeXjLFVnCRB7FX3/Plz3t6aZZBVxKE+rcR0EBKe4KDB5pbvfPsZxZpWfM6JI2Or
-        rXbigIzf5TOw28WrE24kNSG1zLz/6XVvghp8U3mzUL1z1Yb0eR7hULWIzuapdhMQ==
-In-Reply-To: <20100831192659.GA3093@del.dom.local>
-Sender: linux-kernel-owner@vger.kernel.org
+Return-path: <sparclinux-owner@vger.kernel.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=RDkBDm0SYLRjTGg8PQ+NNj5tJgXTB3ckGqb+GRoqwgM=;
+        b=O5OLeDzqVTfyxxXzMQsv3G9iYHMb5rEFUReJi+QOw3QfEjcnjYZ5Hu6vKrjzLGxtuD
+         6ukfGfjrgLiOv7NzXrXlxB4oogaqbunGdfERWO1DX5LEGZ4f1QfKBbHIIobwG+hfF04B
+         Ne1H7TYi2cfNMA1kdA8DBaqlgrgcmdnHtoZ6122oqKwEn42Y6n5y/ZbyTpNDabJ5UcWN
+         8QlQF860kEojYSncNab8TrAT+SEjTJM9TFrNrt/0o/L6145iOuo88m7BST/3giSzGLqv
+         evu8Alw6oRJV+A1UKfsMSrYLOm1Z1Iz+fQf8vIWxcWa2R82yzyyAeAFBeO/vrMZYxMFX
+         IROA==
 List-ID: <kernel-testers.vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-To: Jarek Poplawski <jarkao2@gmail.com>
-Cc: Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>, "Rafael J. Wysocki" <rjw@sisk.pl>, Kernel Testers List <kernel-testers@vger.kernel.org>, Maciej Rutecki <maciej.rutecki@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <eric.dumazet@gmail.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, netdev@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+To: Sparc kernel list <sparclinux@vger.kernel.org>
+Cc: Linux Kernel list <linux-kernel@vger.kernel.org>, debian-sparc <debian-sparc@lists.debian.org>, kernel-testers@vger.kernel.org, Colin Ian King <colin.king@canonical.com>
 
-						OLD REPLY =E2=80=A6 and =
-Correcting . Suggesting of Corrections of LONG TERM embedded problems=20
+Hello!
 
-Summary:
+Getting the following in logs:
+(reproducible with almost every run, tried different kernel as well -
+debian packaged 5.10.0-7-sparc64-smp )
 
-		Due to watermark awareness differences that is =
-problematic in embedded systems, the GFP_ATOMIC which is not memory =
-watermark aware is used in interrupt / atomic context.
+[  863.344843] stress-ng[593992]: bad register window fault: SP
+00000000fcd023ff (orig_sp 00000000fcd01c00) TPC fff80001000237fc O7
+fff800010003e008
+[  890.782498] CPU[4]: SUN4V mondo timeout, cpu(5) made no forward
+progress after 500001 retries. Total target cpus(7).
+[  890.782539] CPU[3]: SUN4V mondo timeout, cpu(5) made no forward
+progress after 500001 retries. Total target cpus(7).
+[  890.782590] Kernel panic - not syncing: SUN4V mondo timeout panic
+[  890.782664] CPU: 4 PID: 480951 Comm: stress-ng Tainted: G
+ E     5.13.0-rc6 #229
+[  890.782713] Call Trace:
+[  890.782733] [<0000000000c806c8>] panic+0xf4/0x2d4
+[  890.782773] [<000000000043f3a8>] hypervisor_xcall_deliver+0x288/0x320
+[  890.782816] [<000000000043efb8>] xcall_deliver+0xf8/0x120
+[  890.782860] [<0000000000440518>] smp_flush_tlb_page+0x38/0x60
+[  890.782898] [<000000000044ee44>] flush_tlb_pending+0x64/0xa0
+[  890.782938] [<000000000044f1c4>] arch_leave_lazy_mmu_mode+0x24/0x40
+[  890.782977] [<0000000000651b4c>] copy_pte_range+0x5ac/0x860
+[  890.783013] [<0000000000655974>] copy_pud_range+0x1f4/0x260
+[  890.783049] [<0000000000655b2c>] copy_page_range+0x14c/0x1c0
+[  890.783083] [<00000000004613b4>] dup_mmap+0x374/0x4a0
+[  890.783123] [<0000000000461530>] dup_mm+0x50/0x200
+[  890.783157] [<0000000000462384>] copy_process+0x704/0x1280
+[  890.783196] [<00000000004631a8>] kernel_clone+0x88/0x380
+[  890.783231] [<000000000042d170>] sparc_clone+0xb0/0xe0
+[  890.783274] [<0000000000406274>] linux_sparc_syscall+0x34/0x44
+[  890.784106] CPU[7]: SUN4V mondo timeout, cpu(5) made no forward
+progress after 500002 retries. Total target cpus(7).
+[  890.784119] CPU[6]: SUN4V mondo timeout, cpu(5) made no forward
+progress after 500003 retries. Total target cpus(7).
+[  890.784876] Press Stop-A (L1-A) from sun keyboard or send break
+[  890.784876] twice on console to return to the boot prom
+[  890.784897] ---[ end Kernel panic - not syncing: SUN4V mondo
+timeout panic ]---
 
-		To properly monitor WATERMARK levels at suggested kernel =
-locations, the =E2=80=9CPROPER=E2=80=9D GFP_FLAG SHOULD be GFP_NOWAIT. =
-This is atomic/interupt friendly and is aware of memory watermarks, thus =
-if memory is below the specified watermark level, it will then return a =
-ENOMEM from that location.
+(and machine halt)
 
-					GFP_ATOMIC will not return =
-ENOMEM and by the time the watermarks drop, ALL GFP_KERNEL callers are =
-now SLEEPING.
+after running stress-ng :
 
-					Please be embedded friendly with =
-code patches=E2=80=A6
+stress-ng.git$ ./stress-ng --verbose --timeout 10m --opcode -1
+stress-ng: debug: [480950] stress-ng 0.12.10 g27f90a2276bd
+stress-ng: debug: [480950] system: Linux ttip 5.13.0-rc6 #229 SMP Tue
+Jun 15 12:30:23 MSK 2021 sparc64
+stress-ng: debug: [480950] RAM total: 7.8G, RAM free: 7.0G, swap free: 768.=
+7M
+stress-ng: debug: [480950] 8 processors online, 256 processors configured
+stress-ng: info:  [480950] dispatching hogs: 8 opcode
+stress-ng: debug: [480950] cache allocate: using cache maximum level L2
+stress-ng: debug: [480950] cache allocate: shared cache buffer size: 128K
+stress-ng: debug: [480950] starting stressors
+stress-ng: debug: [480951] stress-ng-opcode: started [480951] (instance 0)
+stress-ng: debug: [480952] stress-ng-opcode: started [480952] (instance 1)
+stress-ng: debug: [480953] stress-ng-opcode: started [480953] (instance 2)
+stress-ng: debug: [480955] stress-ng-opcode: started [480955] (instance 3)
+stress-ng: debug: [480957] stress-ng-opcode: started [480957] (instance 4)
+stress-ng: debug: [480959] stress-ng-opcode: started [480959] (instance 5)
+stress-ng: debug: [480961] stress-ng-opcode: started [480961] (instance 6)
+stress-ng: debug: [480950] 8 stressors started
+stress-ng: debug: [480963] stress-ng-opcode: started [480963] (instance 7)
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+Inconsistency detected by ld.so: dl-runtime.c: 80: _dl_fixup:
+Assertion `ELFW(R_TYPE)(reloc->r_info) =3D=3D ELF_MACHINE_JMP_SLOT'
+failed!
+*** stack smashing detected ***: terminated
+munmap_chunk(): invalid pointer
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+*** stack smashing detected ***: terminated
+Inconsistency detected by ld.so: : 422: Assertion `=EF=BF=BD' failed!
+*** stack smashing detected ***: terminated
 
-		FYI: Embedded system due to no 2ndary drive can not =
-clean PTEs (page frames), thus callers need to be aware of low memory =
-issues and be able to reduce their memory consumption based on receiving =
-ENOMEMs. GFP_KERNEL callers will just sleep until memory is back above =
-the watermarks.
 
-Mitchell Erblich
-erblichs@earthlink.net
-
-
-
-> On Aug 31, 2010, at 12:26 PM, Jarek Poplawski <jarkao2@gmail.com> =
-wrote:
->=20
-> On Tue, Aug 31, 2010 at 08:58:10AM +0300, Plamen Petrov wrote:
->> Rafael J. Wysocki ????????????:
->>=20
->>> This message has been generated automatically as a part of a summary =
-report
->>> of recent regressions.
->>>=20
->>> The following bug entry is on the current list of known regressions
->>> from 2.6.35.  Please verify if it still should be listed and let the =
-tracking team
->>> know (either way).
->>>=20
->>>=20
->>> Bug-Entry	: http://bugzilla.kernel.org/show_bug.cgi?id=3D16626
->>> Subject		: Machine hangs with EIP at =
-skb_copy_and_csum_dev
->>> Submitter	: Plamen Petrov <pvp-lsts@fs.uni-ruse.bg>
->>> Date		: 2010-08-19 09:57 (11 days old)
->>> Handled-By	:  Eric Dumazet <eric.dumazet@gmail.com>
->>>=20
->>>=20
->>=20
->> Should "generic receive offload" work on a forwarding setup?
->> If yes - then the bug should remain open.
->> If not - then it's my mistake.
->=20
-> If/since it's on by default it should work and it definitely can't be
-> your mistake. (Unless we can't find the real reason... ;-)
->=20
-> Jarek P.
-> --
-> To unsubscribe from this list: send the line "unsubscribe netdev" in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
+Machine is my testing LDOM (virtual machine), installed and running
+the latest sparc4 debian sid (unstable).
